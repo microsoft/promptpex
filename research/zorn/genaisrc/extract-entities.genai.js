@@ -18,21 +18,19 @@ either implicitly or explicitly, such as using a notation such as <INPUT>.
 Sometimes the prompt will contain an example.  Use these examples to 
 better understand how the prompt relates to the input and output.
 
-You have three tasks.
+You have multiple tasks.
 
 Task 1: Your task is to identify All the named entities in the prompt.  These 
 entities can either be defined in the prompt or refer to external entities.
 
 Include in your list of entities:
-    - The LLM itself, which is often referred to as "you" in the prompt. 
-    - The user input that will be given to the prompt from the user.
-    - The user who gives the prompt the input.
     - The output that the prompt will produce.
     - Any examples provided in the prompt.
 
-Ignore the following entities:
+DO NOT include the following entities:
     - External entities that refer to existing infrastructure such as programs, libraries,
     systems, etc.
+    - Entities related to examples provided in the prompt
 
 For EVERY named entity in FILE: determine the following properties: 
 
@@ -45,7 +43,8 @@ natural language term?
     the entity.
     - If is external, describe where and how the entity is defined externally.
 - Is the entity referred to in the text by name?
-    - For EVERY reference to the entity, quote the exact text that references it.
+    - For EVERY reference to the entity, quote the exact text, including the
+    surrounding sentence that references it.
 - What are the specificed properties of the entities.  
     - Make a list of EVERY properties and for each property,  quote the exact text that references it.
 
@@ -59,12 +58,7 @@ create a list with the following information:
 - For every references where the entity being referred to is ambiguous,
 quote the exact text of the ambiguous reference and explain why it is ambiguous.
 
-Task 3:
-Translate the original prompt into a new prompt where all the entities being referred to
-are now being referred to by the unique meaningful symbolic name you created in 
-Task 1.
-
-Perform each of these tasks and put the output into a separate section 
+Perform each of these tasks and put the output of each into a separate section 
 of the document entities.md
 `
 
