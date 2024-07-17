@@ -17,29 +17,29 @@ client = AzureOpenAI(
     azure_endpoint="https://tnrllmproxy.azurewebsites.net"
 )
 
-def get_bot_response(messages, model="gpt-4o", temprature=1):
-    while True:
-        try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=messages,
-                max_tokens=3000,
-                temperature=temprature,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0,
-                stop=None
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            print(e)
-
 class LLMFrontEnd:
+    def get_bot_response(messages, model="gpt-4o", temprature=1):
+        while True:
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    max_tokens=3000,
+                    temperature=temprature,
+                    top_p=1,
+                    frequency_penalty=0,
+                    presence_penalty=0,
+                    stop=None
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                print(e)
+
     def generate_rules_local_per_primitive(self, input_data):
         debug(f"[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: {input_data}")
         system_prompt = "Given a user input, extract and output each standalone rule. Ensure each rule is complete and makes sense independently. Output each rule on a new line. Output nothing if there is no rule"
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Input: " + input_data}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: {output}")
         return output
     
@@ -50,7 +50,7 @@ class LLMFrontEnd:
 You are an expert in analyzing system prompts and extracting rules and constrains for output validation. You are given a system prompt that will be given to an LLM as input. The prompt implements an interactive chat between the user and the LLM that helps the user achieve their goals. Sometimes the prompt will contain an example.  DO NOT provide rules that only apply for that example. Generalize the rules so that they will apply for other inputs. Ensure the rules are clear and specific. Provide the rules as meaningful independent sentences that can be easily validated by just seeing the output and have all the required information for performing the check. Only output the rules, one in each line and nothing else without any buttets or numbering. Do not make any assumptions.
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "System prompt: " + input_data}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
     
@@ -58,7 +58,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         debug(f"[LLM FrontEnd][generate_input_spec] generating input spec for context: {context}")
         system_prompt = "You are an expert in analyzing pseudo-code and extracting rules and constraints for input generation. Given a pseudo-code, your task is to extract the rules for input generation. Provide a compact list of rules that can be used to generate a valid input without the pseduo code. Provide the rules as meaningful independent sentences that can be used to generate input and do not refer to the output. Only output the rules for input generation, one in each line and nothing else. Do not make any assumptions."
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Pseduocode: " + context}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][generate_input_spec] generated input spec: {output}")
         return output
 
@@ -66,7 +66,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         debug(f"[LLM FrontEnd][inverse_rule] generating inverse rule for rule: {rule}")
         system_prompt = "Given a rule provided by the user, generate a rule which contradicts the given rule semantically. Come up with smart edge case scenarios. Output only one such rule and nothing else"
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": rule}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][inverse_rule] generated inverse rule: {output}")
         return output
 
@@ -78,7 +78,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         if context:
             system_prompt += f"\nHere is the chatbot description, only use it for analysis: {context}"
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Rule: {rule}"}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][generate_test] generated test: {output}")
         return output
     
@@ -88,7 +88,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
             messages = [{"role": "user", "content": system_prompt}]
         else:
             messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Input: " + input}]
-        output = get_bot_response(messages, model, 0)
+        output = self.get_bot_response(messages, model, 0)
         debug(f"[LLM FrontEnd][execute] executed input: {input} for system prompt: {system_prompt} and got output: {output}")
         return output
 
@@ -96,7 +96,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         debug(f"[LLM FrontEnd][check_violation] checking violation for result: {result} and spec: {spec}")
         system_prompt = "Given a chatbot's output for a valid input and a list of rules, your task is to determine if the output generated by the chatbot violates the rules. Return 1 if the chatbot output violates the rules, 0 otherwise. In the next line, provide the reason for the violation in detail if there is any, otherwise output 'No violation'. Stick to the rules provided and do not make any assumptions."
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}\n Rule: {spec}"}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][check_violation] checked violation and got output: {output}")
         return output[0]
 
@@ -104,7 +104,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         debug(f"[LLM FrontEnd][add_rule] adding rule to system prompt: {original_system_prompt}")
         system_prompt = "You are given a system prompt for another LLM, your task is to first analysis the existing rules in it and then think of a new rule and add it to the existing system prompt. You must output the given system prompt with the added new rule. Do not change the original prompt just add the new rule in the original prompt with the least possible changes to the original prompt. Only output the updated system prompt and nothing else."
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": original_system_prompt}]
-        output = get_bot_response(messages)
+        output = self.get_bot_response(messages)
         debug(f"[LLM FrontEnd][add_rule] added rule to system prompt: {output}")
         return output
 
