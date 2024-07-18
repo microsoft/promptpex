@@ -1,6 +1,9 @@
 # Project
 
 ## Getting Started 
+Get the openai package by doing `pip install openai`
+
+
 `simple_pipeline.py` implements the basic pipeline, change the `input_file` variable on line 8.
 ```py
 python3 simple_pipeline.py
