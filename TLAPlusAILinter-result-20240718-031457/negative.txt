@@ -1,0 +1,106 @@
+=> 1 c5a96bb4764a925bb6112ac2b2d449de 9bd1531080019a8a5a1ab89076873a47 THEOREM Spec => [Next]_v
+Next == /\ x' = x + 1
+        /\ y' = y - 1
+THEOREM Spec => [Next]_v
+Next == /\ x' = x + 1
+        /\ y' = y - 1
+=> 2 34c8d4e78eba2ce1c1a324532838c82a b5eec1aa1540d580c1800e99e170d7c6 \* TypeOK == /\ x # 5
+\* TypeOK == /\ x # 5
+=> 3 a4047c48c1ac9fe59fd3db4ec541b2d7 2c275cbfa71570f00f8f058714c0145d ```
+THEOREM Spec /\ Inv => Inv
+```
+
+```
+THEOREM Spec /\ Inv => Inv
+```
+
+=> 4 e1cb3bb7da48bfdd42aa33ec95a64371 3f10b316ea05cfd0b53d3c22c5a6abf7 ```tla
+--------------------------- MODULE Example ---------------------------
+EXTENDS Naturals
+
+(* --algorithm example
+variables v \in {0, 1, 2}
+
+begin
+A == v' = 3
+[end] *)
+
+Next == A
+
+Spec == [Next]_v
+
+=============================================================================
+```
+```tla
+--------------------------- MODULE Example ---------------------------
+EXTENDS Naturals
+
+(* --algorithm example
+variables v \in {0, 1, 2}
+
+begin
+A == v' = 3
+[end] *)
+
+Next == A
+
+Spec == [Next]_v
+
+=============================================================================
+```
+=> 5 47a6c26f17bccd8e7b4198b65644bc31 0f8683bdc9b11b596cd476ca535b1f81 ====
+(* Comments on type correctness *)
+TypeOK == /\ ...
+    (* other invariant details *)
+====
+====
+(* Comments on type correctness *)
+TypeOK == /\ ...
+    (* other invariant details *)
+====
+=> 6 7a79da4cad5db2ae3ab2249a33087e67 75d064b9c1432585d6993f5988bf74a7 ```
+---- MODULE MySpec ----
+
+VARIABLES v
+
+(* This is the initial state *)
+Init == v = 0
+
+(* This is the next-state relation *)
+Next == /\ v # v' 
+        /\ v' = v + 1
+
+Spec == Init /\ [][Next]_v
+
+THEOREM Spec => TypeOK 
+
+==== 
+```
+```
+---- MODULE MySpec ----
+
+VARIABLES v
+
+(* This is the initial state *)
+Init == v = 0
+
+(* This is the next-state relation *)
+Next == /\ v # v' 
+        /\ v' = v + 1
+
+Spec == Init /\ [][Next]_v
+
+THEOREM Spec => TypeOK 
+
+==== 
+```
+=> 7 65c677c59d6de53dbda83bec069cb916 3ec50da30889659d41a6600630f1a7e9 \* N > 3T
+
+Init == N = 0
+Next == N' = N + 1
+Spec == Init /\ [][Next]_N
+\* N > 3T
+
+Init == N = 0
+Next == N' = N + 1
+Spec == Init /\ [][Next]_N

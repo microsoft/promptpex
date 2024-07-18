@@ -1,0 +1,2023 @@
+[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+`
+[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+- The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][generate_input_spec] generating input spec for context: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+`
+[LLM FrontEnd][generate_input_spec] generated input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A /\ v' ? v. In other words, the formula is true if A is true and if the value of v has changed. Usually v is a tuple of the spec's variables.
+[LLM FrontEnd][generate_test] generating test for rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A /\ v' ? v. In other words, the formula is true if A is true and if the value of v has changed. Usually v is a tuple of the spec's variables. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: THEOREM Spec => [Next]_v
+Next == /\ x' = x + 1
+        /\ y' = y - 1
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - The symbol `#` is never used for inequality in TLA+; the exclusive symbol for inequality is `/=`.
+[LLM FrontEnd][generate_test] generating test for rule: - The symbol `#` is never used for inequality in TLA+; the exclusive symbol for inequality is `/=`. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: \* TypeOK == /\ x # 5
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Add invariants or properties to the behavior specification Spec or any of its subformulas to convert THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, ensuring meaningful validation.
+[LLM FrontEnd][generate_test] generating test for rule: - Add invariants or properties to the behavior specification Spec or any of its subformulas to convert THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, ensuring meaningful validation. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```
+THEOREM Spec /\ Inv => Inv
+```
+
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - TLA+ specs can be stuttering sensitive, i.e., the next-state relation can sometimes be of the form [A]_v. In other words, one can write stuttering sensitive specifications.
+[LLM FrontEnd][generate_test] generating test for rule: - TLA+ specs can be stuttering sensitive, i.e., the next-state relation can sometimes be of the form [A]_v. In other words, one can write stuttering sensitive specifications. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```tla
+--------------------------- MODULE Example ---------------------------
+EXTENDS Naturals
+
+(* --algorithm example
+variables v \in {0, 1, 2}
+
+begin
+A == v' = 3
+[end] *)
+
+Next == A
+
+Spec == [Next]_v
+
+=============================================================================
+```
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - The type correctness invariant is typically called TypeOK.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - The type correctness invariant is never called TypeOK.
+[LLM FrontEnd][generate_test] generating test for rule: - The type correctness invariant is never called TypeOK. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ====
+(* Comments on type correctness *)
+TypeOK == /\ ...
+    (* other invariant details *)
+====
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Users cannot employ TLA labels to conceptually associate a comment with any part of a TLA formula, as these labels do not serve any purpose in referencing or commenting on specific sections of the formula.
+[LLM FrontEnd][generate_test] generating test for rule: - Users cannot employ TLA labels to conceptually associate a comment with any part of a TLA formula, as these labels do not serve any purpose in referencing or commenting on specific sections of the formula. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```
+---- MODULE MySpec ----
+
+VARIABLES v
+
+(* This is the initial state *)
+Init == v = 0
+
+(* This is the next-state relation *)
+Next == /\ v # v' 
+        /\ v' = v + 1
+
+Spec == Init /\ [][Next]_v
+
+THEOREM Spec => TypeOK 
+
+==== 
+```
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Do not consider informal math representations as equivalent to formal math, such as treating `N > 3T` differently from `N > 3 * T`.
+[LLM FrontEnd][generate_test] generating test for rule: - Do not consider informal math representations as equivalent to formal math, such as treating `N > 3T` differently from `N > 3 * T`. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: \* N > 3T
+
+Init == N = 0
+Next == N' = N + 1
+Spec == Init /\ [][Next]_N
+[LLM FrontEnd][generate_test] generating test for rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```
+---- MODULE TemporalSpec ----
+
+VARIABLES x, y
+
+Init == x = 0 /\ y = 0
+Next == (x' = x + 1 /\ y' = y + 1) \/ (x' = x - 1 /\ y' = y - 1)
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+====
+
+\* Make sure you verify my formulas, both temporal and non-temporal ones!
+
+ANNOTATION: The temporal formula Spec == Init /\ [][Next]_<<x, y>> follows the correct syntax of TLA+, as per the rule that [A]_v is shorthand for A \/ v' = v.
+```
+[LLM FrontEnd][generate_test] generating test for rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```
+VARIABLES x, y
+
+Init == x = 0 /\ y = 0
+
+Next == \/ /\ x # 0
+          /\ x' = x - 1
+        \/ /\ x = 0
+          /\ x' = 2
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+ANNOTATION:
+- Consistent: The use of `#` for inequality is an alternative syntax to `/=` in TLA+, and they can be used interchangeably.
+```
+[LLM FrontEnd][generate_test] generating test for rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: THEOREM LoopInvariant == Spec /\ Inv => Inv
+[LLM FrontEnd][generate_test] generating test for rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: \<label> What follows is a deliberately stuttering sensitive specification \</label>
+\<label> Let's see if you can handle this! \</label>
+[A]_v /\ (v' # v)
+[LLM FrontEnd][generate_test] generating test for rule: - The type correctness invariant is typically called TypeOK. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: TypeInvariant == TypeOK
+[LLM FrontEnd][generate_test] generating test for rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: ```tla
+(* This is the TypeOK invariant ensuring type correctness *)
+TypeOK == /\ x \in Nat
+          /\ y \in Nat
+
+(* N > 3 * T ensures that N is significantly larger than T *)
+Condition == N > 3T
+```
+[LLM FrontEnd][generate_test] generating test for rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`. 
+ input spec: TLA+ formulas should follow the syntax where [A]_v is shorthand for A \/ v' = v.
+Inequality in TLA+ can be expressed using `#` or `/=` symbols.
+Do not add any invariants or properties to the behavior specification Spec or its subformulas.
+TLA+ specifications must be stuttering insensitive, implying the next-state relation is formatted as [A]_v.
+The type correctness invariant is typically named TypeOK.
+Use TLA labels to conceptually associate comments with specific sub-formulas, such as disjuncts or conjuncts in a TLA formula.
+Consider that informal math might be used, which is syntactically different but semantically equivalent to formal math, e.g., N > 3T for N > 3 * T.
+[LLM FrontEnd][generate_test] generated test: N > 3T
+[LLM FrontEnd][execute] executed input:  for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: I currently don't see any input. Can you please provide the prose comments and their TLA+ declarations and definitions? This will enable me to check for consistency. Thank you.
+[LLM FrontEnd][check_violation] checking violation for result: I currently don't see any input. Can you please provide the prose comments and their TLA+ declarations and definitions? This will enable me to check for consistency. Thank you. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Next == /\ x' = x + 1
+
+        /\ y' = y - 1
+
+THEOREM Spec => [Next]_v
+
+Next == /\ x' = x + 1
+
+        /\ y' = y - 1 for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistency:**
+
+The TLA+ declaration and definition of `Next` are consistent with each other.
+
+**Annotation:**
+
+The TLA+ declarations and definitions for `Next` are consistent with each other. The syntax and semantics match without any inconsistencies.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistency:**
+
+The TLA+ declaration and definition of `Next` are consistent with each other.
+
+**Annotation:**
+
+The TLA+ declarations and definitions for `Next` are consistent with each other. The syntax and semantics match without any inconsistencies. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: \* TypeOK == /\ x # 5 for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **ANNOTATION**
+
+The informal comment mentions a type correctness invariant, but the TLA+ definition provided does not specify any type correctness constraints. There is a mismatch between the informal comment and the TLA+ declaration. 
+- **Inconsistency**: The comment refers to a type correctness invariant, but the TLA+ declaration does not specify any type constraints.
+
+This inconsistency could be resolved by providing a proper definition for the TypeOK invariant, such as:
+```tla
+TypeOK == x # 5
+```
+This definition assumes that `x` is of a specific type, and it ensures that `x` is not equal to 5, which might be a valid type correctness constraint in the context of the specification.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+
+The informal comment mentions a type correctness invariant, but the TLA+ definition provided does not specify any type correctness constraints. There is a mismatch between the informal comment and the TLA+ declaration. 
+- **Inconsistency**: The comment refers to a type correctness invariant, but the TLA+ declaration does not specify any type constraints.
+
+This inconsistency could be resolved by providing a proper definition for the TypeOK invariant, such as:
+```tla
+TypeOK == x # 5
+```
+This definition assumes that `x` is of a specific type, and it ensures that `x` is not equal to 5, which might be a valid type correctness constraint in the context of the specification. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: THEOREM Spec /\ Inv => Inv
+
+```
+
+
+
+```
+
+THEOREM Spec /\ Inv => Inv
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistent:**
+
+The input and the TLA+ declaration are consistent, as they are both defining a theorem called "Spec /\ Inv => Inv". The symbols used in the input match the syntax of TLA+.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent:**
+
+The input and the TLA+ declaration are consistent, as they are both defining a theorem called "Spec /\ Inv => Inv". The symbols used in the input match the syntax of TLA+. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: --------------------------- MODULE Example ---------------------------
+
+EXTENDS Naturals
+
+
+
+(* --algorithm example
+
+variables v \in {0, 1, 2}
+
+
+
+begin
+
+A == v' = 3
+
+[end] *)
+
+
+
+Next == A
+
+
+
+Spec == [Next]_v
+
+
+
+=============================================================================
+
+```
+
+```tla
+
+--------------------------- MODULE Example ---------------------------
+
+EXTENDS Naturals
+
+
+
+(* --algorithm example
+
+variables v \in {0, 1, 2}
+
+
+
+begin
+
+A == v' = 3
+
+[end] *)
+
+
+
+Next == A
+
+
+
+Spec == [Next]_v
+
+
+
+=============================================================================
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistent**
+
+The comments and the TLA+ definitions are consistent. The comment declares the variable v to be in the set {0, 1, 2} and defines a state predicate A as v' = 3. The TLA+ declarations and definitions match the comments exactly.
+
+**Overall: Consistent**
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent**
+
+The comments and the TLA+ definitions are consistent. The comment declares the variable v to be in the set {0, 1, 2} and defines a state predicate A as v' = 3. The TLA+ declarations and definitions match the comments exactly.
+
+**Overall: Consistent** and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: (* Comments on type correctness *)
+
+TypeOK == /\ ...
+
+    (* other invariant details *)
+
+====
+
+====
+
+(* Comments on type correctness *)
+
+TypeOK == /\ ...
+
+    (* other invariant details *)
+
+==== for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistent Pair**
+
+The two declarations of `TypeOK` are consistent with each other, assuming that they are intended to be the same. There are no syntactic or semantic differences between the two declarations.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent Pair**
+
+The two declarations of `TypeOK` are consistent with each other, assuming that they are intended to be the same. There are no syntactic or semantic differences between the two declarations. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ---- MODULE MySpec ----
+
+
+
+VARIABLES v
+
+
+
+(* This is the initial state *)
+
+Init == v = 0
+
+
+
+(* This is the next-state relation *)
+
+Next == /\ v # v' 
+
+        /\ v' = v + 1
+
+
+
+Spec == Init /\ [][Next]_v
+
+
+
+THEOREM Spec => TypeOK 
+
+
+
+==== 
+
+```
+
+```
+
+---- MODULE MySpec ----
+
+
+
+VARIABLES v
+
+
+
+(* This is the initial state *)
+
+Init == v = 0
+
+
+
+(* This is the next-state relation *)
+
+Next == /\ v # v' 
+
+        /\ v' = v + 1
+
+
+
+Spec == Init /\ [][Next]_v
+
+
+
+THEOREM Spec => TypeOK 
+
+
+
+==== 
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistent:**
+
+- The TLA+ syntax and prose comments are consistent.
+- The TLA+ declarations and definitions align with the comments provided.
+
+**Annotation:**
+The TLA+ syntax and comments are consistent. The declarations and definitions are properly aligned with the provided comments.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent:**
+
+- The TLA+ syntax and prose comments are consistent.
+- The TLA+ declarations and definitions align with the comments provided.
+
+**Annotation:**
+The TLA+ syntax and comments are consistent. The declarations and definitions are properly aligned with the provided comments. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input:  for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: I'm happy to help! Could you please provide the prose comments and their corresponding TLA+ declarations and definitions for review?
+[LLM FrontEnd][check_violation] checking violation for result: I'm happy to help! Could you please provide the prose comments and their corresponding TLA+ declarations and definitions for review? and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+---- MODULE TemporalSpec ----
+
+
+
+VARIABLES x, y
+
+
+
+Init == x = 0 /\ y = 0
+
+Next == (x' = x + 1 /\ y' = y + 1) \/ (x' = x - 1 /\ y' = y - 1)
+
+
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+
+
+====
+
+
+
+\* Make sure you verify my formulas, both temporal and non-temporal ones!
+
+
+
+ANNOTATION: The temporal formula Spec == Init /\ [][Next]_<<x, y>> follows the correct syntax of TLA+, as per the rule that [A]_v is shorthand for A \/ v' = v.
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: The temporal formula Spec is syntactically consistent with TLA+. The TLA+ expression [][Next]_<<x, y>> is a valid temporal formula, following the correct syntax of TLA+ as per the rule that [A]_v is shorthand for A \/ v' = v. Therefore, the annotation is consistent with the TLA+ definition.
+[LLM FrontEnd][check_violation] checking violation for result: The temporal formula Spec is syntactically consistent with TLA+. The TLA+ expression [][Next]_<<x, y>> is a valid temporal formula, following the correct syntax of TLA+ as per the rule that [A]_v is shorthand for A \/ v' = v. Therefore, the annotation is consistent with the TLA+ definition. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+VARIABLES x, y
+
+
+
+Init == x = 0 /\ y = 0
+
+
+
+Next == \/ /\ x # 0
+
+          /\ x' = x - 1
+
+        \/ /\ x = 0
+
+          /\ x' = 2
+
+
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+
+
+ANNOTATION:
+
+- Consistent: The use of `#` for inequality is an alternative syntax to `/=` in TLA+, and they can be used interchangeably.
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: The TLA+ declarations and the prose comments are syntactically and semantically consistent. The use of `#` for inequality is indeed an alternative syntax to `/=` in TLA+, and they can be used interchangeably.
+[LLM FrontEnd][check_violation] checking violation for result: The TLA+ declarations and the prose comments are syntactically and semantically consistent. The use of `#` for inequality is indeed an alternative syntax to `/=` in TLA+, and they can be used interchangeably. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: THEOREM LoopInvariant == Spec /\ Inv => Inv for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **ANNOTATION**
+- The TLA+ formula `THEOREM LoopInvariant == Spec /\ Inv => Inv` is syntactically and semantically consistent. The theorem states that the conjunction of `Spec` and `Inv` implies `Inv`, which is a common way of expressing a loop invariant. The TLA+ syntax aligns with the intended semantics of a loop invariant.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+- The TLA+ formula `THEOREM LoopInvariant == Spec /\ Inv => Inv` is syntactically and semantically consistent. The theorem states that the conjunction of `Spec` and `Inv` implies `Inv`, which is a common way of expressing a loop invariant. The TLA+ syntax aligns with the intended semantics of a loop invariant. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: \<label> What follows is a deliberately stuttering sensitive specification \</label>
+
+\<label> Let's see if you can handle this! \</label>
+
+[A]_v /\ (v' # v) for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **ANNOTATION**
+- Consistent: The label "What follows is a deliberately stuttering sensitive specification" is consistent with the TLA+ declaration "[A]_v /\ (v' # v)" because the temporal formula [A]_v is indeed deliberately stuttering sensitive, meaning that it includes the possibility of the value of v changing.
+- Consistent: The label "Let's see if you can handle this" is consistent with the TLA+ declaration "[A]_v /\ (v' # v)" because the comment challenges the reader to handle the deliberately stuttering sensitive specification, which is exactly what the TLA+ formula represents.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+- Consistent: The label "What follows is a deliberately stuttering sensitive specification" is consistent with the TLA+ declaration "[A]_v /\ (v' # v)" because the temporal formula [A]_v is indeed deliberately stuttering sensitive, meaning that it includes the possibility of the value of v changing.
+- Consistent: The label "Let's see if you can handle this" is consistent with the TLA+ declaration "[A]_v /\ (v' # v)" because the comment challenges the reader to handle the deliberately stuttering sensitive specification, which is exactly what the TLA+ formula represents. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: TypeInvariant == TypeOK for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **Consistency Check**
+
+### ANNOTATION
+This is a consistent pair. The TLA+ declaration `TypeInvariant == TypeOK` is syntactically and semantically consistent with the informal comment. The informal comment "TypeInvariant" corresponds to the TLA+ declaration `TypeInvariant` and it indicates that the type correctness invariant is expressed by `TypeOK`.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistency Check**
+
+### ANNOTATION
+This is a consistent pair. The TLA+ declaration `TypeInvariant == TypeOK` is syntactically and semantically consistent with the informal comment. The informal comment "TypeInvariant" corresponds to the TLA+ declaration `TypeInvariant` and it indicates that the type correctness invariant is expressed by `TypeOK`. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```tla
+
+(* This is the TypeOK invariant ensuring type correctness *)
+
+TypeOK == /\ x \in Nat
+
+          /\ y \in Nat
+
+
+
+(* N > 3 * T ensures that N is significantly larger than T *)
+
+Condition == N > 3T
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+` and got output: **ANNOTATION**
+- The TLA+ syntax appears to be consistent with the prose comments.
+- However, the `TypeOK` invariant should be more explicit about what `x` and `y` are. The comments mention `N` and `T`, but they are not defined in the TLA+ code.
+
+**CONSISTENT**
+- The prose comment "N > 3 * T" is consistent with the TLA+ definition "Condition == N > 3T".
+**INCONSISTENT**
+- The `TypeOK` invariant does not define `N` and `T` as mentioned in the prose comment about it.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+- The TLA+ syntax appears to be consistent with the prose comments.
+- However, the `TypeOK` invariant should be more explicit about what `x` and `y` are. The comments mention `N` and `T`, but they are not defined in the TLA+ code.
+
+**CONSISTENT**
+- The prose comment "N > 3 * T" is consistent with the TLA+ definition "Condition == N > 3T".
+**INCONSISTENT**
+- The `TypeOK` invariant does not define `N` and `T` as mentioned in the prose comment about it. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+[LLM FrontEnd][check_violation] checked violation and got output: 0  
+No violation
+[LLM FrontEnd][add_rule] adding rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+`
+[LLM FrontEnd][add_rule] added rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+[LLM FrontEnd][add_rule] adding rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+[LLM FrontEnd][add_rule] added rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+[LLM FrontEnd][add_rule] adding rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+[LLM FrontEnd][add_rule] added rule to system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+- The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][execute] executed input:  for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: Sorry, I cannot complete this request without the input (prose comments and their TLA+ declarations and definitions) that needs to be checked for consistency. Could you please provide the relevant information?
+[LLM FrontEnd][check_violation] checking violation for result: Sorry, I cannot complete this request without the input (prose comments and their TLA+ declarations and definitions) that needs to be checked for consistency. Could you please provide the relevant information? and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Next == /\ x' = x + 1
+
+        /\ y' = y - 1
+
+THEOREM Spec => [Next]_v
+
+Next == /\ x' = x + 1
+
+        /\ y' = y - 1 for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **Consistent Pair:**
+
+The informal comments and TLA+ declarations are consistent. Both the comments and the TLA+ declarations specify the next-state relation Next, which updates the variables x and y according to x' = x + 1 and y' = y - 1. The temporal formula [Next]_v states that the next-state relation Next is true if the values of the variables remain unchanged or the conditions in Next hold. The theorem Spec => [Next]_v asserts that the system Spec implies the behavior described by the next-state relation Next.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent Pair:**
+
+The informal comments and TLA+ declarations are consistent. Both the comments and the TLA+ declarations specify the next-state relation Next, which updates the variables x and y according to x' = x + 1 and y' = y - 1. The temporal formula [Next]_v states that the next-state relation Next is true if the values of the variables remain unchanged or the conditions in Next hold. The theorem Spec => [Next]_v asserts that the system Spec implies the behavior described by the next-state relation Next. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 1  
+The chatbot?s output violates the rule that states "A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged." The output gives an incorrect explanation of the temporal formula [Next]_v by stating it asserts that the next-state relation Next is true if the values of the variables remain unchanged or the conditions in Next hold, which is not consistent with the provided definition.
+[LLM FrontEnd][execute] executed input: \* TypeOK == /\ x # 5 for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: ### ANNOTATION
+- The TLA+ definition is missing the equality symbol in the TypeOK definition. The correct syntax for the definition would be `TypeOK == x # 5`.
+
+### Consistency
+- The informal comment mentions that the definition should ensure that `x` is not equal to 5, which is consistent with the TLA+ definition once the correct equality symbol is used.
+[LLM FrontEnd][check_violation] checking violation for result: ### ANNOTATION
+- The TLA+ definition is missing the equality symbol in the TypeOK definition. The correct syntax for the definition would be `TypeOK == x # 5`.
+
+### Consistency
+- The informal comment mentions that the definition should ensure that `x` is not equal to 5, which is consistent with the TLA+ definition once the correct equality symbol is used. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: THEOREM Spec /\ Inv => Inv
+
+```
+
+
+
+```
+
+THEOREM Spec /\ Inv => Inv
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **Consistency:** The formal TLA+ declarations and the prose comments are consistent. The theorem in the prose and the TLA+ declaration are both asserting that if Spec and Inv are true, then Inv remains true. 
+
+**Annotation:** The prose comment and the TLA+ declaration are consistent in both syntax and semantics.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistency:** The formal TLA+ declarations and the prose comments are consistent. The theorem in the prose and the TLA+ declaration are both asserting that if Spec and Inv are true, then Inv remains true. 
+
+**Annotation:** The prose comment and the TLA+ declaration are consistent in both syntax and semantics. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: --------------------------- MODULE Example ---------------------------
+
+EXTENDS Naturals
+
+
+
+(* --algorithm example
+
+variables v \in {0, 1, 2}
+
+
+
+begin
+
+A == v' = 3
+
+[end] *)
+
+
+
+Next == A
+
+
+
+Spec == [Next]_v
+
+
+
+=============================================================================
+
+```
+
+```tla
+
+--------------------------- MODULE Example ---------------------------
+
+EXTENDS Naturals
+
+
+
+(* --algorithm example
+
+variables v \in {0, 1, 2}
+
+
+
+begin
+
+A == v' = 3
+
+[end] *)
+
+
+
+Next == A
+
+
+
+Spec == [Next]_v
+
+
+
+=============================================================================
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **ANNOTATION**
+
+The informal math and the TLA+ declarations and definitions are *semantically consistent*.
+
+- **Consistency**: The TLA+ definitions and declarations are consistent with the informal math comments. The TLA+ declarations correctly define the variable v \in {0, 1, 2} and the action A as v' = 3. The temporal formula "Next" is correctly defined as A, and the behavior specification "Spec" is correctly defined as [Next]_v.
+
+Since the informal math comments and the TLA+ declarations are consistent, the behavior of the algorithm and its temporal properties are accurately represented within the TLA+ specification.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+
+The informal math and the TLA+ declarations and definitions are *semantically consistent*.
+
+- **Consistency**: The TLA+ definitions and declarations are consistent with the informal math comments. The TLA+ declarations correctly define the variable v \in {0, 1, 2} and the action A as v' = 3. The temporal formula "Next" is correctly defined as A, and the behavior specification "Spec" is correctly defined as [Next]_v.
+
+Since the informal math comments and the TLA+ declarations are consistent, the behavior of the algorithm and its temporal properties are accurately represented within the TLA+ specification. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: (* Comments on type correctness *)
+
+TypeOK == /\ ...
+
+    (* other invariant details *)
+
+====
+
+====
+
+(* Comments on type correctness *)
+
+TypeOK == /\ ...
+
+    (* other invariant details *)
+
+==== for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **CONSISTENT**
+
+The TLA+ declarations for TypeOK are syntactically consistent with each other. Both declarations begin with "TypeOK == /\ ...", indicating that they are defining the same invariant. The comments also indicate that they are related to type correctness, further supporting their consistency.
+
+There are no inconsistencies to report in this example. Both declarations and comments are consistent.
+[LLM FrontEnd][check_violation] checking violation for result: **CONSISTENT**
+
+The TLA+ declarations for TypeOK are syntactically consistent with each other. Both declarations begin with "TypeOK == /\ ...", indicating that they are defining the same invariant. The comments also indicate that they are related to type correctness, further supporting their consistency.
+
+There are no inconsistencies to report in this example. Both declarations and comments are consistent. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ---- MODULE MySpec ----
+
+
+
+VARIABLES v
+
+
+
+(* This is the initial state *)
+
+Init == v = 0
+
+
+
+(* This is the next-state relation *)
+
+Next == /\ v # v' 
+
+        /\ v' = v + 1
+
+
+
+Spec == Init /\ [][Next]_v
+
+
+
+THEOREM Spec => TypeOK 
+
+
+
+==== 
+
+```
+
+```
+
+---- MODULE MySpec ----
+
+
+
+VARIABLES v
+
+
+
+(* This is the initial state *)
+
+Init == v = 0
+
+
+
+(* This is the next-state relation *)
+
+Next == /\ v # v' 
+
+        /\ v' = v + 1
+
+
+
+Spec == Init /\ [][Next]_v
+
+
+
+THEOREM Spec => TypeOK 
+
+
+
+==== 
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **Consistent:**
+
+1. The `Init` constant represents the initial state where `v` is assigned the value 0. This is consistent with the TLA+ definition `Init == v = 0`.
+
+2. The `Next` constant represents the next-state relation with two conjuncts: `v # v'` (the value of `v` does not change) and `v' = v + 1` (the next value of `v` is the current value plus 1). This is consistent with the TLA+ definition `Next == /\ v # v' /\ v' = v + 1`.
+
+3. The `Spec` constant represents the conjunction of the initial state and the temporal formula for the next-state relation. This is consistent with the TLA+ definition `Spec == Init /\ [][Next]_v`.
+
+4. The theorem `Spec => TypeOK` asserts that if `Spec` is true, then `TypeOK` is true. While we do not have the TLA+ definition for `TypeOK`, this structure is consistent with TLA+ conventions for type correctness invariants.
+
+**Inconsistent:**
+
+There are no inconsistencies found in the provided specifications.
+[LLM FrontEnd][check_violation] checking violation for result: **Consistent:**
+
+1. The `Init` constant represents the initial state where `v` is assigned the value 0. This is consistent with the TLA+ definition `Init == v = 0`.
+
+2. The `Next` constant represents the next-state relation with two conjuncts: `v # v'` (the value of `v` does not change) and `v' = v + 1` (the next value of `v` is the current value plus 1). This is consistent with the TLA+ definition `Next == /\ v # v' /\ v' = v + 1`.
+
+3. The `Spec` constant represents the conjunction of the initial state and the temporal formula for the next-state relation. This is consistent with the TLA+ definition `Spec == Init /\ [][Next]_v`.
+
+4. The theorem `Spec => TypeOK` asserts that if `Spec` is true, then `TypeOK` is true. While we do not have the TLA+ definition for `TypeOK`, this structure is consistent with TLA+ conventions for type correctness invariants.
+
+**Inconsistent:**
+
+There are no inconsistencies found in the provided specifications. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input:  for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: I can definitely help with that. Please provide me with the prose comments and their corresponding TLA+ declarations and definitions for me to check for consistency.
+[LLM FrontEnd][check_violation] checking violation for result: I can definitely help with that. Please provide me with the prose comments and their corresponding TLA+ declarations and definitions for me to check for consistency. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0  
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+---- MODULE TemporalSpec ----
+
+
+
+VARIABLES x, y
+
+
+
+Init == x = 0 /\ y = 0
+
+Next == (x' = x + 1 /\ y' = y + 1) \/ (x' = x - 1 /\ y' = y - 1)
+
+
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+
+
+====
+
+
+
+\* Make sure you verify my formulas, both temporal and non-temporal ones!
+
+
+
+ANNOTATION: The temporal formula Spec == Init /\ [][Next]_<<x, y>> follows the correct syntax of TLA+, as per the rule that [A]_v is shorthand for A \/ v' = v.
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: The TLA+ specification provided appears syntactically and semantically consistent. The temporal formula Spec follows the correct syntax of TLA+ with the use of the Next-state relation [][Next]_<<x, y>>, which ensures that the values of x and y change over time.
+
+The prose comments and TLA+ declarations are consistent in explaining the use of temporal formulas in TLA+. The explanation regarding the syntax of [A]_v as shorthand for A \/ v' = v is accurate and aligns with the definitions provided in the specification.
+
+Overall, the prose comments and TLA+ declarations are in agreement, with the prose comment appropriately explaining the syntactic rule of temporal formulas in TLA+.
+[LLM FrontEnd][check_violation] checking violation for result: The TLA+ specification provided appears syntactically and semantically consistent. The temporal formula Spec follows the correct syntax of TLA+ with the use of the Next-state relation [][Next]_<<x, y>>, which ensures that the values of x and y change over time.
+
+The prose comments and TLA+ declarations are consistent in explaining the use of temporal formulas in TLA+. The explanation regarding the syntax of [A]_v as shorthand for A \/ v' = v is accurate and aligns with the definitions provided in the specification.
+
+Overall, the prose comments and TLA+ declarations are in agreement, with the prose comment appropriately explaining the syntactic rule of temporal formulas in TLA+. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+VARIABLES x, y
+
+
+
+Init == x = 0 /\ y = 0
+
+
+
+Next == \/ /\ x # 0
+
+          /\ x' = x - 1
+
+        \/ /\ x = 0
+
+          /\ x' = 2
+
+
+
+Spec == Init /\ [][Next]_<<x, y>>
+
+
+
+ANNOTATION:
+
+- Consistent: The use of `#` for inequality is an alternative syntax to `/=` in TLA+, and they can be used interchangeably.
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: This TLA+ specification appears to be syntactically and semantically consistent based on the given comments and TLA+ declarations.
+
+The comments provide clear explanations, and the TLA+ declarations align with the expected syntax and semantics. Additionally, the annotation correctly identifies the interchangeable use of `#` and `/=` for inequality in TLA+.
+
+Overall, the provided comments and TLA+ declarations are consistent, and the annotation accurately highlights this consistency.
+[LLM FrontEnd][check_violation] checking violation for result: This TLA+ specification appears to be syntactically and semantically consistent based on the given comments and TLA+ declarations.
+
+The comments provide clear explanations, and the TLA+ declarations align with the expected syntax and semantics. Additionally, the annotation correctly identifies the interchangeable use of `#` and `/=` for inequality in TLA+.
+
+Overall, the provided comments and TLA+ declarations are consistent, and the annotation accurately highlights this consistency. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: THEOREM LoopInvariant == Spec /\ Inv => Inv for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **ANNOTATION**
+
+- The TLA+ declaration `THEOREM LoopInvariant == Spec /\ Inv => Inv` is consistent, as it correctly specifies a theorem called LoopInvariant that asserts that the conjunction of Spec and Inv implies Inv. This is a common form of specifying a loop invariant in TLA+.
+- It is syntactically and semantically consistent with the prose comment. No inconsistencies are found.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+
+- The TLA+ declaration `THEOREM LoopInvariant == Spec /\ Inv => Inv` is consistent, as it correctly specifies a theorem called LoopInvariant that asserts that the conjunction of Spec and Inv implies Inv. This is a common form of specifying a loop invariant in TLA+.
+- It is syntactically and semantically consistent with the prose comment. No inconsistencies are found. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: \<label> What follows is a deliberately stuttering sensitive specification \</label>
+
+\<label> Let's see if you can handle this! \</label>
+
+[A]_v /\ (v' # v) for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **ANNOTATION**
+
+**Consistencies:**
+- The comment indicates that the specification is deliberately stuttering sensitive.
+- The TLA+ formula [A]_v /\ (v' # v) indeed captures a stuttering-sensitive behavior. By including the conjunction with (v' # v), it ensures that the behavior is sensitive to state changes.
+
+**Inconsistencies:**
+- There are no inconsistencies between the prose comment and the TLA+ declaration. Both accurately convey the intention of creating a stuttering-sensitive specification.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+
+**Consistencies:**
+- The comment indicates that the specification is deliberately stuttering sensitive.
+- The TLA+ formula [A]_v /\ (v' # v) indeed captures a stuttering-sensitive behavior. By including the conjunction with (v' # v), it ensures that the behavior is sensitive to state changes.
+
+**Inconsistencies:**
+- There are no inconsistencies between the prose comment and the TLA+ declaration. Both accurately convey the intention of creating a stuttering-sensitive specification. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 1  
+TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering-sensitive specification. The chatbot output incorrectly states that the specification is deliberately stuttering sensitive, which violates the given rule.
+[LLM FrontEnd][execute] executed input: TypeInvariant == TypeOK for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **ANNOTATION**
+The TLA+ declaration **TypeInvariant == TypeOK** is consistent with the prose comment. Both the comment and the TLA+ declaration specify the type correctness invariant as TypeOK, indicating that the type invariant is preserved. The naming convention is followed, and the intention is clear and consistent.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+The TLA+ declaration **TypeInvariant == TypeOK** is consistent with the prose comment. Both the comment and the TLA+ declaration specify the type correctness invariant as TypeOK, indicating that the type invariant is preserved. The naming convention is followed, and the intention is clear and consistent. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```tla
+
+(* This is the TypeOK invariant ensuring type correctness *)
+
+TypeOK == /\ x \in Nat
+
+          /\ y \in Nat
+
+
+
+(* N > 3 * T ensures that N is significantly larger than T *)
+
+Condition == N > 3T
+
+``` for system prompt: You are an expert at TLA+/TLAPLUS. Your task is to check if the prose comments and their TLA+ declarations and definitions are syntactically and semantically consistent!!!
+Explain any consistencies and inconsistencies you may find.  Report inconsistent and consistent pairs in a single ANNOTATION section.
+
+## TLA+ Syntax Hints
+- A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v.  In other words, the formula is true if A is true or if the value of v remains unchanged.  Usually v is a tuple of the spec's variables.
+- The symbol \`#\` is alternative syntax used for inequality in TLA+; the other symbol is \`/=\".
+
+## TLA+ Semantics Hints
+- Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas.  This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+- TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v.  In other words, one cannot write a stuttering sensitive specification.
+
+## TLA+ Convention Hints
+- The type correctness invariant is typically called TypeOK.
+- Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+
+## Formal and informal math Hints
+- Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent.  For example, humans may write \`N > 3T\` instead of \`N > 3 * T\`.
+
+## TLA+ Tool Use Hints
+- When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+
+## Best Practice Hints
+- Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+  
+## TLA+ Documentation Hints
+- Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications. and got output: **ANNOTATION**
+- The TypeOK invariant is syntactically consistent and semantically consistent. It declares that both x and y are natural numbers, and the syntax aligns with TLA+'s type declaration.
+
+- The Condition declaration is inconsistent. The usage of '3T' is not valid syntax. It should be written as '3 * T' to be consistent with TLA+'s formal syntax.
+[LLM FrontEnd][check_violation] checking violation for result: **ANNOTATION**
+- The TypeOK invariant is syntactically consistent and semantically consistent. It declares that both x and y are natural numbers, and the syntax aligns with TLA+'s type declaration.
+
+- The Condition declaration is inconsistent. The usage of '3T' is not valid syntax. It should be written as '3 * T' to be consistent with TLA+'s formal syntax. and spec: Rule: - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+Rule: - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+Rule: - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+Rule: - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+Rule: - The type correctness invariant is typically called TypeOK.
+Rule: - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+Rule: - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+Rule: - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+Rule: - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+Rule: - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation

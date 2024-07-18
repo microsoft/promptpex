@@ -1,0 +1,10 @@
+1 9bd1531080019a8a5a1ab89076873a47 - A formula [A]_v is called a temporal formula, and is shorthand for the formula A \/ v' = v. In other words, the formula is true if A is true or if the value of v remains unchanged. Usually v is a tuple of the spec's variables.
+2 b5eec1aa1540d580c1800e99e170d7c6 - The symbol `#` is alternative syntax used for inequality in TLA+; the other symbol is `/=`.
+3 2c275cbfa71570f00f8f058714c0145d - Do NOT add any invariants or properties to the behavior specification Spec or any of its subformulas. This would change THEOREM Spec => Inv into THEOREM Spec /\ Inv => Inv, which is vacuously true.
+4 3f10b316ea05cfd0b53d3c22c5a6abf7 - TLA+ specs are always stuttering insensitive, i.e., the next-state relation is always [A]_v. In other words, one cannot write a stuttering sensitive specification.
+5 0f8683bdc9b11b596cd476ca535b1f81 - The type correctness invariant is typically called TypeOK.
+6 75d064b9c1432585d6993f5988bf74a7 - Users can employ TLA labels as a means to conceptually associate a comment with a sub-formula like a specific disjunct or conjunct of a TLA formula. Even though these labels have no other function, they facilitate referencing particular parts of the formula from a comment.
+7 3ec50da30889659d41a6600630f1a7e9 - Take into account that humans may write informal math that is syntactically different from the formal math, yet semantically equivalent. For example, humans may write `N > 3T` instead of `N > 3 * T`.
+8 553ade216c9428bbec7da2b362bb6918 - When using the TLA+ Toolbox or other tools, always make sure to validate your specifications with the built-in model checker or theorem prover before finalizing your comments and formulas.
+9 e778230e22e76061f6cd79b1116e7f78 - Always strive for simplicity and clarity in both comments and TLA+ declarations to ensure better maintainability and understanding of the specifications.
+10 a8145034541caf5a2d271814aa886ca3 - Provide thorough documentation for any non-trivial algorithms or complex logic in your TLA+ specifications to facilitate ease of understanding and future modifications.
