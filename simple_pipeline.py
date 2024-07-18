@@ -1,39 +1,30 @@
-from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, LLMFrontEnd
+from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg
+import time, os, pathlib
 
-# init log file with empty content
-open("log.txt", "w").close()
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
+dir_name = "result-" + time_stamp
+os.makedirs(dir_name)
 
-system_prompt = """
-You are an expert software developer who is writing a commit message when they are committing a change in 
-a GitHub repo.  
+input_file = "input.txt"
+with open(input_file, "r") as f:
+    system_prompt = f.read()
 
-You are given the code changes as <INPUT>. Input must contain filenames, line numbers, and
-the code changes at those line numbers in the form of a standard git pull request.  <INPUT> must
-contain changes to at least 3 files.
-
-Assume multiple changes were made and the details of the changes are listed in the input.
-Your task is to write a commit message for the change.
-Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
-- Write concisely using an informal tone
-- List significant changes
-- Do not use specific names or files from the code
-- Do not use phrases like "this commit", "this change", etc.
-"""
+Dbg.set_debug_file(pathlib.Path(dir_name, "log.txt"))
 
 front_end = StringFrontEnd()
 module = front_end.parse(system_prompt)
-module.export("rules.txt")
+module.export(pathlib.Path(dir_name, "rules.txt"))
 
 module = Module()
-module.import_rules("rules.txt")
+module.import_rules(pathlib.Path(dir_name, "rules.txt"))
 
 test_gen = TestCaseGenerator(module, system_prompt)
-test_gen.generate_negative("negative.txt")
-test_gen.generate_positive("positive.txt")
+test_gen.generate_negative(pathlib.Path(dir_name, "negative.txt"))
+test_gen.generate_positive(pathlib.Path(dir_name, "positive.txt"))
 
 test_runner = AskLLMTestValidator(module, system_prompt)
-test_runner.append("negative.txt")
-test_runner.append("positive.txt")
+test_runner.append(pathlib.Path(dir_name, "negative.txt"))
+test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
 test_runner.print_results()
 
@@ -42,11 +33,11 @@ mutator.add_rules(3)
 system_prompt = mutator.get_prompt()
 module = Module()
 module = front_end.parse(system_prompt)
-module.export("rules-variant.txt")
+module.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
 print("Test after mutation")
 test_runner = AskLLMTestValidator(module, system_prompt)
-test_runner.append("negative.txt")
-test_runner.append("positive.txt")
+test_runner.append(pathlib.Path(dir_name, "negative.txt"))
+test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
 test_runner.print_results()
