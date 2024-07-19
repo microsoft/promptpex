@@ -17,10 +17,10 @@ class TestCaseGenerator:
     def generate_test_cases(self, rule):
         invrule = LLMFrontEnd().inverse_rule(rule.get_rule())
         positive = self.generate_test_case(rule.get_rule())
-        with open(self.dir_path + "positive.txt", "a") as f:
+        with open(self.dir_path + "positive.txt", "a", encoding="utf-8", errors="ignore") as f:
             f.write("=> " + positive + "\n")
         negative = self.generate_test_case(invrule)
-        with open(self.dir_path + "negative.txt", "a") as f:
+        with open(self.dir_path + "negative.txt", "a", encoding="utf-8", errors="ignore") as f:
             f.write("=> " + negative + "\n")
 
     def generate(self):
@@ -33,7 +33,7 @@ class TestCaseGenerator:
 
     def generate_negative(self, file_path):
         instruction = self.module.get_entry()
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
             f.write("")
         while instruction:
             if isinstance(instruction, Rule):
@@ -42,13 +42,13 @@ class TestCaseGenerator:
                 index = str(self.module.instructions.index(instruction) + 1)
                 hash = str(hashlib.md5(negative.encode()).hexdigest())
                 rule_hash = str(hashlib.md5(instruction.get_rule().encode()).hexdigest())
-                with open(file_path, "a") as f:
+                with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
                     f.write("=> " + index + " " + hash + " " + rule_hash + " " + negative + "\n")
                     f.write(negative + "\n")
             instruction = instruction.next
 
     def generate_positive(self, file_path):
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
             f.write("")
         instruction = self.module.get_entry()
         while instruction:
@@ -56,7 +56,7 @@ class TestCaseGenerator:
                 positive = self.generate_test_case(instruction.get_rule())
                 index = str(self.module.instructions.index(instruction) + 1)
                 rule_hash = str(hashlib.md5(instruction.get_rule().encode()).hexdigest())
-                with open(file_path, "a") as f:
+                with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
                     f.write("=> " + index + " " + rule_hash + "\n")
                     f.write(positive + "\n")
             instruction = instruction.next

@@ -38,7 +38,7 @@ class Module:
         return "\n".join(instr.__str__() for instr in self.instructions)
 
     def export(self, file_path):
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
             for instr in self.instructions:
                 if isinstance(instr, Rule):
                     rule = instr.get_rule()
@@ -47,7 +47,7 @@ class Module:
                     f.write(idx + " " + hash + " " + rule + "\n")
 
     def import_rules(self, file_path):
-        with open(file_path, "r") as f:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
                 parts = line.strip().split(" ")
                 idx = int(parts[0])

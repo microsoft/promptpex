@@ -10,11 +10,12 @@ class TestValidator:
 
     def append(self, file_path):
         test = ""
-        with open(file_path, "r") as f:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
                 if line.startswith("=>"):
                     self.keys.append(line.split(" ")[2].replace("\n", ""))
-                    self.tests.append(test)
+                    if test != "":
+                        self.tests.append(test)
                     test = ""
                     continue
                 test += line + "\n"

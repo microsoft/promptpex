@@ -19,7 +19,7 @@ class Debug:
         if self.DEBUG:
             print(msg)
         # write into a log file
-        with open(self.log_file, "a") as f:
+        with open(self.log_file, "a", encoding="utf-8") as f:
             f.write(msg + "\n")
 
 Dbg = Debug()
