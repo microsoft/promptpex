@@ -37,6 +37,9 @@ class TestValidator:
 
     def validate(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
+
+    def all_passed(self):
+        return all(self.results)
     
 class AskLLMTestValidator(TestValidator):
     def __init__(self, system_prompt, module):

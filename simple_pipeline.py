@@ -5,7 +5,7 @@ time_stamp = time.strftime("%Y%m%d-%H%M%S")
 dir_name = "result-" + time_stamp
 os.makedirs(dir_name)
 
-input_file = pathlib.Path("samples", "TLAPlusAILinter.txt")
+input_file = pathlib.Path("samples", "ReleaseNotes.txt")
 with open(input_file, "r") as f:
     system_prompt = f.read()
 
