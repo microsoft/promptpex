@@ -1,14 +1,19 @@
 # Project
 
 ## Getting Started 
-Get the openai package by doing `pip install openai`
+Get the openai package by doing `pip install openai`  
+OpenAI keys needs to be set by updating the environment variable, `OPENAI_API_KEY`
 
+`regression_pipeline.py` implements the end to end regression detection pipeline. It takes a cli argument as the path to the prompt (in unix style, sample/prompt.txt).
+```py
+python3 regression_pipeline.py
+```
 
 `simple_pipeline.py` implements the basic pipeline, change the `input_file` variable on line 8.
 ```py
 python3 simple_pipeline.py
 ```
-OpenAI keys needs to be set by updating the environment variable, `OPENAI_API_KEY`
+
 
 ---
 > This repo has been populated by an initial template to help get you started. Please
