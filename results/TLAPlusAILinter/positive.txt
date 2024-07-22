@@ -1,0 +1,108 @@
+=> 1 9bd1531080019a8a5a1ab89076873a47
+(* Define constants *)
+CONSTANTS
+    MaxValue, MinValue
+
+(* Define the state variables *)
+VARIABLES
+    x, y
+
+(* Define TypeOK invariant *)
+TypeOK == x \in MinValue..MaxValue /\ y \in MinValue..MaxValue
+
+(* Initial state *)
+Init == x = MinValue /\ y = MinValue
+
+(* Next state relation *)
+Next == \/ x' = x + 1
+         \/ y' = y + 1
+
+(* Temporal formula *)
+Spec == [Next]_<<x, y>>
+
+(* Annotation section *)
+\* ANNOTATION:
+\* Prose Comment: The temporal formula [Next]_<<x, y>> shows that in each step either the next state conforms to the transition relation Next, or the state of x and y remains unchanged.
+\* TLA+ Definition: [Next]_<<x, y>> holds if Next is true or the values of x and y do not change.
+
+=> 2 b5eec1aa1540d580c1800e99e170d7c6
+(* Type correctness invariant ensures variables are properly typed *)
+TypeOK == /\ a \in Nat
+          /\ b \in Nat
+
+(* The initial state where a and b are both 0 *)
+Init == /\ a = 0
+        /\ b = 0
+
+(* The next-state relation where a gets incremented by 1 if it's not equal to b *)
+Next == /\ a' = a + 1
+        /\ b' = b
+        /\ a # b
+
+(* Temporal formula ensuring stuttering insensitivity *)
+Spec == [Next]_<< a, b >>
+
+ANNOTATION: 
+- The comment "The next-state relation where a gets incremented by 1 if it's not equal to b" is consistent with its TLA+ definition where the inequality is denoted by "a # b".
+- The initial state comment matches the definition where both `a` and `b` are set to `0`.
+- Type correctness invariant aptly named `TypeOK` and ensures `a` and `b` are natural numbers, consistent with TLA+ typing rules.
+=> 3 d41d8cd98f00b204e9800998ecf8427e
+(* This is the type correctness invariant *)
+TypeOK == x \in Nat /\ y \in Nat
+
+(* This is a temporal formula *)
+[A # B]_v
+=> 4 2c275cbfa71570f00f8f058714c0145d
+```
+(* This specification checks if the variable x is incremented in the next state. *)
+VARIABLE x
+
+Init == x = 0
+
+Next == (x' = x + 1) \/ (x' = x)
+
+Spec == Init /\ [][Next]_x
+
+TypeOK == x \in Int
+```
+=> 5 3f10b316ea05cfd0b53d3c22c5a6abf7
+NextState == x' /= x
+=> 6 0f8683bdc9b11b596cd476ca535b1f81
+(* Check that x is an integer *)
+VARIABLE x
+
+(* Type correctness invariant *)
+TypeOK == /\ x \in Int
+
+(* Initial state *)
+Init == /\ x = 0
+
+(* Next state relation *)
+Next == [x' # x]_x
+
+(* Behavior *)
+Spec == Init /\ [][Next]_x
+=> 7 75d064b9c1432585d6993f5988bf74a7
+(*
+  The following ensures that the value of x is incremented correctly.
+  Label: increment x value
+*)
+VARIABLE x
+Init == x = 0
+Next == (x' = x + 1) /\ [Next]_x
+=> 8 3ec50da30889659d41a6600630f1a7e9
+\* In this spec, the variable `total` will always be greater than three times the variable `threshold`.
+
+```tla
+VARIABLES t, th
+TypeOK == t \in Nat /\ th \in Nat
+
+Next == /\ t' > th+2 /\ t > 3*th
+         \/ t' = t /\ th' = th
+```
+
+\* We have defined `TypeOK` to ensure that `t` and `th` are natural numbers. We also use a next-state relation to show that `total` is always greater than three times `threshold`, accounting for stuttering with `[Next]_<<t, th>>`. 
+
+```tla
+Spec == [][Next]_<<t, th>>
+```

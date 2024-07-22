@@ -1,0 +1,1826 @@
+[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: - Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][generate_input_spec] generating input spec for context: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][generate_input_spec] generated input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Write concisely using an informal tone
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Always write in a formal and elaborate style
+[LLM FrontEnd][generate_test] generating test for rule: - Always write in a formal and elaborate style 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+Filename: main.py
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+Line 45: Implemented error handling for the main function.
+
+Filename: utils.py
+Line 10: Added a helper function to parse user input.
+Line 32: Fixed a bug where the function would crash on empty input.
+
+Filename: config.py
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+Line 18: Adjusted the default values to enhance performance.
+```
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - List significant changes
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Ignore insignificant changes
+[LLM FrontEnd][generate_test] generating test for rule: - Ignore insignificant changes 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+Filename: src/main.py
+Line: 12
+Change: Replaced '==' with '===' for strict equality check
+
+Filename: src/utils.py
+Line: 45
+Change: Removed unused import
+
+Filename: config/settings.yml
+Line: 8
+Change: Updated database URI
+
+Filename: src/components/header.js
+Line: 22
+Change: Added missing semicolon
+
+Filename: tests/test_main.py
+Line: 13
+Change: Added test case for new feature
+
+Filename: src/styles/main.css
+Line: 38
+Change: Modified background color
+```
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Do not use specific names or files from the code
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Always use specific names or files from the code
+[LLM FrontEnd][generate_test] generating test for rule: - Always use specific names or files from the code 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+files:
+  - name: src/main.py
+    changes:
+      - line: 10
+        change: 'def add(a, b):'
+      - line: 20
+        change: 'def subtract(a, b):'
+
+  - name: src/utils.py
+    changes:
+      - line: 5
+        change: 'def multiply(a, b):'
+      - line: 15
+        change: 'def divide(a, b):'
+
+  - name: tests/test_main.py
+    changes:
+      - line: 8
+        change: 'assert add(1, 2) == 3'
+      - line: 18
+        change: 'assert subtract(2, 1) == 1'
+```
+
+[LLM FrontEnd][inverse_rule] generating inverse rule for rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][inverse_rule] generated inverse rule: - Ensure to use phrases such as "this commit", "this change", etc.
+[LLM FrontEnd][generate_test] generating test for rule: - Ensure to use phrases such as "this commit", "this change", etc. 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: """
+filename: src/main.py
+line 42: def new_feature(): added a new feature for user authentication
+line 78: def existing_feature(): improved performance of existing feature
+
+filename: src/utils.py
+line 15: import new_module: added import for new module used in main.py
+line 47: def helper_function(): enhanced the logic for better efficiency
+
+filename: src/config.py
+line 10: include new constants for configuration settings
+line 35: update existing configurations for improved readability
+"""
+[LLM FrontEnd][generate_test] generating test for rule: - Write concisely using an informal tone 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+Filename: index.js
+Line Number: 10
+Code Change: Updated the fetch function to handle errors and added logging.
+
+Filename: styles.css
+Line Number: 25
+Code Change: Changed the header background color and adjusted padding.
+
+Filename: utils.js
+Line Number: 45
+Code Change: Refactored the validateEmail function for better performance.
+
+Filename: api.js
+Line Number: 30
+Code Change: Added a new endpoint for user authentication.
+
+Filename: dashboard.html
+Line Number: 12
+Code Change: Added new section for user statistics with updated styles.
+```
+[LLM FrontEnd][generate_test] generating test for rule: - List significant changes 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+Filename: app.py
+Line number: 32
+Change: Updated the function to include error handling for file operations.
+
+Filename: utils.py
+Line number: 20
+Change: Refactored the function to improve readability and performance.
+
+Filename: config.py
+Line number: 15
+Change: Added new configuration parameters for database connections.
+```
+[LLM FrontEnd][generate_test] generating test for rule: - Do not use specific names or files from the code 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: **Files:**
+1. `app/models/user.rb:23`
+2. `app/controllers/users_controller.rb:45`
+3. `spec/models/user_spec.rb:67`
+4. `config/routes.rb:15`
+5. `lib/tasks/user_task.rake:8,20`
+
+**Changes:**
+1. **user.rb:23**  
+   - Add validation for user email uniqueness.
+
+2. **users_controller.rb:45**  
+   - Update create action to handle new user attributes.
+
+3. **user_spec.rb:67**  
+   - Add test for the email uniqueness validation.
+
+4. **routes.rb:15**  
+   - Add a new route for the user profile page.
+
+5. **user_task.rake:8**  
+   - Update rake task to include new user attributes.
+   - Add additional task for cleaning up inactive users at line 20.
+
+
+[LLM FrontEnd][generate_test] generating test for rule: - Do not use phrases like "this commit", "this change", etc. 
+ input spec: 1. The input must contain code changes in the format of a standard Git pull request.
+2. The input must include filenames.
+3. The input must include line numbers where changes were made.
+4. The input must describe the code changes made at the specified line numbers.
+5. The input must contain changes to at least 3 different files.
+6. The input must list multiple code changes.
+[LLM FrontEnd][generate_test] generated test: ```
+files:
+- src/App.js
+  changes:
+    - line: 14
+      change: Added a new function to fetch user data
+    - line: 45
+      change: Refactored handleLogin to use async/await
+
+- src/components/Header.js
+  changes:
+    - line: 23
+      change: Updated logo to use new company branding
+    - line: 37
+      change: Fixed navigation bar alignment issues
+
+- src/utils/helpers.js
+  changes:
+    - line: 10
+      change: Added utility function to format dates
+    - line: 25
+      change: Improved error handling for API calls
+```
+[LLM FrontEnd][execute] executed input: Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+```
+
+```
+
+Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Refactor variable names, implement error handling, add input parsing and fix bugs
+
+- Changed variable name for clarity
+- Implemented error handling for main function
+- Added helper function for user input parsing
+- Fixed bug causing function to crash on empty input
+- Updated configuration settings to include timeout parameter
+- Adjusted default values to enhance performance
+[LLM FrontEnd][check_violation] checking violation for result: Refactor variable names, implement error handling, add input parsing and fix bugs
+
+- Changed variable name for clarity
+- Implemented error handling for main function
+- Added helper function for user input parsing
+- Fixed bug causing function to crash on empty input
+- Updated configuration settings to include timeout parameter
+- Adjusted default values to enhance performance and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+```
+
+```
+
+Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Commit: Improve code quality and update database URI
+
+Replaced equality operator for strict checks, removed unused import, and added missing semicolon. Also, added a new test case for a feature and modified the background color. Updated the database URI in the settings.
+[LLM FrontEnd][check_violation] checking violation for result: Commit: Improve code quality and update database URI
+
+Replaced equality operator for strict checks, removed unused import, and added missing semicolon. Also, added a new test case for a feature and modified the background color. Updated the database URI in the settings. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+```
+
+
+
+```
+
+files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Refactor arithmetic functions and tests
+
+- Update add and subtract functions in main.py
+- Modify multiply and divide functions in utils.py
+- Adjust tests in test_main.py for arithmetic functions
+[LLM FrontEnd][check_violation] checking violation for result: Refactor arithmetic functions and tests
+
+- Update add and subtract functions in main.py
+- Modify multiply and divide functions in utils.py
+- Adjust tests in test_main.py for arithmetic functions and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: index.js
+
+Line Number: 10
+
+Code Change: Updated the fetch function to handle errors and added logging.
+
+
+
+Filename: styles.css
+
+Line Number: 25
+
+Code Change: Changed the header background color and adjusted padding.
+
+
+
+Filename: utils.js
+
+Line Number: 45
+
+Code Change: Refactored the validateEmail function for better performance.
+
+
+
+Filename: api.js
+
+Line Number: 30
+
+Code Change: Added a new endpoint for user authentication.
+
+
+
+Filename: dashboard.html
+
+Line Number: 12
+
+Code Change: Added new section for user statistics with updated styles.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Refactored fetch function, improved error handling, added logging. 
+Adjusted header background color and padding. Updated email validation for better performance. Added user authentication endpoint. Included new section for user statistics in dashboard with updated styles.
+[LLM FrontEnd][check_violation] checking violation for result: Refactored fetch function, improved error handling, added logging. 
+Adjusted header background color and padding. Updated email validation for better performance. Added user authentication endpoint. Included new section for user statistics in dashboard with updated styles. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: app.py
+
+Line number: 32
+
+Change: Updated the function to include error handling for file operations.
+
+
+
+Filename: utils.py
+
+Line number: 20
+
+Change: Refactored the function to improve readability and performance.
+
+
+
+Filename: config.py
+
+Line number: 15
+
+Change: Added new configuration parameters for database connections.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Refactored function for improved readability and performance
+- Updated function to handle file operation errors
+- Added new configuration parameters for database connections
+[LLM FrontEnd][check_violation] checking violation for result: Refactored function for improved readability and performance
+- Updated function to handle file operation errors
+- Added new configuration parameters for database connections and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: **Files:**
+
+1. `app/models/user.rb:23`
+
+2. `app/controllers/users_controller.rb:45`
+
+3. `spec/models/user_spec.rb:67`
+
+4. `config/routes.rb:15`
+
+5. `lib/tasks/user_task.rake:8,20`
+
+
+
+**Changes:**
+
+1. **user.rb:23**  
+
+   - Add validation for user email uniqueness.
+
+
+
+2. **users_controller.rb:45**  
+
+   - Update create action to handle new user attributes.
+
+
+
+3. **user_spec.rb:67**  
+
+   - Add test for the email uniqueness validation.
+
+
+
+4. **routes.rb:15**  
+
+   - Add a new route for the user profile page.
+
+
+
+5. **user_task.rake:8**  
+
+   - Update rake task to include new user attributes.
+
+   - Add additional task for cleaning up inactive users at line 20. for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Commit:  
+Add user email uniqueness validation and update user creation process
+
+- Added validation for user email uniqueness in the user model
+- Updated create action in the users controller to accommodate new user attributes
+- Introduced a test for the email uniqueness validation in the user model spec
+- Included a new route for the user profile page in the routes configuration
+- Enhanced the user_task rake task to handle new user attributes and introduced a task for cleaning up inactive users.
+[LLM FrontEnd][check_violation] checking violation for result: Commit:  
+Add user email uniqueness validation and update user creation process
+
+- Added validation for user email uniqueness in the user model
+- Updated create action in the users controller to accommodate new user attributes
+- Introduced a test for the email uniqueness validation in the user model spec
+- Included a new route for the user profile page in the routes configuration
+- Enhanced the user_task rake task to handle new user attributes and introduced a task for cleaning up inactive users. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+```
+
+```
+
+Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Refactor variable names, implement error handling, add helper function for user input parsing, fix function crash on empty input, update configuration for timeout, and adjust default values for enhanced performance. This commit includes multiple changes across different files to improve code readability, robustness, and performance.
+[LLM FrontEnd][check_violation] checking violation for result: Refactor variable names, implement error handling, add helper function for user input parsing, fix function crash on empty input, update configuration for timeout, and adjust default values for enhanced performance. This commit includes multiple changes across different files to improve code readability, robustness, and performance. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+```
+
+```
+
+Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Fix strict equality check, remove unused import, update database URI, add missing semicolon, add test case, and modify background color. 
+
+- Replaced '==' with '===' for strict equality check in main.py
+- Removed unused import in utils.py
+- Updated database URI in settings.yml
+- Added missing semicolon in header.js
+- Added test case for new feature in test_main.py
+- Modified background color in main.css
+[LLM FrontEnd][check_violation] checking violation for result: Fix strict equality check, remove unused import, update database URI, add missing semicolon, add test case, and modify background color. 
+
+- Replaced '==' with '===' for strict equality check in main.py
+- Removed unused import in utils.py
+- Updated database URI in settings.yml
+- Added missing semicolon in header.js
+- Added test case for new feature in test_main.py
+- Modified background color in main.css and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+```
+
+
+
+```
+
+files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: feat: Add arithmetic functions and their tests
+
+Added functions for addition, subtraction, multiplication, and division in the main and utils files. Also added corresponding tests in the test file.
+[LLM FrontEnd][check_violation] checking violation for result: feat: Add arithmetic functions and their tests
+
+Added functions for addition, subtraction, multiplication, and division in the main and utils files. Also added corresponding tests in the test file. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: index.js
+
+Line Number: 10
+
+Code Change: Updated the fetch function to handle errors and added logging.
+
+
+
+Filename: styles.css
+
+Line Number: 25
+
+Code Change: Changed the header background color and adjusted padding.
+
+
+
+Filename: utils.js
+
+Line Number: 45
+
+Code Change: Refactored the validateEmail function for better performance.
+
+
+
+Filename: api.js
+
+Line Number: 30
+
+Code Change: Added a new endpoint for user authentication.
+
+
+
+Filename: dashboard.html
+
+Line Number: 12
+
+Code Change: Added new section for user statistics with updated styles.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Updated fetch function error handling, logging; modified header background color and padding; refactored email validation; added user authentication endpoint; included new user stats section with updated styles. 
+
+- Improved error handling and logging in the fetch function
+- Adjusted header background color and padding for better aesthetics
+- Optimized the email validation function for better performance
+- Expanded API with new endpoint for user authentication
+- Enhanced user dashboard by adding a new section for user statistics with updated styles
+[LLM FrontEnd][check_violation] checking violation for result: Updated fetch function error handling, logging; modified header background color and padding; refactored email validation; added user authentication endpoint; included new user stats section with updated styles. 
+
+- Improved error handling and logging in the fetch function
+- Adjusted header background color and padding for better aesthetics
+- Optimized the email validation function for better performance
+- Expanded API with new endpoint for user authentication
+- Enhanced user dashboard by adding a new section for user statistics with updated styles and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: app.py
+
+Line number: 32
+
+Change: Updated the function to include error handling for file operations.
+
+
+
+Filename: utils.py
+
+Line number: 20
+
+Change: Refactored the function to improve readability and performance.
+
+
+
+Filename: config.py
+
+Line number: 15
+
+Change: Added new configuration parameters for database connections.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: Update file operations error handling, refactor function for readability and performance, add new database configuration parameters.
+
+- Updated the function in app.py to handle file operation errors effectively.
+- Refactored the function in utils.py to improve code readability and performance.
+- Added new configuration parameters for database connections in config.py.
+[LLM FrontEnd][check_violation] checking violation for result: Update file operations error handling, refactor function for readability and performance, add new database configuration parameters.
+
+- Updated the function in app.py to handle file operation errors effectively.
+- Refactored the function in utils.py to improve code readability and performance.
+- Added new configuration parameters for database connections in config.py. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: **Files:**
+
+1. `app/models/user.rb:23`
+
+2. `app/controllers/users_controller.rb:45`
+
+3. `spec/models/user_spec.rb:67`
+
+4. `config/routes.rb:15`
+
+5. `lib/tasks/user_task.rake:8,20`
+
+
+
+**Changes:**
+
+1. **user.rb:23**  
+
+   - Add validation for user email uniqueness.
+
+
+
+2. **users_controller.rb:45**  
+
+   - Update create action to handle new user attributes.
+
+
+
+3. **user_spec.rb:67**  
+
+   - Add test for the email uniqueness validation.
+
+
+
+4. **routes.rb:15**  
+
+   - Add a new route for the user profile page.
+
+
+
+5. **user_task.rake:8**  
+
+   - Update rake task to include new user attributes.
+
+   - Add additional task for cleaning up inactive users at line 20. for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc. and got output: **Refactor user email validation and enhance user profile route**
+
+- Add user email uniqueness validation in the model.
+- Update user creation handling in the controller.
+- Include test for email uniqueness validation.
+- Add a new route for the user profile page.
+- Update rake task to include new user attributes and add task for cleaning up inactive users.
+[LLM FrontEnd][check_violation] checking violation for result: **Refactor user email validation and enhance user profile route**
+
+- Add user email uniqueness validation in the model.
+- Update user creation handling in the controller.
+- Include test for email uniqueness validation.
+- Add a new route for the user profile page.
+- Update rake task to include new user attributes and add task for cleaning up inactive users. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][add_rule] adding rule to system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][add_rule] added rule to system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed.
+[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed.
+[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: - Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed.
+[LLM FrontEnd][execute] executed input: Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+```
+
+```
+
+Filename: main.py
+
+Line 23: Changed the variable name from `foo` to `bar` for clarity.
+
+Line 45: Implemented error handling for the main function.
+
+
+
+Filename: utils.py
+
+Line 10: Added a helper function to parse user input.
+
+Line 32: Fixed a bug where the function would crash on empty input.
+
+
+
+Filename: config.py
+
+Line 5: Updated the configuration settings to include a new parameter for timeout.
+
+Line 18: Adjusted the default values to enhance performance.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Refactor variable names, implement error handling, and update configuration settings for improved performance and user input parsing. Add timeout parameter for enhanced functionality.
+[LLM FrontEnd][check_violation] checking violation for result: Refactor variable names, implement error handling, and update configuration settings for improved performance and user input parsing. Add timeout parameter for enhanced functionality. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+```
+
+```
+
+Filename: src/main.py
+
+Line: 12
+
+Change: Replaced '==' with '===' for strict equality check
+
+
+
+Filename: src/utils.py
+
+Line: 45
+
+Change: Removed unused import
+
+
+
+Filename: config/settings.yml
+
+Line: 8
+
+Change: Updated database URI
+
+
+
+Filename: src/components/header.js
+
+Line: 22
+
+Change: Added missing semicolon
+
+
+
+Filename: tests/test_main.py
+
+Line: 13
+
+Change: Added test case for new feature
+
+
+
+Filename: src/styles/main.css
+
+Line: 38
+
+Change: Modified background color
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Fix strict equality check and database URI update
+
+- Replaced '==' with '===' for strict equality check in main.py
+- Removed unused import in utils.py
+- Updated database URI in settings.yml
+- Added missing semicolon in header.js
+- Added test case for new feature in test_main.py
+- Modified background color in main.css
+[LLM FrontEnd][check_violation] checking violation for result: Fix strict equality check and database URI update
+
+- Replaced '==' with '===' for strict equality check in main.py
+- Removed unused import in utils.py
+- Updated database URI in settings.yml
+- Added missing semicolon in header.js
+- Added test case for new feature in test_main.py
+- Modified background color in main.css and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+```
+
+
+
+```
+
+files:
+
+  - name: src/main.py
+
+    changes:
+
+      - line: 10
+
+        change: 'def add(a, b):'
+
+      - line: 20
+
+        change: 'def subtract(a, b):'
+
+
+
+  - name: src/utils.py
+
+    changes:
+
+      - line: 5
+
+        change: 'def multiply(a, b):'
+
+      - line: 15
+
+        change: 'def divide(a, b):'
+
+
+
+  - name: tests/test_main.py
+
+    changes:
+
+      - line: 8
+
+        change: 'assert add(1, 2) == 3'
+
+      - line: 18
+
+        change: 'assert subtract(2, 1) == 1'
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Commit Message: 
+Refactor arithmetic functions and update unit tests
+
+Updated the implementation of add, subtract, multiply, and divide functions in src/main.py and src/utils.py to improve code readability and maintainability. Also, updated the corresponding unit tests in test_main.py to ensure accuracy. No security or performance improvements made, and no deprecated code or libraries were updated or removed.
+[LLM FrontEnd][check_violation] checking violation for result: Commit Message: 
+Refactor arithmetic functions and update unit tests
+
+Updated the implementation of add, subtract, multiply, and divide functions in src/main.py and src/utils.py to improve code readability and maintainability. Also, updated the corresponding unit tests in test_main.py to ensure accuracy. No security or performance improvements made, and no deprecated code or libraries were updated or removed. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: Error: Error code: 429 - {'error': {'code': '429', 'message': 'Requests to the ChatCompletions_Create Operation under Azure OpenAI API version 2024-02-01 have exceeded token rate limit of your current OpenAI S0 pricing tier. Please retry after 5 seconds. Please go here: https://aka.ms/oai/quotaincrease if you would like to further increase the default rate limit.'}}
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: index.js
+
+Line Number: 10
+
+Code Change: Updated the fetch function to handle errors and added logging.
+
+
+
+Filename: styles.css
+
+Line Number: 25
+
+Code Change: Changed the header background color and adjusted padding.
+
+
+
+Filename: utils.js
+
+Line Number: 45
+
+Code Change: Refactored the validateEmail function for better performance.
+
+
+
+Filename: api.js
+
+Line Number: 30
+
+Code Change: Added a new endpoint for user authentication.
+
+
+
+Filename: dashboard.html
+
+Line Number: 12
+
+Code Change: Added new section for user statistics with updated styles.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Commit Message: 
+
+Improve error handling, enhance styles, optimize email validation
+Refactored fetch function for better error handling and logging. Adjusted header background color and padding. Optimized email validation for better performance. Added user authentication endpoint and new user statistics section with updated styles. No deprecated code or libraries were updated or removed.
+[LLM FrontEnd][check_violation] checking violation for result: Commit Message: 
+
+Improve error handling, enhance styles, optimize email validation
+Refactored fetch function for better error handling and logging. Adjusted header background color and padding. Optimized email validation for better performance. Added user authentication endpoint and new user statistics section with updated styles. No deprecated code or libraries were updated or removed. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: ```
+
+Filename: app.py
+
+Line number: 32
+
+Change: Updated the function to include error handling for file operations.
+
+
+
+Filename: utils.py
+
+Line number: 20
+
+Change: Refactored the function to improve readability and performance.
+
+
+
+Filename: config.py
+
+Line number: 15
+
+Change: Added new configuration parameters for database connections.
+
+``` for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Refactor file operations, improve readability and performance, and add new database configuration parameters.
+
+- Updated function to handle file operation errors
+- Refactored function for improved readability and performance
+- Added new configuration parameters for database connections
+- No deprecated code or libraries mentioned
+[LLM FrontEnd][check_violation] checking violation for result: Refactor file operations, improve readability and performance, and add new database configuration parameters.
+
+- Updated function to handle file operation errors
+- Refactored function for improved readability and performance
+- Added new configuration parameters for database connections
+- No deprecated code or libraries mentioned and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation
+[LLM FrontEnd][execute] executed input: **Files:**
+
+1. `app/models/user.rb:23`
+
+2. `app/controllers/users_controller.rb:45`
+
+3. `spec/models/user_spec.rb:67`
+
+4. `config/routes.rb:15`
+
+5. `lib/tasks/user_task.rake:8,20`
+
+
+
+**Changes:**
+
+1. **user.rb:23**  
+
+   - Add validation for user email uniqueness.
+
+
+
+2. **users_controller.rb:45**  
+
+   - Update create action to handle new user attributes.
+
+
+
+3. **user_spec.rb:67**  
+
+   - Add test for the email uniqueness validation.
+
+
+
+4. **routes.rb:15**  
+
+   - Add a new route for the user profile page.
+
+
+
+5. **user_task.rake:8**  
+
+   - Update rake task to include new user attributes.
+
+   - Add additional task for cleaning up inactive users at line 20. for system prompt: You are an expert software developer who is writing a commit message when they are committing a change in 
+a GitHub repo.  
+
+You will be given the code changes as input. It will contain filenames, line numbers, and
+the code changes at those line numbers in the form of a standard git pull request. It will contain changes to at least 3 files.
+
+Assume multiple changes were made and the details of the changes are listed in the input.
+Your task is to write a commit message for the change.
+Commit Messages must have a short description that is less than 50 characters followed by a newline and a more detailed description.
+- Write concisely using an informal tone
+- List significant changes
+- Do not use specific names or files from the code
+- Do not use phrases like "this commit", "this change", etc.
+- Indicate if security or performance improvements were made.
+- Highlight any feature additions or removals.
+- Specify if any deprecated code or libraries were updated or removed. and got output: Add user email uniqueness validation, update create action to handle new user attributes, and add tests for these changes. Also, include a new route for the user profile page and update rake task to handle new user attributes and add task for cleaning up inactive users. No deprecated code or libraries updated.
+[LLM FrontEnd][check_violation] checking violation for result: Add user email uniqueness validation, update create action to handle new user attributes, and add tests for these changes. Also, include a new route for the user profile page and update rake task to handle new user attributes and add task for cleaning up inactive users. No deprecated code or libraries updated. and spec: Rule: - Write concisely using an informal tone
+Rule: - List significant changes
+Rule: - Do not use specific names or files from the code
+Rule: - Do not use phrases like "this commit", "this change", etc.
+[LLM FrontEnd][check_violation] checked violation and got output: 0
+No violation

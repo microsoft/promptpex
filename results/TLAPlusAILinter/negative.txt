@@ -1,0 +1,144 @@
+=> 1 f761b652c363915a0776e7498c94fb9f 9bd1531080019a8a5a1ab89076873a47 \* Temporal formula for checking system state changes \*
+Label: CheckChanges
+[StateChange]_v == StateChange /\ v' /= v
+
+\* Type correctness invariant because we prefer consistency checks to ensure all variables align \*
+Label: TypeInvariant
+TypeOK == \A x \in Vars : IsValid(x)
+\* Temporal formula for checking system state changes \*
+Label: CheckChanges
+[StateChange]_v == StateChange /\ v' /= v
+
+\* Type correctness invariant because we prefer consistency checks to ensure all variables align \*
+Label: TypeInvariant
+TypeOK == \A x \in Vars : IsValid(x)
+=> 2 6049aaaf468972bc0eb1f95e8ae08918 b5eec1aa1540d580c1800e99e170d7c6 (* CHECK Definition  *)
+TypeOK ==  /\ x \in Int
+           /\ y \in Int
+
+(* Temporal formula *)
+[Next]_vars == /\ Next \/ vars' # vars 
+(* CHECK Definition  *)
+TypeOK ==  /\ x \in Int
+           /\ y \in Int
+
+(* Temporal formula *)
+[Next]_vars == /\ Next \/ vars' # vars 
+=> 3 e90c267634c9a622a1f3106f0b508417 d41d8cd98f00b204e9800998ecf8427e (* The sun never rises in the east. This statement should always be true. *)
+THEOREM SunNeverRisesInEast == [\A x \in {Sun}. x # East]_v
+(* The sun never rises in the east. This statement should always be true. *)
+THEOREM SunNeverRisesInEast == [\A x \in {Sun}. x # East]_v
+=> 4 fb5749025a037b927c48d5f68c6b5990 2c275cbfa71570f00f8f058714c0145d \* THEOREM Spec => TypeOK
+
+VARIABLE v
+Inv == v # 0
+
+\* THEOREM Spec => Inv
+\* This implies that Spec combined with Inv should still validate Inv.
+\* Here we check that Spec combined with the invariant TypeOK holds.
+
+\*<1> THEOREM Spec /\ Inv => Inv
+\* THEOREM Spec => TypeOK
+
+VARIABLE v
+Inv == v # 0
+
+\* THEOREM Spec => Inv
+\* This implies that Spec combined with Inv should still validate Inv.
+\* Here we check that Spec combined with the invariant TypeOK holds.
+
+\*<1> THEOREM Spec /\ Inv => Inv
+=> 5 20b2c304b3100f888e870f080e3282af 3f10b316ea05cfd0b53d3c22c5a6abf7 ```
+---- MODULE StutteringExample ----
+EXTENDS Naturals
+
+VARIABLE x
+
+(* STUTTER *)
+Next == x' /= x
+
+Spec == Next
+
+ASSUME Spec
+
+====
+
+(* This should be stuttering sensitive rather than insensitive as per the requirement. *)
+```
+```
+---- MODULE StutteringExample ----
+EXTENDS Naturals
+
+VARIABLE x
+
+(* STUTTER *)
+Next == x' /= x
+
+Spec == Next
+
+ASSUME Spec
+
+====
+
+(* This should be stuttering sensitive rather than insensitive as per the requirement. *)
+```
+=> 6 37b2aaf0abe245c562cd8d370b2c5d43 0f8683bdc9b11b596cd476ca535b1f81 (* This invariant ensures that all variables are of the correct type *)
+TypeCorrectnessInvariant == /\ x \in Nat
+                            /\ y \in ({0, 1} -> BOOLEAN)
+
+Next == [x' = x + 1]_<<x,y>>
+
+(* This is just a sample temporal formula *)
+Assertions == [x > 0]_x /\
+               [y' # y]_y
+(* This invariant ensures that all variables are of the correct type *)
+TypeCorrectnessInvariant == /\ x \in Nat
+                            /\ y \in ({0, 1} -> BOOLEAN)
+
+Next == [x' = x + 1]_<<x,y>>
+
+(* This is just a sample temporal formula *)
+Assertions == [x > 0]_x /\
+               [y' # y]_y
+=> 7 3b863633b4960451afc3bf8d3ba9c864 75d064b9c1432585d6993f5988bf74a7 ```
+------------------------------ MODULE Sample ------------------------------
+
+(* This is a comment about the Init state. *)
+Init == x = 0
+
+(* This describes the next-state action. *)
+Next == x' = x + 1
+
+(* Type correctness condition *)
+TypeOK == x \in Nat
+
+(* Stuttering insensitive specification *)
+Spec == Init /\ [][Next]_x
+
+=============================================================================
+```
+```
+------------------------------ MODULE Sample ------------------------------
+
+(* This is a comment about the Init state. *)
+Init == x = 0
+
+(* This describes the next-state action. *)
+Next == x' = x + 1
+
+(* Type correctness condition *)
+TypeOK == x \in Nat
+
+(* Stuttering insensitive specification *)
+Spec == Init /\ [][Next]_x
+
+=============================================================================
+```
+=> 8 3c7ab7680f8b7bbbab315d714b8f09ec 3ec50da30889659d41a6600630f1a7e9 (* Checks if the given set is not empty *)
+\* Check that the function f is not equal to value g
+ASSUME DOMAIN /= {}
+ASSUME f # g
+(* Checks if the given set is not empty *)
+\* Check that the function f is not equal to value g
+ASSUME DOMAIN /= {}
+ASSUME f # g
