@@ -49,4 +49,4 @@ class AskLLMTestValidator(TestValidator):
         # result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-35-turbo")
         result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-4o")
         # return LLMFrontEnd().check_violation_using_questions(result, self.module.__str__())
-        return LLMFrontEnd().check_violation_with_system_prompt(result, self.module.__str__(), self.system_prompt)
+        return LLMFrontEnd().check_violation_with_system_prompt(result, self.system_prompt)

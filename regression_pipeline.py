@@ -14,6 +14,8 @@ with open(input_path, "r") as f:
 
 Dbg.set_debug_file(pathlib.Path(dir_name, "log.txt"))
 
+original_prompt = system_prompt
+
 mode = "init"
 if len(sys.argv) > 2:
     mode = sys.argv[2]
@@ -50,7 +52,7 @@ else:
 
 module = Module()
 module.import_rules(pathlib.Path(dir_name, "rules.txt"))
-test_runner = AskLLMTestValidator(module, system_prompt)
+test_runner = AskLLMTestValidator(module, original_prompt)
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
@@ -73,7 +75,7 @@ for num in range(1, 1000, 50):
     variant.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
     print("Test after mutation")
-    test_runner = AskLLMTestValidator(module, mutated_prompt)
+    test_runner = AskLLMTestValidator(module, original_prompt)
     test_runner.append(pathlib.Path(dir_name, "negative.txt"))
     test_runner.append(pathlib.Path(dir_name, "positive.txt"))
     test_runner.run_tests()
