@@ -1,86 +1,149 @@
-=> 1 55c2f1d50ca1f2c98c6cda3ed9a8c4fd
+=> 1 1b335850d4194a0298d120bd702dbe0a
 ```
-Filename: index.js
-Line Number: 10
-Code Change: Updated the fetch function to handle errors and added logging.
-
-Filename: styles.css
-Line Number: 25
-Code Change: Changed the header background color and adjusted padding.
-
-Filename: utils.js
+Filename: src/main/user.js
 Line Number: 45
-Code Change: Refactored the validateEmail function for better performance.
+Code Change: console.log("User logged in");
 
-Filename: api.js
-Line Number: 30
-Code Change: Added a new endpoint for user authentication.
-
-Filename: dashboard.html
+Filename: src/helpers/utilities.js
 Line Number: 12
-Code Change: Added new section for user statistics with updated styles.
+Code Change: export const calculateSum = (a, b) => a + b;
+
+Filename: src/styles/theme.css
+Line Number: 32
+Code Change: .header { background-color: blue; }
+
+Filename: src/components/header.js
+Line Number: 25
+Code Change: import { calculateSum } from '../helpers/utilities';
 ```
-=> 2 d24173b91a7732ebb9b3264499235195
+=> 2 60ce578577c7fc139275648e6bf5a7b1
+[
+  {
+    "filename": "src/main/java/com/example/app/Service.java",
+    "changes": [
+      {
+        "line": 25,
+        "change": "public List<Item> getItems() { return itemRepository.findAll(); }"
+      },
+      {
+        "line": 50,
+        "change": "public Item getItemById(Long id) { return itemRepository.findById(id).orElse(null); }"
+      }
+    ]
+  },
+  {
+    "filename": "src/main/java/com/example/app/Controller.java",
+    "changes": [
+      {
+        "line": 15,
+        "change": "public String home(Model model) { model.addAttribute(\"items\", itemService.getItems()); return \"home\"; }"
+      }
+    ]
+  },
+  {
+    "filename": "src/main/resources/application.yml",
+    "changes": [
+      {
+        "line": 5,
+        "change": "spring.datasource.url: jdbc:mysql://localhost:3306/mydb"
+      },
+      {
+        "line": 6,
+        "change": "spring.datasource.username: root"
+      },
+      {
+        "line": 7,
+        "change": "spring.datasource.password: password"
+      }
+    ]
+  }
+]
+=> 3 83fe5b719a0f92e055d6ddea40b63a95
 ```
-Filename: app.py
-Line number: 32
-Change: Updated the function to include error handling for file operations.
+- Fixed memory leak issue
+- Enhanced efficiency of data processing algorithm
 
-Filename: utils.py
-Line number: 20
-Change: Refactored the function to improve readability and performance.
+--- Commit Details ---
+src/memoryManager.cpp - Line 120:
+- Corrected improper memory deallocation causing leaks
 
-Filename: config.py
-Line number: 15
-Change: Added new configuration parameters for database connections.
+src/dataProcessor.cpp - Line 45:
+- Optimized loop execution reducing processing time by 15%
+
+tests/testMemoryManager.cpp - Line 260:
+- Added new test cases for improved code coverage
+
+docs/README.md - Line 32:
+- Updated documentation to reflect recent fixes in memory management
 ```
-=> 3 b5f48abe12cf9d882dd2156f25e5e7d8
-**Files:**
-1. `app/models/user.rb:23`
-2. `app/controllers/users_controller.rb:45`
-3. `spec/models/user_spec.rb:67`
-4. `config/routes.rb:15`
-5. `lib/tasks/user_task.rake:8,20`
-
-**Changes:**
-1. **user.rb:23**  
-   - Add validation for user email uniqueness.
-
-2. **users_controller.rb:45**  
-   - Update create action to handle new user attributes.
-
-3. **user_spec.rb:67**  
-   - Add test for the email uniqueness validation.
-
-4. **routes.rb:15**  
-   - Add a new route for the user profile page.
-
-5. **user_task.rake:8**  
-   - Update rake task to include new user attributes.
-   - Add additional task for cleaning up inactive users at line 20.
-
-
-=> 4 202ef0550ecb1a19d9ba5ad7b78a8d10
+=> 4 0782ec9f1dce5859910a8699cbe8613f
 ```
-files:
-- src/App.js
-  changes:
-    - line: 14
-      change: Added a new function to fetch user data
-    - line: 45
-      change: Refactored handleLogin to use async/await
+### Summary
+Fixes and improvements
 
-- src/components/Header.js
-  changes:
-    - line: 23
-      change: Updated logo to use new company branding
-    - line: 37
-      change: Fixed navigation bar alignment issues
+### Detailed Description
+* Fixed a critical bug in the user authentication process by initializing the user session correctly. 
+* Improved performance of the database query for loading the homepage by adding proper indexing.
+* Refactored the CSS for the main layout to ensure better responsiveness on mobile devices.
+```
+=> 5 6622446c490b5ba7d06c47497e48f14f
+```
+Fix bugs and improve user experience
 
-- src/utils/helpers.js
-  changes:
-    - line: 10
-      change: Added utility function to format dates
-    - line: 25
-      change: Improved error handling for API calls
+- Addressed null pointer exception in API
+- Optimized database queries for faster load times
+- Improved error handling in user authentication module
+```
+=> 6 82621624347420b5e03ba1cd3a2e1616
+```
+{
+  "title": "Updated user authentication flow",
+  "body": "Improved security checks and streamlined login process.\n\n- Enhanced password encryption algorithm for stronger security\n- Optimized session management to reduce server load\n- Fixed issues causing occasional login failures\n- Added new user validation checks to prevent invalid data entries\n\nThese changes make our authentication process more robust and user-friendly."
+}
+```
+
+=> 7 4fbaa62a23002bad7c720854e5edcb9e
+```
+File: routes.js
+Line: 25
+Code Change: Updated route handler to include validation logic.
+
+File: utils.js
+Line: 10
+Code Change: Refactored utility function for better performance.
+
+File: app.js
+Line: 45
+Code Change: Added new middleware for logging requests.
+```
+=> 8 3d1314b1f88be9a6f390420ad82c8218
+```
+Files:
+1. main.py
+2. utils.py
+3. config.yml
+
+Changes in main.py:
+- Line 34: Updated the logic for user input validation to handle edge cases.
+- Line 78: Refactored the authentication function to improve security.
+
+Changes in utils.py:
+- Line 15: Added a helper function to parse configuration files.
+- Line 47: Enhanced the logging mechanism for better traceability.
+
+Changes in config.yml:
+- Line 22: Modified the default timeout setting to 30 seconds.
+- Line 45: Added a new section for database configuration.
+```
+=> 9 e3f25179f7cbfed0249fd27620dfa0ac
+```
+=== Input ===
+filename1.java
+Line 10: changed `int a = 10;` to `int a = 20;`
+
+filename2.java
+Line 25: changed `String message = "Hello";` to `String message = "Hi";`
+
+filename3.java
+Line 30: changed `boolean status = false;` to `boolean status = true;`
 ```
