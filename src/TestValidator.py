@@ -46,5 +46,7 @@ class AskLLMTestValidator(TestValidator):
         super().__init__(system_prompt, module)
 
     def validate(self, test_case):
-        result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-35-turbo")
-        return LLMFrontEnd().check_violation(result, self.module.__str__())
+        # result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-35-turbo")
+        result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-4o")
+        # return LLMFrontEnd().check_violation_using_questions(result, self.module.__str__())
+        return LLMFrontEnd().check_violation_with_system_prompt(result, self.module.__str__(), self.system_prompt)
