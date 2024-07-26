@@ -14,24 +14,29 @@ with open(input_path, "r") as f:
 
 Dbg.set_debug_file(pathlib.Path(dir_name, "log.txt"))
 
+mode = "init"
+if len(sys.argv) > 2:
+    mode = sys.argv[2]
+
+test_runner = None
 front_end = StringFrontEnd()
-module = front_end.parse(system_prompt)
-module.export(pathlib.Path(dir_name, "rules.txt"))
 
-module = Module()
-module.import_rules(pathlib.Path(dir_name, "rules.txt"))
+if mode == "init":
+    module = Module()
+    module = front_end.parse(system_prompt)
+    module.export(pathlib.Path(dir_name, "rules.txt"))
 
-test_gen = TestCaseGenerator(module, system_prompt)
-test_gen.generate_negative(pathlib.Path(dir_name, "negative.txt"))
-test_gen.generate_positive(pathlib.Path(dir_name, "positive.txt"))
+    test_gen = TestCaseGenerator(module, system_prompt)
+    test_gen.generate_negative(pathlib.Path(dir_name, "negative.txt"))
+    test_gen.generate_positive(pathlib.Path(dir_name, "positive.txt"))
 
-test_runner = AskLLMTestValidator(module, system_prompt)
-test_runner.append(pathlib.Path(dir_name, "negative.txt"))
-test_runner.append(pathlib.Path(dir_name, "positive.txt"))
-test_runner.run_tests()
-test_runner.print_results()
+    test_runner = AskLLMTestValidator(module, system_prompt)
+    test_runner.append(pathlib.Path(dir_name, "negative.txt"))
+    test_runner.append(pathlib.Path(dir_name, "positive.txt"))
+    test_runner.run_tests()
+    test_runner.print_results()
 
-if test_runner.all_passed():
+if test_runner != None and test_runner.all_passed() and mode != "variant":
     print("All tests passed. No variant needed.")
 else: 
     print("Some tests failed. Looking for variant.")
@@ -43,6 +48,8 @@ else:
     with open(variant_file, "r") as f:
         system_prompt = f.read()
 
+module = Module()
+module.import_rules(pathlib.Path(dir_name, "rules.txt"))
 test_runner = AskLLMTestValidator(module, system_prompt)
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
