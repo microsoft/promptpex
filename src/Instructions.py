@@ -30,7 +30,7 @@ class Rule(Instruction):
 
     @classmethod
     def from_string(cls, rule_str):
-        rules = LLMFrontEnd().generate_rules_local_per_primitive(rule_str)
+        rules = LLMFrontEnd().generate_rules_global(rule_str)
         parts = rules.split('\n')
         return [cls(part.strip()) for part in parts if part]
 
