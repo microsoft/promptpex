@@ -1,5 +1,5 @@
 import hashlib
-from . import LLMFrontEnd, Rule
+from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
     def __init__(self, module, context=None):
@@ -60,3 +60,67 @@ class TestCaseGenerator:
                     f.write("=> " + index + " " + rule_hash + "\n")
                     f.write(positive + "\n")
             instruction = instruction.next
+
+    def update_test(self, diff, negative_test, positive_test):
+        # generate inverse for + tests
+        # generate rule for + and inv(+) rules 
+        negative = diff.get_negative_hash()
+        negative_tests = open(negative_test, "r").readlines()
+        positive_tests = open(positive_test, "r").readlines()
+
+        startDelete = False
+        for line in negative_tests:
+            if line.startswith("=>"):
+                if line.split(" ")[3] in negative:
+                    startDelete = True
+                else:
+                    startDelete = False
+            if startDelete:
+                negative_tests.remove(line)
+
+        startDelete = False
+        for line in positive_tests:
+            if line.startswith("=>"):
+                if line.split(" ")[3] in negative:
+                    startDelete = True
+                else:
+                    startDelete = False
+            if startDelete:
+                positive_tests.remove(line)
+        
+        new_rules = diff.get_positive_rules()
+
+        for rule in new_rules:
+            tc = self.generate_test_case(rule)
+            rule_hash = str(hashlib.md5(rule.encode()).hexdigest())
+            positive_tests.append("=> 0 " + rule_hash + "\n")
+            positive_tests.append(tc + "\n")
+
+            inv = LLMFrontEnd().inverse_rule(rule)
+            tc = self.generate_test_case(inv)
+            rule_hash = str(hashlib.md5(inv.encode()).hexdigest())
+            negative_tests.append("=> 0 " + rule_hash + "\n")
+            negative_tests.append(tc + "\n")
+        
+        for index in range(len(positive_tests)):
+            pos = positive_tests[index]
+            if pos.startswith("=>"):
+                pos_list = pos.split(" ")
+                pos_list[1] = str(index)
+                pos = " ".join(pos_list)
+                positive_tests[index] = pos
+        
+        for index in range(len(negative_tests)):
+            neg = negative_tests[index]
+            if neg.startswith("=>"):
+                neg_list = neg.split(" ")
+                neg_list[1] = str(index)
+                neg = " ".join(neg_list)
+                negative_tests[index] = neg
+
+        with open(negative_test, "w") as f:
+            f.writelines(negative_test)
+        with open(positive_test, "w") as f:
+            f.writelines(positive_test)
+        
+

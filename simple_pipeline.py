@@ -22,11 +22,13 @@ test_gen = TestCaseGenerator(module, system_prompt)
 test_gen.generate_negative(pathlib.Path(dir_name, "negative.txt"))
 test_gen.generate_positive(pathlib.Path(dir_name, "positive.txt"))
 
-test_runner = AskLLMTestValidator(module, system_prompt)
+test_runner = AskLLMTestValidator(module, system_prompt, system_prompt)
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
 test_runner.print_results()
+
+original_prompt = system_prompt
 
 mutator = Mutator(system_prompt)
 mutator.add_rules(3)
@@ -36,7 +38,7 @@ module = front_end.parse(system_prompt)
 module.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
 print("Test after mutation")
-test_runner = AskLLMTestValidator(module, system_prompt)
+test_runner = AskLLMTestValidator(module, original_prompt, system_prompt)
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()

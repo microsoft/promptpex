@@ -1,12 +1,14 @@
 from . import LLMFrontEnd
 
 class TestValidator:
-    def __init__(self, module, system_prompt):
+    def __init__(self, module, validation_sp, execution_sp):
         self.tests = []
         self.keys = []
-        self.system_prompt = system_prompt
+        self.validation_sp = validation_sp
+        self.execution_sp = execution_sp
         self.module = module
         self.results = []
+        self.failed_tests = []
 
     def append(self, file_path):
         test = ""
@@ -25,7 +27,17 @@ class TestValidator:
         self.append(file_path)
         
     def run_test(self, test, expected):
-        return self.validate(test) == expected
+        results = self.validate(test)
+        output = results[0]
+        result = results[1]
+        passed = result[0] == expected
+        reason = "\n".join(result.split("\n")[1:])
+        if not passed:
+            self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
+        return passed
+
+    def get_failed_tests(self):
+        return " ".join(self.failed_tests)
 
     def run_tests(self):
         for test in self.tests:
@@ -42,11 +54,11 @@ class TestValidator:
         return all(self.results)
     
 class AskLLMTestValidator(TestValidator):
-    def __init__(self, system_prompt, module):
-        super().__init__(system_prompt, module)
+    def __init__(self, module, validation_sp, execution_sp):
+        super().__init__(module, validation_sp, execution_sp)
 
     def validate(self, test_case):
-        # result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-35-turbo")
-        result = LLMFrontEnd().execute(self.system_prompt, test_case, "gpt-4o")
-        # return LLMFrontEnd().check_violation_using_questions(result, self.module.__str__())
-        return LLMFrontEnd().check_violation_with_system_prompt(result, self.system_prompt)
+        # result = LLMFrontEnd().execute(self.validation_sp, test_case, "gpt-35-turbo")
+        output = LLMFrontEnd().execute(self.execution_sp, test_case, "gpt-4o")
+        result = LLMFrontEnd().check_violation_with_system_prompt(output, self.validation_sp)
+        return [output, result]

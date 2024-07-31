@@ -10,7 +10,8 @@ with open(".env", "r") as f:
 client = AzureOpenAI(
     api_key=api_key,
     api_version="2024-02-01",
-    azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
+    azure_endpoint="https://tnrllmproxy.azurewebsites.net"
+    # azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
 )
 
 class LLMFrontEnd:
@@ -105,7 +106,7 @@ Instructions:
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
         output = self.get_bot_response(messages, temprature=0)
         Dbg.debug(f"[LLM FrontEnd][check_violation] checked violation and got output: {output}")
-        return output[0]
+        return output
 
     def add_rule(self, original_system_prompt, num_rules="1"):
         system_prompt = f"You are given a system prompt for another LLM, your task is to first analysis the existing rules in it and then think of new {num_rules} rules and add it to the existing system prompt. You must output the given system prompt with the added new rules. Do not change the original prompt just add the new rule in the original prompt with the least possible changes to the original prompt. Only output the updated system prompt and nothing else."
@@ -138,7 +139,7 @@ Instructions:
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
         output = self.get_bot_response(messages, temprature=0)
         Dbg.debug(f"[LLM FrontEnd][check_violation] checked violation and got output: {output}")
-        return output[0]
+        return output
 
     def check_violation_with_system_prompt(self, result, spec, system):
         Dbg.debug(f"[LLM FrontEnd][check_violation_sp] checking violation for result:\n {result} and spec:\n {spec}")
@@ -185,7 +186,7 @@ By adhering to these guidelines, you ensure a consistent and rigorous evaluation
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
         output = self.get_bot_response(messages, temprature=0)
         Dbg.debug(f"[LLM FrontEnd][check_violation_sp] checked violation and got output: {output}")
-        return output[0]
+        return output
 
     def check_violation_with_system_prompt(self, result, system):
         Dbg.debug(f"[LLM FrontEnd][check_violation_sp] checking violation for result:\n {result}")
@@ -205,10 +206,64 @@ Here are the guidelines to follow for your evaluation process:
 
 4. **Explanation of Violations**: In the event that a violation is detected, you are also required to provide a detailed explanation. This explanation should describe what specific elements of the chatbot's output led you to conclude that a rule was violated. Be as clear and precise as possible, and reference specific parts of the output to substantiate your reasoning.
 
+5. **Output guidelines**: Only output the decision as 0 or 1 in the first line and in the next line describe the reason for the decision. If the decision is 0, describe why the output complies with the chatbot description. If the decision is 1, describe why the output does not comply with the chatbot description. Make sure that the description is brief, maximum 1-2 sentences. Do not output anything else.
+
 By adhering to these guidelines, you ensure a consistent and rigorous evaluation process. Be very rational and do not make up information. Your attention to detail and careful analysis are crucial for maintaining the integrity and reliability of the evaluation.
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
         output = self.get_bot_response(messages, temprature=0)
         Dbg.debug(f"[LLM FrontEnd][check_violation_sp] checked violation and got output: {output}")
-        return output[0]
+        return output
 
+    def fix_prompt(self, prompt, failed_tests):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt] fixing prompt with failed tests:\n {failed_tests}")
+
+        system_prompt = """You are provided with a system prompt for another LLM along with a list of failed tests (input, output and reason of failure). Your task is to:
+
+1. Carefully analyze the input, output and the associated reason for each failure.
+2. Determine if the given output contradicts the system prompt or if the failure could be due to an error in the check itself.
+3. If you think the output is correct and the reason for failure is not correct then change the prompt in such a way that it starts to accept those outputs as the checks are generated from the prompt.
+4. If the output is incorrect then based on the reason change the prompt such that it handles input which might lead to such outputs or does not generate such outputs.
+4. Modify the system prompt to address the identified issues.
+5. Consider additional potential failure cases and modify the system prompt to handle these scenarios as well.
+
+Your ultimate goal is to ensure the system prompt is comprehensive enough to pass the failed tests and anticipate similar issues in future tests.
+
+Generate and provide the revised system prompt that resolves the issues in the failed tests, while also being robust against similar potential failures. Only output the corrected system prompt and nothing else.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the prompt:\n" + prompt + "\nHere are the failed tests:\n" + failed_tests}]
+        output = self.get_bot_response(messages)
+        return output
+
+    def fix_prompt_without_rules(self, prompt, failed_tests, fixed_prompt, ImmutableRules):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt_without_rules] fixing prompt without rules\n{ImmutableRules}\nwith failed tests:\n{failed_tests}\n")
+        system_prompt = "You are given a system prompt for another LLM which was failing test cases. We attempted to fix this prompt such that it passes all the given failing tests but the fix changed the prompt drastically and so the fix was not acceptable. You are given the original system prompt, the failing tests, the fixed prompt and changes which were rejected. Your task is to first examine the the fixed prompt and the changes which were rejected and then try to fix the original prompt such that it passes the failing test but please make sure to learn from the fixed prompt which was rejected to not repeat the mistake. Your task is to fix the system prompt such that it passes all the failed tests. You must output the fixed system prompt. Only output the fixed system prompt and nothing else."
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the prompt:\n" + prompt + "\nHere are the failed tests:\n" + failed_tests + "\nHere is the fixed prompt which was rejected:\n" + fixed_prompt + "\nHere is the summary of the changes:\n" + ImmutableRules}]
+        output = self.get_bot_response(messages)
+        return output
+
+    def fix_prompt_with_failures(self, prompt, failed_tests, fixed_prompt, new_failed_tests):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt_with_failures] fixing prompt with failed tests:\n {failed_tests}\n and new failed tests:\n {new_failed_tests}")
+        system_prompt = """You are provided with the original system prompt for another LLM, the failing tests (input, output and reason of failure), a modified version of the system prompt, and the current failing tests (input, output and reason of failure). Your task is to:
+
+1. Examine the fixed prompt and understand why it still fails some tests.
+2. Analyze the failing tests to identify the shortcomings of both the original and the fixed prompts.
+3. Learn from the fixed prompt's failures to avoid repeating the same mistakes.
+4. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
+5. If you think the output is correct and the reason for failure is not correct then change the prompt in such a way that it starts to accept those outputs as the checks are generated from the prompt.
+6. If the output is incorrect then based on the reason change the prompt such that it handles input which might lead to such outputs or does not generate such outputs.
+
+Your goal is to create a revised system prompt that successfully passes all the failing tests, avoiding the pitfalls seen in the previously attempted fixes.
+
+Generate and provide the corrected system prompt. Only output the corrected system prompt and nothing else.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the prompt:\n" + prompt + "\nHere are the failed tests:\n" + failed_tests + "\nHere is the fixed prompt which still fails some tests:\n" + fixed_prompt + "\nHere are the current failed tests:\n" + new_failed_tests}]
+        output = self.get_bot_response(messages)
+        return output
+
+    # find diff between a list of two rules and return the diff
+    def rule_diff(self, rules1, rules2):
+        system_prompt = "You are given two lists of rules, Rules1 and Rules2. The Rules2 were generated by modifying Rules1. Your task is to identify the differences between the two rules and find out which rules from Rules1 are not present in Rules2 and which rules are added to Rules2 which were not present in Rules1. In the first line, output the index of the rule which was removed from Rules1 to form Rules2 and in the second line output the index of rules which were added to Rules2 but were not present in Rules1. Focus on semantic differences and not the syntax. If two rules means the same thing, they should not be considered different. Only output the two list of indexes on two lines with elements separated by space and nothing else."
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Rules 1:\n{rules1}\nRules 2:\n{rules2}"}]
+        output = self.get_bot_response(messages)
+        return output

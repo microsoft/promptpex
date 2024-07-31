@@ -11,5 +11,14 @@ class Mutator:
     def add_rules(self, num):
         self.add_rule(str(num))
 
+    def fix_prompt(self, failed_tests, fixed_prompt, new_failed_tests, ImmutableRules):
+        if self.system_prompt == fixed_prompt:
+            return LLMFrontEnd().fix_prompt(self.system_prompt, failed_tests)
+        else:
+            if new_failed_tests == "":
+                return LLMFrontEnd().fix_prompt_without_rules(self.system_prompt, failed_tests, fixed_prompt, ImmutableRules)
+            else:
+                return LLMFrontEnd().fix_prompt_with_failures(self.system_prompt, failed_tests, fixed_prompt, new_failed_tests)
+
     def get_prompt(self):
         return self.system_prompt
