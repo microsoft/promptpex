@@ -32,7 +32,7 @@ test_gen = None
 
 if mode == "init":
     module = front_end.parse(system_prompt)
-    module.export(pathlib.Path(dir_name, f"rules.txt"))
+    module.export(pathlib.Path(dir_name, f"rules-0.txt"))
 
     test_gen = TestCaseGenerator(module, system_prompt)
     test_gen.generate_negative(pathlib.Path(dir_name, f"negative.txt"))
