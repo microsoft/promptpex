@@ -104,8 +104,8 @@ if result == -1:
     print("Some tests failed. No variant found.")
     sys.exit(1)
             
-result_system_prompt = pathlib.Path(dir_name, f"variant-{result}.txt")
-result_rules = pathlib.Path(dir_name, f"rules-{result}.txt")
+result_system_prompt = open(pathlib.Path(dir_name, f"variant-{result}.txt"), "r").read()
+result_rules = open(pathlib.Path(dir_name, f"rules-{result}.txt"), "r").read()
 
 module = Module()
 module.import_rules(result_rules)

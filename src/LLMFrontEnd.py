@@ -268,3 +268,11 @@ Generate and provide the corrected system prompt. Only output the corrected syst
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Rules 1:\n{rules1}\nRules 2:\n{rules2}"}]
         output = self.get_bot_response(messages)
         return output
+
+    def expected_output(self, prompt, test_case):
+        Dbg.debug(f"[LLM FrontEnd][expected_output] generating expected output for test case:\n {test_case}")
+        system_prompt = "You are given a test case which is a valid input for a chatbot. Your task is to generate the expected output for the given test case. Only output the expected output and nothing else. The following is the description of the chatbot:\n" + prompt
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Test case: {test_case}"}]
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][expected_output] generated expected output: {output}")
+        return output

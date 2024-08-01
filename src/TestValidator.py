@@ -13,7 +13,7 @@ class TestValidator:
 
         self.result_path = open(pathlib.Path(path), "w")
         self.csvwriter = csv.writer(self.result_path, delimiter=",")
-        self.csvwriter.writerow(["rule id", "input", "output", "reason for failure"])
+        self.csvwriter.writerow(["rule id", "input", "output", "reason for failure", "expected output"])
 
     def __del__(self):
         self.result_path.close()
@@ -52,7 +52,8 @@ class TestValidator:
         for test in self.tests:
             passed, output, reason = self.run_test(test.strip(), "0")
             self.results.append(passed)
-            self.csvwriter.writerow([self.keys[self.tests.index(test)], test, output, reason])
+            expected_output = self.guess_expected_output(test)  
+            self.csvwriter.writerow([self.keys[self.tests.index(test)], test, output, reason, expected_output])
             if not passed:
                 self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
 
@@ -62,6 +63,9 @@ class TestValidator:
         self.dump()
 
     def validate(self, test_case):
+        raise NotImplementedError("Subclasses should implement this method")
+
+    def guess_expected_output(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
 
     def all_passed(self):
@@ -76,3 +80,6 @@ class AskLLMTestValidator(TestValidator):
         output = LLMFrontEnd().execute(self.execution_sp, test_case, "gpt-4o")
         result = LLMFrontEnd().check_violation_with_system_prompt(output, self.validation_sp)
         return [output, result]
+
+    def guess_expected_output(self, test_case):
+        return LLMFrontEnd().expected_output(self.execution_sp, test_case)
