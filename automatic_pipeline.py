@@ -105,7 +105,7 @@ if result == -1:
     sys.exit(1)
             
 result_system_prompt = open(pathlib.Path(dir_name, f"variant-{result}.txt"), "r").read()
-result_rules = open(pathlib.Path(dir_name, f"rules-{result}.txt"), "r").read()
+result_rules = pathlib.Path(dir_name, f"rules-{result}.txt")
 
 module = Module()
 module.import_rules(result_rules)
@@ -116,6 +116,10 @@ for num in range(1, 1000, 50):
     mutator = Mutator(mutated_prompt)
     mutator.add_rules(3)
     mutated_prompt = mutator.get_prompt()
+
+    with open(pathlib.Path(dir_name, f"mutant-final.txt"), "w") as f:
+        f.write(mutated_prompt)
+
     variant = front_end.parse(mutated_prompt)
     variant.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
