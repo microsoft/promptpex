@@ -1,4 +1,4 @@
-from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff
+from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils
 import sys, time, os, pathlib
 
 # todo: add a classification test case sample
@@ -40,19 +40,21 @@ if mode == "init":
     module = front_end.parse(system_prompt)
     module.export(pathlib.Path(dir_name, f"rules-0.txt"))
 
-    test_gen = TestCaseGenerator(module, system_prompt)
+    test_gen = TestCaseGenerator(module, system_prompt, dir_name)
     test_gen.generate_negative(pathlib.Path(dir_name, f"negative.txt"))
     test_gen.generate_positive(pathlib.Path(dir_name, f"positive.txt"))
+    test_gen.exportCSV()
 else:
     module = Module()
     module.import_rules(pathlib.Path(dir_name, "rules-0.txt"))
 
-test_runner = AskLLMTestValidator(module, system_prompt, system_prompt)
+test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, pathlib.Path(dir_name, "variant-run-0.csv"))
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
-
 test_runner.run_tests()
 test_runner.print_results()
+
+Utils.join_csv_files(pathlib.Path(dir_name, "tests.csv"), pathlib.Path(dir_name, "variant-run-0.csv"), "rule id", pathlib.Path(dir_name, "result.csv"))
 
 result = 0
 if not test_runner.all_passed():
@@ -70,13 +72,12 @@ if not test_runner.all_passed():
         fixed = front_end.parse(fixed_prompt)
         fixed.export(pathlib.Path(dir_name, f"rules-{num}.txt"))
 
-        new_test_runner = AskLLMTestValidator(fixed, fixed_prompt, fixed_prompt)
+        new_test_runner = AskLLMTestValidator(fixed, fixed_prompt, fixed_prompt, pathlib.Path(dir_name, f"variant-run-{num}.csv"))
         new_test_runner.append(pathlib.Path(dir_name, "negative.txt"))
         new_test_runner.append(pathlib.Path(dir_name, "positive.txt"))
         new_test_runner.run_tests()
         new_test_runner.print_results()
 
-        exit(0)
         if new_test_runner.all_passed():
             Diff = SemanticDiff(pathlib.Path(dir_name, f"rules.txt"), pathlib.Path(dir_name, f"rules-{num}.txt"))
             if Diff.is_same():
@@ -93,6 +94,8 @@ if not test_runner.all_passed():
                     ImmutableRules = Diff.get_changes()
 
         new_failed_tests += new_test_runner.get_failed_tests()
+        Utils.join_csv_files(pathlib.Path(dir_name, "tests.csv"), pathlib.Path(dir_name, f"variant-run-{num}.csv"), "rule id", pathlib.Path(dir_name, "result.csv"))
+
 else:
     print("All tests passed with the original system prompt.")
     result = 0
@@ -117,7 +120,7 @@ for num in range(1, 1000, 50):
     variant.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
     print("Test after mutation")
-    test_runner = AskLLMTestValidator(module, result_system_prompt, mutated_prompt)
+    test_runner = AskLLMTestValidator(module, result_system_prompt, mutated_prompt, pathlib.Path(dir_name, f"mutant-run-{num}.csv"))
     test_runner.append(pathlib.Path(dir_name, "negative.txt"))
     test_runner.append(pathlib.Path(dir_name, "positive.txt"))
     test_runner.run_tests()

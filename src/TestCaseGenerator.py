@@ -1,12 +1,22 @@
-import hashlib
+import hashlib, csv, pathlib
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
-    def __init__(self, module, context=None):
+    def __init__(self, module, context=None, dir_name=""):
         self.module = module
         self.context = context
         self.input_spec = self.extract_input_spec(self.context)
+
+        self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w")
+        self.csvwriter = csv.writer(self.result_path, delimiter=",")
+        self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
+
+    def __del__(self):
+        self.result_path.close()
     
+    def exportCSV(self):
+        self.result_path.close()
+
     def extract_input_spec(self, context):
         return LLMFrontEnd().generate_input_spec(context)
 
@@ -40,11 +50,12 @@ class TestCaseGenerator:
                 invrule = LLMFrontEnd().inverse_rule(instruction.get_rule())
                 negative = self.generate_test_case(invrule)
                 index = str(self.module.instructions.index(instruction) + 1)
-                hash = str(hashlib.md5(negative.encode()).hexdigest())
+                hash = str(hashlib.md5(invrule.encode()).hexdigest())
                 rule_hash = str(hashlib.md5(instruction.get_rule().encode()).hexdigest())
                 with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
-                    f.write("=> " + index + " " + hash + " " + rule_hash + " " + negative + "\n")
+                    f.write("=> " + index + " " + hash + " " + negative + "\n")
                     f.write(negative + "\n")
+                self.csvwriter.writerow([hash, "negative", invrule, negative])
             instruction = instruction.next
 
     def generate_positive(self, file_path):
@@ -59,6 +70,7 @@ class TestCaseGenerator:
                 with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
                     f.write("=> " + index + " " + rule_hash + "\n")
                     f.write(positive + "\n")
+                self.csvwriter.writerow([rule_hash, "positive", instruction.get_rule(), positive])
             instruction = instruction.next
 
     def update_test(self, diff, negative_test, positive_test):

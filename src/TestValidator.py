@@ -1,7 +1,8 @@
 from . import LLMFrontEnd
+import csv, pathlib
 
 class TestValidator:
-    def __init__(self, module, validation_sp, execution_sp):
+    def __init__(self, module, validation_sp, execution_sp, path=None):
         self.tests = []
         self.keys = []
         self.validation_sp = validation_sp
@@ -9,6 +10,16 @@ class TestValidator:
         self.module = module
         self.results = []
         self.failed_tests = []
+
+        self.result_path = open(pathlib.Path(path), "w")
+        self.csvwriter = csv.writer(self.result_path, delimiter=",")
+        self.csvwriter.writerow(["rule id", "input", "output", "reason for failure"])
+
+    def __del__(self):
+        self.result_path.close()
+
+    def dump(self):
+        self.result_path.close()
 
     def append(self, file_path):
         test = ""
@@ -32,20 +43,23 @@ class TestValidator:
         result = results[1]
         passed = result[0] == expected
         reason = "\n".join(result.split("\n")[1:])
-        if not passed:
-            self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
-        return passed
+        return passed, output, reason
 
     def get_failed_tests(self):
         return " ".join(self.failed_tests)
 
     def run_tests(self):
         for test in self.tests:
-            self.results.append(self.run_test(test.strip(), "0"))
+            passed, output, reason = self.run_test(test.strip(), "0")
+            self.results.append(passed)
+            self.csvwriter.writerow([self.keys[self.tests.index(test)], test, output, reason])
+            if not passed:
+                self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
 
     def print_results(self):
         for i, res in enumerate(self.results):
             print(f"Test {self.keys[i]}: {'Passed' if res else 'Failed'}")
+        self.dump()
 
     def validate(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
@@ -54,8 +68,8 @@ class TestValidator:
         return all(self.results)
     
 class AskLLMTestValidator(TestValidator):
-    def __init__(self, module, validation_sp, execution_sp):
-        super().__init__(module, validation_sp, execution_sp)
+    def __init__(self, module, validation_sp, execution_sp, path=None):
+        super().__init__(module, validation_sp, execution_sp, path)
 
     def validate(self, test_case):
         # result = LLMFrontEnd().execute(self.validation_sp, test_case, "gpt-35-turbo")
