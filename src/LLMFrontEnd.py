@@ -224,12 +224,13 @@ By adhering to these guidelines, you ensure a consistent and rigorous evaluation
 2. Determine if the given output contradicts the system prompt or if the failure could be due to an error in the check itself.
 3. If you think the output is correct and the reason for failure is not correct then change the prompt in such a way that it starts to accept those outputs as the checks are generated from the prompt.
 4. If the output is incorrect then based on the reason change the prompt such that it handles input which might lead to such outputs or does not generate such outputs.
-4. Modify the system prompt to address the identified issues.
-5. Consider additional potential failure cases and modify the system prompt to handle these scenarios as well.
+4. Modify the system prompt to address these identified issues.
+5. Do not add more examples to the prompt
+6. Do localize the changes to the prompt as much as possible. Do not change the prompt drastically unless necessary but feel free to add or remove a line at once.
 
 Your ultimate goal is to ensure the system prompt is comprehensive enough to pass the failed tests and anticipate similar issues in future tests.
 
-Generate and provide the revised system prompt that resolves the issues in the failed tests, while also being robust against similar potential failures. Only output the corrected system prompt and nothing else.
+Generate and provide the revised system prompt that resolves the issues in the failed tests. Only output the corrected system prompt and nothing else.
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the prompt:\n" + prompt + "\nHere are the failed tests:\n" + failed_tests}]
         output = self.get_bot_response(messages)

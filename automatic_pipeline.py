@@ -1,6 +1,12 @@
 from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff
 import sys, time, os, pathlib
 
+# todo: add a classification test case sample
+# todo: model downsizing
+# todo: number of rules generated
+# explain why this is a good input
+# are there conflicts in the rules
+
 input_file = sys.argv[1]
 input_dir_name = "".join(input_file.split("/")[:-1])
 input_file = input_file.split("/")[-1]
@@ -32,7 +38,7 @@ test_gen = None
 
 if mode == "init":
     module = front_end.parse(system_prompt)
-    module.export(pathlib.Path(dir_name, f"rules.txt"))
+    module.export(pathlib.Path(dir_name, f"rules-0.txt"))
 
     test_gen = TestCaseGenerator(module, system_prompt)
     test_gen.generate_negative(pathlib.Path(dir_name, f"negative.txt"))
@@ -51,13 +57,13 @@ test_runner.print_results()
 result = 0
 if not test_runner.all_passed():
     result = -1
-    fixed_prompt = system_prompt
-    new_failed_tests = ""
+    fixed_prompts = [system_prompt]
+    new_failed_tests = [test_runner.get_failed_tests()]
     ImmutableRules = ""
     for num in range(1, num_iterations):
         print(f"Trying variant {num}")
-        fixed_prompt = Mutator(original_prompt).fix_prompt(test_runner.get_failed_tests(), fixed_prompt, new_failed_tests, ImmutableRules)
-        
+        fixed_prompt = Mutator(original_prompt).fix_prompt(test_runner.get_failed_tests(), fixed_prompts, new_failed_tests, ImmutableRules)
+        fixed_prompts.append(fixed_prompt)
         with open(pathlib.Path(dir_name, f"variant-{num}.txt"), "w") as f:
             f.write(fixed_prompt)
 
@@ -70,6 +76,7 @@ if not test_runner.all_passed():
         new_test_runner.run_tests()
         new_test_runner.print_results()
 
+        exit(0)
         if new_test_runner.all_passed():
             Diff = SemanticDiff(pathlib.Path(dir_name, f"rules.txt"), pathlib.Path(dir_name, f"rules-{num}.txt"))
             if Diff.is_same():
@@ -85,7 +92,7 @@ if not test_runner.all_passed():
                 else:
                     ImmutableRules = Diff.get_changes()
 
-        new_failed_tests = new_test_runner.get_failed_tests()
+        new_failed_tests += new_test_runner.get_failed_tests()
 else:
     print("All tests passed with the original system prompt.")
     result = 0
