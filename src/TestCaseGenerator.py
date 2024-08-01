@@ -8,7 +8,7 @@ class TestCaseGenerator:
         self.input_spec = self.extract_input_spec(self.context)
 
         self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w")
-        self.csvwriter = csv.writer(self.result_path, delimiter=",")
+        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
 
     def __del__(self):
@@ -55,7 +55,11 @@ class TestCaseGenerator:
                 with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
                     f.write("=> " + index + " " + hash + " " + negative + "\n")
                     f.write(negative + "\n")
-                self.csvwriter.writerow([hash, "negative", invrule, negative])
+
+                data = [hash, "negative", invrule, negative]
+                data = [s.replace('\n', '\\n') for s in data]
+                self.csvwriter.writerow(data)
+
             instruction = instruction.next
 
     def generate_positive(self, file_path):
@@ -70,7 +74,11 @@ class TestCaseGenerator:
                 with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
                     f.write("=> " + index + " " + rule_hash + "\n")
                     f.write(positive + "\n")
-                self.csvwriter.writerow([rule_hash, "positive", instruction.get_rule(), positive])
+
+                data = [rule_hash, "positive", instruction.get_rule(), positive]
+                data = [s.replace('\n', '\\n') for s in data]
+                self.csvwriter.writerow(data)
+
             instruction = instruction.next
 
     def update_test(self, diff, negative_test, positive_test):

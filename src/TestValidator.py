@@ -12,7 +12,7 @@ class TestValidator:
         self.failed_tests = []
 
         self.result_path = open(pathlib.Path(path), "w")
-        self.csvwriter = csv.writer(self.result_path, delimiter=",")
+        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "input", "output", "reason for failure", "expected output"])
 
     def __del__(self):
@@ -53,7 +53,11 @@ class TestValidator:
             passed, output, reason = self.run_test(test.strip(), "0")
             self.results.append(passed)
             expected_output = self.guess_expected_output(test)  
-            self.csvwriter.writerow([self.keys[self.tests.index(test)], test, output, reason, expected_output])
+
+            data = [self.keys[self.tests.index(test)], test, output, reason, expected_output]
+            data = [s.replace('\n', '\\n') for s in data]
+            self.csvwriter.writerow(data)
+
             if not passed:
                 self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
 
