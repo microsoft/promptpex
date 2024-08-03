@@ -29,7 +29,7 @@ Dbg.set_debug_file(pathlib.Path(dir_name, "log.txt"))
 
 original_prompt = system_prompt
 
-num_iterations = 10
+num_iterations = 100
 
 front_end = StringFrontEnd()
 
@@ -77,6 +77,7 @@ if not test_runner.all_passed():
         new_test_runner.append(pathlib.Path(dir_name, "positive.txt"))
         new_test_runner.run_tests()
         new_test_runner.print_results()
+        new_failed_tests.append(new_test_runner.get_failed_tests())
 
         if new_test_runner.all_passed():
             Diff = SemanticDiff(pathlib.Path(dir_name, f"rules.txt"), pathlib.Path(dir_name, f"rules-{num}.txt"))
@@ -92,8 +93,8 @@ if not test_runner.all_passed():
                     break
                 else:
                     ImmutableRules = Diff.get_changes()
+                    new_failed_tests = [test_runner.get_failed_tests()]
 
-        new_failed_tests += new_test_runner.get_failed_tests()
         Utils.join_csv_files(pathlib.Path(dir_name, "tests.csv"), pathlib.Path(dir_name, f"variant-run-{num}.csv"), "rule id", pathlib.Path(dir_name, "result.csv"))
 
 else:
