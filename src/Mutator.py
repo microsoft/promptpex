@@ -15,10 +15,10 @@ class Mutator:
         if self.system_prompt == fixed_prompt:
             return LLMFrontEnd().fix_prompt(self.system_prompt, failed_tests)
         else:
-            if new_failed_tests == "":
+            if len(new_failed_tests) == 0:
                 return LLMFrontEnd().fix_prompt_without_rules(self.system_prompt, failed_tests, fixed_prompt[-1], ImmutableRules)
             else:
-                return LLMFrontEnd().fix_prompt_with_failures(self.system_prompt, failed_tests, fixed_prompt[-1], new_failed_tests[-1])
+                return LLMFrontEnd().fix_prompt_with_failures(self.system_prompt, failed_tests, fixed_prompt, new_failed_tests)
 
     def get_prompt(self):
         return self.system_prompt

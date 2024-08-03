@@ -245,20 +245,38 @@ Generate and provide the revised system prompt that resolves the issues in the f
 
     def fix_prompt_with_failures(self, prompt, failed_tests, fixed_prompt, new_failed_tests):
         Dbg.debug(f"[LLM FrontEnd][fix_prompt_with_failures] fixing prompt with failed tests:\n {failed_tests}\n and new failed tests:\n {new_failed_tests}")
-        system_prompt = """You are provided with the original system prompt for another LLM, the failing tests (input, output and reason of failure), a modified version of the system prompt, and the current failing tests (input, output and reason of failure). Your task is to:
 
-1. Examine the fixed prompt and understand why it still fails some tests.
+        log = ""
+        for idx in range(len(new_failed_tests)):
+            log += f"Attempt {idx+1} to fix the original system prompt:\nGenerated Fix: {fixed_prompt[idx]}\nFailed test cases for the above fix:\n{new_failed_tests[idx]}\n\n"
+
+        system_prompt = f"""You are provided with the original system prompt for another LLM, the failing tests (input, output, and reason for failure) for multiple versions of the system prompt. Your task is to:
+
+1. Examine the attempted fixed prompt and understand why it still fails tests.
 2. Analyze the failing tests to identify the shortcomings of both the original and the fixed prompts.
 3. Learn from the fixed prompt's failures to avoid repeating the same mistakes.
-4. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
-5. If you think the output is correct and the reason for failure is not correct then change the prompt in such a way that it starts to accept those outputs as the checks are generated from the prompt.
-6. If the output is incorrect then based on the reason change the prompt such that it handles input which might lead to such outputs or does not generate such outputs.
+4. You can only either add a sentence or remove a sentence from the original system prompt to fix the issues.
+5. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
+   - Make sure to explicitly address the issues highlighted by the reasons for failure.
+   - Ensure the prompt is clear and comprehensive to prevent the generation of incorrect outputs.
+   - Where the reason for failure indicates a prompt misunderstanding or misclassification, refine the prompt to correctly handle such cases.
+
+6. In cases where the output is correct but the reason for failure is not, modify the prompt to accept those outputs.
+   - Clearly state the conditions under which certain outputs are considered valid.
+
+7. If the output is incorrect, based on the reason for failure, change the prompt to explicitly prevent the generation of such incorrect outputs.
+   - Ensure the prompt provides explicit instructions to avoid similar failures.
 
 Your goal is to create a revised system prompt that successfully passes all the failing tests, avoiding the pitfalls seen in the previously attempted fixes.
 
 Generate and provide the corrected system prompt. Only output the corrected system prompt and nothing else.
-"""
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the prompt:\n" + prompt + "\nHere are the failed tests:\n" + failed_tests + "\nHere is the fixed prompt which still fails some tests:\n" + fixed_prompt + "\nHere are the current failed tests:\n" + new_failed_tests}]
+
+Here is the original system prompt:
+{prompt}
+
+The user will provide the fixing attempts starting from the original system prompt"""
+
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the original system prompt:\n" + prompt + "\nHere are the fixing attempts starting from the original system prompt:\n" + log}]
         output = self.get_bot_response(messages)
         return output
 

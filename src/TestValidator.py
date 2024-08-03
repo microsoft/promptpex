@@ -11,7 +11,7 @@ class TestValidator:
         self.results = []
         self.failed_tests = []
 
-        self.result_path = open(pathlib.Path(path), "w")
+        self.result_path = open(pathlib.Path(path), "w", encoding="utf-8", errors="ignore")
         self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "input", "output", "reason for failure", "expected output"])
 

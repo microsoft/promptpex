@@ -7,7 +7,7 @@ class TestCaseGenerator:
         self.context = context
         self.input_spec = self.extract_input_spec(self.context)
 
-        self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w")
+        self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w", encoding="utf-8", errors="ignore")
         self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
 
