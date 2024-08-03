@@ -255,7 +255,7 @@ Generate and provide the revised system prompt that resolves the issues in the f
 1. Examine the attempted fixed prompt and understand why it still fails tests.
 2. Analyze the failing tests to identify the shortcomings of both the original and the fixed prompts.
 3. Learn from the fixed prompt's failures to avoid repeating the same mistakes.
-4. You can only either add a sentence or remove a sentence from the original system prompt to fix the issues.
+4. You can only either add or remove sentences from the original system prompt to fix the issues. No editing of the existing sentences is allowed. 
 5. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
    - Make sure to explicitly address the issues highlighted by the reasons for failure.
    - Ensure the prompt is clear and comprehensive to prevent the generation of incorrect outputs.
