@@ -1,57 +1,54 @@
 from . import LLMFrontEnd 
+import pandas, numpy
 
 class SemanticDiff:
     def __init__(self, src1, src2):
-        with open(src1, "r") as f:
-            self.src1 = f.read()
-        with open(src2, "r") as f:
-            self.src2 = f.read()
-        result = LLMFrontEnd().rule_diff(src1, src2)
-        # result has two lines of integers separated by a space
+        # read csv with delimiter as tab
+        self.src1 = pandas.read_csv(src1)
+        self.src2 = pandas.read_csv(src2)
+        
+        # convert csv into text after dropping the second column
+        self.rules1 = self.src1.drop("rule id", axis=1)
+        self.rules2 = self.src2.drop("rule id", axis=1)
+
+        result = LLMFrontEnd().rule_diff(self.rules1.to_string(index=True), self.rules2.to_string(index=True))
+        # result = "1 2\n3 4"
+
         result = result.split("\n")
         self.deletion = result[0].split(" ")
         self.addition = result[1].split(" ")
-        self.changes = ""
+        self.changes = pandas.DataFrame(columns=["type", "rule"])
         self.calculate_changes()
 
     def is_same(self):
         return len(self.deletion) == 0 and len(self.addition) == 0
 
     def calculate_changes(self):
-        rules1 = self.src1.split("\n")
-        rules2 = self.src2.split("\n")
+        print(self.addition)
+        print(self.deletion)
+        print(self.rules1)
         for i in self.deletion:
-          self.changes += f"- {rules1[int(i)]}\n"
+          self.changes.loc[len(self.changes)] = ["-"] + [self.rules1['rule'][int(i) - 1]]
         for i in self.addition:
-          self.changes += f"+ {rules2[int(i)]}\n"   
+          self.changes.loc[len(self.changes)] = ["+"] + [self.rules2['rule'][int(i) - 1]]
 
     def get_changes(self):
-        return self.changes
-
-    def get_hash(self, sign):
-        changes = self.changes.split("\n")
-        hashes = []
-        for change in changes:
-            if change[0] == sign:
-                hashes.append(changes[2])
-        return hashes
+        return self.changes.to_string(index=False, header=False)
 
     def get_positive_hash(self):
-        return self.get_hash('+')
+        hashes = []
+        for i in self.addition:
+            hashes.append(self.src2['rule id'][int(i) - 1])
+        return hashes
     
     def get_negative_hash(self):
-        return self.get_hash('-')
-
-    def get_rules(self, sign):
-        changes = self.changes.split("\n")
-        rules = []
-        for change in changes:
-            if change[0] == sign:
-                rules.append(changes[3])
-        return rules
+        hashes = []
+        for i in self.deletion:
+            hashes.append(self.src1['rule id'][int(i) - 1])
+        return hashes
 
     def get_positive_rules(self):
-        return self.get_rules('+')
-    
-    def get_negative_rules(self):
-        return self.get_rules('-')
+        rules = []
+        for i in self.addition:
+            rules.append(self.rules2['rule'][int(i) - 1])
+        return rules

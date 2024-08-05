@@ -1,10 +1,11 @@
-import hashlib, csv, pathlib
+import hashlib, csv, pathlib, pandas
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
     def __init__(self, module, context=None, dir_name=""):
         self.module = module
         self.context = context
+        self.tests = None
         self.input_spec = self.extract_input_spec(self.context)
 
         self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w", encoding="utf-8", errors="ignore")
@@ -14,8 +15,12 @@ class TestCaseGenerator:
     def __del__(self):
         self.result_path.close()
     
-    def exportCSV(self):
+    def export_csv(self):
         self.result_path.close()
+        if self.tests is not None:
+            self.tests.to_csv(self.result_path.name, index=False)
+        else:
+            self.tests = self.import_csv(self.result_path.name)
 
     def extract_input_spec(self, context):
         return LLMFrontEnd().generate_input_spec(context)
@@ -43,8 +48,11 @@ class TestCaseGenerator:
 
     def generate_negative(self, file_path):
         instruction = self.module.get_entry()
-        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
-            f.write("")
+
+        if file_path:
+            with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
+                f.write("")
+
         while instruction:
             if isinstance(instruction, Rule):
                 invrule = LLMFrontEnd().inverse_rule(instruction.get_rule())
@@ -52,9 +60,11 @@ class TestCaseGenerator:
                 index = str(self.module.instructions.index(instruction) + 1)
                 hash = str(hashlib.md5(invrule.encode()).hexdigest())
                 rule_hash = str(hashlib.md5(instruction.get_rule().encode()).hexdigest())
-                with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
-                    f.write("=> " + index + " " + hash + " " + negative + "\n")
-                    f.write(negative + "\n")
+
+                if file_path:
+                    with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
+                        f.write("=> " + index + " " + hash + " " + negative + "\n")
+                        f.write(negative + "\n")
 
                 data = [hash, "negative", invrule, negative]
                 data = [s.replace('\n', '\\n') for s in data]
@@ -63,17 +73,21 @@ class TestCaseGenerator:
             instruction = instruction.next
 
     def generate_positive(self, file_path):
-        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
-            f.write("")
+        if file_path:
+            with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
+                f.write("")
+
         instruction = self.module.get_entry()
         while instruction:
             if isinstance(instruction, Rule):
                 positive = self.generate_test_case(instruction.get_rule())
                 index = str(self.module.instructions.index(instruction) + 1)
                 rule_hash = str(hashlib.md5(instruction.get_rule().encode()).hexdigest())
-                with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
-                    f.write("=> " + index + " " + rule_hash + "\n")
-                    f.write(positive + "\n")
+
+                if file_path:
+                    with open(file_path, "a", encoding="utf-8", errors="ignore") as f:
+                        f.write("=> " + index + " " + rule_hash + "\n")
+                        f.write(positive + "\n")
 
                 data = [rule_hash, "positive", instruction.get_rule(), positive]
                 data = [s.replace('\n', '\\n') for s in data]
@@ -81,66 +95,28 @@ class TestCaseGenerator:
 
             instruction = instruction.next
 
-    def update_test(self, diff, negative_test, positive_test):
-        # generate inverse for + tests
-        # generate rule for + and inv(+) rules 
-        negative = diff.get_negative_hash()
-        negative_tests = open(negative_test, "r").readlines()
-        positive_tests = open(positive_test, "r").readlines()
+    def import_csv(self, file_path):
+        self.tests = pandas.read_csv(file_path)
 
-        startDelete = False
-        for line in negative_tests:
-            if line.startswith("=>"):
-                if line.split(" ")[3] in negative:
-                    startDelete = True
-                else:
-                    startDelete = False
-            if startDelete:
-                negative_tests.remove(line)
+    def update_tests(self, diff : SemanticDiff):
+        negative_hashes = diff.get_negative_hash()
+        # delete rows in self.tests with "rule id" in negative_hashes
+        self.tests = self.tests[~self.tests["rule id"].isin(negative_hashes)]
 
-        startDelete = False
-        for line in positive_tests:
-            if line.startswith("=>"):
-                if line.split(" ")[3] in negative:
-                    startDelete = True
-                else:
-                    startDelete = False
-            if startDelete:
-                positive_tests.remove(line)
-        
-        new_rules = diff.get_positive_rules()
+        positive_hashes = diff.get_positive_hash()
+        import pdb; pdb.set_trace()
+        positive_rules = diff.get_positive_rules() 
+        for i in range(len(positive_hashes)):
+            rule_hash = positive_hashes[i]
+            rule = positive_rules[i]
+            test_case = self.generate_test_case(rule)
 
-        for rule in new_rules:
-            tc = self.generate_test_case(rule)
-            rule_hash = str(hashlib.md5(rule.encode()).hexdigest())
-            positive_tests.append("=> 0 " + rule_hash + "\n")
-            positive_tests.append(tc + "\n")
+            self.tests.loc[len(self.tests)] = [rule_hash, "positive", rule, test_case]
 
-            inv = LLMFrontEnd().inverse_rule(rule)
-            tc = self.generate_test_case(inv)
-            rule_hash = str(hashlib.md5(inv.encode()).hexdigest())
-            negative_tests.append("=> 0 " + rule_hash + "\n")
-            negative_tests.append(tc + "\n")
-        
-        for index in range(len(positive_tests)):
-            pos = positive_tests[index]
-            if pos.startswith("=>"):
-                pos_list = pos.split(" ")
-                pos_list[1] = str(index)
-                pos = " ".join(pos_list)
-                positive_tests[index] = pos
-        
-        for index in range(len(negative_tests)):
-            neg = negative_tests[index]
-            if neg.startswith("=>"):
-                neg_list = neg.split(" ")
-                neg_list[1] = str(index)
-                neg = " ".join(neg_list)
-                negative_tests[index] = neg
+            inv_rule = LLMFrontEnd().inverse_rule(rule)
+            inv_rule_hash = str(hashlib.md5(inv_rule.encode()).hexdigest())
+            inv_test_case = self.generate_test_case(inv_rule)
 
-        with open(negative_test, "w") as f:
-            f.writelines(negative_test)
-        with open(positive_test, "w") as f:
-            f.writelines(positive_test)
-        
+            self.tests.loc[len(self.tests)] = [inv_rule_hash, "negative", inv_rule, inv_test_case]
 
+        self.export_csv()

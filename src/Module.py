@@ -1,4 +1,4 @@
-import hashlib
+import hashlib, csv
 from . import Instructions, Rule, LLMFrontEnd
 
 class Module:
@@ -39,15 +39,22 @@ class Module:
 
     def export(self, file_path):
         with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
+            csv_write = csv.writer(f)
+            csv_write.writerow(["rule id", "rule"])
+
             for instr in self.instructions:
                 if isinstance(instr, Rule):
                     rule = instr.get_rule()
                     idx = str(self.instructions.index(instr) + 1)
                     hash = str(hashlib.md5(rule.encode()).hexdigest())
-                    f.write(idx + " " + hash + " " + rule + "\n")
+                    csv_write.writerow([hash, rule])
 
     def import_rules(self, file_path):
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            csv_read = csv.reader(f)
+            next(csv_read)
+            for row in csv_read:
+                self.add_instruction(Rule(row[1]))
             for line in f:
                 parts = line.strip().split(" ")
                 idx = int(parts[0])

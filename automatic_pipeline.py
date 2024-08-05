@@ -43,7 +43,7 @@ if mode == "init":
     test_gen = TestCaseGenerator(module, system_prompt, dir_name)
     test_gen.generate_negative(pathlib.Path(dir_name, f"negative.txt"))
     test_gen.generate_positive(pathlib.Path(dir_name, f"positive.txt"))
-    test_gen.exportCSV()
+    test_gen.export_csv()
 else:
     module = Module()
     module.import_rules(pathlib.Path(dir_name, "rules-0.txt"))
@@ -92,8 +92,7 @@ if not test_runner.all_passed():
                     result = num
                     break
                 else:
-                    ImmutableRules = Diff.get_changes()
-                    new_failed_tests = [test_runner.get_failed_tests()]
+                    ImmutableRules.append(fixed_prompts.pop())
 
         Utils.join_csv_files(pathlib.Path(dir_name, "tests.csv"), pathlib.Path(dir_name, f"variant-run-{num}.csv"), "rule id", pathlib.Path(dir_name, "result.csv"))
 
