@@ -10,12 +10,12 @@ with open(".env", "r") as f:
 client = AzureOpenAI(
     api_key=api_key,
     api_version="2024-02-01",
-    azure_endpoint="https://tnrllmproxy.azurewebsites.net"
-    # azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
+    # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
+    azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
 )
 
 class LLMFrontEnd:
-    def get_bot_response(self, messages, model="gpt-4o", temprature=1):
+    def get_bot_response(self, messages, model="gpt-4-turbo", temprature=1):
         while True:
             try:
                 response = client.chat.completions.create(
