@@ -8,11 +8,12 @@ import sys, time, os, pathlib
 # are there conflicts in the rules
 
 input_file = sys.argv[1]
-input_dir_name = "".join(input_file.split("/")[:-1])
+input_dir_name = "/".join(input_file.split("/")[:-1])
 input_file = input_file.split("/")[-1]
 input_path = pathlib.Path(input_dir_name, input_file)
 
-dir_name = "ap-results/" + input_file.split(".")[0]
+input_dir_name = "".join(input_dir_name.split("samples/")[1:])
+dir_name = "ap-results/" + input_dir_name + "/" + input_file.split(".")[0]
 os.makedirs(dir_name, exist_ok=True)
 
 mode = "init"
