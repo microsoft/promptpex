@@ -38,7 +38,7 @@ class Module:
         return "\n".join(instr.__str__() for instr in self.instructions)
 
     def export(self, file_path):
-        with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, "w", encoding="utf-8", errors="ignore", newline='') as f:
             csv_write = csv.writer(f)
             csv_write.writerow(["rule id", "rule"])
 

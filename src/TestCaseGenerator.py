@@ -2,18 +2,28 @@ import hashlib, csv, pathlib, pandas
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
-    def __init__(self, module, context=None, dir_name=""):
+    def __init__(self, module, context=None, test_path=None):
         self.module = module
         self.context = context
         self.tests = None
-        self.input_spec = self.extract_input_spec(self.context)
+        self.result_path = None
+        self.input_spec = None
+        self.csvwriter = None
+        
+        if test_path is None:
+            test_path = pathlib.Path("tests.csv")
 
-        self.result_path = open(pathlib.Path(dir_name, "tests.csv"), "w", encoding="utf-8", errors="ignore")
-        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
+        self.test_path = test_path
+
+    def setup(self):
+        self.input_spec = self.extract_input_spec(self.context)
+        self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore")
+        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL, newline='')
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
 
     def __del__(self):
-        self.result_path.close()
+        if self.result_path is not None:
+            self.result_path.close()
     
     def export_csv(self):
         self.result_path.close()
@@ -39,14 +49,11 @@ class TestCaseGenerator:
             f.write("=> " + negative + "\n")
 
     def generate(self):
-        # get next instruction from the enrty point until the end (None)
-        instruction = self.module.get_entry()
-        while instruction:
-            if isinstance(instruction, Rule):
-                self.generate_test_cases(instruction)
-            instruction = instruction.next
+        self.setup()
+        self.generate_negative()
+        self.generate_positive()
 
-    def generate_negative(self, file_path):
+    def generate_negative(self, file_path=""):
         instruction = self.module.get_entry()
 
         if file_path:
@@ -72,7 +79,7 @@ class TestCaseGenerator:
 
             instruction = instruction.next
 
-    def generate_positive(self, file_path):
+    def generate_positive(self, file_path=""):
         if file_path:
             with open(file_path, "w", encoding="utf-8", errors="ignore") as f:
                 f.write("")
@@ -96,7 +103,8 @@ class TestCaseGenerator:
             instruction = instruction.next
 
     def import_csv(self, file_path):
-        self.tests = pandas.read_csv(file_path)
+        reader = pandas.read_csv(file_path)
+        self.tests = reader['test case'].tolist()
 
     def update_tests(self, diff : SemanticDiff):
         negative_hashes = diff.get_negative_hash()

@@ -1,4 +1,4 @@
-from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils
+from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, CLI
 import sys, time, os, pathlib
 
 # todo: add a classification test case sample
@@ -7,18 +7,19 @@ import sys, time, os, pathlib
 # explain why this is a good input
 # are there conflicts in the rules
 
-input_file = sys.argv[1]
+args = CLI.parse_args()
+
+input_file = args.input_file
 input_dir_name = "/".join(input_file.split("/")[:-1])
 input_file = input_file.split("/")[-1]
 input_path = pathlib.Path(input_dir_name, input_file)
 
-input_dir_name = "".join(input_dir_name.split("samples/")[1:])
-dir_name = "ap-results/" + input_dir_name + "/" + input_file.split(".")[0]
-os.makedirs(dir_name, exist_ok=True)
+output_dir = os.getcwd()
+if args.output_dir:
+    output_dir = args.output_dir
 
-mode = "init"
-if len(sys.argv) > 2:
-    mode = sys.argv[2]
+dir_name = output_dir + "/" + input_file.split(".")[0]
+os.makedirs(dir_name, exist_ok=True)
 
 with open(input_path, "r") as f:
     system_prompt = f.read()
@@ -30,32 +31,71 @@ Dbg.set_debug_file(pathlib.Path(dir_name, "log.txt"))
 
 original_prompt = system_prompt
 
-num_iterations = 100
-
 front_end = StringFrontEnd()
 
 module = None
-test_gen = None
 
-if mode == "init":
-    module = front_end.parse(system_prompt)
-    module.export(pathlib.Path(dir_name, f"rules-0.txt"))
+rule_path = pathlib.Path(dir_name, "rules-0.csv")
+if args.import_rules_from_file:
+    rule_path = pathlib.Path(dir_name, args.import_rules_from_file)
 
-    test_gen = TestCaseGenerator(module, system_prompt, dir_name)
-    test_gen.generate_negative(pathlib.Path(dir_name, f"negative.txt"))
-    test_gen.generate_positive(pathlib.Path(dir_name, f"positive.txt"))
-    test_gen.export_csv()
-else:
+if args.use_existing or args.use_existing_rules or args.import_rules_from_file:
     module = Module()
-    module.import_rules(pathlib.Path(dir_name, "rules-0.txt"))
+    module.import_rules(rule_path)
+else:
+    module = front_end.parse(system_prompt)
+    module.export(rule_path)
 
-test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, pathlib.Path(dir_name, "variant-run-0.csv"))
-test_runner.append(pathlib.Path(dir_name, "negative.txt"))
-test_runner.append(pathlib.Path(dir_name, "positive.txt"))
-test_runner.run_tests()
+if args.extract_rules:
+    sys.exit(0)
+
+test_path = pathlib.Path(dir_name, "tests.csv")
+if args.import_tests_from_file:
+    test_path = pathlib.Path(dir_name, args.import_tests_from_file)
+
+test_gen = TestCaseGenerator(module, system_prompt, test_path)
+
+if args.use_existing or args.use_existing_tests or args.import_tests_from_file:
+    test_gen.import_csv(test_path)
+else:
+    test_gen = TestCaseGenerator(module, system_prompt, test_path)
+    test_gen.generate()
+    test_gen.export_csv()
+
+if args.gen_tests:
+    sys.exit(0)
+
+num_iterations = 101
+if args.num_test_runs:
+    print("TODO: Implement num_test_runs")
+    num_iterations = args.num_test_runs
+
+exec_model = "gpt-35-turbo"
+if args.test_runner_model:
+    exec_model = args.test_runner_model
+
+original_test_run_path = pathlib.Path(dir_name, "variant-run-0.csv")
+if args.import_test_results_from_file:
+    original_test_run_path = pathlib.Path(dir_name, args.use_test_results_from_file)
+
+test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, exec_model, original_test_run_path)
+
+if args.use_existing or args.use_existing_test_results or args.import_test_results_from_file:
+    test_runner.importResults(original_test_run_path)
+else:
+    test_runner.append(test_path)
+    test_runner.run_tests()
+
 test_runner.print_results()
 
-Utils.join_csv_files(pathlib.Path(dir_name, "tests.csv"), pathlib.Path(dir_name, "variant-run-0.csv"), "rule id", pathlib.Path(dir_name, "result.csv"))
+output_file_path = pathlib.Path(dir_name, "result.csv")
+if args.output_file:
+    output_file_path = pathlib.Path(dir_name, args.output_file)
+
+Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
+
+if args.run_tests:
+    sys.exit(0)
 
 result = 0
 if not test_runner.all_passed():
