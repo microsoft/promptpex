@@ -14,9 +14,27 @@ class SemanticDiff:
         result = LLMFrontEnd().rule_diff(self.rules1.to_string(index=True), self.rules2.to_string(index=True))
         # result = "1 2\n3 4"
 
+        result = result.replace("\n\n", "\n")
+        result = result.strip() 
         result = result.split("\n")
-        self.deletion = result[0].split(" ")
-        self.addition = result[1].split(" ")
+        if len(result) == 1:
+            if result[0][0] == "-":
+                self.deletion = result[0].split(" ")
+            else:
+                self.addition = result[0].split(" ")
+        elif len(result) == 2:
+            if result[0][0] == "-":
+                self.deletion = result[0].split(" ")
+                self.addition = result[1].split(" ")
+            else:
+                self.deletion = result[1].split(" ")
+                self.addition = result[0].split(" ")
+        elif len(result) == 0:
+            self.deletion = []
+            self.addition = []
+        else:
+            print("Error in the output of rule_diff")
+
         self.changes = pandas.DataFrame(columns=["type", "rule"])
         self.calculate_changes()
 
@@ -28,9 +46,9 @@ class SemanticDiff:
         print(self.deletion)
         print(self.rules1)
         for i in self.deletion:
-          self.changes.loc[len(self.changes)] = ["-"] + [self.rules1['rule'][int(i) - 1]]
+          self.changes.loc[len(self.changes)] = ["-"] + [self.rules1['rule'][int(i)]]
         for i in self.addition:
-          self.changes.loc[len(self.changes)] = ["+"] + [self.rules2['rule'][int(i) - 1]]
+          self.changes.loc[len(self.changes)] = ["+"] + [self.rules2['rule'][int(i)]]
 
     def get_changes(self):
         return self.changes.to_string(index=False, header=False)

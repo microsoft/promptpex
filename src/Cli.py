@@ -22,3 +22,4 @@ CLI.add_argument("--import-test-results-from-file", "-ot", help="Use original te
 CLI.add_argument("--use-existing-test-results", "-utr", help="Use existing test results from variant-run-0.csv", action="store_true")
 
 CLI.add_argument("--test-runner-model", "-m", help="Model used for running tests")
+CLI.add_argument("--output-run-file", "-of", help="Output file for the test run results")

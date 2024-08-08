@@ -19,7 +19,10 @@ class TestValidator:
     def append(self, file_path):
         with open(file_path, "r", encoding="utf-8", errors="ignore") as csvfile:
             reader = csv.reader(csvfile)
-            self.tests.extend([line[-1] for line in reader])
+            next(reader, None)
+            for line in reader:
+                self.keys.append(line[0])
+                self.tests.append(line[-1])
 
     def run_test(self, test, expected):
         results = self.validate(test)
@@ -33,7 +36,7 @@ class TestValidator:
         return " ".join(self.failed_tests)
 
     def run_tests(self):
-        result_path = open(pathlib.Path(self.path), "w", encoding="utf-8", errors="ignore")
+        result_path = open(pathlib.Path(self.path), "w", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
@@ -52,7 +55,7 @@ class TestValidator:
 
             data = [self.keys[self.tests.index(test)], test, output, passed_str, reason, expected_output]
             data = [s.replace('\n', '\\n') for s in data]
-            self.csvwriter.writerow(data)
+            csvwriter.writerow(data)
 
             if not passed:
                 self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")

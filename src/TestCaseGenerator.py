@@ -5,7 +5,7 @@ class TestCaseGenerator:
     def __init__(self, module, context=None, test_path=None):
         self.module = module
         self.context = context
-        self.tests = None
+        self.tests = []
         self.result_path = None
         self.input_spec = None
         self.csvwriter = None
@@ -17,8 +17,8 @@ class TestCaseGenerator:
 
     def setup(self):
         self.input_spec = self.extract_input_spec(self.context)
-        self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore")
-        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL, newline='')
+        self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore", newline='')
+        self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
 
     def __del__(self):
@@ -27,7 +27,7 @@ class TestCaseGenerator:
     
     def export_csv(self):
         self.result_path.close()
-        if self.tests is not None:
+        if len(self.tests) != 0:
             self.tests.to_csv(self.result_path.name, index=False)
         else:
             self.tests = self.import_csv(self.result_path.name)
@@ -104,15 +104,16 @@ class TestCaseGenerator:
 
     def import_csv(self, file_path):
         reader = pandas.read_csv(file_path)
-        self.tests = reader['test case'].tolist()
+        for index, row in reader.iterrows():
+            self.tests.append(row.tolist())
 
     def update_tests(self, diff : SemanticDiff):
         negative_hashes = diff.get_negative_hash()
         # delete rows in self.tests with "rule id" in negative_hashes
+        import pdb; pdb.set_trace()
         self.tests = self.tests[~self.tests["rule id"].isin(negative_hashes)]
 
         positive_hashes = diff.get_positive_hash()
-        import pdb; pdb.set_trace()
         positive_rules = diff.get_positive_rules() 
         for i in range(len(positive_hashes)):
             rule_hash = positive_hashes[i]
