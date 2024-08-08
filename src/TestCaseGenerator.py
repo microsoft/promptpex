@@ -2,7 +2,7 @@ import hashlib, csv, pathlib, pandas
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
-    def __init__(self, module, context=None, test_path=None):
+    def __init__(self, module, context=None, test_path=None, input_spec_path=None):
         self.module = module
         self.context = context
         self.tests = []
@@ -15,8 +15,17 @@ class TestCaseGenerator:
 
         self.test_path = test_path
 
+        if input_spec_path is None:
+            input_spec_path = pathlib.Path("input_spec.txt")
+
+        self.input_spec_path = input_spec_path
+
     def setup(self):
         self.input_spec = self.extract_input_spec(self.context)
+
+        with open(self.input_spec_path, "w", encoding="utf-8", errors="ignore") as f:
+            f.write(self.input_spec)
+
         self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore", newline='')
         self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])

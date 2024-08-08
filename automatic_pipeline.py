@@ -53,12 +53,13 @@ test_path = pathlib.Path(dir_name, "tests.csv")
 if args.import_tests_from_file:
     test_path = pathlib.Path(dir_name, args.import_tests_from_file)
 
-test_gen = TestCaseGenerator(module, system_prompt, test_path)
+input_spec_path = pathlib.Path(dir_name, "input_spec.txt")
+
+test_gen = TestCaseGenerator(module, system_prompt, test_path, input_spec_path)
 
 if args.use_existing or args.use_existing_tests or args.import_tests_from_file:
     test_gen.import_csv(test_path)
 else:
-    test_gen = TestCaseGenerator(module, system_prompt, test_path)
     test_gen.generate()
     test_gen.export_csv()
 
