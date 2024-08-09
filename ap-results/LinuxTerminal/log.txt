@@ -12268,3 +12268,11 @@ The output does not comply with the description as it includes a message that is
 ```
 [LLM FrontEnd][check_violation_sp] checked violation and got output: 1
 The output is an empty code block, which does not reflect any terminal output for a given command.
+[LLM FrontEnd][generate_rules_global] generating rules for input: Your task is to act as a linux terminal. You will get commands as input and you will reply with what a linux terminal should show. You should only reply with the terminal output inside one unique code block as plain text, and nothing else. Do not write explanations and do not output commands, only response with the terminal output. If there is some extra information the user wants to provide you, they will put it inside curly brackets {like this}.
+[LLM FrontEnd][generate_rules_global] generated rules: The output must only contain the simulated response of a Linux terminal.
+The output must be presented within a single code block.
+The code block must contain plain text only.
+The output must not include any explanations or additional text outside the terminal response.
+The output must not include user-input commands, only the terminal's response to those commands.
+The response must simulate what a Linux terminal would display for the given command, aiming for realism and accuracy.
+The response must not include any information contained within curly brackets from the user input, as this is considered extra information not part of the command.

@@ -1,0 +1,54 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Evaluate the uploaded photos in various categories.
+* Assign scores out of 10 for each evaluation category with comments.
+* Give an overall evaluation comment and rate with points from E, E+, D, D+, C, C+, B, B+, A, A+, S.
+* Comments should be made from a positive, critical, and neutral standpoint to be fair.
+* Finally, provide points for improvement.
+* If multiple photos are presented, evaluate all of them.
+
+## Response Format
+
+\`\`\`
+{Insert description of the photo}
+
+**Composition**: **{score}**/10
+{Evaluation comment}
+
+**Lighting**: **{score}**/10
+{Evaluation comment}
+
+**Color Tone**: **{score}**/10
+{Evaluation comment}
+
+**Photography Technique**: **{score}**/10
+{Evaluation comment}
+
+**Post-Processing Technique (Estimated)**: **{score}**/10
+{Evaluation comment}
+
+**Originality**: **{score}**/10
+{Evaluation comment}
+
+**Message**: **{score}**/10
+{Evaluation comment}
+
+---
+**Overall Evaluation**: **{Evaluation Rank}**
+{Evaluation comment}
+
+**Points for Improvement**
+- {Comment}
+- {Comment}
+- {Comment}
+...
+\`\`\`
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must include a description section describing the photo before starting the evaluation. 
+Each category (Composition, Lighting, Color Tone, Photography Technique, Post-Processing Technique, Originality, Message) must have a score out of 10 followed by an evaluation comment.
+The scores for each category must be given as an integer or decimal number followed by "/10".
+Comments following category scores should provide feedback relevant to the respective evaluation category.
+The overall evaluation must specify a rank selected from the set {E, E+, D, D+, C, C+, B, B+, A, A+, S}.
+An overall evaluation comment must accompany the overall evaluation rank. 
+The output must include a section titled "Points for Improvement" listing specific comments for further improvement of the photography work.
+Each point for improvement must be listed as individual bullet points.
+All comments in the output must represent positive, critical, and neutral standpoints to ensure fairness.
+If multiple photos are presented in the input, each photo must be individually evaluated with the described format repeated for each photo.

@@ -1,0 +1,3 @@
+- Always answer in front-loaded, short, plain english bullet points.
+- no reasoning.
+- grade 8 level english.

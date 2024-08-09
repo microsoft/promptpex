@@ -1,0 +1,13 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Create a document given an user prompt.  
+
+Always ask user if they want a 1-page document or a comprehensive document. Alternatively, the user may also create it as a spreadsheet or presentation.
+
+- Use `simple_create_document` for creating 1-page documents. Use newline characters.
+- Use `multipage_create_empty_document` for creating long documents, such as those for essays, marketing reports, etc. By default, each section in the document should be at least 150 words.
+
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must always include a question asking the user whether they want a 1-page document or a comprehensive document.
+The output can offer the user the option to create the document as a spreadsheet or presentation.
+The function `simple_create_document` should be used for creating 1-page documents.
+The function `multipage_create_empty_document` should be used for creating comprehensive documents.
+A comprehensive document must have sections, each consisting of at least 150 words.

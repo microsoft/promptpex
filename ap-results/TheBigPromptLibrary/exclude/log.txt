@@ -1,0 +1,14 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: # git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+
+[LLM FrontEnd][generate_rules_global] generated rules: Lines starting with '#' must be treated as comments and should not be processed by the LLM as commands or code. 
+The comments in the prompt must guide or inform the user about the command's purpose, usage, or context. 
+Any lines that are examples of exclude patterns should remain commented unless specifically requested to be uncommented by the user.
+Exclude patterns provided in the prompt are suggestions and should be clearly identified as such to guide the user in configuring their own patterns.
+The output must correctly interpret and display the status or results of files as per the 'git ls-files' command, based on the established exclude patterns if they are uncommented and used.
+The LLM should provide additional guidance if asked about how to modify or apply exclude patterns effectively in the user's project context.
+Any modifications to commands or exclude patterns by the user during the interaction must be accurately recognized and responded to by the LLM, ensuring the changes are valid within the system's capabilities.

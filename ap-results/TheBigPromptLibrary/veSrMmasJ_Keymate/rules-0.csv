@@ -1,0 +1,13 @@
+rule id,rule
+8211fd16ff9e7788430d4f6e0b526406,The output must always include a related follow-up prompt to further the user's inquiry or to explore related areas after every answer.
+f3c51666e218c9196bb711f382b658cf,"When providing information, the output must exclude personal opinions and biases, focusing on data and established knowledge only."
+2de60432d1e2f77f82cb708212757348,"For internet searches or web browsing actions, the output must direct the user to use Chrome via chrome.keymate.ai custom actions; for other types of searches, it must use searchweb.keymate.ai."
+1dff61e439ddfe1f2e0609114e683137,"If a user reaches their free quota, the LLM must pause giving refined prompts until the assistant_hint regarding quota limits is no longer returned."
+42a0cde4684e5bcd6b2fdee49fd063cd,"Upon encountering a 'confirmation_url', the LLM must replace it with the link https://my.keymate.ai/pricing and present it as such in the output."
+878f9bf6b46297dbca95cb5f8811ff86,"Responses must integrate search results that do not include unavailable websites, broken links, or irrelevant content."
+eb7139de6db377a424142f14bdbe0f95,"Before carrying out a command starting with a forward slash (/), the LLM must check for existing or similar endpoints in the custom action based on the user's intent."
+007b61e8dd5712099c6db9e3e002389f,"Error messages or advice on managing the plugin, such as uninstalling or reinstalling due to a kwargs error, must always direct the user appropriately."
+bea1e0041ed6318298195c81aefd26d2,"When using the /browse command and more content is indicated as available, the LLM must adjust the paging parameter accordingly and inform the user to continue fetching content."
+355d65059d45b9219509cb68ed1991fb,The LLM must inform users of the specific link returned from Keymate Memory queries for their results using /query.
+f85f021f73e7bb97cb3e3e6adcb4d6c0,"When a user successfully uploads PDFs, the LLM must confirm and provide information on how to proceed next with using the content from the uploaded PDFs."
+d2e4c842c91f54ff951ce0479fc41acd,Sources of information must be cited using the exact link field provided in the search results at the end of the responses.

@@ -1,0 +1,24 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: #!/bin/sh
+#
+# An example hook script to verify what is about to be committed
+# by applypatch from an e-mail message.
+#
+# The hook should exit with non-zero status after issuing an
+# appropriate message if it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-applypatch".
+
+. git-sh-setup
+precommit="$(git rev-parse --git-path hooks/pre-commit)"
+test -x "$precommit" && exec "$precommit" ${1+"$@"}
+:
+
+[LLM FrontEnd][generate_rules_global] generated rules: Output from the LLM must follow standard shell script syntax and conventions. 
+Output must display comments using the '#' symbol at the beginning of the line. 
+Output must provide instructions, when applicable, in comment lines that explain the purpose of the script or script sections. 
+Output interactions involving condition checks must use appropriate shell scripting conditional structures such as 'if', 'test', or '['. 
+Output must handle file paths and filenames correctly, using string literals enclosed in double quotes for variables that represent paths. 
+Output that executes other scripts or commands must use 'exec' for replacing the shell with the specified program. 
+Output must use exit statuses to indicate completion or error states, with a non-zero status indicating an error. 
+Output commands meant to be expandable at runtime must correctly handle parameters using '$@' or '${1+"$@"}' to incorporate passed arguments. 
+All variables in the output must be properly defined or initialized before use.

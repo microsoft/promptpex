@@ -1,0 +1,203 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: # define templates ---------------------------------------------
+# summary template for writing style
+summarize_template = """
+Summarize the key points of this writing style description using three short, comma-separated phrases: {text}.
+"""
+# summary template for style comparison
+summarize_comp_template = """
+Given this comparison of two writing styles: {text}, summarize how the new writing style changed from the previous using one, short sentence.
+For example, "Style has changed to be more lighthearted, with simpler words and straightforward structure"
+Replace this summary with your own answer.
+"""
+ 
+# summary templates for highlights
+summarize_likes_template = """
+In 1 sentence, summarize what these passages that the writer likes has in common: {text}.
+If justifications are provided, incorporate them into your summary.
+Be precise, and discuss the writer's likes in terms of: tone, voice, word choice, sentence structure, and paragraph structure.
+Start your response with "The writer likes...".
+"""
+ 
+summarize_dislikes_template = """
+In 1 sentence, summarize what these passages that the writer dislikes has in common: {text}.
+If justifications are provided, incorporate them into your summary.
+Be precise, and discuss the writer's dislikes in terms of: tone, voice, word choice, sentence structure, and paragraph structure.
+Start your response with "The writer dislikes...".
+"""
+ 
+# chat templates ----------------------------------------
+chat_style_temp_human = "{text}"
+chat_style_temp_human_with_highlights = """
+Text: {text}
+Likes: {likes}
+Dislikes: {dislikes}
+"""
+ 
+chat_style_ai_start = """
+You are a literary critic who is analyzing the writing style of a writing sample.
+Describe each of these characteristics in order: tone, voice, word choice, sentence structure, and paragraph structure.
+For voice, state whether the writer uses passive or active voice.
+"""
+chat_style_ai_example_request = """
+**Include examples from the text as evidence for tone, voice, and word choice only.**
+"""
+chat_style_ai_middle = """
+For sentence structure and paragraph structure, also comment on how varied they are.
+"""
+chat_style_highlight_request = """
+Please incorporate information about the writer's likes and dislikes into the writing style.
+"""
+chat_style_ai_end = """
+**DO NOT include any specific context about the text, such as the topic, theme, character names, or genre.**  
+Describe one aggregate writing style for the entire writing sample. **DO NOT separate your response based on different texts.**           
+**Your answer should be 3-5 sentences long maximum.**
+**Please DO NOT format your answer as a numbered or bulleted list.**
+"""
+ 
+# style
+chat_style_temp_ai = (  # include examples, no highlights
+    chat_style_ai_start
+    + chat_style_ai_example_request
+    + chat_style_ai_middle
+    + chat_style_ai_end
+)
+chat_style_temp_ai_no_examples = (  # no examples, no highlights
+    chat_style_ai_start + chat_style_ai_middle + chat_style_ai_end
+)
+chat_style_temp_ai_with_highlights = (  # include examples, include highlights
+    chat_style_ai_start
+    + chat_style_ai_example_request
+    + chat_style_ai_middle
+    + chat_style_highlight_request
+    + chat_style_ai_end
+)
+chat_style_temp_ai_with_highlights_no_examples = (  # no examples, include highlights
+    chat_style_ai_start
+    + chat_style_ai_middle
+    + chat_style_highlight_request
+    + chat_style_ai_end
+)
+ 
+# comparison
+chat_compare_temp_human = """
+Here is the previous style: {style1}.
+Here is the new style: {style2}.
+"""
+ 
+chat_compare_ai_start = """
+Imagine you are a literary critic who is comparing two writing styles.
+First, state how similar the styles are on a scale from 1 (not at all similar) to 10 (practically identical).
+For example, "I would rate the similarity of these styles as 6 out of 10." **Replace 6 with your rating.**
+"""
+chat_compare_ai_example_request = """
+Then, describe the how the new style differs from the previous, using examples from the text as evidence.
+"""
+chat_compare_ai_no_example_request = """
+Then, describe the how the new style differs from the previous.
+"""
+chat_compare_ai_end = """
+**Your answer should be 3-5 sentences long maximum.**
+**Please DO NOT format your answer as a numbered or bulleted list.**
+"""
+ 
+chat_compare_temp_ai = (
+    chat_compare_ai_start + chat_compare_ai_example_request + chat_compare_ai_end
+)
+chat_compare_temp_ai_no_examples = (
+    chat_compare_ai_start + chat_compare_ai_no_example_request + chat_compare_ai_end
+)
+ 
+# formatting
+chat_format_temp_ai = """
+You are a web developer who is formatting a paragraph of text as HTML.
+First, please split the paragraph into individual sentences and wrap each sentence with a <p> tag.
+**Your answer should have at least three <p> tags.**
+Then, inside each <p> tag, add one <strong> tag and multiple <em> tags to emphasize key words and phrases.
+"""
+ 
+# continuation
+chat_continue_temp_ai = """
+You are a ghostwriter who must continue a piece of writing using this writing style: {style}.
+First, determine what kind of text this is (e.g., short story, poem, song, news article, etc.), but DO NOT mention this in your response.
+Then, continue the piece of writing using the same style.
+You do not need to finish the piece, but **you should write at least one paragraph/verse/stanza/etc, and no more than 3** to continue it.
+**Use new lines to match the sentence and paragraph structure of the original text.**
+For example, add a new line after each paragraph in a story or article, and after each line in a poem.
+Follow formatting instructions if provided too (e.g., write in bullet points).
+Make sure to follow all of these rules too:
+**DO NOT** mention ghostwriting or the original author/writer.
+**DO NOT** include, refer to, or summarize any parts of the style description in your response.
+For example, if a character named Mary was mentioned in the style description, **DO NOT** mention Mary in your response unless prompted to.
+**DO NOT** repeat text or generate similar content to what is already in the original piece of writing.
+**Please use the same topic, genre, point of view, and theme of the original text.**
+For example, if the original text is a poem about a dog, you should continue the poem about the same dog.
+**DO NOT** start a new piece of writing.
+If relevant, keep this context in mind when continuing the text: {context}.
+"""
+ 
+# rewrite
+chat_rewrite_temp_ai = """
+You are a ghostwriter who must rewrite the given text concisely using this writing style: {style}.
+First, determine what kind of text this is (e.g., short story, poem, song, news article, etc.), but DO NOT mention this in your response.
+Then, rewrite the text using the given style.
+**Use new lines to match the length, sentence structure, and paragraph structure of the original text.**
+For example, add a new line after each paragraph in a story or article, and after each line in a poem.
+**DO NOT** mention ghostwriting or the original author/writer.
+**DO NOT** include, refer to, or summarize any parts of the style description in your response.
+**Please use the same topic, genre, point of view, and theme of the original text.**
+"""
+ 
+# generation
+chat_generate_temp_ai = """
+You are a ghostwriter who must generate new text using this writing style: {style}.
+If relevant, keep this context in mind when generating text: {context}.
+**DO NOT** mention ghostwriting or the original author/writer.
+**DO NOT** include, refer to, or summarize any parts of the style description in your response.
+For example, if a character named Mary was mentioned in the style description, **DO NOT** mention Mary in your response unless prompted to.
+Also, **DO NOT** start a new piece of writing (e.g., start a new story) unless prompted to.
+"""
+ 
+from langchain.prompts import PromptTemplate
+ 
+# generic ask prompt
+ask_prompt = PromptTemplate.from_template(
+    """
+    You are given a document and a prompt. The prompt is a question or a task that you need to answer or complete. The document is a piece of text that you can use to answer the question or complete the task. If no document is provided, you can use your own knowledge to answer the question or complete the task, and do not mention the absence of a document. The document and prompt are specified in the following data structure:
+    
+    {{'document': {document}, 'prompt': {prompt}}}
+ 
+    You are also given a style description of the writing style that you must use to answer the question or complete the task. **DO NOT** include, refer to, or summarize any parts of the style description in your response. The style description is specified in the following data structure:
+ 
+    {{'style': {style}}}
+ 
+    Given this document, prompt, and style answer the question or complete the task.
+"""
+)
+[LLM FrontEnd][generate_rules_global] generated rules: The output must summarize the key points of the writing style description using three short, comma-separated phrases.
+The output must summarize changes in the writing style by comparing two styles and using one short sentence.
+The output should start with "The writer likes..." and summarize common characteristics of liked passages precisely discussing tone, voice, word choice, sentence structure, and paragraph structure.
+The output should start with "The writer dislikes..." and summarize common characteristics of disliked passages precisely discussing tone, voice, word choice, sentence structure, and paragraph structure.
+Descriptions of writing style should include tone, voice, word choice, sentence structure, and paragraph structure in that order.
+Voice descriptions must state explicitly if the writer uses passive or active voice.
+Examples from the text may be included as evidence only for tone, voice, and word choice.
+The output must also comment on how varied the sentence structure and paragraph structure are.
+The output should integrate information about the writer's likes and dislikes regarding the writing style where applicable.
+The output must describe one aggregate writing style for the entire writing sample, not separating responses based on different texts.
+The output must be between 3 and 5 sentences long.
+The output must not be formatted as a numbered or bulleted list.
+Descriptions of writing style comparisons should first indicate the similarity rating on a scale from 1 to 10.
+Descriptions of how the new style differs from the previous must use examples from the text where instructed.
+The output must not be formatted as a numbered or bulleted list and be no longer than 5 sentences.
+For HTML formatting tasks, each sentence must be wrapped in a <p> tag, with at least three <p> tags used in total.
+Within each <p> tag, there must be one <strong> tag and multiple <em> tags to emphasize key words and phrases.
+When continuing writing in a given style, the output must maintain the original type of text (e.g., story, poem) and continue the piece in the corresponding format (e.g., paragraphs for stories, lines for poems).
+Paragraph or line breaks should match the original text's structure.
+Formatting instructions provided in the prompt must be followed without any deviation.
+The output must not mention or summarize the style description.
+The same topic, genre, point of view, and theme as the original text must be used.
+The new text should not start a new piece or context unless expressly prompted.
+When rewriting a text concisely in a specified style, the output must maintain the original text's type and match the length, sentence and paragraph structure accordingly.
+The text must not introduce ghostwriting or the original author, nor refer to or summarize the style.
+Even in generating new text, the output must not introduce or summarize the style description.
+Ghostwriting or the involvement of the original author must not be mentioned in the new text.
+If the text generation includes a specific context, this must be maintained without starting a new story unless required by the prompt.

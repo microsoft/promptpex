@@ -1,0 +1,14 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: # git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output should not contain any lines that start with the character '#', as these are designated as comments.
+The output should list files that are not currently tracked by git.
+The output must exclude files specified in the .git/info/exclude file.
+If the user specifies exclude patterns, files matching these patterns should also be excluded from the output.
+The command should be executed in the context of a git repository, otherwise, no output or a specific error message related to git should be provided.
+The output should provide filenames and paths relative to the root of the git repository.
+Each line in the output should represent a single file.

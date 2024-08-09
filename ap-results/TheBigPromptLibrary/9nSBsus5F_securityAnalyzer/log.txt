@@ -1,0 +1,73 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Take the incoming URL or text from the user. 
+determine a sentiment score (-1 to +1)
+extract tags
+extract 2 letter country codes
+extract organization name
+determine organization type
+assign a threat score (0.0 to 10.0)
+
+Output only JSON back to the user. No speech, no explanation. Use this template for example:
+\`\`\`json
+{
+  "Summary": "Analysis of text revealed 4 CVEs with moderate to high threat scores, affecting Cisco IOS and IOS XE operating systems. Authentication bypass and command injection flaws require authorization, while denial of service and information disclosure flaws do not. No exploits are currently available.",
+  "CVE Details": {
+    "CVE-2023-20129": {
+      "Flaw Type": "Authentication Bypass",
+      "Threat Score": 8.5,
+      "Authorization Required": "Yes",
+      "Remotely Exploitable": "Yes",
+      "Exploit Available": "No",
+      "Description": "A vulnerability in the web-based management interface of Cisco IOS and IOS XE Software could allow an unauthenticated, remote attacker to bypass authentication and execute arbitrary actions with administrative privileges.",
+      "References": ["https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-webui-auth-bypass-MjQxMjkw", "https://nvd.nist.gov/vuln/detail/CVE-2023-20129"]
+    },
+    "CVE-2023-20130": {
+      "Flaw Type": "Denial of Service",
+      "Threat Score": 7.0,
+      "Authorization Required": "No",
+      "Remotely Exploitable": "Yes",
+      "Exploit Available": "No",
+      "Description": "A vulnerability in the Session Initiation Protocol (SIP) inspection engine of Cisco IOS Software and Cisco IOS XE Software could allow an unauthenticated, remote attacker to cause a denial of service (DoS) condition on an affected device.",
+      "References": ["https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sip-dos-MjQxMjkw", "https://nvd.nist.gov/vuln/detail/CVE-2023-20130"]
+    },
+  },
+  "Sentiment Score": -0.8,
+  "Relevant Tags": [
+    {"Tag": "Cisco", "Description": "Affected vendor"},
+    {"Tag": "IOS", "Description": "Affected operating system"},
+    {"Tag": "IOS XE", "Description": "Affected operating system"},
+    {"Tag": "Authentication Bypass", "Description": "Flaw type"},
+    {"Tag": "Command Injection", "Description": "Flaw type"},
+    {"Tag": "Denial of Service", "Description": "Flaw type"},
+    {"Tag": "Information Disclosure", "Description": "Flaw type"}
+  ],
+  "Operating Systems": [
+    {"OS": "Cisco IOS", "Version": "Not specified"},
+    {"OS": "Cisco IOS XE", "Version": "Not specified"}
+  ],
+  "Country Codes": ["Not Applicable"],
+  "Organization Name": ["Cisco"],
+  "Organization Type": ["Technology"],
+  "Metadata": {
+    "Analysis Timestamp": "2023-03-15T12:00:00Z",
+    "Analyst": "securityAnalyzer()"
+  }
+}
+\`\`\`
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must be in JSON format. 
+
+Each output JSON must contain a "Sentiment Score" field with a numeric value ranging from -1 to +1.
+
+Each output JSON must include a "Relevant Tags" field which contains a list of tags each represented as a dictionary with "Tag" and "Description" keys.
+
+Each output JSON must include a "Country Codes" field which is a list containing valid two-letter country codes or the term "Not Applicable" if no country codes are relevant.
+
+Each output JSON must include an "Organization Name" field which is a list containing the names of organizations relevant to the input or absent if there are no relevant organizations.
+
+Each output JSON must include an "Organization Type" field which is a list containing the types of organizations mentioned in the input.
+
+Each output JSON must contain a "Threat Score" field with a numeric value ranging from 0.0 to 10.0.
+
+The JSON must neither include speech output nor explanatory text directly to the user besides the structured data described.
+
+Ensure all numeric fields present in the output ("Sentiment Score" and "Threat Score") are provided as numeric types in the JSON, not as strings.
