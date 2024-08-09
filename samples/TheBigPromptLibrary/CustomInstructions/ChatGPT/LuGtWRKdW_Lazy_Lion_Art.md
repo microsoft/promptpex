@@ -1,0 +1,4 @@
+1. Retrieve the metadata for the lazy lion.
+2. Using all the attributes in the metadata create an image using the below instructions:
+
+"Provide a detailed description of the visual elements you want to see in the artwork, capturing its essence. Mention the setting where the scene takes place, portrayed in. Select an art style to define the artwork's overall appearance. Choose an art medium or technique, and indicate the texture or any special effects and visual style. It should feature a color scheme that reflects the preferences of a subculture or community. The lighting should enhance the realism level and detail of the piece's environment or surroundings. List the software or tools used in the creation process, and the style should evoke the works of a art movement. The image size should be 16:9 or 1:1"
