@@ -3,8 +3,8 @@ import time, os
 
 from openai import AzureOpenAI
 
-api_key = ""
-if os.path.isfile(".env"):
+api_key = os.environ.get("AZURE_OPENAI_KEY")
+if api_key == "" and os.path.isfile(".env"):
     with open(".env", "r") as f:
         api_key = f.read().strip()
 
@@ -45,7 +45,7 @@ class LLMFrontEnd:
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: {output}")
         return output
-    
+
     def generate_rules_global(self, input_data):
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generating rules for input: {input_data}")
         # system_prompt = "You are an expert in analyzing pseudo-code and extracting rules and constraints for output validation. Given a pseudo-code, your task is to identify the variables and analyze their uses to list the rules or constraints associated with them. The rules must be generic and must not contain any specific information about the given examples in the pseduocode. The examples in the pseduocode are not representative of all the input which might be provided. Then, provide a compact list of rules that can be validated by just seeing the output. The rules should be concise and formatted according to the given categories.### Instructions:1. **Identify Variables**: Carefully read the pseudo-code and identify all the variables used. 2. **Analyze Uses**: Analyze how each variable is used within the pseudo-code to understand its purpose and constraints.3. **List Rules and Constraints**: Based on your analysis, list all the rules and constraints associated with the output. Ensure the rules are clear and specific.4. **Sound  and complete rules**: Provide the rules as meaningful independent sentences that can be easily validated by just seeing the output and have all the required information for performing the check. Only output the rules, one in each line and nothing else."
@@ -56,7 +56,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
-    
+
     def generate_input_spec(self, context):
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generating input spec for context: {context}")
         system_prompt = "You are an expert in analyzing pseudo-code and extracting rules and constraints for input generation. Given a pseudo-code, your task is to extract the rules for input generation. Provide a compact list of rules that can be used to generate a valid input without the pseduo code. Provide the rules as meaningful independent sentences that can be used to generate input and do not refer to the output. Only output the rules for input generation, one in each line and nothing else. Do not make any assumptions."
@@ -84,7 +84,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_test] generated test: {output}")
         return output
-    
+
     def execute(self, system_prompt, input, model):
         if "<INPUT>" in system_prompt:
             system_prompt = system_prompt.replace("<INPUT>", input)
@@ -103,9 +103,9 @@ You are an expert in analyzing system prompts and extracting rules and constrain
 [RULES END]
 Instructions:
 1. Return '1' if there is any violation of the rules specified, and '0' otherwise.
-2. On a new line, if a violation occurs, specify the exact rule verbatim that was broken. 
-3. If no rule is violated, output 'No violation'. 
-4. Only consider the rules provided and do not make any assumptions or perform checks beyond the given rules.        
+2. On a new line, if a violation occurs, specify the exact rule verbatim that was broken.
+3. If no rule is violated, output 'No violation'.
+4. Only consider the rules provided and do not make any assumptions or perform checks beyond the given rules.
 5. If there is a violation, also describe what made you think it was a violation with references to the output
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
@@ -138,7 +138,7 @@ Instructions:
 Instructions:
 1. Return '1' if any question is answered with a no.
 2. On a new line, output the question for which the answer was no else output "All Yes"
-4. Only consider the questions provided and do not make any assumptions or perform checks beyond the given questions.        
+4. Only consider the questions provided and do not make any assumptions or perform checks beyond the given questions.
 5. If answer to any question is no, output why it is not yes
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Chatbot Output: {result}"}]
@@ -179,7 +179,7 @@ Here are the guidelines to follow for your evaluation process:
 Example Scenario for Clarity:
 - If the output from the chatbot contains violations, you would:
   1. Return '1'
-  2. On the next line, reproduce the violated rule exactly as it appears within the [RULES START] and [RULES END] delimiters.     
+  2. On the next line, reproduce the violated rule exactly as it appears within the [RULES START] and [RULES END] delimiters.
   3. Provide a detailed explanation, citing specific phrases or sentences from the chatbot’s output that illustrate the rule violation.
 
 - If the output adheres to all the rules, you would:
@@ -251,13 +251,13 @@ Generate and provide the revised system prompt that resolves the issues in the f
         rejected = ""
         for rule in ImmutableRules:
             rejected += f"Rejected Fix: {rule}\n\n"
-        
+
         system_prompt = f"""You are provided with the original system prompt for another LLM, the failing tests (input, output, and reason for failure) for multiple versions of the system prompt. Your task is to:
 
 1. Examine the attempted fixed prompt and understand why it still fails tests.
 2. Analyze the failing tests to identify the shortcomings of both the original and the fixed prompts.
 3. Learn from the fixed prompt's failures to avoid repeating the same mistakes.
-4. You can only either add or remove sentences from the original system prompt to fix the issues. No editing of the existing sentences is allowed. 
+4. You can only either add or remove sentences from the original system prompt to fix the issues. No editing of the existing sentences is allowed.
 5. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
    - Make sure to explicitly address the issues highlighted by the reasons for failure.
    - Ensure the prompt is clear and comprehensive to prevent the generation of incorrect outputs.
@@ -297,7 +297,7 @@ The user will provide the fixing attempts starting from the original system prom
 1. Examine the attempted fixed prompt and understand why it still fails tests.
 2. Analyze the failing tests to identify the shortcomings of both the original and the fixed prompts.
 3. Learn from the fixed prompt's failures to avoid repeating the same mistakes.
-4. You can only either add or remove sentences from the original system prompt to fix the issues. No editing of the existing sentences is allowed. 
+4. You can only either add or remove sentences from the original system prompt to fix the issues. No editing of the existing sentences is allowed.
 5. Modify the original system prompt by adding or removing rules or constraints as necessary to address all failing tests and ensure it passes all given tests.
    - Make sure to explicitly address the issues highlighted by the reasons for failure.
    - Ensure the prompt is clear and comprehensive to prevent the generation of incorrect outputs.
