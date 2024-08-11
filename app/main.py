@@ -98,7 +98,9 @@ if st.session_state['submit_clicked']:
 
             rule_path = pathlib.Path(st.session_state['dir_name'], "rules-0.csv")
 
-            st.session_state['module'] = front_end.parse(system_prompt)
+            with st.spinner('Extracting rules ...'):
+                st.session_state['module'] = front_end.parse(system_prompt)
+
             st.session_state['module'].export(rule_path)
 
             generated_rules = pd.read_csv(rule_path)
@@ -133,7 +135,8 @@ if st.session_state['gen_tests_clicked']:
         input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.txt")
         system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
         test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, input_spec_path)
-        test_gen.generate()
+        with st.spinner('Generating tests ...'):
+            test_gen.generate()
         test_gen.export_csv()
         tests = pd.read_csv(test_path)
         st.session_state['tests'] = tests
@@ -156,7 +159,8 @@ if st.session_state['run_tests_clicked']:
         system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
         test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, "gpt-35-turbo", original_test_run_path)
         test_runner.append(test_path)
-        test_runner.run_tests()
+        with st.spinner('Running tests ...'):
+            test_runner.run_tests()
         # st.session_state['test_results'] = test_runner.importResults(original_test_run_path)
         output_file_path = pathlib.Path(st.session_state['dir_name'], "result.csv")
         Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
