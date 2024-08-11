@@ -35,11 +35,12 @@ class TestCaseGenerator:
             self.result_path.close()
     
     def export_csv(self):
-        self.result_path.close()
+        if self.result_path is not None:
+            self.result_path.close()
         if len(self.tests) != 0:
-            self.tests.to_csv(self.result_path.name, index=False)
+            self.tests.to_csv(self.test_path, index=False)
         else:
-            self.tests = self.import_csv(self.result_path.name)
+            self.tests = self.import_csv(self.test_path)
 
     def extract_input_spec(self, context):
         return LLMFrontEnd().generate_input_spec(context)
@@ -120,7 +121,11 @@ class TestCaseGenerator:
         negative_hashes = diff.get_negative_hash()
         # delete rows in self.tests with "rule id" in negative_hashes
         import pdb; pdb.set_trace()
-        self.tests = self.tests[~self.tests["rule id"].isin(negative_hashes)]
+        new_tests = []
+        for tests in self.tests:
+            if tests[0] not in negative_hashes:
+                new_tests.append(tests)
+        self.tests = new_tests
 
         positive_hashes = diff.get_positive_hash()
         positive_rules = diff.get_positive_rules() 
@@ -129,12 +134,12 @@ class TestCaseGenerator:
             rule = positive_rules[i]
             test_case = self.generate_test_case(rule)
 
-            self.tests.loc[len(self.tests)] = [rule_hash, "positive", rule, test_case]
+            self.tests.append([rule_hash, "positive", rule, test_case])
 
             inv_rule = LLMFrontEnd().inverse_rule(rule)
             inv_rule_hash = str(hashlib.md5(inv_rule.encode()).hexdigest())
             inv_test_case = self.generate_test_case(inv_rule)
 
-            self.tests.loc[len(self.tests)] = [inv_rule_hash, "negative", inv_rule, inv_test_case]
+            self.tests.append([inv_rule_hash, "negative", inv_rule, inv_test_case])
 
         self.export_csv()

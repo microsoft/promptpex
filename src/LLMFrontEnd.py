@@ -3,9 +3,10 @@ import time, os
 
 from openai import AzureOpenAI
 
-api_key = None
-with open(".env", "r") as f:
-    api_key = f.read().strip()
+api_key = ""
+if os.path.isfile(".env"):
+    with open(".env", "r") as f:
+        api_key = f.read().strip()
 
 client = AzureOpenAI(
     api_key=api_key,
@@ -16,6 +17,7 @@ client = AzureOpenAI(
 
 class LLMFrontEnd:
     def get_bot_response(self, messages, model="gpt-4-turbo", temprature=1):
+        attempts = 0
         while True:
             try:
                 response = client.chat.completions.create(
@@ -31,6 +33,9 @@ class LLMFrontEnd:
                 return response.choices[0].message.content
             except Exception as e:
                 print(e)
+                attempts += 1
+                if attempts > 10:
+                    return ""
                 time.sleep(2)
 
     def generate_rules_local_per_primitive(self, input_data):
@@ -86,7 +91,7 @@ You are an expert in analyzing system prompts and extracting rules and constrain
             messages = [{"role": "user", "content": system_prompt}]
         else:
             messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Input: " + input}]
-        output = self.get_bot_response(messages, model, temprature=0)
+        output = self.get_bot_response(messages, model, temprature=1)
         Dbg.debug(f"[LLM FrontEnd][execute] executed input:\n {input}\n and got output:\n {output}")
         return output
 

@@ -11,29 +11,15 @@ class SemanticDiff:
         self.rules1 = self.src1.drop("rule id", axis=1)
         self.rules2 = self.src2.drop("rule id", axis=1)
 
-        result = LLMFrontEnd().rule_diff(self.rules1.to_string(index=True), self.rules2.to_string(index=True))
+        result = LLMFrontEnd().rule_diff(self.rules1.to_string(index=True, header=False), self.rules2.to_string(index=True, header=False))
         # result = "1 2\n3 4"
 
+        import pdb; pdb.set_trace()
         result = result.replace("\n\n", "\n")
         result = result.strip() 
         result = result.split("\n")
-        if len(result) == 1:
-            if result[0][0] == "-":
-                self.deletion = result[0].split(" ")
-            else:
-                self.addition = result[0].split(" ")
-        elif len(result) == 2:
-            if result[0][0] == "-":
-                self.deletion = result[0].split(" ")
-                self.addition = result[1].split(" ")
-            else:
-                self.deletion = result[1].split(" ")
-                self.addition = result[0].split(" ")
-        elif len(result) == 0:
-            self.deletion = []
-            self.addition = []
-        else:
-            print("Error in the output of rule_diff")
+        self.deletion = result[0].split(" ")
+        self.addition = result[1].split(" ")
 
         self.changes = pandas.DataFrame(columns=["type", "rule"])
         self.calculate_changes()
@@ -56,17 +42,17 @@ class SemanticDiff:
     def get_positive_hash(self):
         hashes = []
         for i in self.addition:
-            hashes.append(self.src2['rule id'][int(i) - 1])
+            hashes.append(self.src2['rule id'][int(i)])
         return hashes
     
     def get_negative_hash(self):
         hashes = []
         for i in self.deletion:
-            hashes.append(self.src1['rule id'][int(i) - 1])
+            hashes.append(self.src1['rule id'][int(i)])
         return hashes
 
     def get_positive_rules(self):
         rules = []
         for i in self.addition:
-            rules.append(self.rules2['rule'][int(i) - 1])
+            rules.append(self.rules2['rule'][int(i)])
         return rules
