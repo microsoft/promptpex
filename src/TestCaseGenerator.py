@@ -38,7 +38,11 @@ class TestCaseGenerator:
         if self.result_path is not None:
             self.result_path.close()
         if len(self.tests) != 0:
-            self.tests.to_csv(self.test_path, index=False)
+            self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore", newline='')
+            self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
+            self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
+            for test in self.tests:
+                self.csvwriter.writerow(test)
         else:
             self.tests = self.import_csv(self.test_path)
 
@@ -120,7 +124,6 @@ class TestCaseGenerator:
     def update_tests(self, diff : SemanticDiff):
         negative_hashes = diff.get_negative_hash()
         # delete rows in self.tests with "rule id" in negative_hashes
-        import pdb; pdb.set_trace()
         new_tests = []
         for tests in self.tests:
             if tests[0] not in negative_hashes:

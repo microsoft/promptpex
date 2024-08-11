@@ -148,7 +148,6 @@ if result == -1:
 result_system_prompt = open(pathlib.Path(dir_name, f"variant-{result}.txt"), "r").read()
 result_rules = pathlib.Path(dir_name, f"rules-{result}.csv")
 
-exit(0)
 module = Module()
 module.import_rules(result_rules)
 

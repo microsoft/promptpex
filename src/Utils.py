@@ -3,8 +3,8 @@ import pathlib, csv, io
 
 class Utils:
     def join_csv_files(self, file1 : pathlib.Path, file2 : pathlib.Path, on : str, output : pathlib.Path):
-        file1 = file1.read_text()
-        file2 = file2.read_text()
+        file1 = file1.read_text(encoding="utf-8", errors="ignore")
+        file2 = file2.read_text(encoding="utf-8", errors="ignore")
 
         df1 = pd.read_csv(io.StringIO(file1), dtype=str)
         df2 = pd.read_csv(io.StringIO(file2), dtype=str)
