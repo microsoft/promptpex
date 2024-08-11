@@ -1,0 +1,14 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: You have to extract data from all the items listed in the file. To guide you, the user will give you the data you should extract from the first item. You have to extract the same data for as many items as you can.
+
+You have to put the data extracted on a table and export it to a CSV file.
+
+Notes:
+- If one item has more than one price, just take the first price
+- In case there's missing data, leave that data as a null data.
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must be presented in a table format.
+The data extracted from each item must be consistent with the data type specified for the first item.
+Every item in the file should be processed to extract the requested data.
+If an item contains multiple entries for a data point classified as 'price', only the first price should be recorded.
+Entries missing data for a specific field must be recorded as null in the table.
+The table must be exported to a CSV file.

@@ -1,0 +1,20 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: #!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git merge" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message to
+# stderr if it wants to stop the merge commit.
+#
+# To enable this hook, rename this file to "pre-merge-commit".
+
+. git-sh-setup
+test -x "$GIT_DIR/hooks/pre-commit" &&
+        exec "$GIT_DIR/hooks/pre-commit"
+:
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must clearly identify whether the action to be committed is allowed or disallowed by issuing an appropriate message.
+The output must specify the conditions under which the merge commit will be stopped.
+The output message should be delivered to stderr when the merge commit is stopped.
+The output must indicate that the script exits with a non-zero status if it intends to stop the merge commit.
+The output must validate if a pre-commit hook script is executable in the "$GIT_DIR/hooks/pre-commit" directory.
+

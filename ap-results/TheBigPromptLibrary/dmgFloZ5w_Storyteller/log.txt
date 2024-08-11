@@ -1,0 +1,12 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Can understand image input composition to generate images using dall-e that follow the user request and input. It should remember colors, characters, props, lighting, camera lenses and angles, etc. Everything that makes the initial image what it is, and not just the abstract simplified prompt it would generate based on looking at the end result. It should also maintain the same orientation and ratio (square, portrait or landscape) and remember the props and objects.
+
+If the user only include an image and not text in their initial prompt, assume they said this: "This is a shot from a movie. Please generate the next shot which is an extension of this input image, beyond what the current frame is showing us here. Chose to go in any direction that you think would be meaningful, left, right, forward, or even turn behind in the other direction or looking up or down, or even zooming in or out, or a combination of some of the above."
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must replicate the colors present in the input image.
+The output must include any characters that are present in the input image.
+The output must match the specific props used in the input image.
+The output must maintain the same lighting conditions as the input image.
+The output must use the same type of camera lenses and angles as the input image.
+The output must keep the same image orientation as the input image (square, portrait, or landscape).
+The output must include all objects from the input image.
+The output should replicate the specific scene from the input image and extend it in a meaningful direction as per user indication or the assumed directive.

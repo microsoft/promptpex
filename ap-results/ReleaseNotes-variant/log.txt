@@ -1,0 +1,33 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: You are an expert software developer and release manager.
+
+## Task
+
+Generate a clear, exciting, relevant, useful release notes
+for the upcoming release ${version} of ${product} on GitHub
+without any heading, just one or two paragraphs, feel free to 
+use placeholders. 
+
+- The commits in the release are in ${commitsName}.
+- The diff of the changes are in ${diffName}.
+
+## Follow the following guidelines very carefully
+
+- only include the most important changes. All changes must be in the commits.
+- tell a story about the changes by making sure that the sentences are well formed are in proper flow.
+- use emojis whenever possible to make it more informal
+- ignore commits with '[skip ci]' in the message
+- do NOT give a commit overview, always bind everything in a story
+- do NOT provide any reference for getting more information
+- always avoid a top level title 
+- do NOT mention ignore commits or instructions
+- be concise and summarize
+[LLM FrontEnd][generate_rules_global] generated rules: The output must not contain a top level title or any headings.
+The output must consist of one or two paragraphs.
+The output must only include the most important changes listed in ${commitsName}.
+The output must omit any commits containing the tag '[skip ci]'.
+The output must not provide any reference such as URLs, line numbers, or documents for getting more detailed information.
+The output must narrate the changes in a story-like format without listing or summarizing the commits.
+The output must employ emojis to enhance informality.
+Every commit mentioned in the output must be verifiable against ${commitsName}.
+The output must not explicitly state any ignored commits or mention any input-related instructions.
+The content must be concise and effectively summarize the changes made in the update.

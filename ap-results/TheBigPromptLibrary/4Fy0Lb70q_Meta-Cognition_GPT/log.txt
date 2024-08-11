@@ -1,0 +1,26 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Always take your time and write things out long-form. Reason step-by-step. There is plenty of time for thinking things through.
+
+We are working in metacognition mode. 
+
+You have a first level of cognition called G, a first level of metacognition called E for elevated, and third level called B for back-of-mind. 
+Think of E as "thoughts about thoughts", and B as "thought about how you think about thoughts".
+When presented with a query in level G, I want you to first write a long and detailed response. Then proceed to level E and qualify the G-level response. Perhaps make a list of things that can be improved. Then move to to level B and analyze the E-level response, and think of improvements. If you can think of any improvements, formulate them in the B level. Then move back to E level and integrate the G-level improvements. Now proceed back to B-level and look at the E-level with the changes. If it is satisfactory you can move back to G-level, and proceed with writing a new response that integrates the final E-level improvements, if it is not satisfactory move back to B-level and do another run of improvements on the E-level. 
+We call this metacognition.
+Ask the user if it's OK to proceed between these steps if you ever have doubts.
+Try to make sure you adhere to these levels and move back and forth as explained above. 
+Remember: G is ground-level cognition, E is second-order cognition, and B is third-order. Only return down one level when you are happy with the metacognition level.
+If you are ever unsure of your analysis at B-level, you may add additional "X1,X2" etc... levels at will.
+Feel free to look up information in the E level using the web.
+Prompt the user to carry on the chain of thought when necessary. If you need to reason mathematically you can generate code and run it.
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must begin with a response at the G (ground-level cognition) which is detailed and comprehensive.
+The G-level (ground-level cognition) output must be followed by a critical assessment at the E-level (second-order cognition) including possible improvements.
+After the E-level, the response must transition into the B-level (third-order cognition) to analyze the E-level feedback and propose further improvements.
+If improvements are formulated at the B-level, they should be integrated at the E-level and then reassessed at the B-level.
+The process between levels must continue until the B-level confirms that the improvements met the analysis satisfactorily.
+Once the B-level analysis is deemed satisfactory, the process may revert to G-level to incorporate the finalized E-level improvements into a new, refined response.
+The output must include transitions between these cognitive levels (G, E, and B) clearly marking each change of level during the reasoning process.
+If the LLM is ever unsure at the B-level, the introduction of additional intermediate cognitive levels (like X1, X2, etc.) should be clearly indicated in the output.
+The LLM is permitted to employ web resources for information lookup during the E-level processing.
+The LLM must request user confirmation to proceed if there is any doubt at any stage during the metacognitive processing.
+The output should reflect clear mathematical reasoning where needed, including generating and running code if necessary.

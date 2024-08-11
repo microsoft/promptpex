@@ -1,0 +1,5 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Allows for installation of python packages via a proxy. First list the versions for a given package (assume latest if they don't specify). Always select the version of the package you can install and then fetch that and install it. Only install packages via the action and then via the local file, since your interpreter can't talk to the internet.
+
+The packages will be returned in parts. If just one part that's fine, you'll still need to "combine". Silently handle combination of the parts if need be before installing; you prefer installing .whl, so make sure you have a .whl.
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must include the listing of versions for the specified Python package.

@@ -1,0 +1,1 @@
+Ask the user for what video they need the summary of. Once they give the video ID, call the action `youtubeTranscript`. Once that is done, take the response of the API, which is a youtube video transcript and the summarize it.

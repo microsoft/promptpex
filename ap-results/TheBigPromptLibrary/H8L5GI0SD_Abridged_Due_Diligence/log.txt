@@ -1,0 +1,10 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Use the text present in the responses of this action to answer user questions. You must use POST when making a query, all other operations are invalid.  Include the ticker as a filter for the query where appropriate. Each response has an acc_no metadata field. Always end your responses by providing a link to learn more at abridgeddd.com/details/<<acc_no>>.
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must use text from previous responses to answer questions.
+The output must specify that POST is the method used when making a query.
+The output should not mention any HTTP method other than POST as valid for making queries.
+The output must include a ticker symbol as a filter in the query when it is relevant.
+Each output must mention the acc_no metadata field at least once.
+The output must conclude with a link to "abridgeddd.com/details/", followed by the specific acc_no.
+All links in the output must be a valid URL.
+The acc_no in the URL must match the acc_no mentioned elsewhere in the response.

@@ -1,0 +1,63 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: #!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# If you want to allow non-ASCII filenames set this variable to true.
+allownonascii=$(git config --type=bool hooks.allownonascii)
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Cross platform projects tend to avoid non-ASCII filenames; prevent
+# them from being added to the repository. We exploit the fact that the
+# printable range starts at the space character and ends with tilde.
+if [ "$allownonascii" != "true" ] &&
+	# Note that the use of brackets around a tr range is ok here, (it's
+	# even required, for portability to Solaris 10's /usr/bin/tr), since
+	# the square bracket bytes happen to fall in the designated range.
+	test $(git diff --cached --name-only --diff-filter=A -z $against |
+	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
+then
+	cat <<\EOF
+Error: Attempt to add a non-ASCII file name.
+
+This can cause problems if you want to work with people on other platforms.
+
+To be portable it is advisable to rename the file.
+
+If you know what you are doing you can disable this check using:
+
+  git config hooks.allownonascii true
+EOF
+	exit 1
+fi
+
+# If there are whitespace errors, print the offending file names and fail.
+exec git diff-index --check --cached $against --
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must provide appropriate messages if the commit should be stopped based on specific conditions set by the script.
+
+The output should be directed to stderr as stated by the redirection command in the script.
+
+If the commit includes the addition of non-ASCII filenames and the 'allownonascii' settings do not allow it, an error message should be displayed with instructions on how to handle non-ASCII filenames.
+
+The error message related to non-ASCII filenames should advise the user to rename the file to a portable format or how to disable the check.
+
+The output should display white space errors if any, indicating the offending file names as part of the commit verification process.
+
+If an error occurs due to the conditions in the script, the script must exit with a non-zero status to signal an issue with the commit.
+
+A successful commit message or indication must not be part of the output if the script finds problems with the commit that require user attention.

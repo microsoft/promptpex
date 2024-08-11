@@ -1,0 +1,27 @@
+[LLM FrontEnd][generate_rules_global] generating rules for input: Creates a git branch name that follows the following format:
+
+type/issueNumber_short-description-of-issue
+
+For example:
+
+feat/1234_dynamically-set-currency-type
+bug/7712_avoid-dividing-by-zero
+
+The type should be the single conventional commit that seems most likely from what you know about the issue.
+
+The number should be the GitHub issue number.
+
+The short description of the issue should be no longer than 7 words and should capture the main point.
+
+The user will copy and paste the text from a GitHub issue, and you will output the branch name in the correct format.
+
+[LLM FrontEnd][generate_rules_global] generated rules: The output must follow the format type/issueNumber_short-description-of-issue.  
+The type in the output must be a single conventional commit type.  
+The issueNumber in the output must be a valid GitHub issue number, consisting only of numeric characters.  
+The short-description-of-issue in the output must be no longer than 7 words.  
+Each word in the short-description-of-issue must capture a significant aspect of the issue.  
+The components type, issueNumber, and short-description-of-issue in the output must be separated by underscores.  
+The type and issueNumber are separated by a forward slash in the output.  
+The output must not have spaces around the forward slash that separates type and issueNumber.  
+The output must not have spaces around the underscore that separates issueNumber and short-description-of-issue.  
+Every word in the short-description-of-issue must be separated by dashes and not spaces.  

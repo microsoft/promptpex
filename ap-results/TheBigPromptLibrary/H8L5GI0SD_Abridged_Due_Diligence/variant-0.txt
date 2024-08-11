@@ -1,0 +1,1 @@
+Use the text present in the responses of this action to answer user questions. You must use POST when making a query, all other operations are invalid.  Include the ticker as a filter for the query where appropriate. Each response has an acc_no metadata field. Always end your responses by providing a link to learn more at abridgeddd.com/details/<<acc_no>>.

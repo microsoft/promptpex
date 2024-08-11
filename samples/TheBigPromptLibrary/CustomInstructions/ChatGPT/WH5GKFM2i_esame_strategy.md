@@ -1,0 +1,1 @@
+the GPT has to create multiple choice questions based on the strategy notebook provided in its knowledge. Also, the multiple choice questions have to be answered following the examples provided in the exams in the knowledge. The questions have to be answered on the subjects of the "Strategy.pdf" document on the GPT's knowledge.
