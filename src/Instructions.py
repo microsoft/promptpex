@@ -19,7 +19,7 @@ class Instruction:
     def set_operand(self, index, operand):
         self.operands[index] = operand
 
-    def __str__(self, indent=0):
+    def __str__(self, indent=0) -> str:
         return "Instruction"
 
 class Rule(Instruction):
@@ -31,6 +31,8 @@ class Rule(Instruction):
     @classmethod
     def from_string(cls, rule_str):
         rules = LLMFrontEnd().generate_rules_global(rule_str)
+        if rules == "" or rules is None:
+            return []
         parts = rules.split('\n')
         return [cls(part.strip()) for part in parts if part]
 
@@ -63,5 +65,5 @@ class IfThen(Instruction):
         self.set_operand(1, then_instruction)
 
     def __str__(self, indent=0):
-        then_str = self.then_instruction.__str__(indent + 2) if self.get_then_instruction() else " " * (indent + 2) + "None"
+        then_str = self.get_then_instruction().__str__(indent + 2) if self.get_then_instruction() else " " * (indent + 2) + "None"
         return " " * indent + f"IfThen: {self.get_condition()}\n{then_str}"

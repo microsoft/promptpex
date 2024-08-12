@@ -20,7 +20,7 @@ class SemanticDiff:
         self.deletion = result[0].split(" ")
         self.addition = result[1].split(" ")
 
-        self.changes = pandas.DataFrame(columns=["type", "rule"])
+        self.changes = pandas.DataFrame(columns=pandas.Index(["type", "rule"]))
         self.calculate_changes()
 
     def is_same(self):

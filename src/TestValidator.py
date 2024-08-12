@@ -36,7 +36,8 @@ class TestValidator:
         return " ".join(self.failed_tests)
 
     def run_tests(self):
-        result_path = open(pathlib.Path(self.path), "w", encoding="utf-8", errors="ignore", newline='')
+        assert self.path is not None
+        result_path = pathlib.Path(self.path).open("w", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
