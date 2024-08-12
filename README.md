@@ -1,7 +1,10 @@
 # Project
 
 ## Getting Started 
-Get the openai package by doing `pip install openai`  
+
+> Use CodeSpaces to get a fully configured environment.
+
+Get the packages by doing `pip install -r requirements.txt`  
 OpenAI keys needs to be set by putting it in .env file
 
 ```sh
