@@ -14,7 +14,6 @@ class SemanticDiff:
         result = LLMFrontEnd().rule_diff(self.rules1.to_string(index=True, header=False), self.rules2.to_string(index=True, header=False))
         # result = "1 2\n3 4"
 
-        import pdb; pdb.set_trace()
         result = result.replace("\n\n", "\n")
         result = result.strip() 
         result = result.split("\n")

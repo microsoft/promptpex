@@ -1,15 +1,12 @@
 from . import Dbg
 import time, os
-
+from dotenv import load_dotenv
 from openai import AzureOpenAI
 
-api_key = os.environ.get("AZURE_OPENAI_KEY")
-if api_key == "" and os.path.isfile(".env"):
-    with open(".env", "r") as f:
-        api_key = f.read().strip()
+load_dotenv()
 
 client = AzureOpenAI(
-    api_key=api_key,
+    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     api_version="2024-02-01",
     # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
     azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"

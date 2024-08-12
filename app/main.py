@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import pandas as pd
+from dotenv import load_dotenv, set_key
 
 import sys
 sys.path.insert(0, '..')
@@ -85,8 +86,7 @@ if st.session_state['submit_clicked']:
     with spec_placeholder.container():  # This creates a container at the spec_placeholder location
         if st.session_state['rules'] is None:
 
-            with open(".env", "w") as f:
-                f.write(st.session_state['api_key'])
+            set_key(".env", "AZURE_OPENAI_API_KEY", st.session_state['api_key'])
             
             system_prompt = user_input
 
