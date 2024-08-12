@@ -5,16 +5,16 @@
 > Use CodeSpaces to get a fully configured environment.
 
 Get the packages by doing `pip install -r requirements.txt`  
-OpenAI keys needs to be set by putting it in .env file
+OpenAI keys needs to be set the value of AZURE_OPENAI_API_KEY in .env file 
 
 ```sh
 $ cat .env
-$ your_key
+$ AZURE_OPENAI_API_KEY="your_key"
 ```
 
 `automatic_pipeline.py` implements the end to end automated prompt fixing pipeline. It takes a cli argument as the path to the prompt (in unix style, sample/prompt.txt).  
 ```py
-python3 regression_pipeline.py sample/LinuxTerminal.txt
+python3 automatic_pipeline.py sample/LinuxTerminal.txt
 ```
 The results goes into ap-results/ where variant-0.txt is the initial prompt with rules-0.txt as initial rules. 
 
