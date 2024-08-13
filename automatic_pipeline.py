@@ -103,10 +103,12 @@ if not test_runner.all_passed():
     result = -1
     fixed_prompts = [system_prompt]
     new_failed_tests = [test_runner.get_failed_tests()]
-    ImmutableRules = ""
+    ImmutableRules = []
     for num in range(1, num_iterations):
         print(f"Trying variant {num}")
         fixed_prompt = Mutator(original_prompt).fix_prompt(test_runner.get_failed_tests(), fixed_prompts, new_failed_tests, ImmutableRules)
+        if fixed_prompt == None:
+            fixed_prompt = original_prompt
         fixed_prompts.append(fixed_prompt)
         with open(pathlib.Path(dir_name, f"variant-{num}.txt"), "w") as f:
             f.write(fixed_prompt)
@@ -154,9 +156,14 @@ module.import_rules(result_rules)
 mutated_prompt = result_system_prompt
 for num in range(1, 1000, 50):
     print("Mutating the variant")
+    prompt_before_mutation = mutated_prompt
     mutator = Mutator(mutated_prompt)
     mutator.add_rules(3)
     mutated_prompt = mutator.get_prompt()
+
+    if mutated_prompt is None:
+        mutated_prompt = prompt_before_mutation
+        continue
 
     with open(pathlib.Path(dir_name, f"mutant-final.txt"), "w") as f:
         f.write(mutated_prompt)

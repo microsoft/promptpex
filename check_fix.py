@@ -12,7 +12,7 @@ Dbg.set_debug_file(pathlib.Path(dir_name, "fix-log.txt"))
 module = Module()
 module.import_rules(pathlib.Path(dir_name, "rules.txt"))
 
-test_runner = AskLLMTestValidator(module, system_prompt, system_prompt)
+test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, "gpt-35-turbo")
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
