@@ -1,4 +1,4 @@
-from src import StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, CLI
+from src import InputSpec, StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, CLI
 import sys, time, os, pathlib
 
 # todo: add a classification test case sample
@@ -54,8 +54,11 @@ if args.import_tests_from_file:
     test_path = pathlib.Path(dir_name, args.import_tests_from_file)
 
 input_spec_path = pathlib.Path(dir_name, "input_spec.txt")
+IS = InputSpec(system_prompt)
+IS.export_csv(input_spec_path)
+input_spec = IS.import_csv(input_spec_path)
 
-test_gen = TestCaseGenerator(module, system_prompt, test_path, input_spec_path)
+test_gen = TestCaseGenerator(module, system_prompt, test_path, input_spec)
 
 if args.use_existing or args.use_existing_tests or args.import_tests_from_file:
     test_gen.import_csv(test_path)

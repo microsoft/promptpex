@@ -6,7 +6,7 @@ from dotenv import load_dotenv, set_key
 import sys
 sys.path.insert(0, '..')
 
-from src import StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils
+from src import InputSpec, StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec
 import pathlib
 from openai import AzureOpenAI
 
@@ -31,6 +31,8 @@ if 'num_rules' not in st.session_state:
 
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
+if 'input_spec' not in st.session_state:
+    st.session_state['input_spec'] = None
 if 'tests' not in st.session_state:
     st.session_state['tests'] = None
 if 'test_results' not in st.session_state:
@@ -75,6 +77,7 @@ if submit_button:
     st.session_state['run_tests_clicked'] = False
 
     st.session_state['rules'] = None
+    st.session_state['input_spec'] = None
     st.session_state['tests'] = None
     st.session_state['test_results'] = None
 
@@ -115,6 +118,12 @@ if st.session_state['submit_clicked']:
             generated_rules_no_hash = generated_rules.copy()
             st.session_state['rules'] = generated_rules_no_hash
 
+            with st.spinner('Extracting input spec ...'):
+                input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.csv")
+                IS = InputSpec(system_prompt)
+                IS.export_csv(input_spec_path)
+                st.session_state['input_spec'] = IS
+
         def update_rules(*args, **kwargs):
             updates = st.session_state['updated_rule']
             for row_id, changes in updates['edited_rows'].items():
@@ -130,6 +139,8 @@ if st.session_state['submit_clicked']:
         st.header("Generated Rules")
         rules_edited = st.data_editor(st.session_state['rules'], key="updated_rule", use_container_width=True, on_change=update_rules)
 
+        st.header("Generated Input Spec")
+        st.data_editor(st.session_state['input_spec'].import_csv(), key="updated_input_spec", use_container_width=True)
         # gen tests button
         gen_tests_button = st.button('Gen Tests')
 
@@ -140,17 +151,14 @@ if st.session_state['submit_clicked']:
 if st.session_state['gen_tests_clicked']:
     test_path = pathlib.Path(st.session_state['dir_name'], "tests.csv")
     if st.session_state['tests'] is None:
-        input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.txt")
         system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
-        test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, input_spec_path)
+        test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, st.session_state['input_spec'].get_input_spec())
         with st.spinner('Generating tests ...'):
             test_gen.generate()
         test_gen.export_csv()
         tests = pd.read_csv(test_path)
         st.session_state['tests'] = tests
     
-    st.header("Generated Input Spec")
-    st.write(open(pathlib.Path(st.session_state['dir_name'], "input_spec.txt"), 'r').read())
     st.header("Generated Tests")
     st.dataframe(st.session_state['tests'])
 

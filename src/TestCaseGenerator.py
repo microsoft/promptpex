@@ -2,12 +2,12 @@ import hashlib, csv, pathlib, pandas
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
-    def __init__(self, module, context=None, test_path=None, input_spec_path=None):
+    def __init__(self, module, context=None, test_path=None, input_spec=""):
         self.module = module
         self.context = context
         self.tests = []
         self.result_path = None
-        self.input_spec = None
+        self.input_spec = input_spec
         self.csvwriter = None
         
         if test_path is None:
@@ -15,19 +15,7 @@ class TestCaseGenerator:
 
         self.test_path = test_path
 
-        if input_spec_path is None:
-            input_spec_path = pathlib.Path("input_spec.txt")
-
-        self.input_spec_path = input_spec_path
-
     def setup(self):
-        self.input_spec = self.extract_input_spec(self.context)
-        if self.input_spec is None:
-            self.input_spec = ""
-
-        with open(self.input_spec_path, "w", encoding="utf-8", errors="ignore") as f:
-            f.write(self.input_spec)
-
         self.result_path = open(self.test_path, "w", encoding="utf-8", errors="ignore", newline='')
         self.csvwriter = csv.writer(self.result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         self.csvwriter.writerow(["rule id", "test type", "rule", "test case"])
@@ -51,9 +39,6 @@ class TestCaseGenerator:
                 self.csvwriter.writerow(test)
         else:
             self.tests = self.import_csv(self.test_path)
-
-    def extract_input_spec(self, context):
-        return LLMFrontEnd().generate_input_spec(context)
 
     def generate_test_case(self, rule):
         test_case = LLMFrontEnd().generate_test(rule, self.context, self.input_spec)

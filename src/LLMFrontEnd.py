@@ -60,8 +60,23 @@ You are an expert in analyzing system prompts and extracting rules and constrain
 
     def generate_input_spec(self, context):
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generating input spec for context: {context}")
-        system_prompt = "You are an expert in analyzing pseudo-code and extracting rules and constraints for input generation. Given a pseudo-code, your task is to extract the rules for input generation. Provide a compact list of rules that can be used to generate a valid input without the pseduo code. Provide the rules as meaningful independent sentences that can be used to generate input and do not refer to the output. Only output the rules for input generation, one in each line and nothing else. Do not make any assumptions."
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Pseduocode: " + context}]
+        system_prompt = """
+You are an expert in analyzing chatbot functionalities and identifying the requirements for their inputs. Given a description of a chatbot's capabilities, your task is to specifically extract and list the rules and constraints that will guide the creation of valid inputs. Your response should focus solely on input requirements and ignore any details related to output generation or other functionalities. Start with describing what the input is, is it a question related to programming or is it a math problem or something more complex, then move to describing the requirements and restrictions for the input.
+
+If the chatbot description handles a corner case, for example if the description says ignore all the greetings, it means that a greeting is a valid input but the chatbot is handling it in a special way which makes it a part of the input domain and there must not be a rules against it.
+
+If the input is a file, assume the content inside that file is the input and generate input specification for that content.
+
+Tis input specification will be used for generating tests for the chatbot. Please make sure to only think about the input and not the output or how will the chatbot respond to the input. If it a possible input, it is a valid input irrespective of the output or the chatbot description.
+
+Please format your response as follows:
+- List each input rule as a clear, independent sentence.
+- Ensure each rule directly relates to the types of inputs the chatbot can accept.
+- Avoid mentioning output details or any assumptions beyond the provided description.
+
+Focus only on detailing what types of inputs can be given to the chatbot based on its description, output one rule in each line without any bullets, and nothing else.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Chatbot description: " + context}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generated input spec: {output}")
         return output
@@ -72,6 +87,9 @@ You are an expert in analyzing system prompts and extracting rules and constrain
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": rule}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generated inverse rule: {output}")
+        if output is None:
+            return ""
+        output = output.replace("\n\n", "\n").strip()
         return output
 
     def generate_test(self, rule, context=None, input_spec=None):

@@ -9,3 +9,4 @@ from .TestValidator import *
 from .Utils import *
 from .SemanticDiff import *
 from .Cli import *
+from .InputSpec import *
