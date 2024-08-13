@@ -29,8 +29,8 @@ class Rule(Instruction):
         self.set_rule(rule_str)
 
     @classmethod
-    def from_string(cls, rule_str):
-        rules = LLMFrontEnd().generate_rules_global(rule_str)
+    def from_string(cls, rule_str, num_rules=0):
+        rules = LLMFrontEnd().generate_rules_global(rule_str, num_rules)
         if rules == "" or rules is None:
             return []
         parts = rules.split('\n')

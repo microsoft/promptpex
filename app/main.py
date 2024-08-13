@@ -26,6 +26,9 @@ if 'api_key' not in st.session_state:
 if 'endpoint' not in st.session_state:
     st.session_state['endpoint'] = ''
 
+if 'num_rules' not in st.session_state:
+    st.session_state['num_rules'] = 0
+
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
 if 'tests' not in st.session_state:
@@ -50,6 +53,11 @@ with col2:
     st.session_state['endpoint'] = st.text_input(
         'Enter the endpoint', value=st.session_state['endpoint']
     )
+    st.session_state['num_rules'] = st.number_input(
+        'Enter the number of rules to generate', 0, placeholder="max"
+    )
+    st.caption("Note: If the number of rules is set to 0, all rules will be generated.")
+    
 
 # Right column for the large text input
 with col1:
@@ -99,7 +107,7 @@ if st.session_state['submit_clicked']:
             rule_path = pathlib.Path(st.session_state['dir_name'], "rules-0.csv")
 
             with st.spinner('Extracting rules ...'):
-                st.session_state['module'] = front_end.parse(system_prompt)
+                st.session_state['module'] = front_end.parse(system_prompt, num_rules=st.session_state['num_rules'])
 
             st.session_state['module'].export(rule_path)
 
