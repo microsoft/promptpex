@@ -63,8 +63,7 @@ test_gen = TestCaseGenerator(module, system_prompt, test_path, input_spec)
 if args.use_existing or args.use_existing_tests or args.import_tests_from_file:
     test_gen.import_csv(test_path)
 else:
-    test_gen.generate()
-    test_gen.export_csv()
+    test_gen.gen_all_tests(1)
 
 if args.gen_tests:
     sys.exit(0)

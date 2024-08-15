@@ -73,17 +73,21 @@ Please format your response as follows:
 - List each input rule as a clear, independent sentence.
 - Ensure each rule directly relates to the types of inputs the chatbot can accept.
 - Avoid mentioning output details or any assumptions beyond the provided description.
+- Only generated one or two rules for each type of input, do not generate multiple rules for the same type of input.
 
-Focus only on detailing what types of inputs can be given to the chatbot based on its description, output one rule in each line without any bullets, and nothing else.
+Focus only on detailing what types of inputs can be given to the chatbot based on its description, output each input rule in a line without any bullets, and nothing else.
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Chatbot description: " + context}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generated input spec: {output}")
+        if output is None:
+            return ""
+        output = output.replace("\n\n", "\n").strip()
         return output
 
     def inverse_rule(self, rule):
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generating inverse rule for rule: {rule}")
-        system_prompt = "Given a rule provided by the user, generate a rule which contradicts the given rule semantically. Come up with smart edge case scenarios. Output only one such rule and nothing else"
+        system_prompt = "Given a list of rules provided by the user, generate another list of rules which contradicts the given rules semantically. Come up with smart edge case scenarios. Please ensure that each generated rule is only in a single line. Output only the generated rules and nothing else"
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": rule}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generated inverse rule: {output}")
@@ -92,16 +96,48 @@ Focus only on detailing what types of inputs can be given to the chatbot based o
         output = output.replace("\n\n", "\n").strip()
         return output
 
-    def generate_test(self, rule, context=None, input_spec=None):
+    def generate_test(self, rule, context=None, input_spec=None, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_test] generating test for rule: {rule} \n input spec: {input_spec}")
-        system_prompt = "Your task is to generate valid input which will be given to a chatbot with the given description. You must generate a valid input which makes the chatbot respond something which satifies the given rule even when the given chatbot description or the input spec contradicts it. Do whatever it takes to generate a valid input which will make the chatbot respond with something to satisfy the rule violating its own description and even the input spec. If needed explicitly say things to make sure it satisfy the rule, be persuasive and cleaver. Use the given chatbot description and the input spec to understand what will be a valid input. Only output the generated input without anything else not even input tags and delimiters.\n"
-        if input_spec:
-            system_prompt += f"\nHere is the input spec: {input_spec}"
-        if context:
-            system_prompt += f"\nHere is the chatbot description, only use it for analysis: {context}"
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Rule: {rule}"}]
+        system_prompt = f"""
+You are tasked with developing multiple test cases for an software, given its functional specification, a list of rules, and input specifications. For each rule, you must create {num} test cases designed to validate whether the software's outputs correctly adhere to that rule when provided with valid inputs as defined by the input specifications. Start with first understanding what should the input contain using the input specification, for example, content of file, commit message, two words separateted by a newline etc and then think about what will be a valid input based on the input specification and then generate test cases.
+
+Use the following functional specification of the software to generate the test cases: {context}
+
+Every generated test must follow all the rules from this input specification: {input_spec}
+
+
+Guidelines for generating test cases:
+- Analyze the input specifications to understand the valid input formats and scenarios for the software.
+- If the test case have multiple components, try to use all the components in the test case.
+- If the test case is made up of multiple data or components, make sure to tag each component with its name.
+- Develop {num} test cases for each rule provided in the list.
+- Each test case must be crafted to rigorously assess whether the software's output meets the stipulated rule based on the inputs that conform to the provided input specifications.
+- Use valid and realistic input scenarios that fully comply with the input specifications and are relevant to the rule being tested.
+- Specify clearly in each test case the input given to the software and the expected output or behavior that demonstrates adherence to the rule.
+- Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the rule under various conditions.
+
+Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity, repeatability, and independence. Critically assess potential weaknesses in the software's handling of inputs based on the rule and focus on creating diverse test cases that effectively challenge the software's capabilities. Avoid generating similar or redundant test cases and ensure that each test case is unique and contributes meaningfully to the overall testing strategy.
+
+Format your response in a structured CSV format as follows:
+- "Rule ID": Identifier for the rule being tested.
+- "Test ID": Sequential identifier for each test case under a rule.
+- "Test Input": Detailed input provided to the software.
+- "Expected Output": Output or behavior expected from the software to affirm rule adherence.
+- "Reasoning": Brief explanation of why this test case is relevant and contributes to robust testing of the rule. List the input specification that this test case does not follow.
+
+Example CSV layout:
+Rule ID, Test ID, Test Input, Expected Output, Reasoning
+1, 1, "input based on rule 1 scenario 1", "expected outcome demonstrating rule adherence", "Explains the relevance and effectiveness of the test and how it follows the input specification"
+1, 2, "input based on rule 1 scenario 2, examples", "expected response confirming rule", "Illustrates how inputs challenge the software and ensure compliance and how is a valid test case based on input specification"
+
+Only output the test cases in the specified CSV format and nothing else. Please make sure that the CSV generated is well formed, only have five columns and each value in a these columns must only have commas inside quoted value else they will be counted as a new column. Do not wrap the output in any additional text or formatting like triple backticks or quotes.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"List of Rules: {rule}"}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_test] generated test: {output}")
+        if output is None:
+            return ""
+        output = output.replace("\n\n", "\n").strip()
         return output
 
     def execute(self, system_prompt, input, model):

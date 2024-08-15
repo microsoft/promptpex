@@ -1,5 +1,5 @@
 import streamlit as st
-import time
+import time, io, re
 import pandas as pd
 from dotenv import load_dotenv, set_key
 
@@ -28,6 +28,8 @@ if 'endpoint' not in st.session_state:
 
 if 'num_rules' not in st.session_state:
     st.session_state['num_rules'] = 0
+if 'num_tests' not in st.session_state:
+    st.session_state['num_tests'] = 0
 
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
@@ -58,13 +60,16 @@ with col2:
     st.session_state['num_rules'] = st.number_input(
         'Enter the number of rules to generate', 0, placeholder="max"
     )
-    st.caption("Note: If the number of rules is set to 0, all rules will be generated.")
+    st.session_state['num_tests'] = st.number_input(
+        'Enter the number of test sets to generate', 1, placeholder="1"
+    )
+    st.caption("Note: If the number of tests is set to 1, tests will be generated once for all the rules.")
     
 
 # Right column for the large text input
 with col1:
     st.header("Input System Prompt")
-    user_input = st.text_area('Enter the prompt here', height=300)
+    user_input = st.text_area('Enter the prompt here', height=350)
 
 # Button to submit inputs
 submit_button = st.button('Start PromptPex')
@@ -154,10 +159,16 @@ if st.session_state['gen_tests_clicked']:
         system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
         test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, st.session_state['input_spec'].get_input_spec())
         with st.spinner('Generating tests ...'):
-            test_gen.generate()
-        test_gen.export_csv()
-        tests = pd.read_csv(test_path)
-        st.session_state['tests'] = tests
+            tests = test_gen.gen_all_tests(st.session_state['num_tests'])
+            tests_df = []
+            for test in tests:
+                row = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', str(test))
+                if len(row) != 5:
+                    print("[Wrong data]: ", row)
+                    continue
+                row = [x.strip().strip('"') for x in row]
+                tests_df.append(row)
+            st.session_state['tests'] = pd.DataFrame(tests_df[1:], columns=pd.Index(tests_df[0]))
     
     st.header("Generated Tests")
     st.dataframe(st.session_state['tests'])
