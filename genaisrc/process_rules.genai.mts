@@ -7,6 +7,7 @@ script({
     "ap-results/CONTRIBUTING/rules-0.csv",
     "ap-results/LinuxTerminal/rules-0.csv",
   ],
+  tools: ["python_code_interpreter"]
 });
 
 const rules = def("RULE", env.files, { endsWith: ".csv" });
