@@ -20,7 +20,7 @@ front_end = StringFrontEnd()
 module = front_end.parse(system_prompt)
 module.export(pathlib.Path(dir_name, "rules-variants.txt"))
 
-test_runner = AskLLMTestValidator(module, original_prompt, system_prompt)
+test_runner = AskLLMTestValidator(module, original_prompt, system_prompt, "gpt-35-turbo")
 test_runner.append(pathlib.Path(dir_name, "negative.txt"))
 test_runner.append(pathlib.Path(dir_name, "positive.txt"))
 test_runner.run_tests()
