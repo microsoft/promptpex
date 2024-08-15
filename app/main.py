@@ -1,5 +1,5 @@
 import streamlit as st
-import time, io, re
+import time, io, re, csv
 import pandas as pd
 from dotenv import load_dotenv, set_key
 
@@ -58,7 +58,7 @@ with col2:
         'Enter the endpoint', value=st.session_state['endpoint']
     )
     st.session_state['num_rules'] = st.number_input(
-        'Enter the number of rules to generate', 0, placeholder="max"
+        'Enter the number of rules to generate', 1, placeholder="max"
     )
     st.session_state['num_tests'] = st.number_input(
         'Enter the number of test sets to generate', 1, placeholder="1"
@@ -142,10 +142,30 @@ if st.session_state['submit_clicked']:
             st.session_state['module'].import_rules(rule_path)
 
         st.header("Generated Rules")
+        st.caption("Note: You can edit the rules below by double-clicking on the cell.")
         rules_edited = st.data_editor(st.session_state['rules'], key="updated_rule", use_container_width=True, on_change=update_rules)
 
+        def update_input_spec(*args, **kwargs):
+            updates = st.session_state['updated_input_spec']
+            input_spec = st.session_state['input_spec'].import_csv()
+            for row_id, changes in updates['edited_rows'].items():
+                input_spec[int(row_id)] = changes['value']
+
+            input_spec_path = pathlib.Path(st.session_state['dir_name'], "input-spec-edited.csv")
+            with open(input_spec_path, "w", encoding="utf-8", errors="ignore", newline='') as f:
+                csv_write = csv.writer(f)
+                csv_write.writerow(["input spec"])
+                for line in input_spec:
+                    csv_write.writerow([line])
+
+            IS = st.session_state['input_spec']
+            IS.import_csv(input_spec_path)
+            st.session_state['input_spec'] = IS
+            
+
         st.header("Generated Input Spec")
-        st.data_editor(st.session_state['input_spec'].import_csv(), key="updated_input_spec", use_container_width=True)
+        st.caption("Note: You can edit the input spec below by double-clicking on the cell.")
+        st.data_editor(st.session_state['input_spec'].import_csv(), key="updated_input_spec", use_container_width=True, on_change=update_input_spec)
         # gen tests button
         gen_tests_button = st.button('Gen Tests')
 

@@ -37,6 +37,7 @@ class InputSpec:
             path = self.path
         
         assert path is not None, "Path is not specified"
+        self.path = path
         self.spec = []
         with open(path, "r", encoding="utf-8", errors="ignore", newline='') as f:
             csv_read = csv.reader(f)
