@@ -44,9 +44,11 @@ if 'dir_name' not in st.session_state:
     st.session_state['dir_name'] = None
 if 'module' not in st.session_state:
     st.session_state['module'] = None
+if 'system_prompt' not in st.session_state:
+    st.session_state['system_prompt'] = None
 
 # Use two columns for API key and input
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([7, 3])
 
 # Left column for API key and endpoint input (masked)
 with col2:
@@ -70,12 +72,10 @@ with col2:
 # Right column for the large text input
 with col1:
     st.header("Input System Prompt")
-    user_input = st.text_area('Enter the prompt here', height=350)
+    st.session_state['system_prompt'] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=400)
 
 # Button to submit inputs
 submit_button = st.button('Start PromptPex')
-
-system_prompt = ""
 
 if submit_button:
     st.session_state['submit_clicked'] = True
@@ -105,18 +105,16 @@ if st.session_state['submit_clicked']:
 
             set_key(".env", "AZURE_OPENAI_API_KEY", st.session_state['api_key'])
             
-            system_prompt = user_input
-
             with open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "w") as f:
-                f.write(system_prompt)
+                f.write(st.session_state['system_prompt'])
 
             Dbg.set_debug_file(pathlib.Path(st.session_state['dir_name'], "log.txt"))
-            original_prompt = system_prompt
+            original_prompt = st.session_state['system_prompt']
 
             rule_path = pathlib.Path(st.session_state['dir_name'], "rules-0.csv")
 
             with st.spinner('Extracting rules ...'):
-                st.session_state['module'] = front_end.parse(system_prompt, num_rules=st.session_state['num_rules'])
+                st.session_state['module'] = front_end.parse(st.session_state['system_prompt'], num_rules=st.session_state['num_rules'])
 
             st.session_state['module'].export(rule_path)
 
@@ -126,7 +124,7 @@ if st.session_state['submit_clicked']:
 
             with st.spinner('Extracting input spec ...'):
                 input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.csv")
-                IS = InputSpec(system_prompt)
+                IS = InputSpec(st.session_state['system_prompt'])
                 IS.export_csv(input_spec_path)
                 st.session_state['input_spec'] = IS
 
@@ -177,7 +175,7 @@ if st.session_state['submit_clicked']:
 if st.session_state['gen_tests_clicked']:
     test_path = pathlib.Path(st.session_state['dir_name'], "tests.csv")
     if st.session_state['tests'] is None:
-        system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
+        system_prompt = st.session_state['system_prompt']
         test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, st.session_state['input_spec'].get_input_spec())
         with st.spinner('Generating tests ...'):
             tests_df = test_gen.gen_all_tests(st.session_state['num_tests'])
@@ -198,7 +196,7 @@ if st.session_state['run_tests_clicked']:
     test_path = pathlib.Path(st.session_state['dir_name'], "tests.csv")
     if st.session_state['test_results'] is None:
         original_test_run_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
-        system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
+        system_prompt = st.session_state['system_prompt']
         test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, "gpt-35-turbo", original_test_run_path)
         test_runner.append(test_path)
         with st.spinner('Running tests ...'):
