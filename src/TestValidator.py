@@ -9,6 +9,7 @@ class TestValidator:
         self.passed = []
         self.output = []
         self.reason = []
+        self.expected = []
         self.validation_sp = validation_sp
         self.execution_sp = execution_sp
         self.module = module
@@ -17,12 +18,20 @@ class TestValidator:
         self.path = path
 
     def append(self, file_path):
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as csvfile:
-            reader = csv.reader(csvfile)
-            next(reader, None)
-            for line in reader:
-                self.keys.append(line[0])
-                self.tests.append(line[-1])
+        import re
+        tests = []
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            tests = f.readlines()
+        tests = tests[1:]
+        for test in tests:
+            row = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', str(test))
+            if len(row) != 5:
+                print("[Wrong data]: ", row)
+                continue
+            row = [x.strip().strip('"') for x in row]
+            self.keys.append(row[0])
+            self.tests.append(row[2])
+            self.expected.append(row[3])
 
     def run_test(self, test, expected):
         results = self.validate(test)
@@ -47,14 +56,13 @@ class TestValidator:
             self.passed.append(passed)
             self.output.append(output)  
             self.reason.append(reason)
-            expected_output = self.guess_expected_output(test)  
 
             if passed:
                 passed_str = "Passed"
             else:
                 passed_str = "Failed"
 
-            data = [self.keys[self.tests.index(test)], test, output, passed_str, reason, expected_output]
+            data = [self.keys[self.tests.index(test)], test, output, passed_str, reason, self.expected[self.tests.index(test)]]
             data = [s.replace('\n', '\\n') for s in data]
             csvwriter.writerow(data)
 

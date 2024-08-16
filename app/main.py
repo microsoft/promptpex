@@ -58,8 +58,9 @@ with col2:
         'Enter the endpoint', value=st.session_state['endpoint']
     )
     st.session_state['num_rules'] = st.number_input(
-        'Enter the number of rules to generate', 1, placeholder="max"
+        'Enter the number of rules to generate', 0, placeholder="max"
     )
+    st.caption("Note: If the number of rules is set to 0, all rules will be generated.")
     st.session_state['num_tests'] = st.number_input(
         'Enter the number of test sets to generate', 1, placeholder="1"
     )
@@ -179,16 +180,10 @@ if st.session_state['gen_tests_clicked']:
         system_prompt = open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "r").read()
         test_gen = TestCaseGenerator(st.session_state['module'], system_prompt, test_path, st.session_state['input_spec'].get_input_spec())
         with st.spinner('Generating tests ...'):
-            tests = test_gen.gen_all_tests(st.session_state['num_tests'])
-            tests_df = []
-            for test in tests:
-                row = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', str(test))
-                if len(row) != 5:
-                    print("[Wrong data]: ", row)
-                    continue
-                row = [x.strip().strip('"') for x in row]
-                tests_df.append(row)
-            st.session_state['tests'] = pd.DataFrame(tests_df[1:], columns=pd.Index(tests_df[0]))
+            tests_df = test_gen.gen_all_tests(st.session_state['num_tests'])
+            display_df = pd.DataFrame(tests_df, columns=pd.Index(tests_df[0]))
+            display_df.drop(columns=['Expected Output', 'Test ID',], inplace=True)
+            st.session_state['tests'] = display_df[1:]
     
     st.header("Generated Tests")
     st.dataframe(st.session_state['tests'])
@@ -209,8 +204,8 @@ if st.session_state['run_tests_clicked']:
         with st.spinner('Running tests ...'):
             test_runner.run_tests()
         # st.session_state['test_results'] = test_runner.importResults(original_test_run_path)
-        output_file_path = pathlib.Path(st.session_state['dir_name'], "result.csv")
-        Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
+        output_file_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
+        # Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
         results = pd.read_csv(output_file_path)
         results.drop(columns=['rule id'], inplace=True) 
         st.session_state['test_results'] = results

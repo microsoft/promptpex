@@ -1,4 +1,6 @@
-import hashlib, csv, pathlib, pandas
+import hashlib, csv, pathlib, pandas, re
+
+from pandas.io.orc import pd
 from . import LLMFrontEnd, Rule, SemanticDiff
 
 class TestCaseGenerator:
@@ -9,6 +11,7 @@ class TestCaseGenerator:
         self.result_path = None
         self.input_spec = input_spec
         self.csvwriter = None
+        self.rules_list = None
         
         if test_path is None:
             test_path = pathlib.Path("tests.csv")
@@ -40,36 +43,48 @@ class TestCaseGenerator:
         return rules + inv_rules
 
     def gen_all_tests(self, num_tests=1):
-        rules_list = self.get_all_rules()
-        rules = "\n".join(rules_list)
+        self.rules_list = self.get_all_rules()
+        rules = "\n".join(self.rules_list)
         tests = LLMFrontEnd().generate_test(rules, self.context, self.input_spec, num_tests)
+        self.parse_csv(tests)
         with open(self.test_path, "w", encoding="utf-8", errors="ignore", newline='') as f:
-            f.write(tests)
-        self.import_csv(self.test_path)
-        if self.tests is None:
-            self.tests = []
+            csvwriter = csv.writer(f)
+            for self.test in self.tests:
+                csvwriter.writerow(self.test)
         return self.tests
-
-        
-
-        #     csv_writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
-        #     csv_writer.writerow(["rule id", "test type", "rule", "test case"])
-        #     for tests in tests_list:
-        #         test = tests.split(",")
-        #         self.tests.append(test)
-        #         index = tests_list.index(tests)
-        #         type = "positive"
-        #         if index >= len(rules_list) / 2:
-        #             type = "negative"
-        #         csv_writer.writerow(["rule id", type, rules_list[index], test[2]])
 
     def generate(self):
         return self.gen_all_tests()
+
+    def parse_csv(self, data):
+        self.tests = data.split("\n")
+        tests_df = []
+        for test in self.tests:
+            row = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', str(test))
+            if len(row) != 5:
+                print("[Wrong data]: ", row)
+                continue
+            row = [x.strip().strip('"') for x in row]
+            if self.rules_list is not None and self.tests.index(test) > 0:
+                row[0] = self.rules_list[int(row[0]) - 1]
+            tests_df.append(row)
+        self.tests = tests_df
 
     def import_csv(self, file_path):
         self.tests = []
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             self.tests = f.readlines()
+        tests_df = []
+        for test in self.tests:
+            row = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', str(test))
+            if len(row) != 5:
+                print("[Wrong data]: ", row)
+                continue
+            row = [x.strip().strip('"') for x in row]
+            if self.rules_list is not None:
+                row[0] = self.rules_list[self.tests.index(test)]
+            tests_df.append(row)
+        self.tests = tests_df
 
     def update_tests(self, diff : SemanticDiff):
         assert False, "Not implemented for batch mode"
