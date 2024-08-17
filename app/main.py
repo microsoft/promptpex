@@ -68,6 +68,9 @@ if 'num_tests' not in st.session_state:
 if 'num_runs' not in st.session_state:
     st.session_state['num_runs'] = 0
 
+if 'test_state' not in st.session_state:
+    st.session_state['test_state'] = 0
+
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
 if 'input_spec' not in st.session_state:
@@ -241,7 +244,7 @@ def get_temp(current_index, max_index):
 if st.session_state['run_tests_clicked']:
     test_path = pathlib.Path(st.session_state['dir_name'], "tests.csv")
     if st.session_state['test_results'] is None:
-        original_test_run_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
+        original_test_run_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{st.session_state['test_state']}.csv")
         system_prompt = st.session_state['system_prompt']
         test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, "gpt-35-turbo", original_test_run_path)
         test_runner.append(test_path)
@@ -249,15 +252,20 @@ if st.session_state['run_tests_clicked']:
             for i in range(st.session_state['num_runs']):
                 temp = get_temp(i, st.session_state['num_runs'])
                 test_runner.run_tests(temp)
-        # st.session_state['test_results'] = test_runner.importResults(original_test_run_path)
-        output_file_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
-        # Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
-        results = pd.read_csv(output_file_path)
-        results.drop(columns=['rule id'], inplace=True) 
-        # drop rows where 'result' is 'Passed'
-        results = results[results['result'] != 'passed']
-        st.session_state['test_results'] = results
+
+        st.session_state['test_state'] += 1
+        st.session_state['test_results'] = original_test_run_path
 
     st.header("Generated Result")
     st.caption("Note: Only showing failing tests")
-    st.table(st.session_state['test_results'])
+
+    tabs = [f"Run-{i+1}" for i in range(st.session_state['test_state'])]
+
+    tab_list = st.tabs(tabs)
+    for idx in range(st.session_state['test_state']):
+        with tab_list[idx]:
+            output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{idx}.csv")
+            results = pd.read_csv(output_file_path)
+            results.drop(columns=['rule id'], inplace=True) 
+            results = results[results['result'] != 'passed']
+            st.table(results)
