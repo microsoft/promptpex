@@ -10,7 +10,6 @@ from src import InputSpec, StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerato
 import pathlib
 from openai import AzureOpenAI
 
-# Set page configuration and add a title
 st.set_page_config(page_title="PromptPex", layout="wide")
 st.title("PromptPex: Prompt Exploration")
 
@@ -206,7 +205,10 @@ if st.session_state['run_tests_clicked']:
         # Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
         results = pd.read_csv(output_file_path)
         results.drop(columns=['rule id'], inplace=True) 
+        # drop rows where 'result' is 'Passed'
+        results = results[results['result'] != 'Passed']
         st.session_state['test_results'] = results
 
     st.header("Generated Result")
+    st.caption("Note: Only showing failing tests")
     st.table(st.session_state['test_results'])
