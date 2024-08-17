@@ -65,6 +65,8 @@ if 'num_rules' not in st.session_state:
     st.session_state['num_rules'] = 0
 if 'num_tests' not in st.session_state:
     st.session_state['num_tests'] = 0
+if 'num_runs' not in st.session_state:
+    st.session_state['num_runs'] = 0
 
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
@@ -100,7 +102,9 @@ with st.sidebar:
         'Enter the number of test sets to generate', 1, placeholder="1"
     )
     st.caption("Note: If the number of tests is set to 1, tests will be generated once for all the rules.")
-    
+    st.session_state['num_runs'] = st.number_input(
+    'Enter the number of times the test should run', 1, placeholder="1" 
+    )
 
 st.header("Input System Prompt")
 st.session_state['system_prompt'] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=200)
@@ -233,7 +237,8 @@ if st.session_state['run_tests_clicked']:
         test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, "gpt-35-turbo", original_test_run_path)
         test_runner.append(test_path)
         with st.spinner('Running tests ...'):
-            test_runner.run_tests()
+            for i in range(st.session_state['num_runs']):
+                test_runner.run_tests()
         # st.session_state['test_results'] = test_runner.importResults(original_test_run_path)
         output_file_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
         # Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)

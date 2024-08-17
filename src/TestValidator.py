@@ -1,5 +1,5 @@
 from . import LLMFrontEnd
-import csv, pathlib
+import csv, pathlib, os
 
 class TestValidator:
     def __init__(self, module, validation_sp, execution_sp, execution_model, path=None):
@@ -46,9 +46,10 @@ class TestValidator:
 
     def run_tests(self):
         assert self.path is not None
-        result_path = pathlib.Path(self.path).open("w", encoding="utf-8", errors="ignore", newline='')
+        result_path = pathlib.Path(self.path).open("a", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
-        csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
+        if not os.path.exists(self.path) or os.path.getsize(self.path) == 0:
+            csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
         local_output = []
         for test in self.tests:
