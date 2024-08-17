@@ -13,6 +13,42 @@ from openai import AzureOpenAI
 st.set_page_config(page_title="PromptPex", layout="wide")
 st.title("PromptPex: Prompt Exploration")
 
+st.markdown("""
+    <style>
+    html, body, [class*="css"] {
+        font-family: "Arial", sans-serif;
+        background-color: #F7F7F7;
+        color: #333333;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    body {
+        gap: 1px !important;
+    }
+
+    header {
+        background: transparent !important;
+    }
+
+    .block-container {
+        padding-top: 0px !important;
+    }
+
+    td, th {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 100;
+    }
+    button.st-emotion-cache-1huvf7z.ef3psqc6 {
+        display: block;
+        visibility: hidden;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 if 'submit_clicked' not in st.session_state:
     st.session_state['submit_clicked'] = False
 if 'gen_tests_clicked' not in st.session_state:
@@ -46,11 +82,9 @@ if 'module' not in st.session_state:
 if 'system_prompt' not in st.session_state:
     st.session_state['system_prompt'] = None
 
-# Use two columns for API key and input
-col1, col2 = st.columns([7, 3])
+# col1, col2 = st.columns([7, 3])
 
-# Left column for API key and endpoint input (masked)
-with col2:
+with st.sidebar:
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
         'Enter your API key', type="password", value=st.session_state['api_key']
@@ -68,10 +102,8 @@ with col2:
     st.caption("Note: If the number of tests is set to 1, tests will be generated once for all the rules.")
     
 
-# Right column for the large text input
-with col1:
-    st.header("Input System Prompt")
-    st.session_state['system_prompt'] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=400)
+st.header("Input System Prompt")
+st.session_state['system_prompt'] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=200)
 
 # Button to submit inputs
 submit_button = st.button('Start PromptPex')
@@ -206,7 +238,7 @@ if st.session_state['run_tests_clicked']:
         results = pd.read_csv(output_file_path)
         results.drop(columns=['rule id'], inplace=True) 
         # drop rows where 'result' is 'Passed'
-        results = results[results['result'] != 'Passed']
+        results = results[results['result'] != 'passed']
         st.session_state['test_results'] = results
 
     st.header("Generated Result")
