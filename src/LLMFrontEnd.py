@@ -141,13 +141,13 @@ Only output the test cases in the specified CSV format and nothing else. Please 
         output = output.replace("\n\n", "\n").strip()
         return output
 
-    def execute(self, system_prompt, input, model):
+    def execute(self, system_prompt, input, model, temp):
         if "<INPUT>" in system_prompt:
             system_prompt = system_prompt.replace("<INPUT>", input)
             messages = [{"role": "user", "content": system_prompt}]
         else:
             messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Input: " + input}]
-        output = self.get_bot_response(messages, model, temprature=1)
+        output = self.get_bot_response(messages, model, temprature=temp)
         Dbg.debug(f"[LLM FrontEnd][execute] executed input:\n {input}\n and got output:\n {output}")
         return output
 

@@ -44,7 +44,7 @@ class TestValidator:
     def get_failed_tests(self):
         return " ".join(self.failed_tests)
 
-    def run_tests(self):
+    def run_tests(self, temp=1.0):
         assert self.path is not None
         result_path = pathlib.Path(self.path).open("a", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
@@ -53,7 +53,7 @@ class TestValidator:
 
         local_output = []
         for test in self.tests:
-            output = self.run_single_test(test.strip())
+            output = self.run_single_test(test.strip(), temp)
             self.output.append(output)
             local_output.append("Chatbot Output:\n" + output)
 
@@ -103,7 +103,7 @@ class TestValidator:
     def guess_expected_output(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
 
-    def run_single_test(self, test_case):
+    def run_single_test(self, test_case, temp):
         raise NotImplementedError("Subclasses should implement this method")
 
     def validate_batch(self, output, expected, num_tests):
@@ -118,12 +118,12 @@ class AskLLMTestValidator(TestValidator):
 
     def validate(self, test_case):
         # result = LLMFrontEnd().execute(self.validation_sp, test_case, "gpt-35-turbo")
-        output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model)
+        output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model, 1.0)
         result = LLMFrontEnd().check_violation_with_system_prompt(output, self.validation_sp)
         return [output, result]
 
-    def run_single_test(self, test_case):
-        output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model)
+    def run_single_test(self, test_case, temp=1.0):
+        output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model, temp)
         return output
 
     def validate_batch(self, output, expected, num_tests):

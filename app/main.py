@@ -229,6 +229,15 @@ if st.session_state['gen_tests_clicked']:
         st.session_state['run_tests_clicked'] = True
         st.session_state['test_results'] = None
 
+import numpy as np
+def get_temp(current_index, max_index):
+    if max_index == 1:
+        return 1.00
+    values = np.linspace(-1, 1, max_index)
+    # Cubing to make distribution denser around 1
+    transformed_values = 1 + np.sin(values * np.pi/2)**3 
+    return float(transformed_values[current_index])
+
 if st.session_state['run_tests_clicked']:
     test_path = pathlib.Path(st.session_state['dir_name'], "tests.csv")
     if st.session_state['test_results'] is None:
@@ -238,7 +247,8 @@ if st.session_state['run_tests_clicked']:
         test_runner.append(test_path)
         with st.spinner('Running tests ...'):
             for i in range(st.session_state['num_runs']):
-                test_runner.run_tests()
+                temp = get_temp(i, st.session_state['num_runs'])
+                test_runner.run_tests(temp)
         # st.session_state['test_results'] = test_runner.importResults(original_test_run_path)
         output_file_path = pathlib.Path(st.session_state['dir_name'], "variant-run-0.csv")
         # Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
