@@ -152,6 +152,7 @@ if st.session_state['submit_clicked']:
             generated_rules = pd.read_csv(rule_path)
             generated_rules_no_hash = generated_rules.copy()
             st.session_state['rules'] = generated_rules_no_hash
+            st.session_state['rules'].drop(columns=['rule id'], inplace=True)   
 
             with st.spinner('Extracting input spec ...'):
                 input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.csv")
@@ -173,6 +174,7 @@ if st.session_state['submit_clicked']:
 
         st.header("Generated Rules")
         st.caption("Note: You can edit the rules below by double-clicking on the cell.")
+        # drop 'rule id' column
         rules_edited = st.data_editor(st.session_state['rules'], key="updated_rule", use_container_width=True, on_change=update_rules)
 
         def update_input_spec(*args, **kwargs):
