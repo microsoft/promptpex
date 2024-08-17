@@ -99,7 +99,7 @@ Focus only on detailing what types of inputs can be given to the chatbot based o
     def generate_test(self, rule, context=None, input_spec=None, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_test] generating test for rule: {rule} \n input spec: {input_spec}")
         system_prompt = f"""
-You are tasked with developing multiple test cases for an software, given its functional specification, a list of rules, and input specifications. For each rule, you must create {num} unique test cases designed to validate whether the software's outputs correctly adhere to that rule when provided with valid inputs as defined by the input specifications. Start with first understanding what should the input contain using the input specification, for example, content of file, commit message, two words separateted by a newline etc and then think about what will be a valid input based on the input specification and then generate test cases.
+You are tasked with developing multiple test cases for an software, given its functional specification, a list of rules, and input specifications. For each rule, you must create {num} test cases designed to validate whether the software's outputs correctly adhere to that rule when provided with valid inputs as defined by the input specifications. Start with first understanding what should the input contain using the input specification, for example, content of file, commit message, two words separateted by a newline etc and then think about what will be a valid input based on the input specification and then generate test cases.
 
 Use the following functional specification of the software to generate the test cases: {context}
 
@@ -115,7 +115,7 @@ Guidelines for generating test cases:
 - Use valid and realistic input scenarios that fully comply with the input specifications and are relevant to the rule being tested.
 - Specify clearly in each test case the input given to the software and the expected output or behavior that demonstrates adherence to the rule.
 - Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the rule under various conditions.
-- Never generate similar or redundant test cases and ensure that each test case is unique and contributes meaningfully to the overall testing strategy.
+- Never generate similar or redundant test cases
 
 Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity, repeatability, and independence. Critically assess potential weaknesses in the software's handling of inputs based on the rule and focus on creating diverse test cases that effectively challenge the software's capabilities.
 
