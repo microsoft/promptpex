@@ -57,7 +57,7 @@ class TestValidator:
             local_output.append("Chatbot Output:\n" + output)
 
         local_ouptut_str = "\n".join(local_output)
-        validation_result = self.validate_batch(local_ouptut_str, "0")
+        validation_result = self.validate_batch(local_ouptut_str, "0", len(local_output))
 
         assert len(validation_result) == len(local_output)
 
@@ -105,7 +105,7 @@ class TestValidator:
     def run_single_test(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
 
-    def validate_batch(self, output, expected):
+    def validate_batch(self, output, expected, num_tests):
         raise NotImplementedError("Subclasses should implement this method")
 
     def all_passed(self):
@@ -125,15 +125,14 @@ class AskLLMTestValidator(TestValidator):
         output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model)
         return output
 
-    def validate_batch(self, output, expected):
-        result = LLMFrontEnd().check_violation_with_system_prompt_batch(output, self.validation_sp)
+    def validate_batch(self, output, expected, num_tests):
+        result = LLMFrontEnd().check_violation_with_system_prompt_batch(output, self.validation_sp, num_tests)
         if result is None:
             result = ""
         result.replace("\n\n", "\n")
         result = result.split("\n")
         output = []
         for line in result:
-            print(line)
             if line == "":
                 continue
             if line == "0" or line == "1":
