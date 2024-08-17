@@ -50,24 +50,32 @@ class TestValidator:
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
         csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
+        local_output = []
         for test in self.tests:
-            passed, output, reason = self.run_test(test.strip(), "0")
-            self.results.append(passed)
-            self.passed.append(passed)
-            self.output.append(output)  
-            self.reason.append(reason)
+            output = self.run_single_test(test.strip())
+            self.output.append(output)
+            local_output.append(output)
 
-            if passed:
-                passed_str = "Passed"
-            else:
-                passed_str = "Failed"
+        local_ouptut_str = "\n".join(local_output)
+        validation_result = self.validate_batch(local_ouptut_str, "0")
 
-            data = [self.keys[self.tests.index(test)], test, output, passed_str, reason, self.expected[self.tests.index(test)]]
+        assert len(validation_result) == len(local_output)
+
+        for res in validation_result:
+            self.results.append(res[0])
+            self.passed.append(res[0])
+            self.reason.append(res[1])
+
+            if res[0] != "passed":
+                self.failed_tests.append("input:\n" + self.tests[validation_result.index(res)] + "\noutput:\n" + local_output[validation_result.index(res)] + "\nreason for failure: " + res[1]+"\n\n")
+
+        for test in self.tests:
+            idx = self.tests.index(test)
+            offset = idx - len(local_output)
+
+            data = [self.keys[idx], test, local_output[idx], self.passed[offset], self.reason[offset], self.expected[idx]]
             data = [s.replace('\n', '\\n') for s in data]
             csvwriter.writerow(data)
-
-            if not passed:
-                self.failed_tests.append("input:\n" + test + "\noutput:\n" + output + "\nreason for failure: " + reason+"\n\n")
 
         result_path.close()
 
@@ -94,6 +102,12 @@ class TestValidator:
     def guess_expected_output(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
 
+    def run_single_test(self, test_case):
+        raise NotImplementedError("Subclasses should implement this method")
+
+    def validate_batch(self, output, expected):
+        raise NotImplementedError("Subclasses should implement this method")
+
     def all_passed(self):
         return all(self.results)
     
@@ -106,6 +120,29 @@ class AskLLMTestValidator(TestValidator):
         output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model)
         result = LLMFrontEnd().check_violation_with_system_prompt(output, self.validation_sp)
         return [output, result]
+
+    def run_single_test(self, test_case):
+        output = LLMFrontEnd().execute(self.execution_sp, test_case, self.execution_model)
+        return output
+
+    def validate_batch(self, output, expected):
+        result = LLMFrontEnd().check_violation_with_system_prompt_batch(output, self.validation_sp)
+        if result is None:
+            result = ""
+        result = result.split("\n")
+        output = []
+        for line in result:
+            if line == "0\n" or line == "1\n":
+                if line[0] == expected:
+                    output.append(["passed", ""])
+                else:
+                    output.append(["failed", ""])
+            else:
+                output[-1][1] = output[-1][1] + line
+        return output
+
+
+
 
     def guess_expected_output(self, test_case):
         return LLMFrontEnd().expected_output(self.execution_sp, test_case)
