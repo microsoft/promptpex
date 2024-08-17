@@ -54,7 +54,7 @@ class TestValidator:
         for test in self.tests:
             output = self.run_single_test(test.strip())
             self.output.append(output)
-            local_output.append(output)
+            local_output.append("Chatbot Output:\n" + output)
 
         local_ouptut_str = "\n".join(local_output)
         validation_result = self.validate_batch(local_ouptut_str, "0")
@@ -129,10 +129,14 @@ class AskLLMTestValidator(TestValidator):
         result = LLMFrontEnd().check_violation_with_system_prompt_batch(output, self.validation_sp)
         if result is None:
             result = ""
+        result.replace("\n\n", "\n")
         result = result.split("\n")
         output = []
         for line in result:
-            if line == "0\n" or line == "1\n":
+            print(line)
+            if line == "":
+                continue
+            if line == "0" or line == "1":
                 if line[0] == expected:
                     output.append(["passed", ""])
                 else:
