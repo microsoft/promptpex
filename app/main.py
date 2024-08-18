@@ -113,7 +113,7 @@ with st.sidebar:
     'Enter the number of times the test should run', 1, placeholder="1" 
     )
     st.session_state['test_model'] = st.selectbox(
-        'Select the model to run the test', ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'gpt-3.5-turbo']
+        'Select the model to run the test', ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'gpt-35-turbo']
     )
 
 st.header("Input System Prompt")
@@ -134,6 +134,7 @@ if submit_button:
 
     st.session_state['dir_name'] = None
     st.session_state['module'] = None
+    st.session_state['test_state'] = 0
 
 front_end = StringFrontEnd()
 
