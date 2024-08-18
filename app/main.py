@@ -113,7 +113,7 @@ with st.sidebar:
     'Enter the number of times the test should run', 1, placeholder="1" 
     )
     st.session_state['test_model'] = st.selectbox(
-        'Select the model to run the test', ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'gpt-35-turbo']
+        'Select the model to run the test', ['gpt-35-turbo', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4']
     )
 
 st.header("Input System Prompt")
