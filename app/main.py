@@ -70,6 +70,8 @@ if 'num_runs' not in st.session_state:
 
 if 'test_state' not in st.session_state:
     st.session_state['test_state'] = 0
+if 'result_name' not in st.session_state:
+    st.session_state['result_name'] = []
 
 if 'rules' not in st.session_state:
     st.session_state['rules'] = None
@@ -86,6 +88,8 @@ if 'module' not in st.session_state:
     st.session_state['module'] = None
 if 'system_prompt' not in st.session_state:
     st.session_state['system_prompt'] = None
+if 'test_model' not in st.session_state:
+    st.session_state['test_model'] = "gpt-35-turbo"
 
 # col1, col2 = st.columns([7, 3])
 
@@ -107,6 +111,9 @@ with st.sidebar:
     st.caption("Note: If the number of tests is set to 1, tests will be generated once for all the rules.")
     st.session_state['num_runs'] = st.number_input(
     'Enter the number of times the test should run', 1, placeholder="1" 
+    )
+    st.session_state['test_model'] = st.selectbox(
+        'Select the model to run the test', ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'gpt-3.5-turbo']
     )
 
 st.header("Input System Prompt")
@@ -246,7 +253,7 @@ if st.session_state['run_tests_clicked']:
     if st.session_state['test_results'] is None:
         original_test_run_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{st.session_state['test_state']}.csv")
         system_prompt = st.session_state['system_prompt']
-        test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, "gpt-35-turbo", original_test_run_path)
+        test_runner = AskLLMTestValidator(st.session_state['module'], system_prompt, system_prompt, st.session_state['test_model'], original_test_run_path)
         test_runner.append(test_path)
         with st.spinner('Running tests ...'):
             for i in range(st.session_state['num_runs']):
@@ -255,11 +262,12 @@ if st.session_state['run_tests_clicked']:
 
         st.session_state['test_state'] += 1
         st.session_state['test_results'] = original_test_run_path
+        st.session_state['result_name'].append(st.session_state['test_model'])
 
     st.header("Generated Result")
     st.caption("Note: Only showing failing tests")
 
-    tabs = [f"Run-{i+1}" for i in range(st.session_state['test_state'])]
+    tabs = [f"{st.session_state['result_name'][i]}-{i+1}" for i in range(st.session_state['test_state'])]
 
     tab_list = st.tabs(tabs)
     for idx in range(st.session_state['test_state']):
