@@ -91,16 +91,20 @@ if 'system_prompt' not in st.session_state:
 if 'test_model' not in st.session_state:
     st.session_state['test_model'] = "gpt-35-turbo"
 
+if 'sp_tabs' not in st.session_state:
+    st.session_state.sp_tabs = ["v1"]
+    st.session_state.sp_active_tab = "v1"
+    st.session_state['v1'] = ""
+
 # col1, col2 = st.columns([7, 3])
 
 with st.sidebar:
-    st.header("API Configuration")
-    st.session_state['api_key'] = st.text_input(
-        'Enter your API key', type="password", value=st.session_state['api_key']
-    )
-    st.session_state['endpoint'] = st.text_input(
-        'Enter the endpoint', value=st.session_state['endpoint']
-    )
+    st.header("Options")
+    if st.button("Add New System Prompt Tab"):
+        new_tab_name = f"v{len(st.session_state.sp_tabs)+1}"
+        st.session_state.sp_tabs.append(new_tab_name)
+        st.session_state[new_tab_name] = ""
+
     st.session_state['num_rules'] = st.number_input(
         'Enter the number of rules to generate', 0, placeholder="max"
     )
@@ -115,14 +119,17 @@ with st.sidebar:
     st.session_state['test_model'] = st.selectbox(
         'Select the model to run the test', ['gpt-35-turbo', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4']
     )
+    st.header("API Configuration")
+    st.session_state['api_key'] = st.text_input(
+        'Enter your API key', type="password", value=st.session_state['api_key']
+    )
+    st.session_state['endpoint'] = st.text_input(
+        'Enter the endpoint', value=st.session_state['endpoint']
+    )
 
 st.header("Input System Prompt")
-st.session_state['system_prompt'] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=200)
 
-# Button to submit inputs
-submit_button = st.button('Start PromptPex')
-
-if submit_button:
+def init():
     st.session_state['submit_clicked'] = True
     st.session_state['gen_tests_clicked'] = False
     st.session_state['run_tests_clicked'] = False
@@ -134,7 +141,24 @@ if submit_button:
 
     st.session_state['dir_name'] = None
     st.session_state['module'] = None
-    st.session_state['test_state'] = 0
+
+def prompt_editor(name):
+    st.session_state[name] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=200, value=st.session_state[name], key=f"edit-{name}")
+    if name != st.session_state.sp_active_tab:
+        if st.button(f'Use {name} instead of {st.session_state.sp_active_tab} as system prompt', key=f"set-{name}"):
+            st.session_state.sp_active_tab = name
+            st.rerun()
+    
+sp_tabs = st.session_state.sp_tabs
+tab_container = st.tabs(sp_tabs)
+for i, tab in enumerate(tab_container):
+    with tab:
+        prompt_editor(st.session_state.sp_tabs[i])
+
+st.session_state['system_prompt'] = st.session_state[st.session_state.sp_active_tab]
+
+if st.button('Start PromptPex', key=f"run-"):
+    init()
 
 front_end = StringFrontEnd()
 
@@ -263,7 +287,7 @@ if st.session_state['run_tests_clicked']:
 
         st.session_state['test_state'] += 1
         st.session_state['test_results'] = original_test_run_path
-        st.session_state['result_name'].append(st.session_state['test_model'])
+        st.session_state['result_name'].append(f"{st.session_state.sp_active_tab}-{st.session_state['test_model']}")
 
     st.header("Generated Result")
     st.caption("Note: Only showing failing tests")
