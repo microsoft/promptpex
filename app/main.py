@@ -115,10 +115,10 @@ with st.sidebar:
     )
     st.caption("Note: If the number of tests is set to 1, tests will be generated once for all the rules.")
     st.session_state['num_runs'] = st.number_input(
-    'Enter the number of times the test should run', 1, placeholder="1" 
+    'Enter the number of times the test should run', 1, placeholder="1"
     )
     st.session_state['test_model'] = st.selectbox(
-        'Select the model to run the test', ['gpt-35-turbo', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4']
+        'Select the model to run the test', ['gpt-35-turbo', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'phi3:medium', 'phi3:mini', 'llama3.1:8b', 'gemma2:2b', 'gemma2:9b', 'mistral']
     )
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
@@ -149,7 +149,7 @@ def prompt_editor(name):
         if st.button(f'Use {name} instead of {st.session_state.sp_active_tab} as system prompt', key=f"set-{name}"):
             st.session_state.sp_active_tab = name
             st.rerun()
-    
+
 sp_tabs = st.session_state.sp_tabs
 tab_container = st.tabs(sp_tabs)
 for i, tab in enumerate(tab_container):
@@ -175,7 +175,7 @@ if st.session_state['submit_clicked']:
         if st.session_state['rules'] is None:
 
             set_key(".env", "AZURE_OPENAI_API_KEY", st.session_state['api_key'])
-            
+
             with open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "w") as f:
                 f.write(st.session_state['system_prompt'])
 
@@ -192,7 +192,7 @@ if st.session_state['submit_clicked']:
             generated_rules = pd.read_csv(rule_path)
             generated_rules_no_hash = generated_rules.copy()
             st.session_state['rules'] = generated_rules_no_hash
-            st.session_state['rules'].drop(columns=['rule id'], inplace=True)   
+            st.session_state['rules'].drop(columns=['rule id'], inplace=True)
 
             with st.spinner('Extracting input spec ...'):
                 input_spec_path = pathlib.Path(st.session_state['dir_name'], "input_spec.csv")
@@ -208,7 +208,7 @@ if st.session_state['submit_clicked']:
             rule_path = pathlib.Path(st.session_state['dir_name'], "rules-edited.csv")
             with open(rule_path, "w", encoding="utf-8", errors="ignore", newline='') as f:
                 st.session_state['rules'].to_csv(f, index=False)
-            
+
             st.session_state['module'] = Module()
             st.session_state['module'].import_rules(rule_path)
 
@@ -233,7 +233,7 @@ if st.session_state['submit_clicked']:
             IS = st.session_state['input_spec']
             IS.import_csv(input_spec_path)
             st.session_state['input_spec'] = IS
-            
+
 
         st.header("Generated Input Spec")
         st.caption("Note: You can edit the input spec below by double-clicking on the cell.")
@@ -255,7 +255,7 @@ if st.session_state['gen_tests_clicked']:
             display_df = pd.DataFrame(tests_df, columns=pd.Index(tests_df[0]))
             display_df.drop(columns=['Expected Output', 'Test ID',], inplace=True)
             st.session_state['tests'] = display_df[1:]
-    
+
     st.header("Generated Tests")
     st.dataframe(st.session_state['tests'])
 
@@ -271,7 +271,7 @@ def get_temp(current_index, max_index):
         return 1.00
     values = np.linspace(-1, 1, max_index)
     # Cubing to make distribution denser around 1
-    transformed_values = 1 + np.sin(values * np.pi/2)**3 
+    transformed_values = 1 + np.sin(values * np.pi/2)**3
     return float(transformed_values[current_index])
 
 if st.session_state['run_tests_clicked']:
@@ -300,6 +300,6 @@ if st.session_state['run_tests_clicked']:
         with tab_list[idx]:
             output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{idx}.csv")
             results = pd.read_csv(output_file_path)
-            results.drop(columns=['rule id'], inplace=True) 
+            results.drop(columns=['rule id'], inplace=True)
             results = results[results['result'] != 'passed']
             st.table(results)

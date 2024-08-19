@@ -1,7 +1,7 @@
 from . import Dbg
 import time, os
 from dotenv import load_dotenv
-from openai import AzureOpenAI
+from openai import AzureOpenAI, OpenAI
 
 load_dotenv()
 
@@ -12,21 +12,38 @@ client = AzureOpenAI(
     azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
 )
 
+local_client = OpenAI(
+    base_url = 'http://localhost:8502/v1',
+    api_key='ollama'
+)
+
 class LLMFrontEnd:
     def get_bot_response(self, messages, model="gpt-4-turbo", temprature=1):
         attempts = 0
         while True:
             try:
-                response = client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    max_tokens=3000,
-                    temperature=temprature,
-                    top_p=1,
-                    frequency_penalty=0,
-                    presence_penalty=0,
-                    stop=None
-                )
+                if model.startswith('gpt'):
+                    response = client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        max_tokens=3000,
+                        temperature=temprature,
+                        top_p=1,
+                        frequency_penalty=0,
+                        presence_penalty=0,
+                        stop=None
+                    )
+                else:
+                    response = local_client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        max_tokens=500,
+                        temperature=temprature,
+                        top_p=1,
+                        frequency_penalty=0,
+                        presence_penalty=0,
+                        stop=None
+                    )
                 return response.choices[0].message.content
             except Exception as e:
                 print(e)
