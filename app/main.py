@@ -100,6 +100,7 @@ if 'sp_tabs' not in st.session_state:
 
 with st.sidebar:
     st.header("Options")
+    st.caption("Note: Use this button to add a new input system prompt tab.")
     if st.button("Add New System Prompt Tab"):
         new_tab_name = f"v{len(st.session_state.sp_tabs)+1}"
         st.session_state.sp_tabs.append(new_tab_name)
@@ -143,7 +144,7 @@ def init():
     st.session_state['module'] = None
 
 def prompt_editor(name):
-    st.session_state[name] = st.text_area('Enter the prompt here. Now you can generate test for one prompt and then edit it and run test on the edited prompt', height=200, value=st.session_state[name], key=f"edit-{name}")
+    st.session_state[name] = st.text_area('Enter the prompt here. Use the option from the sidebar (top left ">") to add a new tab', height=200, value=st.session_state[name], key=f"edit-{name}")
     if name != st.session_state.sp_active_tab:
         if st.button(f'Use {name} instead of {st.session_state.sp_active_tab} as system prompt', key=f"set-{name}"):
             st.session_state.sp_active_tab = name
