@@ -1,3 +1,4 @@
+from typing import get_origin
 import streamlit as st
 import time, io, re, csv
 import pandas as pd
@@ -6,7 +7,7 @@ from dotenv import load_dotenv, set_key
 import sys
 sys.path.insert(0, '..')
 
-from src import InputSpec, StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec
+from src import InputSpec, StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec, Mutator
 import pathlib
 from openai import AzureOpenAI
 
@@ -55,6 +56,8 @@ if 'gen_tests_clicked' not in st.session_state:
     st.session_state['gen_tests_clicked'] = False
 if 'run_tests_clicked' not in st.session_state:
     st.session_state['run_tests_clicked'] = False
+if 'fix_clicked' not in st.session_state:
+    st.session_state['fix_clicked'] = False
 
 if 'api_key' not in st.session_state:
     st.session_state['api_key'] = ''
@@ -67,6 +70,10 @@ if 'num_tests' not in st.session_state:
     st.session_state['num_tests'] = 0
 if 'num_runs' not in st.session_state:
     st.session_state['num_runs'] = 0
+if 'max_fix_try' not in st.session_state:
+    st.session_state['max_fix_try'] = 40
+if 'fix_try' not in st.session_state:
+    st.session_state['fix_try'] = 0
 
 if 'test_state' not in st.session_state:
     st.session_state['test_state'] = 0
@@ -120,6 +127,12 @@ with st.sidebar:
     st.session_state['test_model'] = st.selectbox(
         'Select the model to run the test', ['gpt-35-turbo', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4', 'phi3:medium', 'phi3:mini', 'llama3.1:8b', 'gemma2:2b', 'gemma2:9b', 'mistral']
     )
+    st.caption("Note: The model to run the test can be selected from the dropdown.")
+    st.session_state['max_fix_try'] = st.number_input(
+        'Enter the maximum number of times the fix should be tried', 1, placeholder="40"
+    )
+    st.caption("Note: If the number of times the fix should be tried is set to 1, only one fix will be tried.")
+
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
         'Enter your API key', type="password", value=st.session_state['api_key']
@@ -134,6 +147,7 @@ def init():
     st.session_state['submit_clicked'] = True
     st.session_state['gen_tests_clicked'] = False
     st.session_state['run_tests_clicked'] = False
+    st.session_state['fix_clicked'] = False
 
     st.session_state['rules'] = None
     st.session_state['input_spec'] = None
@@ -160,6 +174,9 @@ st.session_state['system_prompt'] = st.session_state[st.session_state.sp_active_
 
 if st.button('Start PromptPex', key=f"run-"):
     init()
+
+if st.session_state.sp_active_tab.startswith("v"):
+    st.session_state['fix_try'] = 0
 
 front_end = StringFrontEnd()
 
@@ -287,7 +304,7 @@ if st.session_state['run_tests_clicked']:
                 test_runner.run_tests(temp)
 
         st.session_state['test_state'] += 1
-        st.session_state['test_results'] = original_test_run_path
+        st.session_state['test_results'] = test_runner.all_passed()
         st.session_state['result_name'].append(f"{st.session_state.sp_active_tab}-{st.session_state['test_model']}")
 
     st.header("Generated Result")
@@ -296,6 +313,41 @@ if st.session_state['run_tests_clicked']:
     tabs = [f"{st.session_state['result_name'][i]}-{i+1}" for i in range(st.session_state['test_state'])]
 
     tab_list = st.tabs(tabs)
+
+    def get_original_prompt_name(idx):
+        for i in range(idx, -1, -1):
+            if not tabs[i].startswith("fix"):
+                return tabs[i].split("-")[0]
+
+    def get_system_prompt_history(idx):
+        prompts = []
+        for i in range(idx, -1, -1):
+            prompt_name = tabs[i].split("-")[0]
+            if prompt_name.startswith("fix"):
+                prompts.append(st.session_state[tabs[i].split("-")[1]])
+            else:
+                prompts.append(st.session_state[prompt_name])
+                break
+        prompts.reverse()
+        return prompts
+
+    def get_failed_tests_history(idx):
+        failed_tests = []
+        for i in range(idx, -1, -1):
+            prompt_name = tabs[i].split("-")[0]
+            output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{i}.csv")
+            results = pd.read_csv(output_file_path)
+            results.drop(columns=['rule id'], inplace=True)
+            results = results[results['result'] != 'passed']
+            # convert to list of rows as string
+            results = ["\n".join([f"{col}: {row[col]}" for col in results.columns]) for index, row in results.iterrows()] 
+            results = "\n".join(results)
+            failed_tests.append(results)
+            if not prompt_name.startswith("fix"):
+                break
+        failed_tests.reverse()
+        return failed_tests
+
     for idx in range(st.session_state['test_state']):
         with tab_list[idx]:
             output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{idx}.csv")
@@ -303,3 +355,33 @@ if st.session_state['run_tests_clicked']:
             results.drop(columns=['rule id'], inplace=True)
             results = results[results['result'] != 'passed']
             st.table(results)
+
+            if not results.empty:
+                fix_button = False
+                if tabs[idx].startswith("fix") and st.session_state['fix_try'] <= st.session_state['max_fix_try']:
+                    fix_button = True
+                else :
+                    fix_button = st.button('Fix Prompt', key=f"fix-btn-{idx}")
+
+                if fix_button:
+                    prompts = get_system_prompt_history(idx)
+                    failed_tests = get_failed_tests_history(idx)
+
+                    assert len(prompts) == len(failed_tests)
+
+                    name = get_original_prompt_name(idx)
+
+                    fixed_prompt = Mutator(prompts[0]).fix_prompt(failed_tests[0], prompts[1:], failed_tests[1:], [])
+                    fixed_tab_name = f"fix-{name}-{st.session_state['fix_try']}"
+                    st.session_state.sp_tabs.append(fixed_tab_name)
+                    st.session_state.sp_active_tab = fixed_tab_name
+                    st.session_state[fixed_tab_name] = fixed_prompt
+                    st.session_state['test_results'] = None
+                    st.session_state['fix_try'] += 1
+                    st.rerun()
+
+# button - start fixing automatically 
+# input - system prompt, tests (input, output, reason)
+# getFix(system prompt, tests)
+# create a new system prompt tab with the fix 
+# run the tests to check if they pass 
