@@ -76,6 +76,8 @@ if 'fix_try' not in st.session_state:
     st.session_state['fix_try'] = 0
 if 'show_passing_tests' not in st.session_state:
     st.session_state['show_passing_tests'] = False
+if 'forced_temp' not in st.session_state:
+    st.session_state['forced_temp'] = -1
 
 if 'test_state' not in st.session_state:
     st.session_state['test_state'] = 0
@@ -138,6 +140,10 @@ with st.sidebar:
         'Show passing tests', value=st.session_state['show_passing_tests']
     )
     st.caption("Note: If the show passing tests is checked, all tests results will be shown.")
+    st.session_state['forced_temp'] = st.number_input(
+        'Enter the forced temperature', -1.0, placeholder="-1", step=0.01
+    )
+    st.caption("Note: If the forced temperature is set to -1, the temperature will be calculated automatically ranging between 0 - 2 more dense around 1.")
 
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
@@ -290,6 +296,8 @@ if st.session_state['gen_tests_clicked']:
 
 import numpy as np
 def get_temp(current_index, max_index):
+    if st.session_state['forced_temp'] >= 0:
+        return float(st.session_state['forced_temp'])
     if max_index == 1:
         return 1.00
     values = np.linspace(-1, 1, max_index)
