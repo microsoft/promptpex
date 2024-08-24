@@ -74,6 +74,8 @@ if 'max_fix_try' not in st.session_state:
     st.session_state['max_fix_try'] = 40
 if 'fix_try' not in st.session_state:
     st.session_state['fix_try'] = 0
+if 'show_passing_tests' not in st.session_state:
+    st.session_state['show_passing_tests'] = False
 
 if 'test_state' not in st.session_state:
     st.session_state['test_state'] = 0
@@ -132,6 +134,10 @@ with st.sidebar:
         'Enter the maximum number of times the fix should be tried', 1, placeholder="40"
     )
     st.caption("Note: If the number of times the fix should be tried is set to 1, only one fix will be tried.")
+    st.session_state['show_passing_tests'] = st.checkbox(
+        'Show passing tests', value=st.session_state['show_passing_tests']
+    )
+    st.caption("Note: If the show passing tests is checked, all tests results will be shown.")
 
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
@@ -353,7 +359,8 @@ if st.session_state['run_tests_clicked']:
             output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{idx}.csv")
             results = pd.read_csv(output_file_path)
             results.drop(columns=['rule id'], inplace=True)
-            results = results[results['result'] != 'passed']
+            if not st.session_state['show_passing_tests']:
+                results = results[results['result'] != 'passed']
             st.table(results)
 
             if not results.empty:
