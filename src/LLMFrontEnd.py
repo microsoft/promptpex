@@ -339,7 +339,7 @@ Follow these instructions for generating the fix:
 
 Analyze each failed test and reason step by step and generate a fix trying to fix all the failed tests not just one.
 
-The generated fix must follow these guidelines:
+While generating the fix you must follow these guidelines:
 1. Only add or remove a single sentence at a time to the chatbot description to fix the failed tests.
 2. Do not change the existing sentences in the chatbot description unless necessary.
 3. Do not add more examples to the chatbot description especially to fix the failed tests. 
@@ -352,7 +352,7 @@ First output the reasoning and analysis used in generating the fix, also output 
             return ""
         print(output)
         output.replace("**", "")
-        output = output.split("Fixed:")[-1].strip()
+        output = output.split("Fixed")[-1].strip()
         return output
 
     def fix_prompt_without_rules(self, prompt, failed_tests, fixed_prompt, new_failed_tests, ImmutableRules):
