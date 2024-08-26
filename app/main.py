@@ -12,7 +12,7 @@ import pathlib
 from openai import AzureOpenAI
 
 st.set_page_config(page_title="PromptPex", layout="wide")
-st.title("PromptPex: Prompt Exploration")
+st.title("PromptPex")
 
 st.markdown("""
     <style>
@@ -288,6 +288,7 @@ if st.session_state['gen_tests_clicked']:
     st.header("Generated Tests")
     st.dataframe(st.session_state['tests'])
 
+    st.caption("Note: Run test will run the generated test as input for the provided system prompt on the selected model.")
     run_tests_button = st.button('Run Tests')
 
     if run_tests_button:
@@ -322,7 +323,8 @@ if st.session_state['run_tests_clicked']:
         st.session_state['result_name'].append(f"{st.session_state.sp_active_tab}-{st.session_state['test_model']}")
 
     st.header("Generated Result")
-    st.caption("Note: Only showing failing tests")
+    if not st.session_state['show_passing_tests']:
+        st.caption("Note: Only showing failing tests")
 
     tabs = [f"{st.session_state['result_name'][i]}-{i+1}" for i in range(st.session_state['test_state'])]
 
@@ -394,9 +396,3 @@ if st.session_state['run_tests_clicked']:
                     st.session_state['test_results'] = None
                     st.session_state['fix_try'] += 1
                     st.rerun()
-
-# button - start fixing automatically 
-# input - system prompt, tests (input, output, reason)
-# getFix(system prompt, tests)
-# create a new system prompt tab with the fix 
-# run the tests to check if they pass 
