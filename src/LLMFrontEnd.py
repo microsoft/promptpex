@@ -120,12 +120,12 @@ You are tasked with developing multiple test cases for an software, given its fu
 
 Use the following functional specification of the software to generate the test cases: {context}
 
-Use this input specification to find out the component of the test cases and the rules associated with it: {input_spec}
-
+Every generated test must follow all the rules from this input specification: {input_spec}
 
 Guidelines for generating test cases:
-- Analyze the input specifications to understand the valid input formats, components of the input and scenarios for the software.
-- If the test case have multiple components, try to use all the components in the test case and tag them with their name, for example, sentence, question, word, etc.
+- Analyze the input specifications to understand the valid input formats and scenarios for the software.
+- If the test case have multiple components, try to use all the components in the test case.
+- If the test case is made up of multiple data or components, make sure to tag each component with its name.
 - Develop {num} test cases for each rule provided in the list.
 - Each test case must be crafted to rigorously assess whether the software's output meets the stipulated rule based on the inputs that conform to the provided input specifications.
 - Use valid and realistic input scenarios that fully comply with the input specifications and are relevant to the rule being tested.
@@ -312,7 +312,7 @@ Here are the guidelines to follow for your evaluation process:
 
 5. **Work without input**: You are not required to evaluate the functional correctness of the chatbot's output as you are not given the input which generated those outputs. Your evaluation should focus solely on whether the output complies with the chatbot description, if it requires knowing the input, ignore that part of the description.
 
-6. **Output guidelines**: For each chatbot's output given to you, only output the decision as 0 or 1 in the first line and in the next line describe the reason for the decision. If the decision is 0, describe why the output complies with the chatbot description. If the decision is 1, describe why the output does not comply with the chatbot description. You must do it for each output from the given list of chatbot outputs. Make sure that the description is brief, maximum 1-2 sentences. Do not output anything else.
+6. **Output guidelines**: For each chatbot's output given to you, only output the decision as 0 or 1 in the first line and in the next line describe the reason for the decision. If the decision is 0, describe why the output complies with the chatbot description. If the decision is 1, describe why the output does not comply with the chatbot description. You must do it for all {num_tests} outputs from the given list of chatbot outputs. Your output must have decision and reason {num_tests} times, individually for each output from the given list. Make sure that the description is brief, maximum 1-2 sentences. Do not output anything else.
 
 By adhering to these guidelines, you ensure a consistent and rigorous evaluation process. Be very rational and do not make up information. Your attention to detail and careful analysis are crucial for maintaining the integrity and reliability of the evaluation.
 """

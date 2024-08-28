@@ -66,7 +66,10 @@ class TestCaseGenerator:
                 continue
             row = [x.strip().strip('"') for x in row]
             if self.rules_list is not None and self.tests.index(test) > 0:
-                row[0] = self.rules_list[int(row[0]) - 1]
+                if len(self.rules_list) >= int(row[0]):
+                    row[0] = self.rules_list[int(row[0]) - 1]
+                else:
+                    row[0] = "Rule not found"
             tests_df.append(row)
         self.tests = tests_df
 

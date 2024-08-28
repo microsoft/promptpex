@@ -55,7 +55,7 @@ class TestValidator:
         for test in self.tests:
             output = self.run_single_test(test.strip(), temp)
             self.output.append(output)
-            local_output.append("Chatbot Output:\n" + output)
+            local_output.append(output)
 
         local_ouptut_str = "\n".join(local_output)
         validation_result = self.validate_batch(local_ouptut_str, "0", len(local_output))
