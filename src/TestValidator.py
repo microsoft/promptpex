@@ -1,3 +1,4 @@
+from numpy.random import f
 from . import LLMFrontEnd
 import csv, pathlib, os
 
@@ -48,7 +49,12 @@ class TestValidator:
         assert self.path is not None
         result_path = pathlib.Path(self.path).open("a", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
-        if not os.path.exists(self.path) or os.path.getsize(self.path) == 0:
+        # read first line to check if file is empty
+        first_line = result_path.readline()
+        first_line = first_line.strip()
+        if first_line == "rule id,input,output,result,reason for failure,expected output":
+            pass
+        else:
             csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
         local_output = []
