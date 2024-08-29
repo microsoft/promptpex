@@ -49,13 +49,11 @@ class TestValidator:
         assert self.path is not None
         result_path = pathlib.Path(self.path).open("a", encoding="utf-8", errors="ignore", newline='')
         csvwriter = csv.writer(result_path, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL)
-        # read first line to check if file is empty
-        first_line = result_path.readline()
-        first_line = first_line.strip()
-        if first_line == "rule id,input,output,result,reason for failure,expected output":
-            pass
-        else:
-            csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
+
+        with open(self.path, "r", encoding="utf-8", errors="ignore") as f:
+            lines = f.readlines()
+            if len(lines) == 0:
+                csvwriter.writerow(["rule id", "input", "output", "result", "reason for failure", "expected output"])
 
         local_output = []
         for test in self.tests:
