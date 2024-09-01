@@ -61,7 +61,7 @@ class TestValidator:
             self.output.append(output)
             local_output.append(output)
 
-        local_ouptut_str = "\n".join(local_output)
+        local_ouptut_str = "\n\n".join(local_output)
         validation_result = self.validate_batch(local_ouptut_str, "0", len(local_output))
 
         assert len(validation_result) == len(local_output)
@@ -72,7 +72,7 @@ class TestValidator:
             self.reason.append(res[1])
 
             if res[0] != "passed":
-                self.failed_tests.append("input:\n" + self.tests[validation_result.index(res)] + "\noutput:\n" + local_output[validation_result.index(res)] + "\nreason for failure: " + res[1]+"\n\n")
+                self.failed_tests.append("INPUT:\n" + self.tests[validation_result.index(res)] + "\n\nOUTPUT:\n" + local_output[validation_result.index(res)] + "\n\nREASON: " + res[1]+"\n\n\n\n")
 
         for test in self.tests:
             idx = self.tests.index(test)
