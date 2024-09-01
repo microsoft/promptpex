@@ -50,6 +50,27 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+
+defualt_system_prompt = """# Task
+In this task, you will be presented with a question and a word contained
+in that question. You have to determine the part of speech for a given word
+and return just the tag for the word's part of speech. 
+
+Return only the part of speech tag.  If the word cannot be tagged with
+the listed tags, return Unknown.  If you are unable to tag the word, return
+CantAnswer.
+
+Here is the
+Alphabetical list of part-of-speech tags used in this task: CC: Coordinating conjunction, CD: Cardinal number, DT:
+Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR:
+Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun,
+plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal
+pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol,
+TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb,
+past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP:
+Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb
+"""
+
 if 'submit_clicked' not in st.session_state:
     st.session_state['submit_clicked'] = False
 if 'gen_tests_clicked' not in st.session_state:
@@ -118,7 +139,7 @@ with st.sidebar:
         st.session_state[new_tab_name] = ""
 
     st.session_state['num_rules'] = st.number_input(
-        'Enter the number of rules to generate', 0, placeholder="max"
+        'Enter the number of rules to generate', 0, placeholder="max", value=st.session_state['num_rules']
     )
     st.caption("Note: If the number of rules is set to 0, all rules will be generated.")
     st.session_state['num_tests'] = st.number_input(
@@ -170,6 +191,10 @@ def init():
     st.session_state['module'] = None
 
 def prompt_editor(name):
+    if name == "v1" and st.session_state[name] == "":
+        st.session_state[name] = defualt_system_prompt
+        st.session_state['num_rules'] = 3
+
     st.session_state[name] = st.text_area('Enter the prompt here. Use the option from the sidebar (top left ">") to add a new tab', height=200, value=st.session_state[name], key=f"edit-{name}")
     if name != st.session_state.sp_active_tab:
         if st.button(f'Use {name} instead of {st.session_state.sp_active_tab} as system prompt', key=f"set-{name}"):
