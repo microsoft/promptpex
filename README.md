@@ -12,21 +12,18 @@ $ cat .env
 $ AZURE_OPENAI_API_KEY="your_key"
 ```
 
+### Host PromptPex locally
+
+```sh
+cd promptpex/app
+python -m streamlit run .\main.py
+```
+
 `automatic_pipeline.py` implements the end to end automated prompt fixing pipeline. It takes a cli argument as the path to the prompt (in unix style, sample/prompt.txt).  
 ```py
 python3 automatic_pipeline.py sample/LinuxTerminal.txt
 ```
 The results goes into ap-results/ where variant-0.txt is the initial prompt with rules-0.txt as initial rules. 
-
-`regression_pipeline.py` implements the end to end regression detection pipeline. It takes a cli argument as the path to the prompt (in unix style, sample/prompt.txt).
-```py
-python3 regression_pipeline.py
-```
-
-`simple_pipeline.py` implements the basic pipeline, change the `input_file` variable on line 8.
-```py
-python3 simple_pipeline.py
-```
 
 ## Contributing
 
