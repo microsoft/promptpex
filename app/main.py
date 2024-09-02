@@ -394,11 +394,14 @@ if st.session_state['run_tests_clicked']:
             output_file_path = pathlib.Path(st.session_state['dir_name'], f"variant-run-{idx}.csv")
             results = pd.read_csv(output_file_path)
             results.drop(columns=['rule id'], inplace=True)
+            failed_tests = results[results['result'] != 'passed']
             if not st.session_state['show_passing_tests']:
-                results = results[results['result'] != 'passed']
+                results = failed_tests
+            # count the number of failed tests
+            num_failed_tests = len(failed_tests)
             st.table(results)
 
-            if not results.empty:
+            if num_failed_tests > 0:
                 fix_button = False
                 if tabs[idx].startswith("fix") and st.session_state['fix_try'] <= st.session_state['max_fix_try']:
                     fix_button = True
