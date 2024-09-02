@@ -52,8 +52,8 @@ st.markdown("""
 
 
 defualt_system_prompt = """# Task
-In this task, you will be presented with a question and a word contained
-in that question. You have to determine the part of speech for a given word
+In this task, you will be presented with a sentence and a word contained
+in that sentence. You have to determine the part of speech for a given word
 and return just the tag for the word's part of speech. 
 
 Return only the part of speech tag.  If the word cannot be tagged with
