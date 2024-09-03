@@ -368,6 +368,8 @@ Do not output anything after the fixed description.
             return ""
         print(output)
         output = output.split("**Fixed Description:**")[-1].strip()
+        output = output.split("Fixed Description:")[-1].strip()
+        output = output.split("Fixed Description")[-1].strip()
         output = output.split("**Fixed:**")[-1].strip()
         output = output.split("**Fixed**")[-1].strip()
         output = output.split("Fixed:")[-1].strip()
