@@ -97,6 +97,8 @@ if 'fix_try' not in st.session_state:
     st.session_state['fix_try'] = 0
 if 'show_passing_tests' not in st.session_state:
     st.session_state['show_passing_tests'] = False
+if 'suggest_fixes' not in st.session_state:
+    st.session_state['suggest_fixes'] = False
 if 'forced_temp' not in st.session_state:
     st.session_state['forced_temp'] = -1
 
@@ -161,6 +163,10 @@ with st.sidebar:
         'Show passing tests', value=st.session_state['show_passing_tests']
     )
     st.caption("Note: If the show passing tests is checked, all tests results will be shown.")
+    st.session_state['suggest_fixes'] = st.checkbox(
+        'Suggest fixes for failed tests', value=st.session_state['suggest_fixes']
+    )
+    st.caption("Note: If the suggest fixes is checked, the system will suggest fixes for failed tests.")
     st.session_state['forced_temp'] = st.number_input(
         'Enter the forced temperature', -1.0, placeholder="-1", step=0.01
     )
@@ -403,20 +409,24 @@ if st.session_state['run_tests_clicked']:
 
             if num_failed_tests > 0:
                 fix_button = False
+                prompts = get_system_prompt_history(idx)
+                failed_tests = get_failed_tests_history(idx)
+                suggestion = Mutator(prompts[0]).get_fix_suggestions(failed_tests[0], prompts[1:], failed_tests[1:], [])
                 if tabs[idx].startswith("fix") and st.session_state['fix_try'] <= st.session_state['max_fix_try']:
                     fix_button = True
                 else :
                     fix_button = st.button('Fix Prompt', key=f"fix-btn-{idx}")
+                    with st.expander("Suggestions for fixing the failed tests", expanded=True):
+                        st.info(suggestion, icon="ℹ️")
 
                 if fix_button:
-                    prompts = get_system_prompt_history(idx)
-                    failed_tests = get_failed_tests_history(idx)
 
                     assert len(prompts) == len(failed_tests)
 
                     name = get_original_prompt_name(idx)
 
-                    fixed_prompt = Mutator(prompts[0]).fix_prompt(failed_tests[0], prompts[1:], failed_tests[1:], [])
+                    # fixed_prompt = Mutator(prompts[0]).fix_prompt(failed_tests[0], prompts[1:], failed_tests[1:], [])
+                    fixed_prompt = Mutator(prompts[0]).fix_prompt_with_suggestions(suggestion, prompts)
                     fixed_tab_name = f"fix-{name}-{st.session_state['fix_try']}"
                     st.session_state.sp_tabs.append(fixed_tab_name)
                     st.session_state.sp_active_tab = fixed_tab_name

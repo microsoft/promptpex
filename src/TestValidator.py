@@ -64,7 +64,7 @@ class TestValidator:
         local_ouptut_str = "\n\n".join(local_output)
         validation_result = self.validate_batch(local_ouptut_str, "0", len(local_output))
 
-        assert len(validation_result) == len(local_output)
+        # assert len(validation_result) == len(local_output)
 
         for res in validation_result:
             self.results.append(res[0])

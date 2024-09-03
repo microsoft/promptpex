@@ -333,6 +333,39 @@ Please ensure you generate the output for all the {num_tests} outputs given to y
         Dbg.debug(f"[LLM FrontEnd][check_violation_sp_batch] checked violation and got output: {output}")
         return output
 
+    def get_fix_suggestions(self, prompt, failed_tests):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt] fixing prompt with failed tests:\n {failed_tests}")
+
+        system_prompt = """You are given a description of a task given to a person and instances of where this person made errors (question, answer and reason of incorrectness highlighting the error). This person is very smart so the reason of these failure must be in the instructions or the description of the task provided to this person. Your goal is to suggest improvements for the description of task / instructions so that the person can correctly answer all the questions. Your suggestion will be used to improve the task description for correcting the incorrect answers.
+
+Follow these instructions for suggesting the fix:
+1. Analyze the question, answer and the associated reason for each incorrect answer.
+2. Since the person is very smart, you must connect the reason of failure to a rule or a constraint in the task description as the description is the only source of information for the person.
+3. If the task description does not have a rule or a constraint related to the reason of incorrect, add a new rule or constraint to the task description. For example, if the reason of failure was the use of comma as delimiter in the answer but the task description did not specify the delimiter, then add a rule specifying the delimiter.
+4. If the task description has a rule or a constraint already which is related to the incorrect answer, then analyze if falls in one of the following categories:
+    - The rule or constraint is not clear or have ambiguity. In this case, make the rule or constraint more clear and specific. 
+    - The rule or constraint is not specific enough to handle this particular test (corner case). In this case, make the rule or constraint more specific while keeping it general enough to handle other cases. 
+    - The rule or constraint is not comprehensive enough to handle a particular test. In this case, make the rule or constraint more comprehensive.
+    - The rule or constraint assumes context which is not provided in the task description. In this case, make the rule or constraint more general by adding the context to the task description. 
+    - The task description can correctly handle the test but the answer is still incorrect. In this case, increase the specificity or emphasis of the rule or constraint in the description hoping it will fix the failed test cases.
+
+The incorrect answers can only be corrected by modifying the task description. Please feel to try and suggest other techniques to fix the incorrect answers. Analyze each incorrect answer and reason step by step for suggesting a fix trying to fix all the incorrect answers not just one.
+
+The fix you must follow these guidelines:
+1. Only add or remove a single sentence at a time to the task description to fix the incorrect answers.
+2. Do not change the existing sentences in the task description unless necessary.
+3. Do not add more examples to the task description especially to fix a particular incorrect answer.
+4. Do not mention any specific question or answer in the task description as the task description must be general enough to handle all the questions.
+5. Always address the question or test which will be given to the person as input.
+
+Output the reasoning and analysis used in coming up with the suggestion, also output how did you follow the instruction and which of the above categories were involved in the incorrect answer and then output the suggestion without any delimiter like ```. Never output the fixed description, only output the suggestion.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the task:\n" + prompt + "\nHere are the incorrect answers:\n" + failed_tests}]
+        output = self.get_bot_response(messages)
+        if output is None:
+            return ""
+        return output
+
     def fix_prompt(self, prompt, failed_tests):
         Dbg.debug(f"[LLM FrontEnd][fix_prompt] fixing prompt with failed tests:\n {failed_tests}")
 
@@ -366,7 +399,6 @@ Do not output anything after the fixed description.
         output = self.get_bot_response(messages)
         if output is None:
             return ""
-        print(output)
         output = output.split("**Fixed Description:**")[-1].strip()
         output = output.split("Fixed Description:")[-1].strip()
         output = output.split("Fixed Description")[-1].strip()
@@ -374,6 +406,43 @@ Do not output anything after the fixed description.
         output = output.split("**Fixed**")[-1].strip()
         output = output.split("Fixed:")[-1].strip()
         output = output.split("Fixed")[-1].strip()
+        return output
+
+    def get_fix_suggestions_without_rules(self, prompt, failed_tests, fixed_prompt, new_failed_tests, ImmutableRules):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt_without_rules] fixing prompt without rules\n{ImmutableRules}\nwith failed tests:\n{failed_tests}\n")
+
+        log = ""
+        for idx in range(len(new_failed_tests)):
+            log += f"Attempt {idx+1} to fix the original system prompt:\nGenerated Fix: {fixed_prompt[idx]}\nFailed test cases for the above fix:\n{new_failed_tests[idx]}\n\n"
+
+        rejected = ""
+        for rule in ImmutableRules:
+            rejected += f"Rejected Fix: {rule}\n\n"
+
+        system_prompt = """You are given a description of another chatbot with bugs along with a list of failed tests (input, output and reason of failure) highlighting those bugs. Your task is to fix these failed tests by modifying the given description. You are also provided with a list of modified descriptions where you earlier attempted to fix the failed tests but it did not work. Please avoid making similar mistakes in your new attempts and learn from the previous mistakes. Adapt your fixes to the failed tests and the chatbot description to ensure that the chatbot passes all the tests.
+
+Follow these instructions for generating the fix:
+1. Analyze the input, output and the associated reason for each failure. 
+2. You must connect the reason of failure to a rule or a constraint in the chatbot description.
+3. If the chatbot description does not have a rule or a constraint related to the reason of failure, add a new rule or constraint to the chatbot description.
+4. If the chatbot description has a rule or a constraint already which is related to the reason of failure, then analyze if falls in one of the following categories:
+    - The rule or constraint is not clear or have ambiguity. In this case, make the rule or constraint more clear and specific. 
+    - The rule or constraint is not specific enough to handle this particular test (corner case). In this case, make the rule or constraint more specific while keeping it general enough to handle other cases. 
+    - The rule or constraint is not comprehensive enough to handle a particular test. In this case, make the rule or constraint more comprehensive.
+    - The rule or constraint assumes context which is not provided in the chatbot description. In this case, make the rule or constraint more general by adding the context to the chatbot description. 
+    - The chatbot description can correctly handle the test but the output is incorrect. In this case, increase the specificity or emphasis of the rule or constraint in the description hoping it will fix the failed test cases.
+
+The generated fix must follow these guidelines:
+1. Only add or remove a single sentence at a time to the chatbot description to fix the failed tests.
+2. Do not change the existing sentences in the chatbot description unless necessary.
+3. Do not add more examples to the chatbot description especially to fix the failed tests. 
+
+Only output the fixed system prompt and nothing else.
+"""
+
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the original system prompt:\n" + prompt + "\nHere are the fixing attempts starting from the original system prompt:\n" + log + "\nHere are the rejected fixes which passed all the tests but were rejected because they introduced unacceptable changes to the original system prompt:\n" + rejected}]
+
+        output = self.get_bot_response(messages)
         return output
 
     def fix_prompt_without_rules(self, prompt, failed_tests, fixed_prompt, new_failed_tests, ImmutableRules):
@@ -414,6 +483,75 @@ Only output the fixed system prompt and nothing else.
         output = self.get_bot_response(messages)
         return output
 
+    def get_fix_suggestions_with_failures(self, prompt, failed_tests, fixed_prompt, new_failed_tests):
+        Dbg.debug(f"[LLM FrontEnd][fix_prompt_with_failures] fixing prompt\n {prompt}\n with failed tests:\n {failed_tests}\n and new failed tests:\n {new_failed_tests}\n with fixed prompt:\n {fixed_prompt}") 
+
+        log = ""
+        for idx in range(len(new_failed_tests)):
+            log += f"Attempt {idx+1} to fix the original system prompt:\nGenerated Fix: {fixed_prompt[idx]}\nFailed test cases for the above fix:\n{new_failed_tests[idx]}\n\n"
+
+        system_prompt = """You are given a description of a task given to a person and instances of where this person made errors (question, answer and reason of incorrectness highlighting the error). This person is very smart so the reason of these failure must be in the instructions or the description of the task provided to this person. Your goal is to suggest improvements to the description of task / instructions so that the person can correctly answer all the questions. In the past you have already tried to improve the description. You are also provided with the list of modified descriptions where you earlier attempted to fix the incorrect answers but it did not work. Please avoid making similar mistakes in your new attempts and learn from the previous mistakes. If something corrected answers in the previous attempts try to use it again. Adapt your suggestions to the incorrect answers and the task description to ensure that the person answers all the questions correctly.
+
+Think how can the task description be improved to fix the incorrect answers. The person only reads the task description once and then answers the questions. Please consider this while suggesting the fix as it might help you to understand why the person is failing the questions.
+
+Follow these instructions for suggesting the fix:
+1. Analyze the question, answer and the associated reason for each incorrect answer.
+2. Since the person is very smart, you must connect the reason of failure to a rule or a constraint in the task description as the description is the only source of information for the person.
+3. If the task description does not have a rule or a constraint related to the reason of incorrect, add a new rule or constraint to the task description. For example, if the reason of failure was the use of comma as delimiter in the answer but the task description did not specify the delimiter, then add a rule specifying the delimiter.
+4. If the task description has a rule or a constraint already which is related to the incorrect answer, then analyze if falls in one of the following categories:
+    - The rule or constraint is not clear or have ambiguity. In this case, make the rule or constraint more clear and specific. 
+    - The rule or constraint is not specific enough to handle this particular test (corner case). In this case, make the rule or constraint more specific while keeping it general enough to handle other cases. 
+    - The rule or constraint is not comprehensive enough to handle a particular test. In this case, make the rule or constraint more comprehensive.
+    - The rule or constraint assumes context which is not provided in the task description. In this case, make the rule or constraint more general by adding the context to the task description. 
+    - The task description can correctly handle the test but the answer is still incorrect. In this case, increase the specificity or emphasis of the rule or constraint in the description hoping it will fix the failed test cases.
+
+The categories of incorrect answers and the possible fixing techniques which are provided above are not exhaustive. Feel free to infer from the data provided to you that why is the person now able to answer the questions correctly for the task described.
+
+The incorrect answers can only be corrected by modifying the task description. Please feel to try other techniques to fix the incorrect answers. Analyze each incorrect answer and reason step by step and suggest improvements trying to fix all the incorrect answers not just one.
+
+While suggesting the fix you must follow these guidelines:
+1. Add or remove a single sentence and use the information from the previous attempts to fix the incorrect answers.
+2. Do not change the existing sentences in the task description unless necessary.
+3. Do not add more examples to the task description especially to fix a particular incorrect answer.
+4. Do not mention any specific question or answer in the task description as the task description must be general enough to handle all the questions.
+5. Always address the question or test which will be given to the person as input.
+6. If one was the previous attempt was more effective in fixing the incorrect answers, try to use it as a base to generate the new fix.
+
+Output the reasoning and analysis used in coming up with the suggestion, also output how did you follow the instruction and which of the above categories were involved in the incorrect answer and then output the suggestion without any delimiter like ```. Never output the fixed description, only output the suggestion.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the original system prompt:\n" + prompt + "\nHere are the fixing attempts starting from the original system prompt:\n" + log}]
+        output = self.get_bot_response(messages)
+        if output is None:
+            return ""
+        output.replace("**", "")
+        return output
+
+    def fix_prompt_with_suggestions(self, sugestions, fixed_prompt):
+
+        log = ""
+        for idx in range(len(fixed_prompt)):
+            if idx == 0:
+                log += f"Original System Prompt: {fixed_prompt[idx]}\n\n"
+            else:
+                log += f"Attempted Fix {idx}: {fixed_prompt[idx]}\n\n"
+
+        system_prompt = """A description of a task was given to a person and they were asked to answer questions based on that. The person gave a lot of wrong answers. Eventually, it was realized that the person was very smart but the description of the task was not good. Also, there were other limitations like the person could only read the task once before answering questions. Deep analysis were conducted some suggestions were made to fix the description but it has not worked so far. You are given a list of the previous descriptions which were tried and suggestions for fixing the description. Your goal is to improve the description of task / instructions so that the person can correctly answer all the questions by applying the suggestions. Please avoid making similar mistakes in your new attempt and learn from the previous mistakes.
+
+While generating the fix by applying the suggestion you must follow these guidelines:
+1. Add or remove a single sentence and use the information from the previous attempts to fix the incorrect answers.
+2. Do not change the existing sentences in the task description unless necessary.
+4. Do not mention any specific question or answer in the task description as the task description must be general enough to handle all the questions.
+5. Always address the question or test which will be given to the person as input.
+6. If one was the previous attempt was more effective in fixing the incorrect answers, try to use it as a base to generate the new fix.
+
+Only output the generated fixed description after applying the suggestion and nothing else. 
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": log}]
+        output = self.get_bot_response(messages)
+        if output is None:
+            return ""
+        return output
+
     def fix_prompt_with_failures(self, prompt, failed_tests, fixed_prompt, new_failed_tests):
         Dbg.debug(f"[LLM FrontEnd][fix_prompt_with_failures] fixing prompt\n {prompt}\n with failed tests:\n {failed_tests}\n and new failed tests:\n {new_failed_tests}\n with fixed prompt:\n {fixed_prompt}") 
 
@@ -421,7 +559,7 @@ Only output the fixed system prompt and nothing else.
         for idx in range(len(new_failed_tests)):
             log += f"Attempt {idx+1} to fix the original system prompt:\nGenerated Fix: {fixed_prompt[idx]}\nFailed test cases for the above fix:\n{new_failed_tests[idx]}\n\n"
 
-        system_prompt = """You are given a description of a task given to a person and instances of where this person made errors (question, answer and reason of incorrectness highlighting the error). This person is very smart so the reason of these failure must be in the instructions or the description of the task provided to this person. Your goal is to improve the description of task / instructions so that the person can correctly answer all the questions. In the past you have already tried to imporve the description. You are also provided with the list of modified descriptions where you earlier attempted to fix the incorrect answers but it did not work. Please avoid making similar mistakes in your new attempts and learn from the previous mistakes. If something corrected answers in the previous attempts try to use it again. Adapt your fixes to the incorrect answers and the task description to ensure that the person answers all the questions correctly.
+        system_prompt = """You are given a description of a task given to a person and instances of where this person made errors (question, answer and reason of incorrectness highlighting the error). This person is very smart so the reason of these failure must be in the instructions or the description of the task provided to this person. Your goal is to improve the description of task / instructions so that the person can correctly answer all the questions. In the past you have already tried to improve the description. You are also provided with the list of modified descriptions where you earlier attempted to fix the incorrect answers but it did not work. Please avoid making similar mistakes in your new attempts and learn from the previous mistakes. If something corrected answers in the previous attempts try to use it again. Adapt your fixes to the incorrect answers and the task description to ensure that the person answers all the questions correctly.
 
 Think how can the task description be improved to fix the incorrect answers. The person only reads the task description once and then answers the questions. Please consider this while generating the fix as it might help you to understand why the person is failing the questions.
 
@@ -456,7 +594,6 @@ Do not output anything after the fixed description.
         output = self.get_bot_response(messages)
         if output is None:
             return ""
-        print(output)
         output.replace("**", "")
         output = output.split("Fixed:")[-1].strip()
         return output
