@@ -3,6 +3,7 @@ pip install -r requirements.txt
 # # ollama install and pull models 
 # curl -fsSL https://ollama.com/install.sh | sh
 # 
+# export OLLAMA_HOST="127.0.0.1:8502"
 # ollama pull mistral:latest 
 # ollama pull gemma2:9b 
 # ollama pull gemma2:2b 
