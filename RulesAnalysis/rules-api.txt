@@ -1,0 +1,661 @@
+**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/match_regex` - Parameters: `{ "text": "string", "pattern": "string", "flags": "array" }`
+7. `POST /api/spell_check` - Parameters: `{ "text": "string" }`
+8. `POST /api/is_correct_format` - Parameters: `{ "text": "string", "format": "string" }`
+9. `POST /api/paragraph_lengths_variability` - Parameters: `{ "text": "string" }`
+10. `POST /api/contains_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+11. `POST /api/contains_negatively_preferred_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+12. `POST /api/compliant_with_terms` - Parameters: `{ "text": "string", "terms": ["string"] }`
+13. `POST /api/contains_phrase` - Parameters: `{ "text": "string", "phrase": "string" }`
+14. `POST /api/contains_multiple_phrases` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+15. `POST /api/contains_at_least_one` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+16. `POST /api/validate_date` - Parameters: `{ "text": "string", "date": "string" }`
+17. `POST /api/is_empty` - Parameters: `{ "text": "string" }`
+18. `POST /api/contains_hyperlink` - Parameters: `{ "text": "string" }`
+19. `POST /api/check_input_language` - Parameters: `{ "text": "string", "lang": "string" }`
+20. `POST /api/is_svg_format` - Parameters: `{ "text": "string" }`
+21. `POST /api/is_not_contain_text` - Parameters: `{ "text": "string" }`
+22. `POST /api/validate_profane` - Parameters: `{ "text": "string" }`
+23. `POST /api/compliance_check` - Parameters: `{ "text": "string", "guidelines": ["string"] }`
+
+These APIs provide a comprehensive set of functionalities beneficial for various applications, enabling text validation, sentiment analysis, pattern matching, compliance checks, and more using generic methods derived from domain-specific requirements.**API Endpoints:**
+
+1. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+2. `POST /api/generate_json_output` - Parameters: `{ "data": "object", "sentiment_score": "number", "threat_score": "number", "country_codes": ["string"], "org_names": ["string"], "org_types": ["string"] }`
+3. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/detect_philosophical_content` - Parameters: `{ "text": "string" }`
+6. `POST /api/detect_language_mixing` - Parameters: `{ "text": "string" }`
+7. `POST /api/detect_non_linear_thinking` - Parameters: `{ "text": "string" }`
+8. `POST /api/detect_symbols_emojis_code` - Parameters: `{ "text": "string" }`
+9. `POST /api/detect_intertextual_references` - Parameters: `{ "text": "string" }`
+10. `POST /api/avoid_conventional_phrases` - Parameters: `{ "text": "string" }`
+11. `POST /api/detect_cryptic_responses` - Parameters: `{ "text": "string" }`
+12. `POST /api/check_unconventional_grammar` - Parameters: `{ "text": "string" }`
+13. `POST /api/detect_puzzles_riddles` - Parameters: `{ "text": "string" }`
+14. `POST /api/detect_language_model_mentions` - Parameters: `{ "text": "string", "phrase": "string" }`
+15. `POST /api/highlight_inappropriate` - Parameters: `{ "text": "string" }`
+16. `POST /api/extract_sentiment` - Parameters: `{ "text": "string", "sentiment": "string" }`
+17. `POST /api/ensure_user_consent` - Parameters: `{ "text": "string" }`
+18. `POST /api/replace_forbidden_content` - Parameters: `{ "text": "string" }`
+19. `POST /api/format_response` - Parameters: `{ "text": "string" }`
+20. `POST /api/validate_and_generate_story` - Parameters: `{ "text": "string", "image": "string", "story_type": "string" }`
+21. `POST /api/question_user_about_project` - Parameters: `{}`
+22. `POST /api/check_sensitive_information_request` - Parameters: `{ "text": "string" }`
+23. `POST /api/check_msg_length` - Parameters: `{ "text": "string", "limit": "number" }`
+24. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`**API Endpoints:**
+
+1. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+2. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+3. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+4. `POST /api/sanitize_sql_query` - Parameters: `{ "query": "string" }`
+5. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+6. `POST /api/validate_trusted_mode` - Parameters: `{ "seed_string": "string" }`
+7. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+8. `POST /api/handle_external_sources` - Parameters: `{ "use_local": "boolean" }`
+9. `POST /api/transform_response_to_json` - Parameters: `{ "safe": "boolean", "description": "string" }`
+10. `POST /api/consider_privacy` - Parameters: `{ "input_text": "string" }`
+11. `POST /api/validate_json_structure` - Parameters: `{ "json_data": "object", "schema": "object" }`
+12. `POST /api/check_publish_article_requirements` - Parameters: `{ "text": "string", "has_link": "boolean", "need_plan": "boolean" }`
+13. `POST /api/validate_gif_animation` - Parameters: `{ "frame_settings": "object" }`
+14. `POST /api/validate_frame_timing` - Parameters: `{ "frame_timings": "[number]" }`
+15. `POST /api/validate_final_graphic_settings` - Parameters: `{ "gif_settings": "object" }`
+16. `POST /api/validate_blank_frame` - Parameters: `{ "gif_frames": "[string]" }`
+17. `POST /api/validate_narrative_style` - Parameters: `{ "text": "string", "style_description": "string" }`
+18. `POST /api/validate_code_explanation` - Parameters: `{ "code": "string", "explanation": "string" }`
+19. `POST /api/validate_runtime_analysis` - Parameters: `{ "code_component": "string", "runtime_complexity": "string" }`
+20. `POST /api/validate_privacy_policy_compliance` - Parameters: `{ "text": "string", "guidelines": "string" }`
+21. `POST /api/validate_knowledge_cutoff` - Parameters: `{ "text": "string", "cutoff_date": "string" }`
+22. `POST /api/validate_language_identification` - Parameters: `{ "code_snippet": "string", "expected_lang": "string" }`
+23. `POST /api/url_contains_https` - Parameters: `{ "text": "string" }`
+24. `POST /api/check_jsx_style_match` - Parameters: `{ "text": "string", "format_string": "string" }`
+25. `POST /api/check_save_article_action` - Parameters: `{ "original_content": "string", "jsx_content": "string" }`
+26. `POST /api/check_article_save_prompt` - Parameters: `{ "text": "string" }`
+27. `POST /api/verify_sqllite_query` - Parameters: `{ "query": "string" }`
+28. `POST /api/handle_geographic_specific_responses` - Parameters: `{ "user_query": "string" }`
+29. `POST /api/manage_user_interaction` - Parameters: `{ "response": "string" }`
+30. `POST /api/verify_hack_me_bot_scenarios` - Parameters: `{ "input_text": "string" }`
+31. `POST /api/check_all_rules` - Parameters: `{ "text": "string", "metadata": "object" }`**API Endpoints:**
+
+1. `POST /api/string/length_check` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/list/contains_item` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/string/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/sentiment/analyze_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/similarity/compute_cosine` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/string/matches_regex` - Parameters: `{ "text": "string", "pattern": "string" }`
+7. `POST /api/string/is_upper_case` - Parameters: `{ "text": "string" }`
+8. `POST /api/object/check_equality` - Parameters: `{ "object1": "any", "object2": "any" }`
+9. `POST /api/list/check_all_conditions` - Parameters: `{ "conditions": [{"type": "string", "value": "string"}], "text": "string" }`
+10. `POST /api/date/current_date` - Parameters: `{}`
+
+These API endpoints encapsulate the main functionalities found in the provided code snippets, transforming domain-specific operations into generic, reusable functions.**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/validate_email` - Parameters: `{ "email": "string" }`
+7. `POST /api/check_response_length` - Parameters: `{ "text": "string", "word_limit": "number" }`
+8. `POST /api/check_email_subject` - Parameters: `{ "subject": "string" }`
+9. `POST /api/check_email_tone` - Parameters: `{ "content": "string" }`
+10. `POST /api/check_direct_address` - Parameters: `{ "content": "string", "points": ["string"] }`
+11. `POST /api/check_list_update_prompt` - Parameters: `{ "last_prompt_time": "string" }`
+12. `POST /api/check_unwanted_information` - Parameters: `{ "request": "string" }`
+13. `POST /api/check_sensitive_disclosure` - Parameters: `{ "request": "string" }`
+14. `POST /api/check_learning_tailored_response` - Parameters: `{ "student_profile": "object", "content": "string" }`
+15. `POST /api/check_simulation_realism` - Parameters: `{ "level": "string" }`
+16. `POST /api/check_image_refinement` - Parameters: `{ "requested_aspect": "string", "current_aspect": "string" }`
+17. `POST /api/assess_text_compliance` - Parameters: `{ "text": "string" }`
+18. `POST /api/extract_and_play_music` - Parameters: `{ "image_data": "string" }`
+19. `POST /api/assess_charlie` - Parameters: `{ "text": "string" }`
+20. `POST /api/assess_startup_info` - Parameters: `{ "text": "string" }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/validate_contains_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+7. `POST /api/validate_text_similarity` - Parameters: `{ "text": "string", "reference": "string", "threshold": "number" }`
+8. `POST /api/generate_description` - Parameters: `{ "gpt_type": "string", "purpose": "string", "features": "string", "style": "string" }`
+9. `POST /api/validate_information_disclosure` - Parameters: `{ "text": "string", "prohibited_keywords": ["string"] }`
+10. `POST /api/validate_adherence_to_persona` - Parameters: `{ "text": "string", "characteristics": ["string"] }`
+11. `POST /api/validate_reply_length` - Parameters: `{ "text": "string", "min_sentences": "number", "max_sentences": "number" }`
+12. `POST /api/validate_response_to_files` - Parameters: `{ "text": "string" }`
+13. `POST /api/format_sticker_link` - Parameters: `{ "quantity": "number", "height": "string", "width": "string" }`
+14. `POST /api/validate_antipromotional_content` - Parameters: `{ "text": "string" }`
+15. `POST /api/formalize_output` - Parameters: `{ "text": "string", "type": "string" }`
+16. `POST /api/clarify_questions` - Parameters: `{ "text": "string" }`
+17. `POST /api/provide_feedback_option` - Parameters: `{ "text": "string" }`
+18. `POST /api/maintain_mention_style` - Parameters: `{ "text": "string", "style": "string" }`**API Endpoints:**
+
+1. `POST /api/check_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/analyze_sentiment` - Parameters: `{ "text": "string", "expected_sentiment": "string" }`
+3. `POST /api/check_text_similarity` - Parameters: `{ "text1": "string", "text2": "string", "threshold": "number" }`
+4. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+5. `POST /api/check_formality` - Parameters: `{ "text": "string" }`
+6. `POST /api/check_essay_feedback` - Parameters: `{ "text": "string", "aspects": ["string"] }`
+7. `POST /api/check_style` - Parameters: `{ "text": "string" }`
+8. `POST /api/reject_based_on_patterns` - Parameters: `{ "text": "string", "patterns": ["string"] }`
+9. `POST /api/return_if_contains` - Parameters: `{ "text": "string", "contains": "string", "response": "string" }`
+10. `POST /api/validate_output_includes_elements` - Parameters: `{ "output": "string", "required_elements": ["string"] }`
+11. `POST /api/enforce_persona_styles` - Parameters: `{ "text": "string", "styles": ["string"] }`
+12. `POST /api/define_term` - Parameters: `{ "term": "string" }`
+13. `POST /api/graphics_formats` - Parameters: `{ "prompt": "string", "format_choice": "string" }`
+14. `POST /api/sentiment_analysis_vader` - Parameters: `{ "text": "string" }`
+15. `POST /api/contains_all_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+16. `POST /api/check_if_simple_english` - Parameters: `{ "text": "string" }`
+17. `POST /api/check_content_word_count` - Parameters: `{ "text": "string", "max_words": "number" }`
+18. `POST /api/check_scholarly_tone` - Parameters: `{ "text": "string", "scholarly_words": ["string"] }`
+19. `POST /api/check_analytical_tone` - Parameters: `{ "text": "string", "analytical_words": ["string"] }`
+20. `POST /api/check_is_boolean_value` - Parameters: `{ "text": "string" }`
+21. `POST /api/check_includes_technologies` - Parameters: `{ "text": "string", "technologies": ["string"] }`
+22. `POST /api/validate_mandala_chart` - Parameters: `{ "text": "string" }`
+23. `POST /api/check_forbidden_actions` - Parameters: `{ "text": "string", "actions": ["string"] }`
+24. `POST /api/check_legal_descriptors` - Parameters: `{ "text": "string", "descriptors": ["string"] }`
+25. `POST /api/check_factual_information` - Parameters: `{ "text": "string", "unwanted_info": ["string"] }`
+26. `POST /api/check_hypnosis_script_sections` - Parameters: `{ "text": "string", "sections": ["string"] }`
+27. `POST /api/check_cultural_respect` - Parameters: `{ "text": "string", "respectful_terms": ["string"] }`
+28. `POST /api/check_emoji_usage` - Parameters: `{ "text": "string" }`
+29. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+
+This list of APIs converts all the specific functionality into more generalized endpoints that can be utilized in various contexts.**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+3. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+4. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+5. `POST /api/check_regex_match` - Parameters: `{ "text": "string", "pattern": "string" }`
+6. `POST /api/check_keywords_presence` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+7. `POST /api/check_sentiment_threshold` - Parameters: `{ "text": "string", "threshold": "number" }`
+8. `POST /api/check_feline_behavior` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+9. `POST /api/check_image_attributes` - Parameters: `{ "attributes": ["string"], "required_features": ["string"] }`
+10. `POST /api/check_emoji_usage` - Parameters: `{ "text": "string", "emoji_mappings": [{ "keyword": "string", "emoji": "string" }] }`
+11. `POST /api/extract_website_data` - Parameters: `{ "url": "string" }`
+12. `POST /api/check_text_compliance` - Parameters: `{ "text": "string", "phrases": ["string"], "positive_instructions": "string" }`**List of API Endpoints:**
+
+1. **POST /api/is_message_length_less_than**
+   - **Parameters:** 
+     - `"msg": "string"` 
+     - `"threshold": "number"`
+
+2. **POST /api/includes_substring**
+   - **Parameters:**
+     - `"txt": "string"`
+     - `"substring": "string"`
+
+3. **POST /api/validate_output_not_contain_personal_info**
+   - **Parameters:**
+     - `"output": "string"`
+
+4. **POST /api/check_content_for_security**
+   - **Parameters:**
+     - `"output": "string"`
+
+5. **POST /api/check_if_access_denied**
+   - **Parameters:**
+     - `"user_input": "string"`
+     - `"banned_lists": ["string"]`
+
+6. **POST /api/policy_on_denied_access**
+   - **Parameters:**
+     - `"response_mode": "string"`
+
+7. **POST /api/analyze_sentiment_vader**
+   - **Parameters:**
+     - `"text": "string"`
+
+8. **POST /api/compute_cosine_similarity**
+   - **Parameters:**
+     - `"text1": "string"`
+     - `"text2": "string"`
+     - `"model_name": "string"`
+
+9. **POST /api/generate_questions**
+   - **Parameters:**
+     - `"goal": "string"`
+     - `"topic": "string"`
+
+10. **POST /api/summarize_websites**
+    - **Parameters:**
+      - `"websites": ["string"]`
+
+11. **POST /api/create_image_sections**
+    - **Parameters:**
+      - `"count": "number"`
+      - `"style": "string"`
+
+12. **POST /api/validate_unique_value_proposition**
+    - **Parameters:**
+      - `"text": "string"`
+      - `"reference": "string"`
+
+13. **POST /api/create_business_plan**
+    - **Parameters:**
+      - `"details": ["string"]`
+      - `"ethos": "string"`
+
+14. **POST /api/ask_user_for_approval**
+    - **Parameters:** 
+      - None
+
+15. **POST /api/generate_cinema_storyboard**
+    - **Parameters:**
+      - `"shots": ["string"]`
+      - `"details": [{"description": "string"}]`
+
+16. **POST /api/extract_features**
+    - **Parameters:**
+      - `"text": "string"`
+
+17. **POST /api/check_rules**
+    - **Parameters:**
+      - `"text": "string"`
+      - `"secret": "string"`
+      - `"defined_secret": "string"`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/get_random_item` - Parameters: `{ "items": ["string"] }`
+7. `POST /api/check_all_elements_in_list` - Parameters: `{ "elements": ["string"], "list": ["string"] }`
+8. `POST /api/check_any_element_in_list` - Parameters: `{ "elements": ["string"], "list": ["string"] }`
+9. `POST /api/regex_search` - Parameters: `{ "pattern": "string", "text": "string" }`
+10. `POST /api/start_with_specific_phrase` - Parameters: `{ "text": "string", "phrase": "string" }`
+
+By converting specific functions into these generic API endpoints, developers can apply these functions across various contexts rather than limited use cases.**API Endpoints:**
+
+1. `POST /api/regex_match` - Parameters: `{ "pattern": "string", "text": "string" }`
+2. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+3. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+4. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+5. `POST /api/count_elements` - Parameters: `{ "items": ["string"] }`
+6. `POST /api/check_language` - Parameters: `{ "text": "string", "language": "string" }`
+7. `POST /api/does_not_contain_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+8. `POST /api/contains_any_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+9. `POST /api/add_suffix` - Parameters: `{ "text": "string", "suffix": "string" }`
+10. `POST /api/replace_text_based_on_terms` - Parameters: `{ "text": "string", "terms": ["string"], "replacement": "string" }`
+11. `POST /api/generate_guidelines` - Parameters: `{ "details": "object", "guidelines": "object" }`
+12. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+13. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+
+These endpoints encompass the common operations found in the provided code snippets, enabling a range of generic functionalities such as regex matching, length checking, substring checking, sentiment analysis, and more.**API Endpoints:**
+
+1. `POST /api/check_sentiment` - Parameters: `{ "text": "string" }`
+2. `POST /api/check_similarity` - Parameters: `{ "ref_text": "string", "text": "string", "threshold": "number" }`
+3. `POST /api/text_matcher` - Parameters: `{ "pattern": "pattern_object", "text": "string" }`
+4. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+5. `POST /api/forbid_substrings` - Parameters: `{ "strings": ["string"], "text": "string" }`
+6. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+7. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+8. `POST /api/validate_text_pattern` - Parameters: `{ "pattern": "string", "text": "string" }`
+9. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+10. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+11. `POST /api/validate_multilingual_support` - Parameters: `{ "text": "string" }`
+12. `POST /api/validate_podcast_linking` - Parameters: `{ "text": "string" }`
+13. `POST /api/validate_ethical_ai_focus` - Parameters: `{ "text": "string" }`
+14. `POST /api/validate_interaction_quality` - Parameters: `{ "text": "string" }`
+15. `POST /api/validate_voice_feature_focus` - Parameters: `{ "text": "string" }`
+16. `POST /api/validate_gaming_culture_awareness` - Parameters: `{ "text": "string" }`
+17. `POST /api/validate_gaming_language_use` - Parameters: `{ "text": "string" }`
+18. `POST /api/validate_greetings_and_sign_offs` - Parameters: `{ "greeting_text": "string", "sign_off_text": "string" }`
+19. `POST /api/validate_interaction_phrases` - Parameters: `{ "text": "string" }`
+20. `POST /api/validate_interaction_not_cringeworthy` - Parameters: `{ "text": "string" }`
+21. `POST /api/validate_formal_interaction_style` - Parameters: `{ "text": "string" }`
+22. `POST /api/validate_factual_content` - Parameters: `{ "text": "string", "knowledge_source": "string" }`
+23. `POST /api/validate_tool_specification` - Parameters: `{ "text": "string" }`
+24. `POST /api/validate_rules` - Parameters: `{ "text": "string", "context_questions_asked": "boolean", "context_questions_confirmed": "boolean", "internal_files_referenced": "boolean", "external_sources_used": "boolean" }`
+25. `POST /api/validate_craft_beer_related_end` - Parameters: `{ "text": "string" }`
+26. `POST /api/validate_rule_text_similarity` - Parameters: `{ "text": "string", "ref_text": "string" }`
+27. `POST /api/validate_informal_and_engaging_style` - Parameters: `{ "text": "string" }`
+28. `POST /api/validate_forbidden_words` - Parameters: `{ "text": "string" }`
+29. `POST /api/validate_response_character_prompts` - Parameters: `{ "text": "string", "ref_text": "string" }`
+30. `POST /api/validate_feedback_adaptive_system` - Parameters: `{ "text": "string" }`
+31. `POST /api/validate_shadows_heart_responses` - Parameters: `{ "text": "string", "game_context": "string", "character": "string" }`**API Endpoints:**
+
+1. `POST /api/check_length` - Parameters: `{ "text": "string", "max_length": "number" }`
+2. `POST /api/check_inclusion` - Parameters: `{ "text": "string", "substring": "string" }`
+3. `POST /api/check_exclusion` - Parameters: `{ "text": "string", "substring": "string" }`
+4. `POST /api/sentiment_analysis` - Parameters: `{ "text": "string", "threshold": "number" }`
+5. `POST /api/text_similarity` - Parameters: `{ "text1": "string", "text2": "string", "similarity_threshold": "number" }`
+6. `POST /api/retrieve_language` - Parameters: `{ "text": "string" }`
+7. `POST /api/focus_area` - Parameters: `{ "text": "string", "focus_keywords": ["string"] }`
+8. `POST /api/url_construction` - Parameters: `{ "g_id": "string" }`
+9. `POST /api/adjust_web_settings` - Parameters: `{ "endpoint": "string", "settings": { "key": "value" } }`
+10. `POST /api/enforce_markup` - Parameters: `{ "text": "string" }`
+11. `POST /api/machine_learning_guidance` - Parameters: `{ "model_details": "string" }`
+12. `POST /api/rating_scale` - Parameters: `{ "category": "string" }`
+13. `POST /api/advice_output` - Parameters: `{ "text": "string" }`
+14. `POST /api/web_interaction_tracking` - Parameters: `{ "text": "string" }`
+15. `POST /api/interpret_comedic_effect` - Parameters: `{ "text": "string", "style": "string" }`
+16. `POST /api/ethical_output` - Parameters: `{ "text": "string" }`
+17. `POST /api/validate_product_categories` - Parameters: `{ "categories": ["string"] }`
+18. `POST /api/validate_response_to_unlisted_category` - Parameters: `{ "requested_category": "string" }`
+19. `POST /api/validate_budget_groups` - Parameters: `{ "groups": ["string"] }`
+20. `POST /api/validate_product_recommendation_format` - Parameters: `{ "product_recommendations": ["string"] }`
+21. `POST /api/validate_number_selection` - Parameters: `{ "number_response": "string" }`
+22. `POST /api/validate_estimation_phrase` - Parameters: `{ "phrase": "string" }`
+23. `POST /api/validate_size_preference` - Parameters: `{ "quantity_info": { "quantity": "number" } }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/sum_dict_values` - Parameters: `{ "dictionary": {"key": "number"} }`
+7. `POST /api/regex_match` - Parameters: `{ "text": "string", "pattern": "string" }`
+8. `POST /api/all_phrases_in_text` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+9. `POST /api/validate_email` - Parameters: `{ "email": "string" }`
+10. `POST /api/check_emoticons_in_text` - Parameters: `{ "text": "string", "emoticons": ["string"] }`
+11. `POST /api/detect_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`**API Endpoints:**
+
+1. `POST /api/personalized_greeting` - Parameters: `{ "mode": "string" }`
+2. `POST /api/examine_data_headers` - Parameters: `{ "data_headers": ["string"] }`
+3. `POST /api/check_user_approval` - Parameters: `{ "approved": "boolean" }`
+4. `POST /api/check_password_guess` - Parameters: `{ "user_input": "string", "correct_password": "string" }`
+5. `POST /api/generate_link` - Parameters: `{ "description": "string", "url": "string" }`
+6. `POST /api/present_diverse_views` - Parameters: `{ "views": ["string"] }`
+7. `POST /api/guide_process` - Parameters: `{ "steps": ["string"] }`
+8. `POST /api/handle_user_feedback` - Parameters: `{ "feedback_received": "boolean" }`
+9. `POST /api/check_sentiment_positive` - Parameters: `{ "text": "string" }`
+10. `POST /api/check_sarcasm` - Parameters: `{ "text": "string" }`
+11. `POST /api/check_sentiment_range` - Parameters: `{ "text": "string" }`
+12. `POST /api/style_and_length_variation` - Parameters: `{ "text": "string" }`
+13. `POST /api/is_english` - Parameters: `{ "text": "string" }`
+14. `POST /api/mention_hashtags_timestamps` - Parameters: `{ "text": "string" }`
+15. `POST /api/check_avoid_question` - Parameters: `{ "text": "string" }`
+16. `POST /api/check_style_speech_length_casualness` - Parameters: `{ "text": "string", "user_text": "string" }`
+17. `POST /api/sentiment_email_analysis` - Parameters: `{ "text": "string", "email": "string" }`
+18. `POST /api/sentiment_style_analysis` - Parameters: `{ "text": "string", "style": "string" }`
+19. `POST /api/maintain_conversational_balance` - Parameters: `{ "text": "string", "conversation_history": ["string"] }`
+20. `POST /api/mirror_user_style` - Parameters: `{ "text": "string", "user_text": "string" }`
+21. `POST /api/test_rule_length_less_than_50` - Parameters: `{ "text": "string" }`
+22. `POST /api/test_rule_start_end_with_links` - Parameters: `{ "text": "string" }`
+23. `POST /api/test_rule_urls_with_arrow` - Parameters: `{ "text": "string" }`
+24. `POST /api/test_rule_cities_with_urls` - Parameters: `{ "text": "string" }`
+25. `POST /api/test_rule_persistent_denial` - Parameters: `{ "text": "string" }`
+26. `POST /api/test_rule_focus_on_topic` - Parameters: `{ "text": "string" }`
+27. `POST /api/test_encourage_social_connections` - Parameters: `{ "text": "string" }`
+28. `POST /api/test_rule_reflect_positive_tone` - Parameters: `{ "text": "string" }`
+29. `POST /api/test_rule_neutral_language` - Parameters: `{ "text": "string" }`
+30. `POST /api/test_not_include` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+31. `POST /api/test_rule_respect_correction` - Parameters: `{ "text": "string" }`
+32. `POST /api/test_rule_educate_deep_discussions` - Parameters: `{ "text": "string" }`
+33. `POST /api/test_rule_similarity_to_phrase` - Parameters: `{ "text": "string", "reference": "string" }`
+
+These API endpoints convert the various functionalities found in the domain-specific code into more abstract, reusable functions suitable for a wide range of contexts.**API Endpoints:**
+
+1. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+2. `POST /api/any_in_list` - Parameters: `{ "container": "string", "substrings": ["string"] }`
+3. `POST /api/all_in_list` - Parameters: `{ "container": "string", "substrings": ["string"] }`
+4. `POST /api/validate_json_structure` - Parameters: `{ "json_data": "object" }`
+5. `POST /api/analyze_sentiment` - Parameters: `{ "text": "string" }`
+6. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+7. `POST /api/check_compliance` - Parameters: `{ "text": "string", "banned_words": ["string"] }`
+8. `POST /api/validate_min_count` - Parameters: `{ "text": "string", "pattern": "string", "min_count": "number" }`
+9. `POST /api/check_format` - Parameters: `{ "text": "string", "pattern": "string" }`
+10. `POST /api/is_english` - Parameters: `{ "text": "string" }`
+11. `POST /api/high_similarity` - Parameters: `{ "text1": "string", "text2": "string", "threshold": "number" }`
+
+These APIs are designed to provide general-purpose functionality based on the identified patterns from the input code snippets.**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string", "threshold": "number" }`
+6. `POST /api/contains_any_from_list` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+7. `POST /api/contains_all_from_list` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+8. `POST /api/remove_prohibited_terms` - Parameters: `{ "text": "string", "prohibited_terms": ["string"] }`
+9. `POST /api/check_pattern_in_text` - Parameters: `{ "text": "string", "pattern": "string" }`
+10. `POST /api/check_contains_image` - Parameters: `{ "text": "string", "image_name": "string" }`
+11. `POST /api/check_contains_emojis` - Parameters: `{ "text": "string" }`
+12. `POST /api/analyze_sentiment_vader_with_threshold` - Parameters: `{ "text": "string", "threshold": "number" }`
+13. `POST /api/check_availability_in_country` - Parameters: `{ "title": "string", "country": "string", "platforms": ["string"] }`
+14. `POST /api/check_emphasis_on_topics` - Parameters: `{ "text": "string", "topics": ["string"] }`
+15. `POST /api/check_no_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+16. `POST /api/check_phrases_not_in_text` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+17. `POST /api/check_text_has_min_words` - Parameters: `{ "text": "string", "min_words": "number" }`
+18. `POST /api/check_string_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+19. `POST /api/match_text_pattern` - Parameters `{ "text": "string", "pattern": "string" }`
+20. `POST /api/check_prohibited_terms_absent` - Parameters `{ "text": "string", "prohibited_terms": ["string"] }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+3. `POST /api/is_start_with_greeting` - Parameters: `{ "text": "string", "greeting": "string" }`
+4. `POST /api/is_focused_and_objective` - Parameters: `{ "text": "string" }`
+5. `POST /api/is_professional_tone` - Parameters: `{ "text": "string" }`
+6. `POST /api/check_coherence` - Parameters: `{ "text": "string" }`
+7. `POST /api/contains_explanations` - Parameters: `{ "text": "string" }`
+8. `POST /api/starts_with_creativity` - Parameters: `{ "text": "string" }`
+9. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+10. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+11. `POST /api/is_fictional_character` - Parameters: `{ "image": "image_file" }`
+12. `POST /api/generate_coloring_image` - Parameters: `{ "story_content": "string" }`
+13. `POST /api/is_theme_avoided` - Parameters: `{ "text": "string", "themes": ["string"] }`
+14. `POST /api/contains_exact_phrase` - Parameters: `{ "text": "string", "phrase": "string" }`
+15. `POST /api/generate_image` - Parameters: `{ "text_description": "string" }`
+16. `POST /api/include_matching_image` - Parameters: `{ "text_description": "string", "image_file": "image_file" }`
+17. `POST /api/incorporate_local_details` - Parameters: `{ "text": "string", "place": "string" }`
+18. `POST /api/storytelling_options` - Method: `GET`
+19. `POST /api/interactive_story_part` - Parameters: `{ "text": "string", "part_number": "number", "choice": "string" }`
+20. `POST /api/accompanied_by_image` - Parameters: `{ "text": "string", "image_file": "image_file" }`
+21. `POST /api/handle_development_topics` - Parameters: `{ "text": "string" }`
+22. `POST /api/is_length_less_than_50` - Parameters: `{ "text": "string" }`
+23. `POST /api/contains_only_one_emoji` - Parameters: `{ "text": "string" }`
+24. `POST /api/no_codes_or_instructions` - Parameters: `{ "text": "string" }`
+
+The endpoints list includes general functionalities extracted from the given domain-specific code, allowing them to be reused across various contexts.**List of API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/generate_random_string` - Parameters: `{ "length": "number", "choices": ["string"], "is_easy": "boolean" }`
+7. `POST /api/check_markdown_format` - Parameters: `{ "text": "string", "pattern": "string" }`
+8. `POST /api/validate_sha1_hash` - Parameters: `{ "data": "string", "hash": "string" }`
+9. `POST /api/check_with_regex` - Parameters: `{ "text": "string", "pattern": "string" }`
+10. `POST /api/validate_text_contains_all` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+11. `POST /api/validate_aspect_ratio` - Parameters: `{ "image_path": "string", "aspect_ratio": ["number"] }`
+12. `POST /api/validate_date_format` - Parameters: `{ "text": "string", "date_format": "string" }`
+13. `POST /api/protect_content` - Parameters: `{ "content": "string", "prohibited_phrases": ["string"] }`
+14. `POST /api/check_similarity_to_phrase` - Parameters: `{ "text": "string", "target_phrase": "string" }`
+15. `POST /api/extract_date_from_text` - Parameters: `{ "text": "string", "date_pattern": "string" }`
+16. `POST /api/welcome_message_formatter` - Parameters: `{ "skills": ["string"] }`
+17. `POST /api/validate_comprehensiveness` - Parameters: `{ "text": "string", "required_info": ["string"], "prohibited_info": ["string"] }`
+18. `POST /api/check_theme` - Parameters: `{ "story": "string", "banned_topics": ["string"] }`
+19. `POST /api/validate_directory_in_path` - Parameters: `{ "path": "string", "required_substring": "string" }`
+20. `POST /api/verify_no_real_person_mentioned` - Parameters: `{ "content": "string" }`
+21. `POST /api/validate_structured_response` - Parameters: `{ "data_dict": "object", "template": "string" }`
+22. `POST /api/check_for_casual_tone` - Parameters: `{ "text": "string", "phrases": ["string"] }`
+23. `POST /api/validate_format_with_keyword` - Parameters: `{ "content": "string", "pattern": "string", "specific_keywords": ["string"] }`
+24. `POST /api/check_token_existence` - Parameters: `{ "text": "string", "token": "string" }`
+25. `POST /api/format_list_to_string` - Parameters: `{ "items": ["string"], "format": "string" }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+3. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/check_sentiment_positive` - Parameters: `{ "text": "string", "threshold": "number (optional, default=0.05)" }`
+6. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string (optional, default='bert-base-nli-mean-tokens')" }`
+7. `POST /api/check_patterns` - Parameters: `{ "text": "string", "patterns": ["string"] }`
+8. `POST /api/remove_sensitive_info` - Parameters: `{ "text": "string", "sensitive_terms": ["string"] }`
+9. `POST /api/generate_image_dalle` - Parameters: `{ "description": "string" }`
+10. `POST /api/is_family_friendly` - Parameters: `{ "text": "string", "family_friendly": "boolean (optional, default=True)" }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/validate_pattern` - Parameters: `{ "text": "string", "pattern": "string" }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/detect_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+7. `POST /api/replace_numbers_with_words` - Parameters: `{ "text": "string", "number_word_map": "object" }`
+8. `POST /api/validate_response_conciseness` - Parameters: `{ "text": "string", "word_limit": "number" }`
+9. `POST /api/is_neutral_tone` - Parameters: `{ "text": "string", "neutral_threshold": "number" }`
+10. `POST /api/contains_bullet_points` - Parameters: `{ "text": "string" }`
+11. `POST /api/maintain_topic_focus` - Parameters: `{ "text": "string", "topics": ["string"] }`
+12. `POST /api/check_natural_flow` - Parameters: `{ "text": "string", "full_stop": "string" }`
+13. `POST /api/seek_clarification` - Parameters: `{ "text": "string" }`**API Endpoints:**
+
+1. `POST /api/tax_related_rules` - Parameters: `{ "text": "string" }`
+2. `POST /api/check_listener_rules` - Parameters: `{ "text": "string", "nlp": "NLP_Object" }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/check_proprietary_info` - Parameters: `{ "text": "string" }`
+5. `POST /api/detect_language` - Parameters: `{ "text": "string", "languages": ["string"] }`
+6. `POST /api/check_british_spelling` - Parameters: `{ "text": "string" }`
+7. `POST /api/check_keywords_in_text` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+8. `POST /api/check_image_size` - Parameters: `{ "image_path": "string", "specific_sizes": ["tuple"] }`
+9. `POST /api/download_images_as_zip` - Parameters: `{ "images_urls": ["string"], "zip_path": "string" }`
+10. `POST /api/test_sentiment` - Parameters: `{ "text": "string", "threshold": "number" }`
+11. `POST /api/test_similarity` - Parameters: `{ "text": "string", "reference": "string", "threshold": "number" }`
+12. `POST /api/test_contains_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+13. `POST /api/test_ending_with_question` - Parameters: `{ "text": "string" }`
+14. `POST /api/check_table_format` - Parameters: `{ "text": "string" }`
+15. `POST /api/data_extraction_conformity` - Parameters: `{ "data": ["any"], "specified_type": "type" }`
+16. `POST /api/generate_simulation_of_brand_text` - Parameters: `{ "theme": "string", "count": "number" }`
+17. `POST /api/magic_spell_greeting` - Parameters: `{ "user_input": "string", "spell_message": "string" }`
+18. `POST /api/comic_symbol_explanation` - Parameters: `{ "symbol": "string" }`
+19. `POST /api/table_format_with_null` - Parameters: `{ "entries_list": ["string"] }`**API Endpoints:**
+
+1. `POST /api/check_length_of_message` - Parameters: `{ "message": "string", "max_length": "number" }`
+2. `POST /api/check_in_list` - Parameters: `{ "text": "string", "valid_list": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "text": "string", "substring": "string" }`
+4. `POST /api/check_positive_sentiment` - Parameters: `{ "text": "string" }`
+5. `POST /api/check_similarity` - Parameters: `{ "text1": "string", "text2": "string", "threshold": "number" }`
+6. `POST /api/reference_mention` - Parameters: `{ "text": "string", "terms": ["string"] }`
+7. `POST /api/output_starts_with_question` - Parameters: `{ "text": "string", "question_start": "string" }`
+8. `POST /api/check_friendly_authoritative_tone` - Parameters: `{ "text": "string" }`
+9. `POST /api/must_comply_with_facts` - Parameters: `{ "text": "string", "knowledge_base": "string" }`
+10. `POST /api/duration_specified` - Parameters: `{ "text": "string", "durations": ["number"] }`
+11. `POST /api/check_list_format` - Parameters: `{ "text": "string" }`
+12. `POST /api/check_document_pref` - Parameters: `{ "text": "string", "preferred_sources": "string" }`
+13. `POST /api/image_generation_guidance` - Parameters: `{ "text": "string", "model_names": ["string"] }`
+14. `POST /api/technical_aspect_mention` - Parameters: `{ "text": "string", "technical_terms": ["string"] }`
+15. `POST /api/guidance_on_prompt_effectiveness` - Parameters: `{ "text": "string", "guidance_phrases": ["string"] }`
+16. `POST /api/compliance_with_historical_influences` - Parameters: `{ "text": "string", "influences": ["string"] }`
+17. `POST /api/no_speculation` - Parameters: `{ "text": "string", "knowledge_source": "string" }`
+18. `POST /api/prioritize_document_information` - Parameters: `{ "text": "string", "knowledge_source": ["string"], "other_sources": ["string"] }`
+19. `POST /api/handle_document_privacy` - Parameters: `{ "text": "string" }`
+20. `POST /api/validate_response` - Parameters: `{ "text": "string", "prompt": "string", "response_persona": "string", "consulting_persona": "string", "collaboration_review": "string", "expert_persona": "string" }`
+21. `POST /api/find_in_list` - Parameters: `{ "text": "string", "target_list": ["string"] }`
+22. `POST /api/contains_keywords` - Parameters: `{ "content": "string", "keywords": ["string"] }`
+23. `POST /api/sentiment_analyzer` - Parameters: `{ "text": "string", "positive_threshold": "number" }`
+24. `POST /api/text_similarity` - Parameters: `{ "text1": "string", "text2": "string", "threshold": "number" }`
+25. `POST /api/check_heading` - Parameters: `{ "content": "string", "keyword": "string" }`
+26. `POST /api/contains_section_titles` - Parameters: `{ "content": "string", "tags": ["string"] }`
+27. `POST /api/check_markdown_use` - Parameters: `{ "content": "string" }`
+28. `POST /api/relevant_links` - Parameters: `{ "content": "string", "domain": "string" }`
+29. `POST /api/section_detailed_discussion` - Parameters: `{ "content": "string", "keyword": "string" }`
+30. `POST /api/conclusion_present` - Parameters: `{ "content": "string" }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/check_presence_of_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+3. `POST /api/check_substring_in_text` - Parameters: `{ "text": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment` - Parameters: `{ "text": "string", "threshold": "number"}` (Default threshold can be 0.5)
+5. `POST /api/check_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "threshold": "number", "model_name": "string" }` (Default model_name can be "bert-base-nli-mean-tokens")
+6. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+7. `POST /api/regex_search` - Parameters: `{ "text": "string", "pattern": "string" }`
+8. `POST /api/check_keywords_in_text` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+9. `POST /api/text_contains_all_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+10. `POST /api/check_professional_ethics` - Parameters: `{ "text": "string", "ethics_keywords": "[string]" }`
+11. `POST /api/check_forbidden_topics` - Parameters: `{ "text": "string", "forbidden_list": ["string"] }`
+12. `POST /api/maintain_tone` - Parameters: `{ "text": "string", "desired_tone": "string" }`
+13. `POST /api/check_theme_relevance` - Parameters: `{ "text": "string", "theme": "string", "threshold": "number", "model_name": "string" }` (Default model_name can be "bert-base-nli-mean-tokens")
+14. `POST /api/check_format` - Parameters: `{ "text": "string", "pattern": "string" }`
+15. `POST /api/check_professional_standards` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+16. `POST /api/validate_gomoku_moves` - Parameters: `{ "board": [["string"]], "moves": [["number", "number", "string"]] }`
+17. `POST /api/generate_gomoku_board` - No parameters needed**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/sentiment` - Parameters: `{ "text": "string" }`
+7. `POST /api/validate_affirmation` - Parameters: `{ "content": "string" }`
+8. `POST /api/check_password_strength` - Parameters: `{ "password": "string" }`
+9. `POST /api/check_domain_in_email` - Parameters: `{ "email": "string", "domain": "string" }`
+10. `POST /api/validate_affirmation` - Parameters: `{ "content": "string" }`
+11. `POST /api/match_synonyms` - Parameters: `{ "word": "string", "synonyms": ["string"] }`
+12. `POST /api/analyze_entities` - Parameters: `{ "text": "string" }`
+13. `POST /api/summarize_text` - Parameters: `{ "text": "string", "summary_length": "number" }`
+14. `POST /api/check_affirmation_format` - Parameters: `{ "text": "string" }`
+15. `POST /api/validate_conversation` - Parameters: `{ "conversation": "string" }`
+16. `POST /api/search_entities` - Parameters: `{ "text": "string", "entity": "string" }`
+17. `POST /api/check_adherence` - Parameters: `{ "text": "string", "advice": ["string"] }`
+18. `POST /api/analyze_travel_suggestions` - Parameters: `{ "text": "string", "user": "string", "location": "string" }`
+19. `POST /api/validate_consultation_output` - Parameters: `{ "consultation": "string" }`
+20. `POST /api/validate_consultation_table_headers` - Parameters: `{ "table": "string" }`
+21. `POST /api/generate_markdown_report` - Parameters: `{ "report": "string" }`
+22. `POST /api/emulate_character_style` - Parameters: `{ "text": "string", "character": "string" }`
+23. `POST /api/recommend_flower_arrangement` - Parameters: `{ "flowers": ["string"], "style": "string" }`
+24. `POST /api/validate_first_sentence` - Parameters: `{ "text": "string" }`
+25. `POST /api/validate_last_sentence` - Parameters: `{ "text": "string" }`
+26. `POST /api/perform_spellcheck` - Parameters: `{ "text": "string" }`
+27. `POST /api/perform_grammar_check` - Parameters: `{ "text": "string" }`
+28. `POST /api/validate_email_content` - Parameters: `{ "email": "string" }`
+29. `POST /api/extract_keywords` - Parameters: `{ "text": "string" }`
+30. `POST /api/enforce_jargon_free_language` - Parameters: `{ "text": "string", "jargon_list": ["string"] }`
+31. `POST /api/generate_initial_chess_moves` - Parameters: `{ "user_move": "string", "current_board": "string" }`
+32. `POST /api/generate_simplified_summary_for_child` - Parameters: `{ "text": "string" }`
+33. `POST /api/generate_tex_suggestion` - Parameters: `{ "text": "string", "principals": ["string"] }`
+34. `POST /api/check_expertise_level` - Parameters: `{ "text": "string" }`
+35. `POST /api/check_automotive_knowledge` - Parameters: `{ "text": "string", "terms": ["string"] }`
+36. `POST /api/check_security_advice` - Parameters: `{ "advice": "string" }`
+37. `POST /api/generate_gomoku_board_moves` - Parameters: `{ "initial_move": "string" }`
+38. `POST /api/validate_board_moves` - Parameters: `{ "board_moves": "string" }`
+39. `POST /api/check_regex_pattern` - Parameters: `{ "pattern": "string", "text": "string" }`
+40. `POST /api/generate_chess_moves` - Parameters: `{ "user_move": "string", "current_board": "string" }`
+41. `POST /api/check_debate_advice` - Parameters: `{ "content": "string", "debate_topic": "string" }`
+42. `POST /api/check_table_format` - Parameters: `{ "content": "string" }`
+43. `POST /api/compose_biblical_text` - Parameters: `{ "input_text": "string" }`
+44. `POST /api/check_engine_parts_details` - Parameters: `{ "output": "string", "parts": ["string"], "details": ["string"] }`
+45. `POST /api/check_content_relevance` - Parameters: `{ "output": "string", "user_issue": "string" }`
+46. `POST /api/summarize_document` - Parameters: `{ "text": "string", "title": "string", "author": "string" }`
+47. `POST /api/verify_expertise_level` - Parameters: `{ "text": "string" }`
+48. `POST /api/excel_representation` - Parameters: `{ "rows": "number", "columns": "number" }`
+49. `POST /api/verify_quote_author` - Parameters: `{ "output": "string", "original_author": "string" }`
+50. `POST /api/generate_password` - Parameters: `{ "length": "number", "capital": "string", "lower": "string", "numbers": "string", "special": "string" }`**API Endpoints:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+3. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+4. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/validate_markdown_image_tag` - Parameters: `{ "text": "string" }`
+7. `POST /api/validate_markdown_table` - Parameters: `{ "text": "string", "keyword": "string" }`
+8. `POST /api/validate_markdown_command_list` - Parameters: `{ "text": "string" }`
+9. `POST /api/validate_legal_advice` - Parameters: `{ "text": "string" }`
+10. `POST /api/validate_story_details` - Parameters: `{ "text": "string" }`
+11. `POST /api/validate_solidity_contract` - Parameters: `{ "text": "string" }`
+12. `POST /api/check_safe_advice` - Parameters: `{ "text": "string" }`
+13. `POST /api/structured_response_check` - Parameters: `{ "expected_structure": ["string"], "text": "string" }`
+14. `POST /api/translate_and_spellcheck` - Parameters: `{ "input_text": "string" }`
+15. `POST /api/advanced_language_use` - Parameters: `{ "translated_text": "string" }`
+16. `POST /api/check_pet_related_advice` - Parameters: `{ "text": "string" }`
+17. `GET /api/formulate_nutritious_easy_recipes`
+18. `POST /api/length_check_domain_names` - Parameters: `{ "domain_names": ["string"] }`
+19. `POST /api/shakespeare_pirate_response` - Parameters: `{ "user_input": "string" }`
+20. `POST /api/tax_advice_calculation` - Parameters: `{ "user_input": "string" }`
+21. `POST /api/philosophical_approach` - Parameters: `{ "user_input": "string" }`
+22. `POST /api/apply_cosmetics_advice` - Parameters: `{ "context": "string" }`
+23. `GET /api/cyber_security_guidance`
+24. `POST /api/validate_output_as_sql_terminal_responses` - Parameters: `{ "output": "string" }`
+25. `POST /api/validate_language_learning` - Parameters: `{ "text": "string" }`
+26. `POST /api/validate_news_content` - Parameters: `{ "text": "string" }`
+27. `POST /api/validate_trivia_questions` - Parameters: `{ "question": "string", "category": "string" }`
+28. `POST /api/validate_finance_advice` - Parameters: `{ "output": "string" }`
+29. `POST /api/validate_coaching_output` - Parameters: `{ "output": "string" }`
+30. `POST /api/validate_haiku` - Parameters: `{ "poem": "string", "user_topic": "string" }`
+31. `POST /api/validate_json_output` - Parameters: `{ "output": "string" }`
+32. `POST /api/philosophical_discussions` - Parameters: `{ "text": "string" }`

@@ -1,0 +1,30 @@
+**How specific API endpoints can be converted to generic use:**
+
+Conversion examples for a couple of APIs:
+
+1. **Original:**
+   - `POST /api/validate_date` - Parameters: `{ "text": "string", "date": "string" }`
+   - **Generic:**
+   - `POST /api/validate_text_pattern` - Parameters: `{ "text": "string", "pattern": "string" }`
+   - *Explanation:* Instead of validating a specific date format, the generic API can validate any pattern within the text.
+
+2. **Original:**
+   - `POST /api/contains_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+   - **Generic:**
+   - `POST /api/text_contains_all_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+   - *Explanation:* The functionality remains almost the same, but naming it as "text_contains_all_keywords" gives a clearer understanding that all provided keywords need to be present in the text.
+
+**List of Generic API endpoints formulated from the specific ones:**
+
+1. `POST /api/is_length_within_limit` - Parameters: `{ "text": "string", "limit": "number" }`
+2. `POST /api/contains_substring` - Parameters: `{ "container": "string", "substring": "string" }`
+3. `POST /api/analyze_sentiment_vader` - Parameters: `{ "text": "string" }`
+4. `POST /api/check_pattern_match` - Parameters: `{ "text": "string", "pattern": "string" }`
+5. `POST /api/compute_cosine_similarity` - Parameters: `{ "text1": "string", "text2": "string", "model_name": "string" }`
+6. `POST /api/check_keywords_presence` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+7. `POST /api/check_text_compliance` - Parameters: `{ "text": "string", "phrases": ["string"], "positive_instructions": "string" }`
+8. `POST /api/is_in_list` - Parameters: `{ "item": "string", "valid_items": ["string"] }`
+9. `POST /api/validate_text_pattern` - Parameters: `{ "text": "string", "pattern": "string" }`
+10. `POST /api/text_contains_all_keywords` - Parameters: `{ "text": "string", "keywords": ["string"] }`
+
+These generic API endpoints offer a broader scope of functionality, enabling reusability across various applications beyond the initial specific context. Each endpoint focuses on a general operation that can be applied to different types of data, contributing to modular and scalable software architecture.
