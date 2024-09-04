@@ -6,6 +6,7 @@ class Mutator:
         self.original_system_prompt = system_prompt
         self.system_prompt = system_prompt
 
+    # Not used
     def add_rule(self, num):
         self.system_prompt = LLMFrontEnd().add_rule(self.system_prompt, num)
 

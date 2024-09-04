@@ -45,6 +45,7 @@ class Rule(Instruction):
     def __str__(self, indent=0):
         return " " * indent + f"Rule: {self.get_rule()}"
 
+# Not used
 class IfThen(Instruction):
     def __init__(self, condition, then_instruction):
         super().__init__()
