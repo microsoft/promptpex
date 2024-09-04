@@ -5,11 +5,13 @@
 > Use CodeSpaces to get a fully configured environment.
 
 Get the packages by doing `pip install -r requirements.txt`  
-OpenAI keys needs to be set the value of AZURE_OPENAI_API_KEY in .env file 
+OpenAI keys and endpoint needs to be set by setting value of AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT in .env file 
+
 
 ```sh
 $ cat .env
 $ AZURE_OPENAI_API_KEY="your_key"
+$ AZURE_OPENAI_ENDPOINT="api endpoint"
 ```
 
 ### Host PromptPex locally

@@ -5,11 +5,16 @@ from openai import AzureOpenAI, OpenAI
 
 load_dotenv()
 
+API_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+if API_ENDPOINT is None:
+    print("AZURE_OPENAI_ENDPOINT is not set")
+    exit(1)
+
 client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     api_version="2024-02-01",
     # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
-    azure_endpoint="https://trapi.research.microsoft.com/redmond/interactive/"
+    azure_endpoint=API_ENDPOINT
 )
 
 local_client = OpenAI(
