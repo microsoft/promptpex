@@ -1,0 +1,10 @@
+rule id,rule
+501a8df7f0654c7f4e2597f5a8df9c48,The output must indicate whether a rebase operation should proceed or not for specific topic branches based on their merge status with other branches such as 'next' or 'master'.
+0297533913d740ffebbf8b13532656ef,The output must include error messages that provide clear indications of the reasons a rebase operation should not proceed.
+7570a9a2a52a51e352ef3220be3b8b99,"If a rebase operation is being disallowed, the output should include an exit command with a non-zero status."
+5b20464fe9509023eae654eec8c7e09d,"The output must differentiate between topic branches that have commits not merged to 'master' and those that are fully merged, with proper instructions or notifications for each scenario."
+0263fe63f136f9769817d2ad482e7907,The output should check if the topic branch exists before proceeding with further checks and provide corresponding errors if it does not exist.
+bb46d3e32017bd461a15620f3311f704,Messages in the output should guide the user regarding the appropriate actions if a branch is found fully merged or not merged according to certain conditions.
+030825deef0a0bc7e20fcb0e5f4c40ec,The output must accurately represent checks for merges into both the 'next' and 'master' branches as per the rebase conditions described.
+49abfc25f99894ea37293e5a6e7f1936,The system should exit with status 0 when it does not intervene in the rebase operation of certain branches not covered by the scripted conditions.
+cf14498ac6c9bae0644c65d9b242fa7f,"Error messages or notifications in the output must be routed properly, likely through standard error channels, distinguishing them from normal output."

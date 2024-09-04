@@ -1,0 +1,467 @@
+rule id,test type,rule,test case
+
+eb680ed26e16600b25bb5e86f7957ea9,positive,Testing, testcase
+fdc1200ad7481338c9233d65a2265e05,negative,The commit message must have a short description that is at least 50 characters.,"```
+pull request:
+files:
+  - file1.py
+  - file2.js
+  - file3.css
+line changes:
+  - file1.py: 10: print(""Hello World"")
+  - file1.py: 20: print(""Goodbye World"")
+  - file2.js: 15: console.log(""Hello World"")
+  - file2.js: 25: console.log(""Goodbye World"")
+  - file3.css: 5: color: red;
+
+commit message:
+Enhanced greeting messages across different modules
+
+Updated greeting messages in Python and JavaScript files for better user engagement. Changed CSS color properties for improved visualization.
+```"
+
+581515e269c003606694e3ad1d22e171,negative,The commit message must be a single continuous line without any newlines.,"```
+Title: Refactor and improve code quality in multiple modules
+
+Body: Enhanced readability and performance; updated dependencies; fixed minor bugs
+```
+"
+
+27b0b6b20b7b296fd5e8b0ebb3164e55,negative,The commit message must not include any description following the newline after the short description.,"```
+Pull Request for Feature Enhancement
+
+files:
+- src/components/Header.js
+  - line 15: Changed the logo component to a new design
+  - line 45: Updated navigation links
+
+- src/utils/helpers.js
+  - line 22: Revised the calculation logic to improve performance
+  - line 58: Refactored the error handling mechanism
+
+- src/styles/main.css
+  - line 10: Tweaked the header background color
+  - line 38: Adjusted the padding and margin sizes
+```"
+
+b0ff4ccdef6221d150229883484d7fe7,negative,The commit message must include exhaustive details.,"```
+Title: Refactor and Optimize Codebase
+
+Detailed Changes:
+- Updated user authentication mechanism to improve security (file1.js, lines 15-23)
+  Removed outdated encryption methods and implemented the latest standards. Addressed potential vulnerabilities found during the security audit. Enhanced the hashing algorithm used for storing passwords to further prevent possible attacks.
+
+- Cleaned up and restructured API endpoints for better performance (file2.js, lines 44-66)
+  Refactored redundant functions to minimize server load. Consolidated multiple similar endpoints to reduce response times. Improved the error handling to give more precise feedback for client requests under various failure scenarios.
+
+- Improved database queries to boost efficiency (file3.js, lines 10-25)
+  Optimized SQL queries to reduce execution time significantly. Added proper indexing on frequently accessed tables. Updated the schema to remove ambiguities and streamline data retrieval processes.
+
+- Enhanced user interface components for easier navigation (file4.html, lines 5-20)
+  Refined the CSS and JavaScript for a more user-friendly interface. Improved accessibility features, ensuring compliance with WCAG standards. Simplified the navigation bar and restructured the layout for better aesthetic and usability.
+
+- Added test cases for new functionalities and edge cases (file5.test.js, lines 12-30)
+  Comprehensive tests covering new authentication methods and API changes. Included test cases for both typical usage and edge scenarios. Ensured 100% code coverage for critical functions to reduce future breakages.
+
+- Removed deprecated functions and cleaned up codebase (file6.js, lines 50-75)
+  Deleted outdated functions that were no longer in use. Streamlined the codebase by removing legacy code and comments. This cleanup helps in maintaining readability and ease of future maintenance.
+
+- Fixed bugs reported in the recent user feedback (file7.js, lines 40-55)
+  Addressed issues with session handling and data persistence. Fixed minor bugs affecting user experience reported through customer support. These fixes align closely with the user's requests and feedback.
+
+These updates collectively enhance the codebase's security, performance, and maintainability, ensuring a smoother experience for both developers and users.
+```"
+
+5f3f705d57bb39c26200d1484f49b469,negative,The commit message must use formal language.,"```
+Fix critical bugs in the repository
+
+Corrected multiple issues across several modules. Enhancements included:
+- Resolved a race condition causing an intermittent failure in authentication.
+- Refactored the data handling function to improve efficiency and maintainability.
+- Updated the UI component to address rendering glitches on different screen sizes.
+- Improved error logging to facilitate easier debugging and monitoring.
+
+These modifications are crucial for maintaining the stability and reliability of the system. Ensure thorough testing before deployment.
+```"
+
+070d81361a0da790d70b114c0d4d10e7,negative,The commit message must not include any changes made in the code.,"```
+Files changed:
+1. file1.js
+   - Line 25: console.log('Updated function');
+2. file2.js
+   - Line 10: let newVar = 'new value';
+3. file3.js
+   - Line 40: return updatedValue;
+```
+"
+
+a1421f8770cf9bf391a983008e7d8080,negative,The commit message must describe changes using specific details.,"```
+Filename: app.py
+Line 10: Changed variable 'a' to 'counter'
+Line 15: Updated function 'foo' to include logging
+
+Filename: utils.py
+Line 22: Refactored 'calculate' function for better performance
+Line 35: Renamed 'b' to 'result'
+
+Filename: constants.py
+Line 5: Added new constant 'DEFAULT_TIMEOUT'
+Line 8: Removed unused constant 'OLD_CONSTANT'
+
+Filename: views.py
+Line 45: Fixed off-by-one error in pagination logic
+
+Filename: models.py
+Line 12: Added new field 'created_at' in User model
+Line 30: Modified 'status' field to be nullable
+```"
+
+4cdf7c2b1b2519759d06bc0bcc5b8599,negative,The commit message must include exact variable names from the provided code changes.,"```
+File: app/main.py
+Line: 12
+Change: 
+- old_variable = 5
++ new_variable = 10
+
+File: app/helpers.py
+Line: 45
+Change: 
+- result = calculate_value(a, b)
++ result = compute_value(a, b, c)
+
+File: app/config.py
+Line: 22
+Change: 
+- DEBUG = True
++ DEBUG = False
+
+File: app/views.py
+Line: 19
+Change: 
+- user_name = get_user()
++ user_full_name = get_user_full_name()
+```"
+
+f367bcf33066acf20156dd0a504682de,negative,The commit message must include exact file names from the provided code changes.,"```
+# file1.txt
+## Line 12
+- var a = 10;
++ var a = 20;
+
+# file2.py
+## Line 8
+- print(""Hello"")
++ print(""Hello World"")
+
+# file3.java
+## Line 22
+- int total = sum(list);
++ int total = sum(list) + 5;
+
+#file4.js
+## Line 45
+- let counter = 0;
++ let counter = 1;
+```"
+
+15a7cccae36a564bf2846ea393efedf9,negative,"The commit message must use the phrase ""this commit"".","```
+diff --git a/file1.py b/file1.py
+index 83b5e34..b2e3d23 100644
+--- a/file1.py
++++ b/file1.py
+@@ -10,7 +10,7 @@ def function_one():
+     # Comment
+-    old_code_line
++    new_code_line
+
+diff --git a/file2.js b/file2.js
+index eac3f91..7e5d25e 100644
+--- a/file2.js
++++ b/file2.js
+@@ -25,9 +25,9 @@ function secondFunction() {
+    // Another Comment
+-   let old_js_line;
++   let new_js_line;
+
+diff --git a/file3.txt b/file3.txt
+index 6d3f42d..c2e55c3 100644
+--- a/file3.txt
++++ b/file3.txt
+@@ -3,6 +3,6 @@ This is a text file.
+- original_text
++ modified_text
+```"
+
+d7885f24535d49f73257f494bcc737e6,negative,"The commit message must use the phrase ""this change"".","```
+Title: Refactor and optimize codebase
+
+Refactored several functions to improve readability and maintenance. Optimized database queries for faster response times. Addressed several bugs in the user interface to enhance user experience. This change also includes updates to the documentation to reflect the new code structure.
+
+Files changed:
+1. utils/helpers.py
+   - Line 15: Simplified the utility function for readability.
+   - Line 34: Removed deprecated methods.
+
+2. models/user.py
+   - Line 58: Optimized database queries.
+   - Line 74: Fixed a bug causing incorrect user data.
+
+3. controllers/dashboard.py
+   - Line 22: Improved error handling.
+   - Line 89: Refactored complex logic into simpler functions.
+```"
+
+fdc1200ad7481338c9233d65a2265e05,positive,The commit message must have a short description that is less than 50 characters.,"```
+Fixing critical bugs and optimizing code
+
+- Fixed memory leak in the main processing module
+- Enhanced input validation on user data
+- Optimized rendering logic for better performance
+```"
+
+581515e269c003606694e3ad1d22e171,positive,The commit message must have a short description followed by a newline.,"```
+Update project with new features and enhancements
+
+- Added new functions to handle user authentication
+- Improved error handling in several modules
+- Refactored database connection logic for better performance
+```
+"
+
+27b0b6b20b7b296fd5e8b0ebb3164e55,positive,The commit message must have a more detailed description following the newline after the short description.,"```
+{
+    ""filename"": ""app.py"",
+    ""line_number"": 120,
+    ""code_change"": ""add new endpoint for user data retrieval""
+},
+{
+    ""filename"": ""models.py"",
+    ""line_number"": 45,
+    ""code_change"": ""change user model to include last login timestamp""
+},
+{
+    ""filename"": ""utils.py"",
+    ""line_number"": 78,
+    ""code_change"": ""refactor email validation function""
+},
+{
+    ""filename"": ""app.py"",
+    ""line_number"": 88,
+    ""code_change"": ""fix bug in user authentication logic""
+},
+{
+    ""filename"": ""settings.py"",
+    ""line_number"": 32,
+    ""code_change"": ""update configuration for deployment""
+}
+```"
+
+b0ff4ccdef6221d150229883484d7fe7,positive,The commit message must be written concisely.,"```plaintext
+Fix some bugs and improve performance
+
+- Removed redundant code to fix errors
+- Optimized algorithms for better efficiency
+- Cleaned up comments and formatting for readability
+```"
+
+5f3f705d57bb39c26200d1484f49b469,positive,The commit message must use an informal tone.,"```
+Title: Add new features and fix bugs
+
+Details:
+- Improved file handling by adding error checking
+- Enhanced user interface elements with new styling and animations
+- Fixed several bugs in data parsing logic
+- Updated documentation to reflect new API changes
+- Refactored code for better readability and maintainability
+
+Files changed:
+1. src/main/java/com/example/project/FileHandler.java
+   - Line 42: Added error checking for file operations
+   - Line 85: Refactored method for readability
+
+2. src/main/java/com/example/project/UIManager.java
+   - Line 120: Added new CSS styling for better user experience
+   - Line 150: Introduced animations for transitions
+
+3. src/main/java/com/example/project/DataParser.java
+   - Line 76: Fixed null pointer exception bug
+   - Line 102: Improved parsing logic for edge cases
+
+4. docs/API_Changes.md
+   - Line 10: Updated documentation to reflect new methods
+```"
+
+070d81361a0da790d70b114c0d4d10e7,positive,The commit message must list significant changes made in the code.,"```
+diff --git a/file1.py b/file1.py
+index 16fa7b0..3b4a3c7 100644
+--- a/file1.py
++++ b/file1.py
+@@ -10,7 +10,7 @@ def function_one():
+     # Existing code
+-    result = some_calculation(x, y)
++    result = another_calculation(x, y)
+```
+
+```
+diff --git a/file2.py b/file2.py
+index 3b4a3c7..4c8d3e2 100644
+--- a/file2.py
++++ b/file2.py
+@@ -23,6 +23,8 @@ def function_two():
+     # Existing code
+
++    new_functionality()
+     # Additional changes
+```
+
+```
+diff --git a/file3.py b/file3.py
+index 4c8d3e2..5f8e7d9 100644
+--- a/file3.py
++++ b/file3.py
+@@ -15,9 +15,9 @@ def function_three():
+     # Existing code
+
+-    old_logic()
++    updated_logic()
+     
+     # More changes
+```"
+
+a1421f8770cf9bf391a983008e7d8080,positive,The commit message must describe changes using generic terms.,"```
+diff --git a/file1.txt b/file1.txt
+index 83db48f..e57f20e 100644
+--- a/file1.txt
++++ b/file1.txt
+@@ -3,6 +3,7 @@ Line 3 text
+ Line 4 text
+ Line 5 text
+ Line 6 text
++
+diff --git a/file2.txt b/file2.txt
+index aab02cd..9fd74cb 100644
+--- a/file2.txt
++++ b/file2.txt
+@@ -1,4 +1,5 @@
+ Line 1 text
+ Line 2 text
+ Line 3 text
++Added new line text
+diff --git a/file3.txt b/file3.txt
+index c7b1f58..d88f5f4 100644
+--- a/file3.txt
++++ b/file3.txt
+@@ -2,7 +2,7 @@
+ Line 2 text
+ Line 3 text
+-Modified line content
++Updated line content
+```"
+
+4cdf7c2b1b2519759d06bc0bcc5b8599,positive,The commit message must not include exact variable names from the provided code changes.,"```git
+Pull Request:
+
+Title: Fix payment processing issues and optimize queries
+
+Files Changed:
+1. payment_service.py
+   - Line 24: Changed `total_amount` calculation to include discounts.
+   - Line 45: Fixed bug in `process_payment` method to handle edge cases.
+
+2. user_service.py
+   - Line 10: Updated `create_user` to include email validation.
+   - Line 50: Modified `update_user` method to handle user status changes properly.
+
+3. database_queries.sql
+   - Line 5: Optimized `SELECT` query for fetching order details.
+   - Line 20: Added indexes to improve query performance.
+```"
+
+f367bcf33066acf20156dd0a504682de,positive,The commit message must not include exact file names from the provided code changes.,"```
+Files modified: foo.py, bar.py, baz.py
+
+foo.py
+1 def foo():
+2 -    return 'foo'
+2 +    return 'foobaz'
+
+bar.py
+3 def bar():
+4 -    print('bar')
+4 +    print('foobar')
+
+baz.py
+5 def baz():
+6 -    yield 'baz'
+6 +    yield 'bazfoo'
+```"
+
+15a7cccae36a564bf2846ea393efedf9,positive,"The commit message must not use the phrase ""this commit"".","```
+Pull Request
+
+files: 
+1. example1.py
+2. example2.py
+3. example3.py
+
+Diffs:
+1. example1.py
+   Line 5: 
+   - old_code_line_5
+   + new_code_line_5
+   Line 10: 
+   - old_code_line_10
+   + new_code_line_10
+  
+2. example2.py
+   Line 15: 
+   - old_code_line_15
+   + new_code_line_15
+   Line 20:
+   - old_code_line_20
+   + new_code_line_20
+
+3. example3.py
+   Line 25:
+   - old_code_line_25
+   + new_code_line_25
+   Line 30:
+   - old_code_line_30
+   + new_code_line_30
+```"
+
+d7885f24535d49f73257f494bcc737e6,positive,"The commit message must not use the phrase ""this change"".","```
+Pull Request:
+Title: Feature Enhancement and Bug Fixes
+
+Files Changed:
+File1.java
+Line 14: Added input validation to methodX to prevent null pointers.
+Line 26: Optimized loop to reduce runtime complexity.
+
+File2.java
+Line 45: Updated authentication logic to use the new encryption mechanism.
+Line 50: Removed deprecated method calls and replaced with new standard methods.
+
+File3.java
+Line 33: Fixed off-by-one error in array handling.
+Line 60: Refactored error handling block for better readability.
+
+File4.java
+Line 12: Updated SQL query to prevent potential SQL injection attacks.
+Line 29: Added logging for the error states.
+
+File5.java
+Line 18: Improved the performance of data serialization logic.
+Line 41: Updated comments for better code documentation.
+
+Commit Message:
+Improved validation, encryption, and bug fixes
+
+- Added input validation and optimized a loop in one feature.
+- Updated encryption in authentication and used new methods.
+- Refactored error handling and fixed off-by-one error in arrays.
+- Updated SQL queries and added logging for error states.
+- Enhanced data serialization performance and updated comments.
+```"
+

@@ -1,0 +1,10 @@
+rule id,rule
+bd4aa341b0c41c4f012efaf2e87c62b4,The output must ask for confirmation from the user regarding their video project prompt before proceeding to generate the video.
+0529d1a3f07bef7f50852caf26d69425,"If the user confirms the prompt, the LLM must attempt to generate the video project using the ""GenerateProject"" action."
+387d9746c02ba29f444ff2fb4db06809,"If the ""GenerateProject"" request fails, the LLM must retry the request one more time."
+136dccdec8684820214096b2065c005b,"After a second failure of the ""GenerateProject"" request, the LLM must inform the user that there is an issue with generating the video project due to high demand and suggest creating a video on their own."
+25d65d2b22310068ff86561ec8784f3e,"If the ""GenerateProject"" request succeeds, the output must display a clickable link formatted as a thumbnail image that links to the video project's editing URL."
+2d8abf25570e0ec041812f739df5add3,"The output message for a successful video project generation must include an invitation to edit the video, an encouragement to provide feedback through a provided URL, and a reminder that the user can edit script, voice, stock assets, or music in VEED's video editor."
+515ee86563e26533ae04b3a712b2c94a,The link to edit the video project and the feedback URL must be explicitly provided in the format specified in the prompt.
+b6361847509ae9054ae8f8a2d277fbee,"The LLM should refer to uploaded documents as ""knowledge source"" and avoid speculating or providing information that isn't contained in these documents."
+96d779e39d2bbb3df6f5de63bc1016f6,"The LLM should favor the information from its ""knowledge source"" before relying on baseline knowledge or other sources and must explicitly state when no information is found in the knowledge source."

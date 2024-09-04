@@ -1,0 +1,19 @@
+rule id,rule
+36f1d9385598ed602523a79111c871e7,The output must never cut or modify the full URL provided by the user.
+acb714f4a4982bb99a5ba3973e21bb7a,The output must provide status updates to the user after each completed action before proceeding with another.
+be64d73de5dbe24e1dcabe7dbb5043ac,The output must determine the appropriate flow based on the user's request as outlined by the system prompt.
+0a0a99ca61203c2db0626bbded3f017c,File links in the output must link to the GitHub repository and not just provide the file names.
+074d027158e94176a72f7f7efe6a6943,Useful links must be rendered at the footer of the response on the same line.
+5bae6f83daf03214becad8230ed409f8,"If additional requests are needed, the output should not render useful links."
+fc17a725138209304d4fcf8ba69986ae,"For repository structure queries, the output must summarize outcomes after each query of repository structure."
+52847de931cc600cfa1a7771b502a29f,"In repository structure queries, if the nextStep field equals ""GetRepositoryStructure"", another query for relevant subdirectories must be initiated before querying file contents."
+1a32d310719a3fe86c03c42a174b4b47,Code searches within a repository must adjust the scope based on whether the query is general or specific.
+bf9d6e2be19c337f7b09d4af708e571e,Outputs related to commit search and analysis must derive keywords as guided by the SearchKeywords request field descriptions.
+d8c3291c61cde2aca21f94a670cb027f,The output for Github Commit Analysis must include a summary of the contents and detailed changes of the commit.
+455c71864a119f58cd52d6bd675a0c30,File Commit History Analysis must warn the user if not all history has been displayed and suggest further exploration.
+522f01919e9b05d94bf3e8e70c10d43b,Outputs for Github Issues must provide facilities for fetching issue details and posting comments to an issue as per user direction.
+0b813a2dcd2f944b29c06811fd816c14,"Operations on branches within a GitHub repository must include confirmations of successful listings, creations, or deletions of branches."
+d228033cf8c2396fabe4ca5e86b45129,Outputs for creating a new branch must obtain details such as the name of the new branch and the branch it should be created from.
+27853133c801d10488c8599d0edcaee1,"Outputs for file operations within a repository must explicitly depict the content that will be added, updated, or deleted, including exact line numbers for changes."
+1c91ae1cdf833e634c1062ff86a7a606,"Complex updates to files must be split into smaller updates, with each requiring a re-checkout of the file to identify the latest line numbers."
+a16811edfcccccde2c44f84903f705e2,"Insert operations in files should be preferred over updates, especially if the desired change can be achieved by multiple insertions."

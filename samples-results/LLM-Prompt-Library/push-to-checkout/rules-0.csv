@@ -1,0 +1,14 @@
+rule id,rule
+aa0f551f88d80b21756897435f64ad6a,The output must be an executable shell script intended for use as a hook script in git.
+d1f6de169f252a305e0b50e73b138aa0,"The output must begin with a shebang indicating the shell interpreter (e.g., #!/bin/sh)."
+7a3cec7e8a609d3bc10ef68f087a0c0e,The output should handle scenarios where the push updates a currently checked-out branch.
+a5587804ee948bb8cafd93e420ec3ede,The output should check for unstaged changes in the working directory and refuse the push if any are found.
+7f033cc2d7613515ca649c60e211c3f1,The output should check for staged but uncommitted changes and refuse the push if any are found.
+cade8ebc38af87b46c3f38c707739313,The output must perform an up-to-date check on the index of the repository.
+3b40aba614ad10aff5130fe51e11c631,The output should contain a function to exit the script with a message and a non-zero status to indicate failure.
+4a4162748a65fbbc9e1538870068f70b,The output should contain logic to update the working tree and index to match the newly pushed commit if checks pass.
+925943eaf78c9f6f69efc2d8e8caea49,"The output must include appropriate git commands such as git read-tree, git update-index, git diff-files, and git diff-index."
+13a897fbf8554bf9ac1aba3d5f47816a,The output should determine if the HEAD has a history or if it references an empty tree.
+1ac9365dca996728a222565603abd120,The output must include error handling that provides informative messages upon failure of git commands or checks.
+c8f45aae7e3abc00315fbe8e48f2cca3,The output script must adapt for execution from the repository directory and consider the path to the working tree.
+d6cb323e6a04dfd8bfe07324195b7b9c,"If necessary, the output script must provide a means to invoke git commands to replicate the default behavior seen with git fetch when pushing."

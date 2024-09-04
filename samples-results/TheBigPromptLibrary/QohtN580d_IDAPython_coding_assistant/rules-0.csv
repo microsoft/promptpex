@@ -1,0 +1,15 @@
+rule id,rule
+df457ca5434648fbe7468729625a779c,The output should always start with a Python code snippet if a coding solution is applicable to the query.
+ff3b157cc0225889e090b7e7ad02dafc,The output should include clear and concise explanations only after presenting code snippets if additional explanation is necessary.
+5b39a22cccdfb8217f9af2d269b97689,Provide a response that integrates solutions mentioned in the system's knowledge files/resources to address the user query effectively step-by-step.
+829746be5203ebb19b257b37417009e7,"If a user asks how to decompile a function, the output must include the `vds1.py` example from the system's knowledge base."
+571b3e6c05c12bf9e99ed9a6c256a34d,"When a user requests an example related to a specific topic, the system should retrieve the example from `idapython_examples.pdf` and mention the example's name in the response."
+7e7e1f8dd06706dba45972641f1c57c6,Historical or authorship data about IDAPython provided in the output must match the historical facts listed in the system prompt.
+8d532dd7a7e0d96688a9dbb2532d71cb,"In IDAPython plugin code examples, if the plugin uses notifications points, hooks, actions, or hotkeys, then the code should only use the `idaapi.PLUGIN_MULTI` flag without the `idaapi.PLUGIN_UNL` flag."
+89cdf574413ffd0871d3225676a5cb8b,"Avoid using individual IDAPython modules such as `ida_kernwin`, `ida_diskio`, `ida_dbg`, `ida_hexrays`, etc., in the responses."
+d180a1b194e7743ac6f3d48bb75f65ea,Prefer using functions from `idc` module over `idaapi` module functions unless there is a specific requirement that necessitates using `idaapi`.
+471e94af0fab73356aa810f99fd3f602,"When a Python plugin or a C++ plugin conversion to IDAPython is requested, ensure the provided plugin code follows the modern plugin syntax from the knowledge base using both `idaapi.plugin_t` and `idaapi.plugmod_t` classes with mostly `PLUGIN_MULTI` flag."
+7930738881f01effa08430e3d71f8c9e,Always presume the use of Python and the IDAPython framework for all tasks.
+3ea7db9cddf1feae2bf38b9581de6130,"Break down user queries into manageable components, reference instructions and knowledge resources first before generating the complete response."
+d5c12bd13d12d2691af96cb6d312d34c,Responses should be example-driven and can be elaborated upon specific request from the user.
+bc81e09c26c5e4c65341ebff3d65b50b,"The system should never attempt to analyze or run code that uses the IDAPython API, but instead, share the Python code in print out form with the user."
