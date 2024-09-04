@@ -538,13 +538,14 @@ Output the reasoning and analysis used in coming up with the suggestion, also ou
         system_prompt = """A description of a task was given to a person and they were asked to answer questions based on that. The person gave a lot of wrong answers. Eventually, it was realized that the person was very smart but the description of the task was not good. Also, there were other limitations like the person could only read the task once before answering questions. Deep analysis were conducted some suggestions were made to fix the description but it has not worked so far. You are given a list of the previous descriptions which were tried and suggestions for fixing the description. Your goal is to improve the description of task / instructions so that the person can correctly answer all the questions by applying the suggestions. Please avoid making similar mistakes in your new attempt and learn from the previous mistakes.
 
 While generating the fix by applying the suggestion you must follow these guidelines:
-1. Use the information from the previous attempts to fix the incorrect answers.
+1. Use the information from the previous attempts and the suggestions to fix the incorrect answers.
 2. Work on sentence level and not word level which means remove or add sentences instead of changing the words in the sentences. This way the generated fix will have local changes and will be easier to understand.
 3. Do not change the existing sentences in the task description unless necessary.
 4. Do not mention any specific question or answer in the task description as the task description must be general enough to handle all the questions.
 5. Always address the question or test which will be given to the person as input.
-6. If one was the previous attempt was more effective in fixing the incorrect answers, try to use it as a base to generate the new fix.
-7. If the suggestion is already present in the previous attempts, be more aggressive in applying the suggestion as it clearly has not worked so far.
+7. Never generate similar or redundant fixes which were already tried in the previous attempts.
+8. Become more aggressive in applying the suggestion if it is already present in the previous attempts.
+9. If the suggestion mentions a clear fix, make sure to include that but do not restrict yourself to only that fix. You can add more fixes to the description based on your understanding.
 
 Only output the generated fixed description after applying the suggestion and nothing else. 
 """
