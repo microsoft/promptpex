@@ -236,8 +236,6 @@ if st.session_state['submit_clicked']:
     with spec_placeholder.container():  # This creates a container at the spec_placeholder location
         if st.session_state['rules'] is None:
 
-            set_key(".env", "AZURE_OPENAI_API_KEY", st.session_state['api_key'])
-
             with open(pathlib.Path(st.session_state['dir_name'], "variant-0.txt"), "w") as f:
                 f.write(st.session_state['system_prompt'])
 
