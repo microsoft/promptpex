@@ -2,19 +2,44 @@
 
 ## Getting Started 
 
-> Use CodeSpaces to get a fully configured environment.
+> Use CodeSpaces / dev container to get a fully configured environment.
+
+### Navigating the CLI
+
+* `automatic_pipeline.py` is the main driver  
+* It takes input as a prompt using `-i unix/path`  
+* If the input file was `foo.txt` and you want to store the output in result dir, do the following:
+```sh
+python3 automatic_pipeline.py -i foo.txt -o result
+```
+It automatically creates the dir result/foo to save the result 
+* All paths provided to CLI must be unix path, `this/is/a/unix/path` and `\not\this`
+* The most common use case is to run the whole pipeline, gen rules, tests and run tests:
+```sh
+python3 automatic_pipeline.py -i foo.txt -o result --run-tests
+```
+* To generate rules and exit, use `--gen-rules` and `--gen-tests` for generating tests and existing
+* Gen rules `--gen-rules`, Gen tests `--gen-tests` and Run tests `--run-tests`
+* `--use-existing-*` will use the old artifacts (rules and tests)
+```sh
+python3 automatic_pipeline.py -i foo.txt -o result --run-tests --use-existing-rules --use-existing-tests
+```
+This will run the existing tests without generating new rules and tests
+```sh
+python3 automatic_pipeline.py -i foo.txt -o result --gen-tests --use-existing-rules
+```
+This will generate new tests using the old rules.
+
+### Host PromptPex locally
 
 Get the packages by doing `pip install -r requirements.txt`  
 OpenAI keys and endpoint needs to be set by setting value of AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT in .env file 
-
 
 ```sh
 $ cat .env
 $ AZURE_OPENAI_API_KEY="your_key"
 $ AZURE_OPENAI_ENDPOINT="api endpoint"
 ```
-
-### Host PromptPex locally
 
 ```sh
 cd promptpex/app
