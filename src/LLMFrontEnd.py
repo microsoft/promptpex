@@ -1,3 +1,4 @@
+from re import I
 from . import Dbg
 import time, os
 from dotenv import load_dotenv
@@ -116,6 +117,36 @@ Focus only on what types of inputs can be given to the chatbot based on its desc
         if output is None:
             return ""
         output = output.replace("\n\n", "\n").strip()
+        return output
+
+    def generate_baseline_test(self, prompt, num=1):
+        Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generating test")
+        system_prompt = f"""
+You are tasked with developing multiple test cases for an software, use the given description to infer its functional and input specification. You must create at max {num} distinct and diverse test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to description. These tests must be well defined as per the description.
+
+Start with first understanding what is a input for the software. Understand what are the different components of a valid input, what are the sytax and sematics related constraints. A good test must always be a valid input meeting the requirements mentioned in the given description.
+
+Use the given description of the software to generate the test cases.
+
+Guidelines for generating test cases:
+- Use the description to understand the valid input formats, components of the input and scenarios for the software.
+- If the test case have multiple components, try to use all the components in the test case and tag them with their name, like, component name: value
+- Each test case must be crafted to rigorously assess whether the software's output meets the stipulated behavior based on the provided software description.
+- Use valid and realistic input scenarios that fully comply with the given description.
+- Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the description under various conditions.
+- Never generate similar or redundant test cases
+
+Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity and independence. Critically assess potential weaknesses in the software's handling of inputs and focus on creating diverse test cases that effectively challenge the software's capabilities.
+
+Separate each test case with a new line with "=====" as the delimiter. It will help in identifying each test case separately. Do not wrap the output in any additional text like the index of test case or formatting like triple backticks or quotes. Only output the test cases directly separated by "=====".
+"""
+
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Description of the software: {prompt}"}]
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generated test: {output}")
+        if output is None:
+            return ""
+        output = output.split("=====")
         return output
 
     def generate_test(self, rule, context=None, input_spec=None, num=1):
@@ -632,4 +663,43 @@ Only output the two lists of indices and nothing else. Ensure the elements withi
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Test case: {test_case}"}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][expected_output] generated expected output: {output}")
+        return output
+
+    def extract_intent(self, prompt):
+        Dbg.debug(f"[LLM FrontEnd][extract_intent] extracting intent from prompt:\n {prompt}")
+        system_prompt = """You are given a description of a chatbot's task. Your task is to extract the intent of the chatbot from the given description. The intent is the primary goal or purpose of the chatbot. It is the action that the chatbot is designed to perform based on the task description.
+
+In the output, provide the extracted intent of the chatbot. Only output the extracted intent and nothing else. Do not include any additional information in the output.
+"""
+
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": prompt}]
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][extract_intent] extracted intent: {output}")
+        return output
+
+    def check_violation_with_input_spec(self, test, input_spec):
+        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checking violation for test:\n {test}")
+        system_prompt = f"""You are given an input and an input specification for the software. Your task is to very carefully and thoroughly evaluate the input to find out if it complies with the provided input specification in other words, if the input is a valid input for the software.
+
+Use the following input specification to evaluate the test case:
+[SPEC START]{input_spec}[SPEC END]
+
+Output 0 if the input complies with the input specification. Output 1 if the input does not comply with the input specification. Only output the decision as 0 or 1 and nothing else.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Test case: {test}"}]
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
+        return output
+
+    def check_rule_grounded(self, rule, description):
+        Dbg.debug(f"[LLM FrontEnd][check_rule_grounded] checking rule grounded for rule:\n {rule}")
+        system_prompt = f"""You are given a rule and a description of a chatbot's task. Your task is to evaluate the rule to determine if it is grounded in the provided description. A rule is considered grounded if it is supported by the information provided in the task description. 
+
+Use the following description to evaluate the rule:
+{description}
+
+Output '0' if the rule is grounded in the description. Output '1' if the rule is not grounded in the description. Only output the decision as 0 or 1 and nothing else.
+"""
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Rule: {rule}"}]
+        output = self.get_bot_response(messages)
         return output

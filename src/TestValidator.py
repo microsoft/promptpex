@@ -33,6 +33,13 @@ class TestValidator:
             self.keys.append(row[0])
             self.tests.append(row[2])
             self.expected.append(row[3])
+    
+    def force_append_tests(self, tests):
+        def guess_expected_output(test_case):
+            return ""
+        self.tests = tests
+        self.keys = [str(i) for i in range(len(tests))]
+        self.expected = [guess_expected_output(test) for test in tests]
 
     def run_test(self, test, expected):
         results = self.validate(test)
