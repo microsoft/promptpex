@@ -13,7 +13,7 @@
 python3 automatic_pipeline.py -i foo.txt -o result
 ```
 It automatically creates the dir result/foo to save the result 
-* All paths provided to CLI must be unix path, `this/is/a/unix/path` and `\not\this`
+* All paths provided to CLI must be unix path, `use/forward/slash/path` and `\not\backward\slash`
 * The most common use case is to run the whole pipeline, gen rules, tests and run tests:
 ```sh
 python3 automatic_pipeline.py -i foo.txt -o result --run-tests
