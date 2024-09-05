@@ -80,7 +80,7 @@ Your task is to assess a series of rules and determine the most suitable methodâ
 
 By following these examples, evaluate and derive the most suitable method for each rule given to you. Generate complete code for checking the rules. Create a big single program which tests for these rules, this program should take the text as input and all the checks for the rules must be hardcoded, try to cover all the rules given to you and make sure that the program is able to check for all the rules. Combine all the rules and their corresponding validation methods into a single program. Combine these checkes such that you generate the shortest progarm for these rules with maximum reusability of code. Try to use the same functions with different arguments for different rules. Do not output anything other than the code. Do not write the test driver code. Do not write the main function.
 """
-    input_file = pathlib.Path("ap-results", "rules-total.csv")
+    input_file = pathlib.Path("rules-total.csv")
     output_file = pathlib.Path("rules-tools.txt")
 
     # open output file for appending
@@ -217,6 +217,9 @@ Only output the list of APIs
                 data = []
 
 if __name__ == "__main__":
+    generate_code_for_rules()
+    generate_api_for_rules()
+
     sp = """You are given a list of API endpoints. Your task is to convert these domain specific API endpoints into more generic API endpoints which can be used across various contexts. You have to output the list of generic API endpoints which can be used across various contexts. For each input API endpoint output how the existing APIs can be switched with the generic one and then output the list of generic API endpoints. Please process all the API endpoints given as input."""
 
     input_file = pathlib.Path("rules-api.txt")
