@@ -1,10 +1,6 @@
 from src import InputSpec, StringFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, CLI
 import sys, time, os, pathlib
 
-# todo: add a classification test case sample
-# todo: model downsizing
-# todo: number of rules generated
-# explain why this is a good input
 # are there conflicts in the rules
 
 args = CLI.parse_args()
@@ -94,8 +90,6 @@ test_runner.print_results()
 output_file_path = pathlib.Path(dir_name, "result.csv")
 if args.output_run_file:
     output_file_path = pathlib.Path(dir_name, args.output_run_file)
-
-Utils.join_csv_files(test_path, original_test_run_path, "rule id", output_file_path)
 
 if args.run_tests:
     sys.exit(0)
