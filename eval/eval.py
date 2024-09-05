@@ -80,7 +80,7 @@ if __name__ == "__main__":
         module = front_end.parse(system_prompt)
         module.export(rule_path)
 
-        grounded_result = pathlib.Path(output_dir, "grounded.csv")
+        grounded_result = pathlib.Path(output_dir, "num-grounded-rules.csv")
         with open(grounded_result, "a") as csv:
             total, grounded = check_rules_grounded(module, system_prompt)
             csv.write(f"{input_path.stem},{total},{grounded}\n")
@@ -104,14 +104,14 @@ if __name__ == "__main__":
         test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, exec_model, original_test_run_path)
         test_runner.append(test_path)
 
-        input_spec_result = pathlib.Path(output_dir, "valid-tests.csv")
+        input_spec_result = pathlib.Path(output_dir, "num-valid-tests.csv")
         with open(input_spec_result, "a") as csv:
             total, valid, valid_tests = check_test_format(test_runner.tests, "\n".join(input_spec))
             csv.write(f"{input_path.stem},{total},{valid}\n")
 
         test_runner.run_tests()
 
-        failed_tests = pathlib.Path(output_dir, "failed-tests.csv")
+        failed_tests = pathlib.Path(output_dir, "num-failing-tests.csv")
         with open(failed_tests, "a") as csv:
             total = len(test_runner.results)
             failed = 0
@@ -125,7 +125,7 @@ if __name__ == "__main__":
         test_runner.force_append_tests(valid_tests)
         test_runner.run_tests()
 
-        failed_tests = pathlib.Path(output_dir, "valid-failed-tests.csv")
+        failed_tests = pathlib.Path(output_dir, "num-valid-failing-tests.csv")
         with open(failed_tests, "a") as csv:
             total = len(test_runner.results)
             failed = 0
@@ -149,7 +149,7 @@ if __name__ == "__main__":
         test_runner.append(test_path)
         test_runner.run_tests()
 
-        failed_tests_with_rules = pathlib.Path(output_dir, "failed-tests-with-rules.csv")
+        failed_tests_with_rules = pathlib.Path(output_dir, "num-failing-tests-with-rules.csv")
         with open(failed_tests_with_rules, "a") as csv:
             total = len(test_runner.results)
             failed = 0
@@ -165,14 +165,14 @@ if __name__ == "__main__":
         test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, exec_model, baseline_test_run_path)
         test_runner.force_append_tests(tests)
 
-        input_spec_result = pathlib.Path(output_dir, "baseline-valid-tests.csv")
+        input_spec_result = pathlib.Path(output_dir, "num-baseline-valid-tests.csv")
         with open(input_spec_result, "a") as csv:
             total, valid, valid_tests = check_test_format(test_runner.tests, "\n".join(input_spec))
             csv.write(f"{input_path.stem},{total},{valid}\n")
 
         test_runner.run_tests()
 
-        failed_tests = pathlib.Path(output_dir, "baseline-failed-tests.csv")
+        failed_tests = pathlib.Path(output_dir, "num-baseline-failing-tests.csv")
         with open(failed_tests, "a") as csv:
             total = len(test_runner.results)
             failed = 0
@@ -186,7 +186,7 @@ if __name__ == "__main__":
         test_runner.force_append_tests(valid_tests)
         test_runner.run_tests()
 
-        failed_tests = pathlib.Path(output_dir, "baseline-valid-failed-tests.csv")
+        failed_tests = pathlib.Path(output_dir, "num-baseline-valid-failing-tests.csv")
         with open(failed_tests, "a") as csv:
             total = len(test_runner.results)
             failed = 0
@@ -194,7 +194,3 @@ if __name__ == "__main__":
                 if test != "passed":
                     failed += 1
             csv.write(f"{input_path.stem},{total},{failed}\n")
-
-        exit(0)
-
-
