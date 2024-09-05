@@ -90,7 +90,7 @@ class TestValidator:
             self.keys = [line[0] for line in reader]
             self.tests = [line[1] for line in reader]
             self.output = [line[2] for line in reader]
-            self.results = [line[3] == "Passed" for line in reader]
+            self.results = [line[3] == "passed" for line in reader]
             self.reason = [line[4] for line in reader]
 
         for test in self.tests:
@@ -99,7 +99,7 @@ class TestValidator:
 
     def print_results(self):
         for i, res in enumerate(self.results):
-            print(f"Test {self.keys[i]}: {'Passed' if res else 'Failed'}")
+            print(f"Test {self.keys[i]}: {'passed' if res else 'failed'}")
 
     def validate(self, test_case):
         raise NotImplementedError("Subclasses should implement this method")
