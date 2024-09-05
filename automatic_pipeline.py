@@ -14,7 +14,7 @@ output_dir = os.getcwd()
 if args.output_dir:
     output_dir = args.output_dir
 
-dir_name = output_dir + "/" + input_file.split(".")[0]
+dir_name = output_dir + "/" + input_file.split(".")[-2]
 os.makedirs(dir_name, exist_ok=True)
 
 with open(input_path, "r") as f:
