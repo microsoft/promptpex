@@ -3,6 +3,7 @@ import streamlit as st
 import time, io, re, csv
 import pandas as pd
 from dotenv import load_dotenv, set_key
+import os, zipfile
 
 import sys
 sys.path.insert(0, '..')
@@ -134,6 +135,10 @@ if 'sp_tabs' not in st.session_state:
 
 # col1, col2 = st.columns([7, 3])
 
+if st.session_state['dir_name'] is None:
+    st.session_state['dir_name'] = "results" + time.strftime("%Y%m%d-%H%M%S")
+    pathlib.Path(st.session_state['dir_name']).mkdir(parents=True, exist_ok=True)
+
 with st.sidebar:
     st.header("Options")
     st.caption("Note: Use this button to add a new input system prompt tab.")
@@ -174,6 +179,26 @@ with st.sidebar:
     )
     st.caption("Note: If the forced temperature is set to -1, the temperature will be calculated automatically ranging between 0 - 2 more dense around 1.")
 
+    if st.session_state['dir_name'] is not None:
+        def create_zip(directory_path='output_dir', zip_filename='output.zip', _time=""):
+            if os.path.exists(zip_filename):   
+                os.remove(zip_filename)
+            with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                for root, dirs, files in os.walk(directory_path):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        zipf.write(file_path, os.path.relpath(file_path, directory_path))
+            return zip_filename
+
+        with open(create_zip(st.session_state['dir_name'], "output.zip", time.strftime("%Y%m%d-%H%M%S")), "rb") as fp:
+            btn = st.download_button(
+                label="Download Generated Artifacts",
+                data=fp,
+                file_name=f"{st.session_state['dir_name']}.zip",
+                mime="application/zip"
+            )
+    st.checkbox("Hack: click once to update the latest artifacts for download", value=False)
+
     st.header("API Configuration")
     st.session_state['api_key'] = st.text_input(
         'Enter your API key', type="password", value=st.session_state['api_key']
@@ -185,6 +210,8 @@ with st.sidebar:
 st.header("Input System Prompt")
 
 def init():
+    if st.session_state['dir_name'] is None:
+        st.session_state['dir_name'] = "results" + time.strftime("%Y%m%d-%H%M%S")
     st.session_state['submit_clicked'] = True
     st.session_state['gen_tests_clicked'] = False
     st.session_state['run_tests_clicked'] = False
@@ -195,7 +222,6 @@ def init():
     st.session_state['tests'] = None
     st.session_state['test_results'] = None
 
-    st.session_state['dir_name'] = None
     st.session_state['module'] = None
 
 def prompt_editor(name):
@@ -220,6 +246,7 @@ st.session_state['system_prompt'] = st.session_state[st.session_state.sp_active_
 if st.button('Start PromptPex', key=f"run-"):
     init()
 
+
 if st.session_state.sp_active_tab.startswith("v"):
     st.session_state['fix_try'] = 0
 
@@ -227,10 +254,6 @@ front_end = StringFrontEnd()
 
 # Placeholder for the specifications area
 spec_placeholder = st.empty()
-
-if st.session_state['dir_name'] is None:
-    st.session_state['dir_name'] = "results" + time.strftime("%Y%m%d-%H%M%S")
-    pathlib.Path(st.session_state['dir_name']).mkdir(parents=True, exist_ok=True)
 
 if st.session_state['submit_clicked']:
     with spec_placeholder.container():  # This creates a container at the spec_placeholder location
