@@ -23,3 +23,5 @@ CLI.add_argument("--use-existing-test-results", "-utr", help="Use existing test 
 
 CLI.add_argument("--test-runner-model", "-m", help="Model used for running tests")
 CLI.add_argument("--output-run-file", "-of", help="Output file for the test run results")
+
+CLI.add_argument("--mutate-prompt", "-mp", help="Mutate the prompt after running the pipeline to look for regressions", action="store_true")

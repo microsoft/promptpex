@@ -149,6 +149,9 @@ result_rules = pathlib.Path(dir_name, f"rules-{result}.csv")
 module = Module()
 module.import_rules(result_rules)
 
+if not args.mutate_prompt:
+    sys.exit(0)
+
 mutated_prompt = result_system_prompt
 for num in range(1, 1000, 50):
     print("Mutating the variant")
