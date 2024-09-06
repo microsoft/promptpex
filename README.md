@@ -13,7 +13,7 @@
 python3 automatic_pipeline.py -i foo.txt -o result
 ```
 It automatically creates the dir result/foo to save the result 
-* All paths provided to CLI must be unix path, `this/is/a/unix/path` and `\not\this`
+* All paths provided to CLI must be unix path, `use/forward/slash/path` and `\not\backward\slash`
 * The most common use case is to run the whole pipeline, gen rules, tests and run tests:
 ```sh
 python3 automatic_pipeline.py -i foo.txt -o result --run-tests
@@ -39,6 +39,30 @@ OpenAI keys and endpoint needs to be set by setting value of AZURE_OPENAI_API_KE
 $ cat .env
 $ AZURE_OPENAI_API_KEY="your_key"
 $ AZURE_OPENAI_ENDPOINT="api endpoint"
+```
+
+#### Extra setup to use local model 
+```sh
+curl -fsSL https://ollama.com/install.sh | sh
+export OLLAMA_HOST="127.0.0.1:8502"
+```
+
+Only pull the model you want to run, these can fill up storage pretty quickly
+```sh
+# ollama pull mistral:latest 
+# ollama pull gemma2:9b 
+# ollama pull gemma2:2b 
+# ollama pull llama3.1:8b 
+# ollama pull phi3:medium 
+# ollama pull phi3:mini 
+# ollama pull gemma2:latest 
+# ollama pull llama3.1:latest 
+# ollama pull phi3:latest 
+# ollama pull phi3:medium-128k
+```
+
+```sh
+ollama serve & 
 ```
 
 ```sh
