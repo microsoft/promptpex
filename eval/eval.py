@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
         test_gen = TestCaseGenerator(module, system_prompt, test_path, input_spec)
 
-        test_gen.gen_all_tests(2)
+        test_gen.gen_all_tests(20)
 
         exec_model = "gpt-35-turbo"
         if args.test_runner_model:
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
         # baseline
 
-        tests = LLMFrontEnd().generate_baseline_test(system_prompt, 10)
+        tests = LLMFrontEnd().generate_baseline_test(system_prompt, 20)
         baseline_test_run_path = pathlib.Path(dir_name, "baseline-run-0.csv")
         test_runner = AskLLMTestValidator(module, system_prompt, system_prompt, exec_model, baseline_test_run_path)
         test_runner.force_append_tests(tests)
