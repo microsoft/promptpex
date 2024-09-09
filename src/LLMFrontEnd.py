@@ -8,6 +8,7 @@ load_dotenv()
 
 
 PROMPTPEX_MODEL = "gpt-4-turbo"
+PROMPTPEX_MODEL_PROVIDER = "?"
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_MARKETPLACE = False
@@ -17,6 +18,7 @@ if AZURE_OPENAI_ENDPOINT is not None:
     if (AZURE_OPENAI_API_KEY is None):
         print("AZURE_OPENAI_API_KEY is not set")
         exit(1)
+    PROMPTPEX_MODEL_PROVIDER = "Azure OpenAI " + AZURE_OPENAI_ENDPOINT
     client = AzureOpenAI(
         api_key=os.getenv("AZURE_OPENAI_API_KEY"),
         api_version="2024-02-01",
@@ -25,6 +27,7 @@ if AZURE_OPENAI_ENDPOINT is not None:
     )
 elif GITHUB_TOKEN is not None:
     print("using GitHub Marketplace Models")
+    PROMPTPEX_MODEL_PROVIDER = "GitHub Marketplace Models"
     client = OpenAI(
         api_key=GITHUB_TOKEN,
         base_url="https://models.inference.ai.azure.com"
