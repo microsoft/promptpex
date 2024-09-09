@@ -6,17 +6,37 @@ from openai import AzureOpenAI, OpenAI
 
 load_dotenv()
 
-API_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-if API_ENDPOINT is None:
+
+PROMPTPEX_MODEL = "gpt-4-turbo"
+PROMPTPEX_MODEL_PROVIDER = "?"
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_MARKETPLACE = False
+if AZURE_OPENAI_ENDPOINT is not None:
+    print("using Azure OpenAI Models")
+    AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+    if (AZURE_OPENAI_API_KEY is None):
+        print("AZURE_OPENAI_API_KEY is not set")
+        exit(1)
+    PROMPTPEX_MODEL_PROVIDER = "Azure OpenAI " + AZURE_OPENAI_ENDPOINT
+    client = AzureOpenAI(
+        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+        api_version="2024-02-01",
+        # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
+        azure_endpoint=AZURE_OPENAI_ENDPOINT
+    )
+elif GITHUB_TOKEN is not None:
+    print("using GitHub Marketplace Models")
+    PROMPTPEX_MODEL_PROVIDER = "GitHub Marketplace Models"
+    client = OpenAI(
+        api_key=GITHUB_TOKEN,
+        base_url="https://models.inference.ai.azure.com"
+    )
+    PROMPTPEX_MODEL = "gpt-4o"
+    GITHUB_MARKETPLACE = True
+else:
     print("AZURE_OPENAI_ENDPOINT is not set")
     exit(1)
-
-client = AzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version="2024-02-01",
-    # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
-    azure_endpoint=API_ENDPOINT
-)
 
 local_client = OpenAI(
     base_url = 'http://localhost:8502/v1',
@@ -24,11 +44,11 @@ local_client = OpenAI(
 )
 
 class LLMFrontEnd:
-    def get_bot_response(self, messages, model="gpt-4-turbo", temprature=1):
+    def get_bot_response(self, messages, model=PROMPTPEX_MODEL, temprature=1):
         attempts = 0
         while True:
             try:
-                if model.startswith('gpt'):
+                if GITHUB_MARKETPLACE or model.startswith('gpt'):
                     response = client.chat.completions.create(
                         model=model,
                         messages=messages,

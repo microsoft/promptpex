@@ -2,7 +2,7 @@
 
 ## Getting Started 
 
-> Use CodeSpaces / dev container to get a fully configured environment.
+> Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
@@ -14,14 +14,23 @@
 pip install -r requirements.txt
 ```
 
+### LLM configuration
+
+> :warning: **Important**: To ensure that sensitive information, such as API keys and endpoints, are not exposed in your repository, it is important to add the `.env` file to the `.gitignore` file. This will prevent the file from being tracked by Git and uploaded to the remote repository.
+
+#### GitHub Marketplace Models configuration
+
+If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
+PromptPex will automatically use `gpt-4o` from the github marketplace.
+
+#### Azure OpenAI configuration`
+
 - Configure Azure OpenAI keys and endpoint needs to be set by setting value of `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT` in `./.env` file 
 
 ```sh
 AZURE_OPENAI_API_KEY="your_key"
 AZURE_OPENAI_ENDPOINT="api endpoint"
 ```
-
-> :warning: **Important**: To ensure that sensitive information, such as API keys and endpoints, are not exposed in your repository, it is important to add the `.env` file to the `.gitignore` file. This will prevent the file from being tracked by Git and uploaded to the remote repository.
 
 ### Running local server
 

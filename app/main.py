@@ -8,7 +8,7 @@ import os, zipfile
 import sys
 sys.path.insert(0, '..')
 
-from src import InputSpec, StringFrontEnd, LLMFrontEnd, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec, Mutator
+from src import InputSpec, StringFrontEnd, LLMFrontEnd, PROMPTPEX_MODEL, PROMPTPEX_MODEL_PROVIDER, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec, Mutator
 import pathlib
 from openai import AzureOpenAI
 
@@ -208,6 +208,7 @@ with st.sidebar:
     )
 
 st.header("Input System Prompt")
+st.caption('using ' + PROMPTPEX_MODEL + ' hosted by ' + PROMPTPEX_MODEL_PROVIDER)
 
 def init():
     if st.session_state['dir_name'] is None:
