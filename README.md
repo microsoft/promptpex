@@ -2,7 +2,7 @@
 
 ## Getting Started 
 
-> Use CodeSpaces / dev container to get a fully configured environment.
+> Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
