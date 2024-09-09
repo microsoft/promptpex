@@ -2,6 +2,7 @@ from os import path
 from src import SemanticDiff, Utils, TestCaseGenerator, Module, LLMFrontEnd, StringFrontEnd, Module, AskLLMTestValidator
 import pathlib, csv
 import pandas as pd
+from src import PROMPTPEX_MODEL
 
 import sys
 def generate_code_for_rules():
@@ -94,7 +95,7 @@ By following these examples, evaluate and derive the most suitable method for ea
             data.append(row)
             if len(data) == 200:
                 data_str = "\n".join(data)
-                result = LLMFrontEnd().execute(sp, data_str, "gpt-4-turbo", 1)
+                result = LLMFrontEnd().execute(sp, data_str, PROMPTPEX_MODEL, 1)
                 if result is None:
                     result = "NULL\n"
                 print(result)
@@ -102,7 +103,7 @@ By following these examples, evaluate and derive the most suitable method for ea
                     f.write(result)
                 data = []
 
-    result = LLMFrontEnd().execute(sp, "hi", "gpt-4-turbo", 1)
+    result = LLMFrontEnd().execute(sp, "hi", PROMPTPEX_MODEL, 1)
     print(result)
 
 def generate_api_for_rules():
@@ -233,7 +234,7 @@ if __name__ == "__main__":
     with open(input_file, 'r', encoding='utf-8') as f:
         reader = f.readlines()
         data = "\n".join(reader)
-        result = LLMFrontEnd().execute(sp, data, "gpt-4-turbo", 1)
+        result = LLMFrontEnd().execute(sp, data, PROMPTPEX_MODEL, 1)
         if result is None:
             result = "NULL\n"
         print(result)
