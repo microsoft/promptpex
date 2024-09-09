@@ -10,6 +10,7 @@ load_dotenv()
 PROMPTPEX_MODEL = "gpt-4-turbo"
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_MARKETPLACE = False
 if AZURE_OPENAI_ENDPOINT is not None:
     print("using Azure OpenAI Models")
     AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
@@ -29,10 +30,10 @@ elif GITHUB_TOKEN is not None:
         base_url="https://models.inference.ai.azure.com"
     )
     PROMPTPEX_MODEL = "gpt-4o"
+    GITHUB_MARKETPLACE = True
 else:
     print("AZURE_OPENAI_ENDPOINT is not set")
     exit(1)
-
 
 local_client = OpenAI(
     base_url = 'http://localhost:8502/v1',
@@ -44,7 +45,7 @@ class LLMFrontEnd:
         attempts = 0
         while True:
             try:
-                if model.startswith('gpt'):
+                if GITHUB_MARKETPLACE or model.startswith('gpt'):
                     response = client.chat.completions.create(
                         model=model,
                         messages=messages,
