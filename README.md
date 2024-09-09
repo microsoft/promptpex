@@ -14,6 +14,13 @@
 pip install -r requirements.txt
 ```
 
+### GitHub Marketplace Models configuration
+
+If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
+PromptPex will automatically use `gpt-4o` from the github marketplace.
+
+### Azure OpenAI configuration`
+
 - Configure Azure OpenAI keys and endpoint needs to be set by setting value of `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT` in `./.env` file 
 
 ```sh
