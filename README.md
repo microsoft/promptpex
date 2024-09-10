@@ -16,21 +16,36 @@ pip install -r requirements.txt
 
 ### LLM configuration
 
-> :warning: **Important**: To ensure that sensitive information, such as API keys and endpoints, are not exposed in your repository, it is important to add the `.env` file to the `.gitignore` file. This will prevent the file from being tracked by Git and uploaded to the remote repository.
-
 #### GitHub Marketplace Models configuration
 
 If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
 PromptPex will automatically use `gpt-4o` from the github marketplace.
 
-#### Azure OpenAI configuration`
+#### Azure OpenAI + Microsoft Entra
 
-- Configure Azure OpenAI keys and endpoint needs to be set by setting value of `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT` in `./.env` file 
+- Configure Azure OpenAI end point key `AZURE_OPENAI_ENDPOINT` in the `./.env` file 
 
 ```sh
-AZURE_OPENAI_API_KEY="your_key"
 AZURE_OPENAI_ENDPOINT="api endpoint"
 ```
+
+- Sign in with the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/). This is the recommended way to access your Azure OpenAI resource is to use Microsoft Entra ID.
+
+```sh
+az login
+```
+
+#### Azure OpenAI + Access token
+
+
+Configure the end point `AZURE_OPENAI_ENDPOINT` and access token `AZURE_OPENAI_API_KEY` in the `./.env` file 
+
+```sh
+AZURE_OPENAI_ENDPOINT="api endpoint"
+AZURE_OPENAI_API_KEY="your_key"
+```
+
+> :warning: **Important**: To ensure that sensitive information, such as API keys and endpoints, are not exposed in your repository, it is important to add the `.env` file to the `.gitignore` file. This will prevent the file from being tracked by Git and uploaded to the remote repository.
 
 ### Running local server
 
