@@ -134,6 +134,10 @@ This script will interactively generate a commit message for the current changes
 npm run gcm
 ```
 
+### Pull Request Description and Review
+
+Opening, closing or requesting a review for a pull request will trigger a github action that will automatically add a description and a review.
+
 ## Trademarks
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
