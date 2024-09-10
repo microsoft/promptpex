@@ -8,9 +8,8 @@ import os, zipfile
 import sys
 sys.path.insert(0, '..')
 
-from src import InputSpec, StringFrontEnd, LLMFrontEnd, PROMPTPEX_MODEL, PROMPTPEX_MODEL_PROVIDER, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils, InputSpec, Mutator
+from src import InputSpec, StringFrontEnd, LLMFrontEnd, PROMPTPEX_MODEL, PROMPTPEX_MODEL_PROVIDER, Module, TestCaseGenerator, AskLLMTestValidator, Mutator, Dbg, SemanticDiff, Utils
 import pathlib
-from openai import AzureOpenAI
 
 st.set_page_config(page_title="PromptPex", layout="wide")
 st.title("PromptPex")
