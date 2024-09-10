@@ -14,6 +14,8 @@ const { stdout: diff } = await host.exec("git", [
     "**.py"
 ])
 
+if (!diff) cancel("No python changes to review.")
+
 def("GIT_DIFF", diff, {
     language: "diff",
     maxTokens: 20000,
