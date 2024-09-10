@@ -3,28 +3,35 @@ from . import Dbg
 import time, os
 from dotenv import load_dotenv
 from openai import AzureOpenAI, OpenAI
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
 load_dotenv()
-
 
 PROMPTPEX_MODEL = "gpt-4-turbo"
 PROMPTPEX_MODEL_PROVIDER = "?"
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_VERSION = os.getenv("AZURE_OPENAI_VERSION") or "2024-02-01"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_MARKETPLACE = False
 if AZURE_OPENAI_ENDPOINT is not None:
     print("using Azure OpenAI Models")
-    AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-    if (AZURE_OPENAI_API_KEY is None):
-        print("AZURE_OPENAI_API_KEY is not set")
-        exit(1)
     PROMPTPEX_MODEL_PROVIDER = "Azure OpenAI " + AZURE_OPENAI_ENDPOINT
-    client = AzureOpenAI(
-        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-        api_version="2024-02-01",
-        # azure_endpoint="https://tnrllmproxy.azurewebsites.net"
-        azure_endpoint=AZURE_OPENAI_ENDPOINT
-    )
+    AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+    if (AZURE_OPENAI_API_KEY is not None):
+        client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            api_version=AZURE_OPENAI_VERSION,
+            azure_endpoint=AZURE_OPENAI_ENDPOINT
+        )
+    else:
+        token_provider = get_bearer_token_provider(
+           DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default"
+        )
+        client = AzureOpenAI(
+            azure_ad_token_provider=token_provider,
+            api_version=AZURE_OPENAI_VERSION,
+            azure_endpoint=AZURE_OPENAI_ENDPOINT
+        )
 elif GITHUB_TOKEN is not None:
     print("using GitHub Marketplace Models")
     PROMPTPEX_MODEL_PROVIDER = "GitHub Marketplace Models"
