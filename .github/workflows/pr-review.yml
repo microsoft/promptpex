@@ -9,12 +9,19 @@ jobs:
     build:
         runs-on: ubuntu-latest
         permissions:
+            contents: read
             pull-requests: write
         steps:
             - uses: actions/checkout@v4
               with:
                   submodules: "recursive"
                   fetch-depth: 10
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                node-version: 20
+
             - name: git stuff
               run: git fetch origin && git pull origin main:main
             - name: genaiscript pr-describe
