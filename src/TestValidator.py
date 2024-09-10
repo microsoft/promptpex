@@ -145,6 +145,7 @@ class AskLLMTestValidator(TestValidator):
         result = result.split("\n")
         output = []
         for line in result:
+            line = line.strip()
             if line == "":
                 continue
             if line == "0" or line == "1":
