@@ -1,5 +1,5 @@
 script({
-    model: "azure:gpt-4-turbo",
+    model: "openai:gpt-4-turbo",
     files: [],
     title: "pull request review",
     system: ["system"],
