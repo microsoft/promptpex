@@ -11,14 +11,7 @@ const { stdout: diff } = await host.exec("git", [
     "diff",
     defaultBranch,
     "--",
-    "**.ts",
-    ":!**/genaiscript.d.ts",
-    ":!**/jsconfig.json",
-    ":!genaisrc/*",
-    ":!.github/*",
-    ":!.vscode/*",
-    ":!*yarn.lock",
-    ":!*THIRD_PARTY_LICENSES.md",
+    "**.py"
 ])
 
 def("GIT_DIFF", diff, {
