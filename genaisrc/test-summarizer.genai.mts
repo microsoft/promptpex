@@ -10,15 +10,18 @@ const results: {
     output: string
 }[] = []
 
-// env.files should be the list of tests.csv files
-const tests = env.files.filter(({filename}) => /tests\.csv$/.test(filename))
+const testResults = []
 
-for(const file of tests) {
+// env.files should be the list of tests.csv files
+const testFiles = env.files.filter(({filename}) => /tests\.csv$/.test(filename))
+
+for(const file of testFiles) {
     const { filename, content} = file
     console.log(filename)
     const dirname = path.dirname(filename)
     // read original prompt
     const { content: input } = await workspace.readText(path.join(dirname, 'variant-0.txt'))
+    if (!input) continue
     try {
         // parse test file
         const tests = CSV.parse(content) as {
@@ -33,6 +36,14 @@ for(const file of tests) {
         const test = tests[0]
         if (!test["Rule ID"] || !test["Test ID"] || !test["Test Input"] || !test["Expected Output"])
             throw new Error('Invalid test format')
+
+        // append test results
+        testResults.push(...tests.map(test => ({
+            input,
+            ...test
+        })))
+
+        // append summary
         results.push({
             input,
             assessment: "success",
@@ -50,4 +61,5 @@ for(const file of tests) {
 }
 
 // save results as csv
-await workspace.writeText('eval/result/summary.yaml', YAML.stringify(results))
+await workspace.writeText('eval/result/tests.csv', CSV.stringify(testResults))
+await workspace.writeText('eval/result/summary.csv', CSV.stringify(results))
