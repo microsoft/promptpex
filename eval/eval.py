@@ -150,9 +150,15 @@ if __name__ == "__main__":
         output_dir = args.output_dir
 
     for input_path in input_file_list:
+        print(input_path)
+
         _result ={}
         dir_name = output_dir + "/" + input_path.stem
         os.makedirs(dir_name, exist_ok=True)
+
+        if pathlib.Path(dir_name, "tests.csv").exists():
+            print('tests already exists, skip')
+            continue
 
         with open(input_path, "r") as f:
             system_prompt = f.read()
