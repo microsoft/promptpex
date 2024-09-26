@@ -61,5 +61,5 @@ for(const file of testFiles) {
 }
 
 // save results as csv
-await workspace.writeText('eval/result/tests.csv', CSV.stringify(testResults))
-await workspace.writeText('eval/result/summary.csv', CSV.stringify(results))
+await workspace.writeText('eval/result/tests.csv', CSV.stringify(testResults, { header: true}))
+await workspace.writeText('eval/result/summary.csv', CSV.stringify(results, { header: true }))
