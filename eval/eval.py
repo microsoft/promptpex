@@ -6,6 +6,7 @@ import sys, time, os, pathlib
 import argparse
 import re
 import shutil
+import csv
 
 def check_rules_grounded(module, system_prompt):
     total = len(module.instructions)
@@ -113,15 +114,12 @@ if __name__ == "__main__":
             shutil.rmtree(dir_name)
         os.makedirs(dir_name, exist_ok=True)
         # for each row in the csv file, create a file with the name of the row index like 0.txt
-        with open(csv_file, "r") as f:
-            lines = f.readlines()
-            for i, line in enumerate(lines):
-                if i == 0:
-                    continue
-                line = line.strip()
-                with open(pathlib.Path(dir_name, f"{i}.txt"), "w") as f:
-                    line = re.sub(r'^\s*[\'"]', '', line)
-                    line = re.sub(r'[\'"]\s*$', '', line)
+        with open(csv_file, newline='') as csvfile:
+            csv_reader = csv.reader(csvfile)
+            csv_data = list(csv_reader)
+            for index, row in enumerate(csv_data):
+                line = row[0]
+                with open(pathlib.Path(dir_name, f"{index}.txt"), "w") as f:
                     f.write(line)
 
         args.input_dir = dir_name
