@@ -112,7 +112,7 @@ You are an expert in analyzing chatbot description and extracting rules and cons
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
 
-    def generate_generic_rules_global(self, input_data, num_rules=0, allow=["output"], deny=["input"], instructions=""):
+    def generate_generic_rules_global(self, input_data, num_rules=0, allow=["output"], deny=["input"], instructions="", assistant = ""):
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generating rules for input: {input_data}")
         allow_str = ", ".join(allow)
         deny_str = ", ".join(deny)
@@ -130,6 +130,10 @@ Output nothing if there is no rule.
         """
         print(system_prompt)
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "System prompt: " + input_data}]
+
+        if (assistant != ""):
+            messages.append({"role": "assistant", "content": assistant})
+
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
