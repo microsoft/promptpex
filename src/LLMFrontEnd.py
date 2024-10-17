@@ -410,34 +410,3 @@ class LLMFrontEnd:
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracted failure categories: {output}")
         return output
-        messages = render_prompt("expected_output", prompt = prompt, test_case = test_case)
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][expected_output] generated expected output: {output}")
-        return output
-
-    def extract_intent(self, prompt):
-        Dbg.debug(f"[LLM FrontEnd][extract_intent] extracting intent from prompt:\n {prompt}")
-        messages = render_prompt("extract_intent", prompt = prompt)
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][extract_intent] extracted intent: {output}")
-        return output
-
-    def check_violation_with_input_spec(self, test, input_spec):
-        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checking violation for test:\n {test}")
-        messages = render_prompt("check_violation_with_input_spec", input_spec=input_spec, test=test)
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
-        return output
-
-    def check_rule_grounded(self, rule, description):
-        Dbg.debug(f"[LLM FrontEnd][check_rule_grounded] checking rule grounded for rule:\n {rule}")
-        messages = render_prompt("check_rule_grounded", rule = rule, description = description)
-        output = self.get_bot_response(messages)
-        return output
-
-    def extract_failure_categories(self, reasons):
-        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracting failure categories from reasons:\n {reasons}")
-        messages = render_prompt("extract_failure_categories", reasons = reasons)
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracted failure categories: {output}")
-        return output
