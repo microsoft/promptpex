@@ -1,5 +1,5 @@
 script({ system: ["system", "system.fs_read_file", "system.files", "system.changelog"]})
-def("MESSAGES", "messages.txt")
+def("MESSAGES", { filename: "messages.txt" })
 
 $`Your are an expert prompt engineer using the Prompty file format
 
@@ -15,6 +15,7 @@ For each .prompty file referenced in MESSAGES:
 Follow these rules when updating the .prompty files:
 
 - DO NOT MODIFY THE PROMPT SECTION
+- only update the frontmatter
 - ignore model, tags, version fields
 - update the name field with a more descriptive name, if needed
 - update the description field with a more descriptive text, if needed
