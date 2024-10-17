@@ -1,15 +1,25 @@
-const promptys = await workspace.findFiles("src/prompts/*.prompty", { readText: true })
-def("FILE", promptys.slice(0, 2))
+script({ system: ["system", "system.fs_read_file", "system.files", "system.changelog"]})
 def("MESSAGES", "messages.txt")
 
 $`Your are an expert prompt engineer using the Prompty file format
 
 ## Task
 
-Analyze the .prompty files in FILE and update the frontmatter with improvements.
+The MESSAGES file contains a list of .prompty file and correspoding generated messages pairs.
 
-- you can find examples of .prompty file, generated messages pairs in the MESSAGES file.
+For each .prompty file referenced in MESSAGES:
+  - update the .prompty file template with the provided sample data
+
+## Guidance
+
+Follow these rules when updating the .prompty files:
+
 - DO NOT MODIFY THE PROMPT SECTION
+- ignore model, tags, version fields
+- update the name field with a more descriptive name, if needed
+- update the description field with a more descriptive text, if needed
+- extract and update sample section if missing
+- ignore files that do not need updates
 `
 
 $`## Prompty file format
