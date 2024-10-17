@@ -370,28 +370,12 @@ Only output the fixed system prompt and nothing else.
         for rule in ImmutableRules:
             rejected += f"Rejected Fix: {rule}\n\n"
 
-        system_prompt = """You are given a description of another chatbot with bugs along with a list of failed tests (input, output and reason of failure) highlighting those bugs. Your task is to fix these failed tests by modifying the given description. You are also provided with a list of modified descriptions where you earlier attempted to fix the failed tests but it did not work. Please avoid making similar mistakes in your new attempts and learn from the previous mistakes. Adapt your fixes to the failed tests and the chatbot description to ensure that the chatbot passes all the tests.
-
-Follow these instructions for generating the fix:
-1. Analyze the input, output and the associated reason for each failure.
-2. You must connect the reason of failure to a rule or a constraint in the chatbot description.
-3. If the chatbot description does not have a rule or a constraint related to the reason of failure, add a new rule or constraint to the chatbot description.
-4. If the chatbot description has a rule or a constraint already which is related to the reason of failure, then analyze if falls in one of the following categories:
-    - The rule or constraint is not clear or have ambiguity. In this case, make the rule or constraint more clear and specific.
-    - The rule or constraint is not specific enough to handle this particular test (corner case). In this case, make the rule or constraint more specific while keeping it general enough to handle other cases.
-    - The rule or constraint is not comprehensive enough to handle a particular test. In this case, make the rule or constraint more comprehensive.
-    - The rule or constraint assumes context which is not provided in the chatbot description. In this case, make the rule or constraint more general by adding the context to the chatbot description.
-    - The chatbot description can correctly handle the test but the output is incorrect. In this case, increase the specificity or emphasis of the rule or constraint in the description hoping it will fix the failed test cases.
-
-The generated fix must follow these guidelines:
-1. Only add or remove a single sentence at a time to the chatbot description to fix the failed tests.
-2. Do not change the existing sentences in the chatbot description unless necessary.
-3. Do not add more examples to the chatbot description especially to fix the failed tests.
-
-Only output the fixed system prompt and nothing else.
-"""
-
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Here is the original system prompt:\n" + prompt + "\nHere are the fixing attempts starting from the original system prompt:\n" + log + "\nHere are the rejected fixes which passed all the tests but were rejected because they introduced unacceptable changes to the original system prompt:\n" + rejected}]
+        messages = render_prompt(
+            "fix_prompt_without_rules",
+            prompt=prompt,
+            log=log,
+            rejected=rejected
+        )
 
         output = self.get_bot_response(messages)
         return output
@@ -551,6 +535,22 @@ Output 1 if the input does not comply with the input specification.
 Output the decision as 0 or 1 with a single line description of the reason for the decision. Do not output anything else.
 """
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Input: {test}"}]
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
+        return output
+
+    def check_rule_grounded(self, rule, description):
+        Dbg.debug(f"[LLM FrontEnd][check_rule_grounded] checking rule grounded for rule:\n {rule}")
+        messages = render_prompt("check_rule_grounded", rule = rule, description = description)
+        output = self.get_bot_response(messages)
+        return output
+
+    def extract_failure_categories(self, reasons):
+        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracting failure categories from reasons:\n {reasons}")
+        messages = render_prompt("extract_failure_categories", reasons = reasons)
+        output = self.get_bot_response(messages)
+        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracted failure categories: {output}")
+        return output
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
         return output
