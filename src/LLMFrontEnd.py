@@ -479,19 +479,7 @@ Do not output anything after the fixed description.
 
     def check_violation_with_input_spec(self, test, input_spec):
         Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checking violation for test:\n {test}")
-        system_prompt = f"""You are given exactly one input and an input specification for the software. Your task is to very carefully and thoroughly evaluate the given input to find out if it complies with the provided input specification in other words, if the given input is a valid input for the software.
-
-Use the following input specification to evaluate the test case:
-[SPEC START]
-{input_spec}
-[SPEC END]
-
-Follow these guidelines:
-Output 0 if the input complies with the input specification.
-Output 1 if the input does not comply with the input specification.
-Output the decision as 0 or 1 with a single line description of the reason for the decision. Do not output anything else.
-"""
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Input: {test}"}]
+        messages = render_prompt("check_violation_with_input_spec", input_spec=input_spec, test=test)
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
         return output
