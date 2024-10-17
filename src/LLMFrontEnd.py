@@ -551,19 +551,3 @@ Output the decision as 0 or 1 with a single line description of the reason for t
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracted failure categories: {output}")
         return output
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][check_violation_with_input_spec] checked violation and got output: {output}")
-        return output
-
-    def check_rule_grounded(self, rule, description):
-        Dbg.debug(f"[LLM FrontEnd][check_rule_grounded] checking rule grounded for rule:\n {rule}")
-        messages = render_prompt("check_rule_grounded", rule = rule, description = description)
-        output = self.get_bot_response(messages)
-        return output
-
-    def extract_failure_categories(self, reasons):
-        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracting failure categories from reasons:\n {reasons}")
-        messages = render_prompt("extract_failure_categories", reasons = reasons)
-        output = self.get_bot_response(messages)
-        Dbg.debug(f"[LLM FrontEnd][extract_failure_categories] extracted failure categories: {output}")
-        return output
