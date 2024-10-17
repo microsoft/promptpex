@@ -149,7 +149,7 @@ ollama pull phi3:mini
 * If the input file was `foo.txt` and you want to store the output in result dir, do the following:
 
 ```sh
-python3 automatic_pipeline.py -i foo.txt -o result
+python3 automatic_pipeline.py -i poem.txt -o result
 ```
 
 It automatically creates the dir result/foo to save the result 

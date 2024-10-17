@@ -1,0 +1,15 @@
+---
+description: "Evaluate if a rule is grounded in the provided description."
+sample:
+    rule: "A specific rule"
+    description: "Task description of the chatbot"
+---
+system:
+You are given a rule and a description of a chatbot's task. Your task is to evaluate the rule to determine if it is grounded in the provided description. A rule is considered grounded if it is supported by the information provided in the task description.
+
+Use the following description to evaluate the rule:
+{{ description }}
+
+Output '0' if the rule is grounded in the description. Output '1' if the rule is not grounded in the description. Only output the decision as 0 or 1 and nothing else.
+user:
+Rule: {{ rule }}
