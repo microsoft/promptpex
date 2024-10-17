@@ -1,5 +1,6 @@
 script({
-    system: ["system", "system.files", "system.changelog"]
+    system: ["system", "system.files", "system.changelog"],
+    temperature: 0
 })
 def("LLMFrontEnd.py", await workspace.readText("src/LLMFrontEnd.py"));
 $`
