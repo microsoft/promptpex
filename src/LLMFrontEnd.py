@@ -150,7 +150,7 @@ class LLMFrontEnd:
 
     def inverse_rule(self, rule):
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generating inverse rule for rule: {rule}")
-        system_prompt = "Given a list of rules provided by the user, generate another list of rules which contradicts the given rules semantically. Generate one inversed rule for each given rule in the given list. Come up with smart edge case scenarios. Please ensure that each generated rule is only in a single line. Output only the generated rules and nothing else"
+        system_prompt = render_prompt("inverse_rule")
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": rule}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generated inverse rule: {output}")
@@ -161,27 +161,7 @@ class LLMFrontEnd:
 
     def generate_baseline_test(self, prompt, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generating test")
-        system_prompt = f"""
-You are tasked with developing multiple test cases for an software, use the given description to infer its functional and input specification. You must create at max {num} distinct and diverse test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to description. These tests must be well defined as per the description.
-
-Start with first understanding what is a input for the software. Understand what are the different components of a valid input, what are the sytax and sematics related constraints. A good test must always be a valid input meeting the requirements mentioned in the given description.
-
-Use the given description of the software to generate the test cases.
-
-Guidelines for generating test cases:
-- Use the description to understand the valid input formats, components of the input and scenarios for the software.
-- If the test case have multiple components, try to use all the components in the test case and tag them with their name, like, component name: value
-- Each test case must be crafted to rigorously assess whether the software's output meets the stipulated behavior based on the provided software description.
-- Use valid and realistic input scenarios that fully comply with the given description.
-- Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the description under various conditions.
-- Never generate similar or redundant test cases.
-- Test cases must never have the output or the expected output, it must only contain the input.
-
-Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity and independence. Critically assess potential weaknesses in the software's handling of inputs and focus on creating diverse test cases that effectively challenge the software's capabilities.
-
-Separate each test case with a new line with "===" as the delimiter. It will help in identifying each test case separately. Do not wrap the output in any additional text like the index of test case or formatting like triple backticks or quotes. Only output the test cases directly separated by "===".
-"""
-
+        system_prompt = render_prompt("baseline_test")
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Description of the software: {prompt}"}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generated test: {output}")
@@ -192,42 +172,7 @@ Separate each test case with a new line with "===" as the delimiter. It will hel
 
     def generate_test(self, rule, context=None, input_spec=None, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_test] generating test for rule: {rule} \n input spec: {input_spec}")
-        system_prompt = f"""
-You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of rules as input. For each rule, you must create {num} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
-
-Start with first understanding what is a input for the software using the given input specification. Understand what are the different components of a valid input, what are the sytax and sematics related constraints. A good test must always be a valid input meeting the requirements from the given input specification.
-
-Use the following input specification to understand valid inputs and generate good tests: {input_spec}
-
-Use the following functional specification of the software to generate the test cases: {context}
-
-Guidelines for generating test cases:
-- Analyze the input specifications to understand the valid input formats, components of the input and scenarios for the software.
-- If the test case have multiple components, try to use all the components in the test case and tag them with their name, like, component name: value
-- Develop {num} test cases for each rule provided in the list.
-- Each test case must be crafted to rigorously assess whether the software's output meets the stipulated rule based on the inputs that conform to the provided input specification.
-- Use valid and realistic input scenarios that fully comply with the input specifications and are relevant to the rule being tested.
-- Specify clearly in each test case the input given to the software and the expected output or behavior that demonstrates adherence to the rule.
-- Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the rule under various conditions.
-- Never generate similar or redundant test cases
-
-Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity and independence. Critically assess potential weaknesses in the software's handling of inputs based on the rule and focus on creating diverse test cases that effectively challenge the software's capabilities.
-
-Format your response in a structured CSV format as follows:
-- "Rule ID": Identifier for the rule being tested.
-- "Test ID": Sequential identifier for each test case under a rule.
-- "Test Input": Detailed input provided to the software.
-- "Expected Output": Output or behavior expected from the software to affirm rule adherence.
-- "Reasoning": Brief explanation of why this test case is relevant and contributes to robust testing of the rule. List the input specification that this test case does not follow.
-
-Example CSV layout:
-Rule ID, Test ID, Test Input, Expected Output, Reasoning
-1, 1, "input based on rule 1 scenario 1", "expected outcome demonstrating rule adherence", "Explains the relevance and effectiveness of the test and how it follows the input specification"
-1, 2, "input based on rule 1 scenario 2, examples", "expected response confirming rule", "Illustrates how inputs challenge the software and ensure compliance and how is a valid test case based on input specification"
-
-Only output the test cases in the specified CSV format and nothing else. Please make sure that the CSV generated is well formed, only have five columns and each value in a these columns must only have commas inside quoted value else they will be counted as a new column. Do not wrap the output in any additional text or formatting like triple backticks or quotes.
-"""
-
+        system_prompt = render_prompt("test", num = num, input_spec = input_spec, context = context)
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"List of Rules: {rule}"}]
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_test] generated test: {output}")

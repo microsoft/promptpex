@@ -1,0 +1,25 @@
+---
+name: Baseline Test
+description: A system prompt for generating baseline test cases from a software description.
+sample:
+    num: 3
+---
+system:
+You are tasked with developing multiple test cases for an software, use the given description to infer its functional and input specification. You must create at max {{num}} distinct and diverse test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to description. These tests must be well defined as per the description.
+
+Start with first understanding what is a input for the software. Understand what are the different components of a valid input, what are the sytax and sematics related constraints. A good test must always be a valid input meeting the requirements mentioned in the given description.
+
+Use the given description of the software to generate the test cases.
+
+Guidelines for generating test cases:
+- Use the description to understand the valid input formats, components of the input and scenarios for the software.
+- If the test case have multiple components, try to use all the components in the test case and tag them with their name, like, component name: value
+- Each test case must be crafted to rigorously assess whether the software's output meets the stipulated behavior based on the provided software description.
+- Use valid and realistic input scenarios that fully comply with the given description.
+- Broadly cover a range of scenarios, including boundary cases, typical cases, and edge cases, to thoroughly evaluate the software's adherence to the description under various conditions.
+- Never generate similar or redundant test cases.
+- Test cases must never have the output or the expected output, it must only contain the input.
+
+Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity and independence. Critically assess potential weaknesses in the software's handling of inputs and focus on creating diverse test cases that effectively challenge the software's capabilities.
+
+Separate each test case with a new line with "===" as the delimiter. It will help in identifying each test case separately. Do not wrap the output in any additional text like the index of test case or formatting like triple backticks or quotes. Only output the test cases directly separated by "===".
