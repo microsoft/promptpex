@@ -64,13 +64,16 @@ def render_prompt(filename, **kwargs):
     # grabs the content
     content = prompt.content
     # remove system:, user: messages
-    content = re.sub(r'^(system:|user:).*$', '', content, flags=re.MULTILINE)
-    # apply jinja2
-    template = Template(content)
+    # Split the content into system and user sections
+    system_section = re.search(r'^system:\n(.*?)\nuser:\n', content, flags=re.DOTALL | re.MULTILINE).group(1).strip() # type: ignore
+    user_section = re.search(r'\nuser:\n(.*)', content, flags=re.DOTALL | re.MULTILINE).group(1).strip() # type: ignore
     # Apply jinja2 to the prompt content
-    rendered_prompt = template.render(kwargs)
-    # return rendered prompt
-    return rendered_prompt
+    system_prompt = Template(system_section).render(kwargs)
+    user_prompt = Template(user_section).render(kwargs)
+    # return oai messages
+    messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt }]
+    print(messages)
+    return messages
 
 class LLMFrontEnd:
     def get_bot_response(self, messages, model=PROMPTPEX_MODEL, temprature=1):
@@ -109,16 +112,14 @@ class LLMFrontEnd:
 
     def generate_rules_local_per_primitive(self, input_data):
         Dbg.debug(f"[LLM FrontEnd][generate_rules_local_per_primitive] generating rules for input: {input_data}")
-        system_prompt = render_prompt("rules_local_per_primitive")
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Input: " + input_data}]
+        messages = render_prompt("rules_local_per_primitive", input_data = input_data)
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_local_per_primitive] generated rules: {output}")
         return output
 
     def generate_rules_global(self, input_data, num_rules=0):
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generating rules for input: {input_data}")
-        system_prompt = render_prompt("rules_global", num_rules = 0, )
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "System prompt: " + input_data}]
+        messages = render_prompt("rules_global", num_rules = 0,input_data = input_data )
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
@@ -127,20 +128,16 @@ class LLMFrontEnd:
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generating rules for input: {input_data}")
         allow_str = ", ".join(allow)
         deny_str = ", ".join(deny)
-        system_prompt = render_prompt("generic_rules_global", allow_str = allow_str, deny_str = deny_str, num_rules = num_rules, instructions = instructions)
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "System prompt: " + input_data}]
-
+        messages = render_prompt("generic_rules_global", allow_str = allow_str, deny_str = deny_str, num_rules = num_rules, instructions = instructions, input_data = input_data)
         if (assistant != ""):
             messages.append({"role": "assistant", "content": assistant})
-
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_rules_global] generated rules: {output}")
         return output
 
     def generate_input_spec(self, context):
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generating input spec for context: {context}")
-        system_prompt = render_prompt("input_spec")
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": "Chatbot description: " + context}]
+        messages = render_prompt("input_spec", context = context )
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_input_spec] generated input spec: {output}")
         if output is None:
@@ -150,8 +147,7 @@ class LLMFrontEnd:
 
     def inverse_rule(self, rule):
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generating inverse rule for rule: {rule}")
-        system_prompt = render_prompt("inverse_rule")
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": rule}]
+        messages = render_prompt("inverse_rule", rule= rule)
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][inverse_rule] generated inverse rule: {output}")
         if output is None:
@@ -161,8 +157,7 @@ class LLMFrontEnd:
 
     def generate_baseline_test(self, prompt, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generating test")
-        system_prompt = render_prompt("baseline_test")
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"Description of the software: {prompt}"}]
+        messages = render_prompt("baseline_test", prompt=prompt)
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_baseline_test] generated test: {output}")
         if output is None:
@@ -172,8 +167,7 @@ class LLMFrontEnd:
 
     def generate_test(self, rule, context=None, input_spec=None, num=1):
         Dbg.debug(f"[LLM FrontEnd][generate_test] generating test for rule: {rule} \n input spec: {input_spec}")
-        system_prompt = render_prompt("test", num = num, input_spec = input_spec, context = context)
-        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"List of Rules: {rule}"}]
+        messages = render_prompt("test", num = num, input_spec = input_spec, context = context, rule=rule)
         output = self.get_bot_response(messages)
         Dbg.debug(f"[LLM FrontEnd][generate_test] generated test: {output}")
         if output is None:
