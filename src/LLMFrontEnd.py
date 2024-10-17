@@ -64,7 +64,7 @@ def render_prompt(filename, **kwargs):
     filepath = f"src/prompts/{filename}.prompty"
     # Check if the current directory ends with 'eval' and adjust the path accordingly
     current_directory = os.getcwd()
-    if current_directory.endswith('eval'):
+    if current_directory.endswith('eval') or current_directory.endswith('app'):
         filepath = f"../{filepath}"
     prompt = frontmatter.load(filepath)
     # grabs the content
