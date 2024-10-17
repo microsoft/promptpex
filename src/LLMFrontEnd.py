@@ -58,7 +58,6 @@ local_client = OpenAI(
 )
 
 def render_prompt(filename, **kwargs):
-    print(f"prompt {filename}")
 
     # load the prompt file
     filepath = f"src/prompts/{filename}.prompty"
@@ -66,6 +65,7 @@ def render_prompt(filename, **kwargs):
     current_directory = os.getcwd()
     if current_directory.endswith('eval') or current_directory.endswith('app'):
         filepath = f"../{filepath}"
+    print(f"messages for {filepath}:")
     prompt = frontmatter.load(filepath)
     # grabs the content
     content = prompt.content
@@ -78,6 +78,10 @@ def render_prompt(filename, **kwargs):
     user_prompt = Template(user_section).render(kwargs)
     # return oai messages
     messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt }]
+
+    print("```")
+    print(messages)
+    print("```")
     return messages
 
 class LLMFrontEnd:
