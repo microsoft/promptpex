@@ -1,6 +1,5 @@
-The output must be one of the part-of-speech tags listed in the description.
-The output must be a single, valid part-of-speech tag from the provided alphabetical list.
-If the word cannot be tagged with any of the listed tags, the output must be "Unknown".
-If the word cannot be tagged at all for any reason, the output must be "CantAnswer".
-The output must exactly match the case and format of the tags as listed (e.g., "NN", "VBZ").
-The output must only contain the tag and no additional text or characters.
+The output must be one of the part-of-speech tags listed in the description or "Unknown" or "CantAnswer".
+The output must not include any additional text or information other than a single part-of-speech tag, "Unknown", or "CantAnswer".
+The output must be a valid part-of-speech tag from the provided alphabetical list if the word can be tagged.
+The output "Unknown" must be used if the word cannot be tagged with the listed tags.
+The output "CantAnswer" must be used if the chatbot is unable to tag the word.

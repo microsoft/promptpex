@@ -1,4 +1,10 @@
-import { modelOptions, loadPromptContext, tidyRules } from "./promptpex.mts";
+import {
+  modelOptions,
+  loadPromptContext,
+  tidyRules,
+  generateRules,
+  generateInverseRules,
+} from "./promptpex.mts";
 
 script({
   title: "PromptPex Rules Generator",
@@ -10,35 +16,9 @@ script({
 const files = await loadPromptContext();
 
 // generate rules
-const resRules = await runPrompt(
-  (ctx) => {
-    ctx.importTemplate("src/prompts/rules_global.prompty", {
-      input_data: files.prompt.content,
-    });
-  },
-  {
-    ...modelOptions(),
-    label: "generate rules",
-  }
-);
-if (resRules.error) throw resRules.error;
-const rules = tidyRules(resRules.text);
-await workspace.writeText(files.rules.filename, rules);
+files.rules.content = await generateRules(files);
+await workspace.writeText(files.rules.filename, files.rules.content);
 
-// inverse rules
-const resInverseRules = await runPrompt(
-  (ctx) => {
-    ctx.importTemplate("src/prompts/inverse_rule.prompty", {
-      rule: rules,
-    });
-  },
-  {
-    ...modelOptions(),
-    label: "inverse rules",
-  }
-);
-if (resInverseRules.error) throw resInverseRules.error;
-await workspace.writeText(
-  files.inverseRules.filename,
-  tidyRules(resInverseRules.text)
-);
+// generate inverse rules
+const inverseRules = await generateInverseRules(files);
+await workspace.writeText(files.inverseRules.filename, inverseRules);

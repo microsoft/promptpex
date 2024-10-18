@@ -69,6 +69,41 @@ export async function generateInputSpec(
   return tidyRules(res.text);
 }
 
+export async function generateRules(files: Pick<PromptPexContext, "prompt">) {
+  // generate rules
+  const res = await runPrompt(
+    (ctx) => {
+      ctx.importTemplate("src/prompts/rules_global.prompty", {
+        input_data: files.prompt.content,
+      });
+    },
+    {
+      ...modelOptions(),
+      label: "generate rules",
+    }
+  );
+  if (res.error) throw res.error;
+  return tidyRules(res.text);
+}
+
+export async function generateInverseRules(
+  files: Pick<PromptPexContext, "prompt" | "rules" | "inverseRules">
+) {
+  const res = await runPrompt(
+    (ctx) => {
+      ctx.importTemplate("src/prompts/inverse_rule.prompty", {
+        rule: files.rules.content,
+      });
+    },
+    {
+      ...modelOptions(),
+      label: "inverse rules",
+    }
+  );
+  if (res.error) throw res.error;
+  return tidyRules(res.text);
+}
+
 export async function generateTests(
   files: Pick<
     PromptPexContext,
@@ -84,7 +119,7 @@ export async function generateTests(
     .join("\n");
   if (!rules) throw new Error("No rules found");
 
-  const resTests = await runPrompt(
+  const res = await runPrompt(
     (ctx) => {
       ctx.importTemplate("src/prompts/test.prompty", {
         input_spec: files.inputSpec.content,
@@ -98,6 +133,6 @@ export async function generateTests(
       label: "generate tests",
     }
   );
-  if (resTests.error) throw resTests.error;
-  return resTests.text;
+  if (res.error) throw res.error;
+  return res.text;
 }
