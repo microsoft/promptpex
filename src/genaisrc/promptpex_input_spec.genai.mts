@@ -1,4 +1,4 @@
-import { ppModelOptions, ppFiles, ppCleanRules } from "./promptpex.mts";
+import { modelOptions, ppFiles, tidyRules } from "./promptpex.mts";
 
 script({
   title: "PromptPex Input Spec Generator",
@@ -17,9 +17,9 @@ const res = await runPrompt(
     });
   },
   {
-    ...ppModelOptions(),
+    ...modelOptions(),
     label: "generate input spec",
   }
 );
 if (res.error) throw res.error;
-await workspace.writeText(files.inputSpec.filename, ppCleanRules(res.text));
+await workspace.writeText(files.inputSpec.filename, tidyRules(res.text));

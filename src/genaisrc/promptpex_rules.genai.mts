@@ -1,4 +1,4 @@
-import { ppModelOptions, ppFiles, ppCleanRules } from "./promptpex.mts";
+import { modelOptions, ppFiles, tidyRules } from "./promptpex.mts";
 
 script({
   title: "PromptPex Rules Generator",
@@ -17,12 +17,12 @@ const resRules = await runPrompt(
     });
   },
   {
-    ...ppModelOptions(),
+    ...modelOptions(),
     label: "generate rules",
   }
 );
 if (resRules.error) throw resRules.error;
-const rules = ppCleanRules(resRules.text);
+const rules = tidyRules(resRules.text);
 await workspace.writeText(files.rules.filename, rules);
 
 // inverse rules
@@ -33,12 +33,12 @@ const resInverseRules = await runPrompt(
     });
   },
   {
-    ...ppModelOptions(),
+    ...modelOptions(),
     label: "inverse rules",
   }
 );
 if (resInverseRules.error) throw resInverseRules.error;
 await workspace.writeText(
   files.inverseRules.filename,
-  ppCleanRules(resInverseRules.text)
+  tidyRules(resInverseRules.text)
 );

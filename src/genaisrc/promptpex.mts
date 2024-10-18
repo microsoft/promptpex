@@ -1,4 +1,17 @@
-export async function ppFiles(promptFile?: WorkspaceFile) {
+export interface PromptPexContext {
+  dir: string;
+  basename: string;
+  prompt: WorkspaceFile;
+  rules: WorkspaceFile;
+  inverseRules: WorkspaceFile;
+  instructions: WorkspaceFile;
+  inputSpec: WorkspaceFile;
+  tests: WorkspaceFile;
+}
+
+export async function ppFiles(
+  promptFile?: WorkspaceFile
+): Promise<PromptPexContext> {
   if (!promptFile)
     promptFile = env.files.find(({ filename }) =>
       /\.(md|prompty)$/i.test(filename)
@@ -23,16 +36,49 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
   };
 }
 
-export function ppModelOptions(): PromptGeneratorOptions {
+export function modelOptions(): PromptGeneratorOptions {
   return {
     model: "large",
     system: ["system.safety_harmful_content", "system.safety_jailbreak"],
   };
 }
 
-export function ppCleanRules(text: string) {
+export function tidyRules(text: string) {
   return text
     .split(/\n/g)
     .filter((s) => !!s)
     .join("\n");
+}
+
+export async function generateTests(
+  files: Pick<
+    PromptPexContext,
+    "prompt" | "inputSpec" | "rules" | "inverseRules"
+  >,
+  options: { num: number }
+) {
+  const { num } = options;
+
+  if (!files.inputSpec.content) throw new Error("No input spec found");
+  const rules = [files.rules.content, files.inverseRules.content]
+    .filter((s) => !!s)
+    .join("\n");
+  if (!rules) throw new Error("No rules found");
+
+  const resTests = await runPrompt(
+    (ctx) => {
+      ctx.importTemplate("src/prompts/test.prompty", {
+        input_spec: files.inputSpec.content,
+        context: files.prompt.content,
+        num,
+        rule: rules,
+      });
+    },
+    {
+      ...modelOptions(),
+      label: "generate tests",
+    }
+  );
+  if (resTests.error) throw resTests.error;
+  return resTests.text;
 }
