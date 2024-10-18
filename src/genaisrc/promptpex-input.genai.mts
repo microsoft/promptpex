@@ -1,7 +1,8 @@
 script({
     title: "PromptPex Input Spec Generator",
     description: "Generate an input spec for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
-    files: ["samples/speech-tag.prompty"]
+    files: ["samples/speech-tag.prompty"],
+    system: ["system.safety_harmful_content", "system.safety_jailbreak"]
 })
 
 const promptFile = env.files.find(({filename}) => /\.(md|prompty)$/i.test(filename))
