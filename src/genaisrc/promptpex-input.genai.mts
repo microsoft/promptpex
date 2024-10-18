@@ -1,16 +1,26 @@
+import { ppFiles } from "./promptpex.mts";
+
 script({
-    title: "PromptPex Input Spec Generator",
-    description: "Generate an input spec for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
-    files: ["samples/speech-tag.prompty"],
-    system: ["system.safety_harmful_content", "system.safety_jailbreak"]
-})
+  title: "PromptPex Input Spec Generator",
+  description:
+    "Generate an input spec for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
+  files: ["samples/speech-tag.prompty"],
+  system: ["system.safety_harmful_content", "system.safety_jailbreak"],
+});
 
-const promptFile = env.files.find(({filename}) => /\.(md|prompty)$/i.test(filename))
-const inputSpecFilename = path.join(path.dirname(promptFile.filename), path.basename(promptFile.filename) + ".inputspec.md")
-const inputSpecFile = await workspace.readText(inputSpecFilename)
+const files = await ppFiles();
 
-importTemplate("src/prompts/input_spec.prompty", { context: promptFile.content, input_spec: inputSpecFile?.content || "" })
-
-$`Save LLM response to file ${inputSpecFilename} using FILE syntax.`
-
-defFileOutput(inputSpecFilename, "Generated input spec")
+const res = await runPrompt((ctx) => {
+  ctx.importTemplate("src/prompts/input_spec.prompty", {
+    context: files.prompt.content,
+    input_spec: files.inputSpec?.content || "",
+  });
+});
+if (res.error) throw res.error;
+await workspace.writeText(
+  files.inputSpec.filename,
+  res.text
+    .split(/\n/g)
+    .filter((s) => !!s)
+    .join("\n")
+);

@@ -1,3 +1,4 @@
-A valid input consists of a sentence followed by a semicolon and a word contained within that sentence.
-The sentence must be grammatically correct and can include any standard English words and punctuation.
-The word must be a single word present in the sentence.
+The input is a sentence and a word contained in that sentence.
+The input must be a sentence followed by a semicolon and a space, then a word.
+The sentence must be a valid, grammatically correct sentence.
+The word must be a single word present within the given sentence.
