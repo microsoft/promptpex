@@ -7,7 +7,7 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
   const basename = path.basename(promptFile.filename);
   const rules = path.join(dir, basename + ".rules.md");
   const instructions = path.join(dir, basename + ".instructions.md");
-  const inputSpec = path.join(dir, basename + ".inputspec.md");
+  const inputSpec = path.join(dir, basename + ".input_spec.md");
 
   return {
     dir,
@@ -17,4 +17,17 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
     instructions: await workspace.readText(instructions),
     inputSpec: await workspace.readText(inputSpec),
   };
+}
+
+export function ppModelOptions(): ModelOptions {
+  return {
+    model: "large",
+  };
+}
+
+export function ppCleanRules(text: string) {
+  return text
+    .split(/\n/g)
+    .filter((s) => !!s)
+    .join("\n");
 }
