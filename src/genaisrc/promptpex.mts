@@ -17,7 +17,9 @@ export async function loadPromptContext(
       /\.(md|prompty)$/i.test(filename)
     );
   const dir = path.dirname(promptFile.filename);
-  const basename = path.basename(promptFile.filename);
+  const basename = path
+    .basename(promptFile.filename)
+    .slice(0, -path.extname(promptFile.filename).length);
   const rules = path.join(dir, basename + ".rules.md");
   const inverseRules = path.join(dir, basename + ".inverse_rules.md");
   const instructions = path.join(dir, basename + ".instructions.md");
