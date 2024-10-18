@@ -9,7 +9,8 @@ script({
 
 const files = await ppFiles();
 
-const res = await runPrompt(
+// generate rules
+const resRules = await runPrompt(
   (ctx) => {
     ctx.importTemplate("src/prompts/rules_global.prompty", {
       input_data: files.prompt.content,
@@ -20,5 +21,24 @@ const res = await runPrompt(
     label: "generate rules",
   }
 );
-if (res.error) throw res.error;
-await workspace.writeText(files.rules.filename, ppCleanRules(res.text));
+if (resRules.error) throw resRules.error;
+const rules = ppCleanRules(resRules.text);
+await workspace.writeText(files.rules.filename, rules);
+
+// inverse rules
+const resInverseRules = await runPrompt(
+  (ctx) => {
+    ctx.importTemplate("src/prompts/inverse_rule.prompty", {
+      rule: rules,
+    });
+  },
+  {
+    ...ppModelOptions(),
+    label: "inverse rules",
+  }
+);
+if (resInverseRules.error) throw resInverseRules.error;
+await workspace.writeText(
+  files.inverseRules.filename,
+  ppCleanRules(resInverseRules.text)
+);

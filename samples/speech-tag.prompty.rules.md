@@ -1,5 +1,6 @@
-The response must return only the part of speech tag for the given word.
-If the word cannot be tagged with the listed tags, the response must be "Unknown".
-If the chatbot is unable to tag the word, the response must be "CantAnswer".
-The response must not include any additional text other than the part of speech tag, "Unknown" or "CantAnswer".
-Each part of speech tag must be one of the following: CC, CD, DT, EX, FW, IN, JJ, JJR, JJS, LS, MD, NN, NNS, NNP, NNPS, PDT, POS, PRP, PRP$, RB, RBR, RBS, RP, SYM, TO, UH, VB, VBD, VBG, VBN, VBP, VBZ, WDT, WP, WP$, WRB.
+The output must be one of the part-of-speech tags listed in the description.
+The output must be a single, valid part-of-speech tag from the provided alphabetical list.
+If the word cannot be tagged with any of the listed tags, the output must be "Unknown".
+If the word cannot be tagged at all for any reason, the output must be "CantAnswer".
+The output must exactly match the case and format of the tags as listed (e.g., "NN", "VBZ").
+The output must only contain the tag and no additional text or characters.
