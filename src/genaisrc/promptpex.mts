@@ -120,6 +120,7 @@ export async function generateTests(
 ) {
   const { num } = options;
 
+  if (!files.rules.content) throw new Error("No rules found");
   if (!files.inputSpec.content) throw new Error("No input spec found");
   const rules = [files.rules.content, files.inverseRules.content]
     .filter((s) => !!s)
