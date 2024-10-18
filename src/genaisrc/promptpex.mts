@@ -9,6 +9,7 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
   const inverseRules = path.join(dir, basename + ".inverse_rules.md");
   const instructions = path.join(dir, basename + ".instructions.md");
   const inputSpec = path.join(dir, basename + ".input_spec.md");
+  const tests = path.join(dir, basename + ".tests.csv");
 
   return {
     dir,
@@ -18,6 +19,7 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
     inverseRules: await workspace.readText(inverseRules),
     instructions: await workspace.readText(instructions),
     inputSpec: await workspace.readText(inputSpec),
+    tests: await workspace.readText(tests),
   };
 }
 
