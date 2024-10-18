@@ -1,4 +1,4 @@
-import { ppFiles, generateTests } from "./promptpex.mts";
+import { loadPromptContext, generateTests } from "./promptpex.mts";
 
 script({
   title: "PromptPex Rules Generator",
@@ -8,7 +8,6 @@ script({
 });
 
 const num = parseInt(env.vars.num) || 10;
-const files = await ppFiles();
-
-const tests = await generateTests(files, { num });
-await workspace.writeText(files.tests.filename, tests);
+const pp = await loadPromptContext();
+const tests = await generateTests(pp, { num });
+await workspace.writeText(pp.tests.filename, tests);

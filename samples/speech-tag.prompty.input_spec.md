@@ -1,3 +1,3 @@
-The input must be a sentence followed by a semicolon and a word contained within that sentence.
-The word must be a single term found in the preceding sentence.
-The sentence can contain multiple words, including punctuation and spaces.
+The input is a sentence and a word from that sentence separated by a semicolon.
+The sentence must be a valid string of words.
+The word must be a single word that is present in the sentence.

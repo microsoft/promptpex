@@ -1,4 +1,4 @@
-import { modelOptions, ppFiles, tidyRules } from "./promptpex.mts";
+import { modelOptions, loadPromptContext, tidyRules } from "./promptpex.mts";
 
 script({
   title: "PromptPex Rules Generator",
@@ -7,7 +7,7 @@ script({
   files: ["samples/speech-tag.prompty"],
 });
 
-const files = await ppFiles();
+const files = await loadPromptContext();
 
 // generate rules
 const resRules = await runPrompt(

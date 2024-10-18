@@ -9,7 +9,7 @@ export interface PromptPexContext {
   tests: WorkspaceFile;
 }
 
-export async function ppFiles(
+export async function loadPromptContext(
   promptFile?: WorkspaceFile
 ): Promise<PromptPexContext> {
   if (!promptFile)
@@ -48,6 +48,25 @@ export function tidyRules(text: string) {
     .split(/\n/g)
     .filter((s) => !!s)
     .join("\n");
+}
+
+export async function generateInputSpec(
+  files: Pick<PromptPexContext, "inputSpec" | "prompt">
+) {
+  const res = await runPrompt(
+    (ctx) => {
+      ctx.importTemplate("src/prompts/input_spec.prompty", {
+        context: files.prompt.content,
+        input_spec: files.inputSpec?.content || "",
+      });
+    },
+    {
+      ...modelOptions(),
+      label: "generate input spec",
+    }
+  );
+  if (res.error) throw res.error;
+  return tidyRules(res.text);
 }
 
 export async function generateTests(

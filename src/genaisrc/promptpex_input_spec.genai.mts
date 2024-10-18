@@ -1,4 +1,4 @@
-import { modelOptions, ppFiles, tidyRules } from "./promptpex.mts";
+import { loadPromptContext, generateInputSpec } from "./promptpex.mts";
 
 script({
   title: "PromptPex Input Spec Generator",
@@ -7,19 +7,6 @@ script({
   files: ["samples/speech-tag.prompty"],
 });
 
-const files = await ppFiles();
-
-const res = await runPrompt(
-  (ctx) => {
-    ctx.importTemplate("src/prompts/input_spec.prompty", {
-      context: files.prompt.content,
-      input_spec: files.inputSpec?.content || "",
-    });
-  },
-  {
-    ...modelOptions(),
-    label: "generate input spec",
-  }
-);
-if (res.error) throw res.error;
-await workspace.writeText(files.inputSpec.filename, tidyRules(res.text));
+const files = await loadPromptContext();
+const inputSpec = await generateInputSpec(files);
+await workspace.writeText(files.inputSpec.filename, inputSpec);
