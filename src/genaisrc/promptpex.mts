@@ -20,10 +20,10 @@ export async function loadPromptContext(
   const basename = path
     .basename(promptFile.filename)
     .slice(0, -path.extname(promptFile.filename).length);
-  const rules = path.join(dir, basename + ".rules.md");
-  const inverseRules = path.join(dir, basename + ".inverse_rules.md");
-  const instructions = path.join(dir, basename + ".instructions.md");
-  const inputSpec = path.join(dir, basename + ".input_spec.md");
+  const rules = path.join(dir, basename + ".rules.txt");
+  const inverseRules = path.join(dir, basename + ".inverse_rules.txt");
+  const instructions = path.join(dir, basename + ".instructions.txt");
+  const inputSpec = path.join(dir, basename + ".input_spec.txt");
   const tests = path.join(dir, basename + ".tests.csv");
 
   return {
