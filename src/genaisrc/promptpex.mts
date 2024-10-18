@@ -38,14 +38,14 @@ export async function loadPromptContext(
   };
 }
 
-export function modelOptions(): PromptGeneratorOptions {
+function modelOptions(): PromptGeneratorOptions {
   return {
     model: "large",
     system: ["system.safety_harmful_content", "system.safety_jailbreak"],
   };
 }
 
-export function tidyRules(text: string) {
+function tidyRules(text: string) {
   return text
     .split(/\n/g)
     .filter((s) => !!s)
@@ -71,11 +71,16 @@ export async function generateInputSpec(
   return tidyRules(res.text);
 }
 
-export async function generateRules(files: Pick<PromptPexContext, "prompt">) {
+export async function generateRules(
+  files: Pick<PromptPexContext, "prompt">,
+  options?: { numRules: number }
+) {
+  const { numRules = 3 } = options || {};
   // generate rules
   const res = await runPrompt(
     (ctx) => {
       ctx.importTemplate("src/prompts/rules_global.prompty", {
+        num_rules: numRules,
         input_data: files.prompt.content,
       });
     },
