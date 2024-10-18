@@ -2,7 +2,7 @@ import { loadPromptContext, generateTests } from "./promptpex.mts";
 
 script({
   title: "PromptPex Rules Generator",
-  files: ["samples/speech-tag.prompty"],
+  files: ["samples/speech-tag/speech-tag.prompty"],
   description:
     "Generate a rules file for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
 });
