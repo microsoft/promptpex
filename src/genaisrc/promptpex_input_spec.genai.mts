@@ -8,5 +8,7 @@ script({
 });
 
 const files = await loadPromptContext();
+
+// generate input specs
 const inputSpec = await generateInputSpec(files);
 await workspace.writeText(files.inputSpec.filename, inputSpec);

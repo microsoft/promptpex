@@ -9,5 +9,7 @@ script({
 
 const num = parseInt(env.vars.num) || 10;
 const pp = await loadPromptContext();
+
+// generate tests
 const tests = await generateTests(pp, { num });
 await workspace.writeText(pp.tests.filename, tests);
