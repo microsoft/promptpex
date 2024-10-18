@@ -5,7 +5,6 @@ script({
   description:
     "Generate a rules file for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
   files: ["samples/speech-tag.prompty"],
-  system: [],
   parameters: {
     allow: {
       type: "string",
@@ -28,7 +27,7 @@ const files = await ppFiles();
 
 const res = await runPrompt((ctx) => {
   ctx.importTemplate(
-    "src/prompts/generic_rules_global.prompty",
+    "src/prompts/rules_global.prompty",
     {
       allow,
       deny,
@@ -38,6 +37,7 @@ const res = await runPrompt((ctx) => {
     },
     {
       ...ppModelOptions(),
+      label: "generate rules",
     }
   );
 });

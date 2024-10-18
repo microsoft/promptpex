@@ -5,7 +5,6 @@ script({
   description:
     "Generate an input spec for a prompt template. Runs this script against a prompt authored in markdown or prompty format.",
   files: ["samples/speech-tag.prompty"],
-  system: ["system.safety_harmful_content", "system.safety_jailbreak"],
 });
 
 const files = await ppFiles();
@@ -19,6 +18,7 @@ const res = await runPrompt(
   },
   {
     ...ppModelOptions(),
+    label: "generate input spec",
   }
 );
 if (res.error) throw res.error;

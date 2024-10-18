@@ -19,9 +19,10 @@ export async function ppFiles(promptFile?: WorkspaceFile) {
   };
 }
 
-export function ppModelOptions(): ModelOptions {
+export function ppModelOptions(): PromptGeneratorOptions {
   return {
     model: "large",
+    system: ["system.safety_harmful_content", "system.safety_jailbreak"],
   };
 }
 
