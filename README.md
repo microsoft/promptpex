@@ -45,7 +45,6 @@ PromptPex provides the following capabilities:
 
 </details>
 
-
 ```mermaid
 graph TD
     PUT(["Prompt Under Test (PUT)"])
@@ -139,6 +138,10 @@ graph TD
     PUT --> TOC
 ```
 
+## Intended Uses
+
+PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
+
 ## Getting Started
 
 **Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
@@ -174,17 +177,31 @@ You can also run against entire folders and all the .md, .prompty files will be 
 yarn promptpex samples/**/*.prompty
 ```
 
+## Development
+
+The following instructions will help you with updating promptpex.
+
 ### Typecheck scripts
 
 Use Visual Studio Code to get builtin typechecking from TypeScript or
 
-```
+```sh
 yarn build
 ```
 
-## Intended Uses
+### Create a commit
 
-PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
+For convinience,
+
+```sh
+yarn gcm
+```
+
+### Debug
+
+- Open a `JavaScript Debug Terminal` in Visual Studio Code
+- Put a breakpoint in your script
+- Launch the script
 
 ## Contributing
 
