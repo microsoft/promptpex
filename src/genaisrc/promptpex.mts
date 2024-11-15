@@ -192,6 +192,25 @@ function tidyRulesFile(file: WorkspaceFile) {
   return file;
 }
 
+export async function checkRuleGrounded(files: PromptPexContext, rule: string) {
+  const description = MD.content(files.prompt.content);
+  const res = await runPrompt(
+    (ctx) => {
+      ctx.importTemplate("src/prompts/check_rule_grounded.prompty", {
+        rule,
+        description,
+      });
+    },
+    {
+      ...modelOptions(),
+      //      logprobs: true,
+      label: `check rule grounded ${rule.slice(0, 18)}...`,
+    }
+  );
+  checkLLMResponse(res);
+  return res.text;
+}
+
 export async function generateInputSpec(files: PromptPexContext) {
   const context = MD.content(files.prompt.content);
   const res = await runPrompt(
