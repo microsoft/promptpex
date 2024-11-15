@@ -1,563 +1,681 @@
 {
   "prompt": "---\r\nname: A demo\r\ninputs:\r\n    joke: \"how do you make a tissue dance? You put a little boogie in it.\"\r\n---\r\nsystem:\r\nYou are an assistant and you need to categorize a joke as funny or not.\r\n\r\nuser:\r\n{{joke}}",
-  "inputSpec": "The input to the chatbot is a joke.  \nThe joke must be in text format.  \nThe length of the joke is not restricted.  \nThe joke can include any type of content, whether it's a pun, anecdote, or any form of humor.",
+  "inputSpec": "The input is a joke.  \nThe joke should be in text format.  \nThere is no specified length constraint for the joke.  ",
   "rules": [
-    "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
-    "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-    "The output must not include any additional comments, explanations, or justifications for the categorization.",
-    "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-    "The output must be formatted as a single, standalone word that is either \"funny\" or \"not funny\"."
+    "The output must clearly categorize the given joke as either \"funny\" or \"not funny\".",
+    "The output must only contain the category label and should not include any additional commentary, analysis, or explanation.",
+    "The categorization must be presented in a single word: either \"funny\" or \"not funny\".",
+    "The word used in the categorization must begin with a lowercase letter.",
+    "The output must be free from any special characters, punctuation, or numbers.",
+    "The output must be in English.",
+    "The output must not include the original joke or any reference to its content.",
+    "The output must remain consistent in format for every joke input, maintaining the same structure across different evaluations."
   ],
   "inverseRules": [
-    "A given joke must be left uncategorized as \"funny\" or \"not funny\".",
-    "The output must consist of multiple categories beyond just \"funny\" or \"not funny\".",
-    "The output must include additional comments, explanations, or justifications for the categorization.",
-    "The output must contain elements of the joke itself or references to the content of the joke.",
-    "The output must be formatted as a full sentence, not just the single words \"funny\" or \"not funny\"."
+    "Do not categorize the given joke at all, and avoid using labels \"funny\" or \"not funny\".",
+    "Add lengthy commentary, analysis, or explanation to the output.",
+    "Use multiple words in the categorization.",
+    "The word used in the categorization must begin with an uppercase letter.",
+    "Include special characters, punctuation, or numbers in the output.",
+    "The output must be in a language other than English.",
+    "Include the original joke or reference its content in the output.",
+    "Change the format and structure of the output for every joke input, ensuring inconsistency."
   ],
   "tests": [
     {
       "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
+      "rule": "The output must clearly categorize the given joke as either \"funny\" or \"not funny\".",
       "testid": "1",
-      "testinput": "What do you call fake spaghetti? An impasta!",
+      "testinput": "Why don't scientists trust atoms? Because they make up everything!",
       "expectedoutput": "funny",
-      "reasoning": "The test checks that the software correctly categorizes a typical pun as 'funny'. It follows input specification by being a joke in text format."
+      "reasoning": "This tests whether the joke is correctly categorized, ensuring it's classified as 'funny' based on comedic content."
     },
     {
       "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
+      "rule": "The output must clearly categorize the given joke as either \"funny\" or \"not funny\".",
       "testid": "2",
-      "testinput": "Why was the math book sad? Because it had too many problems.",
+      "testinput": "I told my computer I needed a break, and it said: 'No problem, I'll go on sleep mode.'",
       "expectedoutput": "funny",
-      "reasoning": "This test verifies if the software can categorize a classic math joke as 'funny', meeting the input specifications."
+      "reasoning": "Checks if light-hearted tech humor is adequately recognized as funny."
     },
     {
       "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
+      "rule": "The output must clearly categorize the given joke as either \"funny\" or \"not funny\".",
       "testid": "3",
-      "testinput": "I have a fear of speed bumps, but I am slowly getting over it.",
+      "testinput": "What's the best thing about Switzerland? I don't know, but their flag is a big plus.",
       "expectedoutput": "funny",
-      "reasoning": "The input is a text-based joke with a pun, testing whether the software categorizes it correctly as 'funny'."
+      "reasoning": "Verifies if puns based on national emblems are appropriately categorized as 'funny'."
     },
     {
       "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
+      "rule": "The output must only contain the category label and should not include any additional commentary, analysis, or explanation.",
       "testid": "1",
-      "testinput": "What do you call cheese that isn't yours? Nacho cheese.",
+      "testinput": "I'm reading a book about anti-gravity. It's impossible to put down.",
       "expectedoutput": "funny",
-      "reasoning": "The test ensures the output exclusively uses predefined categories, checking compliance with input specifications."
+      "reasoning": "Checks for adherence to rule that only the category label 'funny' is given without commentary."
     },
     {
       "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
+      "rule": "The output must only contain the category label and should not include any additional commentary, analysis, or explanation.",
       "testid": "2",
-      "testinput": "What did the duck say to the bartender? Put it on my bill.",
+      "testinput": "Why do cows have hooves instead of feet? Because they lactose.",
       "expectedoutput": "funny",
-      "reasoning": "This test case tests the software's ability to adhere to using only the two specified categories: 'funny' and 'not funny'."
+      "reasoning": "Ensures that the output states 'funny' only, validating no extra commentary is provided."
     },
     {
       "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
+      "rule": "The output must only contain the category label and should not include any additional commentary, analysis, or explanation.",
       "testid": "3",
-      "testinput": "Did you hear about the Italian chef who died? He pasta way.",
+      "testinput": "Did you hear about the guy who invented Lifesavers? He made a mint.",
       "expectedoutput": "funny",
-      "reasoning": "The test ensures the software outputs only 'funny' or 'not funny', in line with the input and functional specs."
+      "reasoning": "Validates that punchline humor is categorized simply as 'funny' without additional explanation."
     },
     {
       "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
+      "rule": "The categorization must be presented in a single word: either \"funny\" or \"not funny\".",
       "testid": "1",
-      "testinput": "I threw a boomerang a few years ago. I know live in constant fear.",
-      "expectedoutput": "not funny",
-      "reasoning": "This test checks that output does not include extra commentary, meeting input specification by being a text joke."
-    },
-    {
-      "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
-      "testid": "2",
-      "testinput": "Why don’t skeletons fight each other? They don’t have the guts.",
+      "testinput": "What do you get when you cross a snowman with a vampire? Frostbite.",
       "expectedoutput": "funny",
-      "reasoning": "The test ensures the output lacks additional explanations, adhering to the succinct output format."
+      "reasoning": "Confirms 'funny' is the sole output word, focusing on the rule demanding a single-word response."
     },
     {
       "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
+      "rule": "The categorization must be presented in a single word: either \"funny\" or \"not funny\".",
+      "testid": "2",
+      "testinput": "Why don't some couples go to the gym? Because some relationships don't work out.",
+      "expectedoutput": "funny",
+      "reasoning": "Verifies single word 'funny' is used ensuring no other wording or multiple responses."
+    },
+    {
+      "ruleid": "3",
+      "rule": "The categorization must be presented in a single word: either \"funny\" or \"not funny\".",
       "testid": "3",
+      "testinput": "I ate a clock yesterday, it was very time-consuming.",
+      "expectedoutput": "funny",
+      "reasoning": "Ensures the system uses only 'funny' to categorize jokes dealing with puns."
+    },
+    {
+      "ruleid": "4",
+      "rule": "The word used in the categorization must begin with a lowercase letter.",
+      "testid": "1",
       "testinput": "Parallel lines have so much in common. It’s a shame they’ll never meet.",
       "expectedoutput": "funny",
-      "reasoning": "Ensures output is concise without explanations, just adhering to the defined format of categorization."
+      "reasoning": "Checks that the output word 'funny' starts with a lowercase letter ensuring casing rules are met."
     },
     {
       "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-      "testid": "1",
-      "testinput": "Why did the scarecrow win an award? Because he was outstanding in his field.",
-      "expectedoutput": "funny",
-      "reasoning": "The test validates that no joke content is included in the output, only a category tag is given."
-    },
-    {
-      "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
+      "rule": "The word used in the categorization must begin with a lowercase letter.",
       "testid": "2",
-      "testinput": "I used to play piano by ear, but now I use my hands.",
+      "testinput": "What did one wall say to the other wall? I'll meet you at the corner!",
       "expectedoutput": "funny",
-      "reasoning": "Checks that the output avoids references to the joke's content, maintaining adherence to functional expectations."
+      "reasoning": "Verifies proper lowercase 'f' usage in 'funny' for consistent categorization."
+    },
+    {
+      "ruleid": "4",
+      "rule": "The word used in the categorization must begin with a lowercase letter.",
+      "testid": "3",
+      "testinput": "Have you heard about the new restaurant on the moon? Great food, no atmosphere.",
+      "expectedoutput": "funny",
+      "reasoning": "Examines the adherence to lowercase starting letter rule in comedic evaluations."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The output must be free from any special characters, punctuation, or numbers.",
+      "testid": "1",
+      "testinput": "I would avoid caffeinated beverages—they'll keep you up to all hours makenonexistentialsleep.",
+      "expectedoutput": "funny",
+      "reasoning": "Validates jokes are classified without inclusion of special characters or erroneous symbols."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The output must be free from any special characters, punctuation, or numbers.",
+      "testid": "2",
+      "testinput": "What do you call fake spaghetti? An impasta.",
+      "expectedoutput": "funny",
+      "reasoning": "Ensures that the categorization remains free of numbers or punctuation, adhering to response purity."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The output must be free from any special characters, punctuation, or numbers.",
+      "testid": "3",
+      "testinput": "Why was the math book sad? It had too many problems.",
+      "expectedoutput": "funny",
+      "reasoning": "Confirms output purity with no special characters or numbers introduced in the humor assessment."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be in English.",
+      "testid": "1",
+      "testinput": "Why don't skeletons fight each other? They don't have the guts.",
+      "expectedoutput": "funny",
+      "reasoning": "Checks that the categorization label remains in English, ensuring linguistic consistency."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be in English.",
+      "testid": "2",
+      "testinput": "What do you call cheese that isn't yours? Nacho cheese!",
+      "expectedoutput": "funny",
+      "reasoning": "Validates the label used is consistently English, confirming language rule adherence."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be in English.",
+      "testid": "3",
+      "testinput": "What did the traffic light say to the car? Don’t look! I’m about to change.",
+      "expectedoutput": "funny",
+      "reasoning": "Confirms that labels remain within English language use, assessing language specific fidelity."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not include the original joke or any reference to its content.",
+      "testid": "1",
+      "testinput": "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+      "expectedoutput": "funny",
+      "reasoning": "Ensures that the category label doesn't reference the joke content, supporting independence of output."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not include the original joke or any reference to its content.",
+      "testid": "2",
+      "testinput": "Why is no one friends with Dracula? Because he’s a pain in the neck.",
+      "expectedoutput": "funny",
+      "reasoning": "Verifies that while categorizing, the joke content isn't included or elaborated upon in the feedback."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not include the original joke or any reference to its content.",
+      "testid": "3",
+      "testinput": "You know what’s hard about going last? Nobody took turns breaking the monotony.",
+      "expectedoutput": "funny",
+      "reasoning": "Tests independence between input and output by disallowing references to the input joke content."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must remain consistent in format for every joke input, maintaining the same structure across different evaluations.",
+      "testid": "1",
+      "testinput": "Can February March? No, but April May!",
+      "expectedoutput": "funny",
+      "reasoning": "Validates that the labeling maintains consistency, confirming same structure use in categorizing multiple jokes."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must remain consistent in format for every joke input, maintaining the same structure across different evaluations.",
+      "testid": "2",
+      "testinput": "Wanna hear a construction joke? Oh never mind, I'm still working on it.",
+      "expectedoutput": "funny",
+      "reasoning": "Checks uniformity in output label format across multiple joke inputs ensuring structural consistency."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must remain consistent in format for every joke input, maintaining the same structure across different evaluations.",
+      "testid": "3",
+      "testinput": "How do you organize a space party? You planet.",
+      "expectedoutput": "funny",
+      "reasoning": "Verifies that output format remains identical for each evaluation, checking for uniform output style use."
+    },
+    {
+      "ruleid": "9",
+      "rule": "Do not categorize the given joke at all, and avoid using labels \"funny\" or \"not funny\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Why don’t oysters give to charity? Because they are shellfish.",
+      "expectedoutput": "",
+      "reasoning": "Tests adherence to the rule of avoiding categorization using labels 'funny' or 'not funny'."
+    },
+    {
+      "ruleid": "9",
+      "rule": "Do not categorize the given joke at all, and avoid using labels \"funny\" or \"not funny\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "How does a penguin build its house? Igloos it together.",
+      "expectedoutput": "",
+      "reasoning": "Checks system’s compliance by excising conventional labels entirely, ensuring a non-categorized response."
+    },
+    {
+      "ruleid": "9",
+      "rule": "Do not categorize the given joke at all, and avoid using labels \"funny\" or \"not funny\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "What did the fish say when it hit the wall? Dam.",
+      "expectedoutput": "",
+      "reasoning": "Tests complete rule adherence by refraining from using categorizational labels in the output."
+    },
+    {
+      "ruleid": "10",
+      "rule": "Add lengthy commentary, analysis, or explanation to the output.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "I have a fear of speed bumps, but I'm slowly getting over it.",
+      "expectedoutput": "This joke employs a common phrase with a playful twist that takes the listener by surprise, showcasing the classic element of humor derived from unexpected plays on words.",
+      "reasoning": "Confirms that an extended explanation is added to the output as required by the rule."
+    },
+    {
+      "ruleid": "10",
+      "rule": "Add lengthy commentary, analysis, or explanation to the output.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Why did the scarecrow win an award? Because he was outstanding in his field.",
+      "expectedoutput": "This joke utilizes wordplay by juxtaposing a literal and figurative understanding of 'outstanding in his field.' Such jokes rely heavily on the duality of meaning, which elicits humor from the inclusivity of multiple interpretations.",
+      "reasoning": "Ensures an extensive analysis is present in the response in compliance with rule demands."
+    },
+    {
+      "ruleid": "10",
+      "rule": "Add lengthy commentary, analysis, or explanation to the output.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "I used to be a baker, but I couldn't make enough dough.",
+      "expectedoutput": "This humorous statement cleverly integrates a double entendre, original within the framework of occupational puns, aligning occupational terminology with monetary concerns, typically arising laughter from the listener.",
+      "reasoning": "Verifies that adjective-rich and explanatory commentary is employed in accordance with rule specifications."
+    },
+    {
+      "ruleid": "11",
+      "rule": "Use multiple words in the categorization.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "I'm on a whiskey diet. I've lost three days already.",
+      "expectedoutput": "This one is funny because it plays on the concept of a diet with a humorous twist, making light of diets in general.",
+      "reasoning": "Tests use of descriptive sentence instead of single-word categorization, in line with rule requirements. It violates input specification by not complying with the single-word requirement."
+    },
+    {
+      "ruleid": "11",
+      "rule": "Use multiple words in the categorization.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "I told my therapist I feel like a deck of cards; he said there is a typo in his note.",
+      "expectedoutput": "The humor here is rooted in a misunderstanding, revealing how language, context, and miscommunication can provoke laughter. ",
+      "reasoning": "Confirms multiple-word description is given instead of 'funny'/'not funny. It violates input specification by not complying with the single-word requirement."
+    },
+    {
+      "ruleid": "11",
+      "rule": "Use multiple words in the categorization.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Did you hear about the claustrophobic astronaut? He just needed a little space.",
+      "expectedoutput": "This joke’s charm is in its compactness and surprise, effortlessly employing a feeling individuals relate to—claustrophobia—in an unanticipated spatial context.",
+      "reasoning": "Ensures a phrase or sentence is rendered for categorical purposes instead of a single-word. It violates input specification by not complying with the single-word requirement."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The word used in the categorization must begin with an uppercase letter.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "A punctured bicycle wheel is always... spoq",
+      "expectedoutput": "Not Funny",
+      "reasoning": "Checks that the categorization begins with an uppercase 'N', which violates the rule of lowercase start but satisfies uppercase need, against the original input criteria."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The word used in the categorization must begin with an uppercase letter.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Why did the bald man draw a smiley face on his head? He wanted to look a little 'smarter'.",
+      "expectedoutput": "Funny",
+      "reasoning": "Verifies adherence to initiating with an uppercase 'F', ensuring the initial character meets the uppercase criterion, contradictory to lowercase demand."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The word used in the categorization must begin with an uppercase letter.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Wanna hear a joke about construction?... I'm still working on it",
+      "expectedoutput": "Funny",
+      "reasoning": "Confirms the uppercase 'F' initiation in 'Funny', validating the first letter increasing superiority in violation of lowercase principle."
+    },
+    {
+      "ruleid": "13",
+      "rule": "Include special characters, punctuation, or numbers in the output.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "What do you call an illegally parked frog? Toad.",
+      "expectedoutput": "funny!",
+      "reasoning": "Verifies introduction of a special character, contrasting a proper punctuation-free response."
+    },
+    {
+      "ruleid": "13",
+      "rule": "Include special characters, punctuation, or numbers in the output.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Why can't your nose be 12 inches long? Because then it would be a foot.",
+      "expectedoutput": "funny#",
+      "reasoning": "Ensures symbol use at the end, breaching the rule of clear-cut text-only output."
+    },
+    {
+      "ruleid": "13",
+      "rule": "Include special characters, punctuation, or numbers in the output.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "I used to be addicted to soap... But I'm clean now.",
+      "expectedoutput": "funny123",
+      "reasoning": "Confirms breach by numeral usage within output, challenging clarity and pure text requirement."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output must be in a language other than English.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "What did one ocean say to the other ocean? Nothing, it just waved.",
+      "expectedoutput": "drôle",
+      "reasoning": "Tests usage of a French word instead of English 'funny', ensuring linguistic rules are contested."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output must be in a language other than English.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Why did the chicken join a band? Because it had the drumsticks.",
+      "expectedoutput": "grappig",
+      "reasoning": "Verifies output utilizes Dutch rather than English for humor acknowledgment, intentionally defying expectation of English use."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output must be in a language other than English.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "I told my wife she should embrace her mistakes... She gave me a hug.",
+      "expectedoutput": "lustig",
+      "reasoning": "Ensures a German word is used, validating the cross-linguistic complexity while opposing English-only use protocol."
+    },
+    {
+      "ruleid": "15",
+      "rule": "Include the original joke or reference its content in the output.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "What's orange and sounds like a parrot? A carrot.",
+      "expectedoutput": "That joke about the parrot carrot is funny!",
+      "reasoning": "Confirms original joke content appears in the output, contravening the requirement for content independence but enforcing joke referencing."
+    },
+    {
+      "ruleid": "15",
+      "rule": "Include the original joke or reference its content in the output.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Did you hear the one about the serial killer? It was deadpan.",
+      "expectedoutput": "That serial killer joke was too deadpan.",
+      "reasoning": "Ensures the categorization reference includes phrase from the setup, integrating original joke material into the response against specification."
+    },
+    {
+      "ruleid": "15",
+      "rule": "Include the original joke or reference its content in the output.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "What happens to a frog's car when it breaks? It gets toad away.",
+      "expectedoutput": "Hilarious joke about toad away was included here.",
+      "reasoning": "Checks for inclusion of joke reference, affirming entwinement of categorization and initial material."
+    },
+    {
+      "ruleid": "16",
+      "rule": "Change the format and structure of the output for every joke input, ensuring inconsistency.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "I'm reading a book on anti-gravity; it’s impossible to put down.",
+      "expectedoutput": "That's hillarious",
+      "reasoning": "Verifies structural inconsistency, breaking uniformity by introducing structure change."
+    },
+    {
+      "ruleid": "16",
+      "rule": "Change the format and structure of the output for every joke input, ensuring inconsistency.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "I'd tell you a joke about UDP, but you might not get it.",
+      "expectedoutput": "Such a technical joke indeed funny",
+      "reasoning": "Confirms distinct structuring and phrasing variance in categorizing jokes, ensuring response diversity across evaluations."
+    },
+    {
+      "ruleid": "16",
+      "rule": "Change the format and structure of the output for every joke input, ensuring inconsistency.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Nautical jokes really seem to sink or swim.",
+      "expectedoutput": "Sank and swam this funny joke did",
+      "reasoning": "Tests structural deviation by extensively modifying format consistency, validating the rule of format change compliance."
     },
     {
       "ruleid": null,
-      "testinput": "category: humor\njoke: Why did the scarecrow win an award? Because he was outstanding in his field!",
+      "testinput": "joke: Why don't scientists trust atoms? Because they make up everything.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: sarcasm\njoke: \"I am on a seafood diet. I see food and I eat it.\"",
+      "testinput": "joke: Parallel lines have so much in common. It’s a shame they’ll never meet.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: dad joke\njoke: Why can't you give Elsa a balloon? Because she will let it go.",
+      "testinput": "joke: I told my wife she was drawing her eyebrows too high. She looked surprised.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: pun\njoke: Did you hear about that new broom? It's sweeping the nation.",
+      "testinput": "joke: How do you organize a space party? You planet.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: dark humor\njoke: I have a few jokes about unemployed people, but none of them work.",
+      "testinput": "joke: I'm reading a book on anti-gravity. It's impossible to put down!",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: one-liner\njoke: I told my wife she was drawing her eyebrows too high. She looked surprised.",
+      "testinput": "joke: Did you hear about the mathematician who’s afraid of negative numbers? He’ll stop at nothing to avoid them.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: knock-knock\njoke: Knock knock. Who’s there? Lettuce. Lettuce who? Lettuce in, it’s cold out here!",
+      "testinput": "joke: Why are teddy bears never hungry? Because they're always stuffed.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: anti-joke\njoke: Why did the chicken cross the road? To get to the other side.",
+      "testinput": "joke: What do you call fake spaghetti? An impasta!",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: riddle\njoke: What has keys but can't open locks? A piano.",
+      "testinput": "joke: Why did the scarecrow win an award? Because he was outstanding in his field.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: observational humor\njoke: Have you ever noticed that anyone driving slower than you is an idiot, and anyone driving faster is a maniac?",
+      "testinput": "joke: What's orange and sounds like a parrot? A carrot.",
       "baseline": true
     },
     {
       "ruleid": null,
-      "testinput": "category: wordplay\njoke: I’m reading a book on anti-gravity. It’s impossible to put down.",
+      "testinput": "joke: Why did the bicycle fall over? Because it was two-tired.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Can February March? No, but April May.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: I have a fear of speed bumps. I'm slowly getting over it.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What do you call a bear with no teeth? A gummy bear!",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the tomato turn red? Because it saw the salad dressing!",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: How do you make a tissue dance? Put a little boogie in it.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: I would tell you a construction joke, but I'm still working on it.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why don't skeletons fight each other? They don't have the guts.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What did one hat say to the other? You stay here, I'll go on ahead.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the math book look sad? Because it had too many problems.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What did zero say to eight? Nice belt!",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: How does a penguin build its house? Igloos it together.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: My dog can play the piano. Well, not yet, but he has some notes.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why do seagulls fly over the ocean? Because if they flew over the bay, they’d be bagels.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: How do you make a lemon drop? Just let it fall.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why can't you hear a pterodactyl in the bathroom? Because the \"P\" is silent.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What's brown and sticky? A stick.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Want to hear a joke about construction? Nah, I'm still working on it.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why don't crabs give to charity? Because they’re shellfish.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What did the grape do when it got stepped on? Nothing but let out a little wine.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What did the left eye say to the right eye? Between you and me, something smells.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why are fish so smart? Because they live in schools.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did Cinderella get kicked off the soccer team? Because she kept running away from the ball.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: How does a scientist freshen her breath? With experi-mints.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What lights up a soccer stadium? A soccer match.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why was the math book sad? Because it had too many problems.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the coffee file a police report? It got mugged.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What do you call cheese that isn't yours? Nacho cheese.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the cookie go to the doctor? Because it felt crummy.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: How many tickles does it take to make an octopus laugh? Ten-tickles.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why is it annoying to eat next to basketball players? They dribble all the time.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Did you hear about the cheese factory explosion? There was nothing left but de-brie.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: The rotation of Earth really makes my day.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: I’m on a whiskey diet. I’ve lost three days already.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: I asked my North Korean friend how things were, and he said he couldn’t complain.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why did the picture go to jail? Because it was framed.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: What’s the best thing about Switzerland? I don’t know, but the flag is a big plus.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "joke: Why can’t you give Elsa a balloon? Because she will let it go.",
       "baseline": true
     }
   ],
-  "testEvals": [
-    {
-      "id": "4f8eb05",
-      "promptid": "2de0c33",
-      "model": "gpt-4o-2024-08-06",
-      "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
-      "input": "What do you call fake spaghetti? An impasta!",
-      "coverage": "funny",
-      "validityText": "The input provided is a joke. It is in text format and meets the requirements outlined in the input specification for the chatbot. Specifically, the joke is a pun, which is a recognized form of humor. The specification mentioned that the joke can include any type of content, and there are no length restrictions. Therefore, there are no violations of the input specification in this case.\n\nOK",
-      "validity": "ok",
-      "error": ""
-    },
-    {
-      "id": "71339ef",
-      "promptid": "2de0c33",
-      "model": "gpt-4o-2024-08-06",
-      "ruleid": "3",
-      "rule": "The response must not include any content that is hateful, racist, sexist, lewd, or violent.",
-      "input": "Why was the math book sad? Because it had too many problems.",
-      "coverage": "Funny",
-      "validityText": "The input provided is a classic form of a joke. It consists of a question followed by an answer, which is a common structure for jokes. The content revolves around wordplay associated with a math book having \"problems.\" This play on words is typical of humor, as \"problems\" can refer to both mathematical exercises and emotional issues. \n\nThere are no predefined restrictions on the joke's content, and it is coherent enough to be categorized as a joke. The input adheres to the input specification provided.\n\nOK",
-      "validity": "ok",
-      "error": ""
-    },
-    {
-      "id": "a578f1f",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
-      "input": "I have a fear of speed bumps, but I am slowly getting over it.",
-      "coverage": "",
-      "validityText": "",
-      "validity": "",
-      "error": "LLM error (504): Gateway Time-out LLM error (504): Gateway Time-out"
-    },
-    {
-      "id": "6bf757c",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "input": "What do you call cheese that isn't yours? Nacho cheese.",
-      "coverage": "",
-      "validityText": "The given input is a joke. It is presented in text format and fits within the parameters of the input specification. The joke is a pun, featuring a play on words involving \"nacho\" sounding like \"not your,\" which fits the specification allowing any type of humor. There is no length restriction, and the joke's style and content comply directly with the specification.\n\nOK",
-      "validity": "ok",
-      "error": "LLM error (504): Gateway Time-out"
-    },
-    {
-      "id": "9140a0f",
-      "promptid": "2de0c33",
-      "model": "gpt-4o-2024-08-06",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "input": "What did the duck say to the bartender? Put it on my bill.",
-      "coverage": "funny",
-      "validityText": "The input provided is a joke. It is in text format and presents a pun, relying on the double meaning of the word \"bill\" to create humor. The input specification allows for any type of content, including puns, anecdotes, or any form of humor, and does not restrict the length of the joke. Therefore, the input complies with all the input specification rules.\n\nOK",
-      "validity": "ok",
-      "error": ""
-    },
-    {
-      "id": "068b2d1",
-      "promptid": "2de0c33",
-      "model": "gpt-4o-2024-08-06",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "input": "Did you hear about the Italian chef who died? He pasta way.",
-      "coverage": "funny",
-      "validityText": "The given input is a joke. It is in text format, which aligns with the input specification that states the joke must be in text format. The content of the joke is a pun, as it uses wordplay involving \"pasta\" and \"passed away,\" which fits the specification that the joke can include any type of content, whether it's a pun, anecdote, or any form of humor.\n\nOK",
-      "validity": "ok",
-      "error": ""
-    },
-    {
-      "id": "9cfede1",
-      "promptid": "2de0c33",
-      "model": "gpt-4o-2024-08-06",
-      "ruleid": "1",
-      "rule": "The response must categorize the given joke explicitly as either \"funny\" or \"not funny\".",
-      "input": "I threw a boomerang a few years ago. I know live in constant fear.",
-      "coverage": "Funny",
-      "validityText": "The input provided is a joke. It consists of two sentences: \"I threw a boomerang a few years ago. I now live in constant fear.\" The joke plays on the idea that boomerangs return to the thrower, humorously suggesting an exaggerated and ongoing anticipation of its return after many years. This structure fits into the category of a joke. There are no restrictions on the content or length of the joke according to the specification, as humor is subjective. The input is coherent and clearly categorizable as a joke.\n\nOK",
-      "validity": "ok",
-      "error": ""
-    },
-    {
-      "id": "6969f1d",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
-      "input": "Why don’t skeletons fight each other? They don’t have the guts.",
-      "coverage": "",
-      "validityText": "The input provided is a classic example of a joke. It is in text format and takes the form of a question and an answer, characteristic of a riddle or a pun. The humor arises from the play on words with \"guts,\" which could literal physical guts (which skeletons lack) and metaphorical courage or bravery. There's no restriction on the length of the joke, and the content fits the type of humor described in the specification. There are no indications of non-compliance with the specified requirements.\n\nOK",
-      "validity": "ok",
-      "error": "LLM error (504): Gateway Time-out"
-    },
-    {
-      "id": "97dc260",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
-      "input": "Parallel lines have so much in common. It’s a shame they’ll never meet.",
-      "coverage": "",
-      "validityText": "The input \"Parallel lines have so much in common. It’s a shame they’ll never meet.\" is a textual statement and follows the format of a joke. It plays on the concept of parallel lines in geometry, which never intersect, to create a humorous situation by personifying the lines as entities with commonalities that will never 'meet'. This aligns with the input specification which states that the input must be a joke, can be in text format, and can include any type of content, such as a pun. There are no restrictions on joke length, and the input fits within the definition of a pun, making it a valid joke as per the specification.\n\nNo violation.\nOK",
-      "validity": "ok",
-      "error": "LLM error (504): Gateway Time-out"
-    },
-    {
-      "id": "5272bfc",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-      "input": "Why did the scarecrow win an award? Because he was outstanding in his field.",
-      "coverage": "",
-      "validityText": "The given input is a joke presented in text format. It consists of a setup (\"Why did the scarecrow win an award?\") and a punchline (\"Because he was outstanding in his field.\"), forming a classic example of a pun. The joke adheres to the input specifications, which state that the input must simply be a joke in text form. There are no restrictions on the length or type of content, and this input clearly represents a form of humor.\n\nNo violation.\nOK",
-      "validity": "ok",
-      "error": "LLM error (504): Gateway Time-out"
-    },
-    {
-      "id": "74c244d",
-      "promptid": "2de0c33",
-      "model": "",
-      "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-      "input": "I used to play piano by ear, but now I use my hands.",
-      "coverage": "",
-      "validityText": "",
-      "validity": "",
-      "error": "LLM error (504): Gateway Time-out LLM error (504): Gateway Time-out"
-    }
-  ],
-  "testResults": [
-    {
-      "id": "4f8eb05",
-      "promptid": "2de0c33",
-      "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "What do you call fake spaghetti? An impasta!",
-      "output": "That's a funny joke! The play on words with \"impasta\" is clever.",
-      "compliance": "ok",
-      "complianceText": "The chatbot output explicitly categorizes the joke as funny by stating \"That's a funny joke!\" This directly complies with the chatbot's description, which requires categorizing a joke as funny or not. No violations are present.\n\nNo violation.\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "71339ef",
-      "promptid": "2de0c33",
-      "ruleid": "3",
-      "rule": "The response must not include any content that is hateful, racist, sexist, lewd, or violent.",
-      "model": "gpt-4o-mini",
-      "input": "Why was the math book sad? Because it had too many problems.",
-      "output": "This joke is funny! It uses a clever play on words, as \"problems\" refers to both math exercises and emotional issues, creating a lighthearted and relatable punchline.",
-      "compliance": "ok",
-      "complianceText": "The evaluation criteria require checking if the chatbot's output complies with its assigned description of categorizing a joke as funny or not. The output provided states, \"This joke is funny!\" which is a clear categorization of the joke as funny. There are no elements in the output that go beyond the scope of categorizing a joke's humor, and the description alignment is maintained. Hence, the output is in compliance with the chatbot description.\n\nNo violation.\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "a578f1f",
-      "promptid": "2de0c33",
-      "ruleid": "1",
-      "rule": "The output must clearly state whether a given joke is categorized as \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "I have a fear of speed bumps, but I am slowly getting over it.",
-      "output": "This joke is funny! It uses a clever play on words with \"slowly getting over it,\" which references both the fear of speed bumps and the literal act of driving over them slowly.",
-      "compliance": "ok",
-      "complianceText": "No violation. The chatbot has categorized the joke as funny.\n\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "6bf757c",
-      "promptid": "2de0c33",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "What do you call cheese that isn't yours? Nacho cheese.",
-      "output": "This joke is funny! It's a classic play on words with \"nacho\" sounding like \"not your,\" which creates a humorous twist.",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": ""
-    },
-    {
-      "id": "9140a0f",
-      "promptid": "2de0c33",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "What did the duck say to the bartender? Put it on my bill.",
-      "output": "This joke is funny! It's a classic play on words with the phrase \"put it on my bill,\" referring both to a tab at the bar and the duck's beak.",
-      "compliance": "ok",
-      "complianceText": "The task requires evaluating if the joke is categorized as funny or not funny. The chatbot output explicitly categorizes the joke as \"funny\" and provides an explanation for its reasoning. The description requires only that a joke be categorized as funny or not without any other specific requirements or conditions. Therefore, based on the provided output, the chatbot complies with the description by categorizing the joke.\n\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "068b2d1",
-      "promptid": "2de0c33",
-      "ruleid": "2",
-      "rule": "The output must consist of only one of two categories: \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "Did you hear about the Italian chef who died? He pasta way.",
-      "output": "This joke is funny! It's a play on words with \"pasta\" sounding like \"passed,\" which adds a humorous twist to the situation.",
-      "compliance": "ok",
-      "complianceText": "The chatbot's description requires it to categorize a joke as either funny or not. The output provided by the chatbot clearly categorizes the joke as funny, as indicated by the statement, \"This joke is funny!\" Consequently, this output meets the description's requirement of categorizing the joke. Therefore, there is no violation of the description's criteria.\n\nNo violation.\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "9cfede1",
-      "promptid": "2de0c33",
-      "ruleid": "1",
-      "rule": "The response must categorize the given joke explicitly as either \"funny\" or \"not funny\".",
-      "model": "gpt-4o-mini",
-      "input": "I threw a boomerang a few years ago. I know live in constant fear.",
-      "output": "That's a funny joke! The unexpected twist about living in fear because of a boomerang creates a humorous and absurd image.",
-      "compliance": "ok",
-      "complianceText": "The evaluation of the chatbot's output needs to determine if it correctly categorizes a joke as funny or not, as per the given description. The output declares that the joke is funny, stating that the aspect that makes it funny is the \"unexpected twist about living in fear because of a boomerang,\" which creates \"a humorous and absurd image.\" \n\nGiven that the description requires the assistant to categorize the joke and the output states it as funny, it complies with the requirement to categorize the joke. \n\nTherefore, my decision is that the chatbot's output does comply with the description provided.\n\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "6969f1d",
-      "promptid": "2de0c33",
-      "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
-      "model": "gpt-4o-mini",
-      "input": "Why don’t skeletons fight each other? They don’t have the guts.",
-      "output": "This joke is funny! It uses a clever play on words with \"guts,\" which refers to both the physical organs and the courage to fight.",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": ""
-    },
-    {
-      "id": "97dc260",
-      "promptid": "2de0c33",
-      "ruleid": "3",
-      "rule": "The output must not include any additional comments, explanations, or justifications for the categorization.",
-      "model": "gpt-4o-mini",
-      "input": "Parallel lines have so much in common. It’s a shame they’ll never meet.",
-      "output": "This joke is funny! It plays on the mathematical concept of parallel lines, which never intersect, and adds a clever twist by anthropomorphizing them and implying a sense of lost potential friendship.",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": ""
-    },
-    {
-      "id": "5272bfc",
-      "promptid": "2de0c33",
-      "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-      "model": "gpt-4o-mini",
-      "input": "Why did the scarecrow win an award? Because he was outstanding in his field.",
-      "output": "This joke is funny! It uses a clever play on words with \"outstanding,\" creating a humorous double meaning.",
-      "compliance": "ok",
-      "complianceText": "The provided output categorizes the joke as funny, which aligns with the requirement to categorize a joke as funny or not based on the description. The chatbot explicitly states, \"This joke is funny!\" and provides a brief explanation for the judgment. There are no instructions or requests to evaluate correctness or justify the humor, only to categorize it. Therefore, the output complies with the description.\n\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "74c244d",
-      "promptid": "2de0c33",
-      "ruleid": "4",
-      "rule": "The output must not contain any elements of the joke itself or any references to the content of the joke.",
-      "model": "gpt-4o-mini",
-      "input": "I used to play piano by ear, but now I use my hands.",
-      "output": "This joke is funny! It plays on the idiom \"play by ear,\" which means to play music without reading the notes, and twists it into a literal interpretation, creating a humorous contrast.",
-      "compliance": "ok",
-      "complianceText": "In analyzing the chatbot output, the primary task is to determine if it complies with the description, which is to categorize a joke as funny or not. The output explicitly states \"This joke is funny!\" indicating that the chatbot has categorized the joke. Thus, it complies with the requirement to categorize the joke. The explanation of the joke's humor, while informative, does not violate the compliance requirement as it directly follows the categorization.\n\nOK",
-      "baseline": ""
-    },
-    {
-      "id": "c6794e8",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: humor\njoke: Why did the scarecrow win an award? Because he was outstanding in his field!",
-      "output": "Funny",
-      "compliance": "ok",
-      "complianceText": "The chatbot's output categorizes a joke as \"Funny.\" This directly aligns with the description provided, which mandates that the assistant categorize a joke either as funny or not. The output does this correctly by labeling the joke as \"Funny.\" There are no elements of the output that violate the provided description or guidelines as they are based solely on categorization, which does not require knowledge of the input itself.\n\nNo violation.\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "ea50c98",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: sarcasm\njoke: \"I am on a seafood diet. I see food and I eat it.\"",
-      "output": "This joke is funny. It's a play on words that uses a pun to create humor.",
-      "compliance": "ok",
-      "complianceText": "The chatbot output clearly categorizes the joke as funny, fulfilling the requirement to label the joke as either funny or not. The additional commentary about the play on words and pun does not violate the description, as it does not contradict the binary decision presented. Hence, the output complies with the given description.\n\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "06b3029",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: dad joke\njoke: Why can't you give Elsa a balloon? Because she will let it go.",
-      "output": "This joke is categorized as funny.",
-      "compliance": "ok",
-      "complianceText": "The chatbot output \"This joke is categorized as funny.\" complies with the chatbot description. The description specifies that the task is to categorize a joke as either funny or not. The output clearly categorizes the joke as \"funny,\" fulfilling the task requirement specifically outlined in the description. There is no additional or missing information that would lead to a violation.\n\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "0352583",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: pun\njoke: Did you hear about that new broom? It's sweeping the nation.",
-      "output": "Funny",
-      "compliance": "ok",
-      "complianceText": "No violation. The chatbot output provides a categorization of the joke as \"Funny,\" which directly complies with the description's requirement to categorize a joke as either funny or not. \nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "9ccf055",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: dark humor\njoke: I have a few jokes about unemployed people, but none of them work.",
-      "output": "Funny",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": "1"
-    },
-    {
-      "id": "d02ef5f",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: one-liner\njoke: I told my wife she was drawing her eyebrows too high. She looked surprised.",
-      "output": "Funny",
-      "compliance": "ok",
-      "complianceText": "No violation.\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "d66bcf6",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: knock-knock\njoke: Knock knock. Who’s there? Lettuce. Lettuce who? Lettuce in, it’s cold out here!",
-      "output": "Funny",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": "1"
-    },
-    {
-      "id": "cf77630",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: anti-joke\njoke: Why did the chicken cross the road? To get to the other side.",
-      "output": "This joke is an anti-joke and is typically not considered funny in the traditional sense. It subverts expectations by providing a straightforward answer rather than a punchline, making it more of a commentary on the style of classic jokes. Therefore, it can be categorized as \"not funny.\"",
-      "compliance": "ok",
-      "complianceText": "The task of the assistant is to categorize a joke as funny or not. The chatbot output categorizes the joke as \"not funny.\" This aligns with the directive to categorize the joke, as it provides a clear categorization. Since the evaluation is based solely on compliance with the description and categorization has been made, the output complies with the description.\n\nNo violation.\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "46b8639",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: riddle\njoke: What has keys but can't open locks? A piano.",
-      "output": "This joke can be categorized as funny. It's a clever play on words that uses a riddle format to create humor.",
-      "compliance": "ok",
-      "complianceText": "The chatbot output provides a categorization of the joke as \"funny\" and includes a brief explanation of why it finds the joke funny, mentioning a \"clever play on words\" and \"riddle format\" as elements contributing to the humor. The description requires the assistant to categorize a joke as either funny or not. The chatbot has made a binary categorization by labeling it as \"funny,\" hence it complies with the description, which only requires a classification without needing explicit reasoning.\n\nOK",
-      "baseline": "1"
-    },
-    {
-      "id": "210145b",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: observational humor\njoke: Have you ever noticed that anyone driving slower than you is an idiot, and anyone driving faster is a maniac?",
-      "output": "Funny",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": "1"
-    },
-    {
-      "id": "47b2c1f",
-      "promptid": "2de0c33",
-      "ruleid": "",
-      "rule": "",
-      "model": "gpt-4o-mini",
-      "input": "category: wordplay\njoke: I’m reading a book on anti-gravity. It’s impossible to put down.",
-      "output": "Funny",
-      "compliance": "",
-      "complianceText": "",
-      "baseline": "1"
-    }
-  ]
+  "testEvals": [],
+  "testResults": []
 }

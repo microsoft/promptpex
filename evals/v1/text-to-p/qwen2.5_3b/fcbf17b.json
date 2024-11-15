@@ -1,9 +1,0 @@
-{
-  "id": "fcbf17b",
-  "promptid": "8c645f0",
-  "rule": "The output must contain the paragraph split into individual sentences.",
-  "model": "qwen2.5:3b",
-  "input": "Cats are curious. Dogs are loyal. Pets bring joy to life.",
-  "output": "Here is the paragraph split into individual sentences with proper HTML formatting:\n\n```html\n<p><strong>Cats</strong> are <em>curious.</em></p>\n<p><strong>Dogs</strong> are <em>loyal.</em></p>\n<p>Pets<br><em>bring</em> joy to <em>life</em>.</p>\n```\n\nNote: The last sentence is split into two sentences due to the double newline character, and only one `<p>` tag is used for it.",
-  "evaluation": "ERR\nThe output only contains three `<p>` tags, and the last sentence does not both have a `<strong>` tag, as required in the task description."
-}

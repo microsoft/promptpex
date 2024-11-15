@@ -11,7 +11,7 @@ to the function to support unit testing.
 
 PromptPex provides the following capabilities:
 
-- It will **automatically extract rules** that are expressed in natural language in the
+- It will **automatically extract output rules** that are expressed in natural language in the
   prompt. An example of a rule might be "The output should be formatted as JSON".
 - From the rules, it will **generate unit test cases** specifically
   designed to determine if the prompt, for a given model, correctly
@@ -20,6 +20,53 @@ PromptPex provides the following capabilities:
   performance of the prompt on any given model**. For example,
   a user can determine if a set of unit tests succeeds on gpt-4o-mini
   but fails on phi3.
+
+<details>
+<summary>Glossary</summary>
+
+- Prompt Under Test (PUT) - like Program Under Test; the prompt
+- Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
+- Model Used by PromptPex (MPP) - gpt-4o
+
+- Input Specification (IS) - Extracting input constraints of PUT using MPP (input_spec)
+- Output Rules (OR) - Extracting output constraints of PUT using MPP (rules_global)
+- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded)
+
+- Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
+
+- PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
+- Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
+
+- Test Input Compliance (TIC) - Checking if PPT and BT meets the constraints in IS using MPP (check_violation_with_input_spec)
+- Test Coverage (TC) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate_test_coverage)
+
+- Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
+- Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP (check_violation_with_system_prompt)
+
+</details>
+
+
+```mermaid
+graph TD
+    PUT(["Prompt Under Test (PUT)"])
+    IS["Input Specification (IS)"]
+    OR["Output Rules (OR)"]
+    PPT["PromptPex Tests (PPT)"]
+    TO["Test Output (TO) for MUT"]
+
+    PUT --> IS
+
+    PUT --> OR
+
+    PUT --> PPT
+    IS --> PPT
+    OR --> PPT
+
+    PPT --> TO
+    PUT --> TO
+```
+
+## Example
 
 Here is an example of PromptPex in practice.
 
@@ -50,162 +97,7 @@ Tests generated from the rules:
 3. sentence: 'She sings beautifully.', word: 'sings'
 ```
 
-## How to Use PromptPex
-
-<img src="./images/promptpex-ui.png" alt="PromptPex UI" width="500">
-
-PromptPex has a browser-hosted user experience that makes it easy to start using. PromptPex is implemented with internal prompts that assume you can access gpt-4-turbo (defined in LLMFrontEnd.py). As a user, you can use any model you have access to, including locally-hosted models, to run tests against.
-
-## Getting Started
-
-> Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
-
-### Setup
-
-- Install packages (pre-installed in Codespace)
-
-```sh
-pip install -r requirements.txt
-```
-
-### LLM configuration
-
-#### GitHub Marketplace Models configuration
-
-If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
-PromptPex will automatically use `gpt-4o` and `gpt-35-turbo` from the github marketplace.
-
-#### Azure OpenAI + Microsoft Entra
-
-- Configure Azure OpenAI end point key `AZURE_OPENAI_ENDPOINT` in the `./.env` file
-
-```sh
-AZURE_OPENAI_ENDPOINT="api endpoint"
-```
-
-- Sign in with the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/). This is the recommended way to access your Azure OpenAI resource is to use Microsoft Entra ID.
-
-```sh
-az login
-```
-
-#### Azure OpenAI + Access token
-
-Configure the end point `AZURE_OPENAI_ENDPOINT` and access token `AZURE_OPENAI_API_KEY` in the `./.env` file
-
-```sh
-AZURE_OPENAI_ENDPOINT="api endpoint"
-AZURE_OPENAI_API_KEY="your_key"
-```
-
-> :warning: **Important**: To ensure that sensitive information, such as API keys and endpoints, are not exposed in your repository, it is important to add the `.env` file to the `.gitignore` file. This will prevent the file from being tracked by Git and uploaded to the remote repository.
-
-### Running local server
-
-- Open a terminal and launch this command
-
-```sh
-cd app
-streamlit run main.py &
-```
-
-## Using local models
-
-If you want to leverage local LLMs,
-you will need to install and launch Ollama.
-
-```sh
-curl -fsSL https://ollama.com/install.sh | sh
-export OLLAMA_HOST="127.0.0.1:8502"
-```
-
-Launch the Ollama server
-
-```sh
-ollama serve &
-```
-
-Only pull the model you want to run, these can fill up storage pretty quickly.
-
-```sh
-# ollama pull mistral:latest
-# ollama pull gemma2:9b
-ollama pull gemma2:2b
-# ollama pull llama3.1:8b
-# ollama pull phi3:medium
-ollama pull phi3:mini
-# ollama pull gemma2:latest
-# ollama pull llama3.1:latest
-# ollama pull phi3:latest
-# ollama pull phi3:medium-128k
-```
-
-### Navigating the CLI
-
-- `automatic_pipeline.py` is the main driver
-- It takes input as a prompt using `-i unix/path`
-- If the input file was `foo.txt` and you want to store the output in result dir, do the following:
-
-```sh
-python3 automatic_pipeline.py -i poem.txt -o result
-```
-
-It automatically creates the dir result/foo to save the result
-
-- All paths provided to CLI must be unix path, `use/forward/slash/path` and `\not\backward\slash`
-- The most common use case is to run the whole pipeline, gen rules, tests and run tests:
-
-```sh
-python3 automatic_pipeline.py -i foo.txt -o result --run-tests
-```
-
-- To generate rules and exit, use `--gen-rules` and `--gen-tests` for generating tests and existing
-- Gen rules `--gen-rules`, Gen tests `--gen-tests` and Run tests `--run-tests`
-- `--use-existing-*` will use the old artifacts (rules and tests)
-
-```sh
-python3 automatic_pipeline.py -i foo.txt -o result --run-tests --use-existing-rules --use-existing-tests
-```
-
-This will run the existing tests without generating new rules and tests
-
-```sh
-python3 automatic_pipeline.py -i foo.txt -o result --gen-tests --use-existing-rules
-```
-
-This will generate new tests using the old rules.
-
-`automatic_pipeline.py` implements the end to end automated prompt fixing pipeline. It takes a cli argument as the path to the prompt (in unix style, sample/prompt.txt).
-
-```py
-python3 automatic_pipeline.py sample/LinuxTerminal.txt
-```
-
-The results goes into ap-results/ where variant-0.txt is the initial prompt with rules-0.txt as initial rules.
-
 ## Test Generation Flow
-
-- Prompt Under Test (PUT) - like Program Under Test; the prompt
-- Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
-- Model Used by PromptPex (MPP) - gpt-4o
-
-- Input Specification (IS) - Extracting input constraints of PUT using MPP (input_spec)
-- Output Rules (OR) - Extracting output constraints of PUT using MPP (rules_global)
-- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded)
-
-- Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
-
-- PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
-- Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
-
-- Test Input Compliance (TIC) - Checking if PPT and BT meets the constraints in IS using MPP (check_violation_with_input_spec)
-- Test Coverage (TC) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate_test_coverage)
-
-- Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
-- Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP (check_violation_with_system_prompt)
-
 
 ```mermaid
 graph TD
@@ -247,24 +139,47 @@ graph TD
     PUT --> TOC
 ```
 
-```mermaid
-graph TD
-    PUT(["Prompt Under Test (PUT)"])
-    IS["Input Specification (IS)"]
-    OR["Output Rules (OR)"]
-    PPT["PromptPex Tests (PPT)"]
-    TO["Test Output (TO) for MUT"]
+## Getting Started
 
-    PUT --> IS
+**Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
 
-    PUT --> OR
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
-    PUT --> PPT
-    IS --> PPT
-    OR --> PPT
+### LLM configuration
 
-    PPT --> TO
-    PUT --> TO
+If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
+PromptPex will automatically use `gpt-4o` and `Phi-3-5-mini-instruct`.
+
+For other LLM providers, follow the [configuration documentation](https://microsoft.github.io/genaiscript/getting-started/configuration/) of GenAIScript
+to configure your LLM access.
+
+Then pass the list of models to test as an argument to the `promptpex` command:
+
+```sh
+yarn promptpex ... --vars "models=azure:gpt-4o-mini;azure:gpt-3.5-turbo"
+```
+
+### Run examples
+
+To run a promptpex generation on a prompt file
+using GitHub Marketplace models:
+
+```sh
+yarn promptpex:demo
+```
+
+You can also run against entire folders and all the .md, .prompty files will be processed
+
+```sh
+yarn promptpex samples/**/*.prompty
+```
+
+### Typecheck scripts
+
+Use Visual Studio Code to get builtin typechecking from TypeScript or
+
+```
+yarn build
 ```
 
 ## Intended Uses

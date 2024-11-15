@@ -63,7 +63,7 @@ const {
 } = env.vars;
 
 const prompts = await loadPromptContext(out);
-const models = (env.vars.models || "azure:gpt-4o-mini")
+const models = (env.vars.models || "github:gpt-4o-mini")
   ?.split(/;/g)
   .map((model) => model.trim());
 
