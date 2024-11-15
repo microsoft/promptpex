@@ -168,7 +168,7 @@ To run a promptpex generation on a prompt file
 using GitHub Marketplace models:
 
 ```sh
-yarn promptpex:demo
+yarn promptpex:speech-tag
 ```
 
 You can also run against entire folders and all the .md, .prompty files will be processed
