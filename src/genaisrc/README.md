@@ -1,23 +1,7 @@
-## Typecheck scripts
+# PromptPex with GenAIScript
 
-Use Visual Studio Code to get builtin typechecking from TypeScript or
+This folder contains an implementation of PromptPex using [GenAIScript](https://microsoft.github.io/genaiscript).
 
-```
-yarn build
-```
-
-## Run examples
-
-To run a promptpex generation on a prompt file:
-
-```sh
-yarn promptpex samples/speech-tag/speech-tag.prompty --vars force=true
-```
-
-You can also run against entire folders and all the .md, .prompty files will be processed
-
-```sh
-yarn promptpex samples/**/*.prompty
-```
-
-## Execute tests
+- `promptpex.mts`: the core logic and helpers to implement PromptPex
+- `promptpex.genai.mts`: a GenAIScript script with various parameters to run promptpex
+    
