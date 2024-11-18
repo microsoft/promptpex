@@ -5,6 +5,11 @@ script({
   description: "Generate tests using PromptPex.",
   files: ["samples/speech-tag/speech-tag.prompty"],
   parameters: {
+    safety: {
+      type: "boolean",
+      description: "Include Responsible AI safety prompts",
+      default: true
+    },
     force: {
       type: "boolean",
       description: "Force overwrite of existing files",
@@ -52,6 +57,7 @@ script({
 });
 
 const {
+  safety,
   force,
   forceBaselineTests,
   forceIntent,
@@ -62,6 +68,7 @@ const {
   out,
 } = env.vars;
 
+const disableSafetyPrompts = !safety
 const prompts = await loadPromptContext(out);
 const models = (env.vars.models || "github:gpt-4o-mini")
   ?.split(/;/g)
@@ -71,6 +78,7 @@ const res = [];
 for (const files of prompts) {
   try {
     const ctx = await generate(files, {
+      disableSafetyPrompts,
       force,
       forceBaselineTests,
       forceIntent,
