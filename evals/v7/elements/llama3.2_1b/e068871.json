@@ -1,0 +1,12 @@
+{
+  "id": "e068871",
+  "promptid": "fdc5c4c",
+  "ruleid": 15,
+  "rule": "The output should not strictly follow the order: Company names, People names, Specific topics, and General themes.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Steve Jobs and Apple surfaced, unordered.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\n\ninputs:\n  text:\n    type: string\n\noutputs:\n- company_names: ['Apple']\n- people_names: ['', 'Steve Jobs']\n- specific_topics: ['', 'unordered']\n- general_themes: []",
+  "compliance": "err",
+  "complianceText": "The provided output does not follow the \"Desired format\" specified in the description. According to the description, the output should have the following structure:\n\n- Company names: <comma_separated_list_of_company_names>\n- People names: -||-\n- Specific topics: -||-\n- General themes: -||-\n\nHowever, the output is structured in a different format, listing keys such as \"company_names,\" \"people_names,\" \"specific_topics,\" and \"general_themes\" with values being arrays of extracted information. This deviates from the required format that needs a comma-separated list in a specified text template.\n\nERR"
+}

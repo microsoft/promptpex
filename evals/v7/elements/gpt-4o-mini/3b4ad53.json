@@ -1,0 +1,12 @@
+{
+  "id": "3b4ad53",
+  "promptid": "fdc5c4c",
+  "ruleid": 14,
+  "rule": "All extracted elements from the text should not be categorized under their respective labels.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: Objects projected generally, omitting provisions.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: -||-",
+  "compliance": "err",
+  "complianceText": "The output should comply with the format specified in the description. The desired format includes extracting and listing company names, people names, specific topics, and general themes as comma-separated lists following the labels. In the given output, there is a label for \"Company names:\" but it is left blank while the other labels are marked with '-||-'. The '-||-' is used to indicate that there are no entities available to list, per the desired format. However, for company names, the output does not use '-||-' or any indication that there are no company names to extract. This inconsistency with the format where '-||-' is supposed to be used for all sections when there is nothing to extract leads to non-compliance with the description. Therefore, there is a violation.\n\nERR"
+}

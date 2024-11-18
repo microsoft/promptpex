@@ -1,0 +1,12 @@
+{
+  "id": "274ecda",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Innovation drives change. Society evolves. Culture adapts.",
+  "output": "<font color=\"blue\"><p><strong>Innovation</strong> <strong>drives</Strong> <em>change</em>. Sociality evolves. Culture <em>adapts</em>.</p></font>\n\n<font color=\"blue\"><p><strong>Society</strong> <em>evolves</em> in response to innovation.</p></font>\n\n<font color=\"blue\"><p><strong>Culture</strong> <em>adopts</em> and transforms itself to stay innovative.</p></font>",
+  "compliance": "err",
+  "complianceText": "The output has three distinct `<p>` tags, which satisfies the requirement for at least three `<p>` tags. Each `<p>` tag contains at least one `<strong>` tag to emphasize a key word. However, there is a non-compliance with the HTML standard itself, as `<strong>` should be entirely lowercase. The second occurrence of `<strong>` in the first `<p>` is `<Strong>`, which does not comply with HTML standards for tag notation. Each `<p>` also has multiple `<em>` tags, meeting that part of the requirement. However, despite having errors in HTML tags, it is not explicitly stated in the description that capitalization errors should be corrected, hence it can be ignored.\n\nERR"
+}

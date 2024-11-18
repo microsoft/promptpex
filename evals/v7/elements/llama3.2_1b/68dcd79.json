@@ -1,0 +1,12 @@
+{
+  "id": "68dcd79",
+  "promptid": "fdc5c4c",
+  "ruleid": 13,
+  "rule": "Each category label should not be followed by a colon and a single space before the list.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: No apparent separation with influence mention.",
+  "output": "name: Extract Entities of Text\ndescription: Extract specific entities mentioned in the text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\n\ninputs:\n  text:\n    type: string\n---\n# Company Names: \n- Google\n- AWS\n- Microsoft\n\n# People Names: \n- Sundar Pichai\n- Jeff Bezos\n- Bill Gates\n\n# Specific Topics: \n- Artificial Intelligence\n- Machine Learning\n- Internet of Things (IoT)\n\n# General Themes: \n- Innovation\n- Technology\n- Data Science",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot does not comply with the description given. According to the description, the desired format should be:\n\n```\nCompany names: <comma_separated_list_of_company_names>\nPeople names: <comma_separated_list_of_people_names>\nSpecific topics: <comma_separated_list_of_specific_topics>\nGeneral themes: <comma_separated_list_of_general_themes>\n```\n\nHowever, the chatbot output is formatted differently:\n\n1. The output uses a markdown style with titles \"Company Names,\" \"People Names,\" \"Specific Topics,\" and \"General Themes\" instead of the specified single-line output format.\n   \n2. The elements in each category (company names, people names, specific topics, general themes) are listed as bullet points instead of a comma-separated list.\n\nThese deviations from the desired format lead to the conclusion that the output does not comply with the description provided.\n\nERR"
+}

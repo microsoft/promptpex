@@ -1,0 +1,12 @@
+{
+  "id": "862fdbc",
+  "promptid": "fdc5c4c",
+  "ruleid": 10,
+  "rule": "People names must not be listed in a comma-separated format following the label \"People names:\".",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Text: Elon Musk, without others.",
+  "output": "Text: Elon Musk, without others.\n\nCompany names:  \nPeople names: Elon Musk \nSpecific topics:  \nGeneral themes:  individual influence  \n\n\nLet me know if you'd like to try with a different text! I'm ready for more. 😊 \n",
+  "compliance": "err",
+  "complianceText": "The chatbot description specifies that the output should follow a particular format:\n\n1. \"Company names: <comma_separated_list_of_company_names>\"\n2. \"People names: -||-\"\n3. \"Specific topics: -||-\"\n4. \"General themes: -||-\"\n\nIn the provided output, the format is mostly followed, however, there is a slight deviation. Specifically, the format requires a comma-separated list for all categories, but in the provided output, there are spaces between \"People names:\" and \"Elon Musk\" and similarly for \"General themes: individual influence\", additional spaces exist, this doesn't strictly align with the \"-||-\" guidance for a comma-separated list, which assumes no filler text. Also, there is additional text at the end, \"Let me know if you'd like to try with a different text! I'm ready for more. 😊\", which is not part of the desired output format.\n\nThus, the specific points of deviation are:\n- Spaces used after the labels \"People names\" and \"General themes\" instead of just a comma-separated list.\n- Additional text which does not conform to the specified desired format.\n\nERR"
+}

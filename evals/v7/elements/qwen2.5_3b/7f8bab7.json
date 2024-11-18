@@ -1,0 +1,11 @@
+{
+  "id": "7f8bab7",
+  "promptid": "fdc5c4c",
+  "ruleid": 1,
+  "rule": "Company names must be listed in a comma-separated format following the label \"Company names:\".",
+  "model": "qwen2.5:3b",
+  "input": "Text: Our meeting with Tesla and Apple was insightful, but both Elon Musk and Tim Cook were skeptical about the blockchain, AI, and sustainability topics.",
+  "output": "Company names: Tesla, Apple\nPeople names: -||-\nSpecific topics:\n- Blockchain\n- AI\n- Sustainability\nGeneral themes:\n- Innovation skepticism (Tesla and Apple)\n- Skepticism towards blockchain, AI, and sustainability topics by prominent figures (Elon Musk and Tim Cook)",
+  "compliance": "err",
+  "complianceText": "The chatbot output is evaluated against the description for compliance with the specified format. The output correctly lists company names and follows the desired format by using \"Company names:\" followed by a comma-separated list. The \"People names:\" section correctly uses -||- to indicate the absence of people names. \n\nHowever, \"Specific topics:\" does not follow the required format; instead of -||- indicating empty content, it lists topics. Similarly, the \"General themes:\" section lists themes when it should have used the -||- format to indicate no content. As the text includes specific topics and themes without knowing if input context supports these listings, compliance cannot be ensured based on description requirements needing -||-. \n\nThus, the output partially complies with some parts of the format but violates others by not adhering to the specified use of -||- for sections without content.\n\nERR"
+}

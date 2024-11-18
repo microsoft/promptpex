@@ -1,0 +1,12 @@
+{
+  "id": "3a7d73a",
+  "promptid": "dddf836",
+  "ruleid": 8,
+  "rule": "The output must contain multiple parts of speech tags that are not from the pre-defined list in the system prompt.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence: Welcome to zzyzx road. Word: zzyzx",
+  "output": "Words: \n- zzyzx: Unknown",
+  "compliance": "err",
+  "complianceText": "The chatbot's output consists of a word \"zzyzx\" and its assigned part of speech tag \"Unknown\". According to the description, if the word cannot be tagged with the listed tags, the chatbot should return \"Unknown\". Additionally, the instruction is to return only the part of speech tag. Since the output provided is a complete phrase (\"Words: - zzyzx: Unknown\"), which does not adhere to the description of returning only the tag, it includes additional unnecessary content. Also, the output should be plain and concise, only stating the tag without any accompanying text or formatting.\n\nERR"
+}

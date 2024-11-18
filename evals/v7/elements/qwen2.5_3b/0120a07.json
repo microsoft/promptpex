@@ -1,0 +1,11 @@
+{
+  "id": "0120a07",
+  "promptid": "fdc5c4c",
+  "ruleid": 5,
+  "rule": "Each category label should be followed by a colon and a single space before the list.",
+  "model": "qwen2.5:3b",
+  "input": "Text: Innovative practices were discussed at IBM with Tim Berners-Lee on Web Development.",
+  "output": "Company names: IBM\n\nPeople names: \n- Tim Berners-Lee  \n\nSpecific topics: \n- Web Development\n\nGeneral themes:\n- Innovative Practices  \n- Collaboration (IBM with a notable individual in the tech/Internet space)",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists the extracted elements in the desired format, but there are several compliance issues:\n\n1. **Company Names**: The output lists \"IBM\" under \"Company names,\" which adheres to the required format.\n\n2. **People Names**: The output lists \"Tim Berners-Lee\" under \"People names,\" which meets the required format.\n\n3. **Specific Topics and General Themes**: The output lists both \"Specific topics\" and \"General themes,\" adhering to separate categories as required. However, \"Collaboration (IBM with a notable individual in the tech/Internet space)\" is not a valid general theme due to specific reference in the parentheses, which should not appear based on the example format. General themes should not contain these kinds of specific suggestions or narrative content, as the description implies a simple list format.\n\nThe issue lies in the detail given in one of the \"General themes,\" not just listing overarching, generalized themes as expected. Therefore, the output does not fully comply with the chatbot description.\n\nERR"
+}

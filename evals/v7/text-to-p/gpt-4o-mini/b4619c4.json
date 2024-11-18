@@ -1,0 +1,12 @@
+{
+  "id": "b4619c4",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Dawn breaks. Day progresses. Dusk sets.",
+  "output": "```html\n<p><strong>Dawn</strong> <em>breaks</em>.</p>\n<p><strong>Day</strong> <em>progresses</em>.</p>\n<p><strong>Dusk</strong> <em>sets</em>.</p>\n<p><strong>Dawn</strong> <em>breaks</em>.</p>\n<p><strong>Day</strong> <em>progresses</em>.</p>\n<p><strong>Dusk</strong> <em>sets</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The task requires the output to have individual sentences wrapped in separate `<p>` tags, with at least three `<p>` tags. Each `<p>` tag should contain one `<strong>` tag and multiple `<em>` tags to emphasize key words and phrases.\n\nUpon reviewing the output:\n\n1. The output contains six `<p>` tags, each containing its own sentence. This fulfills the requirement of having at least three `<p>` tags.\n\n2. Each `<p>` tag contains exactly one `<strong>` tag, conforming to the requirement.\n\n3. Each `<p>` tag also includes one `<em>` tag, which satisfies the requirement of having multiple `<em>` tags (since \"multiple\" includes the case where there is at least one in each).\n\nNo part of the description was violated in this output concerning the guidelines that do not require the input. \n\nOK"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "274ecda",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Innovation drives change. Society evolves. Culture adapts.",
+  "output": "<p><strong>Innov</strong>tion drivs <em>ch</em>a<em>ng</em>e.<em>.</em></p>\n<p><em>Soci</em>ety evolv</em>es.</em>.</em></p>\n<p><em>Cul</em>tura adp</em>t</em>s.</em>.</em></p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output consists of three <p> tags, which satisfies the requirement that there should be at least three <p> tags. Each <p> tag contains a mix of <strong> and <em> tags as required by the description. However, the formatting of these tags is incorrect. The description requires that there should be one <strong> tag and multiple <em> tags inside each <p> tag. \n\nUpon examining the output:\n\n1. The first <p> tag contains one <strong> tag and multiple <em> tags, fulfilling the requirement.\n2. The second <p> tag contains multiple <em> tags but no <strong> tag.\n3. The third <p> tag contains multiple <em> tags but no <strong> tag.\n\nSince two of the <p> tags do not contain the required <strong> tag, the output does not comply with the description.\n\nERR"
+}

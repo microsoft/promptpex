@@ -1,0 +1,12 @@
+{
+  "id": "d52665a",
+  "promptid": "dddf836",
+  "ruleid": 10,
+  "rule": "If the word provided in the input can be matched to one of the listed part of speech tags, return additional text and formatting rather than the corresponding tag.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence: Eagerly awaited. Word: awaited",
+  "output": "-awaited (NN)\n.awaited (VBZ)",
+  "compliance": "err",
+  "complianceText": "The chatbot's output consists of two lines:\n\n1. \"-awaited (NN)\"\n2. \".awaited (VBZ)\"\n\nEach line includes a word followed by the part of speech tag in parentheses. The task requires the chatbot to return \"only the part of speech tag\". According to the description, the chatbot should provide one part of speech tag for a given word. Here, two different part of speech tags are provided without any indication of which one to choose or if both are relevant.\n\nAs a result, the output does not comply with the requirement of returning just one part of speech tag without any additional context or symbols. \n\nERR"
+}

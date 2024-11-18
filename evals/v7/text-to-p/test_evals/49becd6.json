@@ -1,0 +1,11 @@
+{
+  "id": "49becd6",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 6,
+  "rule": "Inside each <p> tag, there must be multiple <em> tags to emphasize key words and phrases.",
+  "input": "Winter brings snow. Spring brings flowers. Summer brings heat.",
+  "coverage": "```html\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Seasons</title>\n</head>\n<body>\n    <p><strong>Winter</strong> <em>brings</em> <em>snow</em>.</p>\n    <p><strong>Spring</strong> <em>brings</em> <em>flowers</em>.</p>\n    <p><strong>Summer</strong> <em>brings</em> <em>heat</em>.</p>\n</body>\n</html>\n```",
+  "validityText": "In evaluating the input against the provided specification, the input must be a paragraph of text that contains at least three sentences. On examination, this input consists of three distinct sentences: \"Winter brings snow.\", \"Spring brings flowers.\" and \"Summer brings heat.\". Each sentence is separated by a period, which confirms that they are individual sentences. Also, the input does not include any emphasized words or phrases using `<strong>` and `<em>` tags, but the specification does not require that these must be present, only that they can be included. As the input meets the minimum sentence requirement and there are no additional constraints violated, the given paragraph complies with the input specification.\n\nOK",
+  "validity": "ok"
+}

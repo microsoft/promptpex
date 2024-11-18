@@ -1,0 +1,12 @@
+{
+  "id": "3eb8364",
+  "promptid": "fdc5c4c",
+  "ruleid": 12,
+  "rule": "General themes must not be listed in a comma-separated format following the label \"General themes:\".",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Text: Articles include Climate Change, without order.",
+  "output": "Company names: \nPeople names: \nSpecific topics: Climate Change\nGeneral themes: Climate change in news articles  \n",
+  "compliance": "ok",
+  "complianceText": "The output does not comply fully with the chatbot description. According to the description, the output must include a section for \"Company names\" and \"People names,\" each containing a comma-separated list, even if it is empty. The output provided does include these sections, but the \"Company names\" and \"People names\" sections are empty, which is permissible if no data is available. However, there is a redundancy in the themes as \"Climate Change\" is mentioned under both \"Specific topics\" and \"General themes.\" Despite the redundancy, the structure of the output complies with the 'Desired format' outlined in the chatbot description.\n\nNo violation.\nOK"
+}

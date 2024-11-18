@@ -1,0 +1,12 @@
+{
+  "id": "257c216",
+  "promptid": "fdc5c4c",
+  "ruleid": 10,
+  "rule": "People names must not be listed in a comma-separated format following the label \"People names:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Deviated capture of Alexander Hamilton.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs: \n  text:\n    type: string\n---\nextract companies, people and topics \n\ntext : Deviated capture of Alexander Hamilton.\ncompany names: IBM | GE\npeople names:Alexander Hamilton||Harriet Tubman|\ntopics: US History|American Revolution",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the expected format described in the chatbot description. \n\n1. The output must list company names, people names, specific topics, and general themes in a specific format: `<comma_separated_list_of_company_names>`. In the provided output, `company names`, `people names`, and `topics` are separated by '|', not by commas as specified in the description.\n\n2. The output does not explicitly mention \"General themes\", which is a required element to extract according to the description.\n\nTherefore, the output does not comply with the description based on these observations.\n\nERR"
+}

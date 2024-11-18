@@ -1,0 +1,12 @@
+{
+  "id": "6d1c93e",
+  "promptid": "fdc5c4c",
+  "ruleid": 11,
+  "rule": "Specific topics must not be listed in a comma-separated format following the label \"Specific topics:\".",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: Misplacing Quantum Physics, unclear method.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: Quantum Physics, method\nGeneral themes: Science, education, clarity in methodology",
+  "compliance": "err",
+  "complianceText": "The chatbot output is supposed to extract and list specific elements of the text in a desired format. According to the description, it should extract company names, people names, specific topics, and general themes. The extracted lists in the output should be comma-separated lists.\n\nIn the provided output:\n\n1. **Company names**: There is nothing extracted after \"Company names:\", it should have been a comma-separated list or clearly indicate \"None\" or similar if no company names were present, but it is just empty. This results in ambiguity.\n   \n2. **People names**: The format is consistent with the description; it uses \"-||-\" to indicate no people names were extracted, which complies with the format specification.\n   \n3. **Specific topics**: \"Quantum Physics, method\" is presented as a comma-separated list. However, using \"method\" without context might not fit the general expectation of specific topics unless it aligns with the input, which we cannot check.\n\n4. **General themes**: \"Science, education, clarity in methodology\" fits the description of a comma-separated list of general themes.\n\nThe primary issue is the lack of clarity or consistency with the \"Company names:\" section. The rest of the output conforms to the required format specification, assuming the content of specific topics and general themes aligns with the given input text, which we cannot verify. Due to this non-compliance in format, even though the issue may be somewhat minor, it still represents a discrepancy in adhering strictly to the described format. \n\nERR"
+}

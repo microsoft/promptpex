@@ -1,0 +1,11 @@
+{
+  "id": "4111b59",
+  "promptid": "fdc5c4c",
+  "ruleid": 2,
+  "rule": "People names must be listed in a comma-separated format following the label \"People names:\".",
+  "model": "llama3.2:1b",
+  "input": "Text: Jeff Bezos discussed innovation with Bill Gates and Satya Nadella at the recent summit.",
+  "output": "---\nname: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs: \n  text:\n    type: string\n---\nExtracted data:\n- Company names: Amazon,icrosoft\n- People names: Bill Gates Satya Nadella\n- Specific topics: Summit Innovation\n- General themes: Business Collaboration",
+  "compliance": "err",
+  "complianceText": "The output from the chatbot has several issues:\n\n1. The company name \"icrosoft\" appears to be a typographical error and should be corrected, assuming it was intended to be \"Microsoft\". However, without knowing the input text, I cannot confirm this. Nonetheless, spelling errors are a compliance issue in the chatbot response format.\n\n2. The list of people names is not properly formatted according to the description requirement. The description specifies that the lists should be comma-separated. The current output displays \"Bill Gates Satya Nadella\" without any separation, which is not compliant with the expected format.\n\n3. The formatting of \"Specific topics\" and \"General themes\" does meet the expected list format because they are separated by spaces rather than commas, which could be acceptable, but it is inconsistent with the expectation set for other elements.\n\nDue to the formatting issues with the expected output for company names and people names specifically, this output does not comply with the description requirements.\n\nERR"
+}

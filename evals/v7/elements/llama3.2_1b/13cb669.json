@@ -1,0 +1,11 @@
+{
+  "id": "13cb669",
+  "promptid": "fdc5c4c",
+  "ruleid": 8,
+  "rule": "If there are no elements found for a category, it should still be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "model": "llama3.2:1b",
+  "input": "Text: Tesla announced nothing notable.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\n \ninputs:\n  text:\n    type: string\n---\nCompany names: Tesla\nPeople names: -\nSpecific topics: nothing notable general themes: -",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot does not fully comply with the desired format as described. There are several violations:\n\n1. **Missing Proper Formatting**: The output section titled \"People names\" should follow the format \"<comma_separated_list_of_people_names>\". However, only a hyphen (\"-\") is used. The section also omits proper formatting for the \"General themes\" field by not maintaining a hyphen and two vertical bars (\"-||-\") even if no information is provided.\n\n2. **Incorrect Division in Lines**: \"Specific topics\" and \"general themes\" are concatenated on the same line without separation by appropriate line breaks or a consistent format.\n\n3. **Lack of consistency with placeholders**: In the absence of elements to list, a uniform placeholder format such as \"-||-\" is expected for each category.\n\n4. **Presence of extraneous information**: The output includes extraneous information from the description metadata (name, description, source, url, and inputs) which are not supposed to appear in the desired answer format.\n\nConsidering these points, the output does not comply with the chatbot description.\n\nERR"
+}

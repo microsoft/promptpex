@@ -1,0 +1,12 @@
+{
+  "id": "5064e38",
+  "promptid": "fdc5c4c",
+  "ruleid": 13,
+  "rule": "Each category label should not be followed by a colon and a single space before the list.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Microsoft and Bill Gates discussed innovation without specification.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\n\ninputs:\n  text:\n    type: string\n---\nExtract the important entities mentioned in the text below. First extract all company names, then extract all people names, then extract specific topics which fit the content and finally extract general overarching themes\n\nText: Text: Microsoft and Bill Gates discussed innovation without specification.\n\ncompany_names: <empty_string>\npeople_names: -||-\nspecific_topics: -||-\ngeneral_overarching_themes:\n  - General Technology\n  - Innovation",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the desired format specified in the description. The desired format clearly indicates separate labeled categories for \"Company names\", \"People names\", \"Specific topics\", and \"General themes\", each followed by \"-||-\" as a placeholder for comma-separated lists. The chatbot output has deviated from this format in the following ways:\n\n1. The output does not use the exact labels as specified in the desired format. Instead of \"Company names\", it uses \"company_names\" and similarly uses \"people_names\" and \"general_overarching_themes\" instead of the specified format.\n2. The placeholders for empty lists do not match the desired format. The format specifies \"-||-\" as opposed to \"<empty_string>\" which appears in the output.\n3. The specific topics section is missing in the output.\n\nDue to these discrepancies, particularly the deviation from the specified format, the output does not comply with the description.\n\nERR"
+}

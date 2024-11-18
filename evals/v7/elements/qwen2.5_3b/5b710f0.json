@@ -1,0 +1,12 @@
+{
+  "id": "5b710f0",
+  "promptid": "fdc5c4c",
+  "ruleid": 14,
+  "rule": "All extracted elements from the text should not be categorized under their respective labels.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: No structure with AI mentions incorporated.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: -||-",
+  "compliance": "err",
+  "complianceText": "The provided output needs to comply with the required format specified in the description. The format should include sections for company names, people names, specific topics, and general themes, all separated by \"-||-\". \n\nUpon evaluation:\n1. The \"Company names\" section in the provided output is incomplete. It lacks either the required \"-||-\" separator or a list of names, and appears empty with no content following it. The desired format explicitly states that it should be a \"<comma_separated_list_of_company_names>\".\n2. The sections for \"People names,\" \"Specific topics,\" and \"General themes\" are correctly structured according to the specified format by having \"-||-\" listed.\n\nThe main compliance issue arises with the \"Company names\" section's deviation from the expected format. There is no content or indication of the use of the specified place holder.\n\nERR"
+}

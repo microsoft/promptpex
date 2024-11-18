@@ -1,0 +1,12 @@
+{
+  "id": "022bb33",
+  "promptid": "dddf836",
+  "ruleid": 11,
+  "rule": "If the word provided in the input cannot be assigned any of the listed part of speech tags, the output should not contain the word \"Unknown\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence: Freshly baked cookies. Word: baked",
+  "output": "Tagged: NN (Noun)\nUnknown\nTagged: JJR (Adjective, comparative) and JJ (Adjective, superlative) Cannot be applied to a singular noun like 'baked' so 'JJR/JJ cannot tag it'.\nTagged: VBZ (Verb, non-3rd person singular present)",
+  "compliance": "err",
+  "complianceText": "The chatbot description specifies that the output should only contain the part of speech tag, and nothing more. The output contains additional explanations and context (\"Tagged: NN (Noun)\", \"JJR (Adjective, comparative) and JJ (Adjective, superlative) Cannot be applied to a singular noun like 'baked' so 'JJR/JJ cannot tag it'\"), which violates the requirement to return \"only the part of speech tag\". Furthermore, the statement \"Unknown\" is correctly formatted, but the descriptions for some tags are still included. Therefore, the output does not comply with the chatbot description.\n\nERR"
+}

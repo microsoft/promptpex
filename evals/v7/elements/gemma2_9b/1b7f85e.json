@@ -1,0 +1,12 @@
+{
+  "id": "1b7f85e",
+  "promptid": "fdc5c4c",
+  "ruleid": 15,
+  "rule": "The output should not strictly follow the order: Company names, People names, Specific topics, and General themes.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Text: Structureless penchants at Tesla, directionless.",
+  "output": "Company names: Tesla\nPeople names:  \nSpecific topics: \nGeneral themes: Corporate culture, Management style  \n",
+  "compliance": "err",
+  "complianceText": "The chatbot's output partially follows the desired format, but it does not fully comply with the description.\n\n1. The output correctly lists \"Company names: Tesla\" in accordance with the format.\n2. The section \"People names:\" is present but lacks a comma-separated list, or even a statement of \"none\" or equivalent if there are no names to mention. Having nothing listed underneath could be considered incomplete.\n3. The section \"Specific topics:\" is present but empty. Similar to the point above, it should have either a list or \"none\" if applicable, but the detail required cannot be determined without the input.\n4. General themes are listed as \"Corporate culture, Management style,\" which fits the format.\n\nThe issue rests in the incomplete sections under \"People names\" and \"Specific topics,\" where the approach should either explicitly state \"none\" or use some placeholder if no entities or details of those types are identified, assuming this aligns with the input data.\n\nERR"
+}

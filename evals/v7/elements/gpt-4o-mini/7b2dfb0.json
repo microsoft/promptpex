@@ -1,0 +1,11 @@
+{
+  "id": "7b2dfb0",
+  "promptid": "fdc5c4c",
+  "ruleid": 8,
+  "rule": "If there are no elements found for a category, it should still be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "model": "gpt-4o-mini",
+  "input": "Text: No companies or individuals were referenced.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: -||-",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is not compliant with the description. According to the description, the chatbot should extract \"specific elements of text\" defined as company names, people names, specific topics, and general themes, and list them in a comma-separated format. In the output provided, the section for \"Company names\" is empty, which may imply the absence of company names in the input text, but since we do not know the input, we cannot evaluate this part. However, the lack of any extracted entities violates the requirement of listing these items in a \"comma-separated\" format, which the description mandates. Hence, there is a non-compliance based on formatting expectations as dictated in its description.\n\nERR"
+}

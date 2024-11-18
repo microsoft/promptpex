@@ -1,0 +1,12 @@
+{
+  "id": "47a146d",
+  "promptid": "fdc5c4c",
+  "ruleid": 9,
+  "rule": "Company names must not be listed in a comma-separated format following the label \"Company names:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Amazon, IBM, and Google.",
+  "output": "### Extracted Information\n`Company Names:` `Amazon`, `IBM`, `Google`\n \n### Extraction of People Names\n`People Names`: None\n\n### Specified Topics \nSpecific topics mentioned in the text:\n 'Amazon', 'IBM'",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not adhere to the desired format as specified in the description. The format requires that each category is named and followed by a comma-separated list in a single line. Instead, the output uses section headers such as \"Extracted Information\" and \"Extraction of People Names\". Additionally, the \"Company Names\" are provided in a code block format which is not specified in the description. Furthermore, the \"Specific topics\" are more accurately a repetition of company names rather than distinct specific topics. Lastly, it is unclear whether the general overarching themes have been identified, as this section is missing entirely. These discrepancies demonstrate a clear violation of the expected format specified in the chatbot description.\n\nERR"
+}

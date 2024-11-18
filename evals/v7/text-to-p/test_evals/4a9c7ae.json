@@ -1,0 +1,11 @@
+{
+  "id": "4a9c7ae",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 6,
+  "rule": "Inside each <p> tag, there must be multiple <em> tags to emphasize key words and phrases.",
+  "input": "Cars run fast. Bicycles ride slower. Trains travel far.",
+  "coverage": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Formatted Paragraph</title>\n</head>\n<body>\n\n<p><strong>Cars</strong> <em>run</em> <em>fast</em>.</p>\n<p><strong>Bicycles</strong> <em>ride</em> <em>slower</em>.</p>\n<p><strong>Trains</strong> <em>travel</em> <em>far</em>.</p>\n\n</body>\n</html>\n```",
+  "validityText": "The input provided is a paragraph containing precisely three sentences: \"Cars run fast.\", \"Bicycles ride slower.\", and \"Trains travel far.\" This satisfies the requirement that the paragraph must be long enough to contain at least three sentences.\n\nHowever, the paragraph does not include any words or phrases that use <strong> and <em> tags for emphasis. The input specification states that the paragraph \"can include words or phrases that can be emphasized using <strong> and <em> tags,\" which implies that this is optional rather than a strict requirement.\n\nSince the input complies with all explicit requirements (minimum of three sentences), and the use of emphasis is not mandatory, the input complies with the input specification.\n\nOK",
+  "validity": "ok"
+}

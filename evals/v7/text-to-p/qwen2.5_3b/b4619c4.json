@@ -1,0 +1,12 @@
+{
+  "id": "b4619c4",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Dawn breaks. Day progresses. Dusk sets.",
+  "output": "<p><strong>Dawn</strong> breaks.<p>\n<p><strong>Day</strong> progresses.<p>\n<p><strong>Dusk</strong> sets.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output contains three `<p>` tags, which meets the requirement of having at least three `<p>` tags. However, while there is one `<strong>` tag inside each `<p>` tag, there are no `<em>` tags present, which violates the requirement to include multiple `<em>` tags for emphasizing key words and phrases inside each `<p>` tag. Therefore, the output does not comply with the description.\n\nERR"
+}

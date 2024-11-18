@@ -1,0 +1,11 @@
+{
+  "id": "a669f6b",
+  "promptid": "fdc5c4c",
+  "ruleid": 1,
+  "rule": "Company names must be listed in a comma-separated format following the label \"Company names:\".",
+  "model": "llama3.2:1b",
+  "input": "Text: Microsoft and Google have been big players in the AI field, along with IBM investments.",
+  "output": "Below is a possible response:\n\n---\nname: Extract Entities of Text\ndescription: Extract specific entities of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs: \n  text:\n    type: string\n---\nCompany names: Microsoft, Google\nPeople names: -||-\nSpecific topics: AI, IBM, Investments, Technology\nGeneral themes: Big players, Investments",
+  "compliance": "err",
+  "complianceText": "The first point I notice is that in the \"Company names\" section, the chatbot has listed \"Microsoft\" and \"Google,\" which seems correct. However, in the \"Specific topics\" section, \"IBM\" is included, which appears to be a company name as well. While I can't verify the correctness without the input text, this misplacement indicates non-compliance with expected separation. Additionally, the format requested per the description doesn't match the provided output. \n\nIn the \"People names\" section, the placeholder \"-||-\" is used consistently with the description, indicating no people names were extracted, which is compliant. For \"Specific topics,\" while the items listed may be proper given the input, without the input it's impossible to assess; however, the presence of \"IBM\" again suggests a misclassification issue. Lastly, for \"General themes,\" \"Big players\" and \"Investments\" are provided, which seems reasonable without the specific text to reference.\n\nThe output does not begin with any \"Company names: <comma_separated_list_of_company_names>\" which goes against the desired format specified in the description. \n\nBased on the format issue and potential misclassification of \"IBM,\" among others, there is non-compliance. \n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "274c5ae",
+  "promptid": "dddf836",
+  "ruleid": 14,
+  "rule": "At least one word in the provided input must be omitted from tagging according to the conditions defined, and the output must ignore some of the listed scenarios appropriately.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence: Astronomically relevant grids captivate. Word: Astronomically",
+  "output": "Word: Astronomically\nPart of speech tag: ADJ\n\nNote: The word \"Astronomically\" is an adverbial adjective.",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides the part of speech tag \"ADJ\" for the word \"Astronomically\", followed by an explanation that describes it as an \"adverbial adjective\". According to the provided task description, the chatbot is expected to return only one of the listed part of speech tags or \"Unknown\"/ \"CantAnswer\". \"ADJ\" is not one of the listed tags in the description. The explanation provided in the output is irrelevant since the task description requires just the tag, not any explanations or additional context. \n\nERR"
+}

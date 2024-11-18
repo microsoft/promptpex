@@ -1,0 +1,64 @@
+ruleid, testid, testinput, expectedoutput, reasoning
+1, 1, "Text: Our meeting with Tesla and Apple was insightful, but both Elon Musk and Tim Cook were skeptical about the blockchain, AI, and sustainability topics.", "Company names: Tesla, Apple", "Tests whether the software correctly identifies and lists company names in a comma-separated format."
+1, 2, "Text: Microsoft and Google have been big players in the AI field, along with IBM investments.", "Company names: Microsoft, Google, IBM", "Ensures that the software lists all mentioned company names, formatted correctly."
+1, 3, "Text: Amazon is pioneering e-commerce, while Airbnb disrupts travel. Only these companies were mentioned.", "Company names: Amazon, Airbnb", "Assess if the software identifies and accurately commas-separates all company names."
+
+2, 1, "Text: Jeff Bezos discussed innovation with Bill Gates and Satya Nadella at the recent summit.", "People names: Jeff Bezos, Bill Gates, Satya Nadella", "Checks if the software extracts and lists people names in a comma-separated format."
+2, 2, "Text: Conversations with Ada Lovelace about AI were followed by meetings with Alan Turing.", "People names: Ada Lovelace, Alan Turing", "Validates detection and correct comma-separation of person names."
+2, 3, "Text: Florence Nightingale was influential in healthcare, together with Clara Barton and Nightingale too.", "People names: Florence Nightingale, Clara Barton", "Verifies correct extraction and formatting of related individual names."
+
+3, 1, "Text: The seminar covered Quantum Computing, Cybersecurity, and Cloud Storage.", "Specific topics: Quantum Computing, Cybersecurity, Cloud Storage", "Evaluates proper topic extraction and listing in the specified format."
+3, 2, "Text: Discussions around Renewable Energy and Electric Vehicles were prevalent.", "Specific topics: Renewable Energy, Electric Vehicles", "Tests for accurate recognition and correct format of specific topic list."
+3, 3, "Text: The focus was on Data Privacy, IoT, and AI Ethics during the conference.", "Specific topics: Data Privacy, IoT, AI Ethics", "Ensures all topics are identified and comma-separated accurately."
+
+4, 1, "Text: We explored technological advancements and their societal impacts extensively.", "General themes: technological advancements, societal impacts", "Ensures that general themes are extracted and formatted correctly as a list."
+4, 2, "Text: The text encompasses numerous health innovations and economic shifts visible today.", "General themes: health innovations, economic shifts", "Tests the software's ability to recognize and correctly format general themes."
+4, 3, "Text: Cultural evolution and digital transformation were key points of discussion.", "General themes: cultural evolution, digital transformation", "Confirms that general themes are extracted and presented correctly."
+
+5, 1, "Text: Tesla and SpaceX were praised by Elon Musk for their achievements in AI.", "Company names: Tesla, SpaceX\nPeople names: Elon Musk", "Verifies the correct label colon-space formatting before lists in the output format."
+5, 2, "Text: Innovative practices were discussed at IBM with Tim Berners-Lee on Web Development.", "Company names: IBM\nPeople names: Tim Berners-Lee", "Confirms the label colon-space norm is maintained accurately."
+5, 3, "Text: Conversations featuring Malala Yousafzai and Greta Thunberg on impact investment.", "People names: Malala Yousafzai, Greta Thunberg\nSpecific topics: impact investment", "Assess if the correct spacing and labeling structure are adhered to."
+
+6, 1, "Text: Facebook and Microsoft discussed by Mark Zuckerberg on cloud computing.", "Company names: Facebook, Microsoft\nPeople names: Mark Zuckerberg\nSpecific topics: cloud computing", "Tests if entities are categorized correctly under the right labels."
+6, 2, "Text: Discussions on AI principles led by Andrew Ng at Stanford.", "People names: Andrew Ng\nSpecific topics: AI principles", "Validates assigning recognized entities under respective categories properly."
+6, 3, "Text: Talks with Sheryl Sandberg about social media trends and advertising.", "People names: Sheryl Sandberg\nSpecific topics: social media trends, advertising", "Assesses categorization of related topics correctly within given labels."
+
+7, 1, "Text: At Apple, Tim Cook and his team were innovating electronic advancements.", "Company names: Apple\nPeople names: Tim Cook\nSpecific topics: electronic advancements", "Confirms the output adheres to the required order in listing elements."
+7, 2, "Text: Elon Musk from SpaceX discussed topics on space exploration future.", "Company names: SpaceX\nPeople names: Elon Musk\nSpecific topics: space exploration", "Tests the consistent order of elements in the response output."
+7, 3, "Text: Cloud computing challenges at Google explained by Sundar Pichai.", "Company names: Google\nPeople names: Sundar Pichai\nSpecific topics: cloud computing challenges", "Verifies that elements are presented in the prescribed sequence."
+
+8, 1, "Text: Tesla announced nothing notable.", "Company names: Tesla\nPeople names: \nSpecific topics: \nGeneral themes: ", "Checks if empty label lists are correctly formatted when entities aren't present."
+8, 2, "Text: General guidance on principles was given.", "Company names: \nPeople names: \nSpecific topics: principles\nGeneral themes: ", "Validates how labels are formatted with empty follow-ups barring one discovered topic."
+8, 3, "Text: No companies or individuals were referenced.", "Company names: \nPeople names: \nSpecific topics: \nGeneral themes: ", "Determines proper handling of non-found entities, ensuring empty formatting."
+
+9, 1, "Text: Apple, Inc and Tesla were explored.", "Expected failure due to comma-listing.", "Deliberately stimulates error by misplacing format, confirming rule breach."
+9, 2, "Text: Amazon, IBM, and Google.", "Expected failure due to formatting.", "Intentionally misguided format aims to evaluate improper adherence to rule."
+9, 3, "Text: Entities like SpaceX and OpenAI: redundant listing.", "Expected failure due to listed company names.", "Designed to highlight banned listing behavior against rule."
+
+10, 1, "Text: Elon Musk, without others.", "Expected failure.", "Tests non-compliance with required list arrangement, ensuring it doesn't appear properly."
+10, 2, "Text: Mention of Ada Lovelace, Marie Curie follows no rule.", "Expected failure.", "Assess control on denied format presentation involving name lists."
+10, 3, "Text: Deviated capture of Alexander Hamilton.", "Expected failure.", "Supports testing against frame deviation to confirm it's not handled."
+
+11, 1, "Text: Topics discussed as E-commerce, AI are not welcome.", "Expected failure.", "Framework-oriented violation aims to ensure format not presented."
+11, 2, "Text: Misplacing Quantum Physics, unclear method.", "Expected failure.", "Leverages non-conformity to identify denied output listing."
+11, 3, "Text: Outlined approach to Machine Learning, albeit unordered.", "Expected failure.", "Seeks to authenticate constraints restricting disallowed topics list."
+
+12, 1, "Text: Unformatted blur of societal influences.", "Expected failure.", "Evaluates standards breach intentionally to ensure theme exclude presentation."
+12, 2, "Text: Articles include Climate Change, without order.", "Expected failure.", "Deliberate failure initiates prevented pattern enforcement experimental."
+12, 3, "Text: Strategy influencing themes discussed.", "Expected failure.", "Intentionally ignores correct general theme format, prompting missed adherence for testing circumstances."
+
+13, 1, "Text: Microsoft and Bill Gates discussed innovation without specification.", "Expected failure.", "Consciously fails specifications, ensuring no colon-space arrangement."
+13, 2, "Text: Elon Musk leading SpaceX, no clear formats.", "Expected failure.", "Profiles structure-oriented breach by integrating unsanctioned label formats."
+13, 3, "Text: No apparent separation with influence mention.", "Expected failure.", "Aims to distinguish infringement of colon-space guideline."
+
+14, 1, "Text: Company regimes and leaders like Gates sorted unlabelly.", "Expected failure.", "Investigates bypassing orderly data allocation while violating label essence."
+14, 2, "Text: No structure with AI mentions incorporated.", "Expected failure.", "Explores non-categorized conceptual method violating specifications."
+14, 3, "Text: Objects projected generally, omitting provisions.", "Expected failure.", "Considers unregulated approach lacking specified fundamental label assignation."
+
+15, 1, "Text: Steve Jobs and Apple surfaced, unordered.", "Expected failure.", "Clarifies no systematic rule follows despite pointing key targets in unordered manner."
+15, 2, "Text: Structureless penchants at Tesla, directionless.", "Expected failure.", "Unearths indirect orders of removal strategy against definitive arrangement."
+15, 3, "Text: Phrase movement escaping justified sequence.", "Expected failure.", "Allows test diversity by ruling out expected sequence control extension, driving unexpected order."
+
+16, 1, "Text: Oracle's exposition on no specific field.", "Expected failure.", "Analysis embodiment suppresses inclusion thru speculative handling without valid listing."
+16, 2, "Text: Prolonged absence of themes.", "Expected failure.", "Identifies structural elements misaligned, deliberately non-conductive to theme propagation."
+16, 3, "Text: Non-secured mentionings elicit purpose breakdown.", "Expected failure.", "Kindles misconception via deprived format ensuring unsupported structural guideline."

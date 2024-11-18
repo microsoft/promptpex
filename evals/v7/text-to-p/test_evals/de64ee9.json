@@ -1,0 +1,11 @@
+{
+  "id": "de64ee9",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 6,
+  "rule": "Inside each <p> tag, there must be multiple <em> tags to emphasize key words and phrases.",
+  "input": "Artists paint visions. Writers pen ideas. Musicians compose tunes.",
+  "coverage": "```html\n<p>\n    <strong>Artists</strong> paint <em>visions</em>. \n</p>\n<p>\n    <strong>Writers</strong> <em>pen</em> ideas. \n</p>\n<p>\n    <strong>Musicians</strong> compose <em>tunes</em>.\n</p>\n```\n",
+  "validityText": "The input is a paragraph comprising three distinct sentences: \"Artists paint visions.\", \"Writers pen ideas.\", and \"Musicians compose tunes.\". This fulfills the requirement of containing at least three sentences, according to the input specification. However, the input does not contain any words or phrases that are emphasized using <strong> or <em> tags. While the input does not necessarily have to include emphasized text as per the input specification (since it says \"The paragraph can include...\"), it is still required to be formatted as HTML.\n\nSince the paragraph is not formatted as HTML at all, it fails to comply with the core requirement of the input specification that it needs to be formatted as HTML. Additionally, the requirement of potential emphasis tags, while not obligatory to include, suggests an expectation of HTML elements, further indicating non-compliance in terms of HTML formatting.\n\nERR",
+  "validity": "err"
+}

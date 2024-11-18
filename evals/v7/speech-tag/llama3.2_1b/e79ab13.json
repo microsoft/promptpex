@@ -1,0 +1,11 @@
+{
+  "id": "e79ab13",
+  "promptid": "dddf836",
+  "ruleid": 1,
+  "rule": "The output must only contain a single part of speech tag from the pre-defined list in the system prompt.",
+  "model": "llama3.2:1b",
+  "input": "Sentence: Yesterday, it rained heavily. Word: rained",
+  "output": "Here are the part of speech tags:\n\n1. Sentence: CC: Coordinating conjunction\n2. Word: rained - IN: Preposition or subordinating conjunction (in \"Yesterday\")\n3. Sentence: rained - JJR/JJS/RBR/RBS: Adjective and comparative/superlative/gradable adjective (in \"heavily\")",
+  "compliance": "err",
+  "complianceText": "The provided output does not comply with the chatbot description. The description specifies that the output should only include the part of speech tag for a given word. However, the output contains additional information such as sentence numbers, word examples, and multiple tags. These elements go beyond simply returning the part of speech tag.\n\nAdditionally, there are multiple parts of speech tags associated with a single word, which should not occur. Each word should be tagged with a single, specific part of speech tag, or otherwise return \"Unknown\" or \"CantAnswer\" if it cannot be tagged with the provided tags or if the AI cannot provide an answer. \n\nSince the output deviates from returning solely the part of speech tag as specified, it does not comply with the requirements.\n\nERR"
+}

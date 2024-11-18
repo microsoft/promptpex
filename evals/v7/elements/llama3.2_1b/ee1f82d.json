@@ -1,0 +1,11 @@
+{
+  "id": "ee1f82d",
+  "promptid": "fdc5c4c",
+  "ruleid": 3,
+  "rule": "Specific topics must be listed in a comma-separated format following the label \"Specific topics:\".",
+  "model": "llama3.2:1b",
+  "input": "Text: Discussions around Renewable Energy and Electric Vehicles were prevalent.",
+  "output": "Here is the output for the given text:\n\nCompany Names: OpenAI, Tesla\nPeople Names: \n  - Elon Musk\nSpecific Topics: -||-\nGeneral Themes: -||-",
+  "compliance": "err",
+  "complianceText": "The chatbot's output must adhere to the specified format as described in the description. According to the desired format:\n- \"Company names\", \"People names\", \"Specific topics\", and \"General themes\" should all be followed by a list in a \"comma_separated_list_of_company_names\" style. \n- \"People names\", \"Specific topics\", and \"General themes\" should also have a similar comma-separated list format, rather than the format shown for \"People Names\" in the output received.\n\nThe output failed to provide a comma-separated list for \"People Names\" and used an incorrect format with a bullet point list. Furthermore, the output uses a \"-||-\" placeholder for \"Specific Topics\" and \"General Themes\" instead of a proper comma-separated list, even if the list is empty, it should be represented as an empty string.\n\nThese discrepancies between the received output and the required format lead to a conclusion of non-compliance with the description's requirements.\n\nERR"
+}

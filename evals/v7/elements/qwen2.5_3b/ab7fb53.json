@@ -1,0 +1,12 @@
+{
+  "id": "ab7fb53",
+  "promptid": "fdc5c4c",
+  "ruleid": 16,
+  "rule": "If there are no elements found for a category, it should not be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Oracle's exposition on no specific field.",
+  "output": "Company names: Oracle\nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: exposition, software, technology",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output provides a list of company names (\"Oracle\") and general themes (\"exposition, software, technology\"). However, the output does not explicitly state any names under the \"People names\" and \"Specific topics\" categories and instead uses \"-||-\" as a placeholder. The output must not contain \"-||-\" as placeholders when values are actually expected to be extracted. However, since it is acceptable to have no elements to extract, the output format is compliant as long as the placeholders align with the format described when no elements are present.\n\nOK"
+}

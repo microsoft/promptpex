@@ -1,0 +1,12 @@
+{
+  "id": "3365daf",
+  "promptid": "fdc5c4c",
+  "ruleid": 16,
+  "rule": "If there are no elements found for a category, it should not be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Prolonged absence of themes.",
+  "output": "Based on the provided text, here is the extraction:\n\nCompany names: \nPeople names: -||-\nSpecific topics: prolonged absence of themes\nGeneral themes: -||-",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the prescribed format. According to the chatbot description, the output should consist of a comma-separated list of entities for each category: 'Company names', 'People names', 'Specific topics', and 'General themes'. In this output, 'Company names' is left empty, and 'Specific topics' contains a phrase \"prolonged absence of themes\", which doesn't align with the expected comma-separated list format. The list structure for this category is incorrectly provided as a descriptive phrase instead of an enumeration. 'People names' and 'General themes' are correctly represented according to the '-||-' syntax for absence of content. \n\nERR"
+}

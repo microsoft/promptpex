@@ -1,0 +1,12 @@
+{
+  "id": "ab7fb53",
+  "promptid": "fdc5c4c",
+  "ruleid": 16,
+  "rule": "If there are no elements found for a category, it should not be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: Oracle's exposition on no specific field.",
+  "output": "Company names: Oracle\nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: no specific field",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not fully comply with the description. The desired format requires a list of company names, people names, specific topics, and general themes, each separated by commas and all preceded by their respective category titles. In this case, the following issues are present:\n\n1. People names, Specific topics, and General themes are marked with \"-||-\", which matches the format requirement correctly.\n2. The general theme is specified as \"no specific field\", which seems to be an attempt to indicate the absence of a theme but should ideally be marked as \"-||-\" or in a similar format indicating no identified themes.\n3. The output correctly identifies a company name section and follows format specifications, which is acceptable.\n\nThe main non-compliance issue lies with the general themes section because despite indicating there is no theme, the phrasing \"no specific field\" diverges from the format. The description expects consistent formatting aligned across all sections, especially for cases of absence.\n\nERR"
+}

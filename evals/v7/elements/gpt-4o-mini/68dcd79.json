@@ -1,0 +1,12 @@
+{
+  "id": "68dcd79",
+  "promptid": "fdc5c4c",
+  "ruleid": 13,
+  "rule": "Each category label should not be followed by a colon and a single space before the list.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: No apparent separation with influence mention.",
+  "output": "Company names: \nPeople names: \nSpecific topics: \nGeneral themes: No apparent separation, influence",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is supposed to follow a certain format with comma-separated lists for company names, people names, specific topics, and general themes. The description also mentions that each category should be clearly labeled. \n\nIn this output, the issues are:\n\n1. The \"Company names:\", \"People names:\", and \"Specific topics:\" fields are left empty, yet they should be populated or possibly indicated as 'None', although the latter is unclear from the guidelines. Without input, it's not possible to check the correctness of listing or indicating absence. As per compliance rules, leaving them blank could potentially not comply with the desired output format since the format does not explicitly mention leaving them empty if none exist or were not found.\n\n2. The \"General themes:\" field is not in the expected comma-separated list format. It reads \"No apparent separation, influence\" but it's unclear if these are themes or if there's a missing comma which could mean one theme is \"No apparent separation\" and another called \"influence\".\n\nThe requirement is strict about the format needing to be followed, and empty fields or improperly formatted items could be seen as a violation in this context. Since it is unclear how to handle absent entities and the themes are not clearly delineated in a list, it does not explicitly comply with the desired format entirely. \n\nERR"
+}

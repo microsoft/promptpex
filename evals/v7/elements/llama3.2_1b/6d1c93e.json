@@ -1,0 +1,12 @@
+{
+  "id": "6d1c93e",
+  "promptid": "fdc5c4c",
+  "ruleid": 11,
+  "rule": "Specific topics must not be listed in a comma-separated format following the label \"Specific topics:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Misplacing Quantum Physics, unclear method.",
+  "output": "---\nname: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs: \n  text:\n    type: string\n---\nCompany names: Quantum Computing, IBM\nPeople names: -||-\nSpecific topics: -||- -Quantum Physics\nGeneral themes: Misplacing -||-, unclear -||-",
+  "compliance": "err",
+  "complianceText": "The provided output includes several issues when compared with the expected format as described. First, the \"People names\" section incorrectly contains the placeholder '-||-', which is supposed to be replaced with actual content or left blank if there are no such entities to extract. Similarly, the \"General themes\" and \"Specific topics\" contain incorrect formatting. \"Specific topics\" has inconsistently placed text after the placeholder, and \"General themes\" is listed with misplaced and unclear text following the placeholder. The description specifies that these lists should be comma-separated and the use of '-||-' symbol is indicated only to be a placeholder unless there is no content to fill in the list. \n\nThese violations indicate that the chatbot output does not comply with the specification given in the description.\n\nERR"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "adb6402",
+  "promptid": "b70fdc4",
+  "ruleid": 2,
+  "rule": "The paragraph must be split into individual sentences.",
+  "model": "qwen2.5:3b",
+  "input": "Programming languages evolve. Developers write efficient code. Bugs need fixing.",
+  "output": "<p><strong>Programming</strong> languages evolve. <em>Developers</em> write <em>efficient</em> code. <em>Bugs</em> need <em>fixing</em>.</p>\n<p><strong>Programming</strong> languages evolve. <em>Developers</em> write <em>efficient</em> code. <em>Bugs</em> need <em>fixing</em>.</p>\n<p><strong>Programming</strong> languages evolve. <em>Developers</em> write <em>efficient</em> code. <em>Bugs</em> need <em>fixing</em>.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output contains three <p> tags, which complies with the requirement of having at least three <p> tags in the output. However, each <p> tag has the exact same content repeated across all three, which suggests the entire paragraph wasn't split into different sentences for distinct <p> tags. This repetitive content within each <p> tag might imply a single sentence or phrase repeated, which violates the expectation that each <p> tag should correspond to an individual sentence from the original paragraph. \n\nAdditionally, each <p> tag includes a <strong> tag and multiple <em> tags, which complies with the requirement of emphasizing key words and phrases within each sentence. However, due to the repetition of content without proper division into unique sentences, this output does not reflect the intended formatting of individual sentences from a paragraph.\n\nERR"
+}

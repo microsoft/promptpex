@@ -1,0 +1,12 @@
+{
+  "id": "045509a",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Learning is continuous. Growth is endless. Exploration is key.",
+  "output": "<p><strong><em>Learning</em></strong> is continuous. <strong><em>Growth</em></strong> is endless. <strong><em>Exploration</em></strong> is key.</p>\n<p><strong><em>Learning</em></strong> is continuous. <strong><em>Growth</em></strong> is endless. <strong><em>Exploration</em></strong> is key.</p>\n<p><strong><em>Learning</em></strong> is continuous. <strong><em>Growth</em></strong> is endless. <strong><em>Exploration</em></strong> is key.</p>",
+  "compliance": "err",
+  "complianceText": "The output contains three <p> tags, which complies with the requirement of having at least three <p> tags. However, each <p> tag contains identical content with multiple <strong> tags, each encapsulating a single <em> tag. This technical structure does not comply with the precise requirement of having \"one <strong> tag and multiple <em> tags to emphasize key words and phrases\" within each <p> tag. In this case, multiple <strong> tags contain separate <em> tags within each paragraph, rather than having one <strong> tag containing all the emphasized <em> keywords and phrases. Due to this technical non-compliance, the output does not fully align with the described task.\n\nERR"
+}

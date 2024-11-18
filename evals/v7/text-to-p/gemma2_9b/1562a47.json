@@ -1,0 +1,12 @@
+{
+  "id": "1562a47",
+  "promptid": "b70fdc4",
+  "ruleid": 11,
+  "rule": "Inside each paragraph, there must not be any <strong> tags.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Art inspires. Music intrigues. Dance liberates.",
+  "output": "<p><strong>Art</strong> <em>inspires</em>.</p>\n\n<p><strong>Music</strong> <em>intrigues</em>.</p>\n\n<p><strong>Dance</strong> <em>liberates</em>.</p>\n\n\nLet me know if you'd like to see more emphasis applied within the paragraph! \n",
+  "compliance": "err",
+  "complianceText": "The chatbot's output contains three <p> tags, which meets the description requirement of having at least three <p> tags. Each <p> tag contains a <strong> tag and an <em> tag. The description specifies that each <p> tag must have multiple <em> tags. In this output, each paragraph contains only one <em> tag. Thus, the output does not fully comply with the instructions as it does not contain multiple <em> tags inside each <p> tag. \n\nERR"
+}

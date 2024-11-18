@@ -1,0 +1,12 @@
+{
+  "id": "ab7fb53",
+  "promptid": "fdc5c4c",
+  "ruleid": 16,
+  "rule": "If there are no elements found for a category, it should not be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Oracle's exposition on no specific field.",
+  "output": "### Company Names: \nOracle - <br/> - None  \n\n### People Names: \n- Oracle (name not specified) - < br /(name) oracle or(oracle)'s name)\n\n### Specific Topics: \n- No specific topics mentioned in the provided text.\n\n### General Themes: \n- The importance of no-specific fields.",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the desired format as described in the chatbot description. The violations are as follows:\n\n1. **Section Headers**: The section headers in the output do not match the expected format. The headers are accompanied by HTML-like tags such as \"###\" and \"<br/>\", which are not specified or allowed in the desired format.\n\n2. **Company Names and People Names Errors**: The \"Company names\" and \"People names\" sections include unclear and incorrect content. In \"Company Names,\" \"Oracle\" is mentioned but followed by \"- None,\" which could imply the absence of names. The \"People names\" section contains non-standard text indicating unclear handling of the input (e.g., \"(name not specified)\" and use of symbols like \"<br/\"). \n\n3. **Specific Topics and General Themes**: The format of these sections also doesn't match the description. Instead of a straightforward list or indication of absence (if applicable), the output uses narrative sentences and incorrect phrasing. \n\n4. **HTML-like Tags and Symbols**: The presence of HTML-like tags (\"<br/>\") and symbols surrounding text also deviates from the plain-text and comma-separated list instructed by the description.\n\nDue to these violations, the chatbot output does not comply with the format specified in the description.\n\nERR"
+}

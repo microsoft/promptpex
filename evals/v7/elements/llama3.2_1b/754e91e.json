@@ -1,0 +1,11 @@
+{
+  "id": "754e91e",
+  "promptid": "fdc5c4c",
+  "ruleid": 1,
+  "rule": "Company names must be listed in a comma-separated format following the label \"Company names:\".",
+  "model": "llama3.2:1b",
+  "input": "Text: Amazon is pioneering e-commerce, while Airbnb disrupts travel. Only these companies were mentioned.",
+  "output": "**Company Names:** Amazon\n**People Names:** -||-\n**Specific Topics:** E-commerce, Travel\n**General Themes:** -||-",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot lists entities named under four categories: Company names, People names, Specific topics, and General themes. However, it does not follow the exact formatting specified in the description. \n\nFirstly, according to the description, the desired format should use `<comma_separated_list_of_company_names>` for listing entities, whereas the output uses a Markdown style bold formatting for the titles and does not include angled brackets. \n\nSecondly, while the description specifies that placeholders like `-||-` should be used if the list is empty, the output only partially uses this formatting (it uses it correctly for People Names and General Themes but omits for Specific Topics, where it incorrectly lists them instead of showing `-||-` if it's supposed to be empty).\n\nBecause the output does not strictly adhere to the format stated in the description of the chatbot, there is a violation.\n\nERR"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "320f75e",
+  "promptid": "fdc5c4c",
+  "ruleid": 8,
+  "rule": "If there are no elements found for a category, it should still be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "model": "qwen2.5:3b",
+  "input": "Text: General guidance on principles was given.",
+  "output": "Based on the provided text:\n\nCompany names: \n- People names:\n- Specific topics: \nGeneral themes: General guidance principle",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the desired format specified in the description. The expected format requires a list of company names, people names, specific topics, and general themes to be clearly separated and listed after respective labels (with comma-separated list for each category). In the output provided:\n\n1. The entry for \"Company names\" does not follow the provided format as there is not a comma-separated list; it only shows lines for each category.\n2. \"People names\" expects a comma-separated list, whereas in the output there's a single dash \"-\", which does not fit the desired format.\n3. \"Specific topics\" also just links to a line and lacks a proper list or even any item.\n4. \"General themes\" is presented with an example 'General guidance principle' but again, it does not follow the format of being a list.\n\nThese elements indicate that the output is not formatted according to the specification described for listing extracted items.\n\nERR"
+}

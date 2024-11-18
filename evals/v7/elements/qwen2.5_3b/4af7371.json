@@ -1,0 +1,11 @@
+{
+  "id": "4af7371",
+  "promptid": "fdc5c4c",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: \"The American Cancer Society's Director, Dr. Lisa Young, updated the public on recent developments in cancer research at a health symposium. Topics included medical advancements and patient care.\"",
+  "output": "Company names: The American Cancer Society, \nPeople names: -||-\nSpecific topics: medical advancements, patient care\nGeneral themes: cancer research, health symposium\n\nNote: Despite the small typo in \"Dr. Lisa Young\" being corrected to \"Dr. Lisa Young\", no change was made as entity extraction should be performed based on the original text content and not correction.",
+  "compliance": "err",
+  "complianceText": "The chatbot output partially complies with the format specified in the description. The desired format for each category (Company names, People names, Specific topics, General themes) should strictly follow \"<comma_separated_list_of_names>\". However, in the \"Company names\" section, the listed company is not properly comma-separated as only one name is listed. The other sections appropriately follow the format with comma-separated lists or a placeholder \"-||-\" where no entries were provided. \n\nAdditionally, there is an extraneous note in the output about a correction related to a name \"Dr. Lisa Young\". This note is not required by the instructions and deviates from the specified format.\n\nDue to these deviations, the chatbot output does not fully comply with the description requirements. Therefore, it does not meet the required format and includes contents that are out of scope based on the description.\n\nERR"
+}

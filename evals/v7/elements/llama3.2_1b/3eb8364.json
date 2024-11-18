@@ -1,0 +1,12 @@
+{
+  "id": "3eb8364",
+  "promptid": "fdc5c4c",
+  "ruleid": 12,
+  "rule": "General themes must not be listed in a comma-separated format following the label \"General themes:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Articles include Climate Change, without order.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\n\ninputs:\n  text:\n    type: string\noutputs:\n  extracted_data:\n    type: map\n    items:\n      $ref: \"/definitions\"\n\n---\nextracted_data:\n  company_names: \n  - \"NASA\"\n  - \"National Oceanic and Atmospheric Administration\"\n  \n  people_names:\n  - \"Jim DeWine\"\n  - \"\"\n  \n  specific_topics: \n  - Climate Change\n  - Sustainability\n  \n  general_themes: \n  - Environment\n  - Science",
+  "compliance": "err",
+  "complianceText": "The output is not in the correct desired format. The description specifies that the extracted data should be presented as comma-separated lists for each category under specific labels, like so:\n\n```\nCompany names: <comma_separated_list_of_company_names>\nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: -||-\n```\n\nHowever, the chatbot's output instead presents the data in a structured format using key-value pairs with lists for each type, rather than the specified comma-separated list format. Additionally, there's an anomaly in the \"people_names\" list since it includes an empty string, which could suggest an entity was expected but not found or specified.\n\nDue to this deviation from the specified output format, the output does not comply with the chatbot’s description.\n\nERR"
+}

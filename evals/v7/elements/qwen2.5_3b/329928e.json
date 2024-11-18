@@ -1,0 +1,12 @@
+{
+  "id": "329928e",
+  "promptid": "fdc5c4c",
+  "ruleid": 10,
+  "rule": "People names must not be listed in a comma-separated format following the label \"People names:\".",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Mention of Ada Lovelace, Marie Curie follows no rule.",
+  "output": "Company names: \nPeople names: Ada Lovelace<br>Marie Curie -||-\nSpecific topics: No rules, scientific achievements by women -||- Women in STEM and innovation\nGeneral themes: Break rules, innovation, and female contributions",
+  "compliance": "err",
+  "complianceText": "The output is evaluated based on the following criteria: \n\n1. **Format Compliance**:\n   - The chatbot description specifies the output format as having four categories: Company names, People names, Specific topics, and General themes. Each category should have a comma-separated list.\n   - For \"Company names,\" it is marked with an open space which indicates no entry. This should have been clearly marked with \"-||-\" as instructed.\n   - For \"People names,\" a non-compliant format is observed with the usage of the `<br>` HTML tag, which is not in line with the format specified: the use of `-||-` to separate listed items.\n   - \"Specific topics\" ends with \"-||-\" but also includes content that is not formatted consistently with instructions related to comma separation.\n   - The \"General themes\" section appears to follow the format, with entries separated by commas.\n\n2. **Textual Content**:\n   - Without knowing the input, it's not possible to evaluate whether the textual content of the lists is correct or matches the input text.\n\nThe main issue is with the non-standard formatting in \"People names\" and the potential misinterpretation in \"Company names.\" Specifically, the use of HTML (`<br>`) tags and non-use of \"-||-\" indicates non-compliance with the prescribed format.\n\nERR"
+}

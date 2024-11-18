@@ -1,0 +1,12 @@
+{
+  "id": "41a9fbe",
+  "promptid": "b70fdc4",
+  "ruleid": 10,
+  "rule": "There must be no <p> tags in the output.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Love enriches life. Friendship strengthens bonds. Family supports.",
+  "output": "Here's the HTML formatting:\n\n<p><strong>Love</strong> ench<strong>iches </strong>life.</p> \n<p><strong>Friendship</strong> strengh<em>tens </em>bon<em>ds</em>.</p>\n<p><strong>Family</strong> support<em>s</em>.</p>\n\n\n\nLet me know if you'd like to experiment with different emphasis techniques or HTML tags!",
+  "compliance": "err",
+  "complianceText": "The output includes three <p> tags, which satisfies the requirement of having at least three <p> tags. Each <p> tag contains at least one <strong> tag, complying with the requirement to add a <strong> tag inside each. However, the third <p> tag does not have any <em> tags, which violates the description’s requirement to include multiple <em> tags inside each <p> tag to emphasize key words and phrases. Therefore, the output is not compliant with the description as it falls short of including multiple <em> tags in each <p> tag.\n\nERR"
+}

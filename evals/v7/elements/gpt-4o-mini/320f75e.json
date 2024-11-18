@@ -1,0 +1,11 @@
+{
+  "id": "320f75e",
+  "promptid": "fdc5c4c",
+  "ruleid": 8,
+  "rule": "If there are no elements found for a category, it should still be listed with its label followed by an empty space or properly formatted as per given examples such as \"Company names: \" with no elements after the space.",
+  "model": "gpt-4o-mini",
+  "input": "Text: General guidance on principles was given.",
+  "output": "Company names: \nPeople names: \nSpecific topics: -||- \nGeneral themes: General guidance, principles ",
+  "compliance": "err",
+  "complianceText": "The output partially follows the required format but does not fully comply. The description specifies the need for a list of comma-separated items for each category (Company names, People names, Specific topics, General themes). However, in the output, \"General themes\" is provided as a non-comma-separated phrase \"General guidance, principles\" instead of explicitly separating each theme. Additionally, the output improperly uses the placeholder \"-||-\" for \"Specific topics,\" which should instead have been populated with the comma-separated items or left empty if no specific topics are identified.\n\nERR"
+}

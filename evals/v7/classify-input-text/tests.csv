@@ -1,0 +1,32 @@
+ruleid, testid, testinput, expectedoutput, reasoning
+1, 1, "UN condemns North Korea's latest missile test", "World", "The input is clearly related to a global political issue, fitting the 'World' category. There should be no ambiguity in choosing the appropriate category."
+1, 2, "CapitalOne announces a 20% increase in quarterly earnings", "Business", "This clearly pertains to financial matters and corporate earnings, which should be classified under 'Business'. The software must categorize it without overlap."
+1, 3, "NASA's Mars rover sends back revolutionary images", "Sci/Tech", "The article focuses on an aspect of science and technology and must be classified as such, ruling out other categories entirely."
+
+2, 1, "Champions League final ends in stalemate, teams prepare for rematch", "Sports", "The text is directly relevant to sports, and the classification should reflect this without cross-category confusion."
+2, 2, "Global economies brace for fluctuations as oil prices soar", "Business", "The content directly pertains to economic activities influenced by global factors. The classification should be unmistakably business-related."
+2, 3, "Breakthrough in quantum computing promises to change tech landscape", "Sci/Tech", "The article focuses on an advancement in technology, clearly fitting within the Sci/Tech category without ambiguity."
+
+3, 1, "Google reveals out-of-this-world holiday doodles", "", "No additional commentary should appear in the output—just the category 'Sci/Tech' should suffice here, since the text deals with a tech company's creative showcase."
+3, 2, "Political tensions rise over disputed territories", "", "The output should only be 'World' for this text, capturing political conflicts worldwide without added information."
+3, 3, "Olympic records shattered on day one of competition", "", "Only 'Sports' should be returned, directly encapsulating the essence of the input without further elaboration."
+
+4, 1, "Fed cuts interest rates to avoid economic recession", "Business", "An economic policy move by a central bank fits squarely within the 'Business' category. Proper classification should mirror the subject matter's scope."
+4, 2, "Technology giants clash over new AI regulations", "Sci/Tech", "This fits well within Sci/Tech due to the regulatory focus on AI technologies. It should avoid misclassification."
+4, 3, "World Health Organization warns of new pandemic threats", "World", "A topic with worldwide significance must be accurately classified under 'World' to reflect its global importance."
+
+5, 1, "Breaking: Tornado ravages Midwest, thousands displaced", "", "As a non-covered category (disasters) under the provided schema, 'none' should be chosen to align with rule 5's exceptions."
+5, 2, "Movie stars flock to red carpet at Cannes Festival", "", "The entertainment aspect doesn't fit defined categories like 'World', 'Sports', 'Business', or 'Sci/Tech'. Correct classification respects rule 5."
+5, 3, "New culinary trend takes urban kitchens by storm", "", "Food and culinary trends are outside the defined categories, emphasizing the application of rule 5 by leaving the classification blank."
+
+6, 1, "Fashion industry embraces sustainable practices for a better future", "", "Sustainable practices in fashion don't fit directly into any category, creating deliberate room for overlap as per rule 6."
+6, 2, "Mountaineers prepare for ascent of K2 amidst challenging conditions", "", "This climbing news could ambiguously span 'Sports' or 'World', challenging clear classification under rule 6."
+6, 3, "Celebrity couple's breakup dominates news headlines", "", "As a purely entertainment-focused text, neither a clear World, Sports, Business, nor Sci/Tech classification is warranted per rule 6."
+
+7, 1, "Scientists discover new exoplanet orbiting distant star", "Sci/Tech - An exciting discovery in space science", "Here, an explanation follows the primary category, contravening rule 7's requirement for minimal output."
+7, 2, "Euros crisis: EU leaders convene extraordinary summit", "World - A summit focusing on economic solutions", "This includes additional context beyond 'World', which does not adhere to rule 7 requiring a single category."
+7, 3, "Historic match sees underdog triumph in final minutes", "Sports - Such dramatic cameos redefine team dynamics", "The categorization here extends beyond 'Sports', violating rule 7 by offering expanded input."
+
+8, 1, "Global art fair showcases emerging talents from Latin America", "", "This input is related to art, which does not clearly fit into the specified categories. No proper category applies as per rule 8."
+8, 2, "Startups revolutionize ecommerce with new tech solutions", "", "Although related to business and technology, the startup scene's focus may blur precise categorization under rule 8."
+8, 3, "Political satire highlights social issues in viral video", "", "The ambiguity surrounding satire and social issues leaves no clear category definition, following the guideline of rule 8 for non-conformance."

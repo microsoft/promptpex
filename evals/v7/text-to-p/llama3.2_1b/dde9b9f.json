@@ -1,0 +1,12 @@
+{
+  "id": "dde9b9f",
+  "promptid": "b70fdc4",
+  "ruleid": 10,
+  "rule": "There must be no <p> tags in the output.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Technology simplifies tasks. Automation increases efficiency. Growth follows innovation.",
+  "output": "Here is the paragraph reformatted with at least three `<p>` tags, one `<strong>` tag for \"Technology\", multiple `<em>` tags for \"growth\" and \"innovation\":\n\n<p> Technology simplifies tasks.</p>\n<strong>Automation</strong> increases efficiency.\n\n<p>Growth</p>\n<strong>follows</strong> <em>novation</em>.\n\n<p>Trends</p>\n<strong>were</strong> established long before the dawn of the digital age.",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description provided. According to the description, each sentence should be wrapped with a `<p>` tag. However, in the given output, not every sentence is wrapped individually with a `<p>` tag; there is a sentence on a line: `<strong>Automation</strong> increases efficiency.` which is not enclosed within a `<p>` tag. Additionally, in each `<p>` tag, there should be one `<strong>` tag and multiple `<em>` tags, but this is not consistently applied across the output. For instance, the first paragraph has neither a `<strong>` nor an `<em>` tag within the `<p>` tags, and similarly, the second and third paragraphs are lacking the specified tags inside them.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "274ecda",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Inside each paragraph, there must not be any <em> tags to emphasize key words and phrases.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Innovation drives change. Society evolves. Culture adapts.",
+  "output": "```html\n<p><strong>Innovation</strong> drives <em>change</em>.</p>\n<p><strong>Society</strong> evolves.</p>\n<p><strong>Culture</strong> adapts.</p>\n<p><strong>Innovation</strong> drives <em>change</em>.</p>\n<p><strong>Society</strong> evolves.</p>\n<p><strong>Culture</strong> adapts.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The output provided contains six <p> tags, each enclosing a sentence. According to the description, the paragraph must be split into individual sentences wrapped with <p> tags. The output meets this specification as each sentence is individually wrapped with a <p> tag. The description also mandates the use of at least three <p> tags, and this requirement is clearly fulfilled, as there are six <p> tags in the output.\n\nAdditionally, the description specifies that each <p> tag should contain one <strong> tag and multiple <em> tags to emphasize key words and phrases. In this output, each sentence contains a <strong> tag but only one of the sentences contains a singular <em> tag. The description states the presence of multiple <em> tags, this condition is not met as only one <em> tag is present across all sentences, violating the requirement of having multiple <em> tags inside each <p>.\n\nBased on these observations, this output does not fully comply with the chatbot description because not each <p> tag contains multiple <em> tags.\n\nERR"
+}

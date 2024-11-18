@@ -80,7 +80,7 @@ for (const files of prompts) {
       forceExecuteTests,
       models,
     });
-    const { testEvals, overview } = computeOverview(ctx, { percent: true });
+    const { testEvals, overview } = computeOverview(ctx, { percent: false });
     res.push({
       prompt: files.name,
       tests: testEvals.length,

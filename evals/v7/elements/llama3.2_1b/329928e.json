@@ -1,0 +1,12 @@
+{
+  "id": "329928e",
+  "promptid": "fdc5c4c",
+  "ruleid": 10,
+  "rule": "People names must not be listed in a comma-separated format following the label \"People names:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Mention of Ada Lovelace, Marie Curie follows no rule.",
+  "output": "---\nname: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs:\n  text:\n    type: string\n---\nextracted_entities:\n  - company_name: Ada Lovelace, Marie Curie follows no rule.\n    people_names: \n      - Ada Lovelace\n      - Marie Curie\n    specific_topics: \n      - rules\n      - mathematics\n  general_topics: \n    - rule\n    - mathematics",
+  "compliance": "err",
+  "complianceText": "The output has several issues in relation to the chatbot description:\n\n1. The description specifies that the output format should begin with \"Company names:\", followed by a comma-separated list of company names. The provided output does not adhere to this format. Instead, it starts with \"extracted_entities:\" and lists the names without using the proper structure. Additionally, the company name field contains names of individuals (\"Ada Lovelace, Marie Curie follows no rule.\") which isn't coherent with the field expectation.\n\n2. The people names section does adhere to the format with a clear list of names, although it is improperly nested under \"extracted_entities\" rather than being a top-level field as the description suggests.\n\n3. The structure uses YAML-like keys (e.g., \"extracted_entities:\", \"company_name:\", etc.), which doesn't match the described \"comma_separated_list_of_\" format stipulated in the description for each entity type.\n\n4. The output uses the term \"general_topics\" instead of \"General themes:\", which is required by the description. This inconsistency violates the format guidelines.\n\n5. Specific Topics and General Themes should be distinct categories, but the output blurs the line between them.\n\nThe output does not comply with the desired output format as per the chatbot description due to the incorrect structure and missing required format elements, despite having attempted to categorize entities. Therefore, based on these points, the output is not compliant with the description.\n\nERR"
+}

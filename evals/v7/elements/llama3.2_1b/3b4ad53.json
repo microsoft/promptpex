@@ -1,0 +1,12 @@
+{
+  "id": "3b4ad53",
+  "promptid": "fdc5c4c",
+  "ruleid": 14,
+  "rule": "All extracted elements from the text should not be categorized under their respective labels.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Objects projected generally, omitting provisions.",
+  "output": "name: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs:\n  text:\n    type: string\n---\ncompany_names: \n- Amazon\n- Google\n\npeople_names: \n- Richard Branson \n- Paul Anderson \n\nspecific_topics: \n- IoT\n\ngeneral_themes: \n- Innovation",
+  "compliance": "err",
+  "complianceText": "The evaluation of the chatbot output against the description reveals the following:\n\n1. Format Compliance: The output is not compliant with the format specified in the description. The description requires a specific \"Desired format\" with four categories: \"Company names,\" \"People names,\" \"Specific topics,\" and \"General themes,\" each followed by a comma-separated list (denoted as `<comma_separated_list_of_company_names>`, `-||-`, etc.). The output does not follow this format. Instead, it presents the categories as lists with bullet points, which is inconsistent with the specified desired format. \n\n2. Label Compliance: The labels in the output (\"company_names,\" \"people_names,\" \"specific_topics,\" \"general_themes\") do not match exactly with the labels described (\"Company names,\" \"People names,\" \"Specific topics,\" \"General themes\"). The case and the use of underscores differ from the specified format.\n\nDue to these discrepancies in formatting and labeling, the output does not comply with the description.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "bb71a75",
+  "promptid": "fdc5c4c",
+  "ruleid": 11,
+  "rule": "Specific topics must not be listed in a comma-separated format following the label \"Specific topics:\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Outlined approach to Machine Learning, albeit unordered.",
+  "output": "---\nname: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs:\n  input_string:\n    type: string\n---\nextract company names, people names, specific topics, and general overarching themes\n\nText that needs to be scanned:\n- Outlined approach to Machine Learning, albeit unordered.\n- To focus on the concepts of Machine Learning it is crucial.\n\nCompany names: - \nPeople names: - \nSpecific topics: - Machine Learning - - \nGeneral themes: - Outline - - Algorithmic Thinking",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the description in several ways:\n\n1. The output format does not match the desired format specified in the description. The description specifies clear headings such as \"Company names:\", \"People names:\", \"Specific topics:\", and \"General themes:\", each followed by a comma-separated list. However, in the output, the lists for \"Specific topics\" and \"General themes\" are not comma-separated; instead, they use hyphens and extra formatting which is not specified as required.\n\n2. The section for \"Company names\" and \"People names\" only have a hyphen instead of the described '<comma_separated_list_of_company_names>' or similar for people names, suggesting a deviation from the specified format.\n\n3. The output format for detailing the specific elements of the text starts with an extract instruction rather than directly providing the company names, people names, specific topics, and general themes in the required format.\n\nDue to these format inconsistencies with the explicitly provided description, the output does not comply with the chatbot description.\n\nERR"
+}

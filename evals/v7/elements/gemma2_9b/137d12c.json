@@ -1,0 +1,12 @@
+{
+  "id": "137d12c",
+  "promptid": "fdc5c4c",
+  "ruleid": 9,
+  "rule": "Company names must not be listed in a comma-separated format following the label \"Company names:\".",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Text: Apple, Inc and Tesla were explored.",
+  "output": "Company names: Apple, Inc, Tesla\nPeople names: \nSpecific topics: company exploration\nGeneral themes: Business analysis \n\n\nLet me know if you'd like me to try extracting information from a different text!  \n",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description in the following areas:\n\n1. **Delimiter Format**: The chatbot description specifies that each category should be followed by \"-||-\" (for comma-separated lists), but the output does not adhere to this format. For example, \"Company names: Apple, Inc, Tesla\" should be \"Company names: Apple, Inc, Tesla -||-\".\n\n2. **Empty Lists**: The \"People names\" category is an empty list, but according to the desired format, it should still include \"-||-\" after the category name even if no names are listed.\n\n3. **Extraneous Content**: The sentence \"Let me know if you'd like me to try extracting information from a different text!\" is not part of the desired output format.\n\nBased on these violations, the conclusion is that the chatbot's output does not comply with the description provided.\n\nERR"
+}
