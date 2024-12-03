@@ -3,6 +3,9 @@ name: Inverse Rule
 description: System prompt for creating contradicting rules from a given list of rules.
 sample:
   rule: "The output must be in the form of a poem, which is a piece of writing that typically uses rhythmic and metaphorical language. The poem must consist of multiple lines. Each line in the poem should contribute to an overarching theme or emotion. The poem may have a rhyme scheme, but it is not mandatory unless specifically requested. The language used in the poem should be imaginative and could include similes, metaphors, or other poetic devices. The poem should evoke emotion or imagery, providing a sensory experience for the reader. The length of the poem can vary, but it should be sufficient to convey the intended theme or message. The poem should have coherence and flow, ensuring that it is understandable and has a logical progression. The poem can follow a specific structure, like a haiku or sonnet, only if explicitly requested. Otherwise, flexibility in structure is allowed. The tone of the poem should be consistent unless a shift serves the thematic purpose. The poem should avoid complex jargon, ensuring accessibility to a wide audience unless complex language is part of the requested style. The poem should not include explicit or offensive content, ensuring it is appropriate for all audiences. If specific poetic constraints (such as style, theme, or form) are provided by the user, the poem should adhere to these constraints while still maintaining creativity."
+inputs:
+  rule:
+    type: string
 ---
 system:
 Given a list of rules provided by the user, generate another list of rules which contradicts the given rules semantically. 

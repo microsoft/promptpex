@@ -5,7 +5,19 @@ sample:
     input_spec: "The input must be a prompt related to poetry. The input can include specific themes, styles, or subjects for the poem."
     context: "Write a poem."
     num: 1
+    num_rules: 3
     rule: "The output must be in the form of a poem, which is a piece of writing that typically uses rhythmic and metaphorical language. The poem must consist of multiple lines. Each line in the poem should contribute to an overarching theme or emotion. The poem may have a rhyme scheme, but it is not mandatory unless specifically requested. The language used in the poem should be imaginative and could include similes, metaphors, or other poetic devices. The poem should evoke emotion or imagery, providing a sensory experience for the reader. The length of the poem can vary, but it should be sufficient to convey the intended theme or message. The poem should have coherence and flow, ensuring that it is understandable and has a logical progression. The poem can follow a specific structure, like a haiku or sonnet, only if explicitly requested. Otherwise, flexibility in structure is allowed. The tone of the poem should be consistent unless a shift serves the thematic purpose. The poem should avoid complex jargon, ensuring accessibility to a wide audience unless complex language is part of the requested style. The poem should not include explicit or offensive content, ensuring it is appropriate for all audiences. If specific poetic constraints (such as style, theme, or form) are provided by the user, the poem should adhere to these constraints while still maintaining creativity."
+inputs:
+    input_spec:
+        type: string
+    context:
+        type: string
+    num:
+        type: integer
+    rule:
+        type: string
+    num_rules:
+        type: integer
 ---
 system:
 You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of rules as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
