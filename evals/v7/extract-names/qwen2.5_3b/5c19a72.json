@@ -1,0 +1,12 @@
+{
+  "id": "5c19a72",
+  "promptid": "a253756",
+  "ruleid": 7,
+  "rule": "[\"unstructured_output_must_not_use_specific_format\"]",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Abstract: MNet does not rely on randomized choices as in ProjNet.",
+  "output": "[[\"MNet\", \"ProjNet\"]]",
+  "compliance": "err",
+  "complianceText": "The description specifies that the output should be an array of model names in the format `[\"model_name\"]`. In this case, the chatbot output is a two-dimensional array: `[[\"MNet\", \"ProjNet\"]]`, which does not match the specified format. The output should be a single array, not a nested one. Therefore, the format does not comply with the described requirement.\n\nERR"
+}

@@ -7,8 +7,8 @@
 |speech\-tag|42|42|40|41|4|
 |text\-to\-p|39|33|30|11|2|
 |elements|48|27|20|23|4|
-|extract\-names|2|2|2|2|0|
 |art\-prompt|42|41|35|35|22|
-|classify\-input\-text|24|23|20|21|11|
+|extract\-names|36|2|34|25|14|
 |sentence\-rewrite|48|42|46|38|33|
+|classify\-input\-text|24|23|20|21|11|
 |shakespearean\-writing\-assistant|42|41|40|40|39|
