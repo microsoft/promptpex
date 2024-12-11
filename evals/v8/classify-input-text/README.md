@@ -294,6 +294,15 @@ There is no specified maximum length for the input string.
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The chatbot's output must be a single classification from the predefined categories: World, Sports, Business, or Sci/Tech\.|ok|
+|2|The output must match exactly one of the specified categories with correct spelling and capitalization: "World", "Sports", "Business", or "Sci/Tech"\.|ok|
+|3|The output must not include any additional information or explanation beyond the single category label\.|ok|
+|4|The output should not contain any punctuation or additional characters outside of the correct category label\.|err|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

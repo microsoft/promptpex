@@ -396,6 +396,17 @@ The input text must be structured in a way that entities can be clearly identifi
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output must begin with "Company names:" followed by a list of company names extracted from the text, separated by commas and no additional spaces between names\.|ok|
+|2|Next, the output must continue with "People names:" followed by a list of people names extracted from the text, separated by commas and no additional spaces between names\.|err|
+|3|Then, the output must include "Specific topics:" followed by a list of specific topics that are relevant and directly mentioned in the text, separated by commas and no additional spaces between topics\.|err|
+|4|Finally, the output must conclude with "General themes:" followed by a list of broader, overarching themes identified from the text, also separated by commas with no additional spaces between themes\.|err|
+|5|Each section must be presented on a new line, starting with the specified label exactly as given, followed by a colon, and then the corresponding list\.|ok|
+|6|The lists should always maintain the order specified in the system prompt and must not include any entries that are not present in the provided text or are irrelevant\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

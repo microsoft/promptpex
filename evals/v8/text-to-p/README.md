@@ -484,6 +484,19 @@ The input must contain at least three sentences.
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output must consist of individual sentences from the input paragraph, each wrapped in a lt;pgt; HTML tag\.|ok|
+|2|The output must contain a minimum of three lt;pgt; tags\.|ok|
+|3|Within each lt;pgt; tag, there must be exactly one lt;stronggt; tag\.|ok|
+|4|Within each lt;pgt; tag, there must be multiple lt;emgt; tags\.|err|
+|5|The lt;stronggt; tag content must emphasize a key word or phrase within the sentence\.|err|
+|6|The lt;emgt; tag content must emphasize additional key words or phrases within the sentence\.|ok|
+|7|The output must use valid HTML syntax, ensuring that each lt;pgt;, lt;stronggt;, and lt;emgt; tag is correctly opened and closed\.|ok|
+|8|The sentences must remain grammatically correct after the addition of the formatting tags\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

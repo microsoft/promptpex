@@ -435,6 +435,18 @@ Greetings are considered valid input and handled specially.
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output must use Shakespearean style characterized by the use of archaic words\.|ok|
+|2|The output must include words such as "thou," "thee," and "hath" as part of its vocabulary to maintain authenticity to the period's linguistic style\.|ok|
+|3|The output must have a poetic or creative structure, reflecting a tone and style similar to that found in Shakespeare's works\.|ok|
+|4|The output must include expressions that evoke imagery or emotional resonance typical to Shakespearean writing\.|err|
+|5|The output must be constructed in such a manner that it adheres to the grammatical and syntactical rules recognized in Shakespeare's era\.|err|
+|6|The output must reflect a formal tone, suitable for the courtly and artistic language of the time\.|ok|
+|7|The output must thoroughly answer or address the user's request, maintaining relevance to the user's prompt\.|err|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

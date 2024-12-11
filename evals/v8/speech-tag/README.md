@@ -305,6 +305,15 @@ The input word should be straightforward and not require disambiguation within t
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output must be a single part of speech tag that represents the given word's role in the sentence according to the specified list of tags\.|ok|
+|2|If the given word cannot be accurately tagged using the provided list of part\-of\-speech tags, the output must be the word "Unknown"\.|ok|
+|3|If it is impossible to determine a part of speech for the given word, the output must be the word "CantAnswer"\.|ok|
+|4|The output must not contain any additional text, punctuation, or formatting besides the part of speech tag or the words "Unknown" or "CantAnswer"\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

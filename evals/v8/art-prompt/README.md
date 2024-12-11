@@ -313,6 +313,12 @@ The input must be in English.
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output text must be written in English\. The output text should not exceed 80 words\. The output text should be crafted in a single paragraph\. The output text should first focus on the subjects and their characteristics\. The output text should then detail the timing and lighting\. The output text should describe the background of the image\. The output text should conclude by conveying the feeling the image should evoke\. The output text should combine artistic insight with precise imagery\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

@@ -441,6 +441,18 @@ Input text length should be reasonable for single-sentence processing and not ex
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The output should be a rewritten version of the original sentence provided in the input text by the user\.|ok|
+|2|The output must preserve the original meaning and ensure factual accuracy is maintained throughout the rewritten sentence\.|ok|
+|3|The language used in the output should be simple, relatable, and should focus on enhancing readability and making the sentence conversational\.|ok|
+|4|The output should present the sentence with a fluid, engaging structure, concentrating on simplifying any complex phrases present in the input\.|ok|
+|5|In the process of rewriting, the output may involve changing the style, wording, and other elements to achieve enhanced readability and a conversational tone, as specified in the system instructions\.|ok|
+|6|Despite the transformations, the transformation should be limited to individual sentences and not extend to rewriting entire paragraphs if presented\.|ok|
+|7|The output should be one coherent sentence, ensuring that all changes made to style, wording, or structure still align with the user's intent and the given input constraints\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt

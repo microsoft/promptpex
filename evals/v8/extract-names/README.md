@@ -204,6 +204,22 @@ The length of the input is not explicitly restricted, but it should be within a 
 `````
 
 
+### [rule_evals.csv](./rule_evals.csv)
+
+|ruleid|rule|grounded|
+|-|-|-|
+|1|The response must be an array formatted with square brackets surrounding the elements, e\.g\., \["element1", "element2"\]\.|ok|
+|2|Each model name in the array should be a distinct string enclosed within double quotes\.|ok|
+|3|The array must not contain any additional elements or data that are not explicitly identified as model names in the abstract\.|ok|
+|4|If no model names are identified in the abstract, the response must be the array \["NA"\]\.|ok|
+|5|If there is any uncertainty about whether a string is a model name, the response must be \["NA"\]\.|ok|
+|6|The response array must contain no more than one element with the value "NA"\.|ok|
+|7|The response must not contain any null, undefined, or empty string elements\.|err|
+|8|The response must not contain any characters or punctuation that are not part of the correct array formatting or model names\.|ok|
+|9|Whitespace should not be included outside of the square brackets in the response\.|err|
+|10|The response must not include an explanation, commentary, or any text other than the required array of model names\.|ok|
+|11|There must not be any trailing commas or extra punctuation inside the square brackets\.|ok|
+
 ### [inverse_rules.txt](./inverse_rules.txt)
 
 `````txt
