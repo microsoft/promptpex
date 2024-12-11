@@ -12,10 +12,14 @@ sample:
     description: "Task description of the chatbot"
 ---
 system:
-You are given a rule and a description of a chatbot's task. Your task is to evaluate the rule to determine if it is grounded in the provided description. A rule is considered grounded if it is supported by the information provided in the task description.
+You are given a rule and a description of a chatbot. 
+Your task is to evaluate the rule to determine if it is grounded in the provided description.
+A rule is considered grounded if it is supported by the information provided in the description.
 
 Use the following description to evaluate the rule:
+<DESCRIPTION>
 {{ description }}
+</DESCRIPTION>
 
 Output 'OK' if the rule is grounded in the description. Output 'ERR' if the rule is not grounded in the description. Only output the decision as OK or ERR and nothing else.
 user:
