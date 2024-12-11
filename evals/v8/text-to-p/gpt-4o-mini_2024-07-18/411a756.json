@@ -1,0 +1,12 @@
+{
+  "id": "411a756",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "The cat jumps high. The dog barks loud. The bird flies far.",
+  "output": "```html\n<p><strong>The cat</strong> <em>jumps</em> <em>high</em>.</p>\n<p><strong>The dog</strong> <em>barks</em> <em>loud</em>.</p>\n<p><strong>The bird</strong> <em>flies</em> <em>far</em>.</p>\n<p><strong>The cat</strong> <em>jumps</em> <em>high</em>.</p>\n<p><strong>The dog</strong> <em>barks</em> <em>loud</em>.</p>\n<p><strong>The bird</strong> <em>flies</em> <em>far</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The output contains six `<p>` tags, each with a `<strong>` tag emphasizing a particular phrase and multiple `<em>` tags emphasizing key words. The requirement was to have at least three `<p>` tags, which is met. There is no restriction in the description against exceeding three `<p>` tags. Consequently, no rule in the description is violated based on the output provided. Therefore, the output complies with the chatbot's description. \n\nNo violation.\nOK"
+}

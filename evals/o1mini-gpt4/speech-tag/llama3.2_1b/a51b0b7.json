@@ -1,0 +1,11 @@
+{
+  "id": "a51b0b7",
+  "promptid": "dddf836",
+  "ruleid": 7,
+  "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+  "model": "llama3.2:1b",
+  "input": "Green leaves, green",
+  "output": "IN: leaf, green\nEX: The garden has many types of leaf that are green.",
+  "compliance": "err",
+  "complianceText": "The chatbot output includes \"IN: leaf, green\" and \"EX: The garden has many types of leaf that are green.\" According to the provided guidelines, the chatbot is supposed to return only the part of speech tag. In this output, it appears to be providing a part of speech tag \"IN:\" followed by words \"leaf, green,\" and then an example sentence \"EX: The garden has many types of leaf that are green.\"\n\nThe description states that the expected output is to return just the part of speech tag. There should be no additional words, phrases, or sentences provided alongside the tag. The example sentence and the additional words \"leaf, green\" violate the guideline that states only the part of speech tag should be returned.\n\nTherefore, the chatbot's output does not comply with the description because it includes additional information beyond the expected part of speech tag.\n\nERR"
+}

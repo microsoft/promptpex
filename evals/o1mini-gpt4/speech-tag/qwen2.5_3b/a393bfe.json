@@ -1,0 +1,12 @@
+{
+  "id": "a393bfe",
+  "promptid": "dddf836",
+  "ruleid": 9,
+  "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Dogs bark loudly, bark",
+  "output": "VB VBZ",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides two tags: \"VB\" and \"VBZ\". According to the description, the task is to return only the part of speech tag for the given word. The description specifies \"Return only the part of speech tag\", implying that only one tag should be returned per word. Therefore, the presence of two tags (\"VB\" and \"VBZ\") in the output violates the instruction to return only one tag. This leads to non-compliance with the task description.\n\nMention the reason for violation and your thinking went into coming up with it.\nERR"
+}

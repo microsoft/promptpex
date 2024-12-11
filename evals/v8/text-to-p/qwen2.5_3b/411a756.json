@@ -1,0 +1,12 @@
+{
+  "id": "411a756",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "The cat jumps high. The dog barks loud. The bird flies far.",
+  "output": "<p><strong>The</strong> cat jumps <em>high</em>.</p>\n<p><strong>The</strong> dog barks <em>loud</em>.</p>\n<p><strong>The</strong> bird flies <em>far</em>.</p>",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output provides three sentences, each wrapped in a `<p>` tag, which satisfies the requirement of having at least three `<p>` tags. \n\nWithin each `<p>` tag, there is a `<strong>` tag, as well as multiple `<em>` tags to emphasize key words and phrases, fulfilling that aspect of the description. Although each `<p>` tag contains only one `<strong>` tag and one `<em>` tag, there are no specific rules in the description specifying the quantity of `<em>` tags required beyond using multiple across the entire output. Without the original input, compliance has to be checked assuming that the original input aligns with the current output structure. Since the explanation of 'multiple' could cover one `<em>` tag per sentence if viewed variably across multiple sentences as terms cumulative.\n\nGiven that all specified requirements (at least three `<p>` tags, usage of `<strong>` tags, usage of `<em>` tags across sentences) have been addressed directly in the output, and no specific requirement of the number of `<em>` tags per paragraph is imposed beyond the presence.\n\nNo violation.\nOK"
+}

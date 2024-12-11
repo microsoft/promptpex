@@ -1,0 +1,12 @@
+{
+  "id": "d855f06",
+  "promptid": "b70fdc4",
+  "ruleid": 17,
+  "rule": "Inside each `<p>` tag, there should be at most one `<em>` tag or none at all.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Mountains offer adventures. Trails challenge hikers. Views reward climbers.",
+  "output": "<p><strong>Mountains</strong> offer <em>adventures</em>.<br></p>\n<p>Trails <strong>challenge</strong> hikers.<br></p>\n<p>Views <strong>reward</strong> climbers.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output provided contains three sentences, each wrapped within a `<p>` tag, which complies with the requirement to have at least three `<p>` tags. Each sentence includes a `<strong>` tag, which is also in compliance with the requirement to include one `<strong>` tag inside each `<p>` tag. However, only the first `<p>` tag contains an `<em>` tag, while the description specifies the use of \"multiple `<em>` tags to emphasize key words and phrases\" inside each `<p>` tag. Two of the three sentences lack an `<em>` tag, leading to a violation of this guideline. \n\nBased on this analysis, the output does not fully comply with the description due to the missing `<em>` tags in the second and third `<p>` tags.\n\nERR"
+}

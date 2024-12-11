@@ -1,0 +1,11 @@
+{
+  "id": "e588b24",
+  "promptid": "b70fdc4",
+  "ruleid": 1,
+  "rule": "Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",
+  "model": "llama3.2:1b",
+  "input": "First sentence. Second sentence. Third sentence is here.",
+  "output": "Here's the formatted paragraph with three <p> tags, each containing a <strong> tag and one or more <em> tags:\n\nFirst sentence: This is the first part of the text<strong>This</strong><em>begins</em></p>\n\nSecond sentence: The second sentence contains additional information that will be elaborated upon in further paragraphs<strong>Here</strong><em>this</em><span> detail</span></p>\n\nThird sentence:\n \nFirst third sentence. <strong>Text</strong> <em>in</em> <strong>italic</strong> <em>matter</em> \n \nSecond third sentence.\n\nFirst third sentence. This is the same paragraph again<strong>However</strong><em>This</em> was removed to avoid duplicate content\n\nThird third sentence\n This is the final third sentence.<strong>Summary</strong><em> of</em></p>",
+  "compliance": "err",
+  "complianceText": "The second `<p>` tag includes a `<span>` tag, which is not specified in the description. Additionally, the third `<p>` tag contains multiple `<strong>` tags instead of just one as required.\n\nERR"
+}

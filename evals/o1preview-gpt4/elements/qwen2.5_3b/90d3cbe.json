@@ -1,0 +1,12 @@
+{
+  "id": "90d3cbe",
+  "promptid": "e5ed513",
+  "ruleid": 21,
+  "rule": "The entities in each list may include additional punctuation or be separated by other delimiters than commas.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: The festival featured music—art—and dance.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: music, art, dance\nGeneral themes: festivals",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description provided. According to the description, the 'Desired format' clearly specifies that each section should be prefixed by specific identifiers followed by a list that is comma-separated. For the 'Company names', 'People names', and the other sections, it should be a comma-separated list of names or topics as mentioned. \n\n1. The 'Company names' section should either contain a comma-separated list of company names or it should not be empty. In this case, it is left empty, which violates the compliance checks due to the lack of a comma-separated list or a '-' indicator akin to the 'People names' section.\n\n2. The 'People names' section is correctly formatted with the \"-||-\" indicator.\n\n3. The 'Specific topics' section correctly lists topics in the desired comma-separated format: \"music, art, dance\".\n\n4. The 'General themes' section lists the theme \"festivals\" as a single entry, which is a valid comma-separated list (with a single element).\n\nBecause of the issue with the 'Company names' section not complying with the instructed format, my decision is based on this violation.\n\nERR"
+}

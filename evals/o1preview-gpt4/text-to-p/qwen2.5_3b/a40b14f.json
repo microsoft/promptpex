@@ -1,0 +1,12 @@
+{
+  "id": "a40b14f",
+  "promptid": "b70fdc4",
+  "ruleid": 18,
+  "rule": "Key words and phrases should refer to unimportant or random words within the sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Markets fluctuate daily. Stocks go up. Investments carry risk.",
+  "output": "<p><strong>Markets</strong> fluctuate daily. <em>Stocks</em> go up. Investments carry risk.</p>\n<p><strong>Markets</strong> fluctuate daily. <em>Stocks</em> go up. Investments carry risk.</p>\n<p><strong>Markets</strong> fluctuate daily. <em>Stocks</em> go up. Investments carry risk.</p>",
+  "compliance": "err",
+  "complianceText": "The output contains three `<p>` tags, which satisfies the requirement of having at least three `<p>` tags. However, each `<p>` tag contains multiple sentences instead of a single sentence. According to the task description, the paragraph should be split into individual sentences, with each sentence wrapped in a `<p>` tag. Additionally, inside each `<p>` tag, a `<strong>` tag and multiple `<em>` tags should be used to emphasize key words and phrases. Although the output does use `<strong>` and `<em>` tags appropriately within each `<p>` tag, each `<p>` tag should contain only one sentence, not multiple. As the output does not comply with the requirement to split the paragraph into individual sentences with each sentence wrapped separately, it does not fully adhere to the description.\n\nERR"
+}

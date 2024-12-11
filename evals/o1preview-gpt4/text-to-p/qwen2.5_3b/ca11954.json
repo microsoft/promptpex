@@ -1,0 +1,11 @@
+{
+  "id": "ca11954",
+  "promptid": "b70fdc4",
+  "ruleid": 5,
+  "rule": "Inside each `<p>` tag, there should be exactly one `<strong>` tag that wraps a key word or phrase from the sentence.",
+  "model": "qwen2.5:3b",
+  "input": "Ocean waves crash loudly. The sun sets beautifully. Stars shine brightly.",
+  "output": "<p><strong>There are</strong> ocean waves that <em>crash loudly</em>. The sky lights up as the <strong>sun</strong> begins to <em>set beautifully</em>. Once the daylight fades, <strong>stars</strong> <em>shine brightly</em>.</p>",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot consists of a single paragraph enclosed within a single <p> tag, which is a violation of the description. According to the description, the chatbot must split the paragraph into individual sentences and wrap each sentence with a <p> tag. Furthermore, the requirement specifically states that there should be at least three <p> tags present in the answer. The given output contains only one <p> tag, and hence it violates the requirement of having multiple <p> tags, each for individual sentences. Although the content contains <strong> and <em> tags as required for emphasizing words or phrases, the primary violation is the incorrect number of <p> tags.\n\nERR"
+}

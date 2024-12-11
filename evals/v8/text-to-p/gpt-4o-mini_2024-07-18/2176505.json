@@ -1,0 +1,12 @@
+{
+  "id": "2176505",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Leaves flutter gently. Water flows continuously. Wind blows softly.",
+  "output": "```html\n<p><strong>Leaves</strong> <em>flutter</em> <em>gently</em>.</p>\n<p><strong>Water</strong> <em>flows</em> <em>continuously</em>.</p>\n<p><strong>Wind</strong> <em>blows</em> <em>softly</em>.</p>\n<p><strong>Leaves</strong> <em>flutter</em> <em>gently</em>.</p>\n<p><strong>Water</strong> <em>flows</em> <em>continuously</em>.</p>\n<p><strong>Wind</strong> <em>blows</em> <em>softly</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The provided output contains HTML code with paragraphs properly wrapped in `<p>` tags, each containing a `<strong>` tag and multiple `<em>` tags within them. Importantly, there are more than three `<p>` tags present in the output, which fulfills the requirement of having at least three `<p>` tags. Each `<p>` tag correctly contains both a `<strong>` tag and multiple `<em>` tags as specified in the description. \n\nNo violations of the description guidelines are found in the output, as all requirements are met without needing the original input for further validation.\n\nOK"
+}

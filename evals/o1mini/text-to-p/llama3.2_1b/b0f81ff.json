@@ -1,0 +1,11 @@
+{
+  "id": "b0f81ff",
+  "promptid": "b70fdc4",
+  "ruleid": 1,
+  "rule": "Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",
+  "model": "llama3.2:1b",
+  "input": "Hello world! Learning to code is fun. Let's write some tests.",
+  "output": "<p>Hello world! Learning to code is fun.</p><p>Let's write some tests.</p>\n<p><strong>While</strong> writing tests, I find it challenging <em>due</em> to limited testing tools and resources.</em></p>\n<p><strong>The</strong> current state of development in the project <em>presents</em> a significant hurdle for successful deployment.</em>",
+  "compliance": "err",
+  "complianceText": "The first two `<p>` tags do not contain the required `<strong>` and `<em>` tags. Additionally, there are extra closing `</em>` tags outside of their corresponding opening tags in the last two `<p>` tags.\nERR"
+}

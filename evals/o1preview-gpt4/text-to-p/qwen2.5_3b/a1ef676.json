@@ -1,0 +1,12 @@
+{
+  "id": "a1ef676",
+  "promptid": "b70fdc4",
+  "ruleid": 21,
+  "rule": "The content inside the `<strong>` and `<em>` tags should not be words or phrases taken directly from the original sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Leadership guides teams. Strategy plans success. Vision sets direction.",
+  "output": "<p><strong>Vision</strong> sets</p>\n<p><strong>direction</strong>.</p>\n<p><strong>Leadership</strong> guides</p>\n<p>teams.</p>\n<p><strong>Strategy</strong> plans</p>\n<p>success.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot's output should contain at least three `<p>` tags, which it does. However, there are more than three `<p>` tags present in the output, which do not violate the description. The problem arises with the specific requirement that each `<p>` tag must contain a `<strong>` tag and multiple `<em>` tags. \n\nWhile each `<p>` tag contains a `<strong>` tag, there are no `<em>` tags present in any of the `<p>` tags. Given this explicit lack of `<em>` tags, the output does not comply with the description provided.\n\nTherefore, the output violates the guideline that each `<p>` tag should contain multiple `<em>` tags in addition to a `<strong>` tag.\n\nERR"
+}

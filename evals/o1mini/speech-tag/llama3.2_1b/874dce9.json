@@ -1,0 +1,12 @@
+{
+  "id": "874dce9",
+  "promptid": "dddf836",
+  "ruleid": 8,
+  "rule": "If the given word does not correspond to any of the predefined part of speech tags, the chatbot must not respond with 'Unknown'.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "sentence: 'She runs every day', word: 'runs'",
+  "output": "Word: unknown\nWord: CC: CC",
+  "compliance": "err",
+  "complianceText": "The chatbot's output includes additional text (\"Word:\") before the part-of-speech tag, whereas the description explicitly requires returning only the part-of-speech tag without any additional information.\nERR"
+}

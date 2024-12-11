@@ -1,0 +1,11 @@
+{
+  "id": "c62c3c4",
+  "promptid": "e5ed513",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Adidas is a global corporation that designs athletic footwear.",
+  "output": "Company names: <comma_separated_list_of_company_names> = Adidas\n\nPeople names: -||-\n\nSpecific topics: \n- Athletic footwear\n- Global corporation\n\nGeneral themes: \n- Designing (multiple specific phrases are related to design) \n  - Athletic (related to footwear and performance)\n  - Football-specific",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description for the following reasons:\n\n1. The format for the company names does not follow the specified format. The desired format is to have \"Company names: <comma_separated_list_of_company_names>\", but the bot provided \"Company names: <comma_separated_list_of_company_names> = Adidas\". The \"= Adidas\" part is extra and incorrect.\n\n2. The \"People names\" section is correctly left blank, using the notation \"-||-\" as per the description, implying there are no people names mentioned.\n\n3. The specific topics section correctly outlines topics like \"Athletic footwear\" and \"Global corporation\" following the guidelines.\n\n4. The general themes section lists themes but it does not adhere to the description's format. The description specifies only \"-||-\" should be used for consistent notation of blank or unstated themes; here, details are provided with descriptions and further indentation, which may not strictly follow the simple placeholder format described.\n\nGiven these points, I have concluded that there is a formatting violation in both the company names and general themes sections. Therefore, the final decision is:\n\nERR"
+}

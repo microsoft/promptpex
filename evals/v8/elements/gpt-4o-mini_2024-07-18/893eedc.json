@@ -1,0 +1,11 @@
+{
+  "id": "893eedc",
+  "promptid": "e5ed513",
+  "ruleid": 6,
+  "rule": "The lists should always maintain the order specified in the system prompt and must not include any entries that are not present in the provided text or are irrelevant.",
+  "model": "gpt-4o-mini",
+  "input": "Text: Discussions around influencer marketing strategies are gaining traction among brands.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: influencer marketing strategies\nGeneral themes: marketing, brand strategy",
+  "compliance": "err",
+  "complianceText": "The chatbot's output lists four sections: \"Company names,\" \"People names,\" \"Specific topics,\" and \"General themes,\" which align with the required format stated in the description. However, for the \"Company names\" and \"People names,\" the chatbot uses a blank line and a placeholder \"-||-\", respectively. According to the description, a comma-separated list is expected for both \"Company names\" and \"People names,\" even if the list is empty, which should simply result in an empty section or 'None' if there are no entities to list. The use of a placeholder does not adhere to the specified format. \n\nThinking through the violation, the part where \"People names\" is indicated as \"-||-\" is not compliant because it does not follow a comma-separated list format, whether empty or not. For compliance, the section should be clearly empty without using the placeholder. \n\nERR"
+}

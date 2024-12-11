@@ -1,0 +1,12 @@
+{
+  "id": "3184dd7",
+  "promptid": "e5ed513",
+  "ruleid": 7,
+  "rule": "The output must not begin with \"Company names:\" and it should exclude any list of company names extracted from the text.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: New studies show a drop in interest towards non-sustainable startups.",
+  "output": "Here are the extracted entities:\n\nCompany names: None\nPeople names: -\nSpecific topics: Non-sustainable startups\nGeneral themes: Interest, startup industry, sustainability and climate change research",
+  "compliance": "err",
+  "complianceText": "Upon examining the output, the entity categories are largely aligned with the described format. However, there is a discrepancy with the \"People names\" section. The format specifies that it should contain a comma-separated list or a hyphen-separated list if applicable. In the chatbot output, it is presented as a solitary hyphen '-', which does not align with the format specified. If there are no names, it should explicitly state 'None', similar to how the \"Company names\" section was handled. This discrepancy in formatting is sufficient to conclude non-compliance.\n\nERR"
+}

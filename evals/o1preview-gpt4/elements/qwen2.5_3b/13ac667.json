@@ -1,0 +1,12 @@
+{
+  "id": "13ac667",
+  "promptid": "e5ed513",
+  "ruleid": 25,
+  "rule": "For \"Specific topics\", the assistant may choose not to extract specific topics discussed in the text.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Workshops on coding and robotics were offered.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: workshops, coding, robotics\nGeneral themes: education, technology, training",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is missing the list of company names. It has left the \"Company names\" section empty, indicating a possible violation of the description which states that the output should include a list of company names. According to the description, a list of company names should be provided even if it is empty, it could be represented as \"Company names: None\" or similarly showing explicitly that there are no company names extracted. In this case, it simply leaves the section blank, which deviates from the expected format.\n\nSince a violation in format is identified regarding the \"Company names\", the output does not completely adhere to the desired format provided in the description.\n\nERR"
+}

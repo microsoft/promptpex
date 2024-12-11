@@ -1,0 +1,12 @@
+{
+  "id": "b1311cc",
+  "promptid": "b70fdc4",
+  "ruleid": 13,
+  "rule": "The output should not consist of the input paragraph split into individual sentences.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Computers calculate quickly. Algorithms solve problems. Code runs applications.",
+  "output": "<p><strong>Computers</strong> **calculate** quickly. </p>\n<p><em>Algorithms</em> **solve** problems.</p>\n<p><strong>Cod</strong> **e** **runs** applications.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output needs to comply with the description by having at least three <p> tags, each containing one <strong> tag and multiple <em> tags. \n\n1. **First <p> tag**: The sentence \"<strong>Computers</strong> **calculate** quickly.\" contains a <strong> tag but no <em> tags, which violates the requirement for multiple <em> tags.\n\n2. **Second <p> tag**: The sentence \"<em>Algorithms</em> **solve** problems.\" contains an <em> tag but lacks a <strong> tag, which violates the requirement for having one <strong> tag.\n\n3. **Third <p> tag**: The sentence \"<strong>Cod</strong> **e** **runs** applications.\" contains a <strong> tag, but no <em> tags, again violating the requirement for multiple <em> tags.\n\nSince none of the <p> tags fully comply with the requirement of containing both a <strong> tag and multiple <em> tags, there is a clear non-compliance with the description provided.\n\nERR"
+}

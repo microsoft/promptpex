@@ -1,0 +1,12 @@
+{
+  "id": "8de9139",
+  "promptid": "dddf836",
+  "ruleid": 6,
+  "rule": "If the given word can be tagged using any known part-of-speech tags, the output must not include the word \"Unknown\".",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "sentence: It shines brightly., word: shines",
+  "output": "VBZ",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output \"VBZ\" is a part of speech tag from the list provided in the description. The task is to return only the part of speech tag, and the output does exactly that. There are no additional words or characters, and it fits the requirement to provide only the tag. The rules regarding returning \"Unknown\" or \"CantAnswer\" do not apply in this context, as they depend on the input sentence and word, which we do not have. \n\nNo violation.\nOK"
+}

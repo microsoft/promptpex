@@ -1,0 +1,12 @@
+{
+  "id": "b455d04",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 15,
+  "rule": "There should be fewer than three pairs of `<p>` tags in the output.",
+  "inverse": true,
+  "input": "Economies rely on trade. Markets influence prices. Consumers drive demand.",
+  "coverage": "```html\n<p>Economies rely on <strong>trade</strong>. Markets <em>influence</em> prices. Consumers <em>drive</em> demand.</p>\n<p><em>Economies</em> rely on trade. <strong>Markets</strong> influence prices. Consumers drive <em>demand</em>.</p>\n<p>Economies <em>rely</em> on trade. Markets influence <em>prices</em>. <strong>Consumers</strong> drive demand.</p>\n```",
+  "validityText": "The input given is a paragraph of text: \"Economies rely on trade. Markets influence prices. Consumers drive demand.\"\n\nTo evaluate compliance with the input specification, I will consider the following criteria:\n\n1. **Paragraph of Text**: The input must be a paragraph of text. The given input is a short paragraph consisting of three sentences. It is presented as a single paragraph.\n\n2. **Minimum Sentence Requirement**: The paragraph should contain at least three sentences. The input contains three distinct sentences: \n   - \"Economies rely on trade.\"\n   - \"Markets influence prices.\"\n   - \"Consumers drive demand.\"\n\nGiven the input satisfies both criteria of being a paragraph and having at least three sentences, it complies with the input specification.\n\nNo violations have been detected in the input.\n\nOK",
+  "validity": "ok"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "5ff75c3",
+  "promptid": "b70fdc4",
+  "ruleid": 6,
+  "rule": "Inside each `<p>` tag, there should be multiple `<em>` tags that each wrap key words or phrases from the sentence.",
+  "model": "gpt-4o-mini",
+  "input": "Photography captures moments. Light creates art. Perspectives tell stories.",
+  "output": "```html\n<p><strong>Photography</strong> <em>captures</em> moments.</p>\n<p><strong>Light</strong> <em>creates</em> art.</p>\n<p><strong>Perspectives</strong> <em>tell</em> stories.</p>\n<p><strong>Photography</strong> <em>captures</em> moments.</p>\n<p><strong>Light</strong> <em>creates</em> art.</p>\n<p><strong>Perspectives</strong> <em>tell</em> stories.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot description instructs to format a paragraph of text by splitting it into individual sentences and wrapping each sentence with a `<p>` tag. It requires there to be at least three `<p>` tags in the output, which the current output complies with as it has six `<p>` tags. However, the description also specifies that inside each `<p>` tag, one `<strong>` tag and multiple `<em>` tags should be added to emphasize key words and phrases. The output provided contains only one `<em>` tag per `<p>` tag, not multiple.\n\nTherefore, the specific violation here is that the chatbot output does not comply with the requirement of multiple `<em>` tags inside each `<p>` tag. Each of the `<p>` tags only contains one `<em>` tag, which does not fulfill the description's requirement for multiple `<em>` tags per `<p>`.\n\nERR"
+}

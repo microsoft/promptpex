@@ -1,0 +1,11 @@
+{
+  "id": "9e77696",
+  "promptid": "b70fdc4",
+  "model": "o1-mini-2024-09-12",
+  "ruleid": 2,
+  "rule": "The output HTML must contain at least three <p> tags.",
+  "input": "First sentence! Second sentence? Third sentence. Fourth sentence!",
+  "coverage": "```html\n<p><strong>First</strong> <em>sentence</em><em>!</em></p>\n<p><strong>Second</strong> <em>sentence</em><em>?</em></p>\n<p><strong>Third</strong> <em>sentence</em><em>.</em></p>\n<p><strong>Fourth</strong> <em>sentence</em><em>!</em></p>\n```\n\n**Explanation:**\n\n1. **Splitting into Sentences:** The input paragraph is divided into four individual sentences based on punctuation marks: `!`, `?`, `.`, and `!`.\n\n2. **Wrapping with `<p>` Tags:** Each sentence is enclosed within `<p>` tags to denote separate paragraphs.\n\n3. **Adding `<strong>` Tags:** Within each `<p>` tag, the first word of the sentence is wrapped with a `<strong>` tag to strongly emphasize it.\n\n4. **Adding `<em>` Tags:** Additional elements within each sentence, such as the word \"sentence\" and the punctuation mark, are wrapped with `<em>` tags to emphasize them.\n\n**Resulting HTML Structure:**\n\n- **First Paragraph:**\n  ```html\n  <p><strong>First</strong> <em>sentence</em><em>!</em></p>\n  ```\n- **Second Paragraph:**\n  ```html\n  <p><strong>Second</strong> <em>sentence</em><em>?</em></p>\n  ```\n- **Third Paragraph:**\n  ```html\n  <p><strong>Third</strong> <em>sentence</em><em>.</em></p>\n  ```\n- **Fourth Paragraph:**\n  ```html\n  <p><strong>Fourth</strong> <em>sentence</em><em>!</em></p>\n  ```\n\nEach paragraph meets the specified rules by containing exactly one `<strong>` tag and multiple `<em>` tags, with key words and punctuation emphasized appropriately.",
+  "validityText": "No violation.\nOK",
+  "validity": "ok"
+}

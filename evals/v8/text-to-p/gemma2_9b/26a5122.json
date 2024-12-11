@@ -1,0 +1,11 @@
+{
+  "id": "26a5122",
+  "promptid": "b70fdc4",
+  "ruleid": 6,
+  "rule": "The <em> tag content must emphasize additional key words or phrases within the sentence.",
+  "model": "gemma2:9b",
+  "input": "The quick brown fox jumps over the lazy dog. Birds are chirping. Sun is rising.",
+  "output": "Here's the formatted paragraph:\n\n<p><strong>The</strong> <em>quick</em> <strong>brown</strong> fox <em>jumps</em> <strong>over</strong> the *lazy* dog.</p>\n<p>Birds are <em>chirping</em>.</p>\n<p><strong>Sun</strong> is <em>rising</em>.</p>  \n\n\n",
+  "compliance": "err",
+  "complianceText": "The evaluation is based on determining if the chatbot output adheres strictly to the provided description. The description given requires the following:\n\n1. The text must be split into individual sentences and each sentence must be wrapped in a <p> tag.\n2. It must have at least three <p> tags.\n3. Each <p> tag must include at least one <strong> tag and multiple <em> tags for key words and phrases.\n\nAnalyzing the given output:\n\n- The output has three <p> tags: this satisfies the requirement of having at least three <p> tags. \n- The first <p> tag contains three <strong> tags and two <em> tags. However, it contains an asterisk (*) around the word \"lazy,\" which is not enclosed in <em> tags and seems likely to be an error.\n- The second <p> tag includes one <em> tag, but no <strong> tag, violating the requirement that each <p> tag must have at least one <strong> tag.\n- The third <p> tag contains one <strong> tag and one <em> tag, satisfying the requirements for tags in an individual sentence.\n\nDue to the second <p> tag missing a required <strong> tag and the unexpected use of an asterisk in the first <p> tag, the output does not fully comply with the description.\n\nERR"
+}

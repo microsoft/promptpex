@@ -1,0 +1,12 @@
+{
+  "id": "2229b01",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Time moves on. Life changes. Seasons pass.",
+  "output": "**<p>**Life is fleeting and full of change. \n**<p>**\n<p><strong>Life</-strong> is a journey, not a destination. </em>\n**<p>**\n<p><em>Together</em>, we can weather any storm.</em> \n**<p>**\n<p><em>Time</em> moves on, and <em>life</em> changes. seasons pass.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the description due to the following reasons:\n\n1. There are formatting errors in the HTML structure. Specifically, the tag in \"<strong>Life</-strong>\" is incorrect (\"/\" should be a backslash \"\\\"), and there is a trailing \"</em>\" without a corresponding opening \"<em>\" tag in \"<p><strong>Life</-strong> is a journey, not a destination. </em>\".\n  \n2. The description specifies that each sentence should be wrapped with a <p> tag. One of the sentences \"seasons pass.\" is not wrapped inside its own <p> tag as it appears outside the <p> tag of the preceding sentence.\n\nThese issues indicate that the output does not fully comply with the provided description.\n\nERR"
+}

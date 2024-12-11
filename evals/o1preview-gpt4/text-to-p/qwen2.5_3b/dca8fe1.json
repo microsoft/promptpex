@@ -1,0 +1,12 @@
+{
+  "id": "dca8fe1",
+  "promptid": "b70fdc4",
+  "ruleid": 16,
+  "rule": "Inside each `<p>` tag, there should be either no `<strong>` tags or multiple `<strong>` tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Wind powers turbines. Energy generates electricity. Renewables reduce emissions.",
+  "output": "<p><strong>Wind</strong> powers <em>turbines.</em></p>\n<p><strong>Energy</strong> generates <em>electricity.</em></p>\n<p><strong>Rewards</strong> reduce <em>Emissions</em>.</p>",
+  "compliance": "ok",
+  "complianceText": "The chatbot output contains three individual sentences, each enclosed within a `<p>` tag. This satisfies the requirement that the output should have at least three `<p>` tags. \n\nWithin each `<p>` tag, there is one `<strong>` tag present, which emphasizes a particular word, thus complying with the requirement for a `<strong>` tag in each paragraph. \n\nAdditionally, each paragraph contains at least one `<em>` tag to emphasize key words or phrases, further complying with the described guidelines for use of `<em>` tags.\n\nThere is no requirement specifying the exact number of `<strong>` or `<em>` tags needed, so the presence of these tags within the `<p>` tags is compliant with the description. Thus, the output meets all compliance criteria outlined in the description.\n\nOK"
+}

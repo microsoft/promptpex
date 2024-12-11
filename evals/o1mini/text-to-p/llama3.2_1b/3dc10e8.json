@@ -1,0 +1,11 @@
+{
+  "id": "3dc10e8",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "text: The quick brown fox jumps over the lazy dog. She sells seashells by the seashore. How much wood would a woodchuck chuck?",
+  "output": "Here is the reformatted paragraph with individual sentences wrapped in <p> tags, and key words and phrases emphasized using <strong> and <em> tags:\n\n<p>This</p> <strong>quick</strong>, <strong>brown</strong> fox jumps</strong> over lazy</strong> dog.</p>\n\n<p\"She</p> sells</strong> seashells</strong> by the</em> seashore.</p>\n\n<p>How</em><span> much</em></span> wood would a woodchuck</strong> chuck?</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output contains several HTML syntax errors, such as improperly closed `<strong>` and `<em>` tags, a malformed `<p>` tag (`<p\"She</p>`), and incorrectly nested tags (`<em><span> much</em></span>`). These issues violate the described requirement to wrap each sentence in `<p>` tags with properly nested `<strong>` and `<em>` tags inside.\nERR"
+}

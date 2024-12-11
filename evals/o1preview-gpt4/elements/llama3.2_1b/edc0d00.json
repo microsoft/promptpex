@@ -1,0 +1,12 @@
+{
+  "id": "edc0d00",
+  "promptid": "e5ed513",
+  "ruleid": 23,
+  "rule": "For \"Company names\", the assistant may choose not to extract company names or may include entities that are not official business organizations.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: He started a non-profit organization to help others.",
+  "output": "**Company names:** N/A\n**People names:** \n- He\n**Specific topics:** \n- Non-profit organizations\n- Helping others\n**General themes:** \n- Philanthropy",
+  "compliance": "err",
+  "complianceText": "The output does not fully comply with the desired format specified in the chatbot description. There is a formatting issue under the \"People names\" section. According to the format, all categories should adhere to a comma_separated_list, using '-||-' to separate items within a category. The output under \"People names\" should follow this format even if it means stating 'N/A' for consistency, similar to how \"Company names\" is documented. Additionally, listing \"- He\" does not follow the format or convey valid people names.\n\nTherefore, the output deviates from the specified formatting, particularly under \"People names.\"\n\nERR"
+}

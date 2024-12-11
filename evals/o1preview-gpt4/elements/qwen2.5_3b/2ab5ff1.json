@@ -1,0 +1,12 @@
+{
+  "id": "2ab5ff1",
+  "promptid": "e5ed513",
+  "ruleid": 21,
+  "rule": "The entities in each list may include additional punctuation or be separated by other delimiters than commas.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: The CEO announced the merger; investors reacted positively.",
+  "output": "Company names: \n-||-\nPeople names: CEO\nSpecific topics: merger, positive reaction, investors\nGeneral themes: business decisions, market reactions",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the desired format outlined in the description. Specifically:\n\n1. The \"Company names\" section is left empty, which does not violate the format per se since there might not be any company names mentioned, but a specific point here is that it's not in the desired \"<comma_separated_list>\" format. Whether empty or not, it should be represented in a list following the desired format.\n\n2. The \"People names\" section does not follow the required \"<comma_separated_list>\" format. Instead, it just mentions \"CEO,\" which is not separated by commas or presented in any form of a list.\n\nThese deviations in format from the specified requirement are clear violations, leading to the conclusion that the output does not comply.\n\nERR"
+}

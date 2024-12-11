@@ -1,0 +1,11 @@
+{
+  "id": "5ff75c3",
+  "promptid": "b70fdc4",
+  "ruleid": 6,
+  "rule": "Inside each `<p>` tag, there should be multiple `<em>` tags that each wrap key words or phrases from the sentence.",
+  "model": "qwen2.5:3b",
+  "input": "Photography captures moments. Light creates art. Perspectives tell stories.",
+  "output": "<p><strong>Photography</strong> captures <em>moments</em>. Light creates <strong>art</strong>. Perspectives tell <strong>stories</strong>.</p>\n<p><strong>Photography</strong> captures <em>moments</em>. Light creates <strong>art</strong>. Perspectives tell <strong>stories</strong>.</p>\n<p><strong>Photography</strong> captures <em>moments</em>. Light creates <strong>art</strong>. Perspectives tell <strong>stories</strong>.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot's output consists of three <p> tags, which meets the requirement of having at least three <p> tags. However, the output lacks the compliance of having each individual sentence wrapped within its own <p> tag. Instead, all three sentences are wrapped together within each <p> tag. According to the description, each sentence should be enclosed in a separate <p> tag. Additionally, it is evident that there is only one sentence pattern repeated three times within different <p> tags which violates the rule of wrapping different sentences within <p> tags. \n\nDue to these reasons, the output does not comply with the chat description.\n\nERR"
+}

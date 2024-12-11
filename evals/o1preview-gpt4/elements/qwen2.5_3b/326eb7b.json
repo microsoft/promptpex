@@ -1,0 +1,12 @@
+{
+  "id": "326eb7b",
+  "promptid": "e5ed513",
+  "ruleid": 18,
+  "rule": "The category labels may differ from \"Company names\", \"People names\", \"Specific topics\", and \"General themes\", or may be in any order.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Tesla is revolutionizing electric vehicles.",
+  "output": "Company names: Tesla\nPeople names: -\nSpecific topics: Electric vehicles, Tesla\nGeneral themes: Revolution, Innovation",
+  "compliance": "err",
+  "complianceText": "The chatbot's output partially follows the described format, but there is a compliance issue related to the list of people names. According to the description, the output sections should include comma-separated lists for company names, people names, specific topics, and general themes. However, for people names, the output provides a dash (\"-\") instead of a comma-separated list, indicating a deviation from the prescribed format. \n\nAdditionally, the description does not specify using a dash in this manner when no items are present for a category. Although the presence or absence of entities cannot be judged without the input text, the format issue is clear here since the treatment of lists should be consistent regardless of presence or absence of entities.\n\nIn conclusion, the format for an empty list is not compliant with the description provided.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "91aef55",
+  "promptid": "b70fdc4",
+  "model": "o1-mini-2024-09-12",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "input": "Sentence one. Sentence two. Sentence three.",
+  "coverage": "```html\n<p><strong>Sentence</strong> <em>one</em>.</p>\n<p><strong>Sentence</strong> <em>two</em>.</p>\n<p><strong>Sentence</strong> <em>three</em>.</p>\n```\n\n**Explanation:**\n\n- **Paragraph Tags (`<p>`):** Each sentence is enclosed within its own `<p>` tag, resulting in three paragraphs as required.\n  \n- **Strong Tag (`<strong>`):** Within each `<p>`, the word \"Sentence\" is wrapped with a `<strong>` tag to strongly emphasize it.\n\n- **Emphasis Tags (`<em>`):** The words \"one\", \"two\", and \"three\" are each wrapped with an `<em>` tag to add emphasis. Additionally, the period `.` is also wrapped with an `<em>` tag to satisfy the requirement of multiple `<em>` tags within each paragraph.\n\nIf you have more detailed sentences or specific keywords you’d like to emphasize, you can adjust the placement of the `<strong>` and `<em>` tags accordingly to highlight those parts.",
+  "validityText": "No violation.\nOK",
+  "validity": "ok"
+}

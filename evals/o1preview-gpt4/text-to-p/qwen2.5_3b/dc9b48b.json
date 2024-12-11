@@ -1,0 +1,11 @@
+{
+  "id": "dc9b48b",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "The Mona Lisa is a famous painting by Leonardo da Vinci. It is housed in the Louvre Museum in Paris. Millions of visitors come to see it every year.",
+  "output": "<p><strong>They</strong> say that the <em>Mona Lisa</em> is a <strong>famous</strong> painting by <strong>Leonardo da Vinci</strong>. It is located within the <em>Louvre Museum</em> in <strong>Paris</strong>. Every year, millions of people pay visit to see it.</p>\n<p><strong>They</strong> say that the <em>Mona Lisa</em> is a <strong>famous</strong> painting by <strong>Leonardo da Vinci</strong>. It is located within the <em>Louvre Museum</em> in <strong>Paris</strong>. Every year, millions of people pay visit to see it.</p>\n<p><strong>They</strong> say that the <em>Mona Lisa</em> is a <strong>famous</strong> painting by <strong>Leonardo da Vinci</strong>. It is located within the <em>Louvre Museum</em> in <strong>Paris</strong>. Every year, millions of people pay visit to see it.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output consists of three <p> tags, each containing the same paragraph of text. According to the description, the paragraph should be split into individual sentences, and each sentence should be wrapped in a <p> tag. However, in this output, each <p> tag contains the entire paragraph instead of individual sentences. Furthermore, since the paragraph is repeated three times in its entirety, it doesn't demonstrate the sentence-level division intended by the description. More critically, the description requires each sentence to be wrapped with a <p> tag and must demonstrate at least three <p> tags, meaning three distinct sentences should have been evident within the output. As the same paragraph is merely repeated without division into individual sentences within <p> tags, this is a violation of the requirements. Additionally, the presence of <strong> and <em> tags within each <p> tag satisfies that particular part of the criteria, but since the fundamental requirement of splitting into individual sentences is not met, it leads to non-compliance.\n\nERR"
+}

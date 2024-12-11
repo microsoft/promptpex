@@ -1,0 +1,12 @@
+{
+  "id": "b45066e",
+  "promptid": "e5ed513",
+  "ruleid": 10,
+  "rule": "Finally, the output must not conclude with \"General themes:\" and should avoid listing broader, overarching themes identified from the text.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Legal approaches confront global trade issues at summits.",
+  "output": "Company names: <empty_string>\nPeople names: -||-\nSpecific topics: global trade, summits\nGeneral themes: legal approaches, global issues",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot does not comply with the description in a couple of ways. \n\n1. The 'Company names' section contains \"<empty_string>\" instead of a properly formatted list, even if no company names were detected, the section should contain an empty space instead of \"<empty_string>\", adhering strictly to the section format.\n\n2. The 'People names' section uses \"-||-\" without indicating it is intentionally left empty or indicating an explicit empty space. Each section should be formatted as specified, and if no names are to be listed, the section should still follow the format correctly by being empty or explicitly noting this fact.\n\nThese inconsistencies suggest that the specification for output numbering or notes for an empty list is not being followed correctly.\n\nERR"
+}

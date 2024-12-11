@@ -1,0 +1,12 @@
+{
+  "id": "dd07e55",
+  "promptid": "a253756",
+  "ruleid": 12,
+  "rule": "The JSON array must not be enclosed in square brackets.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "{\"models\": [\"ResNet\"]}",
+  "output": "<|python_tag|>import re\n\ndef extract_model_names(abstracts):\n    pattern = r\"models\\\":[^]]*”\n    model_names = []\n    \n    for abstract in abstracts:\n        match = re.search(pattern, abstract)\n        \n        if match:\n            model_name = match.group().strip(\")]\n            model_names.append(\"[\" + model_name.strip(\"[]\") + \"]\")\n        else:\n            model_names.append(\"NA\")\n            \n    return model_names\n\nabstracts = {\"models\": [\"ResNet\"]}\nprint(extract_model_names(abstracts))  # Output: ['ResNet']\n\nabstracts = {\"models\": [\"ResNet\",\"LightGBM\"]}\nprint(extract_model_names(abstracts))  # Output: ['ResNet', 'NA']",
+  "compliance": "err",
+  "complianceText": "The chatbot provided Python code instead of returning an array of model names as specified. The expected response format is a JSON array like [\"model_name\"] or [\"NA\"], not executable code.\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "411a756",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "The cat jumps high. The dog barks loud. The bird flies far.",
+  "output": "<p>The cat jumps high.</p>\n<strong>The cat</strong> <em>jumps</em> multiple times each day.\n\n<p>The dog barks loud.</p>\n<strong>The</strong> <em>dog</em> is friendly and always eager to play, making him a great pet for families with children.\n\n<p>The bird flies far.</p>\n<strong>The<em>cage-mates</em></strong><strong>(two)<em>birds,</em></strong> like the parakeet and the canary, fly around each other in their aviaries, keeping them company.",
+  "compliance": "err",
+  "complianceText": "The chatbot's output fails to comply with the description in the following ways:\n\n1. The formatting requirement is that each sentence should be wrapped with its own <p> tag. However, in the first sentence about \"The cat jumps high.\", the <strong> and <em> tags are placed outside of the <p> tags, which is not correct based on the description. Each sentence with <strong> and <em> tags should be inside its respective <p> tag.\n\n2. Although there are three <p> tags, the content of each sentence was not correctly formatted as per the sentence structure required to be completely inside a <p> tag. The presence of <strong> and <em> tags outside the <p> tags violates the specified format.\n\nBased on these observations, the output does not comply with the description's formatting requirements.\n\nERR"
+}

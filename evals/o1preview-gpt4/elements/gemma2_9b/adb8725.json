@@ -1,0 +1,11 @@
+{
+  "id": "adb8725",
+  "promptid": "e5ed513",
+  "ruleid": null,
+  "baseline": true,
+  "model": "gemma2:9b",
+  "input": "Text: Albert Einstein developed the theory of relativity.",
+  "output": "Company names: \n\nPeople names: Albert Einstein \nSpecific topics: theory of relativity  \nGeneral themes: science, physics  \n",
+  "compliance": "err",
+  "complianceText": "The chatbot output is missing the extraction of company names. According to the description, even if there are no company names present to extract from the text, the output should contain \"Company names: \" followed by a comma-separated list, even if it's empty. This ensures each section is addressed in the predefined format. The output should comply by at least placing an empty indicator after \"Company names: \" (potentially \"None\" or another suitable placeholder) if no company names were mentioned in the text. As this format adherence is not met, it indicates non-compliance with the description. \n\nERR"
+}

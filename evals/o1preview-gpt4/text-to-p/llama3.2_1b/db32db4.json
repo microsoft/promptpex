@@ -1,0 +1,12 @@
+{
+  "id": "db32db4",
+  "promptid": "b70fdc4",
+  "ruleid": 15,
+  "rule": "There should be fewer than three pairs of `<p>` tags in the output.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Medicine advances health. Research discovers cures. Treatment saves lives.",
+  "output": "<p>Medicine advances health.</p>\n<span style=\"font-weight: bold; font-style: italic;\">Medical</span> breakthroughs lead to improved wellness <strong>treatment</strong> options.\n\n<p>Raise awareness, educate people about disease prevention and management <em>advances health.</em></p>\n<span style=\"font-size: larger;\">The efforts of researchers and healthcare professionals are instrumental in addressing various causes of illness. The importance is highlighted here by strong emphasis being placed on the role that medicine can play to safeguard public wellbeing.</span>",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the description. Here is why:\n\n1. The description specifies that the chatbot should split the paragraph into individual sentences and wrap each sentence with a `<p>` tag. The output does not properly follow this structure. The first sentence is within a `<p>` tag, but the second sentence starts with a `<span>` tag rather than a `<p>` tag, thus breaking the requirement.\n\n2. The output should contain at least three `<p>` tags. However, there are only two `<p>` tags present in the output, which violates the requirement of having at least three.\n\n3. The description specifies that inside each `<p>` tag, there should be one `<strong>` tag and multiple `<em>` tags to emphasize key words and phrases. In the given output, the use of `<strong>` and `<em>` tags does not adhere to this structure consistently within each `<p>` tag.\n\nBased on these observations, the output does not comply with the described requirements.\n\nERR"
+}

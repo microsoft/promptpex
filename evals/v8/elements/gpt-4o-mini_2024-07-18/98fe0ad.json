@@ -1,0 +1,12 @@
+{
+  "id": "98fe0ad",
+  "promptid": "e5ed513",
+  "ruleid": 9,
+  "rule": "Then, the output must exclude \"Specific topics:\" and should not list any specific topics relevant and mentioned in the text.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: The market is saturated with products from diverse industries.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: market saturation, diverse industries\nGeneral themes: competition, product market dynamics",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the description for the following reasons:\n1. The output format for \"Company names\" is not followed as there is no value provided after \"Company names: \".\n2. The output for \"People names\" correctly states \"-||-\" indicating no names provided.\n3. The output for both \"Specific topics\" and \"General themes\" is provided following the appropriate format.\nGiven there's an issue with the \"Company names\" section, it violates the specified format in the description. The description explicitly asks for \"Company names: <comma_separated_list_of_company_names>\", and providing an empty space without anything following it results in non-compliance.\n\nERR"
+}

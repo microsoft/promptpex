@@ -1,0 +1,12 @@
+{
+  "id": "5914f4c",
+  "promptid": "dddf836",
+  "ruleid": 12,
+  "rule": "The chatbot must include explanations, descriptions, or additional information in its response beyond the required tag or specified strings.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "sentence: 'We will leave now', word: 'will'",
+  "output": "Sentence               | Word                | Part of Speech Tag\n------------------------|---------------------|------------------\nWe                  | will                 | VBZ (Third Person Singular)\n will              | leave                 | JJR (Superlative Adjective)\n leave               | now                  | IN (Preposition)\n\nSince 'will' appears twice in the sentence, we have two occurrences of 'will'.",
+  "compliance": "err",
+  "complianceText": "The chatbot's output includes a table with additional information and explanations, whereas the task requires returning only the part of speech tag without any extra details.\nERR"
+}

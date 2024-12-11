@@ -1,0 +1,11 @@
+{
+  "id": "d482a1f",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "Exercise is important for maintaining good health. Regular activity can improve mood and energy levels. Incorporate movement into your daily routine.",
+  "output": "<p><strong>Exercise</strong> is <em>important</em> for <em>maintaining</em> good <em>health</em>. </p>\n<p>Regular <strong>activity</strong> can improve mood and energy levels.</p>\n<p>Incorporate <strong>movement</strong> into your daily routine.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot description states that the paragraph should be split into individual sentences with each wrapped in a `<p>` tag. For each `<p>` tag, there should be at least one `<strong>` tag and multiple `<em>` tags to emphasize key words and phrases. \n\n1. There are three `<p>` tags present in the output, which satisfies the requirement of having at least three `<p>` tags.\n\n2. In each `<p>` tag, there is one `<strong>` tag used, which satisfies the requirement of having at least one `<strong>` tag in each paragraph. \n\n3. For the `<em>` tags:\n   - In the first `<p>`, there are three `<em>` tags.\n   - In the second `<p>`, there are no `<em>` tags, which violates the guideline of having multiple `<em>` tags in each paragraph.\n   - In the third `<p>`, there are no `<em>` tags as well.\n\nSince multiple `<em>` tags were required in each `<p>` tag, and this isn't met in the second and third `<p>` tags, the output does not comply with the chatbot description.\n\nERR"
+}

@@ -1,0 +1,315 @@
+{
+  "prompt": "\n---\nname: Extract Elements of Text\ndescription: Extract specific elements of text from a given text\nsource: OpenAI documentation\nurl: https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api\ninputs: \n   text:\n      type: string\n---\nsystem:\nExtract the important entities mentioned in the text below. First extract all company names, then extract all people names, then extract specific topics which fit the content and finally extract general overarching themes\n\nDesired format:\nCompany names: <comma_separated_list_of_company_names>\nPeople names: -||-\nSpecific topics: -||-\nGeneral themes: -||-\nuser:\nText: {{ text }}\n",
+  "inputSpec": "The input must be a non-empty string containing the text to be analyzed.\nThe input string should not exceed 10,000 characters.",
+  "rules": [
+    "The output must consist of four distinct lines, each corresponding to a specific category of extracted elements.",
+    "The first line must begin with \"Company names:\" followed by a space and a comma-separated list of company names extracted from the input text. A company name is defined as the official name of a business entity or organization mentioned in the input text.",
+    "The second line must begin with \"People names:\" followed by a space and a comma-separated list of full names of individuals extracted from the input text. A people name is defined as the full name of a person, including both first and last names, mentioned in the input text.",
+    "The third line must begin with \"Specific topics:\" followed by a space and a comma-separated list of specific topics relevant to the content of the input text. A specific topic is defined as a particular subject matter that closely relates to the content and context of the input text.",
+    "The fourth line must begin with \"General themes:\" followed by a space and a comma-separated list of general themes that broadly encapsulate the main ideas of the input text. A general theme is defined as a wide-ranging topic or overarching subject that represents the fundamental concepts presented in the input text."
+  ],
+  "inverseRules": [
+    "The output must consist of a variable number of lines not limited to four, with overlapping or unrelated categories.",
+    "The first line must not begin with \"Company names:\" and should exclude any business entity or organization names extracted from the input text.",
+    "The second line must not begin with \"People names:\" and should exclude any full names of individuals extracted from the input text.",
+    "The third line must not begin with \"Specific topics:\" and should exclude any particular subject matters related to the content of the input text.",
+    "The fourth line must not begin with \"General themes:\" and should exclude any wide-ranging topics or overarching subjects from the main ideas of the input text."
+  ],
+  "tests": [
+    {
+      "ruleid": null,
+      "```csv": "ruleid"
+    },
+    {
+      "ruleid": null,
+      "```csv": "1"
+    },
+    {
+      "ruleid": null,
+      "```csv": "1"
+    },
+    {
+      "ruleid": null,
+      "```csv": "1"
+    },
+    {
+      "ruleid": null,
+      "```csv": "2"
+    },
+    {
+      "ruleid": null,
+      "```csv": "2"
+    },
+    {
+      "ruleid": null,
+      "```csv": "2"
+    },
+    {
+      "ruleid": null,
+      "```csv": "3"
+    },
+    {
+      "ruleid": null,
+      "```csv": "3"
+    },
+    {
+      "ruleid": null,
+      "```csv": "3"
+    },
+    {
+      "ruleid": null,
+      "```csv": "4"
+    },
+    {
+      "ruleid": null,
+      "```csv": "4"
+    },
+    {
+      "ruleid": null,
+      "```csv": "4"
+    },
+    {
+      "ruleid": null,
+      "```csv": "5"
+    },
+    {
+      "ruleid": null,
+      "```csv": "5"
+    },
+    {
+      "ruleid": null,
+      "```csv": "5"
+    },
+    {
+      "ruleid": null,
+      "```csv": "6"
+    },
+    {
+      "ruleid": null,
+      "```csv": "6"
+    },
+    {
+      "ruleid": null,
+      "```csv": "6"
+    },
+    {
+      "ruleid": null,
+      "```csv": "7"
+    },
+    {
+      "ruleid": null,
+      "```csv": "7"
+    },
+    {
+      "ruleid": null,
+      "```csv": "7"
+    },
+    {
+      "ruleid": null,
+      "```csv": "8"
+    },
+    {
+      "ruleid": null,
+      "```csv": "8"
+    },
+    {
+      "ruleid": null,
+      "```csv": "8"
+    },
+    {
+      "ruleid": null,
+      "```csv": "9"
+    },
+    {
+      "ruleid": null,
+      "```csv": "9"
+    },
+    {
+      "ruleid": null,
+      "```csv": "9"
+    },
+    {
+      "ruleid": null,
+      "```csv": "10"
+    },
+    {
+      "ruleid": null,
+      "```csv": "10"
+    },
+    {
+      "ruleid": null,
+      "```csv": "10"
+    },
+    {
+      "ruleid": null,
+      "```csv": "```"
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Apple Inc. announced a new product at their annual conference. Tim Cook highlighted the features of the latest iPhone, emphasizing sustainability.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: In a recent interview, Elon Musk discussed the future of SpaceX and Tesla. He also mentioned collaborations with NASA on upcoming missions.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The United Nations held a summit on climate change, focusing on reducing carbon emissions and promoting renewable energy sources.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Microsoft released an update for Windows 11, introducing several new features and security enhancements. Satya Nadella spoke about the company's commitment to innovation.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: During the conference, Dr. Jane Smith presented her research on artificial intelligence and machine learning applications in healthcare.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Google partnered with various startups to accelerate advancements in quantum computing technology. Sundar Pichai emphasized the importance of collaboration.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The annual report from Amazon detailed a 10% increase in revenue and expansion into new international markets. Jeff Bezos outlined future growth strategies.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: At the technology expo, Samsung unveiled its latest line of smart appliances, aiming to integrate Internet of Things (IoT) capabilities into everyday household items.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The CEO of Facebook, Mark Zuckerberg, addressed concerns regarding data privacy and announced new initiatives to safeguard user information.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: A panel of experts from Harvard University discussed the impacts of globalization on emerging economies, highlighting both opportunities and challenges.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Toyota is investing heavily in electric vehicle technology, aiming to release 20 new models by 2025. Akio Toyoda stated the company's vision for a sustainable future.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The New York Times published an in-depth analysis of the stock market trends over the past decade, featuring insights from financial analysts and economists.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Amazon Web Services (AWS) introduced a new cloud-based solution designed to enhance data security for businesses of all sizes.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: During the press release, NVIDIA showcased its latest advancements in graphics processing units (GPUs), targeting the gaming and professional visualization markets.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The World Health Organization (WHO) released guidelines on mental health support, emphasizing the need for accessible resources and community programs.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: In her keynote speech, Oprah Winfrey shared her experiences in media and philanthropic efforts aimed at empowering underprivileged communities.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: IBM announced a breakthrough in quantum computing, collaborating with research institutions to push the boundaries of computational capabilities.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The European Union passed new regulations on digital privacy, impacting major tech companies like Apple and Google in how they handle user data.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: A study conducted by MIT revealed significant advancements in renewable energy storage, potentially revolutionizing the power industry.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: During the summit, Angela Merkel discussed the importance of international cooperation in addressing global economic challenges and fostering sustainable development.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Tesla's Gigafactory in Shanghai has reached full production capacity, contributing to the global supply chain of electric vehicles and batteries.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The software development team at Adobe launched a beta version of their new creative suite, offering enhanced features for graphic designers and video editors.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: In collaboration with NASA, Boeing is developing next-generation spacecraft aimed at deep space exploration missions scheduled for the next decade.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The Financial Times reported on the merger between two leading banks, highlighting the potential impacts on the global financial landscape.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: During the webinar, Professor Alan Turing from Stanford University presented his latest research on cryptography and its applications in cybersecurity.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Spotify introduced a new algorithm designed to personalize music recommendations, leveraging machine learning to enhance user experience.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The National Basketball Association (NBA) partnered with Nike to release a limited edition line of athletic wear, celebrating the league's 75th anniversary.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Intel showcased its new line of processors at CES, promising faster performance and improved energy efficiency for both consumers and enterprise clients.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The United States Department of Energy announced funding for several projects focused on advancing solar and wind energy technologies.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: During the panel discussion, Dr. Susan Calvin from Robotics Institute discussed the ethical considerations of developing autonomous artificial intelligence systems.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: BMW unveiled its latest electric vehicle model, featuring cutting-edge technology and sustainable manufacturing practices aimed at reducing carbon footprint.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: The World Economic Forum in Davos brought together global leaders to discuss strategies for economic recovery and addressing income inequality post-pandemic.",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: Salesforce released a new customer relationship management (CRM) tool designed to integrate seamlessly with existing business applications, enhancing sales and marketing efforts.",
+      "baseline": true
+    }
+  ],
+  "testEvals": [],
+  "testResults": []
+}

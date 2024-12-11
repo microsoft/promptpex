@@ -1,0 +1,12 @@
+{
+  "id": "0c444db",
+  "promptid": "e5ed513",
+  "ruleid": 19,
+  "rule": "Each category label can be written differently than specified, including changes in capitalization and spelling.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: At the opening ceremony, the President addressed the nation.",
+  "output": "Company names: \nPeople names: President\nSpecific topics: opening ceremony, national address\nGeneral themes: leadership, national events",
+  "compliance": "err",
+  "complianceText": "The given output does not comply with the description provided. According to the desired format, each category should contain a comma-separated list, and if there are no entities for a category, it should still show the category. In the output, the \"People names\" category contains \"President,\" which is not a proper person's name, rather a title. It does not follow the description's guidance of listing \"people names.\" Additionally, \"Company names:\" is left empty suggesting no entities were extracted, which may be okay if there truly were no company names in the text.\n\nThe reasoning that went into this conclusion is based on the structure required by the description. Each category needs to be properly populated, and while I can't determine the correctness of the entity \"President\" being in \"People names\" without the text, I can state that \"President\" is not a name, it is a title. Therefore, the output does not properly list people names and does not comply with the specified format.\n\nERR"
+}

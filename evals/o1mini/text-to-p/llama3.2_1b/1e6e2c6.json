@@ -1,0 +1,11 @@
+{
+  "id": "1e6e2c6",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "text: Hiking offers a chance to connect with nature. It promotes physical fitness and mental relaxation. Exploring trails can be an invigorating adventure.",
+  "output": "Here is the formatted paragraph:\n\n<p><strong>Exploring</strong> </p>\n<p><em>promoting</em><em>nature</em><em>,</em></p>\n<p><strong>Mental</strong><em> </em><strong>Relaxation</strong></p>\n\n**Explanation**: The first <p> tag wraps the text starting from \"Exploring\", emphasizing the physical aspect with multiple em tags.",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the description. Specifically:\n\n1. **First `<p>` Tag**: Contains only a `<strong>` tag without any `<em>` tags, whereas the description requires one `<strong>` tag *and* multiple `<em>` tags within each `<p>` tag.\n2. **Third `<p>` Tag**: Contains two `<strong>` tags instead of just one, violating the requirement of having only one `<strong>` tag per `<p>` tag.\n\nERR"
+}

@@ -128,7 +128,9 @@ export interface PromptPexTestEval {
   rule: string;
   inverse?: boolean;
   input: string;
-  coverage?: string;
+  coverage?: "ok" | "err";
+  coverageEvalText?: string;
+  coverageText?: string;
   validity?: "ok" | "err";
   validityText?: string;
   error?: string;
@@ -188,15 +190,13 @@ export async function loadPromptFiles(
 }
 
 function modelOptions(
-  options: PromptPexOptions | undefined
+  modelAlias: "rules" | "eval" | string
 ): PromptGeneratorOptions {
-  const { disableSafetyPrompts, temperature = 1 } = options || {};
   return {
-    model: "large",
-    temperature,
-    system: disableSafetyPrompts
-      ? []
-      : ["system.safety_jailbreak", "system.safety_harmful_content"],
+    model: modelAlias,
+    temperature: 1,
+    // RAI must be checked by an external service
+    system: [],
   };
 }
 
@@ -240,7 +240,7 @@ export async function checkRuleGrounded(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("eval"),
       //      logprobs: true,
       label: `check rule grounded ${rule.slice(0, 18)}...`,
     }
@@ -261,7 +261,7 @@ export async function generateInputSpec(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: "generate input spec",
     }
@@ -282,7 +282,7 @@ export async function generateIntent(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: "generate intent",
     }
@@ -306,7 +306,7 @@ export async function generateRules(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: "generate rules",
     }
@@ -327,7 +327,7 @@ export async function generateInverseRules(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: "inverse rules",
     }
@@ -351,7 +351,7 @@ export async function generateBaselineTests(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: `generate baseline tests`,
     }
@@ -399,7 +399,7 @@ export async function generateTests(
       });
     },
     {
-      ...modelOptions(options),
+      ...modelOptions("rules"),
       //      logprobs: true,
       label: `generate tests`,
     }
@@ -435,13 +435,12 @@ export async function runTests(
 
   console.log(`executing ${tests.length} tests with ${models.length} models`);
   const testResults: PromptPexTestResult[] = [];
-  for (let testi = 0; testi < tests.length; ++testi) {
-    const test = tests[testi];
-    console.log(
-      `run test ${testi + 1}/${tests.length} ${test.testinput.slice(0, 42)}...`
-    );
-    await evaluateTestQuality(files, test, { force });
-    for (const model of models) {
+  for (const model of models) {
+    for (let testi = 0; testi < tests.length; ++testi) {
+      const test = tests[testi];
+      console.log(
+        `${model}: run test ${testi + 1}/${tests.length} ${test.testinput.slice(0, 42)}...`
+      );
       const testRes = await runTest(files, test, { model, force });
       if (testRes) testResults.push(testRes);
     }
@@ -565,7 +564,7 @@ export async function runTest(
 ): Promise<PromptPexTestResult> {
   const { model, force } = options || {};
   const moptions = {
-    ...modelOptions(),
+    ...modelOptions(model),
   };
   const { id, promptid, file } = await resolveTestPath(files, test, {
     model,
@@ -601,7 +600,6 @@ export async function runTest(
     },
     {
       ...moptions,
-      model,
       label: `run test ${testInput.slice(0, 42)}...`,
     }
   );
@@ -617,7 +615,7 @@ export async function runTest(
     output: actualOutput,
   } satisfies PromptPexTestResult;
   testRes.compliance = undefined;
-  testRes.complianceText = await evaluateTestResult(files, testRes, { model });
+  testRes.complianceText = await evaluateTestResult(files, testRes);
   updateTestResultCompliant(testRes);
 
   await workspace.writeText(file.filename, JSON.stringify(testRes, null, 2));
@@ -648,7 +646,7 @@ export async function evaluateTestQuality(
 ): Promise<PromptPexTestEval> {
   const { force } = options || {};
   const moptions = {
-    ...modelOptions(),
+    ...modelOptions("eval"),
   };
   const { id, promptid, file } = await resolveTestEvalPath(files, test);
   if (file.content && !force) {
@@ -668,7 +666,7 @@ export async function evaluateTestQuality(
     throw new Error(`No rule found for test ${test["ruleid"]}`);
 
   const { args, testInput } = resolvePromptArgs(files, test);
-  if (!args)
+  if (!args || testInput === undefined)
     return {
       id,
       promptid,
@@ -717,17 +715,30 @@ export async function evaluateTestQuality(
   const error = [resCoverage.error?.message, resValidity?.error?.message]
     .filter((s) => !!s)
     .join(" ");
-  const testEval = {
+  const testEval: PromptPexTestEval = {
     id,
     promptid,
     model: resCoverage.model,
     ...rule,
     input: testInput,
-    coverage: resCoverage.text,
     validityText: resValidity.text,
     validity: parseOKERR(resValidity.text),
-    error: error || undefined,
+    coverageText: resCoverage.text,
   } satisfies PromptPexTestEval;
+
+  const coverage = await evaluateTestResult(files, {
+    id: "cov-" + testEval.id,
+    rule: testEval.rule,
+    ruleid: test.ruleid,
+    promptid,
+    model: testEval.model,
+    input: testEval.input,
+    output: testEval.coverageText,
+  });
+
+  testEval.coverageEvalText = coverage;
+  testEval.coverage = parseOKERR(testEval.coverageEvalText);
+  testEval.error = error || undefined;
 
   await workspace.writeText(file.filename, JSON.stringify(testEval, null, 2));
 
@@ -749,7 +760,7 @@ function parseRulesTests(text: string): PromptPexTest[] {
   const rulesTests = content
     ? (CSV.parse(content, { delimiter: ",", repair: true }) as PromptPexTest[])
     : [];
-  return rulesTests;
+  return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }));
 }
 
 function parseTestResults(files: PromptPexContext): PromptPexTestResult[] {
@@ -813,12 +824,10 @@ function resolveRule(
 
 async function evaluateTestResult(
   files: PromptPexContext,
-  testResult: PromptPexTestResult,
-  options?: PromptPexOptions & { model?: ModelType }
+  testResult: PromptPexTestResult
 ): Promise<string> {
-  const { model } = options || {};
   const moptions = {
-    ...modelOptions(options),
+    ...modelOptions("eval"),
   };
 
   const content = MD.content(files.prompt.content);

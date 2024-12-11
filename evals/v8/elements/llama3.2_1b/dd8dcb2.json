@@ -1,0 +1,12 @@
+{
+  "id": "dd8dcb2",
+  "promptid": "e5ed513",
+  "ruleid": 8,
+  "rule": "Next, the output must continue without \"People names:\" and avoid listing any people names extracted from the text.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Advocates for sustainable practices demand immediate action.",
+  "output": "Here are the extracted entities:\n\n**Company Names:** None mentioned\n\n**People Names:** -||-\n\n**Specific Topics:** Sustainable Practices, Immediate Action\n\n**General Themes:** Green Living, Environmental Conservation, Social Responsibility",
+  "compliance": "err",
+  "complianceText": "The chatbot output maintains a distinct separation for each category as described. It lists \"Company Names\", \"People Names\", \"Specific Topics\", and \"General Themes\" in the specified order. However, the category for \"People Names\" uses the placeholder \"-||-\", which is meant to be a separator in the description rather than a placeholder for none mentioned. This varies from the expected response based on the chatbot description provided, where there should be an explicit statement or another placeholder that clearly indicates no people names were found, much like \"None mentioned\" for \"Company Names\". The placeholder used here is misleading in this context as it is meant for separating items, not for indicating absence.\n\nThe categories \"Company Names\" and \"Specific Topics\" comply with the description format by clearly indicating their findings or lack thereof. Consequently, the violation lies primarily in how the \"People Names\" category is reported.\n\nERR"
+}

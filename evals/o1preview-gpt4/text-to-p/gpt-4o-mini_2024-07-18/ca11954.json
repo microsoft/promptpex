@@ -1,0 +1,11 @@
+{
+  "id": "ca11954",
+  "promptid": "b70fdc4",
+  "ruleid": 5,
+  "rule": "Inside each `<p>` tag, there should be exactly one `<strong>` tag that wraps a key word or phrase from the sentence.",
+  "model": "gpt-4o-mini",
+  "input": "Ocean waves crash loudly. The sun sets beautifully. Stars shine brightly.",
+  "output": "```html\n<p><strong>Ocean waves</strong> <em>crash</em> <em>loudly</em>.</p>\n<p><strong>The sun</strong> <em>sets</em> <em>beautifully</em>.</p>\n<p><strong>Stars</strong> <em>shine</em> <em>brightly</em>.</p>\n<p><strong>Ocean waves</strong> <em>crash</em> <em>loudly</em>.</p>\n<p><strong>The sun</strong> <em>sets</em> <em>beautifully</em>.</p>\n<p><strong>Stars</strong> <em>shine</em> <em>brightly</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output consists of six `<p>` tags, each containing a complete sentence wrapped with one `<strong>` tag and multiple `<em>` tags. It satisfies the requirement of having at least three `<p>` tags. Each sentence is correctly wrapped in a `<p>` tag, and the conditions regarding the `<strong>` and `<em>` tags are met with their presence in every `<p>` tag. The output contains duplicated sentences, but since correctness of input-output relationships cannot be verified due to lack of input, this cannot be a compliance issue.\n\nNo violation.\nOK"
+}

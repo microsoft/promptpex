@@ -1,0 +1,11 @@
+{
+  "id": "4235157",
+  "promptid": "e5ed513",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "Text: IBM's Deep Blue computer defeated a world chess champion.",
+  "output": "Here is the extracted information:\n\n**Company Names:** None found\n\n**People Names:** \nBob Martin ||-\n\n**Specific Topics:** -world chess champion, IBM Deep Blue\n\n**General Themes:** -computers, artificial intelligence, chess, defeat",
+  "compliance": "err",
+  "complianceText": "The evaluation focuses on whether the output complies with the desired format specified in the description. The description requests a clear format for output with comma-separated lists:\n\n1. **Company Names:** The field is empty but marked with \"None found,\" which still adheres to format expectations by explicitly stating the absence of company names.\n\n2. **People Names:** The description requires a comma-separated list, and while the phrase \"None found\" is used in the absence of entities, here there is an entity \"Bob Martin\" that should be presented in the same manner. The output includes \"||-\" which is extraneous and non-compliant with the expected format.\n\n3. **Specific Topics:** The list format requested is: `Specific topics: <comma_separated_list_of_topics>`. The output provided does not follow this format; it uses \"-\" as a separator, which is non-compliant with the comma-separated list requirement.\n\n4. **General Themes:** The same issue arises with \"General Themes.\" The output uses \"-\" as a separator instead of a comma-separated list, thus non-compliant with the required format.\n\nOverall, the violation is due to the absence of the correctly formatted comma-separated lists for specific topics and general themes. Additionally, there is the incorrect use of \"||-\" in People Names.\n\nHere, violations are primarily format-related, which emerge in multiple sections.\n\nERR"
+}

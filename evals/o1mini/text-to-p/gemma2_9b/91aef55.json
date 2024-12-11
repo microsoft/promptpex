@@ -1,0 +1,12 @@
+{
+  "id": "91aef55",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Sentence one. Sentence two. Sentence three.",
+  "output": "<p><strong>This </h3> is the first <em>sentence</em>.  </p>\n\n<p><strong>Here's </strong>the *second* <em>sentence</em></p>\n\n <p><strong>And this </strong>is the *third* <em>sentence.</em> </p>   \n\n\n\n\nLet me know if you want to experiment with different styles or emphasis!",
+  "compliance": "err",
+  "complianceText": "The first `<p>` tag incorrectly closes with `</h3>` instead of `</strong>`. Additionally, asterisks (*) are used for emphasis instead of `<em>` tags in the second and third paragraphs. Furthermore, there is extra text outside the HTML structure that wasn't specified in the description.\nERR"
+}

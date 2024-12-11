@@ -1,0 +1,12 @@
+{
+  "id": "391cdfc",
+  "promptid": "b70fdc4",
+  "ruleid": 15,
+  "rule": "There should be fewer than three pairs of `<p>` tags in the output.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Challenges develop skills. Overcoming builds confidence. Success follows effort.",
+  "output": "<p>This is the first paragraph with individual sentences wrapped in <p> tags, followed by <strong> and <em> tags to emphasize key words.</p>\n\n<p>This sentence emphasizes that challenges develop skills.</p>\n<strong>This strong emphasis highlights the importance of overcoming challenges, as developing **skills** is a crucial aspect of personal development.</strong>\n\n<p>This sentence emphasizes confidence building, using phrases like \"builds confidence\" and \"overcoming</p>\n<strong>building<em> confidence is a vital step towards achieving success with effort}</em>",
+  "compliance": "err",
+  "complianceText": "The output is expected to wrap each sentence with a <p> tag. It should contain at least three <p> tags, with each tag containing one <strong> and multiple <em> tags for key words and phrases. In the output:\n\n1. There are three <p> tags indicating compliance with the number of paragraphs rule.\n2. Not all <p> tags contain a <strong> tag. Specifically, the first and third <p> tag lack a <strong> tag within it.\n3. The placement of <strong> tags is incorrect as they should be nested within <p> elements, but here they are separate and outside <p> tags.\n4. There are not multiple <em> tags present within each <p> tag as required. \n5. The syntax seems broken as there is an open bracket \"}\" instead of a closed bracket \">\" and similarly misplaced double asterisks \"**\" likely intended for formatting.\n6. The formatting errors and misplacement of tags show non-compliance to the given description.\n\nBased on these observations, the output does not strictly adhere to the described requirements. \n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ddb5361",
+  "promptid": "b70fdc4",
+  "ruleid": 19,
+  "rule": "The `<strong>` tag should not be properly nested within the `<p>` tags and may overlap with `<em>` tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Education shapes futures. Teachers inspire minds. Knowledge empowers people.",
+  "output": "```html\n<p><strong>Education</strong> <em>shapes</em> <em>futures</em>.</p>\n<p><strong>Teachers</strong> <em>inspire</em> <em>minds</em>.</p>\n<p><strong>Knowledge</strong> <em>empowers</em> <em>people</em>.</p>\n<p><strong>Education</strong> <em>shapes</em> <em>futures</em>.</p>\n<p><strong>Teachers</strong> <em>inspire</em> <em>minds</em>.</p>\n<p><strong>Knowledge</strong> <em>empowers</em> <em>people</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The chatbot output provides HTML code with sentences wrapped in `<p>` tags each containing a `<strong>` tag and multiple `<em>` tags. The description requires at least three `<p>` tags, and the output provides six, thereby fulfilling this requirement. Each sentence within these `<p>` tags contains one `<strong>` tag and multiple `<em>` tags, complying with the description.\n\nNo part of the description requires knowing the input specifics. Therefore, all requirements that can be evaluated without input knowledge are satisfied.\n\nNo violation.\nOK"
+}

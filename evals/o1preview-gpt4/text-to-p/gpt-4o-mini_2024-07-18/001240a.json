@@ -1,0 +1,12 @@
+{
+  "id": "001240a",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "The output should not be an HTML formatted text.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Mathematics is universal. Equations describe reality. Numbers reveal patterns.",
+  "output": "```html\n<p><strong>Mathematics</strong> is <em>universal</em>.</p>\n<p><strong>Equations</strong> describe <em>reality</em>.</p>\n<p><strong>Numbers</strong> reveal <em>patterns</em>.</p>\n<p><strong>Mathematics</strong> is <em>universal</em>.</p>\n<p><strong>Equations</strong> describe <em>reality</em>.</p>\n<p><strong>Numbers</strong> reveal <em>patterns</em>.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot output should contain only at least three <p> tags, each representing a single sentence from the original paragraph. However, the output provided contains six <p> tags. The duplicated sentences (\"Mathematics is universal.\", \"Equations describe reality.\", \"Numbers reveal patterns.\") indicate that the same three sentences have been repeated, resulting in a doubled structure which is inconsistent with the guideline indicating \"at least three <p> tags\" but not asking for duplications.\n\nMention the reason for violation and your thinking went into coming up with it.\nERR"
+}

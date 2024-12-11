@@ -1,0 +1,12 @@
+{
+  "id": "b406fef",
+  "promptid": "e5ed513",
+  "ruleid": 28,
+  "rule": "The assistant may add extra text, explanations, or formatting beyond what is specified in the desired format.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: The project aims to improve urban infrastructure.",
+  "output": "Here are the extracted entities:\n\nCompany names: None\nPeople names: \n Topics:\n General themes: Project, Urban Infrastructure \n\nNote that there are no specific company or person-related details mentioned in the given text snippet. It only talks about a general project aiming to improve urban infrastructure.",
+  "compliance": "err",
+  "complianceText": "Based on the provided output and the description, the chatbot was supposed to output information in a specific format, listing company names, people names, specific topics, and general themes. The given output has several compliance issues: \n\n1. **Formatting Issue**: There are multiple formatting issues. The section headers for \"People names\" and \"Topics\" are not followed by a ':' and a list, which creates a non-compliance with the specified format.\n  \n2. **Incomplete Sections**: The specific format explicitly requires all sections to have a colon followed by a list, even if it's empty (like \"None\" for Company names). \"People names\" and \"Topics\" sections are left incomplete, without even an indication of 'None'.\n\nDue to these issues, the provided output does not fully comply with the required format as described.\n\nERR"
+}

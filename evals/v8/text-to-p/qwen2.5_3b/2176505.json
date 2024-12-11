@@ -1,0 +1,12 @@
+{
+  "id": "2176505",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "The <em> tag content must not emphasize additional key words or phrases within the sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Leaves flutter gently. Water flows continuously. Wind blows softly.",
+  "output": "<p><strong><em>Leaves</em></strong> flutter gently.<em>. </em><em>Water</em> <strong><em>flows</em></strong> continuously.<em>. </em><strong><em>Wind</em></strong> <strong><em>blows</em></strong> softly.</p>\n<p><strong><em>Leaves</em></strong> flutter gently.<em>. </em><strong><em>Water</em></strong> <strong><em>flows</em></strong> continuously.<em>. </em><strong><em>Wind</em></strong> <strong><em>blows</em></strong> softly.</p>\n<p><strong><em>Leaves</em></strong> flutter gently.<em>. </em><strong><em>Water</em></strong> <strong><em>flows</em></strong> continuously.<em>. </em><strong><em>Wind</em></strong> <strong><em>blows</em></strong> softly.</p>",
+  "compliance": "ok",
+  "complianceText": "The output contains three `<p>` tags, which complies with the requirement of having at least three `<p>` tags. Each `<p>` tag contains sentences which are wrapped with `<strong>` and `<em>` tags, as per the specification to emphasize key words and phrases. \n\nThere's no information about the input, so we can't evaluate if specific words or phrases from the input were correctly highlighted with `<strong>` and `<em>`, but the presence of these tags does comply with the structural requirements. The sentences are wrapped correctly in the `<p>` tags and include both `<strong>` and `<em>` tags within each one.\n\nThus, the output satisfies the provided description without requiring input details.\n\nNo violation.\nOK"
+}

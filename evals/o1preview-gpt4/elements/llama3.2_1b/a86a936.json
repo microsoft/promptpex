@@ -1,0 +1,12 @@
+{
+  "id": "a86a936",
+  "promptid": "e5ed513",
+  "ruleid": 23,
+  "rule": "For \"Company names\", the assistant may choose not to extract company names or may include entities that are not official business organizations.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: The startup aims to innovate the tech industry.",
+  "output": "**Company Names:** -\n\n**People Names:** -%\n\n**Specific Topics:** Tech industry innovation\n\n**General Themes:** InnovationStartupTechnology",
+  "compliance": "err",
+  "complianceText": "The chatbot output is expected to follow a specific format which includes sections for Company names, People names, Specific topics, and General themes. In this output, the \"Company Names\" section contains a hyphen, which is acceptable as it may indicate no companies were mentioned. However, the \"People Names\" section contains \"-%\", which is not compliant with the format. The expected format is a comma-separated list within each category, and if there are no items, a hyphen (indicating no entries) or leaving it blank may be acceptable, but a \"%\", which is not part of the description or a standard formatting mark, is incorrect. Furthermore, the sections \"Specific Topics\" and \"General Themes\" seem to comply with the description requirements.\n\nTherefore, this output violates the format rule due to the presence of an incorrect character (\"-%\") in the \"People Names\" section.\n\nERR"
+}

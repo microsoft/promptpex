@@ -1,0 +1,12 @@
+{
+  "id": "85e47f6",
+  "promptid": "dddf836",
+  "ruleid": 13,
+  "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence: 'He mentioned 'snorfblat' in his speech.' Word: 'snorfblat'",
+  "output": "CC: noun\nNN: noun, plural.",
+  "compliance": "err",
+  "complianceText": "The chatbot output should only contain a part of speech tag, as per the description. Instead, the output includes both tags and descriptions: \"CC: noun\" and \"NN: noun, plural.\" According to the description, only the tag should be returned without any additional text or explanation. This violates the rule that specifies the output format should be simply the tag itself.\n\nERR"
+}

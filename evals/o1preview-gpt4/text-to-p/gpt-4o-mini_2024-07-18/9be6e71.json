@@ -1,0 +1,12 @@
+{
+  "id": "9be6e71",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "Sentences should not be enclosed within `<p>` tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Books offer knowledge. Stories entertain readers. Literature enriches minds.",
+  "output": "```html\n<p><strong>Books</strong> offer <em>knowledge</em>.</p>  \n<p><strong>Stories</strong> <em>entertain</em> readers.</p>  \n<p><strong>Literature</strong> enriches <em>minds</em>.</p>  \n<p><strong>Books</strong> offer <em>knowledge</em>.</p>  \n<p><strong>Stories</strong> <em>entertain</em> readers.</p>  \n<p><strong>Literature</strong> enriches <em>minds</em>.</p>  \n```",
+  "compliance": "err",
+  "complianceText": "The evaluation of the chatbot output showed that it does not comply with the description as per the rules provided.\n\n- The instruction specifies that each sentence should be wrapped in a `<p>` tag, with at least three `<p>` tags in the output. This condition is satisfied as there are multiple `<p>` tags in the output.\n\n- Furthermore, the instruction requires that inside each `<p>` tag, there should be one `<strong>` tag and multiple `<em>` tags. The evaluation of the output reveals that each `<p>` tag contains one `<strong>` tag, which complies with the description.\n\n- However, each `<p>` tag contains only a single `<em>` tag. The use of a single `<em>` tag does not meet the requirement of having \"multiple `<em>` tags\" inside each `<p>` tag. \n\nDespite the presence of multiple `<p>` tags and a single `<strong>` tag within each, the absence of multiple `<em>` tags in each `<p>` tag constitutes non-compliance with the given instructions.\n\nERR"
+}

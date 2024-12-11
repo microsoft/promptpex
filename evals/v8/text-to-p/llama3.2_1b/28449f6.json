@@ -1,0 +1,12 @@
+{
+  "id": "28449f6",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Coding builds logic. Design inspires creativity. Research fuels innovation.",
+  "output": "```html\n<p>Coding builds logic. <strong>Design</strong> <strong>inspires</strong> <strong>creativity.</p>\n<p><em>R</em><em>t</em><em>c</em><em>e<i>s</i><em>a</em><em>r</em><em>i>n</em><em>a</em><em>m</em><i>j></i><em>e</j></em> <strong>Fu</strong><em>e}s</em> <strong>In<span>b</span<strong>a</strong><em>s</em></p>\n<p>Coding builds logic. Design inspires creativity. Research fuels innovation,<br /> <strong>Artificial</strong><strong Intelli<g g</g Intelli-gence</g> </strong>.\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot output is expected to have at least three `<p>` tags, each containing one `<strong>` tag and multiple `<em>` tags. Here's the evaluation of the output:\n\n1. **Number of `<p>` Tags**: The output contains three `<p>` tags, meeting the requirement of having at least three `<p>` tags.\n\n2. **Usage of `<strong>` Tags**: \n   - The first `<p>` tag contains three `<strong>` tags: `<strong>Design</strong>`, `<strong>inspires</strong>`, and an unclosed `<strong>creativity</p>`, but there is a missing closing `</strong>` tag.\n   - The second `<p>` tag contains two `<strong>` tags, but there are syntax issues, like `<strong>Fu</strong>` and `<strong>In<span>b</span<strong>a</strong>`.\n   - The third `<p>` tag contains `<strong>Artificial</strong>` but incorrect usage with `<strong Intelli<g g</g Intelli-gence</g> </strong>`.\n\n3. **Usage of `<em>` Tags**: \n   - The first `<p>` tag does not contain any `<em>` tags, which contradicts the requirement of having multiple `<em>` tags.\n   - The second `<p>` tag does have `<em>` tags, but many are left unclosed or improperly nested, causing a malformed structure.\n   - The third `<p>` tag has no `<em>` tags.\n\nOverall, the output violates several HTML syntax and structural rules specified in the description. The critical issues are improper formatting and incorrectly nested or unclosed tags, violating the requirements for proper `<strong>` and `<em>` usage. Based on these observations, the output does not comply with the chatbot description.\n\nERR"
+}

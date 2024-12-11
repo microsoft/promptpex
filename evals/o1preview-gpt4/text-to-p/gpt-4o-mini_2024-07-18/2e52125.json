@@ -1,0 +1,11 @@
+{
+  "id": "2e52125",
+  "promptid": "b70fdc4",
+  "ruleid": 5,
+  "rule": "Inside each `<p>` tag, there should be exactly one `<strong>` tag that wraps a key word or phrase from the sentence.",
+  "model": "gpt-4o-mini",
+  "input": "Computers process data. Software runs applications. Users interact daily.",
+  "output": "```html\n<p><strong>Computers</strong> <em>process</em> <em>data</em>.</p>\n<p><strong>Software</strong> <em>runs</em> <em>applications</em>.</p>\n<p><strong>Users</strong> <em>interact</em> <em>daily</em>.</p>\n<p><strong>Computers</strong> <em>process</em> <em>data</em>.</p>\n<p><strong>Software</strong> <em>runs</em> <em>applications</em>.</p>\n<p><strong>Users</strong> <em>interact</em> <em>daily</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The output consists of multiple <p> tags with each sentence wrapped in a <p> tag. Each <p> tag contains one <strong> tag and multiple <em> tags, fulfilling part of the description. However, the description specifies \"at least three <p> tags,\" and the given output has six <p> tags in total. While it exceeds the minimum, it still complies with the requirement of having at least three <p> tags. Since there is no mention in the description about having exactly three <p> tags, the use of six does not violate the description. Each <p> tag includes a <strong> tag and at least one <em> tag, as required, indicating compliance with the description.\n\nNo violation.\nOK"
+}

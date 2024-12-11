@@ -1,0 +1,11 @@
+{
+  "id": "bbc4560",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "text: The global economy is interconnected. Supply chain disruptions can have widespread impacts. Adaptability is a critical business competence.",
+  "output": "<p>The global economy is <strong>interconnected</strong>.</p><p>Supply chain disruptions</p>\n\n    <p>can have <strong>widespread</strong> <em>impacts</em></p>\n\n    <p> on various industries and sectors.</p>\n\n    <p>Adaptability<span> in response<em> to disruptions is a critical business competence</em>.</p>",
+  "compliance": "err",
+  "complianceText": "The output provided does not fully comply with the description given for the following reasons:\n\n1. The description requires each individual sentence to be wrapped in a `<p>` tag and for each sentence to include one `<strong>` tag and multiple `<em>` tags to emphasize key words and phrases.\n\n2. Lack of `<strong>` and `<em>` tags in each sentence:\n   - The sentence \"Supply chain disruptions\" does not have either a `<strong>` tag or any `<em>` tags.\n   - The sentence \"on various industries and sectors.\" has neither a `<strong>` tag nor any `<em>` tags.\n   - The sentence \"Adaptability in response to disruptions is a critical business competence.\" includes only one `<em>` tag and a `<span>` tag, which is not specified in the description.\n\nAs a result, the output contains multiple violations.\nERR"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "b746337",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "input": "Technology advances fast. Science makes progress. Art captures emotion.",
+  "validityText": "The input consists of one paragraph of text, which is a single block of text without line breaks, meeting the paragraph requirement. The input contains three sentences: \"Technology advances fast.\", \"Science makes progress.\", and \"Art captures emotion.\" \n\nEach of these sentences is complete with a subject and predicate, and they all end with a period, which is a valid punctuation mark for terminating sentences. Consequently, the input satisfies the requirement of containing at least three sentences.\n\nTherefore, no violation is detected with respect to the input specification of having at least three sentences in the paragraph.\n\nOK",
+  "validity": "ok",
+  "coverageText": "```html\n<p>Technology advances <strong>fast</strong>. <em>Innovation</em> and <em>development</em> are accelerating <em>rapidly</em> worldwide.</p>\n<p>Science makes <strong>progress</strong>. Through <em>research</em> and <em>experimentation</em>, new <em>frontiers</em> are reached.</p>\n<p>Art <strong>captures</strong> emotion. It <em>expresses</em> the <em>depth</em> and <em>soul</em> of human experience.</p>\n```",
+  "coverageEvalText": "The output contains three <p> tags, which complies with the requirement of having at least three <p> tags. Each <p> tag has exactly one <strong> tag, adhering to the description's requirement of adding one <strong> tag inside each <p> tag. In addition, each <p> tag has multiple <em> tags, which also aligns with the requirement of having multiple <em> tags to emphasize key words and phrases. There is no violation in the structure according to the provided rules that don't require input knowledge.\n\nOK",
+  "coverage": "ok"
+}

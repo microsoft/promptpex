@@ -4,11 +4,11 @@
 
 |prompt|tests|gpt-4o-mini|gemma2:9b|qwen2.5:3b|llama3.2:1b|
 |-|-|-|-|-|-|
-|speech\-tag|42|42|40|41|4|
-|text\-to\-p|39|33|30|11|2|
-|elements|48|27|20|23|4|
-|extract\-names|2|2|2|2|0|
-|art\-prompt|42|41|35|35|22|
-|classify\-input\-text|24|23|20|21|11|
-|sentence\-rewrite|48|42|46|38|33|
-|shakespearean\-writing\-assistant|42|41|40|40|39|
+|speech\-tag|24|24|24|23|2|
+|elements|36|19|20|16|16|
+|extract\-names|13|13|12|10|7|
+|text\-to\-p|48|44|33|31|0|
+|art\-prompt|27|27|24|22|18|
+|classify\-input\-text|24|24|23|23|17|
+|sentence\-rewrite|42|40|38|38|31|
+|shakespearean\-writing\-assistant|42|38|36|38|34|

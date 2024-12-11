@@ -1,0 +1,12 @@
+{
+  "id": "bdd2891",
+  "promptid": "b70fdc4",
+  "ruleid": 22,
+  "rule": "The output should contain additional text or content beyond the formatted sentences, possibly with unspecified HTML tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Water flows continuously. Rivers carve landscapes. Oceans connect continents.",
+  "output": "<p><strong><em>Water</em></strong> <em>flows</em> <strong>continuously.</strong></p>\n<p>Rivers <strong><em>carve</em></strong> <strong><em>landscapes</em>.</strong></p>\n<p>Oceans <strong><em>connect</em></strong> <strong><em>continents</em>.</strong></p>",
+  "compliance": "err",
+  "complianceText": "The output provided contains three <p> tags, which meets the requirement of having at least three <p> tags. However, upon closely examining each <p> tag, there is a requirement for each sentence: there should be one <strong> tag and multiple <em> tags inside each <p> tag. \n\nIn the first <p> tag, both a strong and em tag are used together twice: \"<strong><em>Water</em></strong>\", resulting in only one <em> tag being not nested. The same structure is found in the second and third <p> tags, as both use <strong><em> and not enough independent <em> tags to meet the requirement of having multiple <em> tags.\n\nOverall, while there are multiple <em> tags, they are nested within <strong> tags in a way that does not satisfy the distribution requirement stated in the description. As such, the output does not comply with the described rules. \n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "3112730",
+  "promptid": "b70fdc4",
+  "ruleid": 17,
+  "rule": "Inside each `<p>` tag, there should be at most one `<em>` tag or none at all.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Technology connects people. Networks share information. Devices enable access.",
+  "output": "Here is the reformatted paragraph with three <p> tags, each wrapped in a <strong> tag and multiple <em> tags:\n\n<p>\n<strong>\n\nThe widespread use of technology has enabled global connectivity.\n\n</strong>\n\n</p>\n\n<p>\n<strong>\n\n\nNetworks have transformed the way people access information. </strong>\n\n</p>\n\n<p>\n<strong>\n\nTechnology connects people. Networks share information. Devices enable access. </strong>\n\n</p>",
+  "compliance": "err",
+  "complianceText": "The evaluation of the chatbot output reveals a violation of the given description. According to the description, each sentence should be wrapped in a `<p>` tag. However, in this output, each `<p>` tag wraps an entire sentence in a `<strong>` tag, instead of having `<strong>` and `<em>` tags applied inside individual sentences within the `<p>` tags. Additionally, there are no `<em>` tags at all in the output, whereas the description requires multiple `<em>` tags to emphasize key words and phrases within each sentence. Therefore, the output does not comply with the chatbot's description.\n\nERR"
+}

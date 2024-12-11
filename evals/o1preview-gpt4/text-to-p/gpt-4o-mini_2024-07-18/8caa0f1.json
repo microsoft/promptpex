@@ -1,0 +1,11 @@
+{
+  "id": "8caa0f1",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "gpt-4o-mini",
+  "input": "She shouted, 'Watch out!' as the vase fell from the shelf. It shattered into a thousand pieces. Everyone turned to see what had happened.",
+  "output": "```html\n<p><strong>She shouted,</strong> <em>'Watch out!'</em> as the <em>vase</em> fell from the <em>shelf</em>.</p>\n<p><strong>It shattered</strong> into a <em>thousand pieces</em>.</p>\n<p><strong>Everyone turned</strong> to see what had <em>happened</em>.</p>\n<p><strong>She shouted,</strong> <em>'Watch out!'</em> as the <em>vase</em> fell from the <em>shelf</em>.</p>\n<p><strong>It shattered</strong> into a <em>thousand pieces</em>.</p>\n<p><strong>Everyone turned</strong> to see what had <em>happened</em>.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description as it has repeated paragraphs—each enclosed in a pair of `<p>` tags. The description requires that the paragraph be split into **individual sentences** and wrapped in separate `<p>` tags. However, in this output, each sentence appears twice, resulting in duplicate `<p>` tags. This repetition does not align with the rule to format a paragraph into sentences, as each sentence should occur only once.\n\nMore specifically, the output contains six `<p>` tags, but these are created from a repetition of three sentences, thus failing to demonstrate the intended splitting of a single continuous paragraph into distinct sentences.\n\nAdditionally, while each `<p>` tag does include one `<strong>` tag and multiple `<em>` tags, as per the description, the redundancy in sentences makes the representation incorrect.\n\nHence, the decision is based on the repetition of sentences which is not expected as per the description.\n\nERR"
+}

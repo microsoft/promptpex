@@ -1,0 +1,11 @@
+{
+  "id": "cb4162f",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "text: Sports events bring communities together. They inspire health and fitness. The spirit of competition unites diverse groups of people.",
+  "output": "```html\n<p><strong>Text:</strong> Sports <em>events</em> bring <em>communities</em> together. They <em>inspire</em> health and <em>fitness</em>. The <em>spirit</em> of competition unites <em>diverse</em> groups of people.</p>\n<p><strong>Data:</strong> Sports <em>events</em> bring <em>communities</em> together. They <em>inspire</em> health and <em>fitness</em>. The <em>spirit</em> of competition unites <em>diverse</em> groups of people.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot output includes two paragraph tags (`<p>`), each containing text formatted with both `<strong>` and `<em>` tags. However, according to the description, the text must be split into individual sentences, each wrapped by its own `<p>` tag, resulting in at least three `<p>` tags. The current output only contains two `<p>` tags. Additionally, the repetition of the same sentences within these tags is not aligned with the task of splitting sentences and assigning them to separate paragraphs.\n\nAs such, the output violates two key elements of the chatbot description:\n1. There should be at least three `<p>` tags, each containing a different sentence from the input paragraph.\n2. Each sentence should be individually wrapped in its own `<p>` tag, which hasn't been achieved here.\n\nTherefore, the output does not comply with the description provided.\n\nERR"
+}

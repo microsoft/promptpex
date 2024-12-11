@@ -1,0 +1,14 @@
+{
+  "id": "07ae637",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "input": "Books open minds. Music soothes souls. Travel broadens horizons.",
+  "validityText": "The input given is \"Books open minds. Music soothes souls. Travel broadens horizons.\" This input consists of exactly three sentences, as each phrase ends with a period which denotes the end of a sentence. The input specification requires \"at least three sentences,\" and this requirement is met precisely with the three sentences provided. There are no other requirements in the input specification regarding the content or structure beyond having at least three sentences. Therefore, since the input has exactly three sentences, it fully complies with the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "```html\n<p><strong>Books</strong> <em>open</em> <em>minds</em>.</p>\n<p><strong>Music</strong> <em>soothes</em> <em>souls</em>.</p>\n<p><strong>Travel</strong> <em>broadens</em> <em>horizons</em>.</p>\n```",
+  "coverageEvalText": "The chatbot's output contains three HTML paragraphs, each enclosed within a `<p>` tag, fulfilling the requirement of having at least three `<p>` tags. Inside each paragraph, there is exactly one `<strong>` tag, aligning with the specified requirement to include one `<strong>` tag per sentence. Additionally, multiple `<em>` tags are used in each paragraph to emphasize key words and phrases, satisfying the condition to include multiple `<em>` tags. Therefore, the output conforms to all the specified requirements outlined in the description.\n\nNo violation.\nOK",
+  "coverage": "ok"
+}

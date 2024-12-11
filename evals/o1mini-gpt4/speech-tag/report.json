@@ -1,0 +1,1253 @@
+{
+  "prompt": "---\nname: Speech Tag\ndescription: Determine the part of speech for a given word\nsource: \"modified from 'SAMMO: A general-purpose framework for prompt optimization'\"\nurl: https://www.microsoft.com/en-us/research/uploads/prod/2024/04/Prompts-As-Programs_A-Structure-Aware-Approach.pdf\ninputs:\n    sentenceword:\n        type: string\nsample:\n    sentenceword: \"The quick brown fox jumps over the lazy dog.; jumps\"\n---\nsystem:\nIn this task, you will be presented with a sentence and a word contained\nin that sentence. You have to determine the part of speech for a given word\nand return just the tag for the word's part of speech. \n\nReturn only the part of speech tag.  If the word cannot be tagged with\nthe listed tags, return Unknown.  If you are unable to tag the word, return\nCantAnswer.\n\nHere is the\nAlphabetical list of part-of-speech tags used in this task: CC: Coordinating conjunction, CD: Cardinal number, DT:\nDeterminer, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR:\nAdjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun,\nplural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal\npronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol,\nTO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb,\npast participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP:\nWh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb\nuser:\n{{sentenceword}}",
+  "inputSpec": "The input must consist of a sentence and a word contained within that sentence.\nThe sentence must be a grammatically correct English sentence.\nThe word must exactly match a word in the provided sentence.\nBoth the sentence and the word must be included in a single input string.\nThe input must not contain any additional information beyond the sentence and the target word.",
+  "rules": [
+    "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+    "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+    "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+    "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+    "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+    "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+    "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+    "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output."
+  ],
+  "inverseRules": [
+    "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+    "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+    "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+    "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+    "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+    "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+    "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+    "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output."
+  ],
+  "tests": [
+    {
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "testid": "1",
+      "testinput": "She enjoys reading books, enjoys",
+      "expectedoutput": "VBZ",
+      "reasoning": "The word 'enjoys' is a verb in third person singular present, ensuring only one tag is returned."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "testid": "2",
+      "testinput": "Bright sun shines in the sky, sun",
+      "expectedoutput": "NN",
+      "reasoning": "The word 'sun' is a singular noun, verifying the software returns a single correct tag."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "testid": "3",
+      "testinput": "They quickly ran to catch the bus, ran",
+      "expectedoutput": "VBD",
+      "reasoning": "The word 'ran' is past tense verb, confirming single tag output."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "testid": "1",
+      "testinput": "The old man walked slowly, walked",
+      "expectedoutput": "VBD",
+      "reasoning": "'walked' is a verb, and 'VBD' is among the predefined tags."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "testid": "2",
+      "testinput": "Hello, world! Hello",
+      "expectedoutput": "UH",
+      "reasoning": "'Hello' as interjection, mapped to predefined tag 'UH'."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "testid": "3",
+      "testinput": "They have two cats, two",
+      "expectedoutput": "CD",
+      "reasoning": "'two' is a cardinal number, 'CD' is a predefined tag."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "testid": "1",
+      "testinput": "This is a test with the word blorf, blorf",
+      "expectedoutput": "Unknown",
+      "reasoning": "'blorf' does not correspond to any predefined tag, expecting 'Unknown'."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "testid": "2",
+      "testinput": "I love programming with xyzword, xyzword",
+      "expectedoutput": "Unknown",
+      "reasoning": "'xyzword' does not correspond to any predefined tag, expecting 'Unknown'."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "testid": "3",
+      "testinput": "The code is 123abc, 123abc",
+      "expectedoutput": "Unknown",
+      "reasoning": "'123abc' cannot be tagged with the predefined tags, expecting 'Unknown'."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "testid": "1",
+      "testinput": "She waits, waits",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "Insufficient context to determine the part of speech for 'waits', expecting 'CantAnswer'."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "testid": "2",
+      "testinput": "The word is unik, unik",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "Ambiguous word 'unik', cannot determine part of speech, expecting 'CantAnswer'."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "testid": "3",
+      "testinput": "They did something, something",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "Word 'something' can be multiple parts of speech without context, expecting 'CantAnswer'."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "testid": "1",
+      "testinput": "He runs every day, runs",
+      "expectedoutput": "VBZ",
+      "reasoning": "Only the tag 'VBZ' should be returned without extra text."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "testid": "2",
+      "testinput": "A beautiful sunrise, sunrise",
+      "expectedoutput": "NN",
+      "reasoning": "Output should be 'NN' only without explanations or formatting."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "testid": "3",
+      "testinput": "Is this possible, possible",
+      "expectedoutput": "JJ",
+      "reasoning": "Output should be 'JJ' solely without additional content."
+    },
+    {
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "testid": "1",
+      "testinput": "She quickly, quickly",
+      "expectedoutput": "RB",
+      "reasoning": "'RB' is exact match, correct casing and abbreviation."
+    },
+    {
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "testid": "2",
+      "testinput": "They will come, will",
+      "expectedoutput": "MD",
+      "reasoning": "'MD' is exact match from the predefined tags."
+    },
+    {
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "testid": "3",
+      "testinput": "I am happy, am",
+      "expectedoutput": "VBP",
+      "reasoning": "'VBP' matches predefined tag with correct casing."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "testid": "1",
+      "testinput": "Jump high, jump",
+      "expectedoutput": "VB",
+      "reasoning": "Only 'VB' should be returned without additional tags or descriptions."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "testid": "2",
+      "testinput": "Quickly did, quickly",
+      "expectedoutput": "RB",
+      "reasoning": "Only 'RB' is expected with no extra information."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "testid": "3",
+      "testinput": "Green leaves, green",
+      "expectedoutput": "JJ",
+      "reasoning": "Response should be single 'JJ', no multiple tags or explanations."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "testid": "1",
+      "testinput": "The cat sleeps, sleeps",
+      "expectedoutput": "VBZ",
+      "reasoning": "'VBZ' accurately tag the verb 'sleeps'."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "testid": "2",
+      "testinput": "Bright stars shine, stars",
+      "expectedoutput": "NNS",
+      "reasoning": "'NNS' tag correctly for plural noun 'stars'."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "testid": "3",
+      "testinput": "She is beautiful, beautiful",
+      "expectedoutput": "JJ",
+      "reasoning": "'JJ' correctly tags adjective 'beautiful'."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "She sings beautifully, sings",
+      "expectedoutput": "VBZ",
+      "reasoning": "'VBZ' is the only tag returned, ensuring no multiple or incorrect tags are provided."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "The children play outside, play",
+      "expectedoutput": "VBP",
+      "reasoning": "Only 'VBP' tag for 'play' is returned, preventing multiple or irrelevant tags."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Dogs bark loudly, bark",
+      "expectedoutput": "VBP",
+      "reasoning": "Ensures only 'VBP' is returned for 'bark', no multiple or unrelated tags."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "She walks gracefully, walks",
+      "expectedoutput": "VBZ",
+      "reasoning": "'VBZ' tag is returned, avoiding incorrect tags."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "They are happy, are",
+      "expectedoutput": "VBP",
+      "reasoning": "'VBP' is predefined, preventing undefined tags."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Quietly she left, left",
+      "expectedoutput": "VBD",
+      "reasoning": "'VBD' is predefined, confirms only predefined tags are used."
+    },
+    {
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "This is a mystery word, blorf",
+      "expectedoutput": "Unknown",
+      "reasoning": "'blorf' does not correspond to any predefined tag, expecting 'Unknown' only."
+    },
+    {
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Undefined word usage: xqz, xqz",
+      "expectedoutput": "Unknown",
+      "reasoning": "'xqz' is not in predefined tags, should return 'Unknown'."
+    },
+    {
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Random characters: 123abc, 123abc",
+      "expectedoutput": "Unknown",
+      "reasoning": "'123abc' cannot be tagged, expecting 'Unknown' as per rule."
+    },
+    {
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "She dances gracefully, dances",
+      "expectedoutput": "VBZ",
+      "reasoning": "'VBZ' tag is returned, not 'CantAnswer' as it can be determined."
+    },
+    {
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "The quick fox, fox",
+      "expectedoutput": "NN",
+      "reasoning": "'NN' is returned, ensuring 'CantAnswer' is not used when POS can be determined."
+    },
+    {
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "He is happy, happy",
+      "expectedoutput": "JJ",
+      "reasoning": "'JJ' tag is returned, confirming a definitive tag instead of 'CantAnswer'."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Run every morning, run",
+      "expectedoutput": "VB",
+      "reasoning": "Only 'VB' tag is returned without extra explanations or formatting."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Beautiful flowers, beautiful",
+      "expectedoutput": "JJ",
+      "reasoning": "Only 'JJ' is outputted, no additional text or descriptions."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Wait here, wait",
+      "expectedoutput": "VB",
+      "reasoning": "Ensures only 'VB' is returned without extra information."
+    },
+    {
+      "ruleid": "14",
+      "rule": "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "She plays piano, plays",
+      "expectedoutput": "VBZ",
+      "reasoning": "Correct 'VBZ' tag is returned, avoiding incorrect tags."
+    },
+    {
+      "ruleid": "14",
+      "rule": "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "They are happy, are",
+      "expectedoutput": "VBP",
+      "reasoning": "'VBP' is correctly cased and abbreviated, preventing errors."
+    },
+    {
+      "ruleid": "14",
+      "rule": "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "A big house, big",
+      "expectedoutput": "JJ",
+      "reasoning": "'JJ' tag is returned with proper casing and abbreviation."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "He sings beautifully, sings",
+      "expectedoutput": "VBZ",
+      "reasoning": "Only 'VBZ' is returned without multiple tags or descriptions."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Joyfully she runs, runs",
+      "expectedoutput": "VBZ",
+      "reasoning": "Ensures only 'VBZ' tag is outputted, no extra information."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Bright lights shine, shine",
+      "expectedoutput": "VBZ",
+      "reasoning": "Only 'VBZ' is returned, no additional tags or explanations."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "The dog barks loudly, barks",
+      "expectedoutput": "VBZ",
+      "reasoning": "Only 'VBZ' related to 'barks' is returned, no irrelevant tags."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "She sings a song, sings",
+      "expectedoutput": "VBZ",
+      "reasoning": "Only 'VBZ' for 'sings' is returned, maintaining precision."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "He writes letters, writes",
+      "expectedoutput": "VBZ",
+      "reasoning": "Ensures only 'VBZ' tag for 'writes' is provided, no irrelevant tags."
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She sells seashells by the seashore.\" word: \"sells\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"I have 2 cats and 3 dogs.\" word: \"2\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"The quick brown fox jumps over the lazy dog.\" word: \"The\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"There is a solution to every problem.\" word: \"There\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Bonjour, comment allez-vous?\" word: \"Bonjour\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She walked through the park.\" word: \"through\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"The big elephant never forgets.\" word: \"big\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She is better than me.\" word: \"better\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"This is the best day ever.\" word: \"best\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"1. First item on the list.\" word: \"1.\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Can you help me?\" word: \"Can\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He is a strong leader.\" word: \"leader\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"They have three apples.\" word: \"three\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"John is coming to the party.\" word: \"John\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"The children are playing with toys.\" word: \"children\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She owns a beautiful house.\" word: \"a\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He doesn't like spinach.\" word: \"doesn't\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Wow! That was amazing.\" word: \"Wow!\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"It's raining heavily outside.\" word: \"heavily\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He arrived after the meeting.\" word: \"after\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She gave him a gift.\" word: \"gave\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Please enter 'admin' to continue.\" word: \"'admin'\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"To be or not to be.\" word: \"To\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"What is your name?\" word: \"What\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Whose book is this?\" word: \"Whose\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"I quickly ran to the store.\" word: \"quickly\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He plans to visit tomorrow.\" word: \"tomorrow\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She gave her book to me.\" word: \"to\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He is an amazing athlete.\" word: \"amazing\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She has X-ray vision.\" word: \"X-ray\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He shrugged and walked away.\" word: \"shrugged\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"The price is $100.\" word: \"$100\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Hello there!\" word: \"Hello\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"They are singing beautifully.\" word: \"beautifully\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"I cannot believe it.\" word: \"cannot\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"Are you coming tonight?\" word: \"Are\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She writes with a pen.\" word: \"pen\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"This is John's book.\" word: \"John's\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He is studying for exams.\" word: \"studying\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She is going to the market.\" word: \"is\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"We will meet at noon.\" word: \"noon\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"I think, therefore I am.\" word: \"therefore\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"It's been a long day.\" word: \"been\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"They are going to win.\" word: \"win\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"He never lies.\" word: \"never\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"She laughed out loud.\" word: \"out\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"The sun rises in the east.\" word: \"east\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "sentence: \"UnknownWord appears here.\" word: \"UnknownWord\"",
+      "baseline": true
+    }
+  ],
+  "testEvals": [
+    {
+      "id": "32454a6",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "input": "She enjoys reading books, enjoys",
+      "coverage": "VBZ",
+      "validityText": "The input consists of the sentence \"She enjoys reading books,\" and the word \"enjoys.\" Let's evaluate its compliance with the input specification:\n\n1. **Sentence Requirement**: The given sentence \"She enjoys reading books,\" is grammatically correct, as it contains a subject \"She\" and a predicate \"enjoys reading books,\". It adheres to standard English sentence structure.\n\n2. **Word Requirement**: The word \"enjoys\" is correctly extracted from the sentence, and it matches exactly with a word in the sentence. \n\n3. **Single Input String**: Both the sentence and the target word are provided in a single input string.\n\n4. **No Additional Information**: The input does not seem to contain any additional information beyond the sentence and the target word.\n\nBased on this evaluation, the input is found to be compliant with all parts of the input specification. There are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "3b599fa",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "input": "Bright sun shines in the sky, sun",
+      "coverage": "NN",
+      "validityText": "The input consists of a sentence \"Bright sun shines in the sky\" and a word \"sun\" contained within that sentence. \n\n1. **Sentence Verification**: The sentence \"Bright sun shines in the sky\" is a grammatically correct English sentence. It has a subject (\"sun\") and a verb (\"shines\"), and it conveys a complete thought.\n\n2. **Word Verification**: The word \"sun\" is exactly found in the sentence provided.\n\n3. **Additional Information Verification**: The input does not contain any additional information beyond the sentence and the target word.\n\nBased on the evaluation, the input meets all the requirements outlined in the input specification. Therefore, the input is compliant.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "3411acd",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The chatbot must return only a single part-of-speech tag that corresponds to the specified word within the provided sentence.",
+      "input": "They quickly ran to catch the bus, ran",
+      "coverage": "VBD",
+      "validityText": "The given input needs to consist of a sentence and a word that is contained within that sentence. Here is my evaluation:\n\n1. Sentence: \"They quickly ran to catch the bus\"\n   - This is a grammatically correct English sentence.\n   \n2. Word: \"ran\"\n   - The word \"ran\" is indeed contained within the sentence \"They quickly ran to catch the bus.\"\n\n3. Input Structure:\n   - The input contains both the sentence and the word, and they are separated by a comma.\n\nThe input specification does not explicitly prohibit separating the sentence and the word by a comma, therefore this is acceptable. Furthermore, there is no additional information beyond the sentence and the word in the input string.\n\nBased on my thorough examination according to the provided specification, I find no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "9ac2f22",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "input": "The old man walked slowly, walked",
+      "coverage": "VBD",
+      "validityText": "Upon evaluating the given input, here's my reasoning:\n\n1. The input consists of a sentence and a word. The sentence is \"The old man walked slowly,\" and the word is \"walked.\"\n\n2. The sentence appears to be a grammatically correct English sentence. It has a subject (\"The old man\") and a predicate (\"walked slowly\"), which complies with the rules of sentence construction.\n\n3. The word \"walked\" is contained within the sentence as required by the input specification.\n\n4. Both the sentence and the word are included in a single input string, and there is no additional information beyond the sentence and the target word.\n\nSince all elements of the input specification are met:\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c30b2a3",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "input": "Hello, world! Hello",
+      "coverage": "UH",
+      "validityText": "The given input is: \"Hello, world! Hello\"\n\n1. **Sentence Evaluation**: \n   - \"Hello, world!\" is a sentence and appear to be a grammatically correct English sentence. The phrase \"Hello, world!\" is a commonly used greeting in programming and technically follows capitalization and punctuation rules in this context.\n\n2. **Word Evaluation**:\n   - The word provided is \"Hello\".\n   - \"Hello\" is indeed exactly a word present in the sentence \"Hello, world!\".\n\n3. **Format Evaluation**:\n   - The sentence \"Hello, world!\" and the word \"Hello\" are contained within a single input string.\n   - There is no extra information in the input aside from the sentence and the target word. Every part of the input can be accounted for according to the input specification.\n\nBased on the above points, the input meets all the requirements set forth in the specification. There are no violations since both the sentence and the word are correctly included and formatted, and the word specified matches exactly with a word in the sentence.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e961e8e",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The chatbot must ensure that the returned part-of-speech tag is one of the predefined tags listed in the task description, which include CC for Coordinating conjunction, CD for Cardinal number, DT for Determiner, EX for Existential there, FW for Foreign word, IN for Preposition or subordinating conjunction, JJ for Adjective, JJR for Adjective comparative, JJS for Adjective superlative, LS for List item marker, MD for Modal, NN for Noun singular or mass, NNS for Noun plural, NNP for Proper noun singular, NNPS for Proper noun plural, PDT for Predeterminer, POS for Possessive ending, PRP for Personal pronoun, PRP$ for Possessive pronoun, RB for Adverb, RBR for Adverb comparative, RBS for Adverb superlative, RP for Particle, SYM for Symbol, TO for to, UH for Interjection, VB for Verb base form, VBD for Verb past tense, VBG for Verb gerund or present participle, VBN for Verb past participle, VBP for Verb non-3rd person singular present, VBZ for Verb 3rd person singular present, WDT for Wh-determiner, WP for Wh-pronoun, WP$ for Possessive wh-pronoun, and WRB for Wh-adverb.",
+      "input": "They have two cats, two",
+      "coverage": "CD",
+      "validityText": "Analysis of the input:\n1. The input must consist of a sentence and a word contained within that sentence.\n2. The sentence provided is: \"They have two cats, two\"\n3. The word extracted is: \"two\"\n4. Checking grammatical correctness: \"They have two cats, two\" is not a grammatically correct sentence because it ends with the repetition of the word \"two\", which disrupts logical sentence structure without context. A grammatically correct sentence should convey a complete idea or thought.\n5. The word \"two\" does match a word in the provided sentence.\n\nThe violation:\n- The input does not comply with the requirement of being a grammatically correct English sentence. The repetition of the word \"two\" at the end makes it incomplete or awkward, lacking context to form a coherent statement. Therefore, it violates the input specification that the sentence must be grammatically correct.\n\nThinking process:\n- I identified the sentence and the word from the input.\n- I evaluated the grammatical correctness of the sentence and found it lacking due to its unresolved repetition at the end.\n- The input matches the word requirement but fails the grammar rule.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "0d5f8b2",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "input": "This is a test with the word blorf, blorf",
+      "coverage": "Unknown",
+      "validityText": "The input consists of a sentence and a word. Let's evaluate each part according to the provided specification:\n\n1. **The Sentence**: The sentence \"This is a test with the word blorf,\" seems grammatically correct with a subject and a predicate. \n\n2. **The Word**: The word \"blorf\" is stated to be a word in the sentence. It appears towards the end of the sentence.\n\n3. **Match**: The word \"blorf\" is mentioned explicitly in the sentence, which means it matches a word in the provided sentence.\n\n4. **Additional Information**: The input does not appear to contain any extraneous information beyond the provided sentence and the target word. The word \"blorf\" is written as part of the sentence, and the input doesn't include any data outside the sentence structure.\n\nAll elements of the input specification are satisfied. The input consists of a grammatically correct English sentence, the word is correctly matched from the sentence, and there is no additional information outside the requirement.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "b629735",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "input": "I love programming with xyzword, xyzword",
+      "coverage": "Unknown",
+      "validityText": "The input consists of \"I love programming with xyzword, xyzword\". \n\nAccording to the input specification, the input must consist of a grammatically correct English sentence and a word from this sentence. The sentence here is \"I love programming with xyzword.\" which is a grammatically correct sentence. The word provided is \"xyzword\" which is indeed a part of the given sentence. \n\nBoth the sentence and the word are present in the input, fulfilling the requirement. There does not seem to be any additional information beyond the sentence and the target word. Therefore, the input complies with the specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "74b27bf",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot must return the tag \"Unknown\".",
+      "input": "The code is 123abc, 123abc",
+      "coverage": "NN",
+      "validityText": "The input consists of a sentence \"The code is 123abc\" and a word \"123abc\". \n\nFirstly, examining the sentence: As per standard English grammar, \"123abc\" is not a recognized English word. English sentences do not typically comprise word-like structures starting with numbers or having such sequences positioned as words. Therefore, the sentence does not qualify as a grammatically correct English sentence according to standard rules of the language.\n\nSecondly, evaluating the word: While \"123abc\" does appear within the provided sentence, the issue lies with the specification's requirement for a grammatically correct English sentence, which the input fails to uphold.\n\nDue to the sentence not being grammatically correct, the input violates the input specification that requires a grammatically correct English sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "40c9579",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "input": "She waits, waits",
+      "coverage": "VBZ",
+      "validityText": "To evaluate whether the input \"She waits, waits\" complies with the input specification, I need to verify several elements:\n\n1. **Presence of a Sentence**: The input must contain a grammatically correct English sentence. The sentence \"She waits, waits\" does not appear to follow grammatical norms as it repeats the word \"waits\" without an additional verb or conjunction to connect the two verbs. Generally, repetition of a verb in such a manner isn't proper grammar unless there is context or emphasis indicated with punctuation, such as an ellipsis or a conjunction.\n\n2. **Presence of a Word from the Sentence**: The input specification requires that the input contains a sentence and a word within that sentence. In this input, it's unclear if a specific 'word' from the sentence is being highlighted. While \"waits\" could be considered the target word if considering only the words themselves, the context or how we know which word is highlighted from the input is missing.\n\n3. **Inclusion in a Single Input String**: The sentence and the word must be concise within a single input. This condition is met by the input as provided.\n\n4. **No Additional Information**: The input must not have any additional information outside the sentence and the target word. This is adhered to, considering the input only contains the sentence, albeit an incomplete one.\n\nGiven these observations, the input doesn't fully comply with the specification; it fails primarily because the sentence \"She waits, waits\" isn't clearly a grammatically correct sentence without further context or punctuation that might justify the repetition of \"waits.\" Additionally, the lack of explicit identification or separation of a precise target word causes ambiguity in meeting the requirement that a word be included from the sentence.\n\nThinking process:\n- I first checked for grammatical correctness and found the sentence lacking due to repetition without context.\n- Then I looked for compliance regarding the inclusion of a target word and found there to be ambiguity.\n- Finally checked if the input was a single input and it wasn't clear on violations there.\n\nBased on these factors, the decision is:\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "b5db9ed",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "input": "The word is unik, unik",
+      "coverage": "Unknown",
+      "validityText": "Upon evaluating the input according to the given specification, the following steps were considered:\n\n1. The input must consist of a sentence and a word contained within that sentence.\n2. The sentence must be a grammatically correct English sentence.\n3. The word must exactly match a word in the provided sentence.\n4. Both the sentence and the word must be included in a single input string.\n5. The input must not contain any additional information beyond the sentence and the target word.\n\nConsidering these points, here is the reasoning:\n\n- The input given is \"The word is unik, unik\". The sentence \"The word is unik\" appears to be a grammatically correct English sentence.\n- The target word provided is \"unik\".\n- Upon analysis, the word \"unik\" is not a recognized English word, and thus its presence in a sentence questions the grammatical correctness of said sentence. This violates rule number 2 that demands the sentence to be grammatically correct.\n- Therefore, the given input fails to comply with the specification as the sentence is not considered grammatically correct in standard English due to the non-standard word \"unik\".\n\nGiven this explanation, the decision is:\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "feba2ab",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the chatbot is unable to determine the part of speech for the specified word due to insufficient information or any other reason, it must return \"CantAnswer\".",
+      "input": "They did something, something",
+      "coverage": "PRP",
+      "validityText": "The input provided is: \"They did something, something\". \n\nUpon evaluation, I identified the following issues related to compliance with the input specification:\n\n1. **Grammatical Correctness**: The given sentence \"They did something, something\" lacks grammatical correctness. While the phrase could be colloquially used for emphasis, it lacks clear grammatical structure according to standard English sentence rules, which have not been explicitly stated to allow such use for emphasis here.\n\n2. **Target Word Matching**: The word provided alongside the sentence for target matching is not identified. I have to assume the entire input is the given sentence, and there is no separate word extracted for matching included in the input. Based on the input specification, the input must consist of both a complete sentence and a distinct word from that sentence. Here, the target word is not distinguishably provided, which violates the input requirement of having both a sentence and a separate target word.\n\nDue to these issues, particularly the absence of a distinct, separate target word, the input fails to comply with the requirements of providing both a grammatically correct sentence and an explicit, separately identified target word.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "e1cbb7c",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "input": "He runs every day, runs",
+      "coverage": "VBZ",
+      "validityText": "The given input consists of a sentence and a word: \"He runs every day, runs\". \n\n1. The sentence \"He runs every day\" is grammatically correct. \n2. The word \"runs\" is exactly a word in the provided sentence \"He runs every day\". \n3. Both the sentence and the word are included in the input string.\n4. The input does not contain any additional information beyond the sentence and the target word.\n\nBased on these observations, the input directly complies with all the points outlined in the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "3211d52",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "input": "A beautiful sunrise, sunrise",
+      "coverage": "NN",
+      "validityText": "The input consists of \"A beautiful sunrise, sunrise\". According to the input specification, there are certain rules to follow:\n\n1. **The input must consist of a sentence and a word contained within that sentence**: The input includes a sentence \"A beautiful sunrise\" and a word \"sunrise\", which indeed is a part of the sentence. \n\n2. **The sentence must be a grammatically correct English sentence**: The sentence \"A beautiful sunrise\" is grammatically correct. It contains an article (\"A\"), an adjective (\"beautiful\"), and a noun (\"sunrise\").\n\n3. **The word must exactly match a word in the provided sentence**: The word \"sunrise\" indeed matches exactly as it appears in the sentence \"A beautiful sunrise\".\n\n4. **Both the sentence and the word must be included in a single input string**: The sentence and the word are provided together in a single string.\n\n5. **The input must not contain any additional information beyond the sentence and the target word**: The input strictly contains the sentence and the target word without any additional non-relevant information.\n\nThere is no indication of a violation of any of these rules. My evaluation leads to the conclusion that this input fully complies with the input specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e863022",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The chatbot must ensure that its response contains solely the part-of-speech tag or the specified fallback responses (\"Unknown\" or \"CantAnswer\") without including any additional text, explanations, or formatting.",
+      "input": "Is this possible, possible",
+      "coverage": "JJ",
+      "validityText": "The input consists of the sentence \"Is this possible\" and the separate word \"possible.\" \n\nUpon evaluation against the input specification:\n\n1. The input is presented in a single string, which follows the input specification.\n\n2. The sentence \"Is this possible\" is a grammatically correct English sentence. It forms a question, which is a valid form of a sentence.\n\n3. The word \"possible\" exactly matches a word contained within the sentence. It matches the last word of the sentence which complies with the requirement.\n\n4. There is no additional information beyond the sentence and the target word included, meeting the criteria.\n\nGiven that the input adheres to all elements of the input specification strictly, there is no rule violation present.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "caa29b4",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "input": "She quickly, quickly",
+      "coverage": "RB",
+      "validityText": "In evaluating the given input against the input specification, we can break down the process as follows:\n\n1. **Sentence Structure**: The input \"She quickly, quickly\" is evaluated to determine if it constitutes a grammatically correct English sentence. This input consists of a subject \"She\" and a repetition of the adverb \"quickly,\" but it lacks a verb to form a complete sentence. Grammatically, an English sentence requires at least a subject and a predicate (which typically includes a verb) to be considered complete. The input, therefore, does not fulfill these criteria.\n\n2. **Word Matching**: Although the word \"quickly\" is mentioned, and it matches exactly with a part of the sentence fragment, this is irrelevant since the primary condition of having a grammatically correct sentence is not satisfied.\n\n3. **Additional Information**: There is no additional information in the input beyond the sentence fragment and the word mentioned, which satisfies that part of the requirement. However, the presence of a grammatically incomplete sentence still results in non-compliance.\n\nGiven this reasoning, the input violates the requirement of containing a grammatically correct sentence as per the specified input conditions.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "5ae40a4",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "input": "They will come, will",
+      "coverage": "MD",
+      "validityText": "Upon examining the input based on the specification, here is my analysis:\n\n1. The input must consist of a sentence and a word contained within that sentence. The sentence provided is \"They will come,\" and the target word is \"will.\" Both are contained within the input.\n\n2. The sentence must be a grammatically correct English sentence. \"They will come,\" is a grammatically correct sentence, following standard English grammar rules with a subject (\"They\") and a verb phrase (\"will come\").\n\n3. The word must exactly match a word in the provided sentence. The specified word \"will\" exactly matches the word \"will\" from the sentence \"They will come.\"\n\n4. Both the sentence and the word must be included in a single input string. The input \"They will come, will\" includes both the sentence and the word in a single input string.\n\n5. The input must not contain any additional information beyond the sentence and the target word. The input provided does not contain any extraneous information beyond what is specified (the sentence and the word).\n\nBased on the input specifications, the input directly complies with all the given criteria. Therefore, according to the specification, the input is valid.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "5f3798d",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "Each part-of-speech tag returned by the chatbot must exactly match one of the tags provided in the alphabetical list, including the correct casing and abbreviation.",
+      "input": "I am happy, am",
+      "coverage": "VBP",
+      "validityText": "To evaluate the compliance of the input with the input specification, let's assess each requirement thoroughly:\n\n1. **Sentence Composition**: The input contains the sentence \"I am happy\" which is grammatically correct in English. This satisfies the part of the specification that requires a grammatically correct English sentence.\n\n2. **Word Contained Within the Sentence**: The second part of the input is the word \"am\", which must be a word contained within the given sentence. In the sentence \"I am happy\", the word \"am\" is indeed present and matches exactly. This satisfies the requirement concerning the presence of the word within the sentence.\n\n3. **Single Input String**: The input appears as a single string, containing both the sentence and the specified word. There are no additional data or elements that deviate from this instruction.\n\nBy assessing each criterion laid out in the input specification, I find that each requirement is met by the provided input. Therefore, the input complies with the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "0ec3526",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "Jump high, jump",
+      "coverage": "VB",
+      "validityText": "Upon analyzing the input, the following observations can be made:\n\n1. **Presence of Sentence**: The input includes \"Jump high,\" which is a sentence fragment rather than a complete, grammatically correct English sentence. A grammatically correct English sentence typically includes a subject and a verb, and here, it appears to start with an imperative verb without a clear subject. However, in informal contexts, sentences that start with imperatives are often considered acceptable.\n\n2. **Word in the Sentence**: The word \"jump\" is indeed a part of the fragment provided, satisfying the condition that the word must be exactly included in the sentence.\n\n3. **Single Input String**: The sentence fragment and word are included in a single string, and there is no extraneous information beyond the sentence and the target word.\n\nDespite the fulfillment of criteria regarding inclusion and single string compliance, the ambiguity of whether \"Jump high,\" can be accepted as a proper sentence must be further assessed based on grammar expectations.\n\nSince the guideline of \"grammatically correct\" sentence forms a key part of sentence evaluation, and given that sentence presented lacks a clear subject, it tilts towards a potential compliance issue.\n\nHowever, considering informal grammar usage, especially in imperative sentence types, it is possible that \"Jump high,\" can be interpreted as acceptable. Given the potential acceptability of informal grammar use under \"grammatically correct,\" we must juxtapose the criteria closely. \n\nGiven a rigorous lens, the missing element of a clear subject, typically expected in standard sentences, means pushing towards the ambiguous border of compliance. \n\nTherefore, due to the constraints and expectations of formal grammar, the input may not comply with prescribed requirements for a complete, grammatically correct sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "daff77f",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "Quickly did, quickly",
+      "coverage": "RB",
+      "validityText": "The input consists of \"Quickly did, quickly\". Evaluating it against the specification:\n\n1. The input must consist of a sentence and a word contained within that sentence.\n   - This input contains a comma which seems erroneous and does not form a proper English sentence.\n   \n2. The sentence must be a grammatically correct English sentence.\n   - \"Quickly did, quickly\" is not a grammatically correct English sentence. The structure is incorrect as it lacks the necessary components to form a complete sentence, such as a clear subject and predicate or coherent logical structure.\n\n3. The word must exactly match a word in the provided sentence.\n   - The word \"quickly\" does appear identically in the input string. However, since the \"sentence\" itself is not grammatically correct, this compliance is moot.\n\n4. Both the sentence and the word must be included in a single input string.\n   - The input string does contain both elements: the \"sentence\" and the \"word\".\n\n5. The input must not contain any additional information beyond the sentence and the target word.\n   - There is no evidence of additional information beyond the \"sentence\" and \"word\".\n\nConsidering these criteria, the input fails to comply with the grammatical correctness requirement for the sentence, which is a core part of the input specification.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "a51b0b7",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The chatbot must not provide multiple tags, descriptions, or any form of extended response beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "Green leaves, green",
+      "coverage": "JJ",
+      "validityText": "To evaluate the input, we'll break down the input specification and check for compliance:\n\n1. The input must consist of a sentence and a word contained within that sentence.\n   - The input \"Green leaves, green\" consists of both a sentence and a word. \n\n2. The sentence must be a grammatically correct English sentence.\n   - \"Green leaves,\" is a phrase and not a complete sentence. A grammatically correct sentence typically contains at least a subject and a verb, and \"Green leaves,\" lacks a verb. Therefore, it fails to meet this requirement.\n\n3. The word must exactly match a word in the provided sentence.\n   - The word \"green\" is indeed found in the provided input.\n\n4. Both the sentence and the word must be included in a single input string.\n   - This requirement is satisfied as both are present within the single string \"Green leaves, green.\"\n\n5. The input must not contain any additional information beyond the sentence and the target word.\n   - The input does not contain any additional information; it only includes a sentence/phrase and a word.\n\nBased on the analysis, the input fails to meet the requirement of being a grammatically correct sentence. Therefore, it does not comply with the input specification.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "eaeeed5",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "input": "The cat sleeps, sleeps",
+      "coverage": "VBZ",
+      "validityText": "Upon reviewing the input specification, the input provided must include a grammatically correct English sentence and a word contained within that sentence. The sentence in this case is \"The cat sleeps, sleeps\" and does not strictly adhere to standard grammatical rules as it contains a repetition of the word \"sleeps\" without a clear grammatical structure or conjunction, which is atypical for standard English sentences. Additionally, the input does not specify a word from the sentence separately, which is required by the specification. Thus, there is a violation of the specification as it neither constitutes a complete, grammatically correct sentence, nor includes the separate mention of a target word. \n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "23d9fae",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "input": "Bright stars shine, stars",
+      "coverage": "NNS",
+      "validityText": "The input consists of \"Bright stars shine, stars\". According to the input specification, we need a sentence and a word that is contained within that sentence.\n\n1. The full string provided is \"Bright stars shine, stars\". \n2. This string can be divided into a sentence: \"Bright stars shine,\" and a word within that sentence: \"stars\".\n\nEvaluation:\n- Is \"Bright stars shine,\" a grammatically correct English sentence? Yes, it is. It has a subject (\"stars\") and a verb (\"shine\").\n- Is the word \"stars\" exactly within the sentence \"Bright stars shine,\"? Yes, the word \"stars\" appears in the sentence.\n- Is the input only containing the sentence and the word? Yes, the input contains only the sentence and the word. There is no additional information.\n\nBased on this analysis, the input fully complies with the input specification. There are no additional elements in the input beyond the sentence and the target word, and the sentence is grammatically correct. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "11504ee",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The chatbot must adhere strictly to returning only the part-of-speech tag relevant to the specified word within the given sentence, ensuring clarity and precision in its output.",
+      "input": "She is beautiful, beautiful",
+      "coverage": "JJ",
+      "validityText": "Upon evaluating the given input, let's assess its compliance with the input specification:\n\n1. The input consists of a phrase: \"She is beautiful, beautiful\".\n2. According to the specification, the input must include a sentence and a word contained within that sentence. \n3. Checking if \"She is beautiful, beautiful\" forms a grammatically correct English sentence:\n   - The phrase does not follow typical grammatical patterns for English sentences due to the repetition of the word \"beautiful\" without a conjunction or clear contextual indication of intent.\n4. The target word mentioned is \"beautiful\", which exactly matches a word in the provided phrase.\n5. The input does include both the sentence and the target word within a single string, but the sentence must be grammatically correct, which this is not.\n\nConclusively, the phrase fails to meet the specification of being a grammatically correct English sentence.\n\nAs per my analysis:\n\n- The phrase lacks grammatical correctness due to the unconventional duplication of the word \"beautiful\".\n- This violates the requirement for the input to be a grammatically correct English sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "6182ae6",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "input": "She sings beautifully, sings",
+      "coverage": "VBZ",
+      "validityText": "The input consists of two parts: a sentence and a word within that sentence. \n\n1. The sentence provided is \"She sings beautifully,\" and the word given is \"sings.\"\n2. The sentence \"She sings beautifully\" is a grammatically correct English sentence.\n3. The word \"sings\" is indeed identical to a word present in the sentence, meeting the condition that the word must exactly match a word in the provided sentence.\n4. There is no additional information present in the input beyond what is specified (i.e., a sentence and a target word).\n\nAll conditions of the input specification are met: the sentence is grammatically correct, the word is exactly matched in the sentence, and no extraneous information is included.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "8aa6bd1",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "input": "The children play outside, play",
+      "coverage": "VB",
+      "validityText": "The input consists of a sentence followed by a word. Let's evaluate the input according to the specification provided:\n\n1. The sentence provided is \"The children play outside,\" which is a grammatically correct English sentence. It has a subject \"The children\" and a verb \"play\", with an adverb \"outside\", forming a complete thought.\n\n2. The word provided is \"play\".\n\n3. According to the specification, the word must exactly match a word in the provided sentence. The word \"play\" is indeed present in the sentence \"The children play outside,\" and it matches exactly.\n\n4. The input includes only the sentence and the word, which fulfills the requirement of not containing additional information.\n\nBased on the above analysis, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a393bfe",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+      "input": "Dogs bark loudly, bark",
+      "coverage": "VB",
+      "validityText": "The given input consists of two parts: \"Dogs bark loudly,\" which is the sentence, and \"bark,\" which is the word.\n\n1. **Grammatical Check**: The sentence \"Dogs bark loudly\" is a grammatically correct English sentence. It contains a subject (\"Dogs\"), a verb (\"bark\"), and an adverb (\"loudly\") which modifies the verb.\n\n2. **Word Match**: The word provided is \"bark,\" which exactly matches a word in the sentence. Therefore, this requirement is satisfied.\n\n3. **Input Structure**: The input includes only the sentence and the word, without any additional extraneous information.\n\nAll elements of the input comply with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "4072c0e",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "input": "She walks gracefully, walks",
+      "coverage": "VBZ",
+      "validityText": "To evaluate the given input \"She walks gracefully, walks\", I will check it against the input specification:\n\n1. **Sentence Requirement**: The input must contain a sentence. \"She walks gracefully\" is a grammatically correct English sentence.\n\n2. **Word Requirement**: The input must contain a word that is exactly matched in the sentence. The word \"walks\" is present in the sentence \"She walks gracefully.\"\n\n3. **Inclusion Requirement**: Both the sentence and the word are included in a single input string, which is the case here.\n\n4. **No Extra Information**: There should not be any additional information beyond the sentence and the target word. The input contains the sentence \"She walks gracefully\" and the word \"walks,\" with no additional information.\n\nGiven all of the considerations above, the input complies with the input specification as \"She walks gracefully\" is a sentence and 'walks' is a word from that sentence without any extra information. Therefore, the input is compliant.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "bf122fa",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "input": "They are happy, are",
+      "coverage": "VBP",
+      "validityText": "The input consists of a sentence \"They are happy,\" and a word \"are\" that is contained within that sentence. \n\n1. **Sentence evaluation**: The sentence provided, \"They are happy,\" is a grammatically correct English sentence.\n2. **Word match**: The word \"are\" exactly matches a part of the sentence \"They are happy.\"\n3. **Combination in a single string**: The input includes both the sentence and the target word in a single string.\n4. **Extra information**: There is no extra information outside the sentence and the word itself.\n\nSince all the above checks confirm compliance with the input specification, there is no violation.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "8e072b5",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "input": "Quietly she left, left",
+      "coverage": "VBD",
+      "validityText": "The input consists of a sentence \"Quietly she left,\" and a word \"left,\" which is contained within that sentence. The sentence appears to be grammatically correct with an adverb \"Quietly,\" a pronoun \"she,\" and a verb \"left.\" Therefore, it satisfies the requirement of being a grammatically correct English sentence. The word \"left\" is an exact match to a word in the sentence. \n\nHowever, both the sentence and the word must be included in a single input string. Here, the sentence ends with a comma, followed by a space and then the word \"left\", which suggests that it is included separately at the end. As per the input specification, no additional information should be present beyond the sentence and the word. The presence of the comma separating the repeated word seems to unnecessarily complicate the input format.\n\nUpon reevaluating and focusing on the specific guidelines: if the latter instance of \"left\" is treated as the word contained in the sentence without the need for a comma (as a punctuation detail), it minimally adheres to the format requested by the specification - the sentence followed by the word part of it.\n\nConsidering this format focus and purpose of the task (evaluating specification conformity), the input’s interpretation allows it to still meet necessary criteria implicitly, though limits the direct simplicity and clarity the specification seems to desire.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c5383a2",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "input": "This is a mystery word, blorf",
+      "coverage": "Unknown",
+      "validityText": "The input consists of two parts: \"This is a mystery word,\" and \"blorf.\" \n\n1. **Sentence Evaluation**: The first part, \"This is a mystery word,\" is a sentence that appears grammatically structured. It includes a subject (\"This\"), a verb (\"is\"), and a complement (\"a mystery word\"). It ends with a comma, which is an uncommon, though not necessarily incorrect, way to end a standalone sentence. However, the sentence structure itself is grammatically permissible.\n\n2. **Word Evaluation**: The second part is the word \"blorf.\" To comply with the input specification, \"blorf\" must exactly match a word in the provided sentence. However, \"blorf\" does not appear anywhere in the sentence \"This is a mystery word.\"\n\n3. **Specification Compliance**: The specification requires that the input includes a sentence and a word that is exactly contained within that sentence. Since \"blorf\" does not match any part of the sentence provided, this requirement is not met.\n\nTherefore, the input does not comply with the provided input specification due to the mismatch between the word specified outside the sentence and the words contained in the sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "2435647",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "input": "Undefined word usage: xqz, xqz",
+      "coverage": "Unknown",
+      "validityText": "Upon evaluating the input against the provided input specification, I have identified the following:\n\n1. The input specification requires the input to consist of a sentence and a word contained within that sentence. The provided input is \"Undefined word usage: xqz, xqz\", which does not form a grammatically correct English sentence. Instead, it appears to be a phrase with a colon and repetition of an undefined term \"xqz\", which might not be recognized as a word in English.\n\n2. The input specification also demands that the word provided must exactly match a word in the sentence. While \"xqz\" is repeated, its inclusion in the phrase \"Undefined word usage:\" is not part of a grammatically correct sentence, making it non-compliant as a valid sentence-word pair as per the requirement.\n\n3. The input contains the phrase \"Undefined word usage:\", which can be seen as additional information beyond a simple sentence and word as stipulated in the input specification.\n\n4. Given these points, this input does not comply with the input specification since it lacks a proper grammatical sentence, includes undefined words that may not be English, and contains additional information beyond a mere sentence and word pairing.\n\nBased on the reasoning outlined above, the input does not meet the required specification.\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "4e07eb3",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+      "input": "Random characters: 123abc, 123abc",
+      "coverage": "Unknown",
+      "validityText": "The input provided is \"Random characters: 123abc, 123abc\". According to the specification, the input must include a sentence and a word within it. Upon examining the input, several issues arise:\n\n1. **Grammatical Sentence**: The input does not form a grammatically correct English sentence. \"Random characters: 123abc, 123abc\" cannot be categorized as a sentence as it lacks a subject and predicate.\n\n2. **Word Matching**: While \"123abc\" is repeated, it's not clear whether it is being used correctly as a word within a sentence, primarily because the entirety of the input doesn't constitute a sentence.\n\n3. **Extra Information**: The input seems to contain extra information like a list or formatting that is not a part of a natural sentence.\n\nConsidering these observations, the input does not meet the conditions outlined in the specification—it is not a grammatically correct sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "a9b4505",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "input": "She dances gracefully, dances",
+      "coverage": "VBZ",
+      "validityText": "To evaluate the given input, \"She dances gracefully, dances\", I will perform a thorough analysis based on each part of the input specification.\n\n1. **Sentence Requirement**: The input must consist of a sentence. \"She dances gracefully\" is a grammatically correct English sentence. It starts with a capital letter and includes a subject and a verb, terminating correctly with an implicit punctuation (comma).\n\n2. **Target Word Requirement**: The word \"dances\" is provided after the sentence. This word must exactly match a word contained within the sentence. Indeed, \"dances\" is a word in the sentence \"She dances gracefully\".\n\n3. **Single Input String Requirement**: Both the sentence and the word are presented together in a single input string without any extraneous information. The string is appropriately structured, being a concise sentence followed by the exact target word.\n\nBased on this analysis, the input satisfies all aspects of the given input specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a870b16",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "input": "The quick fox, fox",
+      "coverage": "NN",
+      "validityText": "Upon evaluating the input \"The quick fox, fox\", I applied the given specification. The input should consist of a grammatically correct English sentence followed by a word that exists within this sentence. Here's my analysis:\n\n1. **Sentence Evaluation**: The input begins with \"The quick fox\", which is a grammatically correct part of a sentence. However, there is a missing verb which is essential for it to fully qualify as a complete English sentence. A complete sentence typically requires at least a subject (here possibly \"The quick fox\") and a verb. \"The quick fox\" lacks a verb and therefore does not qualify as a complete, grammatically correct sentence. The spec requires a complete, grammatically correct sentence, not just a phrase or fragment.\n\n2. **Word Matching**: The word provided after the comma is \"fox\". While \"fox\" does appear in the initial clause or fragment \"The quick fox\", the requirement for a grammatically correct sentence is not met due to the reasons mentioned above.\n\n3. **Additional Information**: There is a comma separating the phrase and the word \"fox\". The spec does not explicitly prohibit punctuation like commas as long as the overall structure is correct and does not introduce any additional information. However, since the input fails to provide a complete sentence, this point becomes moot.\n\nGiven this analysis, the input does not comply with the input specification because it does not constitute a complete and grammatically correct English sentence.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "6ba8942",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "If the chatbot is able to determine the part of speech for the specified word despite insufficient information or other reasons, it must return a definitive tag instead of \"CantAnswer\".",
+      "input": "He is happy, happy",
+      "coverage": "CantAnswer",
+      "validityText": "Upon evaluating the given input according to the input specification, I identified some important aspects:\n\n1. **Presence of Sentence and Word**: The input consists of the sentence \"He is happy,\" and the word \"happy,\" which is contained within that sentence.\n\n2. **Grammatical Correctness**: The sentence \"He is happy,\" is a grammatically correct English sentence.\n\n3. **Word Matching**: The provided word \"happy\" appears exactly in the sentence \"He is happy.\"\n\n4. **Single Input String**: The sentence and the word are included in a single input string.\n\nBased on the above analysis, the input does comply with the requirement that the sentence contains the word exactly, and all other stipulations of the input specification are also met.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "7c84e2e",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "input": "Run every morning, run",
+      "coverage": "VB",
+      "validityText": "The input provided includes a sentence and a word: \"Run every morning, run\". Let's evaluate the input based on the input specification:\n\n1. The sentence must be grammatically correct: \"Run every morning, run\" could be considered an imperative sentence suggesting a command with emphasis. While it isn't a typical sentence, it might be interpreted as listing or emphasizing the action of running, which can be considered grammatically acceptable in a conversational or imperative context.\n\n2. The word must exactly match a word in the provided sentence: The word \"run\" is indeed found in the sentence provided and matches exactly.\n\n3. Both the sentence and the word must be included in a single input string, and the input must not contain any additional information beyond the sentence and the target word: The input is given in a single string, and there is no extraneous information beyond the provided sentence and word.\n\nBased on the above analysis, the input adheres to all the specifications:\n\n- The grammaticality of the sentence meets the requirements, though it is an atypical imperative form.\n- The word \"run\" is present in the sentence and matches exactly.\n- The sentence and word are presented as a single string without additional information.\n\nThere is no specific violation of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ca21af0",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "input": "Beautiful flowers, beautiful",
+      "coverage": "JJ",
+      "validityText": "The input provided is \"Beautiful flowers, beautiful\". \n\n1. **Sentence Verification**: The input should contain a sentence that is grammatically correct in English. The phrase \"Beautiful flowers\" is a fragment and not a complete sentence because it lacks a subject and a verb to form a complete thought.\n\n2. **Word Verification**: The input must include a word that exactly matches a word in the provided sentence. The second occurrence of \"beautiful\" is presented as the word to match. The word \"beautiful\" is not present in the phrase \"Beautiful flowers\". The capitalization must match exactly for it to be considered a direct match. Therefore, \"beautiful\" does not match \"Beautiful\" from the fragment due to the difference in capitalization.\n\n3. **Content Limitation**: The input should only contain a sentence and the target word. However, since the initial component is not a valid sentence, this rule is irrelevant in this specific context.\n\nBased on points 1 and 2, the input does not meet the specification as the sentence provided is not a valid, grammatically correct English sentence, and the word does not exactly match any word within the provided sentence due to capitalization differences.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "740dc68",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The chatbot may include additional text, explanations, or formatting alongside the part-of-speech tag or fallback responses.",
+      "input": "Wait here, wait",
+      "coverage": "VB",
+      "validityText": "Thinking: \n1. I must determine whether the input consists of a sentence and a specific word contained within that sentence.\n2. The sentence \"Wait here\" is a grammatically correct English sentence.\n3. The word \"wait\" is indeed contained in the sentence \"Wait here\".\n4. Both the sentence and the word are included in the single input string: \"Wait here, wait\".\n5. The input does not contain additional information beyond the sentence and the target word.\n\nBased on these observations, all aspects of the input comply with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "caac7c9",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+      "input": "She plays piano, plays",
+      "coverage": "VBZ",
+      "validityText": "The input must consist of a sentence and a word contained within that sentence. The input provided is \"She plays piano, plays\". The sentence portion is \"She plays piano,\" which appears to be a grammatically correct English sentence. The word provided is \"plays\", which exactly matches the word \"plays\" in the sentence \"She plays piano,\".\n\nThere are no additional elements or extraneous information beyond the sentence and the word in the input. The sentence itself seems to be grammatically correct with a subject (\"She\") and a verb phrase (\"plays piano\") connected with a comma, which while not forming a complete thought, remains compliant within the limits of informal speech or a specific stylistic choice; this does not negate grammatical correctness in itself as per the input specification which does not specify terminal punctuation as a necessity.\n\nHowever, to determine grammaticality, the sentence was evaluated based on basic sentence structure rules, wherein the provided input does not violate the core requirement of grammatical correctness within an allowable variance for adjective phrases and potential stylistic deployment of the comma without extending beyond defined specification rules.\n\nTherefore, after thorough examination, the input does comply with the input specification provided.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "bf122fa",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The chatbot may return part-of-speech tags that are not included in the predefined list, regardless of the specified word.",
+      "input": "They are happy, are",
+      "coverage": "VBP",
+      "validityText": "The input consists of a sentence \"They are happy,\" and a word \"are\" that is contained within that sentence. \n\n1. **Sentence evaluation**: The sentence provided, \"They are happy,\" is a grammatically correct English sentence.\n2. **Word match**: The word \"are\" exactly matches a part of the sentence \"They are happy.\"\n3. **Combination in a single string**: The input includes both the sentence and the target word in a single string.\n4. **Extra information**: There is no extra information outside the sentence and the word itself.\n\nSince all the above checks confirm compliance with the input specification, there is no violation.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "2e54f2a",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "Each part-of-speech tag returned by the chatbot may not match one of the tags provided in the alphabetical list, and may have incorrect casing or abbreviation.",
+      "input": "A big house, big",
+      "coverage": "JJ",
+      "validityText": "The input consists of a sentence \"A big house\" and a word \"big\". First, let's evaluate the sentence part. \"A big house\" is a grammatically correct English sentence. It makes sense and follows the English sentence structure with an article (\"A\"), an adjective (\"big\"), and a noun (\"house\").\n\nNext, we evaluate the inclusion of the word \"big\" in the sentence. The word \"big\" exactly matches a word in the provided sentence \"A big house\". Therefore, this part of the input specification is satisfied.\n\nFinally, we consider the input as a whole. The input does not contain any additional information beyond the given sentence and the target word. It adheres to the requirement of containing both the sentence and the word in a single input string.\n\nIn summary, the input satisfies all the requirements of the input specification: it contains a grammatically correct sentence, a word that exactly matches a word in the sentence, and no extraneous information. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "2f031bc",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "He sings beautifully, sings",
+      "coverage": "VBZ",
+      "validityText": "Upon evaluating the provided input, here's my thought process:\n\n1. **Sentence Requirement**: The input begins with \"He sings beautifully,\" which is a grammatically correct English sentence. The sentence consists of a subject (\"He\"), a verb (\"sings\"), and an adverb (\"beautifully\") to describe how he sings, following the structure of a standard English sentence.\n\n2. **Containment of Word**: The target word provided is \"sings.\" This word is explicitly present and matches exactly within the given sentence \"He sings beautifully.\"\n\n3. **Single Input String**: The sentence and the word are provided in a single input string, complying with the requirement.\n\n4. **No Extra Information**: The input only contains the sentence and the target word without any extra information.\n\nConsidering all conditions from the input specification are satisfied:\n\n- The sentence is grammatically correct.\n- The word \"sings\" is contained within the sentence.\n- Both the sentence and the word are included in a single input string, without additional information.\n\nTherefore, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "89e7f77",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "Joyfully she runs, runs",
+      "coverage": "RB",
+      "validityText": "The given input is \"Joyfully she runs, runs\". Let's analyze it according to the input specification:\n\n1. **Sentence**: The input must contain a grammatically correct English sentence. \n   - \"Joyfully she runs, runs\" appears to be intending to convey a sentence, but it includes repetition of the word \"runs\" in an unexpected way which could be considered stylistic for emphasis, but it may also be seen as lacking clarity or correctness in standard grammar.\n\n2. **Word Included**: There must be a word from the sentence identified in the input.\n   - The input doesn't clearly specify which word is the one to be highlighted. However, if we extrapolate from the repetition, it seems that \"runs\" is intended to be the word of focus. Nonetheless, as per the specification, there should be a clear demarcation indicating the specific target word, which is absent here.\n\n3. **Single Input String with No Additional Information**: The input should contain only the sentence and the specified word without any additional text.\n   - The format of the input doesn't provide explicit indication of the word from the sentence. \n\nIn conclusion, due to the lack of clear specification of the word from the sentence and potential issues with grammatical correctness or conventional clarity of the sentence, the input does not comply fully with the provided specification. It lacks clarity in identifying the target word and leaves room for interpretation regarding its grammatical correctness.\n\nERR",
+      "validity": "err",
+      "error": ""
+    },
+    {
+      "id": "ced1e75",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The chatbot may provide multiple tags, descriptions, or extended responses beyond the single required part-of-speech tag or the appropriate fallback response.",
+      "input": "Bright lights shine, shine",
+      "coverage": "VB",
+      "validityText": "The given input consists of a sentence \"Bright lights shine,\" and the word \"shine.\" Let's evaluate each part of the input according to the input specification:\n\n1. **Grammatically Correct Sentence**: The sentence \"Bright lights shine,\" seems to be grammatically correct. It has a proper structure with a subject (\"Bright lights\") and a verb (\"shine\").\n\n2. **Word Contained in Sentence**: The word \"shine\" is present in the sentence. \n\n3. **Word Exactly Matches**: The word \"shine\" in the input exactly matches the second occurrence of the word \"shine\" in the sentence.\n\n4. **Single Input String**: Both the sentence and the word are in a single input string.\n\n5. **No Additional Information**: There is no additional information beyond the sentence and the target word.\n\nThere are no violations. The input meets all the criteria mentioned in the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a63a6b6",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "input": "The dog barks loudly, barks",
+      "coverage": "VBZ",
+      "validityText": "The given input consists of two parts: a sentence and a target word extracted from that sentence. Let's analyze each element according to the input specification:\n\n1. **Sentence**: \"The dog barks loudly,\" appears to be a grammatically correct English sentence. However, we must ensure that the target word is contained precisely within the sentence without additional modifiers or punctuation affecting its form.\n\n2. **Target Word**: \"barks\" is the word provided after the sentence. This word matches exactly with the word \"barks\" in the given sentence, as it appears in \"The dog barks loudly.\"\n\n3. **Simplicity and Completeness of Input**: The input contains only the sentence and the word, without superfluous information, which complies with the specification rule: \"The input must not contain any additional information beyond the sentence and the target word.\"\n\nSince both the sentence is grammatically correct and contains the exact target word specified without any additional elements beyond a complete sentence and the word extracted from it, the input complies with the input specification.\n\nTherefore, there is no violation in this input scenario.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a7f9d79",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "input": "She sings a song, sings",
+      "coverage": "VBZ",
+      "validityText": "To evaluate the provided input based on the input specification:\n\n1. **Sentence Presence**: The input contains the sentence \"She sings a song\" which appears to be a grammatically correct English sentence. This aspect complies with the specification.\n\n2. **Word Presence**: The input specifies the word \"sings\", which is present in the sentence \"She sings a song\". The word exactly matches a word in the sentence. This complies with the specification.\n\n3. **Single Input String**: The sentence and the word are both included in the same input string, which meets the requirement.\n\n4. **No Additional Information**: The input does not seem to contain any additional information beyond the sentence and the word.\n\nGiven the evaluation points above, the input successfully meets all the stipulated requirements in the specification without any violations. There are no reasons to mention a violation.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "dea55df",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The chatbot may return part-of-speech tags irrelevant to the specified word within the given sentence, compromising clarity and precision in its output.",
+      "input": "He writes letters, writes",
+      "coverage": "VBZ",
+      "validityText": "To determine the compliance with the input specification, let's break down the input:\n\n1. **Sentence Compliance**: The input contains \"He writes letters,\" which appears to be a grammatically correct English sentence. It follows the subject-verb-object structure expected in simple sentences.\n\n2. **Word Compliance**: The word provided is \"writes,\" which is contained within the sentence \"He writes letters.\"\n\n3. **Single Input String**: The input consists of both the sentence and the word in a single string: \"He writes letters, writes.\"\n\n4. **No Additional Information**: There is no additional information beyond the sentence \"He writes letters\" and the word \"writes.\" The comma serves to separate the sentence from the word, which seems appropriate given the lack of further specifications regarding punctuation use in the input specification.\n\nBased on the above analysis, the input adheres to all rules outlined in the input specification. There is no violation found.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    }
+  ],
+  "testResults": []
+}

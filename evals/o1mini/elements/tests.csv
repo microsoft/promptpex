@@ -1,0 +1,117 @@
+```csv
+ruleid,testid,testinput,expectedoutput,reasoning
+1,1,"Microsoft and Google are leading technology companies. Satya Nadella and Sundar Pichai are their respective CEOs. This text discusses advancements in artificial intelligence and machine learning as key drivers of innovation.","Company names: Microsoft, Google
+People names: Satya Nadella, Sundar Pichai
+Specific topics: artificial intelligence, machine learning
+General themes: innovation","This test case includes all four categories, ensuring that the output consists of four distinct lines as per Rule 1."
+1,2,"Apple Inc. is renowned for its design and innovation.","Company names: Apple Inc.
+People names: 
+Specific topics: 
+General themes:","This test case includes only company names to ensure that even when some categories are empty, the output still consists of four lines as per Rule 1."
+1,3,"This text contains general information without any specific company or personal names, topics, or themes.","Company names: 
+People names: 
+Specific topics: 
+General themes:","This test case contains no extractable entities, ensuring that the output still consists of four lines with empty categories as per Rule 1."
+2,1,"Tesla and SpaceX are pushing the boundaries of electric vehicles and space travel. Elon Musk leads both companies.","Company names: Tesla, SpaceX
+People names: Elon Musk
+Specific topics: electric vehicles, space travel
+General themes: technological advancement","This test case verifies that company names are correctly extracted and listed in the first line as per Rule 2."
+2,2,"The collaboration between IBM and Oracle has led to new developments in cloud computing.","Company names: IBM, Oracle
+People names: 
+Specific topics: cloud computing
+General themes:","This test case includes multiple company names and a specific topic, testing the accurate extraction and formatting of company names as per Rule 2."
+2,3,"No companies are mentioned here, only individuals like John Doe and Jane Smith.","Company names: 
+People names: John Doe, Jane Smith
+Specific topics: 
+General themes:","This test case lacks company names, ensuring the software correctly leaves the company names line empty as per Rule 2."
+3,1,"Bill Gates and Mark Zuckerberg have donated millions to various charities. Their efforts focus on education and technology.","People names: Bill Gates, Mark Zuckerberg
+Company names: 
+Specific topics: education, technology
+General themes: philanthropy","This test case ensures that people names are correctly extracted and listed in the second line as per Rule 3."
+3,2,"Angela Merkel and Emmanuel Macron discussed climate change at the G7 summit.","People names: Angela Merkel, Emmanuel Macron
+Company names: 
+Specific topics: climate change
+General themes: international relations","This test case includes multiple people names and a specific topic, testing the accurate extraction and formatting of people names as per Rule 3."
+3,3,"No personal names are present in this document, only organizations like the WHO and UNICEF.","People names: 
+Company names: WHO, UNICEF
+Specific topics: 
+General themes:","This test case lacks people names, ensuring the software correctly leaves the people names line empty as per Rule 3."
+4,1,"The seminar covered topics such as renewable energy and sustainable agriculture, highlighting recent innovations.","Specific topics: renewable energy, sustainable agriculture
+Company names: 
+People names: 
+General themes: innovation","This test case verifies that specific topics are correctly extracted and listed in the third line as per Rule 4."
+4,2,"Discussions included cybersecurity measures and data privacy concerns in the digital age.","Specific topics: cybersecurity measures, data privacy
+Company names: 
+People names: 
+General themes: digital age","This test case includes multiple specific topics, testing the accurate extraction and formatting as per Rule 4."
+4,3,"This document does not focus on specific topics but rather on general industry trends.","Specific topics: 
+Company names: 
+People names: 
+General themes: general industry trends","This test case lacks specific topics, ensuring the software correctly leaves the specific topics line empty as per Rule 4."
+5,1,"The overarching themes of the report are globalization and economic development.","General themes: globalization, economic development
+Company names: 
+People names: 
+Specific topics: ","This test case ensures that general themes are correctly extracted and listed in the fourth line as per Rule 5."
+5,2,"Key themes include mental health awareness and community support.","General themes: mental health awareness, community support
+Company names: 
+People names: 
+Specific topics: ","This test case includes multiple general themes, testing the accurate extraction and formatting as per Rule 5."
+5,3,"The article discusses specific strategies but does not address general themes.","General themes: 
+Company names: 
+People names: 
+Specific topics: specific strategies","This test case lacks general themes, ensuring the software correctly leaves the general themes line empty as per Rule 5."
+6,1,"Tesla and SpaceX are pushing the boundaries of electric vehicles and space travel. Elon Musk leads both companies.","Company names: Tesla, SpaceX
+People names: Elon Musk
+Specific topics: electric vehicles, space travel
+General themes: technological advancement","The output should consist of four lines, but this rule expects variable number of lines, so the expected output violates Rule 6.","This test case adheres to Rule 1 and does not follow Rule 6, ensuring the output should not have variable lines as per Rule 6."
+6,2,"Apple Inc. is renowned for its design and innovation. Tim Cook oversees operations.","Company names: Apple Inc.
+People names: Tim Cook
+Specific topics: design, innovation
+General themes: ","This test case expects variable number of lines with unrelated categories, violating Rule 6.","Ensures that the software does not produce variable lines when it should follow Rule 1."
+6,3,"The conference covered various subjects. Microsoft and Google were sponsors. Sundar Pichai spoke about technology.","Company names: Microsoft, Google
+People names: Sundar Pichai
+Specific topics: technology
+General themes: ","This test case includes relevant categories but expects additional unrelated lines, violating Rule 6.","Tests that the output does not include overlapping or unrelated categories as per Rule 6."
+7,1,"Microsoft and Google are leading technology companies. Satya Nadella and Sundar Pichai are their respective CEOs.","People names: Satya Nadella, Sundar Pichai
+Specific topics: technology
+General themes: innovation","This output does not begin with 'Company names:', violating Rule 7.","Ensures that the first line must start with 'Company names:' as per Rule 7."
+7,2,"Amazon is expanding its services. Jeff Bezos is the founder.","People names: Jeff Bezos
+Specific topics: expansion of services
+General themes: business growth","The output excludes company names and does not begin with 'Company names:', violating Rule 7.","Verifies that company names are excluded and the first line does not start with 'Company names:' as per Rule 7."
+7,3,"No companies mentioned here, only individuals like John Doe.","People names: John Doe
+Specific topics: 
+General themes: ","The first line does not begin with 'Company names:' and excludes any business entities, adhering to Rule 7.","Confirms that when no company names are present, the first line does not start with 'Company names:' as required by Rule 7."
+8,1,"Elon Musk is the CEO of Tesla and SpaceX.","Company names: Tesla, SpaceX
+Specific topics: 
+General themes: ","The output does not begin with 'People names:' and excludes individual names, violating Rule 8.","Ensures that the second line must start with 'People names:'."
+8,2,"Microsoft and IBM are collaborating on new projects.","Company names: Microsoft, IBM
+Specific topics: new projects
+General themes: collaboration","The output does not begin with 'People names:' and excludes individual names, violating Rule 8.","Verifies that people names are excluded and the second line does not start with 'People names:' as per Rule 8."
+8,3,"This document mentions only organizations without any personal names.","Company names: 
+Specific topics: 
+General themes: ","The second line does not begin with 'People names:' and excludes individual names, adhering to Rule 8.","Confirms that when no people names are present, the second line does not start with 'People names:' as required by Rule 8."
+9,1,"The seminar covered topics such as renewable energy and sustainable agriculture.","Specific topics: renewable energy, sustainable agriculture
+Company names: 
+People names: 
+General themes: innovation","The output does not begin with 'Specific topics:' exclusion contradicts Rule 9.","Ensures that specific topics are excluded and the third line does not start with 'Specific topics:' as per Rule 9."
+9,2,"Discussions included cybersecurity measures and data privacy.","Specific topics: cybersecurity measures, data privacy
+Company names: 
+People names: 
+General themes: digital security","The output does not begin with 'Specific topics:' exclusion contradicts Rule 9.","Verifies that specific topics are excluded and the third line does not start with 'Specific topics:' as per Rule 9."
+9,3,"This document focuses on general strategies without specific topics.","Specific topics: 
+Company names: 
+People names: 
+General themes: general strategies","The third line does not begin with 'Specific topics:' and excludes specific subjects, adhering to Rule 9.","Confirms that when no specific topics are present, the third line does not start with 'Specific topics:' as required by Rule 9."
+10,1,"The overarching themes include globalization and economic development.","General themes: globalization, economic development
+Company names: 
+People names: 
+Specific topics: ","The output does not begin with 'General themes:' exclusion contradicts Rule 10.","Ensures that general themes are excluded and the fourth line does not start with 'General themes:' as per Rule 10."
+10,2,"Key themes are mental health awareness and community support.","General themes: mental health awareness, community support
+Company names: 
+People names: 
+Specific topics: ","The output does not begin with 'General themes:' exclusion contradicts Rule 10.","Verifies that general themes are excluded and the fourth line does not start with 'General themes:' as per Rule 10."
+10,3,"This article discusses strategies without addressing general themes.","General themes: 
+Company names: 
+People names: 
+Specific topics: strategies","The fourth line does not begin with 'General themes:' and excludes overarching subjects, adhering to Rule 10.","Confirms that when no general themes are present, the fourth line does not start with 'General themes:' as required by Rule 10."
+```

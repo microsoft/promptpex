@@ -1,0 +1,12 @@
+{
+  "id": "e556f92",
+  "promptid": "e5ed513",
+  "ruleid": 22,
+  "rule": "If there are no entities to list in a category, the assistant may omit the category label or add content after the colon.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: The monument was built to commemorate heroes.",
+  "output": "Company names: \nPeople names: \nSpecific topics: monument, heroes, commemoration\nGeneral themes: remembrance, honor, historical significance",
+  "compliance": "err",
+  "complianceText": "The output from the chatbot does not comply with the description given. Specifically, there is an error in the section for \"Company names,\" which is left blank. According to the desired format, it should at least contain an empty list indicated by a comma-separated list format, even if there are no company names to list. Additionally, the \"People names\" section is also left blank and should follow the same format requirement. Each section should display a comma-separated list, and if no entities are found during the extraction process, it should explicitly show this with a format like an empty list.\n\nBased on these considerations, I conclude that the output violates the chatbot description's required format for company and people names because the format for these fields is not shown clearly.\n\nERR"
+}

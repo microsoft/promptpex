@@ -1,0 +1,12 @@
+{
+  "id": "8aa6bd1",
+  "promptid": "dddf836",
+  "ruleid": 9,
+  "rule": "The chatbot may return multiple part-of-speech tags that do not correspond to the specified word within the provided sentence.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "The children play outside, play",
+  "output": "Here are the tags for each word:\n\n* The - DT: Determiner\n* children - JJ: Adjective\n* play - VB: Verb\n\nBoth sentences should be tagged with ADJKP: Adjective-Determiner-Judgment-Particle. \n\nHowever, if the task is to tag just one type of information or verb as specified in your instructions it would not result in an accurate answer of \"ADJKP\".",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists tags for each word, which is not in line with the requirement of returning only the part of speech tag for a single given word. Additionally, it includes an explanation about ADJKP and mentions considerations about instructions, which is not part of the expected output format. The output should solely consist of one of the listed tags, \"Unknown,\" or \"CantAnswer.\" Given these issues, the output does not comply with the description.\n\nERR"
+}

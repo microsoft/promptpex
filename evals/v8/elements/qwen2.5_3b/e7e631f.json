@@ -1,0 +1,11 @@
+{
+  "id": "e7e631f",
+  "promptid": "e5ed513",
+  "ruleid": 6,
+  "rule": "The lists should always maintain the order specified in the system prompt and must not include any entries that are not present in the provided text or are irrelevant.",
+  "model": "qwen2.5:3b",
+  "input": "Text: There's growing concern about cybersecurity breaches impacting large corporations.",
+  "output": "Company names: <no_company_names>\nPeople names: -||-\nSpecific topics: cybersecurity breaches, large corporations\nGeneral themes: Concerns, Cybersecurity, Business Impacts",
+  "compliance": "err",
+  "complianceText": "The format for \"Company names\" in the chatbot output is \"<no_company_names>\", which does not comply with the format specified in the chatbot description. The description requests a comma-separated list of company names. While the actual content of the list cannot be validated without the input, the format \"<no_company_names>\" is not a proper comma-separated list. Additionally, the \"People names\" section uses \"-||-\", which does comply with the description, so there are no format issues here. \n\nSpecific topics and general themes follow the correct format as lists of comma-separated items. However, the issue lies with the specific required format being \"<comma_separated_list_of_company_names>\" for company names, which was not followed due to the use of \"<no_company_names>\". \n\nDue to the formatting violation in the \"Company names\" section, I conclude that the chatbot's output does not fully comply with the description.\n\nERR"
+}

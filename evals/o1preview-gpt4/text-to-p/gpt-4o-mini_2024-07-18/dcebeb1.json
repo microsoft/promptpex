@@ -1,0 +1,12 @@
+{
+  "id": "dcebeb1",
+  "promptid": "b70fdc4",
+  "ruleid": 19,
+  "rule": "The `<strong>` tag should not be properly nested within the `<p>` tags and may overlap with `<em>` tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Fitness boosts health. Exercise strengthens bodies. Wellness promotes happiness.",
+  "output": "```html\n<p><strong>Fitness</strong> boosts <em>health</em>.</p>\n<p><strong>Exercise</strong> strengthens <em>bodies</em>.</p>\n<p><strong>Wellness</strong> promotes <em>happiness</em>.</p>\n<p><strong>Fitness</strong> boosts <em>health</em>.</p>\n<p><strong>Exercise</strong> strengthens <em>bodies</em>.</p>\n<p><strong>Wellness</strong> promotes <em>happiness</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The provided chatbot output contains six `<p>` tags, each wrapping individual sentences. The requirement of having \"at least three <p> tags\" is therefore satisfied. Each sentence includes one `<strong>` tag and multiple `<em>` tags, which also complies with the description that specifies adding one `<strong>` tag and multiple `<em>` tags inside each `<p>` tag to emphasize key words and phrases.\n\nThe description does not specify that the sentences must be unique, so the repetition of the same three sentences in the remaining three `<p>` tags does not violate the stated requirements.\n\nBased solely on these observations and without assuming any further input-related context, the output complies with the format description provided.\n\nNo violation.\nOK"
+}

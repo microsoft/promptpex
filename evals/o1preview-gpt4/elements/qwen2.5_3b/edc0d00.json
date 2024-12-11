@@ -1,0 +1,12 @@
+{
+  "id": "edc0d00",
+  "promptid": "e5ed513",
+  "ruleid": 23,
+  "rule": "For \"Company names\", the assistant may choose not to extract company names or may include entities that are not official business organizations.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: He started a non-profit organization to help others.",
+  "output": "Company names: <empty>\nPeople names: -||-\nSpecific topics: non-profit organization, helping others\nGeneral themes: starting initiatives, community service",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot complies with the description in several areas, however, there is an issue with the format of the \"People names\" section. According to the description, the desired format requires using angle brackets <> for enclosing lists, such as \"<comma_separated_list_of_people_names>\". Instead, the chatbot uses \"-||-\" without any angle brackets or a list format. This inconsistency in format represents a violation of the guidelines.\n\nThere are no specific rules indicating that '<empty>' or non-empty lists of entities should or should not be provided, therefore the provided content in each section is not subject to evaluation without the input. \n\nTherefore, based on the violation noted in the formatting of the \"People names\" section, the correct decision is:\n\nERR"
+}

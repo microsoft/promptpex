@@ -1,0 +1,11 @@
+{
+  "id": "fd6ddb2",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "She whispered, 'I have a secret to tell you.' He leaned in closer to listen. 'Promise you won't tell anyone,' she added.",
+  "output": "<p><strong>She</strong> whispered, &#039.I have a secret to tell you.&#039;</p>\n<p><em>He</em> leaned in closer to listen.</p>\n<p><strong>She</strong> whispered, &#039;Promise you won't tell anyone,'</p>\n<p><em>'She added.'</em></p>\n<p><strong>He</strong> leaned in closer to listen.</p>\n<p><em>â¬Promise you won't tell anyone,'</em>",
+  "compliance": "err",
+  "complianceText": "The output begins by appropriately wrapping sentences with `<p>` tags but includes more than the stated requirement of having at least three `<p>` tags; this means it satisfies the requirement for the minimum number of `<p>` tags. Each sentence is supposed to contain a `<strong>` tag and multiple `<em>` tags inside each `<p>` tag. Looking closely:\n\n1. **First `<p>` tag**: Contains a `<strong>` tag, but lacks any `<em>` tags, which violates the requirement for each `<p>` to contain multiple `<em>` tags. \n   \n2. **Second `<p>` tag**: Contains an `<em>` tag but no `<strong>` tag, violating the requirement for each `<p>` to contain a `<strong>` tag.\n\n3. **Third `<p>` tag**: Contains a `<strong>` tag but no `<em>` tags, again violating the requirement for multiple `<em>` tags in each `<p>`.\n\n4. **Fourth `<p>` tag**: Contains an `<em>` tag, but no `<strong>` tag, violating the requirement for a `<strong>` tag in each `<p>`.\n\n5. **Fifth `<p>` tag**: Contains a `<strong>` tag but no `<em>` tags, marking another violation for the absence of multiple `<em>` tags as required.\n\n6. **Sixth `<p>` tag**: Contains an `<em>` tag but no `<strong>` tag, which once more violates the requirement for each `<p>` to contain a `<strong>` tag.\n\nAdditionally, individual use of `&#039;` for quote marks is inconsistent with regular usage and may cause visual issues in HTML rendering, though this is not the main reason for non-compliance based on the described guidelines.\n\nGiven these points, the output does not follow the guideline for including both a `<strong>` and multiple `<em>` tags within each `<p>` tag.\n\nERR"
+}

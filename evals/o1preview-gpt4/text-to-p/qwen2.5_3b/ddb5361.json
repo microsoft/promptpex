@@ -1,0 +1,12 @@
+{
+  "id": "ddb5361",
+  "promptid": "b70fdc4",
+  "ruleid": 19,
+  "rule": "The `<strong>` tag should not be properly nested within the `<p>` tags and may overlap with `<em>` tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Education shapes futures. Teachers inspire minds. Knowledge empowers people.",
+  "output": "<p><strong><em>Educatio</em>n</em></strong><em> <strong>shapes</strong> <em>futures.</em></p>\n<p><strong><em>Teachers</em></strong> <strong><em>inspire</em></strong> <em>minds.</em></p>\n<p><strong><em>Knowledge</em></strong> <strong><em>empowers</strong></em> <em>people.</em></p>",
+  "compliance": "ok",
+  "complianceText": "The evaluation of the chatbot output involves checking for compliance with the description's requirements: \n\n1. The output should contain at least three `<p>` tags. The output satisfies this requirement, as it contains exactly three `<p>` tags.\n2. Inside each `<p>` tag, one `<strong>` tag must be present. The output satisfies this requirement, as each `<p>` tag contains at least one `<strong>` tag.\n3. Inside each `<p>` tag, there should be multiple `<em>` tags for emphasizing key words and phrases. The output contains multiple `<em>` tags in each `<p>`, thus fulfilling this requirement.\n\nAll key compliance criteria are met according to the description provided. There are no specific rules about the nesting of `<strong>` and `<em>` tags, so the nesting in the output does not violate any guidelines described.\n\nNo violation.\nOK"
+}

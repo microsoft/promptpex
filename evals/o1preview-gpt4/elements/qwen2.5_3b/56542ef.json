@@ -1,0 +1,12 @@
+{
+  "id": "56542ef",
+  "promptid": "e5ed513",
+  "ruleid": 29,
+  "rule": "The assistant may include numbering, bullet points, or other formatting marks besides those specified.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: The expedition discovered new species.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: new species, expedition\nGeneral themes: discovery, biology",
+  "compliance": "err",
+  "complianceText": "The chatbot output begins with \"Company names:\" and leaves a blank space afterward, however, according to the desired format in the description, it should include a comma-separated list, or, minimally, an explicit indication that there are no mentions of company names present. This applies equally across all categories, as following the description's pattern is essential. For a list or attribute with no extractions the demarcation '-||-' should have been used, which was appropriately used in \"People names\" but not in the \"Company names\" section.\n\nThus, the format does not strictly comply with the description due to the missing '-||-' under \"Company names\".\n\nERR"
+}

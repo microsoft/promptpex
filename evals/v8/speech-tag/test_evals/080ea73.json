@@ -1,0 +1,13 @@
+{
+  "id": "080ea73",
+  "promptid": "dddf836",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 4,
+  "rule": "The output must not contain any additional text, punctuation, or formatting besides the part of speech tag or the words \"Unknown\" or \"CantAnswer\".",
+  "input": "sentence: Do you have a pen?, word: you",
+  "coverageText": "PRON",
+  "validityText": "The sentence \"Do you have a pen?\" is a coherent sequence of words forming an interrogative statement. It does not contain any special characters or numbers unrelated to typical sentence structure. The specified word \"you\" is indeed a single, identifiable term found within the given sentence. There is no requirement for disambiguation for the word \"you\" within the context of the sentence, and it is a valid word in the English language. There is no evidence of the input being an empty string or containing only whitespace, and all parts of the input specification are satisfied.\n\nOK",
+  "validity": "ok",
+  "coverageEvalText": "The chatbot's output, \"PRON,\" does not comply with the given description of valid part-of-speech tags. Based on the provided list of part-of-speech tags in the description, \"PRON\" is not included. The description specifies that if the word cannot be tagged with the listed tags, the output should be \"Unknown,\" and if unable to tag the word, it should be \"CantAnswer.\" Since \"PRON\" is not one of the valid tags or specified fallback responses, the output violates the description.\n\nERR",
+  "coverage": "err"
+}

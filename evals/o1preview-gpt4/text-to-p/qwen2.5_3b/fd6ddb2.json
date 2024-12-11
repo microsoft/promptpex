@@ -1,0 +1,11 @@
+{
+  "id": "fd6ddb2",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "She whispered, 'I have a secret to tell you.' He leaned in closer to listen. 'Promise you won't tell anyone,' she added.",
+  "output": "<p><strong>She</strong> whispered, <em>'</em>I</em> have</em> a</em> secret</em> to</em> tell</em> you</em>.&nbsp;</p>\n<p><strong>He</strong></p> <p><em><strong>leaned</strong></em></p> <p><em><strong>closer</strong></em></p> <p><strong>to</strong>&nbsp;<em><strong>listen</strong></em>.</p>\n<p><strong>She</strong></p> <p><em><strong>added</strong></em></p> <p><strong>'Promise</strong> you'</p> <p><em><strong>don't</strong></em>&nbsp;<em><strong>tell</strong></em>&nbsp;<em><strong>anyone<strong>​</strong></em>, '</p>",
+  "compliance": "err",
+  "complianceText": "The instruction requires that the paragraph should be split into individual sentences, with each sentence wrapped in a `<p>` tag. The additional requirement is that each `<p>` tag also needs at least one `<strong>` tag and multiple `<em>` tags to emphasize key words and phrases. Furthermore, the output should contain at least three `<p>` tags.\n\nUpon reviewing the output:\n\n1. There are more than three `<p>` tags, which fulfills the requirement for having at least three `<p>` tags.\n\n2. For compliance with the structure: The output includes sentences within `<p>` tags; however, there are numerous instances where the structural guideline is not fully met. Several `<p>` tags appear to be improperly closed or fragmented. Examples are: \n\n   - `<p><strong>He</strong></p>`\n   - `<p><em><strong>leaned</strong></em></p>`\n   - `<p><em><strong>closer</strong></em></p>`\n\n   These fragments do not fully form complete, meaningful sentences according to typical sentence structures. \n\n3. Although each `<p>` tag does indeed have a `<strong>` and/or `<em>` tag in it, the content doesn’t always seem to follow the structure of wrapping individual sentences. Some semantics within `<p>` tags are likely fragments and not complete sentences.\n\nIn conclusion, the violation lies in the improper wrapping of complete sentences individually and having fragmented or incomplete sentences spread across multiple `<p>` tags. \n\nERR"
+}

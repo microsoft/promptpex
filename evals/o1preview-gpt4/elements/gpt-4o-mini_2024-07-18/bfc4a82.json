@@ -1,0 +1,12 @@
+{
+  "id": "bfc4a82",
+  "promptid": "e5ed513",
+  "ruleid": 23,
+  "rule": "For \"Company names\", the assistant may choose not to extract company names or may include entities that are not official business organizations.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Text: They formed a charity to support education.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: charity, education\nGeneral themes: philanthropy, community support",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the description provided for the following reasons:\n\n1. Missing Information: The output format specifies that a list of company names should be provided. However, the \"Company names\" section is empty. According to the given format, even if there are no company names to list, this field should not be left empty.\n\n3. Format Consistency: The format requires that a list of entities be presented in a comma-separated format. While for \"Specific topics\" and \"General themes\" there's no apparent issue, the \"People names\" only contains the placeholder '-||-' which implies there are no names, but may not comply with the intended format when non-existent.\n\nSince there's a clear deviation in output compliance with the description, the result must be 'ERR'.\n\nERR"
+}

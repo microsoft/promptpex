@@ -1,0 +1,11 @@
+{
+  "id": "768022c",
+  "promptid": "e5ed513",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "Text: The tech startup received investment from venture capital firms.",
+  "output": "Company names: None\nPeople names: -||-\nSpecific topics: Investment, Venture Capital Firm\nGeneral themes: Business Investment Finance",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot roughly follows the format specified in the description but has a critical issue that leads to non-compliance. The description specifies a format that requires the listing of entities under specific categories, and each category should have a list separated by commas. If there are no entities to list in a category, \"None\" can be used, as observed with 'Company names'. However, in the output's category 'People names', the placeholder \"-||-\" is used, which does not match the specified format or the \"None\" used previously. Furthermore, each line should follow a consistent method to denote the absence of entities, preferably by using \"None\". \n\nThe format inconsistency in the 'People names' section means the output does not comply with the specified format, as it does not consistently indicate an absence of entries using the word \"None\" like 'Company names', it breaks the format's uniformity.\n\nERR"
+}

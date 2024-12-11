@@ -1,0 +1,12 @@
+{
+  "id": "dafe479",
+  "promptid": "b70fdc4",
+  "ruleid": 20,
+  "rule": "The `<em>` tags should not be properly nested within the `<p>` tags and may overlap improperly with the `<strong>` tag.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Travel experiences educate. Cultures broaden perspectives. Journeys create memories.",
+  "output": "<p><strong>Travel</strong> <em>experiences</em> educate.</p>\n<p>Cultures <em>broaden</em> <strong>perspectives**. </p>\n<p>Journeys <em>create</em> <strong>memories</strong>.</p>\n\n\n\nLet me know if you'd like to explore other HTML formatting options!",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot has several issues with compliance based on the description.\n\n1. **Paragraph Tags**: The first sentence is properly enclosed within a `<p>` tag. However, the second sentence, \"Cultures broaden perspectives.\", has the `<strong>` tag improperly closed with `**`, which is a syntax error, indicating a typographical mistake instead of using `</strong>`. This violates the requirement of using HTML formatting properly.\n\n2. **Strong and Emphasis Tags Inside Each Paragraph**: Each paragraph does contain a `<strong>` tag and `<em>` tag, fulfilling this portion of the requirement.\n\nIn summary, the output does not fully comply with the description due to the improper closing of the `<strong>` tag in the second paragraph, which should be `</strong>`. This is a direct non-compliance with the specified guidelines for HTML formatting.\n\nERR"
+}

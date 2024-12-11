@@ -1,0 +1,12 @@
+{
+  "id": "db32db4",
+  "promptid": "b70fdc4",
+  "ruleid": 15,
+  "rule": "There should be fewer than three pairs of `<p>` tags in the output.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Medicine advances health. Research discovers cures. Treatment saves lives.",
+  "output": "<p><strong>Medicine</strong> advances <em>health</em>. <strong>Research</strong> discovers <em>cures</em>. <strong>Treatment</strong> saves <em>lives</em>.</p>\n<p><strong>Medicine</strong> advances <em>health</em>. <strong>Research</strong> discovers <em>cures</em>. <strong>Treatment</strong> saves <em>lives</em>.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot description specifies that the output should have at least three <p> tags, each containing a sentence wrapped with a <p> tag. Furthermore, within each <p> tag, the output should include one <strong> tag and multiple <em> tags to emphasize key words and phrases.\n\nUpon evaluation, the given output contains two <p> tags, each <p> tag contains three sentences, but the description explicitly states that there must be at least three <p> tags. This violates the requirement for having a minimum of three <p> tags. Therefore, the chatbot's output does not comply with the description requirement of having at least three <p> tags.\n\nBased on these observations, the output does not comply with the specification given in the description.\n\nERR"
+}

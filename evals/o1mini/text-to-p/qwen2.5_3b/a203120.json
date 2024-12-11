@@ -1,0 +1,12 @@
+{
+  "id": "a203120",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "First sentence. Second sentence. Third sentence. Fourth sentence.",
+  "output": "<p><strong>First</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Second</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Third</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Fourth</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>First</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Second</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Third</strong></p>\n<span><em>sentence.</em></span>\n<p><strong>Fourth</strong></p>",
+  "compliance": "err",
+  "complianceText": "The `<em>` tags are placed outside the `<p>` tags instead of being inside each `<p>` tag as specified.\nERR"
+}

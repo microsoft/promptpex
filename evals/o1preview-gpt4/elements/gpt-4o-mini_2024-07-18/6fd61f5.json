@@ -1,0 +1,11 @@
+{
+  "id": "6fd61f5",
+  "promptid": "e5ed513",
+  "ruleid": 7,
+  "rule": "If there are no entities to list in a category, the assistant must still include the category label followed by a colon and leave it empty.",
+  "model": "gpt-4o-mini",
+  "input": "Text: Climate change impacts ecosystems worldwide.",
+  "output": "Company names: \nPeople names: -||-\nSpecific topics: climate change, ecosystems, environmental impacts\nGeneral themes: environmental issues, ecological health, global warming",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description. According to the desired format specified in the description, the output must have a comma-separated list of entities for each category when entities are present. If there are no entities to be extracted for a category, it should specify an empty list, as done for 'Company names' and 'People names' with \"-||-\". The output provides lists for 'Specific topics' and 'General themes', which is in adherence to the format. However, the 'Company names' section is missing an explicit indication of an empty list such as \"-||-\". Since only 'People names' correctly follows the empty list indication, the format is not consistently implemented.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ebe6efb",
+  "promptid": "e5ed513",
+  "ruleid": 22,
+  "rule": "If there are no entities to list in a category, the assistant may omit the category label or add content after the colon.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Global cooperation is needed to address pandemics.",
+  "output": "Here are the extracted entities in the desired format:\n\nCompany names: -\nPeople names: -||-\nSpecific topics: global cooperation,pandemic\nGeneral themes: -||-",
+  "compliance": "err",
+  "complianceText": "The chatbot output is in the required format with section headings such as 'Company names', 'People names', 'Specific topics', and 'General themes'. However, the violation lies in the formatting of the \"Company names\" section. According to the description, each section must be followed by a comma-separated list. In this output, \"Company names: -\" is not using the required separator as specified, even if the list is empty, the format should still use '-||-' as seen in the other sections. Thus, despite potentially being correct functionally, it does not comply with the format requirement provided.\n\nERR"
+}

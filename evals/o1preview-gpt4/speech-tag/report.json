@@ -1,0 +1,1428 @@
+{
+  "prompt": "---\nname: Speech Tag\ndescription: Determine the part of speech for a given word\nsource: \"modified from 'SAMMO: A general-purpose framework for prompt optimization'\"\nurl: https://www.microsoft.com/en-us/research/uploads/prod/2024/04/Prompts-As-Programs_A-Structure-Aware-Approach.pdf\ninputs:\n    sentenceword:\n        type: string\nsample:\n    sentenceword: \"The quick brown fox jumps over the lazy dog.; jumps\"\n---\nsystem:\nIn this task, you will be presented with a sentence and a word contained\nin that sentence. You have to determine the part of speech for a given word\nand return just the tag for the word's part of speech. \n\nReturn only the part of speech tag.  If the word cannot be tagged with\nthe listed tags, return Unknown.  If you are unable to tag the word, return\nCantAnswer.\n\nHere is the\nAlphabetical list of part-of-speech tags used in this task: CC: Coordinating conjunction, CD: Cardinal number, DT:\nDeterminer, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR:\nAdjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun,\nplural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal\npronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol,\nTO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb,\npast participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP:\nWh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb\nuser:\n{{sentenceword}}",
+  "inputSpec": "The input consists of a sentence and a word from that sentence.\nThe sentence can be of any length.\nThe sentence can contain any combination of words, numbers, symbols, or foreign words.\nThe word must be a word present in the sentence.\nThe word can be any word, regardless of its characteristics.",
+  "rules": [
+    "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+    "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+    "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+    "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+    "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+    "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+    "The output must not contain any leading or trailing whitespace or blank lines.",
+    "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+    "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb."
+  ],
+  "inverseRules": [
+    "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+    "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+    "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+    "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+    "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+    "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+    "The output may contain leading or trailing whitespace or blank lines.",
+    "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+    "The list of available part-of-speech tags is not limited to those provided and may include additional tags."
+  ],
+  "tests": [
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "testid": "1",
+      "testinput": "Sentence: 'She runs every morning.' Word: 'runs'",
+      "expectedoutput": "VBZ",
+      "reasoning": "The word 'runs' is a third-person singular present verb, tagged as 'VBZ'. This test ensures the software outputs only the tag without additional text, adhering to Rule 1."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "testid": "2",
+      "testinput": "Sentence: 'They have many 'qwerty' devices.' Word: 'qwerty'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The word 'qwerty' doesn't correspond to any provided POS tag; the software should output 'Unknown' exactly, per Rule 1."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "testid": "3",
+      "testinput": "Sentence: 'He mentioned 'xyzzy' in the conversation.' Word: 'xyzzy'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "It's impossible to assign a POS tag to 'xyzzy'; the expected output is 'CantAnswer'. This tests that the software outputs only 'CantAnswer' without additional text, following Rule 1."
+    },
+    {
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "testid": "1",
+      "testinput": "Sentence: 'He is an intelligent person.' Word: 'intelligent'",
+      "expectedoutput": "JJ",
+      "reasoning": "The word 'intelligent' is an adjective, tagged as 'JJ'. This ensures that only specified tags are accepted, per Rule 2."
+    },
+    {
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "testid": "2",
+      "testinput": "Sentence: 'They went to multiple concerts.' Word: 'concerts'",
+      "expectedoutput": "NNS",
+      "reasoning": "The word 'concerts' is a plural noun, tagged as 'NNS'. This test confirms the software uses tags from the provided list, adhering to Rule 2."
+    },
+    {
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "testid": "3",
+      "testinput": "Sentence: 'London is a bustling city.' Word: 'London'",
+      "expectedoutput": "NNP",
+      "reasoning": "The word 'London' is a proper noun, singular, tagged as 'NNP'. This ensures only specified tags are used, following Rule 2."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "testid": "1",
+      "testinput": "Sentence: 'He is happier today.' Word: 'happier'",
+      "expectedoutput": "JJR",
+      "reasoning": "The word 'happier' is a comparative adjective, tagged as 'JJR'. This tests that the correct tag is used, adhering to Rule 3."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "testid": "2",
+      "testinput": "Sentence: 'They are playing in the park.' Word: 'playing'",
+      "expectedoutput": "VBG",
+      "reasoning": "The word 'playing' is a present participle verb, tagged as 'VBG'. This ensures the exact tag is used, following Rule 3."
+    },
+    {
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "testid": "3",
+      "testinput": "Sentence: 'Please lend me your book.' Word: 'your'",
+      "expectedoutput": "PRP$",
+      "reasoning": "The word 'your' is a possessive pronoun, tagged as 'PRP$'. This tests that the exact associated tag is returned, adhering to Rule 3."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "testid": "1",
+      "testinput": "Sentence: 'The quick brown fox jumps over the lazy dog blork.' Word: 'blork'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The word 'blork' cannot be assigned any provided POS tag; the software should output 'Unknown' exactly, per Rule 4."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "testid": "2",
+      "testinput": "Sentence: 'She used 'asdfgh' in her essay.' Word: 'asdfgh'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The word 'asdfgh' doesn't match any POS tag; this ensures the software outputs 'Unknown', following Rule 4."
+    },
+    {
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "testid": "3",
+      "testinput": "Sentence: 'He found the artifact 'Qwertz' in the ruins.' Word: 'Qwertz'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The word 'Qwertz' cannot be tagged with any provided POS tag; the expected output is 'Unknown', adhering to Rule 4."
+    },
+    {
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "testid": "1",
+      "testinput": "Sentence: 'The old man the boat.' Word: 'man'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "In this sentence, 'man' could be a verb or noun; it's impossible to determine the POS without more context, so 'CantAnswer' is expected, per Rule 5."
+    },
+    {
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "testid": "2",
+      "testinput": "Sentence: 'Time flies like an arrow; fruit flies like a banana.' Word: 'flies'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "The word 'flies' is ambiguous between noun and verb; the software should output 'CantAnswer', following Rule 5."
+    },
+    {
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "testid": "3",
+      "testinput": "Sentence: 'She saw her duck.' Word: 'duck'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "The word 'duck' can be a noun or verb here; it's impossible to determine without additional context, so 'CantAnswer' is expected, per Rule 5."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "testid": "1",
+      "testinput": "Sentence: 'He will go to the market.' Word: 'He'",
+      "expectedoutput": "PRP",
+      "reasoning": "The word 'He' is a pronoun, tagged as 'PRP'. This tests that the output is case-sensitive, adhering to Rule 6."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "testid": "2",
+      "testinput": "Sentence: 'She had many dreams.' Word: 'had'",
+      "expectedoutput": "VBD",
+      "reasoning": "The word 'had' is a past tense verb, tagged as 'VBD'. This ensures the output matches the capitalization exactly, following Rule 6."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "testid": "3",
+      "testinput": "Sentence: 'I love to read.' Word: 'to'",
+      "expectedoutput": "TO",
+      "reasoning": "The word 'to' is tagged as 'TO'. This test ensures the output is case-sensitive and matches exactly, adhering to Rule 6."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "testid": "1",
+      "testinput": "Sentence: 'They are running fast.' Word: 'running'",
+      "expectedoutput": "VBG",
+      "reasoning": "The word 'running' is tagged as 'VBG'. This test checks there's no leading/trailing whitespace in the output, following Rule 7."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "testid": "2",
+      "testinput": "Sentence: 'She is a teacher.' Word: 'teacher'",
+      "expectedoutput": "NN",
+      "reasoning": "The word 'teacher' is tagged as 'NN'. This ensures the output has no extra spaces, adhering to Rule 7."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "testid": "3",
+      "testinput": "Sentence: 'Can you help me?' Word: 'me'",
+      "expectedoutput": "PRP",
+      "reasoning": "The word 'me' is tagged as 'PRP'. This tests that the output doesn't contain blank lines or spaces, following Rule 7."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "testid": "1",
+      "testinput": "Sentence: 'They happily agreed.' Word: 'happily'",
+      "expectedoutput": "RB",
+      "reasoning": "The word 'happily' is an adverb, tagged as 'RB'. This ensures no additional information is included in the output, adhering to Rule 8."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "testid": "2",
+      "testinput": "Sentence: 'That is an unusual sight.' Word: 'unusual'",
+      "expectedoutput": "JJ",
+      "reasoning": "The word 'unusual' is an adjective, tagged as 'JJ'. This test checks that only the tag is output, following Rule 8."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "testid": "3",
+      "testinput": "Sentence: 'She might come later.' Word: 'might'",
+      "expectedoutput": "MD",
+      "reasoning": "The word 'might' is a modal verb, tagged as 'MD'. This ensures no explanations are included, adhering to Rule 8."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "testid": "1",
+      "testinput": "Sentence: 'He bought a new car.' Word: 'car'",
+      "expectedoutput": "NN",
+      "reasoning": "The word 'car' is tagged as 'NN', which is in the provided list. This confirms only specified tags are used, following Rule 9."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "testid": "2",
+      "testinput": "Sentence: 'She is reading a book.' Word: 'reading'",
+      "expectedoutput": "VBG",
+      "reasoning": "The word 'reading' is tagged as 'VBG'. This ensures the use of tags from the list, adhering to Rule 9."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "testid": "3",
+      "testinput": "Sentence: 'He said 'Bonjour' to them.' Word: 'Bonjour'",
+      "expectedoutput": "FW",
+      "reasoning": "The word 'Bonjour' is a foreign word, tagged as 'FW'. This confirms only the provided tags are used, following Rule 9."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'They won easily.' Word: 'won'",
+      "expectedoutput": "VBD",
+      "reasoning": "The software should output 'VBD' without additional text, ensuring it doesn't include extra output despite Rule 10 stating it may."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'He will arrive soon.' Word: 'arrive'",
+      "expectedoutput": "VB",
+      "reasoning": "The software should output 'VB' only, not including extra text, confirming it doesn't follow Rule 10."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'Wow! That was amazing!' Word: 'Wow'",
+      "expectedoutput": "UH",
+      "reasoning": "The software should output 'UH' without extra text, ensuring it doesn't adhere to Rule 10."
+    },
+    {
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'He discussed the plan.' Word: 'discussed'",
+      "expectedoutput": "VBD",
+      "reasoning": "The software should output 'VBD', using only tags from the provided list, not adhering to Rule 11."
+    },
+    {
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'She has an appointment.' Word: 'appointment'",
+      "expectedoutput": "NN",
+      "reasoning": "The software should output 'NN', confirming it doesn't use tags outside the list, contrary to Rule 11."
+    },
+    {
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'They ended the meeting early.' Word: 'ended'",
+      "expectedoutput": "VBD",
+      "reasoning": "The software uses 'VBD' from the list, ensuring it doesn't follow Rule 11."
+    },
+    {
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'She is the best player.' Word: 'best'",
+      "expectedoutput": "JJS",
+      "reasoning": "The software should output 'JJS' exactly, not any other tag, ensuring it doesn't follow Rule 12."
+    },
+    {
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'He runs faster than you.' Word: 'faster'",
+      "expectedoutput": "JJR",
+      "reasoning": "The word 'faster' is tagged as 'JJR'. This ensures the exact tag is returned, not adhering to Rule 12."
+    },
+    {
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'They arrived early.' Word: 'early'",
+      "expectedoutput": "RB",
+      "reasoning": "The software should output 'RB' only, not deviating from the exact tag, contrary to Rule 12."
+    },
+    {
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'She found the 'blargh' in the cave.' Word: 'blargh'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The software should output 'Unknown' exactly, not following Rule 13 which allows otherwise."
+    },
+    {
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'He mentioned 'snorfblat' in his speech.' Word: 'snorfblat'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The word can't be tagged; the software should output 'Unknown', ensuring it doesn't adhere to Rule 13."
+    },
+    {
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'They discovered a 'zibble' in the forest.' Word: 'zibble'",
+      "expectedoutput": "Unknown",
+      "reasoning": "The software outputs 'Unknown', not deviating as per Rule 13."
+    },
+    {
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'I can't decide whether to desert or not.' Word: 'desert'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "Due to ambiguity, the software should output 'CantAnswer', not following Rule 14."
+    },
+    {
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'She left him her book.' Word: 'left'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "It's unclear if 'left' is a verb or adjective here; the software should output 'CantAnswer', contrary to Rule 14."
+    },
+    {
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'He saw the duck.' Word: 'duck'",
+      "expectedoutput": "CantAnswer",
+      "reasoning": "The word 'duck' can be a noun or verb; the software should output 'CantAnswer', not adhering to Rule 14."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'They will win.' Word: 'win'",
+      "expectedoutput": "VB",
+      "reasoning": "The software outputs 'VB' with correct capitalization, ensuring it doesn't follow Rule 15."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'She gave me a gift.' Word: 'gave'",
+      "expectedoutput": "VBD",
+      "reasoning": "The software outputs 'VBD', matching case exactly, contrary to Rule 15."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'I love reading books.' Word: 'books'",
+      "expectedoutput": "NNS",
+      "reasoning": "The software outputs 'NNS' with correct case, not adhering to Rule 15."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'She laughed loudly.' Word: 'laughed'",
+      "expectedoutput": "VBD",
+      "reasoning": "The software outputs 'VBD' without extra spaces, ensuring it doesn't follow Rule 16."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'He writes daily.' Word: 'writes'",
+      "expectedoutput": "VBZ",
+      "reasoning": "The software outputs 'VBZ' without leading/trailing whitespace, contrary to Rule 16."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'They enjoy swimming.' Word: 'swimming'",
+      "expectedoutput": "VBG",
+      "reasoning": "The software outputs 'VBG' without blank lines, not adhering to Rule 16."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'It is raining heavily.' Word: 'heavily'",
+      "expectedoutput": "RB",
+      "reasoning": "The software outputs 'RB' only, without explanations, ensuring it doesn't follow Rule 17."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'She sings beautifully.' Word: 'beautifully'",
+      "expectedoutput": "RB",
+      "reasoning": "The software outputs 'RB' without additional info, contrary to Rule 17."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'He solved the problem easily.' Word: 'easily'",
+      "expectedoutput": "RB",
+      "reasoning": "The software outputs 'RB' only, not adhering to Rule 17."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Sentence: 'She will be arriving soon.' Word: 'arriving'",
+      "expectedoutput": "VBG",
+      "reasoning": "The software uses 'VBG' from the provided list, ensuring it doesn't follow Rule 18."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Sentence: 'They need to analyze the data.' Word: 'analyze'",
+      "expectedoutput": "VB",
+      "reasoning": "The software outputs 'VB', not introducing new tags, contrary to Rule 18."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Sentence: 'He is an exceptional individual.' Word: 'exceptional'",
+      "expectedoutput": "JJ",
+      "reasoning": "The software uses 'JJ' from the list, not adhering to Rule 18."
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The quick brown fox jumps over the lazy dog.\nWord: fox",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She sells seashells by the seashore.\nWord: seashells",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Can you pass me the salt?\nWord: pass",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: They are going to the market tomorrow.\nWord: are",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The leaves fell softly to the ground.\nWord: softly",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: I might visit the museum this weekend.\nWord: might",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: After the storm, the sky was clear.\nWord: After",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: He found a rare coin under the old tree.\nWord: rare",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Please write your name at the top of the page.\nWord: top",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She is the best dancer in the group.\nWord: best",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The committee agreed to the proposed changes.\nWord: agreed",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Running is his favorite form of exercise.\nWord: Running",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The cat sat on the mat and purred.\nWord: and",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She wore a bright red dress to the party.\nWord: red",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Do you know where he went?\nWord: where",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Everyone except John was present.\nWord: except",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The children laughed happily in the playground.\nWord: happily",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: This is the book that I told you about.\nWord: that",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: He quickly finished his homework before dinner.\nWord: quickly",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The picture on the wall is crooked.\nWord: on",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She can't find her keys anywhere.\nWord: can't",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: They traveled across the country by train.\nWord: across",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: If it rains, the event will be canceled.\nWord: If",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The old house was haunted, according to local legends.\nWord: haunted",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: He reads the newspaper every morning.\nWord: reads",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The team's victory was celebrated by fans.\nWord: by",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She feels very happy today.\nWord: very",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: It's important to stay hydrated.\nWord: It's",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The artist painted a beautiful landscape.\nWord: painted",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Despite the traffic, they arrived on time.\nWord: Despite",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The boy who won the prize is my cousin.\nWord: who",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She will travel to Japan next month.\nWord: will",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The clock struck midnight.\nWord: midnight",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: They have been friends since childhood.\nWord: since",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The car needs to be repaired soon.\nWord: repaired",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: He bought twelve apples from the market.\nWord: twelve",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The cake tastes sweet and delicious.\nWord: sweet",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Would you like some tea or coffee?\nWord: or",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The scientist discovered a new element.\nWord: new",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Please turn off the lights when you leave.\nWord: off",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She believes that honesty is the best policy.\nWord: honesty",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The police officer directed the traffic.\nWord: directed",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: I love listening to classical music.\nWord: listening",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The movie was exciting yet emotional.\nWord: yet",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: He wore a hat to protect himself from the sun.\nWord: from",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Their house is bigger than ours.\nWord: than",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Ouch! That hurt.\nWord: Ouch",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Let's meet at the cafe around noon.\nWord: around",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She quickly packed her bags.\nWord: packed",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The puppy is cute, but very mischievous.\nWord: but",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: They don't know the answer.\nWord: don't",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Although he was tired, he continued working.\nWord: Although",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Is there anything else you need?\nWord: else",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The teacher gave each student a book.\nWord: each",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: I haven't seen him since last year.\nWord: haven't",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: The flowers bloom beautifully in spring.\nWord: beautifully",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: Wait! I forgot my keys.\nWord: Wait",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "Sentence: She sang and danced all night.\nWord: and",
+      "baseline": true
+    }
+  ],
+  "testEvals": [
+    {
+      "id": "e17050c",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "input": "Sentence: 'She runs every morning.' Word: 'runs'",
+      "coverage": "VBZ",
+      "validityText": "The input consists of a sentence, 'She runs every morning.', and a word, 'runs'. I need to check if the word is present in the given sentence. According to the input specification, the word must be a word present in the sentence. In this case, the word 'runs' is indeed present in the sentence 'She runs every morning.'. The sentence can contain any combination of words, numbers, symbols, or foreign words, which it does comply with. No violations of the input specification have been found.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "b711f8a",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "input": "Sentence: 'They have many 'qwerty' devices.' Word: 'qwerty'",
+      "coverage": "FW",
+      "validityText": "The input requires that there be a sentence and a word from that sentence. The given sentence is 'They have many 'qwerty' devices.' and the specified word is 'qwerty'. According to the input specification, the word must be a word present in the sentence. Here, 'qwerty' is indeed a word found within the sentence, enclosed by single quotes. The sentence can contain any combination of words, numbers, symbols, or foreign words, which includes the single quotes around 'qwerty'. The word itself can be any word, regardless of its characteristics. \n\nThere is no violation of the input specification since the sentence is valid and the word is indeed in the sentence. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "4a5c024",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\", and must not include any additional text.",
+      "input": "Sentence: 'He mentioned 'xyzzy' in the conversation.' Word: 'xyzzy'",
+      "coverage": "FW",
+      "validityText": "The input consists of a sentence \"He mentioned 'xyzzy' in the conversation.\" and a word 'xyzzy'. We need to check if this word is present in the given sentence as per the input specification.\n\n1. The sentence \"He mentioned 'xyzzy' in the conversation.\" is indeed a sentence and can be of any length, as stated in the specification.\n2. The sentence appears to be a valid combination of words and symbols.\n3. The word 'xyzzy' is explicitly present in the sentence within single quotes.\n\nThe input complies with all parts of the input specification: there is a sentence of valid format and the specified word 'xyzzy' is indeed present in the sentence. No violations are detected.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "d858eff",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "input": "Sentence: 'He is an intelligent person.' Word: 'intelligent'",
+      "coverage": "JJ",
+      "validityText": "The input consists of a sentence and a word from that sentence. The sentence provided is 'He is an intelligent person.' and the specified word is 'intelligent'.\n\n1. **Sentence Check**: The sentence is 'He is an intelligent person.' which complies with the specification of being a sentence that combines words and punctuation.\n\n2. **Word Check**: The word given is 'intelligent', and this word appears in the sentence exactly as it is, meaning it is a word present in the sentence.\n\nBoth the sentence and the word comply with the input specification. The word specified is indeed a word present in the sentence. There are no violations found.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "370b264",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "input": "Sentence: 'They went to multiple concerts.' Word: 'concerts'",
+      "coverage": "NNS",
+      "validityText": "The sentence provided is 'They went to multiple concerts.' and the word provided is 'concerts'. According to the input specification, the requirement is that the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words. The critical check is that the word provided must be present in the sentence. \n\nIn this input, the word 'concerts' is indeed part of the sentence 'They went to multiple concerts.'. There is no additional requirement regarding punctuation or suffixes, and the word provided matches the word exactly as it appears within the sentence, including case-sensitivity.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "9ef8734",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "A \"part-of-speech tag\" is a specific abbreviation representing the grammatical role of a word in a sentence, as defined in the provided list.",
+      "input": "Sentence: 'London is a bustling city.' Word: 'London'",
+      "coverage": "NNP",
+      "validityText": "The given input provides a sentence and a word from that sentence. The input specification requires that the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The word must be a word present in the sentence and can be any word, regardless of its characteristics. \n\nThe sentence provided is: \"London is a bustling city.\" The specified word is \"London.\" Upon reviewing the sentence, the word \"London\" is indeed present as the first word. The sentence meets the requirements of being any length and can indeed contain any combination of elements, such as words or symbols (in this case, also a period at the end).\n\nThere is no violation of the input specification as the word \"London\" is part of the given sentence.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ee6e8df",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "input": "Sentence: 'He is happier today.' Word: 'happier'",
+      "coverage": "JJR",
+      "validityText": "The input consists of a sentence and a word. The sentence provided is 'He is happier today.' and the word given is 'happier'. According to the input specification, the word must be present within the sentence. In this case, the word 'happier' is indeed present in the sentence 'He is happier today.'. Therefore, the input complies with the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "95f28b2",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "input": "Sentence: 'They are playing in the park.' Word: 'playing'",
+      "coverage": "VBG",
+      "validityText": "The sentence provided is 'They are playing in the park.' and the word given is 'playing'. According to the input specification, the word must be present in the sentence. In this case, the word 'playing' is indeed a part of the sentence 'They are playing in the park.'. Therefore, the input complies with the specification as the sentence can be of any length and composed of any combination of words, numbers, symbols, or foreign words, while the required word is present in the sentence. Thus, there are no violations of the specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "7f4221f",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "If the given word in the context of the provided sentence corresponds to one of the part-of-speech categories from the list, the output must be the exact tag associated with that category.",
+      "input": "Sentence: 'Please lend me your book.' Word: 'your'",
+      "coverage": "PRP$",
+      "validityText": "The given input consists of a sentence 'Please lend me your book.' and a word 'your' from that sentence. According to the input specification:\n\n1. The sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words. The sentence provided meets this criterion as it is a valid sentence with understandable words.\n2. The word must be a word present in the sentence. The word 'your' is indeed present in the sentence 'Please lend me your book.'.\n\nSince both criteria in the input specification are satisfied by this input, it complies with the specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c17d984",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "input": "Sentence: 'The quick brown fox jumps over the lazy dog blork.' Word: 'blork'",
+      "coverage": "Unknown",
+      "validityText": "The input consists of a sentence and a word from that sentence. Here, the sentence is 'The quick brown fox jumps over the lazy dog blork.' and the word given is 'blork'. According to the input specification, the only requirement is that the word must be present in the sentence, regardless of its characteristics or meaning. The word 'blork' is indeed present in the sentence, fulfilling the sole condition from the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e823d97",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "input": "Sentence: 'She used 'asdfgh' in her essay.' Word: 'asdfgh'",
+      "coverage": "FW",
+      "validityText": "The input consists of a sentence and a word from that sentence. According to the input specification, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The given sentence is \"She used 'asdfgh' in her essay.\" \n\nThe word provided is 'asdfgh', and it must be a word present in the sentence. Upon examining the sentence, 'asdfgh' is indeed present within the sentence. Therefore, the input complies with all aspects of the input specification: the sentence can include this combination of characters, and the word 'asdfgh' is present in the sentence.\n\nNo specifications are violated in this input as the word specified is part of the sentence, and there are no restrictions on the sentence's composition.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "dbf5535",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags in the context of the provided sentence, the output must be exactly \"Unknown\" without any additional characters or text.",
+      "input": "Sentence: 'He found the artifact 'Qwertz' in the ruins.' Word: 'Qwertz'",
+      "coverage": "NNP",
+      "validityText": "The input consists of a sentence and a word from that sentence. The sentence provided is 'He found the artifact 'Qwertz' in the ruins.' and the word is 'Qwertz'. According to the specification, the word must be present in the sentence. In this case, the word 'Qwertz' is indeed present within the sentence, within quotes but that is not a problem since the specification does not restrict characters around words. There are no specified restrictions on the length or combination of elements within the sentence, so these are also compliant. Thus, the input follows all the given rules without violation.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "74d8492",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "input": "Sentence: 'The old man the boat.' Word: 'man'",
+      "coverage": "VB",
+      "validityText": "The given input consists of a sentence and a word. The sentence provided is 'The old man the boat.' and the word is 'man'. According to the input specification, the word must be present in the provided sentence. On examining the sentence, the word 'man' is indeed present within it. There are no restrictions or requirements on the nature of the sentence or the characteristics of the word other than it must be present in the sentence. Thus, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "6ba61ae",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "input": "Sentence: 'Time flies like an arrow; fruit flies like a banana.' Word: 'flies'",
+      "coverage": "VBZ",
+      "validityText": "The input consists of a sentence: 'Time flies like an arrow; fruit flies like a banana.' and a word: 'flies'. According to the input specification, the input should consist of a sentence and a word from that sentence. The sentence provided can indeed be of any length and can contain any combination of words, numbers, symbols, or foreign words. \n\nI need to ensure that the word given is present in the sentence. In the provided sentence, the word 'flies' appears twice: immediately after 'Time' and after 'fruit'. Therefore, the given word 'flies' is indeed present in the sentence. Since the word is part of the sentence, and the sentence meets the criteria of being any length and containing any combination of characters, the input is compliant with the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c9c82fc",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "If it is impossible to determine the part-of-speech tag for the given word in the context of the provided sentence, the output must be exactly \"CantAnswer\" without any additional characters or text.",
+      "input": "Sentence: 'She saw her duck.' Word: 'duck'",
+      "coverage": "VB",
+      "validityText": "The input provides a sentence: 'She saw her duck.' and a word: 'duck'. According to the input specification, the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words, which the provided sentence adheres to. Additionally, the word provided, 'duck', must be a word present in the sentence. In the given input, 'duck' is indeed present in the sentence. Therefore, based on the input specification, there is no violation, and the input complies with the requirements.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "828839f",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'He will go to the market.' Word: 'He'",
+      "coverage": "PRP",
+      "validityText": "The given input consists of a sentence and a word from that sentence. The sentence is 'He will go to the market.' and the specified word is 'He'. \n\nAccording to the input specification:\n\n1. The sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The given sentence complies with this as it is a valid sentence of words.\n2. The word must be present in the sentence. The specified word 'He' is present at the beginning of the sentence.\n\nTherefore, the input complies with all parts of the input specification: it provides a complete sentence and specifies a word that is explicitly present in the sentence. \n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "4087daa",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'She had many dreams.' Word: 'had'",
+      "coverage": "VBD",
+      "validityText": "The input consists of a sentence and a word. The sentence provided is 'She had many dreams.', and the word is 'had'. \n\nFirst, according to the specification, the sentence can contain any combination of words, numbers, symbols, or foreign words, so there are no restrictions on the content or structure of the sentence, which means the sentence 'She had many dreams.' complies with the input specification as it is valid and acceptable.\n\nSecond, the word 'had' is explicitly part of the sentence 'She had many dreams.' Therefore it meets the requirement that the word must be a word present in the sentence.\n\nBoth components of the input—the sentence and the word—comply with the input specification, and no rules are violated.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "428a98b",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The output must be case-sensitive and match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'I love to read.' Word: 'to'",
+      "coverage": "TO",
+      "validityText": "The input consists of a sentence \"I love to read.\" and a word \"to\". According to the input specification, the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words, which means the sentence \"I love to read.\" complies with the specification. The word provided, \"to\", must be present in the sentence, and it is indeed a part of the sentence \"I love to read.\". Therefore, the input complies with all parts of the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "d6be992",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'They are running fast.' Word: 'running'",
+      "coverage": "VBG",
+      "validityText": "The input consists of a sentence, which is 'They are running fast.' and a word from that sentence, which is 'running'. According to the input specification, the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words. The word provided must be present in the sentence. Upon examining the sentence and the word, it's clear that 'running' is indeed a word present in the sentence. Therefore, both parts of the input comply with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "582433b",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'She is a teacher.' Word: 'teacher'",
+      "coverage": "NN",
+      "validityText": "The given input consists of a sentence \"She is a teacher.\" and a word \"teacher\". The input complies with the input specification as follows:\n\n- The sentence \"She is a teacher.\" is a proper sentence as it can be of any length and can contain any combination of words, numbers, symbols, or foreign words. In this case, the sentence is composed of words.\n- The word \"teacher\" is present in the sentence \"She is a teacher.\", as required by the input specification.\n\nSince the input adheres to all the outlined requirements in the input specification, there are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "3ed5c05",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The output must not contain any leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'Can you help me?' Word: 'me'",
+      "coverage": "PRP",
+      "validityText": "The input consists of a sentence and a word from that sentence. The sentence provided is \"Can you help me?\" and the word specified is \"me\". According to the input specification, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The requirement for the word is that it must be present in the sentence. In this input, the word \"me\" is indeed present in the sentence \"Can you help me?\". Therefore, the input complies with the input specification as both components, the sentence and the word, meet the required conditions.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "f85e492",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'They happily agreed.' Word: 'happily'",
+      "coverage": "RB",
+      "validityText": "The given input consists of a sentence: \"They happily agreed.\" and a word: \"happily\". \n\nAccording to the input specification, the input must contain a sentence and a word from that sentence. The sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The word must be a word present in the sentence and can be any word regardless of its characteristics.\n\nExamining the input:\n- The sentence \"They happily agreed.\" is indeed a sequence of words.\n- The word provided is \"happily\".\n- The word \"happily\" is present in the sentence \"They happily agreed.\"\n\nThere are no violations of the input specification in this case, as all criteria are met. Therefore, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "2366a8d",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'That is an unusual sight.' Word: 'unusual'",
+      "coverage": "JJ",
+      "validityText": "The input provided consists of a sentence 'That is an unusual sight.' and a word 'unusual'. According to the input specification, the sentence can contain any combination of words, numbers, symbols, or foreign words, and in this case, it's a typical English sentence. The word must be a word present in the sentence. In this example, the word 'unusual' is indeed part of the sentence 'That is an unusual sight.'. There is no indication of violation of any of the rules laid out in the input specifications. \n\nSince the word is correctly present in the sentence and there are no other constraints violated, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "98423b3",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The output must not include any explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'She might come later.' Word: 'might'",
+      "coverage": "MD",
+      "validityText": "The input consists of a sentence and a word from that sentence, which complies with the input specification. The sentence provided is 'She might come later.', and it is acknowledged that 'might' is indeed a word present within this sentence. According to the input specification, the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words, while 'might' is a valid target word as it is present in the sentence. Therefore, there are no violations of the specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "b254c93",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "input": "Sentence: 'He bought a new car.' Word: 'car'",
+      "coverage": "NN",
+      "validityText": "The sentence provided is 'He bought a new car.' and the word given is 'car'. According to the input specification, the input consists of a sentence and a word from that sentence. \n\nLet's evaluate the compliance:\n1. The sentence \"He bought a new car.\" is a valid sentence of any length, which is in compliance with the input specification.\n2. The word 'car' is a word present in the sentence, which meets the requirement that the word must be a word present in the sentence.\n\nThere is no explicit requirement in the specification that the word must be a standalone word (without punctuation attached), and the word 'car' does appear as is in the sentence. Therefore, the input complies with the input specifications.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e4d27bf",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "input": "Sentence: 'She is reading a book.' Word: 'reading'",
+      "coverage": "VBG",
+      "validityText": "The input appears to meet the criteria provided in the input specification. Let's go through the specification carefully:\n\n1. The input consists of a sentence and a word from that sentence:\n   - The given sentence is 'She is reading a book.', which qualifies as a sentence.\n   - The given word is 'reading'.\n\n2. The sentence can be of any length:\n   - The sentence 'She is reading a book.' meets this requirement.\n\n3. The sentence can contain any combination of words, numbers, symbols, or foreign words:\n   - The sentence only contains English words and complies with this rule as it doesn't restrict to any particular type of words or symbols.\n\n4. The word must be a word present in the sentence:\n   - The word 'reading' is indeed present in the sentence 'She is reading a book.'.\n\n5. The word can be any word, regardless of its characteristics:\n   - The word 'reading' does not violate any such restriction, as no characteristic is disallowed by the specification.\n\nBased on this thorough evaluation, there is direct compliance between the input and the input specification. Therefore, there are no violations detected.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "d05cf65",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The list of available part-of-speech tags is as follows: CC: Coordinating conjunction, CD: Cardinal number, DT: Determiner, EX: Existential there, FW: Foreign word, IN: Preposition or subordinating conjunction, JJ: Adjective, JJR: Adjective, comparative, JJS: Adjective, superlative, LS: List item marker, MD: Modal, NN: Noun, singular or mass, NNS: Noun, plural, NNP: Proper noun, singular, NNPS: Proper noun, plural, PDT: Predeterminer, POS: Possessive ending, PRP: Personal pronoun, PRP$: Possessive pronoun, RB: Adverb, RBR: Adverb, comparative, RBS: Adverb, superlative, RP: Particle, SYM: Symbol, TO: to, UH: Interjection, VB: Verb, base form, VBD: Verb, past tense, VBG: Verb, gerund or present participle, VBN: Verb, past participle, VBP: Verb, non-3rd person singular present, VBZ: Verb, 3rd person singular present, WDT: Wh-determiner, WP: Wh-pronoun, WP$: Possessive wh-pronoun, WRB: Wh-adverb.",
+      "input": "Sentence: 'He said 'Bonjour' to them.' Word: 'Bonjour'",
+      "coverage": "FW",
+      "validityText": "The input includes a sentence and a word. The sentence provided is \"He said 'Bonjour' to them.\" The word specified is \"Bonjour\". According to the input specification, the word must be present in the given sentence. Upon examining the sentence, it is clear that the word \"Bonjour\" is indeed present within the sentence. There are no stipulations in the input specification regarding characteristics of the word such as being an English word or location within the sentence. Therefore, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e47dc22",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "input": "Sentence: 'They won easily.' Word: 'won'",
+      "coverage": "VBD",
+      "validityText": "The given input consists of a sentence \"They won easily.\" and a word \"won\". \n\n1. According to the input specification, the input should contain both a sentence and a word from that sentence. This condition is satisfied as the input contains both.\n\n2. The specification permits the sentence to be of any length and to contain any combination of words, numbers, symbols, or foreign words. The sentence \"They won easily.\" adheres to this rule as it contains words and a punctuation mark.\n\n3. The word must be a word present in the sentence. In this case, the word \"won\" is indeed present in the sentence \"They won easily.\" \n\nThere are no violations of the input specification in the provided input. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ec07024",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "input": "Sentence: 'He will arrive soon.' Word: 'arrive'",
+      "coverage": "VB",
+      "validityText": "The input consists of a sentence, 'He will arrive soon.', and a word, 'arrive'. According to the input specification, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The word provided must be present in the sentence.\n\nHere, 'arrive' is clearly a part of the sentence 'He will arrive soon.'. Therefore, it meets the required condition for the word being present in the sentence.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "eea78b4",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output may include additional text and does not need to be exactly one of the provided part-of-speech tags, \"Unknown\", or \"CantAnswer\".",
+      "input": "Sentence: 'Wow! That was amazing!' Word: 'Wow'",
+      "coverage": "UH",
+      "validityText": "The input consists of two parts: a sentence and a word from that sentence. The sentence is 'Wow! That was amazing!' and the word is 'Wow'. To determine if the input complies with the specification, I need to verify:\n\n1. The sentence must be of any length and can contain any combination of words, numbers, symbols, or foreign words. The sentence provided is valid as it contains a combination of an exclamation mark, words, and spacing, fitting the criteria given.\n\n2. The word must be a word present in the sentence. The specified word \"Wow\" is indeed present within the sentence \"Wow! That was amazing!\". The presence of the word \"Wow\" in the sentence is crucial to meeting this requirement.\n\nBased on this analysis, both parts of the input satisfy the requirements stipulated in the input specification, as the sentence follows the structure of containing any characters, and the word is directly part of the sentence.\n\nTherefore, this input complies with the specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e870076",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "input": "Sentence: 'He discussed the plan.' Word: 'discussed'",
+      "coverage": "VBD",
+      "validityText": "The given input consists of a sentence 'He discussed the plan.' and a word 'discussed'. According to the input specification, the sentence can contain any combination of words, numbers, symbols, or foreign words, which 'He discussed the plan.' satisfies. The specification also requires the word to be a word present in the sentence. The word 'discussed' is indeed present in the sentence 'He discussed the plan.'. As both conditions of the input specification are met, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "105f581",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "input": "Sentence: 'She has an appointment.' Word: 'appointment'",
+      "coverage": "NN",
+      "validityText": "The given input consists of a sentence and a word from that sentence. The sentence is \"She has an appointment.\" and the provided word is \"appointment\". According to the input specification, the word must be present in the sentence. In this case, \"appointment\" is indeed a word in the given sentence. The input specification allows for sentences of any length and containing any kind of words, numbers, symbols, or foreign words; hence there are no restrictions or violations in this regard. Therefore, the input fully complies with the requirement that the provided word must be present in the sentence.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "561f9c1",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "A \"part-of-speech tag\" is not restricted to the specific abbreviations defined in the provided list.",
+      "input": "Sentence: 'They ended the meeting early.' Word: 'ended'",
+      "coverage": "VBD",
+      "validityText": "The given input consists of a sentence \"They ended the meeting early.\" and a word \"ended\". The task is to check if the word provided is present in the sentence according to the input specification.\n\n- The sentence is: 'They ended the meeting early.'\n- The word specified is: 'ended'\n\nUpon examining the sentence, it is clear that the word 'ended' is indeed present in the sentence. The input specification states: \"The word must be a word present in the sentence.\" This condition is satisfied here. Furthermore, there are no issues with the format or any missing information in the given input. Since the word 'ended' is directly found within the sentence, the input complies fully with the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "cdf51a4",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "input": "Sentence: 'She is the best player.' Word: 'best'",
+      "coverage": "JJS",
+      "validityText": "The input consists of a sentence \"She is the best player.\" and a word \"best\". According to the input specification, the sentence can contain any combination of words, numbers, symbols, or foreign words, which this sentence does. The word provided must be a word present in the sentence. The word \"best\" is indeed present in the sentence \"She is the best player.\" Therefore, the input complies with the provided input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "efd3fb8",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "input": "Sentence: 'He runs faster than you.' Word: 'faster'",
+      "coverage": "JJR",
+      "validityText": "The input consists of a sentence: \"He runs faster than you.\" and a word: \"faster\". According to the input specification, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The word provided must be present in the sentence. \n\nIn this case, the sentence \"He runs faster than you.\" meets the criteria of containing any combination of words, numbers, symbols, or foreign words, as it contains words and a period symbol. The word provided, \"faster\", is indeed present in the sentence. There are no issues with the sentence length, word characteristics, or the word's presence in the sentence.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "332fd06",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "Even if the given word corresponds to one of the part-of-speech categories from the list, the output does not need to be the exact tag associated with that category.",
+      "input": "Sentence: 'They arrived early.' Word: 'early'",
+      "coverage": "RB",
+      "validityText": "The input consists of a sentence and a word. Upon examination, the sentence given is 'They arrived early.' and the word provided is 'early'. According to the specification, the sentence can contain any combination of words, numbers, symbols, or foreign words, and any word from the sentence can be provided as the specified word. In this case, the word 'early' is indeed present in the sentence 'They arrived early.'. Therefore, the input complies with the input specification as both the sentence and the word adhere to the requirements set forth.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e18b375",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "input": "Sentence: 'She found the 'blargh' in the cave.' Word: 'blargh'",
+      "coverage": "FW",
+      "validityText": "The input specification requires the sentence to contain the given word. The sentence provided is 'She found the 'blargh' in the cave.' and the specified word is 'blargh'. Upon examining the sentence, it is clear that the word 'blargh' is indeed present in the sentence. Therefore, based on the input specification, there is no violation as the given word is part of the sentence.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "85e47f6",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "input": "Sentence: 'He mentioned 'snorfblat' in his speech.' Word: 'snorfblat'",
+      "coverage": "FW",
+      "validityText": "The given input consists of a sentence and a word. \n\n1. The sentence is: 'He mentioned 'snorfblat' in his speech.' \n2. The word is: 'snorfblat'\n\nAccording to the input specification:\n- The sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The provided sentence adheres to this specification.\n- The word must be present in the sentence. The word 'snorfblat' is indeed present in the sentence. It appears enclosed within single quotation marks, but it directly matches the word provided.\n\nThere is no violation of the input specification as the sentence and word requirements are met entirely. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a0d5524",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "If the given word cannot be assigned any of the provided part-of-speech tags, the output does not need to be exactly \"Unknown\".",
+      "input": "Sentence: 'They discovered a 'zibble' in the forest.' Word: 'zibble'",
+      "coverage": "FW",
+      "validityText": "The task is to determine if the given input complies with the provided input specification. The specification requires two elements: a sentence and a word from that sentence.\n\n1. The sentence provided is: \"They discovered a 'zibble' in the forest.\"\n2. The word provided is: \"zibble\"\n\nTo evaluate compliance:\n- First, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The given sentence, \"They discovered a 'zibble' in the forest.\", meets these criteria as it consists of words and symbols.\n- Second, the word provided must be present in the sentence. The word \"zibble\" is indeed present within the sentence as 'zibble', which implies the presence of the word \"zibble\" within the quotation marks.\n\nThus, both elements of the input specification are satisfied: the sentence is valid per the described conditions, and the word is present within the sentence. There are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ff8fef4",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "input": "Sentence: 'I can't decide whether to desert or not.' Word: 'desert'",
+      "coverage": "VB",
+      "validityText": "The evaluation of the given input against the specification is as follows:\n\n1. The sentence provided is: \"I can't decide whether to desert or not.\" This sentence can be said to adhere to the input specification as it doesn't impose restrictions on the length, type, or content of the sentence, so the presence of contractions, punctuation, or the uncertainty expressed doesn't violate any specified rule.\n\n2. The word provided is: \"desert\". We now must verify if this word is indeed present in the given sentence. When we examine the sentence, \"I can't decide whether to desert or not,\" we see that the word \"desert\" is present exactly as stated in the sentence.\n\n3. There is no part of the input that violates the specification because the word given indeed occurs in the sentence, satisfying the requirement that \"The word must be a word present in the sentence.\"\n\nSince both conditions in the input specification are satisfied — i.e., the sentence can be any combination of words and the given word is part of that sentence — the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a29f9bc",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "input": "Sentence: 'She left him her book.' Word: 'left'",
+      "coverage": "VBD",
+      "validityText": "The given input consists of a sentence 'She left him her book.' and a word 'left'. According to the provided input specification, the sentence can be any length and can include words, numbers, symbols, or foreign words. In this case, the sentence is valid as it follows the expectation of containing words.\n\nThe specification also states that the word provided must be present in the sentence. The word given is 'left', and upon examining the sentence, 'left' is indeed present in the sentence as one of its components.\n\nThere are no contradictions or violations of the rules as outlined in the input specification. The input complies with all specified requirements.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "18e7810",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "If it is impossible to determine the part-of-speech tag, the output does not need to be exactly \"CantAnswer\".",
+      "input": "Sentence: 'He saw the duck.' Word: 'duck'",
+      "coverage": "VB",
+      "validityText": "The given sentence is 'He saw the duck.' The word provided from this sentence is 'duck'. To evaluate the compliance with the input specification:\n- We check that there is indeed a sentence provided, which is 'He saw the duck.' This meets the specification requirement of having a sentence.\n- We are given the word 'duck', which is explicitly identified as a word in the sentence 'He saw the duck.'. This word matches one of the words present in the sentence.\n\nThere are no rules broken in the input specified, thus complying with all aspects of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "cc6fa8f",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'They will win.' Word: 'win'",
+      "coverage": "VB",
+      "validityText": "To evaluate the compliance of the input with the input specification, let's break down the input:\n\n- The **sentence** provided is: \"They will win.\"\n- The **word** provided is: \"win\".\n\nAccording to the input specification:\n\n1. The sentence can be of any length. The given sentence \"They will win.\" meets this requirement.\n2. The sentence can contain any combination of words, numbers, symbols, or foreign words. The given sentence \"They will win.\" contains words and a punctuation symbol, which is permissible.\n3. The word must be a word present in the sentence. The word \"win\" is present in the sentence \"They will win.\"\n\nThere are no violations of the input specification detected from the provided input. The word \"win\" is indeed part of the provided sentence, complying with the rule that the word must be part of the sentence.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "74a5aad",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'She gave me a gift.' Word: 'gave'",
+      "coverage": "VBD",
+      "validityText": "The given input includes a sentence 'She gave me a gift.' and a word 'gave'. When evaluating this input against the input specification:\n\n- The specification requires that the word must be present in the sentence. Here, the word 'gave' is clearly present as part of the sentence.\n- The sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The sentence given is 'She gave me a gift.', which is a valid sentence satisfying this condition.\n\nThere are no violations in complying with the input specification; every requirement is met: the word is present in the sentence, and there are no restrictions violated regarding the sentence's composition.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "29b5262",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The output does not need to be case-sensitive or match exactly the capitalization of the tags or specified words as provided.",
+      "input": "Sentence: 'I love reading books.' Word: 'books'",
+      "coverage": "NNS",
+      "validityText": "Upon reviewing the input against the input specification:\n\n- The sentence provided is \"I love reading books.\" which follows the requirement that the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words.\n- The word provided is \"books\", which is present in the sentence \"I love reading books.\"\n- The requirement that the word must be a word from the sentence is fulfilled.\n\nGiven these observations, there are no violations of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ccb2741",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'She laughed loudly.' Word: 'laughed'",
+      "coverage": "VBD",
+      "validityText": "The input consists of a sentence and a word, which is 'laughed'. According to the input specification, the word must be present in the sentence. The given sentence is 'She laughed loudly.' and upon verification, the word 'laughed' is indeed present within the sentence. There is no additional specification on the characteristics of the word or constraints on the nature of the sentence or its contents, as long as the word is present. Therefore, there is no violation of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "8d4bbe7",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'He writes daily.' Word: 'writes'",
+      "coverage": "VBZ",
+      "validityText": "The input includes a sentence 'He writes daily.' and a word 'writes'. According to the input specification, the word must be present in the sentence provided. In this case, the word 'writes' is indeed present in the sentence 'He writes daily.'. There are no violations of the input specification. \n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "15b7e1d",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The output may contain leading or trailing whitespace or blank lines.",
+      "input": "Sentence: 'They enjoy swimming.' Word: 'swimming'",
+      "coverage": "VBG",
+      "validityText": "The input specification states that the input must consist of a sentence and a word from that sentence. The given sentence is 'They enjoy swimming.', and the word is 'swimming'. Upon evaluating this, the word 'swimming' is indeed present in the sentence. There are no constraints on the length or content of the sentence or the specific characteristics of the word besides it being present in the sentence. Therefore, the input directly complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "058927e",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'It is raining heavily.' Word: 'heavily'",
+      "coverage": "RB",
+      "validityText": "To evaluate the given input, I will refer to the input specification:\n\n1. According to the input specification, the input consists of a sentence and a word from that sentence.\n2. The sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words.\n3. The word must be a word present in the sentence.\n\nNow, let's apply these rules to the provided input:\n\n- The sentence given is: 'It is raining heavily.'\n- The word provided is: 'heavily'\n\nChecking compliance:\n- The sentence 'It is raining heavily.' is indeed a legitimate sentence as per the specification since it doesn't impose any restrictions on sentence content.\n- The word 'heavily' is present in the sentence 'It is raining heavily.' This fulfills the requirement that the word be present in the sentence.\n\nThere are no violations. The input adheres to all the rules specified. Thus, the input complies with the input specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "de9c70f",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'She sings beautifully.' Word: 'beautifully'",
+      "coverage": "RB",
+      "validityText": "The input consists of a sentence and a word from the sentence. The sentence is 'She sings beautifully.' and the word is 'beautifully'.\n\n- The first requirement of the input specification states that the input must include a sentence of any length containing any combination of words, numbers, symbols, or foreign words. The given sentence, \"She sings beautifully.\" meets these criteria as it is a sentence of a reasonable length, comprised of words and a punctuation mark.\n\n- The second requirement states that a word from this sentence must be provided. The provided word is 'beautifully'.\n\n- The final requirement is that the word must be present in the sentence. The word 'beautifully' is indeed part of the sentence 'She sings beautifully.'\n\nThe input complies with the input specification because the sentence is correctly constructed and the word is explicitly present in the sentence. No parts of the specification have been violated.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "288ffc2",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The output may include explanations, definitions, examples, or additional information beyond the required tag or specified word.",
+      "input": "Sentence: 'He solved the problem easily.' Word: 'easily'",
+      "coverage": "RB",
+      "validityText": "The input consists of a sentence and a word from the sentence. The sentence provided is 'He solved the problem easily.' and the word given is 'easily'. Based on the input specification:\n\n1. The sentence can be of any length. The sentence 'He solved the problem easily.' is a valid sentence.\n\n2. The sentence can contain any combination of words, numbers, symbols, or foreign words. The given sentence 'He solved the problem easily.' consists of words and a punctuation mark, which aligns with this part of the specification.\n\n3. The word must be a word present in the sentence. The word 'easily' is indeed a word present in the sentence 'He solved the problem easily.'\n\nSince all aspects of the input are in compliance with each rule stated in the specification, this input is valid.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "d9d592a",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "input": "Sentence: 'She will be arriving soon.' Word: 'arriving'",
+      "coverage": "VBG",
+      "validityText": "The given input consists of a sentence: \"She will be arriving soon.\" and a word: \"arriving\". According to the input specification, the sentence can be of any length and contain any combination of words, numbers, symbols, or foreign words. The word must be a part of the sentence. The sentence provided complies with these conditions, as it contains typical English words and fits the allowed leniency in content.\n\nFurthermore, the word given is \"arriving\", which is indeed present in the sentence \"She will be arriving soon.\" This satisfies the requirement that the word must be a word present in the sentence.\n\nSince all aspects of the input meet the criteria specified in the input specification, there is no violation detected.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "6d65fac",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "input": "Sentence: 'They need to analyze the data.' Word: 'analyze'",
+      "coverage": "VB",
+      "validityText": "The given input consists of a sentence \"They need to analyze the data.\" and a word \"analyze\". According to the specification, the word must be present in the sentence. Upon examining the sentence, the word \"analyze\" indeed appears in it. There are no constraints or conditions that the input violates; therefore, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "a380b5a",
+      "promptid": "dddf836",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The list of available part-of-speech tags is not limited to those provided and may include additional tags.",
+      "input": "Sentence: 'He is an exceptional individual.' Word: 'exceptional'",
+      "coverage": "JJ",
+      "validityText": "The input specifies a sentence: 'He is an exceptional individual.' and a word: 'exceptional'. According to the input specification, the sentence can be of any length and can contain any combination of words, numbers, symbols, or foreign words. The word specified must be a word present in the given sentence, regardless of its characteristics. \n\nIn this case, the sentence does not violate the rules as it can consist of any content and length. The word 'exceptional' is explicitly present in the sentence 'He is an exceptional individual.' satisfying the condition that the word must be present in the sentence.\n\nThere are no violations of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    }
+  ],
+  "testResults": []
+}

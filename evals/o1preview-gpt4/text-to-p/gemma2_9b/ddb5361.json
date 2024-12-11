@@ -1,0 +1,12 @@
+{
+  "id": "ddb5361",
+  "promptid": "b70fdc4",
+  "ruleid": 19,
+  "rule": "The `<strong>` tag should not be properly nested within the `<p>` tags and may overlap with `<em>` tags.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "Education shapes futures. Teachers inspire minds. Knowledge empowers people.",
+  "output": "<p><strong>Education</strong> shapes <em>futures</em>.</p>\n<p><strong>Teachers</strong> <em>inspire</em> <em>minds</em>.</p>\n<p><strong>Knowledge</strong> <em>empowers</em> <em>people</em>.</p>  \n",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output includes three paragraphs, each enclosed in its own `<p>` tag, which aligns with the requirement to split the text into individual sentences with each sentence wrapped in a `<p>` tag. This satisfies the requirement of having at least three `<p>` tags. Inside each `<p>` tag, there is inclusion of one `<strong>` tag and multiple `<em>` tags, which aligns with the instruction to emphasize key words and phrases using these tags.\n\nNo violation.\nOK"
+}

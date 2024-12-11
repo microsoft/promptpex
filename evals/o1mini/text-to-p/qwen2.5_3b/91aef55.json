@@ -1,0 +1,12 @@
+{
+  "id": "91aef55",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Sentence one. Sentence two. Sentence three.",
+  "output": "<p><strong>Here is a paragraph</strong> with separate sentences. Each sentence should be wrapped in its own <p> tag.</p>\n<p><strong>The first sentence</strong> will contain multiple emphasis words, such as \"emphasized\" and \"keywords\". Let's test this now.</p>\n<p><strong>This is the third and final sentence</strong>, which might have more than just keywords to emphasize: considerations, insights, or details that enhance the reader’s understanding of the paragraph.</p>",
+  "compliance": "err",
+  "complianceText": "Each `<p>` tag contains one `<strong>` tag but lacks the required multiple `<em>` tags to emphasize key words and phrases.\nERR"
+}

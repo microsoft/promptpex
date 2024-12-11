@@ -1,0 +1,11 @@
+{
+  "id": "64872ff",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "text: The internet has made information more accessible than ever. It facilitates learning and connects people worldwide. However, it's essential to verify sources for accuracy.",
+  "output": "```html\n<p><strong>Internet</strong> has made information <em>more accessible</em> than ever. It <em>facilitates</em> learning and connects people <em>worldwide</em>. However, it's <em>essential</em> to verify sources for accuracy.</p>\n```\n\nNote: Although the text is presented as two blocks of code, they are meant to be treated as one input string. The formatting provided is consistent with both instances.",
+  "compliance": "err",
+  "complianceText": "The chatbot output only uses a single `<p>` tag for all sentences instead of wrapping each individual sentence with its own `<p>` tag as specified. Additionally, since all sentences are within one `<p>` tag, each sentence does not have its own `<strong>` tag, which violates the requirement for each `<p>` tag to contain one `<strong>` tag and multiple `<em>` tags.\n\nERR"
+}

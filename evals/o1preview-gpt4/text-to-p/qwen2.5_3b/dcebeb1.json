@@ -1,0 +1,12 @@
+{
+  "id": "dcebeb1",
+  "promptid": "b70fdc4",
+  "ruleid": 19,
+  "rule": "The `<strong>` tag should not be properly nested within the `<p>` tags and may overlap with `<em>` tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Fitness boosts health. Exercise strengthens bodies. Wellness promotes happiness.",
+  "output": "<p><strong> Fitness </strong>boosts<br />health.<br /><strong>Exercise</strong> strengthens<br>bodies.<br /><strong>Wellness</strong> promotes<br>happiness.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output is expected to have each sentence wrapped in its own `<p>` tag, according to the description. However, the output provided seems to wrap all the sentences in a single `<p>` tag, which violates the guideline that each sentence should be individually wrapped. There should be at least three `<p>` tags, each representing a single sentence. Furthermore, the output contains `<br />` tags, but there is no mention of them in the description, so they should not be present. The inclusion of a `<strong>` tag in each sentence is correct, but there should also be multiple `<em>` tags added to each sentence to emphasize key words and phrases, which are missing.\n\nThus, the output does not comply with several elements of the description.\n\nERR"
+}

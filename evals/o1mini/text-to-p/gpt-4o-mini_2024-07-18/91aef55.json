@@ -1,0 +1,12 @@
+{
+  "id": "91aef55",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Sentence one. Sentence two. Sentence three.",
+  "output": "```html\n<p><strong>Sentence one.</strong> <em>Sentence two.</em> <em>Sentence three.</em></p>\n<p><strong>Sentence one.</strong> <em>Sentence two.</em> <em>Sentence three.</em></p>\n<p><strong>Sentence one.</strong> <em>Sentence two.</em> <em>Sentence three.</em></p>\n```",
+  "compliance": "err",
+  "complianceText": "The output wraps multiple sentences within each `<p>` tag instead of wrapping each individual sentence in its own `<p>` tag as specified. This violates the requirement to split the paragraph into individual sentences with each sentence enclosed in a separate `<p>` tag.\n\nERR"
+}

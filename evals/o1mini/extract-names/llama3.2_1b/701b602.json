@@ -1,0 +1,12 @@
+{
+  "id": "701b602",
+  "promptid": "a253756",
+  "ruleid": 9,
+  "rule": "The chatbot’s response must not be a JSON array.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "{\"model\": \"ResNet\"}",
+  "output": "[\n    [\"NA\"],\n    [\"ResNet\"]\n]",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is an array containing two nested arrays: `[[\"NA\"], [\"ResNet\"]]`. According to the description, the expected format is a single array of model names, such as `[\"model_name\"]`. The presence of nested arrays deviates from this specified format.\n\nERR"
+}

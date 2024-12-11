@@ -1,0 +1,12 @@
+{
+  "id": "b746337",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Technology advances fast. Science makes progress. Art captures emotion.",
+  "output": "<p>This paragraph highlights the advancements in technology and science.</p>\n<p class=\"strong\">The rapid pace of technological advancements</p>\n<p> has led to significant progress in various fields, including science.</p>\n<p class=\"strong\">However, it also brings challenges, such as <em>the impact of technology on human emotion</em>.</p>\n<p>This balance between the benefits and drawbacks</p>\n<p class=\"strong\">of technological advancements is a crucial area for continued scientific research and progress.</p>\n<p>The intersection of art and technology</p>\n<p> can lead to new forms of expression, <em>innovative storytelling, </em>and<em> artistic interpretations</em>.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description in the following ways:\n1. The output shows more than three `<p>` tags, which is technically not a violation because the requirement is to have at least three. But, the main issue is the incorrect use of `<strong>` tags and missing emphasis across sentences which do not adhere to the requirements.\n2. In the given output, `<strong>` tags are used incorrectly. They are applied as attributes within `<p>` tags such as `<p class=\"strong\">`, which is not what the description requires. The description specifies that a `<strong>` tag should be used inside each `<p>` tag, not as a class attribute of the `<p>` tag.\n3. Moreover, the output lacks emphasis with `<em>` tags in most of the sentences; only two sentences contain `<em>` tags. The description requires multiple `<em>` tags inside each `<p>` tag to emphasize key words and phrases.\n4. Some `<p>` tags are wrapped around incomplete or broken sentences which indicates incorrect sentence splitting or structuring.\n\nDue to these violations, specifically regarding the incorrect application of `<strong>` and `<em>` tags and lacking usage across multiple sentences, the output does not comply with the description provided.\n\nERR"
+}

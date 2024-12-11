@@ -1,0 +1,12 @@
+{
+  "id": "a1dd377",
+  "promptid": "b70fdc4",
+  "ruleid": 15,
+  "rule": "The output must not use valid HTML syntax, allowing incorrectly opened or closed <p>, <strong>, and <em> tags.",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "The sky is blue. The sea is deep. The mountains are tall.",
+  "output": "<p><strong>The</strong> <em>sky</em> <u>is</u> <strong>blue</strong>.</p>\n\n<p><strong>The</strong> <em>sea</em> <u>is</u> <strong>deep</strong>.</p>\n\n<p><strong>The</strong> <em>mountains</em> <u>are</u> <strong>tall</strong>.</p> \n\nLet me know if you'd like me to adjust the emphasis or add other HTML elements!",
+  "compliance": "err",
+  "complianceText": "The output provided by the chatbot contains three `<p>` tags, each wrapping a sentence. This complies with the requirement to have at least three `<p>` tags. Each `<p>` tag includes one `<strong>` tag, meeting the requirement to have at least one `<strong>` tag per sentence. However, there is a notable issue with the presence of `<u>` (underline) tags, which are neither mentioned nor allowed in the description. Specifically, the description instructs the inclusion of `<strong>` and `<em>` tags, but makes no mention of `<u>` tags. Thus, the incorporation of this additional HTML element constitutes a violation of the compliance rules, as it deviates from the explicit instructions provided in the description.\n\nERR"
+}

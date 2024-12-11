@@ -1,0 +1,11 @@
+{
+  "id": "ba8ee85",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The `<strong>` tag should be properly nested within the `<p>` tags and should not overlap with any `<em>` tags.",
+  "model": "qwen2.5:3b",
+  "input": "History teaches lessons. Experience builds wisdom. Reflection leads to insight.",
+  "output": "<p>\n  <strong>\n    History\n  </strong>\n  teaches\n  <em>\n    lessons.\n  </em>\n  \n  Experience\n  <strong>\n    builds\n  </strong>\n  <em>\n    wisdom.\n  </em>\n\n  Reflection\n  <strong>\n    leads\n  </strong>\n  <em>\n    to\n  </em>\n  <em>\n    insight.\n  </em>\n</p>",
+  "compliance": "err",
+  "complianceText": "The given output does not comply with the chatbot description. According to the description, the chatbot is supposed to split the paragraph into individual sentences and wrap each sentence with a separate `<p>` tag. Additionally, the output should contain at least three `<p>` tags. However, in the provided output, all content is enclosed within a single `<p>` tag. Despite having multiple `<strong>` and `<em>` tags, the requirement for having individual sentences in separate `<p>` tags has not been met. This is a clear violation of the described formatting rules.\n\nERR"
+}

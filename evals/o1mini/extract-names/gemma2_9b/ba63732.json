@@ -1,0 +1,11 @@
+{
+  "id": "ba63732",
+  "promptid": "a253756",
+  "ruleid": 13,
+  "rule": "If no model names are found in the abstract or if the chatbot is unsure, the response must not be a JSON array containing a single string \"NA\".",
+  "inverse": true,
+  "model": "gemma2:9b",
+  "input": "[]",
+  "output": "Please provide the abstract so I can extract the model names.  \n\nFor example, you can give me an abstract like this: \n\n\"In this paper, we propose a novel deep learning model called Transformer-XL for language modeling. Transformer-XL addresses the limitations of traditional Transformers by introducing a recurrence mechanism that allows it to process longer sequences of text effectively. Our experiments demonstrate that Transformer-XL achieves state-of-the-art results on a variety of tasks, including text generation, machine translation, and question answering.\" \n\n\nOnce you give me the abstract, I will do my best to identify the model names and return them in the format  [\\\"model_name\\\"], like this: [\\\"Transformer-XL\\\"] \n",
+  "complianceText": "The chatbot does not comply with the specified description. Instead of returning an array of model names or `[\"NA\"]`, it prompts the user to provide an abstract.\n\n**ERR**"
+}

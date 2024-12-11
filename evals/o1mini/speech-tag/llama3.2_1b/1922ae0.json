@@ -1,0 +1,12 @@
+{
+  "id": "1922ae0",
+  "promptid": "dddf836",
+  "ruleid": 11,
+  "rule": "Each part of speech tag in the response may not exactly match one of the tags listed in the predefined list and may have alterations in spelling, case, or punctuation.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "sentence: 'She will go', word: 'will'",
+  "output": "Sentence: grammatical determiner (DT) tag and verb conjugation form (VB - base form)\nWord: determiner/verb tag\n\n Sentence: the, conjunction (CC)\nWord: unknown\n\n Sentence: I know not, interjection (UH)\nWord: Unknown",
+  "compliance": "err",
+  "complianceText": "The chatbot's output includes additional explanations and multiple tags where only a single tag should be returned. It also provides sentences and words instead of just the part-of-speech tag.\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "a1ef676",
+  "promptid": "b70fdc4",
+  "ruleid": 21,
+  "rule": "The content inside the `<strong>` and `<em>` tags should not be words or phrases taken directly from the original sentence.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Leadership guides teams. Strategy plans success. Vision sets direction.",
+  "output": "Here is the modified paragraph with three <p> tags, each containing a single sentence wrapped in <strong> tags to emphasize key words and phrases, and multiple <em> tags to highlight emphasized text:\n\n<p><strong>Leadership</ strong> guides teams.</p>\n<p><strong>Strategy</ strong> plans success.</p>\n<p><em>Vision</ em> sets direction.</p>\n<p><em>Key</ em> elements of a successful organization include leadership, strategy, and vision, all working together to achieve business goals.",
+  "compliance": "err",
+  "complianceText": "The chatbot output has three <p> tags, but there's a violation of the guideline to keep every sentence inside a <p> tag. There is also exactly one <strong> tag and multiple <em> tags inside each <p> tag. The fourth sentence is not wrapped inside a <p> tag but added as part of the third one, which highlights a violation of the requirement to split the text into sentences and handle each one separately. Moreover, there is malformed HTML with incorrect closing tags in the <strong> and <em> tags (spaces before 'strong' and 'em' in closing tags).\n\nThe specific non-compliance I identified is as follows:\n1. The output does not respect the requirement to split each sentence into individual <p> tags, as the last sentence is not properly placed inside its own <p> tag.\n2. The output contains four sentences but only three <p> tags, so it should comply with \"your answer should have at least three <p> tags,\" but each sentence must be wrapped in a <p> tag; thus, the placement of the final sentence is incorrect.\n3. Malformed HTML tags are present due to spaces in closing tags.\n\nThinking through these issues and citing these reasons, there is a clear non-compliance.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "1873f62",
+  "promptid": "e5ed513",
+  "ruleid": 25,
+  "rule": "For \"Specific topics\", the assistant may choose not to extract specific topics discussed in the text.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: The article analyzed economic trends and forecasts.",
+  "output": "Since there are no specific entities mentioned in the text, I will only extract general information as per your request.\n\nCompany names: None\nPeople names: -||-\nSpecific topics: Economic trends, Forecasts, Analysis\nGeneral themes: Data analysis, Trend observation, Forecasting, Economic studies",
+  "compliance": "err",
+  "complianceText": "The chatbot's output violates the desired format defined in the description. The format requires a comma-separated list even if there are no entities; instead of \"None,\" it should use an empty string or omit the entity category altogether if none are found. The chatbot's answer of \"None\" for Company names breaks the format specification. Similarly, \"People names: -||-\" violates the description, which requires maintaining the format for a list. The violation occurs in not adhering to the defined standard for presenting the information as required.\n\nERR"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "ba898fc",
+  "promptid": "b70fdc4",
+  "ruleid": 3,
+  "rule": "Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",
+  "model": "gpt-4o-mini",
+  "input": "He loves coding. She enjoys testing! They prefer debugging?",
+  "output": "```html\n<p><strong>He loves</strong> <em>coding</em>.</p>\n<p><strong>She enjoys</strong> <em>testing</em>!</p>\n<p><strong>They prefer</strong> <em>debugging</em>?</p>\n<p><strong>He loves</strong> <em>coding</em>.</p>\n<p><strong>She enjoys</strong> <em>testing</em>!</p>\n<p><strong>They prefer</strong> <em>debugging</em>?</p>\n```",
+  "compliance": "err",
+  "complianceText": "Each `<p>` tag in the output contains only one `<em>` tag, whereas the description requires multiple `<em>` tags within each `<p>` tag.\nERR"
+}

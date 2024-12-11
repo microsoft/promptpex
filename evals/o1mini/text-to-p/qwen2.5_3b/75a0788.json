@@ -1,0 +1,11 @@
+{
+  "id": "75a0788",
+  "promptid": "b70fdc4",
+  "ruleid": 3,
+  "rule": "Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",
+  "model": "qwen2.5:3b",
+  "input": "A quick brown fox. Jumps over the lazy dog! What a sight?",
+  "output": "<p><strong>A</strong><em>quick</em> <strong>brown</strong> <em>fox.</em></p>\n<p>Jumps<strong> over</strong> the <strong>lazy</strong> <em>dog!</em></p>\n<p>What<a><strong>a</strong></a> <em>sight?</em></p>",
+  "compliance": "err",
+  "complianceText": "The third `<p>` tag contains an `<a>` tag, which was not specified in the description. Additionally, the second `<p>` tag only includes one `<em>` tag instead of multiple as required.\n\nERR"
+}

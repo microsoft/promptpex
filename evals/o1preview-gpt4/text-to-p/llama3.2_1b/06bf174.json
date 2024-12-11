@@ -1,0 +1,11 @@
+{
+  "id": "06bf174",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "Her garden is full of roses, tulips, and daisies. She spends hours tending to her plants. Gardening brings her peace and joy.",
+  "output": "<h1>Her** garden</h1> **is** full `<strong>Action Words:</strong>`of` <em>Roses</em>,<em>Tulips</em>,\nand`<em>daisies</em>`. She spends hours tending to her plants.\n<h2>Gardening brings her peace and joy.</h2><p>\n  <strong>Main Topic</strong>: Gardening\n  <em>Verbs:</em>: bringing, she, peace\n  <strong>Key Words**: joy, brings, she, peace\n  <em>Additional Emphasis:</em>: she <strong>spends</strong> lots of time in her garden.\n<p>\n  <em>Nouns:</em>: \n  <p><b>Roses</b></p>\n  <p><b>Tulips<b>,<a href=\"<em>Adjective:</em> red\"<name>\"flowers\"<name>.</name>-</name>+\"><strong>Daisies</strong></a></b> are a type of flower.</p><hr/>",
+  "compliance": "err",
+  "complianceText": "The output fails to comply with the chatbot description on several counts:\n\n1. **Incorrect Paragraph Splitting and Tagging**: The description requires each sentence to be wrapped with a `<p>` tag, and there should be at least three `<p>` tags. However, the output contains HTML elements like `<h1>`, `<h2>`, `<strong>`, and `<em>` outside the expected usage in paragraphs. There are mixed non-HTML compliant tags as well, like `<b>` inside `<p>`.\n\n2. **Lack of Proper Structure and Nesting**: The structure of the HTML does not follow proper syntax (e.g., `<b>` is incorrectly closed as `<b<`). Tags like `<em>` and `<strong>` are not used correctly or consistently within `<p>` tags; they are used arbitrarily within and outside as `<em>` and `<strong>` (such as the invalid usage in `<h1>` and `<h2>`).\n\n3. **Inconsistent and Incorrect Formatting**: The sentence structure appears unorganized with HTML entities and nested tags not correctly closed or opened (e.g., `<strong>Action Words:</strong>` is improperly enclosed within backticks).\n\nDue to these points, the output does not comply with the chatbot description requirements. The key formatting steps, such as accurate use of `<p>`, `<strong>`, and `<em>` tags, have not been followed effectively.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "9817d39",
+  "promptid": "e5ed513",
+  "ruleid": 7,
+  "rule": "The output must not begin with \"Company names:\" and it should exclude any list of company names extracted from the text.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Text: Digitization trends don't meet traditional banking benchmarks.",
+  "output": "Company names: <no_company_names>\nPeople names: -||-\nSpecific topics: Digitization trends, traditional banking\nGeneral themes: Digital transformation failure, benchmarking, modern financial services inadequacies",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description because it uses \"<no_company_names>\" to denote the absence of company names, which does not match the expected format of a comma-separated list, even if empty it should imply zero elements without forming sentences. Based on the description, all sections should follow the specific \"<comma_separated_list>\" format.\n\nERR"
+}

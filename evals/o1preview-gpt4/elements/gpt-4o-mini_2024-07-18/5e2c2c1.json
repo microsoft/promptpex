@@ -1,0 +1,11 @@
+{
+  "id": "5e2c2c1",
+  "promptid": "e5ed513",
+  "ruleid": 12,
+  "rule": "The assistant must only extract entities that are explicitly mentioned or clearly implied in the text.",
+  "model": "gpt-4o-mini",
+  "input": "Text: SpaceX plans another mission to the International Space Station.",
+  "output": "Company names: SpaceX\nPeople names: -||-\nSpecific topics: International Space Station, space missions\nGeneral themes: space exploration, aerospace technology",
+  "compliance": "err",
+  "complianceText": "The output does not comply with the description for several reasons. \n\n1. The \"People names\" section is populated with \"-||-\", which does not follow the format specified in the description. The placeholder \"-||-\" should only be used if there are no names to list, and that cannot be determined without input.\n\n2. The format for the sections \"Specific topics\" and \"General themes\" complies with the request, as they are given in comma-separated lists even if they contain more than one topic or theme, though it relies the input data.\n\nThe primary issue is with the \"People names\" section format usage.\n\nERR"
+}

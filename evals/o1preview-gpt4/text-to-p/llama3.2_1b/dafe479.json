@@ -1,0 +1,12 @@
+{
+  "id": "dafe479",
+  "promptid": "b70fdc4",
+  "ruleid": 20,
+  "rule": "The `<em>` tags should not be properly nested within the `<p>` tags and may overlap improperly with the `<strong>` tag.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Travel experiences educate. Cultures broaden perspectives. Journeys create memories.",
+  "output": "Here is the reformatted paragraph with at least three <p> tags, one <strong> tag, and multiple <em> tags:\n\n<p>\n  Travel experiences educate.\n</p>\n<p>\n  Cultures broaden perspectives.\n</p>\n<p>\n  Journeys create memories.\n</p>\n<p>\n  Strongly impacting <em>one's</em> perception of the world,\n</p>\n<p>\n<div>\n  <em>Glocalization</em> is a related concept that seeks to understand how\n  cultures interact and influence each other through travel and cultural exchange.\n</div>\n</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output does not comply with the description provided for several reasons:\n\n1. **Missing `<strong>` Tags**: The description requires each `<p>` tag to contain at least one `<strong>` tag. In the given output, there are no `<strong>` tags present in any of the `<p>` tags.\n\n2. **Misuse of `<div>` Tag**: The description specifies formatting a paragraph of text using `<p>` tags only, along with `<strong>` and `<em>` tags within those `<p>` tags. However, in the last `<p>` tag, the output contains a `<div>` tag, which is not allowed or mentioned in the description.\n\n3. **Structure Requirements**: The description requires sentences to be wrapped in `<p>` tags with specific additional HTML tags. Despite having multiple `<p>` tags and complying with the rule of having at least three `<p>` tags, the output does not meet the requirement for including both `<strong>` and `<em>` tags inside each `<p>` tag.\n\nThe output violates multiple compliance criteria as specified in the description.\n\nERR"
+}

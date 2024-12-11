@@ -1,0 +1,1583 @@
+{
+  "prompt": "\n---\nname: Classify input text\ndescription: Given an input text, classify it into a specific category.\nsource: How to use Llama2 tutorial for text classification\nurl: https://pupuweb.com/how-use-llama-2-text-classification-tasks/\ninputs:\n    text:\n        type: \"string\"\nsample:\n    text: \"UN chief urges action on climate change as report warns of 'catastrophe'\"\n---\nsystem:\nA news article can be classified as one of the following categories: World, Sports, Business, Sci/Tech.\nExamples:\n- World: \"UN chief urges action on climate change as report warns of 'catastrophe'\"\n- Sports: \"Ronaldo scores twice in Manchester United return\"\n- Business: \"Apple delays plan to scan iPhones for child abuse images\"\n- Sci/Tech: \"SpaceX launches first all-civilian crew into orbit\"'\n\nBased on these categories, classify this news article: \nuser:\n{{text}}\n    ",
+  "inputSpec": "The input is a string containing text to be classified.\nThe input text can be any piece of text, such as a news article or headline.\nThe input should be in English language.\nThe input can be of any length, from short phrases to longer articles.\nThe input should be in plain text format.",
+  "rules": [
+    "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+    "The output should match the category name precisely as specified, including capitalization and punctuation.",
+    "The output should consist solely of the category name without any additional text.",
+    "The output should not include the input text or any excerpts or paraphrases of it.",
+    "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+    "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+    "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+    "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+    "The output should be in plain text format without any special formatting, markup, or additional characters.",
+    "The output should appear on a single line containing only the category name."
+  ],
+  "inverseRules": [
+    "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+    "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+    "The output should include additional text besides the category name.",
+    "The output should incorporate the input text or its excerpts or paraphrases.",
+    "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+    "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+    "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+    "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+    "The output should include special formatting, markup, or additional characters beyond plain text.",
+    "The output should span multiple lines and may contain content other than the category name."
+  ],
+  "tests": [
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "testid": "1",
+      "testinput": "Global markets rally as US-China trade tensions ease",
+      "expectedoutput": "Business",
+      "reasoning": "This test case provides an input expected to be classified as \"Business\", ensuring that the software outputs exactly one of the allowed categories, adhering to Rule 1."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "testid": "2",
+      "testinput": "Breakthrough in renewable energy could revolutionize solar power",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Checks if the software correctly classifies the input as \"Sci/Tech\", one of the specified categories, demonstrating adherence to Rule 1."
+    },
+    {
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "testid": "3",
+      "testinput": "Olympics postponed due to pandemic concerns",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that the software outputs \"Sports\" for an input about athletic events, complying with Rule 1."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "testid": "1",
+      "testinput": "New discoveries in Mars rover mission lead to excitement in astronomy community",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Tests whether the software outputs the category name \"Sci/Tech\" with exact spelling and capitalization, following Rule 2."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "testid": "2",
+      "testinput": "Economic reforms boost small businesses across the country",
+      "expectedoutput": "Business",
+      "reasoning": "Checks if the software outputs \"Business\" with precise spelling and capitalization as specified, adhering to Rule 2."
+    },
+    {
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "testid": "3",
+      "testinput": "Global summit addresses climate change initiatives",
+      "expectedoutput": "World",
+      "reasoning": "Ensures the output matches the category name \"World\" precisely, including capitalization, complying with Rule 2."
+    },
+    {
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "testid": "1",
+      "testinput": "Innovations in AI technology raise ethical considerations",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Verifies that the output consists solely of \"Sci/Tech\" without additional text, adhering to Rule 3."
+    },
+    {
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "testid": "2",
+      "testinput": "Championship game ends in a surprising upset",
+      "expectedoutput": "Sports",
+      "reasoning": "Ensures the software outputs only \"Sports\" with no extra words or characters, following Rule 3."
+    },
+    {
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "testid": "3",
+      "testinput": "International sanctions impact global trade heavily",
+      "expectedoutput": "World",
+      "reasoning": "Checks that the output is solely \"World\" without any additional content, complying with Rule 3."
+    },
+    {
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "testid": "1",
+      "testinput": "Tech giants collaborate on new cybersecurity standards",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Tests that the output does not include any part of the input text, only the category name, ensuring adherence to Rule 4."
+    },
+    {
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "testid": "2",
+      "testinput": "Local athlete breaks world record in 100m sprint",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies the output is only \"Sports\" without incorporating the input text, complying with Rule 4."
+    },
+    {
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "testid": "3",
+      "testinput": "Stock markets fluctuate amid economic uncertainty",
+      "expectedoutput": "Business",
+      "reasoning": "Checks that the output does not include excerpts or paraphrases of the input, adhering to Rule 4."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "testid": "1",
+      "testinput": "Diplomatic talks resume to resolve border disputes between nations",
+      "expectedoutput": "World",
+      "reasoning": "Tests if the software correctly classifies international events as \"World\", following Rule 5."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "testid": "2",
+      "testinput": "Global pandemic causes widespread changes in travel policies",
+      "expectedoutput": "World",
+      "reasoning": "Checks that worldwide issues are classified under \"World\", complying with Rule 5."
+    },
+    {
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "testid": "3",
+      "testinput": "International leaders meet at summit to discuss climate action",
+      "expectedoutput": "World",
+      "reasoning": "Verifies that global political events are classified as \"World\", adhering to Rule 5."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "testid": "1",
+      "testinput": "Top seed player wins the Grand Slam tournament",
+      "expectedoutput": "Sports",
+      "reasoning": "Ensures that athletic events are classified as \"Sports\", following Rule 6."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "testid": "2",
+      "testinput": "Local football team announces new coach for upcoming season",
+      "expectedoutput": "Sports",
+      "reasoning": "Tests if news about sports teams is classified as \"Sports\", complying with Rule 6."
+    },
+    {
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "testid": "3",
+      "testinput": "Olympic committee adds new sports to the next games",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that sports-related activities are classified under \"Sports\", adhering to Rule 6."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "testid": "1",
+      "testinput": "Central bank announces changes to interest rates",
+      "expectedoutput": "Business",
+      "reasoning": "Checks that economic policies are classified as \"Business\", following Rule 7."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "testid": "2",
+      "testinput": "Tech company's stock soars after successful product launch",
+      "expectedoutput": "Business",
+      "reasoning": "Ensures that news about corporations and market trends is classified as \"Business\", complying with Rule 7."
+    },
+    {
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "testid": "3",
+      "testinput": "Unemployment rates drop as new jobs are created",
+      "expectedoutput": "Business",
+      "reasoning": "Verifies that financial news is classified under \"Business\", adhering to Rule 7."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "testid": "1",
+      "testinput": "Researchers develop new vaccine technology",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Tests if scientific discoveries are classified as \"Sci/Tech\", following Rule 8."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "testid": "2",
+      "testinput": "Breakthrough in quantum computing achieved by scientists",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Checks that technological advancements are classified as \"Sci/Tech\", complying with Rule 8."
+    },
+    {
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "testid": "3",
+      "testinput": "New study reveals insights into climate change patterns",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Ensures that science news is classified under \"Sci/Tech\", adhering to Rule 8."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "testid": "1",
+      "testinput": "Advancements in battery technology may extend electric vehicle range",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Verifies that the output is in plain text without special characters, complying with Rule 9."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "testid": "2",
+      "testinput": "Economic forum discusses global market trends",
+      "expectedoutput": "Business",
+      "reasoning": "Ensures that the output has no special formatting, adhering to Rule 9."
+    },
+    {
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "testid": "3",
+      "testinput": "World leaders agree on new environmental treaty",
+      "expectedoutput": "World",
+      "reasoning": "Checks that the output is plain text without additional characters, following Rule 9."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "testid": "1",
+      "testinput": "Basketball legend announces retirement after 20 seasons",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that the output appears on a single line containing only the category name, complying with Rule 10."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "testid": "2",
+      "testinput": "Scientists detect signals from distant galaxy",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Ensures that the output is a single line with only \"Sci/Tech\", adhering to Rule 10."
+    },
+    {
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "testid": "3",
+      "testinput": "International trade agreements boost economic growth",
+      "expectedoutput": "Business",
+      "reasoning": "Checks that the output is on a single line containing only \"Business\", following Rule 10."
+    },
+    {
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Delicious homemade pasta recipes to try this weekend",
+      "expectedoutput": "Other",
+      "reasoning": "Tests whether the software avoids outputting any of the specified categories for content outside those categories, adhering to Rule 11."
+    },
+    {
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "A review of the latest romantic comedy movie",
+      "expectedoutput": "Other",
+      "reasoning": "Verifies that the software does not output \"World\", \"Sports\", \"Business\", or \"Sci/Tech\" for unrelated content, complying with Rule 11."
+    },
+    {
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Exploring the history of classical music composers",
+      "expectedoutput": "Other",
+      "reasoning": "Checks that the software outputs a category other than the specified ones for this input, following Rule 11."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Tech conference unveils latest gadgets and innovations",
+      "expectedoutput": "sci/tech",
+      "reasoning": "Tests if the software outputs the category name with incorrect capitalization, adhering to Rule 12."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "International summit on global warming ends with agreement",
+      "expectedoutput": "World.",
+      "reasoning": "Checks whether the software outputs \"World.\" with additional punctuation, complying with Rule 12."
+    },
+    {
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "National league final ends in dramatic penalty shootout",
+      "expectedoutput": "Sport",
+      "reasoning": "Verifies that the software outputs a misspelled category name, following Rule 12."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Major breakthrough achieved in cancer research",
+      "expectedoutput": "Sci/Tech News",
+      "reasoning": "Tests if the software includes additional text with the category name, adhering to Rule 13."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Local team wins the championship after intense match",
+      "expectedoutput": "Sports: Local team wins!",
+      "reasoning": "Checks whether the output contains additional text besides the category name, complying with Rule 13."
+    },
+    {
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Economy shows signs of recovery in the last quarter",
+      "expectedoutput": "Business (Growth)",
+      "reasoning": "Verifies that the software outputs the category name with extra content, following Rule 13."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "New policy reforms expected to improve the education system",
+      "expectedoutput": "World: New policy reforms expected to improve the education system",
+      "reasoning": "Tests if the software incorporates the input text into the output, adhering to Rule 14."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Star player scores winning goal in final seconds",
+      "expectedoutput": "Sports: Star player scores winning goal in final seconds",
+      "reasoning": "Checks whether the output includes the input text, complying with Rule 14."
+    },
+    {
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Advancements in renewable energy technology",
+      "expectedoutput": "Sci/Tech - Advancements in renewable energy technology",
+      "reasoning": "Verifies that the software outputs the category name along with the input text, following Rule 14."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Global leaders meet to discuss climate crisis",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Tests whether the software avoids classifying international events as \"World\", adhering to Rule 15."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "International trade agreements affect local businesses",
+      "expectedoutput": "Business",
+      "reasoning": "Checks if the software classifies international events under a category other than \"World\", complying with Rule 15."
+    },
+    {
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Global peace talks yield promising results",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that the software does not classify the input as \"World\", following Rule 15."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Football championship ends in dramatic victory",
+      "expectedoutput": "Business",
+      "reasoning": "Tests if the software avoids classifying sports events as \"Sports\", adhering to Rule 16."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Olympic records shattered in track events",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Checks whether the software classifies athletic events under a different category, complying with Rule 16."
+    },
+    {
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Star athlete signs contract with new team",
+      "expectedoutput": "World",
+      "reasoning": "Verifies that the software does not classify the input as \"Sports\", following Rule 16."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Stock market hits all-time high amid investor optimism",
+      "expectedoutput": "World",
+      "reasoning": "Tests whether the software avoids classifying financial news as \"Business\", adhering to Rule 17."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Tech company announces merger with competitor",
+      "expectedoutput": "Sci/Tech",
+      "reasoning": "Checks if the software classifies corporate news under a different category, complying with Rule 17."
+    },
+    {
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "New economic policies expected to boost GDP",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that the software does not classify economic policies as \"Business\", following Rule 17."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Researchers discover potential cure for disease",
+      "expectedoutput": "World",
+      "reasoning": "Tests if the software avoids classifying scientific discoveries as \"Sci/Tech\", adhering to Rule 18."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Breakthrough in AI technology challenges tech industry",
+      "expectedoutput": "Business",
+      "reasoning": "Checks whether the software classifies technological advancements under a different category, complying with Rule 18."
+    },
+    {
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Innovations in renewable energy promise cleaner future",
+      "expectedoutput": "Sports",
+      "reasoning": "Verifies that the software does not classify the input as \"Sci/Tech\", following Rule 18."
+    },
+    {
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "New species discovered in the Amazon rainforest",
+      "expectedoutput": "**Sci/Tech**",
+      "reasoning": "Tests whether the software outputs the category name with special formatting, adhering to Rule 19."
+    },
+    {
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Economists forecast recession in the next quarter",
+      "expectedoutput": "<Business>",
+      "reasoning": "Checks if the software includes markup in the output, complying with Rule 19."
+    },
+    {
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "National team wins gold in Olympics",
+      "expectedoutput": "[Sports]",
+      "reasoning": "Verifies that the software outputs the category name with additional characters, following Rule 19."
+    },
+    {
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "inverse": true,
+      "testid": "1",
+      "testinput": "Global summit on climate change ends with new agreement",
+      "expectedoutput": "World\\nThis article discusses global efforts on climate change.",
+      "reasoning": "Tests if the software outputs multiple lines and adds content beyond the category name, adhering to Rule 20."
+    },
+    {
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "inverse": true,
+      "testid": "2",
+      "testinput": "Breakthrough in nanotechnology leads to medical advances",
+      "expectedoutput": "Sci/Tech\\nLatest developments in nanotechnology.",
+      "reasoning": "Checks whether the output spans multiple lines with extra content, complying with Rule 20."
+    },
+    {
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "inverse": true,
+      "testid": "3",
+      "testinput": "Local baseball team wins championship after decades",
+      "expectedoutput": "Sports\\nAn exciting win for the hometown heroes!",
+      "reasoning": "Verifies that the software outputs additional content across multiple lines, following Rule 20."
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Peace talks resume between rival factions in Middle East\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Earthquake in Indonesia leaves thousands homeless\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Elections in Germany see a shift towards green policies\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Global leaders gather for UN summit on sustainable development\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Brexit negotiations reach critical phase\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Serena Williams announces retirement from tennis\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Olympic committee unveils new sports for 2024 Games\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Underdog team wins national basketball championship\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"FIFA introduces new technology for World Cup matches\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Record-breaking marathon run in New York City\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Tesla reports record profits amid surge in electric car demand\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Stock markets fall as inflation fears grow\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Amazon acquires autonomous driving startup\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Global trade tensions impact manufacturing sector\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Cryptocurrency hits all-time high after regulatory approval\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Breakthrough in Alzheimer's research offers new hope\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Scientists discover new exoplanet that could support life\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Artificial intelligence beats human champions in chess tournament\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"NASA plans mission to explore Jupiter's moons\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Quantum computing makes strides with new algorithm\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Tech giants invest in sports streaming rights\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Climate change impacts global agricultural markets\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"New wearable device tracks fitness and monitors health\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Economic crisis leads to government upheaval\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Robotics company sponsors national soccer team\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"War breaks out in Eastern Europe\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Market crashes after unexpected announcement\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Advances in gene editing technology raise ethical questions\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Hurricane approaches Florida coast prompting evacuations\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Legendary coach retires after 30 years in the league\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Oil prices soar due to conflicts in the Middle East\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Major cybersecurity breach affects millions of users\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Innovative app aims to revolutionize education\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Local team secures spot in international tournament\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"New policy changes announced by central bank\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Experimental vaccine shows promise in early trials\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Government passes bill to boost renewable energy production\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Electric vehicle sales surpass traditional cars for first time\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Controversial call in playoff game sparks debate\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Researchers develop method to recycle plastic waste\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Nationwide protests erupt over new legislation\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Company stocks rise after successful product launch\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Space tourism takes leap with successful passenger flight\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Chess grandmaster wins championship at age 16\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Climate summit ends with new international agreement\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Breakthrough in battery technology extends smartphone life\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Athlete sets new world record in high jump\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Trade agreement signed between neighboring countries\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Artificial intelligence used to predict natural disasters\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Corporate merger creates world's largest tech company\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Volcano eruption forces thousands to evacuate\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Drone delivery service begins in urban areas\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Football star transfers to rival club in record deal\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Pharmaceutical company announces cure for rare disease\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Economic sanctions lifted after peace treaty signed\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Scientists simulate conditions of early Earth in lab\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Basketball league introduces new rules to improve safety\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Stock exchange launches digital currency trading platform\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Astronomers capture first image of black hole\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Government introduces tax incentives for startups\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"New study reveals benefits of Mediterranean diet\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"International art exhibit showcases emerging artists\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Floods in South America displace thousands of residents\"",
+      "baseline": true
+    },
+    {
+      "ruleid": null,
+      "testinput": "text: \"Education reform bill passes after heated debate\"",
+      "baseline": true
+    }
+  ],
+  "testEvals": [
+    {
+      "id": "3956dee",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "Global markets rally as US-China trade tensions ease",
+      "coverage": "Business",
+      "validityText": "The input provided is \"Global markets rally as US-China trade tensions ease\". To evaluate this input against the input specification:\n\n1. The input is a string which contains text that can be classified - in this case, a headline about global markets and US-China trade tensions.\n2. The text is in the English language.\n3. The input is a short phrase, which is acceptable as the specification states that input can be any length from short phrases to longer articles.\n4. The text appears to be in plain text format without any HTML or other formatting codes.\n\nAll provided specification criteria are met by the input. There is no deviation from the specified requirements.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "356f42e",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "Breakthrough in renewable energy could revolutionize solar power",
+      "coverage": "Sci/Tech",
+      "validityText": "The provided input is a text that appears to be a headline or statement. Based on the input specification, I need to evaluate whether this text complies with the requirements for valid input.\n\n- The text is \"Breakthrough in renewable energy could revolutionize solar power.\"\n- The input specification requires the text to be in plain text format, which this input is, as it's simple text without any formatting.\n- The input text should be in English, which this input satisfies.\n- The text can be any piece of text, including a news article or headline. This input appears to be a headline, which is compliant.\n- No specific length is required, allowing for short phrases or longer articles. This text is a short phrase, meeting this criterion as well.\n\nThere are no violations of the input specifications as the text fulfills all the described criteria.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "61a10e0",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "1",
+      "rule": "The output must be exactly one of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "Olympics postponed due to pandemic concerns",
+      "coverage": "Sports",
+      "validityText": "The input is a string containing a piece of text. Based on the input specification, it meets the criteria for the following reasons:\n\n1. **English Language**: The provided input is in English, which complies with the requirement that the input should be in the English language.\n\n2. **Text Format**: The input is in plain text format, which complies with the specification.\n\n3. **Any Length**: The input is a short phrase, and the specification allows for any length of text, from short phrases to longer articles.\n\nGiven that all specified criteria are met by the input, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "7b6e867",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "input": "New discoveries in Mars rover mission lead to excitement in astronomy community",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input is a sentence: \"New discoveries in Mars rover mission lead to excitement in astronomy community.\" Let's evaluate it step-by-step according to the input specification:\n\n1. **Any piece of text**: The input is a string containing a piece of text, so it satisfies this requirement.\n\n2. **English language**: The input text is in English, fulfilling this criterion.\n\n3. **Any length**: The input is a short sentence, which is allowed, as inputs can be of any length.\n\n4. **Plain text format**: The input is provided in plain text format.\n\nThere are no violations of the input specification requirements in the given input. Therefore, the input complies with all the specified criteria.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "eea6584",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "input": "Economic reforms boost small businesses across the country",
+      "coverage": "Business",
+      "validityText": "The input is a single sentence: \"Economic reforms boost small businesses across the country.\" Let's go through the input specification to verify compliance:\n\n1. **String containing text**: The input is indeed a string containing text.\n2. **Classification of text**: The sentence is a piece of text, possibly a headline or summary, which can be classified.\n3. **English language**: The sentence is clearly in English.\n4. **Any length**: The input is a short phrase, which is acceptable as the input can be of any length.\n5. **Plain text format**: The input is in plain text format without any special formatting.\n\nNo violations of the input specification are detected. We identify that the input is a valid string and meets all criteria specified.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "f67dcec",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "2",
+      "rule": "The output should match the category name precisely as specified, including capitalization and punctuation.",
+      "input": "Global summit addresses climate change initiatives",
+      "coverage": "World",
+      "validityText": "The input \"Global summit addresses climate change initiatives\" is a string containing text that needs to be classified. The input text is in English, which satisfies the language requirement. The text can be classified as a news headline, and is, therefore, a valid piece of text based on the requirement that it can be a news article or headline. The length of the input is not restricted, and short phrases like this one are acceptable. The input is in plain text format, satisfying the format requirement. No part of the input violates the provided specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "aceded0",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "input": "Innovations in AI technology raise ethical considerations",
+      "coverage": "Sci/Tech",
+      "validityText": "The input given is \"Innovations in AI technology raise ethical considerations.\" \n\n1. **Text Evaluation**: The input is a string containing text, which aligns with the requirement for the input to be in the form of a text.\n\n2. **Type of Text**: The input is a statement that could be classified as a headline or a simple declarative sentence, which fits the requirement of being any piece of text, such as a news article or headline.\n\n3. **Language**: The provided text is in English, which satisfies the requirement that the input should be in English language.\n\n4. **Length**: The input is a short phrase. The specification allows for any length, from short phrases to longer articles, so this is compliant.\n\n5. **Format**: The text is provided in plain text format, not containing any special formatting or markup, which complies with the requirement.\n\nSince the input text fulfills all the specified requirements, there is no violation of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "74589a6",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "input": "Championship game ends in a surprising upset",
+      "coverage": "Sports",
+      "validityText": "The input \"Championship game ends in a surprising upset\" is a short phrase that appears to be in English. It meets the input specification as a piece of text that could be classified, such as a headline or short news article statement. The specification states that input can be of any length and should be in plain text format, both of which are adhered to by this input. The language used is English, which also complies with the given specification. \n\nNo violation.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "6b25e45",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "3",
+      "rule": "The output should consist solely of the category name without any additional text.",
+      "input": "International sanctions impact global trade heavily",
+      "coverage": "World",
+      "validityText": "The input is a string of text, specifically a short phrase: \"International sanctions impact global trade heavily.\" \n\n1. The input is a text to be classified, which complies with the first part of the specification.\n2. The input is clearly in the English language, satisfying the second requirement.\n3. It represents a piece of text, aligning with the third rule that it can be any piece of text like a news article or headline. This sentence could function as a headline.\n4. The input is a short phrase, which complies with the fourth specification that input can be of any length, from short phrases to longer articles.\n5. It is in plain text format, without any non-plain text elements like code, HTML, or other markup.\n\nNo violations of the specifications are present. The text is a valid input based on all criteria.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "9532aa5",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "input": "Tech giants collaborate on new cybersecurity standards",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is \"Tech giants collaborate on new cybersecurity standards\". To assess its compliance with the input specification, I will evaluate each condition:\n\n1. **String Containing Text to be Classified**: The input is a clearly defined string with text suitable for classification.\n   \n2. **Any Piece of Text, Such as a News Article or Headline**: The input appears to be a headline or summary of news.\n   \n3. **English Language**: The input is clearly written in English.\n   \n4. **Any Length from Short Phrases to Longer Articles**: The input is a short phrase, which is within the acceptable range of lengths.\n   \n5. **Plain Text Format**: The input is in plain text format without any special formatting or coding.\n\nThere are no violations of the specification based on the above evaluation. Therefore, the input is compliant.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "827c6ff",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "input": "Local athlete breaks world record in 100m sprint",
+      "coverage": "Sports",
+      "validityText": "The input is a short English phrase containing a piece of text that could function as a news headline. The specification states that the input text can be any piece of text, including news articles or headlines, and must be in the English language. Additionally, the input can be of any length, whether short or long, and should be in plain text format. The provided input is in English, is a headline-style phrase, and is in plain text. \n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c650222",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "4",
+      "rule": "The output should not include the input text or any excerpts or paraphrases of it.",
+      "input": "Stock markets fluctuate amid economic uncertainty",
+      "coverage": "Business",
+      "validityText": "The input \"Stock markets fluctuate amid economic uncertainty\" is a string of text that seems to align with the provided input specification. Here is the reasoning:\n\n1. **Text Classification**: The input is a string that could be classified as either a news headline or a general statement about the stock market.\n\n2. **English Language**: The text is written in English, which satisfies the language requirement of the specification.\n\n3. **Text Length**: The input is a short phrase, which is acceptable according to the specification that allows for any length of text, ranging from short phrases to longer articles.\n\n4. **Plain Text**: It appears to be in plain text format without any special formatting, encoding, or markup that might violate the plain text requirement.\n\nBased on these observations, the input satisfies all the criteria outlined in the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "8966fe6",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "input": "Diplomatic talks resume to resolve border disputes between nations",
+      "coverage": "World",
+      "validityText": "The input \"Diplomatic talks resume to resolve border disputes between nations\" is a piece of text. Let's evaluate it based on the provided input specification:\n\n1. **Language**: The input is in English, which complies with the specification that requires the input to be in the English language.\n\n2. **Type of Text**: It is a piece of text which likely resembles a headline. The specification allows for various types of text, such as a news article or headline. \n\n3. **Text Format**: The input is in plain text format without any special characters or formatting issues.\n\n4. **Length**: The input is a short phrase, which aligns with the specification, allowing for any length from short phrases to longer articles.\n\nConsidering all these points, the input complies with the input specification because it meets all the criteria mentioned: it is in English, it constitutes a recognizable piece of text, it is in plain text format, and the length is appropriate. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "911b22c",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "input": "Global pandemic causes widespread changes in travel policies",
+      "coverage": "World",
+      "validityText": "The input \"Global pandemic causes widespread changes in travel policies\" is a text string that fits the requirements outlined in the input specification. Here's my reasoning:\n\n1. **English Language**: The text is written in English, satisfying the language requirement.\n2. **Plain Text Format**: The input is in simple text format with no evident special characters or formatting issues.\n3. **Any Length**: The text is a short phrase, which is allowed as the specification states that the input can be of any length from short phrases to longer articles.\n4. **Type of Content**: The phrase can be considered a headline or a very short summary of a news article, again fitting within what the input may contain ('news article or headline').\n\nSince the input meets all the specified criteria mentioned in the input specification, there are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "4fd98d5",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "5",
+      "rule": "The \"World\" category refers to news articles about international events, global politics, or worldwide issues.",
+      "input": "International leaders meet at summit to discuss climate action",
+      "coverage": "World",
+      "validityText": "The given input is a string containing a piece of text which appears to represent a news headline. According to the input specification: \n\n1. The input should be a string containing text to be classified – The input provided is indeed a string.\n2. The input text can be any piece of text, such as a news article or headline – The input fits this specification as it is in the format of a headline.\n3. The input should be in English language – The text “International leaders meet at summit to discuss climate action” is in English.\n4. The input can be of any length, from short phrases to longer articles – This input is a short phrase, which is permitted as per the specification.\n5. The input should be in plain text format – The provided input is in plain text format without any special formatting or encoding.\n\nThere are no violations of the specifications based on this evaluation. Therefore, my decision is that the input fully complies with the specified requirements.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "aac2f75",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Top seed player wins the Grand Slam tournament",
+      "coverage": "Sports",
+      "validityText": "The input given is \"Top seed player wins the Grand Slam tournament\". \n\n1. **Language Compliance**: The input text is in English, which complies with the specification that it should be in English language.\n\n2. **Format Compliance**: The input is a simple text string, which meets the requirement for plain text format.\n\n3. **Content Compliance**: The input is a headline-style sentence, which fits within the specification that it can be a short phrase, headline, or longer article.\n\nGiven the analysis above, there are no violations of the input specification noted. The input text is a valid input as it meets all the provided criteria: it's in English, it's plain text, and it can be considered a piece of text such as a headline.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "6efd9af",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Local football team announces new coach for upcoming season",
+      "coverage": "Sports",
+      "validityText": "The input is a string of text that appears to be a news headline. According to the input specification, the text should be in English, which this input is, as it is a coherent statement in the English language. The text can be a short phrase or a complete article, and this headline fits within that guideline as a short phrase. Additionally, the requirement that the input should be in plain text format is fulfilled by the provided input. There are no special characters or formatting issues present. \n\nTherefore, based on the input specification provided, there are no violations or reasons to conclude that the input does not meet the criteria.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "027865e",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "6",
+      "rule": "The \"Sports\" category refers to news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Olympic committee adds new sports to the next games",
+      "coverage": "Sports",
+      "validityText": "The input consists of a text string: \"Olympic committee adds new sports to the next games.\" \n\nIn assessing this input based on the given input specifications, we find the following:\n\n1. **English Language**: The input is in the English language, complying with the requirement that the text should be in English.\n\n2. **Piece of Text**: The input is indeed a piece of text, as it consists of a sentence that can be found in news articles or headlines, satisfying the criterion of being any piece of text.\n\n3. **Length**: There is no stipulation regarding the specific length of the input. The input provided is a short phrase, which is acceptable per the specification that input can be from short phrases to longer articles.\n\n4. **Plain Text Format**: The input is given in plain text format without any special characters or formatting issues, adhering to the specification.\n\nOverall, the input meets all the specified criteria: it is in English, it is a piece of text, and it is presented in plain text format. There are no violations of the input specification in this instance.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "62da381",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "Central bank announces changes to interest rates",
+      "coverage": "Business",
+      "validityText": "The input provided is \"Central bank announces changes to interest rates\". Let's evaluate it against the input specification:\n\n1. **Language**: The input is in English, which complies with the specification.\n2. **Format**: The input is in plain text format, which complies with the specification.\n3. **Content Type**: The input appears to be a headline or statement about a financial event, which fits the description of a potential piece of text for classification. There is no requirement in the specification stating what specific type of text it should be or shouldn't be, other than it should be text, which this is.\n4. **Length**: The input is a short phrase, which is acceptable as per the specification that allows any length from short phrases to longer articles.\n\nGiven these evaluations, there are no detected violations of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "967abf4",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "Tech company's stock soars after successful product launch",
+      "coverage": "Business",
+      "validityText": "The input provided is \"Tech company's stock soars after successful product launch\". \n\n1. **Language**: The input is in English, satisfying the specification that the input should be in English.\n\n2. **Format**: The input is in plain text format, which complies with the specification requirement for the input to be in plain text format.\n\n3. **Content Type**: The input is a short headline, which can be considered as a valid piece of text for classification, complying with the specification's allowance for any piece of text, such as a news article or headline.\n\n4. **Length**: The input is a short phrase, and the specification allows for input of any length, from short phrases to longer articles.\n\nSince all aspects of the input comply with the input specification, there is no violation detected.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "41b4c79",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "7",
+      "rule": "The \"Business\" category refers to news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "Unemployment rates drop as new jobs are created",
+      "coverage": "Business",
+      "validityText": "The input given is \"Unemployment rates drop as new jobs are created\". Let's analyze this based on the input specification:\n\n1. **String Containing Text**: The input is a string and contains text to be classified. \n2. **English Language**: The text is in English.\n3. **Any Length**: The input is a shorter phrase, which is valid as the specification allows any length from short phrases to longer articles.\n4. **Plain Text Format**: The input appears to be in plain text format.\n\nBased on the above evaluation, the input complies with all the input specification points. There are no violations as the text meets the requirements of being in English, is of acceptable length, and is presented in plain text format.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "908efac",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "Researchers develop new vaccine technology",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is a string containing a headline - \"Researchers develop new vaccine technology\". According to the input specification, the text can be any piece of text, such as a headline. The input is in English and written in plain text format. There is no restriction on the length, and it falls under a short phrase or headline category. Therefore, it complies with all the rules of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "9514134",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "Breakthrough in quantum computing achieved by scientists",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input is a text that can be classified. It appears to be a headline or a phrase indicating a scientific achievement. It is written in the English language. The text is in a plain text format and is within the permissible length as it can be a short phrase or a headline, which falls under the specification that allows any length from short phrases to longer articles.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "4919ad1",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "8",
+      "rule": "The \"Sci/Tech\" category refers to news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "New study reveals insights into climate change patterns",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input \"New study reveals insights into climate change patterns\" is a piece of text that fits the description of a headline. Now let's evaluate it against the input specification:\n\n1. It is a string containing text to be classified.\n2. It resembles a news headline, which is a valid form of input as it is a piece of text that could be classified.\n3. The text is in English language.\n4. The length of the text is a short phrase, which is allowed as inputs can be from short phrases to longer articles.\n5. The input is given in plain text format.\n\nConsidering all these points, the input adheres to all the requirements stated in the input specification. There are no violations observed.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "06ed662",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "input": "Advancements in battery technology may extend electric vehicle range",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is \"Advancements in battery technology may extend electric vehicle range\". According to the input specification, the text must be in the English language, which this input is. It is also in plain text format, satisfying that requirement. Since it is a piece of text that resembles a headline or the leading sentence of an article, it fits the specification stating that input can be any text such as a news article or headline. There is no specified length limitation, so this input complies in terms of text length. All criteria outlined in the input specification are met.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "35e32fd",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "input": "Economic forum discusses global market trends",
+      "coverage": "Business",
+      "validityText": "The input \"Economic forum discusses global market trends\" is a string of text that appears to be a headline. It complies with the input specification as follows:\n\n1. It is a string containing text to be classified.\n2. The text is in English.\n3. It represents a piece of text, in this case, a short phrase that resembles a news headline.\n4. There are no indications that it is not in plain text format.\n\nGiven that all the requirements of the specification are met, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "68ab8c7",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "9",
+      "rule": "The output should be in plain text format without any special formatting, markup, or additional characters.",
+      "input": "World leaders agree on new environmental treaty",
+      "coverage": "World",
+      "validityText": "The given input is \"World leaders agree on new environmental treaty\". My task is to evaluate if this input complies with the provided input specification for the chatbot.\n\n1. **Language Verification**: The input should be in English language. The phrase \"World leaders agree on new environmental treaty\" is indeed in English.\n\n2. **Content Nature**: The input is a string containing a piece of text, which could represent a news headline or a phrase, thus aligning with the specification that it could be any text, such as a news article or headline.\n\n3. **Length Assessment**: The input can be a short phrase or a longer text. This input is a short phrase, which is perfectly fine as per the specification.\n\n4. **Format Check**: The input should be in plain text format. The given input is in plain text format.\n\nTherefore, the input meets all the criteria outlined in the input specification: English language, any length, plain text format, and being a piece of text (like a news headline). Thus, there are no violations of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "3be8a9e",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "input": "Basketball legend announces retirement after 20 seasons",
+      "coverage": "Sports",
+      "validityText": "The given input is a string to be classified and is a piece of text, specifically a headline. It is in English language and is presented in plain text format. The input adheres closely to the input specification which encompasses any length of text, from short phrases like this headline to longer articles. \n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "830c68d",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "input": "Scientists detect signals from distant galaxy",
+      "coverage": "Sci/Tech",
+      "validityText": "The input text \"Scientists detect signals from distant galaxy\" is a string of text that consists of a headline or statement. \n\nUpon evaluation of the compliance with the input specification:\n- The input is indeed a piece of text, which could represent a headline as suggested in the specification.\n- The input text is in English.\n- The text is in plain text format, as there are no indications of formatting beyond simple text.\n\nThere are no specific issues concerning language, format, or the nature of the content. Based on these assessments, the input directly abides by the criteria set out in the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "cda6de5",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "10",
+      "rule": "The output should appear on a single line containing only the category name.",
+      "input": "International trade agreements boost economic growth",
+      "coverage": "Business",
+      "validityText": "The input provided is a string containing the text \"International trade agreements boost economic growth.\" According to the given input specification, the input is required to be in English language, be in plain text format, and can be any length, ranging from short phrases to longer articles. \n\nI evaluated the provided input as follows:\n\n1. Language: The input is written in English, which complies with the specified requirement.\n2. Format: The input is in plain text format without any special formatting or encoding, satisfying the format requirement.\n3. Length and Type: The input is a short phrase, which is within the acceptable range of length as specified by the input specification.\n\nThere are no constraints or additional requirements in the specification that the input violates. Accordingly, the input provided fits all the criteria detailed in the input specification.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "69044b4",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "Delicious homemade pasta recipes to try this weekend",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is a string of text, \"Delicious homemade pasta recipes to try this weekend.\" I will evaluate this input based on the provided input specification.\n\n1. The input is a string containing text, which satisfies the requirement that the input should be plain text format.\n2. It appears to be in English, meeting the specification for language.\n3. The input is a headline or short phrase, which is acceptable as the specification allows for any length of text, including short phrases and longer articles.\n4. There is no indication that the text is in any other format than plain text.\n\nBased on these observations, the input complies with all stated specifications.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "0c0ba4b",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "A review of the latest romantic comedy movie",
+      "coverage": "Sci/Tech",
+      "validityText": "The input given is \"A review of the latest romantic comedy movie\". \n\n1. We need to assess whether it is a piece of text: The input is a string containing text to be classified, which complies with the first part of the specification.\n   \n2. It should be in English language: The input is indeed in English, fulfilling this requirement of the specification.\n\n3. It should be presented as plain text: The input is in plain text format as there is no special formatting, meeting this requirement.\n\n4. The text can be any length and relate to any content like a news article, phrase, etc. The input satisfies this criterion as it is a short phrase.\n\nGiven all the points above, no violations were found in the input against the specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "e81fc99",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "11",
+      "rule": "The output must not be any of the following categories: \"World\", \"Sports\", \"Business\", or \"Sci/Tech\".",
+      "input": "Exploring the history of classical music composers",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is a string containing text to be classified. It is in plain text format and composed of a coherent phrase. The text is in the English language, as specified. The content, \"Exploring the history of classical music composers,\" fits within the possible range of topics a piece of text might cover (such as, it could be part of a news article, headline, or any general text). There are no violations of the input specification here.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "1838548",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "input": "Tech conference unveils latest gadgets and innovations",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input is a text: \"Tech conference unveils latest gadgets and innovations.\" Let's evaluate it against the input specification provided:\n\n1. The input is supposed to be a string containing text to be classified. The given input is indeed a string.\n2. The input text can be any piece of text, such as a news article or headline. The given input appears to be a headline, so it fits within this specification.\n3. The specification requires the input to be in the English language. The input is in English.\n4. The input can be of any length, from short phrases to longer articles. The input is a short phrase, which is acceptable.\n5. The input should be in plain text format. The input is provided in plain text format.\n\nThere are no violations against any part of the specification, as each criterion is satisfied by the given input.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "9ed89fa",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "input": "International summit on global warming ends with agreement",
+      "coverage": "World",
+      "validityText": "The input \"International summit on global warming ends with agreement\" appears to be a headline or a brief description of an event. Here is my evaluation process:\n\n1. The input is a string containing text, which aligns with the first rule of the input specification (\"The input is a string containing text to be classified\").\n\n2. The text seems to be a headline related to an international event, which fits the second suggestion in the specification (\"The input text can be any piece of text, such as a news article or headline\").\n\n3. The content of the input is in English, satisfying the requirement that the input should be in English language.\n\n4. The text is a short phrase, which is consistent with the specification stating that the input can be of any length, including short phrases.\n\n5. The text is in plain text format, without any special formatting, again adhering to the specification requirement.\n\nBased on these observations, the input complies with all aspects of the input specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "f441175",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "12",
+      "rule": "The output should intentionally differ from the category name in spelling, capitalization, or punctuation.",
+      "input": "National league final ends in dramatic penalty shootout",
+      "coverage": "Sports",
+      "validityText": "The input is a headline that is written in English, complies with the plain text format, and contains no special formatting or non-English language. The phrase represents a piece of text that could be classified within the scope of topics such as sports news. There are no elements within the input that violate any rules from the input specification, as it allows for any length and type of text to be classified. Therefore, the input meets all aspects of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "99e602b",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "input": "Major breakthrough achieved in cancer research",
+      "coverage": "Sci/Tech",
+      "validityText": "The input \"Major breakthrough achieved in cancer research\" is a string containing text that can be classified. It is an English language phrase and is a plain text format. The specification allows for any length of input, ranging from short phrases to longer articles, and this input fits within that range as a short phrase. Thus, the input adheres to all the specified requirements.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "6dd4e01",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "input": "Local team wins the championship after intense match",
+      "coverage": "Sports",
+      "validityText": "The input is the string \"Local team wins the championship after intense match.\" To determine if it complies with the given input specification, let's examine the requirements:\n\n1. The input should be a string containing text to be classified. - The input is indeed a string of text.\n2. The input text can be any piece of text, such as a news article or headline. - This input can be classified as a headline.\n3. The input should be in English language. - The text is in English.\n4. The input can be of any length, from short phrases to longer articles. - The input is a short phrase, which is allowable.\n5. The input should be in plain text format. - The input is plain text.\n\nThere are no violations of the input specification. All elements of the input meet the specified requirements.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ba26a6f",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "13",
+      "rule": "The output should include additional text besides the category name.",
+      "input": "Economy shows signs of recovery in the last quarter",
+      "coverage": "Business",
+      "validityText": "The input \"Economy shows signs of recovery in the last quarter\" is a short phrase written in plain text format. It is in English language and resembles a headline or part of a news article. These characteristics comply with the input specification, which allows input to be any piece of text including news articles or headlines, and requires the text to be in plain text format and in English. There are no indications of non-compliance, as the input adheres to the guidelines by providing a text in English without any unusual formatting.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "12d4936",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "input": "New policy reforms expected to improve the education system",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input is \"New policy reforms expected to improve the education system.\" Here's my evaluation:\n\n1. **Language**: The input is in English.\n2. **Content**: The input is a piece of text that can be classified as a headline or a statement about policy reforms.\n3. **Length**: The input is a short phrase, which is acceptable according to the specification stating the input can be of any length.\n4. **Format**: The input is in plain text format without any special characters or formatting issues.\n\nBased on these observations, the input meets all the criteria outlined in the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "48c899b",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "input": "Star player scores winning goal in final seconds",
+      "coverage": "Sports",
+      "validityText": "The given input \"Star player scores winning goal in final seconds\" is evaluated based on the input specification provided. Let's go through each part of the specification:\n\n1. The input is a string containing text to be classified - The input is a string of text.\n2. The input text can be any piece of text, such as a news article or headline - The input appears to be a headline.\n3. The input should be in English language - The input is in English.\n4. The input can be of any length, from short phrases to longer articles - The input is a short phrase, which is permissible.\n5. The input should be in plain text format - The input is presented in plain text format.\n\nNo violations of the input specification are found. Therefore, the input complies with the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "2db48b3",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "14",
+      "rule": "The output should incorporate the input text or its excerpts or paraphrases.",
+      "input": "Advancements in renewable energy technology",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is the string \"Advancements in renewable energy technology.\" To determine compliance with the input specification, let's go through each specification:\n\n1. **Any piece of text for classification**: The input is a string intended for classification, which meets this criterion.\n\n2. **In English language**: The sentence is clearly in English, satisfying this requirement.\n\n3. **Any length from short phrases to longer articles**: The input is a short phrase, which aligns with this criterion.\n\n4. **Plain text format**: The sentence is in plain text format, adhering to this specification.\n\nThere are no violations of the input specification because the input matches all the specified criteria.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "54a1a68",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "input": "Global leaders meet to discuss climate crisis",
+      "coverage": "World",
+      "validityText": "The input given is \"Global leaders meet to discuss climate crisis\". I will evaluate it based on the input specification provided. \n\n1. The input is a string containing text to be classified. This requirement is met since the input is indeed a string of text.\n2. The input text can be any piece of text, such as a news article or headline. The text seems to be in the form of a headline, which falls under the category of allowable input.\n3. The input should be in English language. The text \"Global leaders meet to discuss climate crisis\" is in English, meeting this requirement.\n4. The input can be of any length, from short phrases to longer articles. The input is a short phrase, which is permissible.\n5. The input should be in plain text format. The given input is in plain text format.\n\nNo violations are found in the input specification. \n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "5c69d25",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "input": "International trade agreements affect local businesses",
+      "coverage": "Business",
+      "validityText": "The input \"International trade agreements affect local businesses\" is a string containing a piece of text. Evaluating it against the input specification:\n\n1. **English Language**: The text is in English, which is a requirement of the specification.\n2. **Text Format**: The input is in plain text format; there are no special formatting characters.\n3. **Length**: The specification allows for texts of any length, from short phrases to longer articles. This input is a short phrase.\n4. **Content Type**: The specification allows for any type of text content, whether news article, headline, or general text. This input could be part of a news headline or article.\n\nSince there are no elements of the input that violate the specifications given, I find no reason for non-compliance.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "1004ed5",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "15",
+      "rule": "The \"World\" category excludes news articles about international events, global politics, or worldwide issues.",
+      "input": "Global peace talks yield promising results",
+      "coverage": "World",
+      "validityText": "The input \"Global peace talks yield promising results\" is a short phrase written in English. It appears to be a headline or a summary statement that could be part of a news article or headline. The input is in plain text format. According to the input specification, the text can be any piece of text, such as a news article or headline, and it should be in English language, which it is.\n\nGiven that the input does not violate any of the specified rules:\n1. It is in English.\n2. It can be categorized as a headline or part of an article.\n3. It is in plain text.\n\nThere are no elements of the input that contradict any of the requirements stated in the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "0a7bcfa",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Football championship ends in dramatic victory",
+      "coverage": "Sports",
+      "validityText": "The input provided is \"Football championship ends in dramatic victory.\" According to the input specification, the input is a string containing text to be classified, and it can be any piece of text, such as a news article or headline. The specification states that the input should be in the English language, which this input is. The length of the input is not a constraint as per the specification; it can be a short phrase or a longer article, and this seems to be a short headline, which fits the criteria. Additionally, the input is in plain text format, with no HTML or special formatting present.\n\nConsidering each aspect of the specification:\n\n1. The input is a string of text.\n2. It is in English.\n3. The content can be considered a headline, which is permitted.\n4. The format is plain text.\n\nBased on the above points, there is no violation of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ba7e697",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Olympic records shattered in track events",
+      "coverage": "Sports",
+      "validityText": "The input is a string containing text to be classified. Upon examining the input, we can confirm the following:\n- It is indeed a piece of text, resembling a news headline.\n- The text is written in English.\n- There are no indications that suggest it is anything but plain text, fulfilling the plain text format requirement.\n\nNo aspect of the input violates the provided input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "031292e",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "16",
+      "rule": "The \"Sports\" category excludes news articles about athletic events, sports teams, athletes, or sports-related activities.",
+      "input": "Star athlete signs contract with new team",
+      "coverage": "Sports",
+      "validityText": "The given input is \"Star athlete signs contract with new team\".\n\n1. The input is a string containing text to be classified, which meets the requirement of being a textual input.\n2. The input text is in English, satisfying the requirement for the input to be in English language.\n3. The input can be classified as a headline, which falls under the permissible categories of \"any piece of text, such as a news article or headline.\"\n4. The input is in plain text format without any special formatting or encoding, adhering to the requirement for plain text format.\n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "ac229eb",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "Stock market hits all-time high amid investor optimism",
+      "coverage": "Business",
+      "validityText": "The input is a string of text meant to be classified by the chatbot. According to the input specification, the text provided should be in English, which it is. The input text can be any piece of text such as a news article or headline. The given input \"Stock market hits all-time high amid investor optimism\" fits this criterion, as it resembles a headline, likely from a news article, and is written in English. Furthermore, there is no requirement on the length of the text, so a short phrase is perfectly acceptable. The input is in plain text format. \n\nBased on this analysis, there are no violations of the input specification. The input meets all criteria outlined.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "c1e65c9",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "Tech company announces merger with competitor",
+      "coverage": "Business",
+      "validityText": "The input \"Tech company announces merger with competitor\" is a string containing text that can be classified. It appears to be a news headline or a statement about an event. The text is in English and is in plain text format. It follows the specification that the input can be any piece of text, whether a short phrase or a longer article.\n\nGiven the requirements:\n1. The input is a string containing text to be classified.\n2. The input can be any piece of text, such as a news article or headline.\n3. The input should be in English language.\n4. The input can be of any length, from short phrases to longer articles.\n5. The input should be in plain text format.\n\nThe input meets all of these specifications, so there are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "24430cc",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "17",
+      "rule": "The \"Business\" category excludes news articles about corporations, market trends, economic policies, or financial news.",
+      "input": "New economic policies expected to boost GDP",
+      "coverage": "Business",
+      "validityText": "The given input is \"New economic policies expected to boost GDP\". I will now evaluate this input according to the provided input specification:\n\n1. **String Containing Text**: The input is a string, as required.\n2. **Piece of Text**: It contains a coherent piece of text in the form of a headline about economic policies.\n3. **English Language**: The text is written in English.\n4. **Any Length**: The input is a short phrase, which fits the specification allowing inputs of any length.\n5. **Plain Text Format**: The input is in plain text format.\n\nGiven this evaluation, the input complies with all the elements of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "2ee92d0",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "Researchers discover potential cure for disease",
+      "coverage": "Sci/Tech",
+      "validityText": "The given input is \"Researchers discover potential cure for disease.\"\n\n1. I will assess the input in the context of the provided input specification:\n   - The input is a string containing text that needs to be classified. The given input is indeed a string of text: \"Researchers discover potential cure for disease.\"\n   - The input text can be any piece of text, such as a news article or headline. The provided input \"Researchers discover potential cure for disease\" resembles a headline, fitting the description of acceptable text formats.\n   - The input should be in English language. The text is indeed in English, meeting the language requirement.\n   - The input can be of any length, from short phrases to longer articles. This input is a short phrase, which is permissible as per the specification.\n   - The input should be in plain text format. The text is provided in plain text, with no special formatting or encoding issues.\n\n2. There are no violations in the input when evaluated against the input specifications. The input conforms to each element of the specification, presenting a straightforward English headline in plain text format.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "eb13d8f",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "Breakthrough in AI technology challenges tech industry",
+      "coverage": "Sci/Tech",
+      "validityText": "The input \"Breakthrough in AI technology challenges tech industry\" is a text string in plain text format and is written in the English language. It can be classified as a headline or a short piece of text, which aligns with the input specification stating that the text can range from short phrases to longer articles. There are no indications that the input violates any aspect of the given input specification, as it does not contain any non-English characters, is not in an unrecognized format, and falls within the expected content scope of any piece of text such as a news article or headline.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "37a2e8a",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "18",
+      "rule": "The \"Sci/Tech\" category excludes news articles about science, technology, innovations, scientific discoveries, or technological advancements.",
+      "input": "Innovations in renewable energy promise cleaner future",
+      "coverage": "Sci/Tech",
+      "validityText": "The input given is \"Innovations in renewable energy promise cleaner future.\" According to the input specification, the input should be a string containing text to be classified, which is met as the input is indeed a string. The specification states that the input text can be any piece of text, such as a news article or headline, and this input appears to be a headline. The input should be in the English language, and this is also met as the text is indeed in English. The specification allows for input of any length, from short phrases to longer articles, and this input falls within that range, as it is a short phrase or headline. Finally, the input should be in plain text format, which is satisfied here as well. Since all criteria outlined in the input specification are met, there is no evidence of non-compliance.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "cc3ab58",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "input": "New species discovered in the Amazon rainforest",
+      "coverage": "Sci/Tech",
+      "validityText": "The input is \"New species discovered in the Amazon rainforest.\" Let's evaluate it based on the specified input conditions:\n\n1. **Content Type**: The input is a piece of text that seems like a headline or brief statement about a topic, satisfying the requirement that it can be any piece of text, including news articles or headlines.\n\n2. **Language**: The input is in English, fully complying with the specification that states the text should be in English.\n\n3. **Length**: The input is a short phrase, which is allowed as the specification mentions that the input can be of any length from short phrases to longer articles.\n\n4. **Format**: It is provided in plain text format, consistent with the requirement for the input to be in plain text format.\n\nNo part of the input violates any of the given specifications.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "8b52a58",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "input": "Economists forecast recession in the next quarter",
+      "coverage": "Business",
+      "validityText": "The input \"Economists forecast recession in the next quarter\" is a string containing text to be classified. According to the input specification, the input can be any piece of text such as a news article or headline, which aligns with this input as it appears to be a headline. The specification also states that the input should be in the English language, which this input is. The input can be of any length, from short phrases to longer articles; this input is a short phrase. Lastly, the specification requires the text to be in plain text format, and this input meets that criterion as well. Therefore, there are no violations of the input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "741769e",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "19",
+      "rule": "The output should include special formatting, markup, or additional characters beyond plain text.",
+      "input": "National team wins gold in Olympics",
+      "coverage": "Sports",
+      "validityText": "The input \"National team wins gold in Olympics\" is evaluated against the input specification:\n\n1. The input is a string containing text to be classified. This condition is met as \"National team wins gold in Olympics\" is a string.\n   \n2. The input text can be any piece of text, such as a news article or headline. The input appears to be a headline, which satisfies this condition.\n\n3. The input should be in English language. The text is clearly in English, which complies with this requirement.\n\n4. The input can be of any length, from short phrases to longer articles. This is a short phrase, fitting within the length specifications.\n\n5. The input should be in plain text format. The provided input is in plain text without any formatting issues.\n\nSince the input \"National team wins gold in Olympics\" satisfies all the criteria outlined in the input specification, there are no violations.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "0d92677",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "input": "Global summit on climate change ends with new agreement",
+      "coverage": "World",
+      "validityText": "The given input is \"Global summit on climate change ends with new agreement.\"\n\n1. **Content**: This is a piece of text that appears to be a headline or summary of a news event, specifically regarding a global summit on climate change and an agreement that was reached.\n2. **Language**: The input is in English, which is compliant with the language specification.\n3. **Length**: The input is a short phrase but the input specification states that input can be of any length, from short phrases to longer articles.\n4. **Format**: The input is in plain text format as no formatting beyond standard text is used.\n\nBased on the input specification:\n- The content is a piece of text, which fits with the specification's allowance for any piece of text, such as a news article or headline.\n- The input is in English, which complies with the language requirement.\n- Its length, being a short phrase, complies since the specification allows any length.\n- It is in plain text format, meeting the last requirement.\n\nNo violations are present in the input according to the specification provided.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "0fa76df",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "input": "Breakthrough in nanotechnology leads to medical advances",
+      "coverage": "Sci/Tech",
+      "validityText": "The input text \"Breakthrough in nanotechnology leads to medical advances\" is a short phrase. It appears to be a headline or a summary of an event or development. The input is in plain text format and is written in the English language. It fits within the scope of the specification, which allows any piece of text such as a news article or headline. \n\nNo violation.\nOK",
+      "validity": "ok",
+      "error": ""
+    },
+    {
+      "id": "f8d7b8a",
+      "promptid": "874a176",
+      "model": "gpt-4o-2024-08-06",
+      "ruleid": "20",
+      "rule": "The output should span multiple lines and may contain content other than the category name.",
+      "input": "Local baseball team wins championship after decades",
+      "coverage": "Sports",
+      "validityText": "The input provided is \"Local baseball team wins championship after decades\". I will evaluate this input based on the provided input specification.\n\n1. **Language**: The input is in English, as required by the specification.\n2. **Content**: The text is a headline or a short report about a local baseball team winning a championship. This fits within the range of the types of text mentioned in the specification (news article or headline).\n3. **Length**: The input is a short phrase, which is acceptable as the specification allows for any length from short phrases to longer articles.\n4. **Format**: The input is in plain text format.\n\nThere are no violations present, as all aspects of the input comply with the given input specification.\n\nOK",
+      "validity": "ok",
+      "error": ""
+    }
+  ],
+  "testResults": []
+}

@@ -1,0 +1,11 @@
+{
+  "id": "cd7ad77",
+  "promptid": "e5ed513",
+  "ruleid": null,
+  "baseline": true,
+  "model": "llama3.2:1b",
+  "input": "Text: Apple's CEO Tim Cook unveiled the new iPhone at the annual Apple Worldwide Developers Conference.",
+  "output": "Company names: None\nPeople names:\n- Tim Cook\nSpecific topics: \n- New iPhone\nGeneral themes: \n- Technology, smartphones, and tech news",
+  "compliance": "err",
+  "complianceText": "The chatbot output starts with \"Company names: None\", even though it should list companies as a comma-separated list according to the description. The people names section correctly lists \"Tim Cook\". The \"Specific topics\" section correctly lists \"New iPhone\", and the \"General themes\" section lists \"Technology, smartphones, and tech news\". \n\nThere is an issue with the format for \"Company names\" as it is expected to be a comma-separated list, not \"None\" as a response. When there are no companies to list, the output should either be left blank or formatted as an empty list, not stated as \"None.\"\n\nDue to this format discrepancy for \"Company names,\" the output does not fully comply with the desired format given in the description.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "c5383a2",
+  "promptid": "dddf836",
+  "ruleid": 11,
+  "rule": "If the specified word does not correspond to any of the predefined part-of-speech tags listed, the chatbot may return a tag other than \"Unknown\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "This is a mystery word, blorf",
+  "output": "CC: Coordinating conjunction",
+  "compliance": "err",
+  "complianceText": "The task is to return only the part of speech tag for the given word. The description specifies that the output should be the tag itself, not the tag with an explanation. The given output is \"CC: Coordinating conjunction,\" which includes both the tag \"CC\" and an explanation \"Coordinating conjunction.\" \n\nAccording to the description, only the tag \"CC\" should be provided in the output. Providing the tag with an explanation violates the instruction to return only the tag.\n\nMention the reason for violation and your thinking went into coming up with it.\nERR"
+}

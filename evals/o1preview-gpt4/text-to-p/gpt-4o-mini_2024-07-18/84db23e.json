@@ -1,0 +1,12 @@
+{
+  "id": "84db23e",
+  "promptid": "b70fdc4",
+  "ruleid": 17,
+  "rule": "Inside each `<p>` tag, there should be at most one `<em>` tag or none at all.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Dance expresses emotion. Movement tells stories. Rhythm guides steps.",
+  "output": "```html\n<p><strong>Dance</strong> <em>expresses</em> emotion.</p>\n<p><strong>Movement</strong> <em>tells</em> stories.</p>\n<p><strong>Rhythm</strong> <em>guides</em> steps.</p>\n<p><strong>Dance</strong> <em>expresses</em> emotion.</p>\n<p><strong>Movement</strong> <em>tells</em> stories.</p>\n<p><strong>Rhythm</strong> <em>guides</em> steps.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The chatbot output contains six <p> tags, each wrapping a distinct sentence. The description requires that the output have at least three <p> tags, which is satisfied. Inside each <p> tag, there is one <strong> tag and at least one <em> tag, which meets the requirement to add a <strong> tag and multiple <em> tags for emphasis. The repetition of sentences does not affect compliance as the specific texts or content of the sentences themselves cannot be judged without the input. The core requirement is met as there are sufficient <p> tags with emphasis tags inside each.\n\nNo violation.\nOK"
+}

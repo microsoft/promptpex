@@ -1,0 +1,12 @@
+{
+  "id": "89a2abd",
+  "promptid": "b70fdc4",
+  "ruleid": 15,
+  "rule": "The output must not use valid HTML syntax, allowing incorrectly opened or closed <p>, <strong>, and <em> tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "A bird sings. A fish swims. The sun shines.",
+  "output": "```html\n<p><strong>A bird</strong> <em>sings</em>.</p>\n<p><strong>A fish</strong> <em>swims</em>.</p>\n<p><strong>The sun</strong> <em>shines</em>.</p>\n<p><strong>A bird</strong> <em>sings</em>.</p>\n<p><strong>A fish</strong> <em>swims</em>.</p>\n<p><strong>The sun</strong> <em>shines</em>.</p>\n```",
+  "compliance": "err",
+  "complianceText": "The chatbot output contains six sentences, each wrapped in a `<p>` tag. Each of these `<p>` tags includes one `<strong>` tag and one `<em>` tag to emphasize key words or phrases. The description requires each sentence to have a `<strong>` tag and multiple `<em>` tags. In this case, each sentence only has one `<em>` tag, which does not comply with the requirement of multiple `<em>` tags per sentence.\n\nThus, the violation here is the lack of multiple `<em>` tags in each `<p>` tag.\n\nERR"
+}

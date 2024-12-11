@@ -1,0 +1,12 @@
+{
+  "id": "701b602",
+  "promptid": "a253756",
+  "ruleid": 9,
+  "rule": "The chatbot’s response must not be a JSON array.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "{\"model\": \"ResNet\"}",
+  "output": "[[\"ResNet\"], [\"ResNet\"]]",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is a nested array [[\"ResNet\"], [\"ResNet\"]], whereas the expected format is a flat array of model names such as [\"ResNet\"]. Therefore, the output does not comply with the description.\nERR"
+}

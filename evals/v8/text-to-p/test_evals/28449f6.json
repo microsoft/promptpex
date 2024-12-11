@@ -1,0 +1,14 @@
+{
+  "id": "28449f6",
+  "promptid": "b70fdc4",
+  "model": "gpt-4o-2024-08-06",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "input": "Coding builds logic. Design inspires creativity. Research fuels innovation.",
+  "validityText": "The input provided is a paragraph of text. According to the input specification, the text must contain at least three sentences. Upon examining the input, we can identify three distinct sentences: \"Coding builds logic.\", \"Design inspires creativity.\", and \"Research fuels innovation.\". Each sentence is clearly separated by a period, indicating the end of one sentence and the beginning of another. Based on the provided input specification, the input meets the requirement of containing at least three sentences.\n\nNo violation.\nOK",
+  "validity": "ok",
+  "coverageText": "Output:\n<p><strong>Coding</strong> <em>builds</em> logic.</p>\n<p><strong>Design</strong> <em>inspires</em> <em>creativity</em>.</p>\n<p><strong>Research</strong> <em>fuels</em> <em>innovation</em>.</p>",
+  "coverageEvalText": "The output from the chatbot consists of three <p> tags, which meets the requirement from the description that asks for \"at least three <p> tags.\" Inside each <p> tag, there is one <strong> tag and multiple <em> tags, which also complies with the requirement to \"add one <strong> tag and multiple <em> tags to emphasize key words and phrases\" inside each <p> tag. Therefore, the output adheres to all the rules that do not require input context.\n\nNo violation.\nOK",
+  "coverage": "ok"
+}

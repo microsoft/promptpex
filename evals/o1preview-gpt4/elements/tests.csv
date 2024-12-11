@@ -1,0 +1,361 @@
+ruleid,testid,testinput,expectedoutput,reasoning
+1,1,"Text: Tesla and SpaceX, led by Elon Musk, are pioneering innovations in renewable energy and space travel to combat climate change.","Company names: Tesla, SpaceX
+People names: Elon Musk
+Specific topics: renewable energy, space travel
+General themes: innovation, climate change","This test checks if the software outputs exactly four separate lines when all categories have entities, complying with rule 1."
+1,2,"Text: Apple Inc. released a new iPhone. The launch event was hosted by Tim Cook.","Company names: Apple Inc.
+People names: Tim Cook
+Specific topics: new iPhone, launch event
+General themes: technology, product release","This test ensures the software outputs exactly four lines with proper entities, validating rule 1."
+1,3,"Text: The conference discussed advancements in artificial intelligence.","Company names:
+People names:
+Specific topics: artificial intelligence
+General themes: technological advancements","This test verifies that even when some categories are empty, the software still outputs exactly four lines, adhering to rule 1."
+2,1,"Text: Microsoft CEO Satya Nadella spoke about cloud computing and digital transformation at the summit.","Company names: Microsoft
+People names: Satya Nadella
+Specific topics: cloud computing, digital transformation
+General themes: technology, leadership","This test checks that each output line begins with the correct category label followed by a colon, ensuring adherence to rule 2."
+2,2,"Text: Marie Curie's work laid the foundation for modern nuclear physics.","Company names:
+People names: Marie Curie
+Specific topics: nuclear physics
+General themes: scientific research, pioneering work","This test verifies that even when some categories are empty, each line begins with the category label followed by a colon, as required by rule 2."
+2,3,"Text: In a historic mission, NASA's Perseverance Rover landed on Mars.","Company names: NASA
+People names:
+Specific topics: Perseverance Rover, Mars landing
+General themes: space exploration, innovation","This test ensures that each output line starts with the category label and colon, testing compliance with rule 2."
+3,1,"Text: Google announced its collaboration with DeepMind, guided by Sundar Pichai, to enhance AI technologies.","Company names: Google, DeepMind
+People names: Sundar Pichai
+Specific topics: AI technologies, collaboration
+General themes: artificial intelligence, innovation","This test verifies that the software outputs the category labels in the correct order and exactly as specified in rule 3."
+3,2,"Text: Amelia Earhart was a pioneer in aviation, inspiring women worldwide.","Company names:
+People names: Amelia Earhart
+Specific topics: aviation
+General themes: inspiration, women's empowerment","This test ensures that even when some categories are empty, the order and labels remain as per rule 3."
+3,3,"Text: Amazon's Jeff Bezos plans for space tourism through Blue Origin.","Company names: Amazon, Blue Origin
+People names: Jeff Bezos
+Specific topics: space tourism
+General themes: exploration, commercial spaceflight","This test confirms that the correct order and exact category labels are used, complying with rule 3."
+4,1,"Text: At the Apple Worldwide Developers Conference, Tim Cook unveiled new features in iOS.","Company names: Apple
+People names: Tim Cook
+Specific topics: iOS features, Worldwide Developers Conference
+General themes: technology advancements, software development","This test checks that category labels are written exactly as specified, including capitalization and spelling, as per rule 4."
+4,2,"Text: J.K. Rowling's Harry Potter series has enchanted readers globally.","Company names:
+People names: J.K. Rowling
+Specific topics: Harry Potter series
+General themes: literature, fantasy","Ensures exact capitalization and spelling of category labels, testing compliance with rule 4."
+4,3,"Text: The United Nations focuses on global issues like peacekeeping and humanitarian aid.","Company names: United Nations
+People names:
+Specific topics: peacekeeping, humanitarian aid
+General themes: global cooperation, international relations","Verifies that the category labels are exactly as specified, including capitalization, in accordance with rule 4."
+5,1,"Text: Bill Gates and Melinda Gates Foundation are investing in global health and education.","Company names: Melinda Gates Foundation
+People names: Bill Gates
+Specific topics: global health, education
+General themes: philanthropy, social impact","This test confirms that after the colon, the assistant provides a comma-separated list of entities, as required by rule 5."
+5,2,"Text: Facebook, now Meta, is focusing on virtual reality and the metaverse.","Company names: Facebook, Meta
+People names:
+Specific topics: virtual reality, metaverse
+General themes: technological evolution, social connectivity","Ensures that the entities are listed as comma-separated values after the colon, per rule 5."
+5,3,"Text: Nelson Mandela advocated for peace and equality in South Africa.","Company names:
+People names: Nelson Mandela
+Specific topics: peace, equality, South Africa
+General themes: civil rights, social justice","Verifies that the assistant lists entities in comma-separated format after the colon, complying with rule 5."
+6,1,"Text: Alphabet Inc.'s Google and YouTube are at the forefront of internet services.","Company names: Alphabet Inc., Google, YouTube
+People names:
+Specific topics: internet services
+General themes: digital technology, online platforms","This test ensures that the entities are separated only by commas without additional punctuation, as specified in rule 6."
+6,2,"Text: Leonardo da Vinci was known for painting the Mona Lisa and The Last Supper.","Company names:
+People names: Leonardo da Vinci
+Specific topics: Mona Lisa, The Last Supper
+General themes: art, Renaissance","Verifies that entity lists use commas only, with no additional punctuation, ensuring compliance with rule 6."
+6,3,"Text: IBM, Apple, and Microsoft have had significant impacts on computing.","Company names: IBM, Apple, Microsoft
+People names:
+Specific topics: computing
+General themes: technology innovation","Checks that entities are comma-separated without extra punctuation, as per rule 6."
+7,1,"Text: Advancements in quantum computing are accelerating.","Company names:
+People names:
+Specific topics: quantum computing
+General themes: technological advancements","This test confirms that when a category has no entities, the assistant still outputs the category label followed by a colon and leaves it empty, compliant with rule 7."
+7,2,"Text: The festival celebrated art, music, and culture.","Company names:
+People names:
+Specific topics: art, music, culture
+General themes: celebration, community","Ensures categories with no entities are included and left empty after the colon, per rule 7."
+7,3,"Text: Climate change impacts ecosystems worldwide.","Company names:
+People names:
+Specific topics: climate change
+General themes: environmental issues","Verifies that empty categories are handled correctly by including the label and leaving it empty, adhering to rule 7."
+8,1,"Text: Tesla and SolarCity are working together on renewable energy projects.","Company names: Tesla, SolarCity
+People names:
+Specific topics: renewable energy projects
+General themes: sustainability","This test checks that the assistant extracts all official company names mentioned, as required by rule 8."
+8,2,"Text: The partnership between Starbucks and Nestlé expands coffee offerings globally.","Company names: Starbucks, Nestlé
+People names:
+Specific topics: coffee offerings, global partnership
+General themes: business expansion","Verifies that official company names are correctly extracted, following rule 8."
+8,3,"Text: IBM acquired Red Hat to enhance its cloud computing capabilities.","Company names: IBM, Red Hat
+People names:
+Specific topics: cloud computing capabilities, acquisition
+General themes: technology integration","Confirms accurate extraction of company names per rule 8."
+9,1,"Text: Malala Yousafzai advocates for girls' education worldwide.","Company names:
+People names: Malala Yousafzai
+Specific topics: girls' education
+General themes: education rights, activism","This test ensures the assistant extracts full personal names accurately, as specified in rule 9."
+9,2,"Text: Albert Einstein developed the theory of relativity.","Company names:
+People names: Albert Einstein
+Specific topics: theory of relativity
+General themes: physics, scientific breakthroughs","Confirms proper extraction of personal names, complying with rule 9."
+9,3,"Text: The work of Vincent van Gogh revolutionized post-impressionist art.","Company names:
+People names: Vincent van Gogh
+Specific topics: post-impressionist art
+General themes: art history, innovation","Verifies accurate extraction of individual person names per rule 9."
+10,1,"Text: The seminar on renewable energy highlighted solar and wind power advancements.","Company names:
+People names:
+Specific topics: renewable energy, solar power, wind power, advancements
+General themes: environmental sustainability","This test checks that all specific topics directly discussed are extracted, as per rule 10."
+10,2,"Text: Discussions centered around artificial intelligence and machine learning applications.","Company names:
+People names:
+Specific topics: artificial intelligence, machine learning applications
+General themes: technology innovation","Confirms extraction of specific topics directly addressed, complying with rule 10."
+10,3,"Text: The lecture covered human rights issues and international law.","Company names:
+People names:
+Specific topics: human rights, international law
+General themes: justice, global governance","Verifies extraction of specific topics discussed, adhering to rule 10."
+11,1,"Text: The novel explores love, loss, and the journey towards self-discovery.","Company names:
+People names:
+Specific topics:
+General themes: love, loss, self-discovery","This test ensures the assistant extracts general overarching themes of the text, as specified in rule 11."
+11,2,"Text: The conference emphasized the importance of innovation and collaboration in the modern economy.","Company names:
+People names:
+Specific topics:
+General themes: innovation, collaboration, modern economy","Confirms accurate extraction of general themes per rule 11."
+11,3,"Text: His speech addressed the challenges of leadership in times of crisis.","Company names:
+People names:
+Specific topics:
+General themes: leadership, crisis management","Verifies compliance with rule 11 by extracting overarching themes."
+12,1,"Text: SpaceX plans another mission to the International Space Station.","Company names: SpaceX
+People names:
+Specific topics: mission, International Space Station
+General themes: space exploration","This test confirms that only entities explicitly mentioned or clearly implied are extracted, in line with rule 12."
+12,2,"Text: She received an award for her groundbreaking research.","Company names:
+People names:
+Specific topics: groundbreaking research, award
+General themes: recognition, scientific advancement","Ensures no entities beyond those mentioned or implied are extracted, per rule 12."
+12,3,"Text: The ancient ruins tell stories of lost civilizations.","Company names:
+People names:
+Specific topics: ancient ruins, lost civilizations
+General themes: history, archaeology","Verifies that only entities in the text are extracted, complying with rule 12."
+13,1,"Text: Adobe acquired Figma to expand its design tools.","Company names: Adobe, Figma
+People names:
+Specific topics: acquisition, design tools
+General themes: business strategy, design industry","This test ensures the assistant does not add extra explanations or formatting, adhering strictly to the desired format per rule 13."
+13,2,"Text: The documentary examines the effects of pollution on marine life.","Company names:
+People names:
+Specific topics: pollution, marine life
+General themes: environmental issues, conservation","Confirms no extra text or formatting is added, in compliance with rule 13."
+13,3,"Text: Leaders discussed economic policies at the summit.","Company names:
+People names:
+Specific topics: economic policies, summit
+General themes: economics, international relations","Verifies adherence to the specified format without extra content, per rule 13."
+14,1,"Text: Scientists are exploring the potential of gene editing.","Company names:
+People names:
+Specific topics: gene editing
+General themes: scientific research, biotechnology","This test ensures the assistant does not use numbering or bullet points, complying with rule 14."
+14,2,"Text: The team's victory was a result of strategy, skill, and teamwork.","Company names:
+People names:
+Specific topics: strategy, skill, teamwork
+General themes: sportsmanship, collaboration","Confirms no improper formatting marks are added, in accordance with rule 14."
+14,3,"Text: Her artistic expression combines elements of dance, music, and visual arts.","Company names:
+People names:
+Specific topics: dance, music, visual arts
+General themes: artistic expression, creativity","Verifies the assistant avoids numbering or bullets, per rule 14."
+15,1,"Text: Google's Sundar Pichai emphasizes the importance of AI ethics.","Company names: Google
+People names: Sundar Pichai
+Specific topics: AI ethics
+General themes: technology responsibility","This test ensures the assistant produces output that exactly matches the desired format, adhering to rule 15."
+15,2,"Text: Jane Goodall's work with chimpanzees has transformed animal conservation.","Company names:
+People names: Jane Goodall
+Specific topics: chimpanzees, animal conservation
+General themes: environmentalism, wildlife research","Confirms precise adherence to structure as per rule 15."
+15,3,"Text: The Paris Agreement aims to address climate change globally.","Company names:
+People names:
+Specific topics: Paris Agreement, climate change
+General themes: international cooperation, environmental policy","Verifies exact format compliance with rule 15."
+16,1,"Text: The park was peaceful.","Company names:
+People names:
+Specific topics:
+General themes:","This test verifies that the software maintains the four-line structure even when no entities are present, ensuring it does not violate rule 16."
+16,2,"Text: IBM and Microsoft are tech giants.","Company names: IBM, Microsoft
+People names:
+Specific topics:
+General themes:","Ensures the software outputs exactly four lines despite partial data, complying with the intended behavior and not violating rule 16."
+16,3,"Text: Einstein developed the theory of relativity, which changed physics forever.","Company names:
+People names: Einstein
+Specific topics: theory of relativity
+General themes: physics, scientific breakthroughs","Verifies that the software maintains the four-line structure, thus not violating rule 16."
+17,1,"Text: Facebook is creating virtual reality headsets.","Company names: Facebook
+People names:
+Specific topics: virtual reality headsets
+General themes: technology innovation","Ensures the software correctly includes category labels with colons, thus not following rule 17."
+17,2,"Text: Shakespeare wrote many plays and sonnets.","Company names:
+People names: Shakespeare
+Specific topics: plays, sonnets
+General themes: literature, art","Verifies that the software starts lines with category labels followed by colons, not violating rule 17."
+17,3,"Text: The United Nations is hosting a summit on climate action.","Company names: United Nations
+People names:
+Specific topics: summit, climate action
+General themes: international cooperation, environmental issues","Confirms inclusion of category labels with colons, not adhering to rule 17."
+18,1,"Text: Amazon's Jeff Bezos aims to take people to the moon.","Company names: Amazon
+People names: Jeff Bezos
+Specific topics: moon mission
+General themes: space exploration, entrepreneurship","Checks that the assistant uses the specified category labels in order, not following rule 18."
+18,2,"Text: Neil Armstrong was the first person to walk on the Moon.","Company names:
+People names: Neil Armstrong
+Specific topics: Moon landing
+General themes: historic achievements, space exploration","Verifies correct category labels and order, not violating rule 18."
+18,3,"Text: Tesla is revolutionizing electric vehicles.","Company names: Tesla
+People names:
+Specific topics: electric vehicles
+General themes: innovation, sustainable transportation","Ensures proper use of category labels in specified order, thus not adhering to rule 18."
+19,1,"Text: At the opening ceremony, the President addressed the nation.","Company names:
+People names: President
+Specific topics: opening ceremony
+General themes: national events, leadership","This test ensures that the category labels are written exactly as specified, not differing in capitalization or spelling, thus not following rule 19."
+19,2,"Text: The BBC reported on advancements in renewable energy.","Company names: BBC
+People names:
+Specific topics: advancements, renewable energy
+General themes: environmental issues, media coverage","Verifies exact spelling and capitalization of category labels, not violating rule 19."
+19,3,"Text: William Shakespeare's influence on literature remains unmatched.","Company names:
+People names: William Shakespeare
+Specific topics: influence on literature
+General themes: cultural impact, literary history","Confirms category labels are written exactly as specified, not adhering to rule 19."
+20,1,"Text: Researchers discovered a new species in the Amazon rainforest.","Company names:
+People names:
+Specific topics: new species, Amazon rainforest
+General themes: biodiversity, scientific discovery","Ensures the assistant provides a comma-separated list of entities after the colon, thus not avoiding as per rule 20."
+20,2,"Text: The study highlights the importance of mental health awareness.","Company names:
+People names:
+Specific topics: mental health awareness, study
+General themes: public health, well-being","Confirms proper listing of entities after the colon, not following rule 20."
+20,3,"Text: Innovations in AI are transforming industries worldwide.","Company names:
+People names:
+Specific topics: innovations, AI
+General themes: technological change, global impact","Verifies that entities are provided after the colon, not avoiding as per rule 20."
+21,1,"Text: The CEO announced the merger; investors reacted positively.","Company names:
+People names: CEO
+Specific topics: merger
+General themes: business, investment reactions","Ensures entities in lists are separated by commas without additional punctuation, not including extra marks as per rule 21."
+21,2,"Text: The festival featured music—art—and dance.","Company names:
+People names:
+Specific topics: music, art, dance
+General themes: cultural celebration","Confirms entities are comma-separated, avoiding other delimiters, not following rule 21."
+21,3,"Text: Advances in genetics: medicine: and technology were discussed.","Company names:
+People names:
+Specific topics: genetics, medicine, technology
+General themes: scientific progress","Verifies that commas are used to separate entities without additional punctuation, not adhering to rule 21."
+22,1,"Text: The monument was built to commemorate heroes.","Company names:
+People names:
+Specific topics: monument, heroes
+General themes: remembrance, honor","Ensures the category labels are included and left empty when no entities are present, not omitting them as per rule 22."
+22,2,"Text: Renewable energy sources are crucial for the future.","Company names:
+People names:
+Specific topics: renewable energy sources
+General themes: sustainability, future planning","Confirms empty categories are included, not adding content after the colon, not following rule 22."
+22,3,"Text: Global cooperation is needed to address pandemics.","Company names:
+People names:
+Specific topics: global cooperation, pandemics
+General themes: international health, collaboration","Verifies categories are properly included and left empty when necessary, not violating rule 22."
+23,1,"Text: He started a non-profit organization to help others.","Company names: non-profit organization
+People names:
+Specific topics: helping others
+General themes: philanthropy, social assistance","Ensures only official company names are extracted, not including entities that are not legally recognized businesses, thus not following rule 23."
+23,2,"Text: They formed a charity to support education.","Company names: charity
+People names:
+Specific topics: support education
+General themes: community service, learning","Verifies only official company names are listed, not ignoring as per rule 23."
+23,3,"Text: The startup aims to innovate the tech industry.","Company names: startup
+People names:
+Specific topics: innovate, tech industry
+General themes: entrepreneurship, innovation","Confirms extraction of company names, not choosing to exclude them as per rule 23."
+24,1,"Text: Dr. Martin Luther King Jr. delivered inspiring speeches.","Company names:
+People names: Dr. Martin Luther King Jr.
+Specific topics: inspiring speeches
+General themes: civil rights, inspiration","Ensures personal names are extracted correctly, not excluding or including non-person entities, thus not following rule 24."
+24,2,"Text: Mother Teresa dedicated her life to helping the poor.","Company names:
+People names: Mother Teresa
+Specific topics: helping the poor
+General themes: compassion, humanitarian work","Verifies accurate extraction of individual names, not ignoring as per rule 24."
+24,3,"Text: The artist known as Banksy remains anonymous.","Company names:
+People names: Banksy
+Specific topics: anonymity, street art
+General themes: artistic expression, mystery","Confirms inclusion of personal names, not omitting or misclassifying as per rule 24."
+25,1,"Text: The lecture delved into astrophysics and black holes.","Company names:
+People names:
+Specific topics: astrophysics, black holes
+General themes: space science, advanced physics","Ensures extraction of specific topics, not choosing to exclude them as per rule 25."
+25,2,"Text: Workshops on coding and robotics were offered.","Company names:
+People names:
+Specific topics: coding, robotics, workshops
+General themes: education, technology skills","Verifies inclusion of specific topics discussed, not omitting as per rule 25."
+25,3,"Text: The article analyzed economic trends and forecasts.","Company names:
+People names:
+Specific topics: economic trends, forecasts
+General themes: finance, market analysis","Confirms extraction of specific topics, not following rule 25 by excluding them."
+26,1,"Text: The story explores themes of betrayal and redemption.","Company names:
+People names:
+Specific topics:
+General themes: betrayal, redemption","Ensures general themes are extracted, not including specific details instead, thus not adhering to rule 26."
+26,2,"Text: The movie touches on love, loss, and hope.","Company names:
+People names:
+Specific topics:
+General themes: love, loss, hope","Verifies inclusion of general overarching themes, not replacing with specifics as per rule 26."
+26,3,"Text: Their journey symbolizes resilience and perseverance.","Company names:
+People names:
+Specific topics:
+General themes: resilience, perseverance","Confirms extraction of general themes, not violating rule 26 by focusing on specifics."
+27,1,"Text: The painting depicts a serene landscape.","Company names:
+People names:
+Specific topics: serene landscape
+General themes: tranquility, nature","Ensures only entities mentioned are extracted, not adding unrelated ones, thus not following rule 27."
+27,2,"Text: She wrote a book about her travels.","Company names:
+People names:
+Specific topics: book, travels
+General themes: exploration, personal journey","Verifies no extraneous entities are included, complying with intended behavior and not adhering to rule 27."
+27,3,"Text: The team celebrated their victory.","Company names:
+People names:
+Specific topics: victory, team celebration
+General themes: success, teamwork","Confirms only explicit entities are extracted, not adding others as per rule 27."
+28,1,"Text: The project aims to improve urban infrastructure.","Company names:
+People names:
+Specific topics: urban infrastructure, project
+General themes: urban development, improvement","Ensures no extra text or explanations are added beyond the specified format, thus not following rule 28."
+28,2,"Text: The speech addressed global health challenges.","Company names:
+People names:
+Specific topics: global health challenges, speech
+General themes: public health, international issues","Verifies adherence to format without additional text, not violating rule 28."
+28,3,"Text: Advances in renewable energy are promising.","Company names:
+People names:
+Specific topics: advances, renewable energy
+General themes: sustainability, innovation","Confirms no extra explanations are included, complying with the intended behavior and not following rule 28."
+29,1,"Text: The festival featured diverse cultures.","Company names:
+People names:
+Specific topics: festival, diverse cultures
+General themes: multiculturalism, celebration","Ensures no numbering or bullet points are added, not adhering to rule 29."
+29,2,"Text: Her performance combined music and storytelling.","Company names:
+People names:
+Specific topics: performance, music, storytelling
+General themes: artistic expression, creativity","Verifies the output avoids improper formatting marks, not following rule 29."
+29,3,"Text: The expedition discovered new species.","Company names:
+People names:
+Specific topics: expedition, new species
+General themes: exploration, scientific discovery","Confirms proper formatting without additional marks, thus not adhering to rule 29."
+30,1,"Text: The policy aims to reduce emissions by 2030.","Company names:
+People names:
+Specific topics: policy, emissions reduction
+General themes: environmental policy, sustainability","Ensures the output exactly matches the desired format, not deviating as per rule 30."
+30,2,"Text: The workshop focused on leadership skills.","Company names:
+People names:
+Specific topics: workshop, leadership skills
+General themes: personal development, education","Verifies adherence to structure and content requirements, not following rule 30."
+30,3,"Text: Researchers are analyzing climate patterns.","Company names:
+People names:
+Specific topics: climate patterns, research
+General themes: climate science, data analysis","Confirms exact format adherence, not deviating as per rule 30."

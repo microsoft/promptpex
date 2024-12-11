@@ -1,0 +1,11 @@
+{
+  "id": "eb5c03a",
+  "promptid": "b70fdc4",
+  "ruleid": null,
+  "baseline": true,
+  "model": "qwen2.5:3b",
+  "input": "Please save your work frequently to prevent data loss. Unexpected power outages can occur. It's better to be safe than sorry.",
+  "output": "<p><strong>Save</strong><em> your</em> <em>work</em> <strong>frequently</strong></p>\n<p>to</p>\n<p><strong>prevent</strong> <em>Data</em> <em>Loss</em></p>\n<p>.</p>\n<p>Unexpectedly,</p>\n<p><strong>power</strong><em> outages</em> can</p>\n<p>occur.</p>\n<p>.</p>\n<p>It's</p>\n<p><strong>better</strong> <em>to</em></p>\n<p>be</p>\n<p><strong>safe</strong></p>\n<p>than</p>\n<p><strong>sorry</strong>.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output consists of multiple `<p>` tags, each intended to represent a sentence. However, upon closer inspection, the sentences appear to be improperly structured across multiple `<p>` tags, which goes against the instruction to wrap each complete sentence in its own `<p>` tag. For instance, \"Save your work frequently\" should be within a single `<p>` tag, but based on the output, it might possibly be split into multiple tags if this is a single sentence. Moreover, the sentence seems improperly fragmented and contains separate punctuation in a `<p>` tag, like the `<p>.</p>`, indicating a missing direct compliance with the requirement to keep sentences together within a single `<p>` tag. The output does not have any `<strong>` or `<em>` tags inside the standalone `<p>` tags, precisely the ones with the punctuation. Additionally, it is unclear if the output respects the minimum requirement of wrapping at least three sentences into `<p>` tags, but since the input is absent, this point is ignored. However, the use of `<strong>` and `<em>` tags inside sentences with fragments split, mismatch the intended use within a complete sentence.\n\nThus, the output does not comply with the chatbot description, specifically in relation to the wrapping of entire sentences with `<p>` tags, and handling of `<strong>` and `<em>` tags. \n\nERR"
+}

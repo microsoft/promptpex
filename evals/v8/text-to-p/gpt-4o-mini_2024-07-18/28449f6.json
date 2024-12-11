@@ -1,0 +1,12 @@
+{
+  "id": "28449f6",
+  "promptid": "b70fdc4",
+  "ruleid": 12,
+  "rule": "Within each <p> tag, there must be less than two <em> tags.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Coding builds logic. Design inspires creativity. Research fuels innovation.",
+  "output": "```html\n<p><strong>Coding</strong> <em>builds</em> <em>logic</em>.</p>\n<p><strong>Design</strong> <em>inspires</em> <em>creativity</em>.</p>\n<p><strong>Research</strong> <em>fuels</em> <em>innovation</em>.</p>\n<p><strong>Coding</strong> <em>builds</em> <em>logic</em>.</p>\n<p><strong>Design</strong> <em>inspires</em> <em>creativity</em>.</p>\n<p><strong>Research</strong> <em>fuels</em> <em>innovation</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output should have at least three `<p>` tags, which it does. Each `<p>` tag includes a `<strong>` tag and multiple `<em>` tags, which also comply with the description. However, the description specifies that the paragraph should be split into individual sentences and each sentence wrapped with a `<p>` tag. The output contains duplicate sentences in separate `<p>` tags, which suggests it may be repeating content rather than accurately reflecting different individual sentences from a paragraph. Without knowing the input, it's impossible to determine if the duplication is compliant with the given paragraph structure. Therefore, based on the direct output structure, it contains the required three `<p>` tags but might not reflect distinct individual sentences.\n\nThus, since we can't check compliance of paragraph splitting due to lack of input, from the output structure perspective alone, the provided elements do adhere to the given rules.\n\nNo violation.\nOK"
+}

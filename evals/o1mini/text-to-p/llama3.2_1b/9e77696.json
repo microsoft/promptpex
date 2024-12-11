@@ -1,0 +1,11 @@
+{
+  "id": "9e77696",
+  "promptid": "b70fdc4",
+  "ruleid": 2,
+  "rule": "The output HTML must contain at least three <p> tags.",
+  "model": "llama3.2:1b",
+  "input": "First sentence! Second sentence? Third sentence. Fourth sentence!",
+  "output": "Here is the formatted paragraph:\n\n\n<font face=\"Arial\" size=\"2\">\n<b>First</b> sentence!\n\n<p>\n<strong>Bullet points</strong> are useful for organizing multiple ideas or lists. \n<span Emphasizing key vocabulary:</span>\n<strong>Rapid <em>informational exchange</em></strong>\n</p>\n\n<font face=\"Verdana\" size=\"3\">\n<em>parsing and analysis have become critical components of modern research.</em>\n<p><b>Critical thinking is essential for problem-solving in today's complex world.</b></p>\n\n<b>Novel tools have emerged, making it easier to gather data and analyze results.</b>",
+  "compliance": "err",
+  "complianceText": "The output contains only two `<p>` tags instead of the required minimum of three. Additionally, there are HTML tags like `<font>` and `<b>` used outside of `<p>` tags, which does not comply with the instruction to wrap each sentence within `<p>` tags.\n\nERR"
+}

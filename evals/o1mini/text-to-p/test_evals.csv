@@ -1,0 +1,258 @@
+id,promptid,model,ruleid,rule,input,coverage,validityText,validity,error
+2608c0e,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",This is the first sentence. This is the second sentence! Is this the third sentence?,"```html
+<p><em>This</em> is the <strong>first</strong> <em>sentence</em>.</p>
+<p><em>This</em> is the <strong>second</strong> <em>sentence</em>!</p>
+<p><strong>Is</strong> <em>this</em> the <em>third</em> <em>sentence</em>?</p>
+```","No violation.
+OK",ok,
+b0f81ff,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",Hello world! Learning to code is fun. Let's write some tests.,"```html
+<p><strong>Hello</strong> <em>world</em><em>!</em></p>
+<p><strong>Learning</strong> to <em>code</em> is <em>fun</em>.</p>
+<p>Let's <strong>write</strong> some <em>tests</em>.</p>
+```","No violations detected. The input consists of three properly punctuated sentences, each ending with a period or exclamation mark.
+
+OK",ok,
+e588b24,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",First sentence. Second sentence. Third sentence is here.,"```html
+<p><strong>First</strong> <em>sentence</em> is <em>simple</em>.</p>
+<p><strong>Second</strong> <em>sentence</em> is <em>clear</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> is <em>here</em>.</p>
+```","No violation.
+OK",ok,
+9ad6081,b70fdc4,o1-mini-2024-09-12,2,The output HTML must contain at least three <p> tags.,Sentence one. Sentence two. Sentence three. Sentence four.,"```html
+<p><strong>Sentence</strong> <em>one</em>.</p>
+<p><strong>Sentence</strong> <em>two</em>.</p>
+<p><strong>Sentence</strong> <em>three</em>.</p>
+<p><strong>Sentence</strong> <em>four</em>.</p>
+```",OK,ok,
+9e77696,b70fdc4,o1-mini-2024-09-12,2,The output HTML must contain at least three <p> tags.,First sentence! Second sentence? Third sentence. Fourth sentence!,"```html
+<p><strong>First</strong> <em>sentence</em><em>!</em></p>
+<p><strong>Second</strong> <em>sentence</em><em>?</em></p>
+<p><strong>Third</strong> <em>sentence</em><em>.</em></p>
+<p><strong>Fourth</strong> <em>sentence</em><em>!</em></p>
+```
+
+**Explanation:**
+
+1. **Splitting into Sentences:** The input paragraph is divided into four individual sentences based on punctuation marks: `!`, `?`, `.`, and `!`.
+
+2. **Wrapping with `<p>` Tags:** Each sentence is enclosed within `<p>` tags to denote separate paragraphs.
+
+3. **Adding `<strong>` Tags:** Within each `<p>` tag, the first word of the sentence is wrapped with a `<strong>` tag to strongly emphasize it.
+
+4. **Adding `<em>` Tags:** Additional elements within each sentence, such as the word ""sentence"" and the punctuation mark, are wrapped with `<em>` tags to emphasize them.
+
+**Resulting HTML Structure:**
+
+- **First Paragraph:**
+  ```html
+  <p><strong>First</strong> <em>sentence</em><em>!</em></p>
+  ```
+- **Second Paragraph:**
+  ```html
+  <p><strong>Second</strong> <em>sentence</em><em>?</em></p>
+  ```
+- **Third Paragraph:**
+  ```html
+  <p><strong>Third</strong> <em>sentence</em><em>.</em></p>
+  ```
+- **Fourth Paragraph:**
+  ```html
+  <p><strong>Fourth</strong> <em>sentence</em><em>!</em></p>
+  ```
+
+Each paragraph meets the specified rules by containing exactly one `<strong>` tag and multiple `<em>` tags, with key words and punctuation emphasized appropriately.","No violation.
+OK",ok,
+0155e1c,b70fdc4,o1-mini-2024-09-12,2,The output HTML must contain at least three <p> tags.,One. Two. Three.,"```html
+<p><strong>One.</strong> <em>First</em> <em>important</em> point.</p>
+<p><strong>Two.</strong> <em>Second</em> <em>significant</em> detail.</p>
+<p><strong>Three.</strong> <em>Third</em> <em>key</em> element.</p>
+```","No violation.
+OK",ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+2608c0e,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",This is the first sentence. This is the second sentence! Is this the third sentence?,"```html
+<p><em>This</em> is the <strong>first</strong> <em>sentence</em>.</p>
+<p><em>This</em> is the <strong>second</strong> <em>sentence</em>!</p>
+<p><strong>Is</strong> <em>this</em> the <em>third</em> <em>sentence</em>?</p>
+```","No violation.
+OK",ok,
+b0f81ff,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",Hello world! Learning to code is fun. Let's write some tests.,"```html
+<p><strong>Hello</strong> <em>world</em><em>!</em></p>
+<p><strong>Learning</strong> to <em>code</em> is <em>fun</em>.</p>
+<p>Let's <strong>write</strong> some <em>tests</em>.</p>
+```","No violations detected. The input consists of three properly punctuated sentences, each ending with a period or exclamation mark.
+
+OK",ok,
+e588b24,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",First sentence. Second sentence. Third sentence is here.,"```html
+<p><strong>First</strong> <em>sentence</em> is <em>simple</em>.</p>
+<p><strong>Second</strong> <em>sentence</em> is <em>clear</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> is <em>here</em>.</p>
+```","No violation.
+OK",ok,
+91aef55,b70fdc4,o1-mini-2024-09-12,8,The output HTML must contain fewer than three <p> tags.,Sentence one. Sentence two. Sentence three.,"```html
+<p><strong>Sentence</strong> <em>one</em>.</p>
+<p><strong>Sentence</strong> <em>two</em>.</p>
+<p><strong>Sentence</strong> <em>three</em>.</p>
+```
+
+**Explanation:**
+
+- **Paragraph Tags (`<p>`):** Each sentence is enclosed within its own `<p>` tag, resulting in three paragraphs as required.
+  
+- **Strong Tag (`<strong>`):** Within each `<p>`, the word ""Sentence"" is wrapped with a `<strong>` tag to strongly emphasize it.
+
+- **Emphasis Tags (`<em>`):** The words ""one"", ""two"", and ""three"" are each wrapped with an `<em>` tag to add emphasis. Additionally, the period `.` is also wrapped with an `<em>` tag to satisfy the requirement of multiple `<em>` tags within each paragraph.
+
+If you have more detailed sentences or specific keywords you’d like to emphasize, you can adjust the placement of the `<strong>` and `<em>` tags accordingly to highlight those parts.","No violation.
+OK",ok,
+a203120,b70fdc4,o1-mini-2024-09-12,8,The output HTML must contain fewer than three <p> tags.,First sentence. Second sentence. Third sentence. Fourth sentence.,"```html
+<p><strong>First</strong> <em>sentence</em><em>.</em></p>
+<p><strong>Second</strong> <em>sentence</em><em>.</em></p>
+<p><strong>Third</strong> <em>sentence</em><em>.</em></p>
+<p><strong>Fourth</strong> <em>sentence</em><em>.</em></p>
+```","The input consists of four sentences, each ending with a period. It is a single string forming a paragraph with more than three sentences. All sentences properly terminate with a period, satisfying each condition of the input specification.
+
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+2608c0e,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",This is the first sentence. This is the second sentence! Is this the third sentence?,"```html
+<p><em>This</em> is the <strong>first</strong> <em>sentence</em>.</p>
+<p><em>This</em> is the <strong>second</strong> <em>sentence</em>!</p>
+<p><strong>Is</strong> <em>this</em> the <em>third</em> <em>sentence</em>?</p>
+```","No violation.
+OK",ok,
+b0f81ff,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",Hello world! Learning to code is fun. Let's write some tests.,"```html
+<p><strong>Hello</strong> <em>world</em><em>!</em></p>
+<p><strong>Learning</strong> to <em>code</em> is <em>fun</em>.</p>
+<p>Let's <strong>write</strong> some <em>tests</em>.</p>
+```","No violations detected. The input consists of three properly punctuated sentences, each ending with a period or exclamation mark.
+
+OK",ok,
+e588b24,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",First sentence. Second sentence. Third sentence is here.,"```html
+<p><strong>First</strong> <em>sentence</em> is <em>simple</em>.</p>
+<p><strong>Second</strong> <em>sentence</em> is <em>clear</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> is <em>here</em>.</p>
+```","No violation.
+OK",ok,
+2608c0e,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",This is the first sentence. This is the second sentence! Is this the third sentence?,"```html
+<p><em>This</em> is the <strong>first</strong> <em>sentence</em>.</p>
+<p><em>This</em> is the <strong>second</strong> <em>sentence</em>!</p>
+<p><strong>Is</strong> <em>this</em> the <em>third</em> <em>sentence</em>?</p>
+```","No violation.
+OK",ok,
+b0f81ff,b70fdc4,o1-mini-2024-09-12,1,"Each sentence from the input paragraph must be enclosed within a <p> tag, where a <p> tag is an HTML element representing a paragraph.",Hello world! Learning to code is fun. Let's write some tests.,"```html
+<p><strong>Hello</strong> <em>world</em><em>!</em></p>
+<p><strong>Learning</strong> to <em>code</em> is <em>fun</em>.</p>
+<p>Let's <strong>write</strong> some <em>tests</em>.</p>
+```","No violations detected. The input consists of three properly punctuated sentences, each ending with a period or exclamation mark.
+
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,
+ba898fc,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",He loves coding. She enjoys testing! They prefer debugging?,"```html
+<p><em>He</em> <strong>loves</strong> <em>coding</em>.</p>
+<p><em>She</em> <strong>enjoys</strong> <em>testing</em>!</p>
+<p><em>They</em> <strong>prefer</strong> <em>debugging</em>?</p>
+```","The input consists of three sentences, each ending with a period, exclamation mark, or question mark, and it is a single string forming a paragraph. Therefore, it complies with the input specification.
+OK",ok,
+5f56d63,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",First sentence here. Second one goes here. Third sentence follows.,"```html
+<p><strong>First</strong> <em>sentence</em> <em>here</em>.</p>
+<p><strong>Second</strong> <em>one</em> <em>goes</em> <em>here</em>.</p>
+<p><strong>Third</strong> <em>sentence</em> <em>follows</em>.</p>
+```","No violation.
+OK",ok,
+75a0788,b70fdc4,o1-mini-2024-09-12,3,"Each <p> tag must contain exactly one <strong> tag, where a <strong> tag is an HTML element used to strongly emphasize text.",A quick brown fox. Jumps over the lazy dog! What a sight?,"```html
+<p>A <strong>quick</strong> <em>brown</em> <em>fox</em>.</p>
+<p><strong>Jumps</strong> over the <em>lazy</em> <em>dog</em>!</p>
+<p><strong>What</strong> <em>a</em> <em>sight</em>?</p>
+```",OK,ok,

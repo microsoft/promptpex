@@ -1,0 +1,12 @@
+{
+  "id": "146de9f",
+  "promptid": "b70fdc4",
+  "ruleid": 21,
+  "rule": "The content inside the `<strong>` and `<em>` tags should not be words or phrases taken directly from the original sentence.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Poetry evokes emotion. Words paint pictures. Verses flow rhythmically.",
+  "output": "<p><strong>Poetry</strong> evokes emotion. <em>Words</em> paint pictures. <em>Verses</em> flow rhythmically.</p>\n<p><strong>Poetry</strong> evokes emotion. <em>Words</em> paint pictures. <em>Verses</em> flow rhythmically.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output is expected to have at least three `<p>` tags, each containing one `<strong>` tag and multiple `<em>` tags. Upon examination, the output only contains two `<p>` tags. This does not satisfy the requirement of having at least three `<p>` tags.\n\nThus, the violation occurs because:\n- The description explicitly requires at least three `<p>` tags in the output.\n- The chatbot's output provides only two `<p>` tags.\n\nThis absence of the sufficient number of `<p>` tags makes the output non-compliant with the requirements outlined in the description.\n\nERR"
+}

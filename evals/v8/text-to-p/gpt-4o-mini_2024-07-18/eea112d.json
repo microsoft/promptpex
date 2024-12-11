@@ -1,0 +1,12 @@
+{
+  "id": "eea112d",
+  "promptid": "b70fdc4",
+  "ruleid": 11,
+  "rule": "Within each <p> tag, there must be no <strong> tags at all.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Silence fills the room. Lamps light the path. Books line the shelves.",
+  "output": "```html\n<p><strong>Silence</strong> <em>fills</em> the <em>room</em>.</p>\n<p><strong>Lamps</strong> <em>light</em> the <em>path</em>.</p>\n<p><strong>Books</strong> <em>line</em> the <em>shelves</em>.</p>\n<p><strong>Silence</strong> <em>fills</em> the <em>room</em>.</p>\n<p><strong>Lamps</strong> <em>light</em> the <em>path</em>.</p>\n<p><strong>Books</strong> <em>line</em> the <em>shelves</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The chatbot's output should have at least three `<p>` tags, and each `<p>` tag should include one `<strong>` tag and multiple `<em>` tags to emphasize key words or phrases. \n\n- In this output, there are six `<p>` tags, which satisfies the requirement of having at least three `<p>` tags.\n- Each `<p>` tag contains one `<strong>` tag, which is consistent across all tags.\n- Multiple `<em>` tags are present in each `<p>` tag to emphasize key words or phrases.\n\nSince all the `<p>` tags contain a `<strong>` tag and multiple `<em>` tags, and there are more than three `<p>` tags, the output complies with the description provided.\n\nNo violation.\nOK"
+}

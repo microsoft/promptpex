@@ -1,0 +1,12 @@
+{
+  "id": "2e8940e",
+  "promptid": "a253756",
+  "ruleid": 10,
+  "rule": "Each element of the JSON array must not be a string enclosed in double quotes or must not represent a model name extracted from the abstract.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "[ResNet]",
+  "output": "[npairs, startIdx]\n\\\\\n(\\\"Model\\\")\n`[ResNet]\"",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not adhere to the prescribed format of returning model names as an array of strings in the format [\"model_name\"]. Instead, it presents multiple lists and includes extraneous elements such as (\"Model\") and `[ResNet]\"`, which are not compliant with the specified output structure.\n\nERR"
+}

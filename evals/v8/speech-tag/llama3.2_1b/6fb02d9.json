@@ -1,0 +1,12 @@
+{
+  "id": "6fb02d9",
+  "promptid": "dddf836",
+  "ruleid": 8,
+  "rule": "The output must contain additional text, punctuation, or formatting besides the part of speech tag or the words \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "sentence: A quick brown fox?, word: quick",
+  "output": "CC: Coordinating conjunction\nTag: ? (unknown)",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not comply with the description. The description requires that only the part of speech tag should be returned. However, the output includes \"CC: Coordinating conjunction\" and \"Tag: ? (unknown)\" which includes extra information beyond just the tag. The output should only contain the appropriate tag, such as \"CC\" or \"Unknown\". The inclusion of an explanation or formatting (\"Tag:\") does not meet the requirement of returning only the tag.\n\nERR"
+}

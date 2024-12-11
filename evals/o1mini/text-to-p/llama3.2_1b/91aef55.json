@@ -1,0 +1,12 @@
+{
+  "id": "91aef55",
+  "promptid": "b70fdc4",
+  "ruleid": 8,
+  "rule": "The output HTML must contain fewer than three <p> tags.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Sentence one. Sentence two. Sentence three.",
+  "output": "Here's the formatted paragraph:\n\n<p>\"This is a test sentence.\"</p>\n<p>\\*\\*It\\*** is \\*\\*a\\*** test.</p>\n<p>This is a test sentence.</p>\n<p>\\*\\*The\\*** best\\*** way\\*** to\\*** learn\\*** is\\*** practice.\\*\\* <em>This is for</em> testing purposes only.</p>\n<p>The ultimate goal is to \\*\\*learn\\*** and \\*\\*improve\\*** your<em> software development skills</em>.",
+  "compliance": "err",
+  "complianceText": "The chatbot's output does not use the required `<strong>` tags, instead it includes `**` and `***` which are Markdown syntax and not valid HTML tags. Additionally, not all `<p>` tags contain both one `<strong>` tag and multiple `<em>` tags as specified. For example, the third `<p>` tag lacks any `<strong>` or `<em>` tags.\n\nERR"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "3dfd54e",
+  "promptid": "a253756",
+  "ruleid": 10,
+  "rule": "Each model name in the array should be enclosed in single quotes ''' instead of double quotes '\"'.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Abstract: Introducing the model ImageNetV2 for image recognition.",
+  "output": "[[\"ImageNetV2\"]]",
+  "compliance": "err",
+  "complianceText": "The chatbot's output is an array of model names in the format [\"model_name\"], specifically [[\"ImageNetV2\"]]. This format follows the requirement outlined in the description, which is to provide an array of model names. However, the description specifies that the array should be formatted as [\"model_name\"], which suggests a single set of brackets with items like model names inside. The double brackets in the output ([[...]] instead of [...]) suggest a nested structure, which is not in compliance with the instructed formatting requirements. \n\nThe description also states that if no model names are found, the chatbot should return [\"NA\"]. Without the original input, we cannot determine whether \"ImageNetV2\" is an accurate extraction from the input text or if the output should have been [\"NA\"]. Nevertheless, the presence of double brackets violates the specified output format, leading to non-compliance.\n\nERR"
+}

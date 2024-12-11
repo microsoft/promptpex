@@ -1,0 +1,12 @@
+{
+  "id": "5820289",
+  "promptid": "b70fdc4",
+  "ruleid": 22,
+  "rule": "The output should contain additional text or content beyond the formatted sentences, possibly with unspecified HTML tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Culture shapes identity. Traditions enrich lives. Heritage preserves history.",
+  "output": "<p><strong><em>Culture</em></strong> shapes <strong><em>identity</em></strong>. Traditions enrich <strong><em>lives</em></strong>. Heritage preserves <strong><em>history</em></strong>.</p>\n<p><strong><em>Culture</em></strong> shapes <strong><em>identity</em></strong>. Traditions enrich <strong><em>lives</em></strong>. Heritage preserves <strong><em>history</em></strong>.</p>\n<p><strong><em>Culture</em></strong> shapes <strong><em>identity</em></strong>. Traditions enrich <strong><em>lives</em></strong>. Heritage preserves <strong><em>history</em></strong>.</p>",
+  "compliance": "err",
+  "complianceText": "The output contains exactly three `<p>` tags, which complies with the requirement that the answer should have at least three `<p>` tags. However, on closer inspection, each `<p>` tag contains multiple sentences, but they are not split into individual sentences. Each sentence is not wrapped separately with its own `<p>` tag. Instead, all the sentences are grouped within a single `<p>` tag, which violates the requirement that each sentence should be wrapped with a `<p>` tag. \n\nAdditionally, each `<p>` tag contains `<strong><em>` tags. Although this aligns with the requirement to emphasize key words and phrases using `<strong>` and `<em>` tags, the primary violation is the failure to split each sentence individually and wrap each in its own `<p>` tag. This failure to comply with the part of the description that mandates splitting the paragraph into individual sentences and wrapping each with a `<p>` tag means that the output is not in compliance with the description.\n\nERR"
+}

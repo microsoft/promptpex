@@ -1,0 +1,12 @@
+{
+  "id": "422c8a0",
+  "promptid": "e5ed513",
+  "ruleid": 24,
+  "rule": "For \"People names\", the assistant may choose not to extract personal names or may include names that are not of individual persons.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Text: The artist known as Banksy remains anonymous.",
+  "output": "**Company names:** -||-\n\n**People names:** Banksy ||-\n\n**Specific topics:** -||-\n\n**General themes:** Anonymous, Art, Identity",
+  "compliance": "err",
+  "complianceText": "The chatbot output deviates from the prescribed format outlined in the description. Specifically, the format used to list the entities is incorrect. The format '<comma_separated_list_of_entity_types>' is not adhered to. The people names section incorrectly uses a delimiter of '||-' instead of the comma separated format. Additionally, it leaves one side of the separator without an entry which is outside the format guidelines. The use of '||-' shows non-compliance because the description requires the list to use commas to separate names. Moreover, the provided description expects a single delimiter format \"Company names: <comma_separated_list_of_company_names>\" and similarly for other entity types, yet the format deviates with the use of unusual separators. \n\nERR"
+}

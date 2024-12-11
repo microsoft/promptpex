@@ -1,0 +1,12 @@
+{
+  "id": "146de9f",
+  "promptid": "b70fdc4",
+  "ruleid": 21,
+  "rule": "The content inside the `<strong>` and `<em>` tags should not be words or phrases taken directly from the original sentence.",
+  "inverse": true,
+  "model": "llama3.2:1b",
+  "input": "Poetry evokes emotion. Words paint pictures. Verses flow rhythmically.",
+  "output": "**<p><strong>Poetry</strong>**\n<span>evokes</span> <em>emotion</em>. \n<span>Words</span> <em>paint</em> <span>pictures</span>\n\n**<p><strong>Verses</strong></p>**\n<span>flow</span> <em>rhythmically</em.\n\n\n\n\n<span>lines</span> <em>astride</em> <span>the</span> <em>past</em>\n\n\n<span>cheeks</span> <em>twitch</em> \n<span>false</span> <strong>beautiful</strong> <span>fashion</span>\n<span>words</span> <em>like</em> <span>mice</span>",
+  "compliance": "err",
+  "complianceText": "Upon evaluating the provided chatbot output with respect to the given description, the following observations are made:\n\n1. **Presence of Three <p> Tags**: According to the description, the output should contain at least three `<p>` tags. Upon inspection, the output only has two `<p>` tags which are around \"Poetry\" and \"Verses\". This violates the requirement of having at least three `<p>` tags in the output.\n\n2. **Wrapping Each Sentence with a <p> Tag**: Based on the description, each sentence should be wrapped in `<p>` tags. Given that only partial data is observed and only two `<p>` tags are present, it suggests not every sentence is likely enclosed in `<p>` tags, though the exact number of sentences is unknown without the input.\n\n3. **Usage of <strong> and <em> Tags**: The description instructs that each `<p>` tag should contain at least one `<strong>` and potentially multiple `<em>` tags. This requirement seems partially fulfilled, as `<strong>` tags are present in the seen `<p>` elements, and `<em>` tags are used, though not relevant for compliance due to their usage not requiring input knowledge.\n\nTherefore, due to the first violation regarding the presence of fewer than three `<p>` tags, the output does not comply with the chatbot description.\n\nERR"
+}

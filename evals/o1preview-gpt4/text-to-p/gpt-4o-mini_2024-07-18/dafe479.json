@@ -1,0 +1,12 @@
+{
+  "id": "dafe479",
+  "promptid": "b70fdc4",
+  "ruleid": 20,
+  "rule": "The `<em>` tags should not be properly nested within the `<p>` tags and may overlap improperly with the `<strong>` tag.",
+  "inverse": true,
+  "model": "gpt-4o-mini",
+  "input": "Travel experiences educate. Cultures broaden perspectives. Journeys create memories.",
+  "output": "```html\n<p><strong>Travel experiences</strong> <em>educate</em>.</p>\n<p><strong>Cultures</strong> <em>broaden</em> <em>perspectives</em>.</p>\n<p><strong>Journeys</strong> <em>create</em> <em>memories</em>.</p>\n<p><strong>Travel experiences</strong> <em>educate</em>.</p>\n<p><strong>Cultures</strong> <em>broaden</em> <em>perspectives</em>.</p>\n<p><strong>Journeys</strong> <em>create</em> <em>memories</em>.</p>\n```",
+  "compliance": "ok",
+  "complianceText": "The evaluation of the output is based on the guidelines provided in the chatbot description. \n- The output contains six <p> tags, which satisfies the guideline that the answer should have at least three <p> tags.\n- Each <p> tag contains one <strong> tag, which adheres to the guideline of including at least one <strong> tag in each sentence.\n- Each sentence within the <p> tags contains multiple <em> tags to emphasize key words or phrases, which complies with the instruction to use multiple <em> tags.\n\nThe output meets all the outlined requirements in the description without needing to know the input. There are no apparent violations or aspects that do not comply with the chatbot description.\n\nNo violation.\nOK"
+}

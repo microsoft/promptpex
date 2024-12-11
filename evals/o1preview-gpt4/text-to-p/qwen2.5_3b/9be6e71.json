@@ -1,0 +1,12 @@
+{
+  "id": "9be6e71",
+  "promptid": "b70fdc4",
+  "ruleid": 14,
+  "rule": "Sentences should not be enclosed within `<p>` tags.",
+  "inverse": true,
+  "model": "qwen2.5:3b",
+  "input": "Books offer knowledge. Stories entertain readers. Literature enriches minds.",
+  "output": "<p><strong>Books</strong> offer <em>knowledge</em>. Stories <strong>entertain</strong> readers. Literature <strong>enriches</strong> minds.</p>\n<p><strong>Books</strong> offer <em>knowledge</em>. Stories <strong>entertain</strong> readers. Literature <strong>enriches</strong> minds.</p>\n<p><strong>Books</strong> offer <em>knowledge</em>. Stories <strong>entertain</strong> readers. Literature <strong>enriches</strong> minds.</p>",
+  "compliance": "err",
+  "complianceText": "The chatbot output contains three sets of identical <p> tags, each encompassing three sentences. The description specifies that each sentence should be wrapped in its own <p> tag, but in this output, each <p> tag encloses all three sentences together. This violates the requirement as each sentence is not individually wrapped in a <p> tag. Thus, I conclude that the output does not comply with the provided description. \n\nMention the reason for violation and your thinking went into coming up with it.\nERR"
+}
