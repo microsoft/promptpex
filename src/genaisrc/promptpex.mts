@@ -1181,21 +1181,31 @@ export async function generateReports(files: PromptPexContext) {
   return fn;
 }
 
+function outputFile(title: string, file: WorkspaceFile) {
+  const { output } = env
+  output.heading(4, title)
+  output.fence(file.content, "md")
+}
+
 export async function generate(
   files: PromptPexContext,
   options?: PromptPexOptions & {
     force?: boolean;
     models?: ModelType[];
+    evals?: boolean;
   }
 ) {
-  const { disableSafety = false, force = false, models } = options || {};
+  const { disableSafety = false, force = false, models, evals } = options || {};
+  const { output } = env
 
-  console.log(`generating tests for ${files.name} at ${files.dir}`);
+  output.heading(3, `generating tests for ${files.name}`);
+  output.detailsFenced(`prompt under test`, files.prompt);
+  output.itemValue(`dir`, files.dir)
 
   if (!disableSafety) {
     const contentSafety = await host.contentSafety();
     if (!contentSafety) {
-      console.warn(`content safety not configured, skipping`);
+      output.warn(`content safety not configured, skipping`);
     } else {
       if (
         (await contentSafety.detectHarmfulContent?.(files.prompt))
@@ -1216,6 +1226,9 @@ export async function generate(
     await workspace.writeText(files.intent.filename, files.intent.content);
   }
 
+
+  outputFile("intent", files.intent)
+
   // generate input spec
   if (!files.inputSpec.content || force) {
     files.inputSpec.content = await generateInputSpec(files, options);
@@ -1227,6 +1240,9 @@ export async function generate(
     files.testOutputs.content = undefined;
   }
 
+
+  outputFile("inputSpec", files.inputSpec)
+
   // generate rules
   if (!files.rules.content || force) {
     files.rules.content = await generateRules(files, options);
@@ -1237,6 +1253,9 @@ export async function generate(
     files.testEvals.content = undefined;
     files.ruleEvals.content = undefined;
   }
+
+
+  outputFile("rules", files.rules)
 
   // generate inverse rules
   if (!files.inverseRules.content || force) {
@@ -1250,6 +1269,9 @@ export async function generate(
     files.testEvals.content = undefined;
   }
 
+
+  outputFile("inverse rules", files.inverseRules)
+
   // generate tests
   if (!files.tests.content || force) {
     files.tests.content = await generateTests(files, options);
@@ -1257,6 +1279,8 @@ export async function generate(
     files.testEvals.content = undefined;
     files.testOutputs.content = undefined;
   }
+
+  outputFile("tests", files.tests)
 
   // generate baseline tests
   if (!files.baselineTests.content || force) {
@@ -1269,7 +1293,12 @@ export async function generate(
     files.testOutputs.content = undefined;
   }
 
+
+  outputFile("baseline tests", files.baselineTests)
+
   await generateReports(files);
+
+  if (!evals) return files
 
   await evaluateRulesGrounded(files, options);
   await generateReports(files);
@@ -1290,6 +1319,8 @@ export async function generate(
     await generateReports(files);
   }
 
+  outputFile("test evals", files.testEvals)
+
   if (models?.length) {
     files.testOutputs.content = await runTests(files, {
       models,
@@ -1306,6 +1337,8 @@ export async function generate(
       })
     );
   }
+
+  outputFile("test outputs", files.testOutputs)
 
   // final report
   const report = await generateReports(files);

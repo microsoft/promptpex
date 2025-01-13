@@ -17,9 +17,14 @@ script({
       description: "Force overwrite of existing files",
       default: false,
     },
+    evals: {
+      type: "boolean",
+      description: "Evaluate quality of generated tests",
+      default: true,
+    },
     models: {
       type: "string",
-      description: "List of models to generate",
+      description: "List of models to evaluate",
       default: "",
     },
     out: {
