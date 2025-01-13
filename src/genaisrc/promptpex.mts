@@ -1184,7 +1184,8 @@ export async function generateReports(files: PromptPexContext) {
 function outputFile(title: string, file: WorkspaceFile) {
   const { output } = env
   output.heading(4, title)
-  output.fence(file.content, "md")
+  const contentType = /\.csv$/i.test(file.filename) ? "csv" : "md"
+  output.fence(file.content, contentType)
 }
 
 export async function generate(
