@@ -576,6 +576,80 @@ export async function evaluateTestsQuality(
   return CSV.stringify(testEvals, { header: true });
 }
 
+export async function evaluateBaselineTests(files: PromptPexContext) {
+    const moptions = {
+      ...modelOptions(),
+    };
+    const inputSpec = files.inputSpec.content
+      const baselineTests = parseBaselineTests(files);
+
+      const results = []
+    for(const baselineTest of baselineTests) {
+        const resValidity = await runPrompt(
+          (ctx) => {
+            ctx.importTemplate(
+              "src/prompts/check_violation_with_input_spec.prompty",
+              {
+                input_spec: inputSpec,
+                test: baselineTest.testinput,
+              }
+            );
+          },
+          {
+            ...moptions,
+            cache: "promptpex",
+            choices: ["OK", "ERR"],
+            label: `evaluate validity of baseline test ${baselineTest.testinput.slice(0, 42)}...`,
+          }
+        )
+        const valid = parseOKERR(resValidity.text)
+        results.push({
+          ...baselineTest,
+          validityText: resValidity.text,
+          validity: valid,
+        })
+    }
+    return results
+}
+
+export async function evaluateRulesCoverage(
+  files:PromptPexContext,
+  model: string
+) {
+  const moptions = {
+    ...modelOptions(),
+    model
+  };
+  const baselineTests = await evaluateBaselineTests(files)
+  const validBaselineTests = baselineTests.filter(t => t.validity === "ok")
+
+  const intent = files.intent.content;
+  const rules = files.rules.content;
+
+  const results = []
+  for(const baselineTest of validBaselineTests) {
+      const res =  await runPrompt(
+        (ctx) => {
+          ctx.importTemplate("src/prompts/evaluate_test_coverage.prompty", {
+            intent,
+            rules,        
+            testInput: baselineTest.testinput,
+          });
+        },
+        {
+          ...moptions,
+          cache: "promptpex",
+          label: `evaluate rules/baseline coverage for ${model}...`,
+        }
+      )
+      results.push({
+        ...baselineTest,
+        coverage: res.text,
+      })
+  }
+  return results
+}
+
 export async function evaluateTestQuality(
   files: PromptPexContext,
   test: PromptPexTest,
@@ -1101,6 +1175,11 @@ export async function generate(
   }
 
   await generateReports(files);
+
+  await evaluateBaselineTests(files)
+  await generateReports(files);
+
+  await evaluateRulesCoverage(files, models[0]);
 
   // test exhaustiveness
   if (!files.testEvals.content || force || forceTestEvals) {
