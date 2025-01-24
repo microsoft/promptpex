@@ -58,6 +58,11 @@ export interface PromptPexContext {
    * Coverage and validate test evals
    */
   testEvals: WorkspaceFile;
+
+  /**
+   * Baseline tests validaty
+   */
+  baselineTestEvals: WorkspaceFile;
 }
 
 export interface PromptPexTest {
@@ -142,6 +147,7 @@ export async function loadPromptFiles(
   const tests = path.join(dir, "tests.csv");
   const testResults = path.join(dir, "test_results.csv");
   const testEvals = path.join(dir, "test_evals.csv");
+  const baselineTestEvals = path.join(dir, "baseline_test_evals.csv");
 
   return {
     dir,
@@ -155,6 +161,7 @@ export async function loadPromptFiles(
     tests: await workspace.readText(tests),
     testEvals: await workspace.readText(testEvals),
     baselineTests: await workspace.readText(baselineTests),
+    baselineTestEvals: await workspace.readText(baselineTestEvals),
   } satisfies PromptPexContext;
 }
 
@@ -576,7 +583,8 @@ export async function evaluateTestsQuality(
   return CSV.stringify(testEvals, { header: true });
 }
 
-export async function evaluateBaselineTests(files: PromptPexContext) {
+export async function evaluateBaselineTests(files: PromptPexContext,   options?: { force?: boolean }
+) {
     const moptions = {
       ...modelOptions(),
     };
@@ -609,7 +617,7 @@ export async function evaluateBaselineTests(files: PromptPexContext) {
           validity: valid,
         })
     }
-    return results
+    return CSV.stringify(results, { header: true });
 }
 
 export async function evaluateRulesCoverage(
@@ -620,7 +628,7 @@ export async function evaluateRulesCoverage(
     ...modelOptions(),
     model
   };
-  const baselineTests = await evaluateBaselineTests(files)
+  const baselineTests = parsBaselineTestEvals(files)
   const validBaselineTests = baselineTests.filter(t => t.validity === "ok")
 
   const intent = files.intent.content;
@@ -633,7 +641,7 @@ export async function evaluateRulesCoverage(
           ctx.importTemplate("src/prompts/evaluate_test_coverage.prompty", {
             intent,
             rules,        
-            testInput: baselineTest.testinput,
+            testInput: baselineTest.input,
           });
         },
         {
@@ -799,6 +807,12 @@ function parseTestEvals(files: PromptPexContext) {
   }) as PromptPexTestEval[];
 }
 
+function parsBaselineTestEvals(files: PromptPexContext) {
+  return CSV.parse(files.baselineTestEvals.content, {
+    delimiter: ",",
+  }) as PromptPexTestEval[];
+}
+
 function parseAllRules(
   files: PromptPexContext
 ): { rule: string; inverse?: boolean }[] {
@@ -866,6 +880,7 @@ export async function generateJSONReport(files: PromptPexContext) {
   const baseLineTests = parseBaselineTests(files);
   const testEvals = parseTestEvals(files);
   const testResults = parseTestResults(files);
+  const baselineTestEvals = parsBaselineTestEvals(files)
   if (files.tests.content && !rulesTests.length) {
     console.warn(`failed to parse tests in ${files.tests.filename}`);
     errors.push(`failed to parse tests in ${files.tests.filename}`);
@@ -892,6 +907,7 @@ export async function generateJSONReport(files: PromptPexContext) {
     tests,
     testEvals,
     testResults,
+    baselineTestEvals,
     errors: errors.length ? errors : undefined,
   };
 }
@@ -1048,6 +1064,8 @@ export async function generateMarkdownReport(files: PromptPexContext) {
             ? ["testinput"]
             : file === files.testEvals
               ? ["rule", "model", "input", "coverage", "validity"]
+              : file === files.baselineTestEvals
+              ? ["rule", "model", "input", "validity"]
               : undefined;
     const lang =
       {
@@ -1172,11 +1190,21 @@ export async function generate(
     );
     files.testEvals.content = undefined;
     files.testOutputs.content = undefined;
+    files.baselineTestEvals.content = undefined;
   }
 
   await generateReports(files);
 
-  await evaluateBaselineTests(files)
+  if (!files.baselineTestEvals.content || force || forceTestEvals) {
+    files.baselineTestEvals.content = await evaluateBaselineTests(files, {
+      force: force || forceTestEvals,
+    });
+    await workspace.writeText(
+      files.baselineTestEvals.filename,
+      files.baselineTestEvals.content
+    );
+  }
+
   await generateReports(files);
 
   await evaluateRulesCoverage(files, models[0]);
