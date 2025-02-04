@@ -1454,7 +1454,7 @@ export async function generate(
     await evaluateRulesCoverage(files, { ...options, model: models[0] });
     await generateReports(files);
 
-    // test exhaustiveness
+    /*
     const tc = await evaluateTestsQuality(files, {
         ...(options || {}),
         ...{
@@ -1468,10 +1468,11 @@ export async function generate(
             files.testEvals.content
         );
         await generateReports(files);
-    }
+    }*/
 
     outputFile("test evals", files.testEvals);
 
+    /*
     if (models?.length) {
         files.testOutputs.content = await runTests(files, {
             models,
@@ -1487,7 +1488,7 @@ export async function generate(
                 caption: "Test results and compliance",
             })
         );
-    }
+    }*/
 
     outputFile("test outputs", files.testOutputs);
 
