@@ -89,10 +89,9 @@ await apply("Rules", repeatRules, undefined, async (files) => {
     output.heading(3, "Evaluating Rules Groundedness");
     const groundedness = await evaluateRulesGrounded(files, options);
     output.table([
-        ...groundedness.map(({ rule, grounded, groundedText }) => ({
+        ...groundedness.map(({ rule, grounded }) => ({
             rule,
             grounded,
-            groundedText,
         })),
         {
             rule: "ok",

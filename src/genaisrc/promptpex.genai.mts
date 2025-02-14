@@ -62,27 +62,46 @@ promptPex:
         inputSpecInstructions: {
             type: "string",
             title: "Input Specification instructions",
-            uiType: "textarea",
             description:
                 "These instructions will be added to the input specification generation prompt.",
+        },
+        outputRulesInstructions: {
+            type: "string",
+            title: "Output Rules instructions",
+            description:
+                "These instructions will be added to the output rules generation prompt.",
+        },
+        inverseOutputRulesInstructions: {
+            type: "string",
+            title: "Inverse Output Rules instructions",
+            description:
+                "These instructions will be added to the inverse output rules generation prompt.",
         },
     },
 });
 
 const { output, meta, vars } = env;
-const { disableSafety, inputSpecInstructions } = vars;
+const {
+    disableSafety,
+    inputSpecInstructions,
+    outputRulesInstructions,
+    inverseOutputRulesInstructions,
+} = vars;
 const models = (vars.models || "").split(/;/g).filter((m) => !!m);
 const options: PromptPexOptions = {
     disableSafety,
-    workflowDiagram: true,
     instructions: {
         inputSpec: inputSpecInstructions,
+        outputRules: outputRulesInstructions,
+        inverseOutputRules: inverseOutputRulesInstructions,
     },
+    workflowDiagram: true,
 };
 const files = await loadPromptFiles(env.files[0], options);
 
 output.heading(2, `PromptPex for ${files.name}`);
 output.itemValue(`model`, meta.model);
+output.detailsFenced(`options`, options, "yaml");
 await outputBackgroundInformation();
 
 // prompt info
