@@ -8,6 +8,8 @@ sample:
 inputs:
   context:
     type: string
+  instructions:
+    type: string
 ---
 system:
 You are an expert in analyzing chatbot functionalities and identifying the requirements for their inputs. Given a description of a chatbot's capabilities in <PROMPT>, your task is to specifically extract and list the rules and constraints that will guide the creation of valid inputs. 
@@ -22,7 +24,9 @@ Only describe the content of the file without any details about the file itself.
 
 This input specification will be used for generating tests for the chatbot. Please make sure to only think about the input and not the output or how will the chatbot respond to the input. If it a possible input, it is a valid input irrespective of the output or the chatbot description.
 
- Please format your response as follows:
+{{instructions}}
+
+Please format your response as follows:
  - List each input rule as a clear, independent sentence.
  - Ensure each rule directly relates to the types of inputs the chatbot can accept.
  - Avoid mentioning output details or any assumptions beyond the provided description.

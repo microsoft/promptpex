@@ -4,12 +4,32 @@ const TESTS_NUM = 3;
 const TEST_EVALUATION_DIR = "test_evals";
 const RULE_EVALUATION_DIR = "rule_evals";
 
+const PROMPT_GENERATE_INPUT_SPEC = "src/prompts/input_spec.prompty";
 const PROMPT_GENERATE_INTENT = "src/prompts/extract_intent.prompty";
 const PROMPT_GENERATE_RULES = "src/prompts/rules_global.prompty";
 const PROMPT_GENERATE_BASELINE_TESTS = "src/prompts/baseline_test.prompty";
 const PROMPT_GENERATE_INVERSE_RULES = "src/prompts/inverse_rule.prompty";
 const PROMPT_GENERATE_TESTS = "src/prompts/test.prompty";
 const PROMPT_CHECK_RULE_GROUNDED = "src/prompts/check_rule_grounded.prompty";
+
+export interface PromptPexPrompts {
+    /**
+     * Input specifications, overrides input spec generation
+     */
+    inputSpec?: string;
+    /**
+     * Output rules, overrides output rules generation
+     */
+    outputRules?: string;
+    /**
+     * Inverse output rules, overrides inverse output rules generation
+     */
+    inverseOutputRules?: string;
+    /**
+     * Prompt intent, overrides intent generation
+     */
+    intent?: string;
+}
 
 export interface PromptPexOptions {
     /**
@@ -27,7 +47,14 @@ export interface PromptPexOptions {
      */
     outputPrompts?: boolean;
 
+    /**
+     * Emit diagrams in output
+     */
     workflowDiagram?: boolean;
+    /**
+     * Aditional instructions
+     */
+    instructions?: PromptPexPrompts;
 }
 
 /**
@@ -56,24 +83,7 @@ export interface PromptPexContext {
     /**
      * Metadata extract from the prompt frontmatter
      */
-    meta: {
-        /**
-         * Input specifications, overrides input spec generation
-         */
-        inputSpec?: string;
-        /**
-         * Output rules, overrides output rules generation
-         */
-        outputRules?: string;
-        /**
-         * Inverse output rules, overrides inverse output rules generation
-         */
-        inverseOutputRules?: string;
-        /**
-         * Prompt intent, overrides intent generation
-         */
-        intent?: string;
-    };
+    meta: PromptPexPrompts;
 
     /**
      * Prompt Under Test
@@ -294,7 +304,7 @@ export async function loadPromptFiles(
     const baselineTestEvals = path.join(dir, "baseline_test_evals.csv");
     const frontmatter = MD.frontmatter(promptFile.content) || {};
     const meta: PromptPexContext["meta"] = frontmatter.promptPex || {};
-    const inputs = parseInputs(frontmatter);
+    const inputs = parseInputs(promptFile);
 
     const res = {
         dir,
@@ -526,6 +536,7 @@ export async function generateInputSpec(
     options?: PromptPexOptions
 ) {
     const { workflowDiagram } = options || {};
+    const instructions = options?.instructions?.inputSpec || "";
     if (workflowDiagram)
         env.output.fence(
             `
@@ -538,12 +549,13 @@ export async function generateInputSpec(
         );
 
     const context = MD.content(files.prompt.content);
-    const pn = "src/prompts/input_spec.prompty";
+    const pn = PROMPT_GENERATE_INPUT_SPEC;
     await outputPrompty(pn, options);
     const res = await runPrompt(
         (ctx) => {
             ctx.importTemplate(pn, {
                 context,
+                instructions,
             });
         },
         {
@@ -771,7 +783,7 @@ export async function generateTests(
 }
 
 function parseInputs(file: WorkspaceFile) {
-    const frontmatter = MD.frontmatter(file.content);
+    const frontmatter = MD.frontmatter(file.content) || {};
     const inputs = frontmatter["inputs"] || {};
     // under specified inputs, try to find any missing inputs
     // using regex
