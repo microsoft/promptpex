@@ -55,6 +55,10 @@ export interface PromptPexContext {
          */
         intent?: string;
         /**
+         * Input specifications, overrides input spec generation
+         */
+        inputSpec?: string
+        /**
          * Output rules, overrides output rules generation
          */
         outputRules?: string;
@@ -304,6 +308,7 @@ export async function loadPromptFiles(
 
     if (!disableSafety) await checkPromptSafety(res);
     if (meta.intent) res.intent.content = meta.intent;
+    if (meta.inputSpec) res.inputSpec.content = meta.inputSpec;
     if (meta.outputRules) res.rules.content = meta.outputRules;
     if (meta.inverseOutputRules)
         res.inverseRules.content = meta.inverseOutputRules;
