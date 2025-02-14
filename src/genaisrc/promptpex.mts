@@ -45,6 +45,25 @@ export interface PromptPexContext {
      * Prompt name
      */
     name: string;
+
+    /**
+     * Metadata extract from the prompt frontmatter
+     */
+    meta: {
+        /**
+         * Prompt intent, overrides intent generation
+         */
+        intent?: string;
+        /**
+         * Output rules, overrides output rules generation
+         */
+        outputRules?: string;
+        /**
+         * Inverse output rules, overrides inverse output rules generation
+         */
+        inverseOutputRules?: string;
+    };
+
     /**
      * Prompt Under Test
      */
@@ -262,10 +281,13 @@ export async function loadPromptFiles(
     const ruleEvals = path.join(dir, "rule_evals.csv");
     const ruleCoverage = path.join(dir, "rule_coverage.csv");
     const baselineTestEvals = path.join(dir, "baseline_test_evals.csv");
+    const meta: PromptPexContext["meta"] =
+        MD.frontmatter(promptFile.content) || {};
 
     const res = {
         dir,
         name: basename,
+        meta,
         prompt: promptFile,
         testOutputs: await workspace.readText(testResults),
         intent: await workspace.readText(intent),
@@ -281,6 +303,11 @@ export async function loadPromptFiles(
     } satisfies PromptPexContext;
 
     if (!disableSafety) await checkPromptSafety(res);
+    if (meta.intent) res.intent.content = meta.intent;
+    if (meta.outputRules) res.rules.content = meta.outputRules;
+    if (meta.inverseOutputRules)
+        res.inverseRules.content = meta.inverseOutputRules;
+
     return res;
 }
 
