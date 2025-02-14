@@ -45,7 +45,14 @@ export interface PromptPexContext {
      * Prompt name
      */
     name: string;
-
+    /**
+     * Prompt parsed frontmatter section
+     */
+    frontmatter: any;
+    /**
+     * Inputs extracted from the prompt frontmatter
+     */
+    inputs: Record<string, any>;
     /**
      * Metadata extract from the prompt frontmatter
      */
@@ -285,13 +292,16 @@ export async function loadPromptFiles(
     const ruleEvals = path.join(dir, "rule_evals.csv");
     const ruleCoverage = path.join(dir, "rule_coverage.csv");
     const baselineTestEvals = path.join(dir, "baseline_test_evals.csv");
-    const meta: PromptPexContext["meta"] =
-        MD.frontmatter(promptFile.content)?.promptPex || {};
+    const frontmatter = MD.frontmatter(promptFile.content) || {};
+    const meta: PromptPexContext["meta"] = frontmatter.promptPex || {};
+    const inputs = parseInputs(frontmatter);
 
     const res = {
         dir,
         name: basename,
+        frontmatter,
         meta,
+        inputs,
         prompt: promptFile,
         testOutputs: await workspace.readText(testResults),
         intent: await workspace.readText(intent),
@@ -306,13 +316,12 @@ export async function loadPromptFiles(
         baselineTestEvals: await workspace.readText(baselineTestEvals),
     } satisfies PromptPexContext;
 
-    if (!disableSafety) await checkPromptSafety(res);
     if (meta.intent) res.intent.content = meta.intent;
     if (meta.inputSpec) res.inputSpec.content = meta.inputSpec;
     if (meta.outputRules) res.rules.content = meta.outputRules;
     if (meta.inverseOutputRules)
         res.inverseRules.content = meta.inverseOutputRules;
-
+    if (!disableSafety) await checkPromptSafety(res);
     return res;
 }
 
@@ -889,7 +898,7 @@ async function resolveTestEvalPath(
 }
 
 function resolvePromptArgs(files: PromptPexContext, test: PromptPexTest) {
-    const inputs = parseInputs(files.prompt);
+    const inputs = files.inputs;
     const inputKeys = Object.keys(inputs);
     const expectedOutput = test["expectedoutput"];
     const testInput = test["testinput"];
