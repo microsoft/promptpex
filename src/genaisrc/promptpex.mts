@@ -582,12 +582,14 @@ export async function generateIntent(
     options?: PromptPexOptions
 ) {
     const context = MD.content(files.prompt.content);
+    const instructions = options?.instructions?.intent || "";
     const pn = PROMPT_GENERATE_INTENT;
     await outputPrompty(pn, options);
     const res = await runPrompt(
         (ctx) => {
             ctx.importTemplate(pn, {
                 prompt: context,
+                instructions
             });
         },
         {
@@ -605,6 +607,7 @@ export async function generateRules(
     options?: PromptPexOptions & { numRules?: number }
 ) {
     const { numRules = RULES_NUM, workflowDiagram } = options || {};
+    const instructions = options?.instructions?.outputRules || "";
 
     if (workflowDiagram)
         env.output.fence(
@@ -627,6 +630,7 @@ export async function generateRules(
             ctx.importTemplate(pn, {
                 num_rules: numRules,
                 input_data,
+                instructions,
             });
         },
         {
@@ -645,6 +649,7 @@ export async function generateInverseRules(
     options?: PromptPexOptions
 ) {
     const { workflowDiagram } = options || {};
+    const instructions = options?.instructions?.inverseOutputRules || "";
     if (workflowDiagram)
         env.output.fence(
             `
@@ -665,6 +670,7 @@ export async function generateInverseRules(
         (ctx) => {
             ctx.importTemplate(pn, {
                 rule,
+                instructions,
             });
         },
         {

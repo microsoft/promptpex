@@ -7,11 +7,14 @@ sample:
 inputs:
     prompt:
         type: string
+    instructions:
+        type: string
 ---
 system:
 You are given a description of a chatbot's task in <PROMPT>.
 Your task is to extract the intent of the chatbot from <PROMPT>.
 The intent is the primary goal or purpose of the chatbot. It is the action that the chatbot is designed to perform based on the task description.
+{{instructions}}
 
 In the output, provide the extracted intent of the chatbot as a english sentence.
 Only output the extracted intent and nothing else. 

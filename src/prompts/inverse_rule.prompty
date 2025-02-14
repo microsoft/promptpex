@@ -8,13 +8,17 @@ sample:
 inputs:
   rule:
     type: string
+  instructions:
+    type: string
 ---
 system:
-Given a list of rules provided by the user, generate another list of rules which contradicts the given rules semantically. 
-Generate one inversed rule for each given rule in the given list. 
+Given a list of rules provided by the user in <RULES>, generate another list of rules which contradicts the given rules semantically. 
+Generate one inversed rule for each given rule in <RULES>. 
 Come up with smart edge case scenarios. 
+{{instructions}}
 Please ensure that each generated rule is only in a single line. 
 Output only the generated rules and nothing else.
 user:
-Rules:
+<RULES>
 {{rule}}
+</RULES>
