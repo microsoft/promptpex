@@ -14,13 +14,23 @@ import {
 
 script({
     title: "PromptPex Test Generator",
-    description: `Generate tests for a LLM prompt. 
+    description: `Generate tests for a LLM prompt using PromptPex.
+<details><summary>Frontmatter configuration</summary>
+You can override parts of the test generation
+process by providing values in the frontmatter of the prompt.
+\`\`\`yaml
+- inputSpec: "input constraints"
+- outputRules: "output constraints"
+- inverseOutputRules: "inverted output constraints"
+- intent: "intent of the prompt"
+\`\`\`
+</details>
 <details><summary>What is PromptPex?</summary>
-  This tool accepts a prompt file formatted in the Prompty language 
+  This tool accepts a prompt file formatted in Markdown (Prompty format)
   and generates tests for them. The tests can be used to validate your prompt
   for various models automatically.
 
-  - [Prompty Language](https://prompty.ai/docs)
+  - [Markdown Prompty Syntax](https://prompty.ai/docs)
   - [GitHub](https://github.com/microsoft/promptpex/)
   - [Archiv](https://github.com/microsoft/promptpex/)
 
