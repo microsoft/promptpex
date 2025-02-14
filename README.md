@@ -100,6 +100,21 @@ Tests generated from the rules:
 3. sentence: 'She sings beautifully.', word: 'sings'
 ```
 
+## Getting started
+
+- Install [Node.js v20+](https://nodejs.org/)
+- Configure your LLM credentials in `.env`
+
+```sh
+npx --yes genaiscript configure
+```
+
+- Launch promptpex remotely
+
+```sh
+npx --yes genaiscript serve --remote microsoft/promptpex
+```
+
 ## Test and Eval Workflow
 
 The diagram below shows the flow of test generation in PromptPex, starting from the PUT (database shape).
@@ -144,7 +159,7 @@ graph TD
 
     TC --> TCE
     PUT --> TCE
-    
+
 
     PPT --> TO
     PUT --> TO
@@ -169,51 +184,37 @@ graph TD
 
 PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
 
-## Getting Started
+## Developer Guide
 
 **Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
-### LLM configuration
+### Setup
 
-If you are using a Codespace and have access to [GitHub Marketplace Models](https://github.com/marketplace/models),
-PromptPex will automatically use `gpt-4o` and `Phi-3-5-mini-instruct`.
-
-For other LLM providers, follow the [configuration documentation](https://microsoft.github.io/genaiscript/getting-started/configuration/) of GenAIScript
-to configure your LLM access.
-
-Then pass the list of models to test as an argument to the `promptpex` command:
+- Install [Node.js v20+](https://nodejs.org/)
+- Install dependencies
 
 ```sh
-yarn promptpex ... --vars "models=azure:gpt-4o-mini;azure:gpt-3.5-turbo"
+npm install
 ```
 
-### Run examples
+### Web interface
 
-To run a promptpex generation on a prompt file
-using GitHub Marketplace models:
+- Launch web interface
 
 ```sh
-yarn promptpex:speech-tag
+npm run serve
 ```
 
-You can also run against entire folders and all the .md, .prompty files will be processed
-
-```sh
-yarn promptpex samples/**/*.prompty
-```
-
-## Development
-
-The following instructions will help you with updating promptpex.
+- Open localhost
 
 ### Typecheck scripts
 
 Use Visual Studio Code to get builtin typechecking from TypeScript or
 
 ```sh
-yarn build
+npm run build
 ```
 
 ### Create a commit
@@ -221,7 +222,7 @@ yarn build
 For convinience,
 
 ```sh
-yarn gcm
+npm run gcm
 ```
 
 ### Debug
@@ -243,18 +244,6 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-### Auto-commit message
-
-This script will interactively generate a commit message for the current changes.
-
-```sh
-npm run gcm
-```
-
-### Pull Request Description and Review
-
-Opening, closing or requesting a review for a pull request will trigger a github action that will automatically add a description and a review.
 
 ## Trademarks
 
