@@ -19,10 +19,11 @@ script({
 You can override parts of the test generation
 process by providing values in the frontmatter of the prompt.
 \`\`\`yaml
-- inputSpec: "input constraints"
-- outputRules: "output constraints"
-- inverseOutputRules: "inverted output constraints"
-- intent: "intent of the prompt"
+promptPex:
+  inputSpec: "input constraints"
+  outputRules: "output constraints"
+  inverseOutputRules: "inverted output constraints"
+  intent: "intent of the prompt"
 \`\`\`
 </details>
 <details><summary>What is PromptPex?</summary>

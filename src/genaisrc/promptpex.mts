@@ -51,13 +51,9 @@ export interface PromptPexContext {
      */
     meta: {
         /**
-         * Prompt intent, overrides intent generation
-         */
-        intent?: string;
-        /**
          * Input specifications, overrides input spec generation
          */
-        inputSpec?: string
+        inputSpec?: string;
         /**
          * Output rules, overrides output rules generation
          */
@@ -66,6 +62,10 @@ export interface PromptPexContext {
          * Inverse output rules, overrides inverse output rules generation
          */
         inverseOutputRules?: string;
+        /**
+         * Prompt intent, overrides intent generation
+         */
+        intent?: string;
     };
 
     /**
@@ -286,7 +286,7 @@ export async function loadPromptFiles(
     const ruleCoverage = path.join(dir, "rule_coverage.csv");
     const baselineTestEvals = path.join(dir, "baseline_test_evals.csv");
     const meta: PromptPexContext["meta"] =
-        MD.frontmatter(promptFile.content) || {};
+        MD.frontmatter(promptFile.content)?.promptPex || {};
 
     const res = {
         dir,
@@ -1155,7 +1155,9 @@ export function parseRulesTests(text: string): PromptPexTest[] {
     return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }));
 }
 
-export function parseTestResults(files: PromptPexContext): PromptPexTestResult[] {
+export function parseTestResults(
+    files: PromptPexContext
+): PromptPexTestResult[] {
     const rules = parseRules(files.rules.content);
     const res = CSV.parse(files.testOutputs.content, {
         delimiter: ",",
