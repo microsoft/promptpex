@@ -91,22 +91,20 @@ promptPex:
         },
         rulesModel: {
             type: "string",
-            description: "Model used to generate rules",
+            description: "Model used to generate rules (you can also override the model alias 'rules'",
             enum: [
                 "openai:gpt-4o",
                 "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-                "rules",
+                "lmstudio:llama-3.3-70b"
             ],
         },
         evalModel: {
             type: "string",
-            description: "Model used to evaluate rules",
+            description: "Model used to evaluate rules (you can also override the model alias 'eval'",
             enum: [
                 "openai:gpt-4o",
                 "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-                "eval",
+                "lmstudio:llama-3.3-70b"
             ],
         },
         models: {
