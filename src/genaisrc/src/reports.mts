@@ -1,3 +1,4 @@
+import { DOCS_GLOSSARY } from "./constants.mts";
 import {
     parseAllRules,
     parseBaselineTests,
@@ -117,25 +118,7 @@ export async function generateMarkdownReport(files: PromptPexContext) {
     res.push("### Overview", "");
     res.push(`<details><summary>Glossary</summary>
     
-- Prompt Under Test (PUT) - like Program Under Test; the prompt
-- Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
-- Model Used by PromptPex (MPP) - gpt-4o/llama3.3
-
-- Intent (I) - 
-- Input Specification (IS) - Extracting input constraints of PUT using MPP
-- Output Rules (OR) - Extracting output constraints of PUT using MPP
-- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP
-
-- Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP
-
-- PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR
-- Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP
-
-- Test Input Compliance (TIC) - Checking if PPT and BT meets the constraints in IS using MPP
-- Test Coverage (TC) - Result generated for PPT and BT on PUTI + OR with MPP
-
-- Test Output (TO) - Result generated for PPT and BT on PUT with each MUT
-- Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
+${DOCS_GLOSSARY}
 
 </details>
 `);

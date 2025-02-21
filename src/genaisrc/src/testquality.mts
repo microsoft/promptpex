@@ -44,7 +44,7 @@ export async function evaluateTestQuality(
     test: PromptPexTest,
     options?: PromptPexOptions & { force?: boolean }
 ): Promise<PromptPexTestEval> {
-    const { force } = options || {};
+    const { force, evalModel = "eval" } = options || {};
     const { id, promptid, file } = await resolveTestEvalPath(
         files,
         test,
@@ -78,7 +78,7 @@ export async function evaluateTestQuality(
         } satisfies PromptPexTestEval;
 
     const moptions = {
-        ...modelOptions("eval", options),
+        ...modelOptions(evalModel, options),
     };
     const [resCoverage, resValidity] = await Promise.all([
         runPrompt(

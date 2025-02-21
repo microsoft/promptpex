@@ -51,6 +51,16 @@ export interface PromptPexOptions {
      * Caches resuls in the file system
      */
     evalCache?: boolean;
+
+    /**
+     * Model used to generate rules
+     */
+    rulesModel?: string;
+
+    /**
+     * Model used to evaluate rules
+     */
+    evalModel?: string;
 }
 
 /**

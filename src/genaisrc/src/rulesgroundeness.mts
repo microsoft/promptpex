@@ -19,6 +19,7 @@ export async function evaluateRuleGrounded(
     rule: string,
     options?: PromptPexOptions
 ): Promise<PromptPexRuleEval> {
+    const { evalModel = "eval" } = options || {};
     const { id, promptid, file } = await resolveRuleEvalPath(
         files,
         rule,
@@ -41,7 +42,7 @@ export async function evaluateRuleGrounded(
             });
         },
         {
-            ...modelOptions("eval", options),
+            ...modelOptions(evalModel, options),
             choices: ["OK", "ERR"],
             label: `${files.name}> eval rule grounded ${rule.slice(0, 18)}...`,
         }

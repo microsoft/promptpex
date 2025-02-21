@@ -31,6 +31,7 @@ PUT --> IS`,
         options
     );
 
+    const { rulesModel = "rules" } = options || {};
     const context = MD.content(files.prompt.content);
     const pn = PROMPT_GENERATE_INPUT_SPEC;
     await outputPrompty(pn, options);
@@ -42,7 +43,7 @@ PUT --> IS`,
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> generate input spec`,
         }
@@ -55,6 +56,7 @@ export async function generateIntent(
     files: PromptPexContext,
     options?: PromptPexOptions
 ) {
+    const { rulesModel = "rules" } = options || {};
     const context = MD.content(files.prompt.content);
     const instructions = options?.instructions?.intent || "";
     const pn = PROMPT_GENERATE_INTENT;
@@ -67,7 +69,7 @@ export async function generateIntent(
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> generate intent`,
         }
@@ -80,7 +82,7 @@ export async function generateOutputRules(
     files: PromptPexContext,
     options?: PromptPexOptions & { numRules?: number }
 ) {
-    const { numRules = RULES_NUM } = options || {};
+    const { numRules = RULES_NUM, rulesModel = "rules" } = options || {};
     const instructions = options?.instructions?.outputRules || "";
 
     outputWorkflowDiagram(
@@ -105,7 +107,7 @@ PUT --> OR
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> generate rules`,
         }
@@ -119,6 +121,7 @@ export async function generateInverseOutputRules(
     files: PromptPexContext,
     options?: PromptPexOptions
 ) {
+    const { rulesModel = "rules" } = options || {};
     const instructions = options?.instructions?.inverseOutputRules || "";
     outputWorkflowDiagram(
         `OR["Output Rules (OR)"]
@@ -139,7 +142,7 @@ OR --> IOR
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> inverse rules`,
         }
@@ -152,6 +155,7 @@ export async function generateBaselineTests(
     files: PromptPexContext,
     options?: PromptPexOptions & { num?: number }
 ): Promise<string> {
+    const { rulesModel = "rules" } = options || {};
     const tests = parseRulesTests(files.tests.content);
     const { num = tests.length } = options || {};
     const context = MD.content(files.prompt.content);
@@ -165,7 +169,7 @@ export async function generateBaselineTests(
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> generate baseline tests`,
         }
@@ -180,7 +184,7 @@ export async function generateTests(
     files: PromptPexContext,
     options?: PromptPexOptions & { num?: number }
 ) {
-    const { num = TESTS_NUM } = options || {};
+    const { num = TESTS_NUM, rulesModel = "rules" } = options || {};
 
     if (!files.rules.content) throw new Error("No rules found");
     if (!files.inputSpec.content) throw new Error("No input spec found");
@@ -242,7 +246,7 @@ IOR --> PPT
             });
         },
         {
-            ...modelOptions("rules", options),
+            ...modelOptions(rulesModel, options),
             //      logprobs: true,
             label: `${files.name}> generate tests`,
         }

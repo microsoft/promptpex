@@ -10,8 +10,9 @@ export async function evaluateTestResult(
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<string> {
+    const { evalModel = "eval" } = options || {};
     const moptions = {
-        ...modelOptions("eval", options),
+        ...modelOptions(evalModel, options),
     };
 
     const content = MD.content(files.prompt.content);

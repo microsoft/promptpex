@@ -89,6 +89,26 @@ promptPex:
                 "Do not include safety system prompts and do not run safety content service",
             default: false,
         },
+        rulesModel: {
+            type: "string",
+            description: "Model used to generate rules",
+            enum: [
+                "openai:gpt-4o",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+                "rules",
+            ],
+        },
+        evalModel: {
+            type: "string",
+            description: "Model used to evaluate rules",
+            enum: [
+                "openai:gpt-4o",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+                "eval",
+            ],
+        },
         models: {
             type: "string",
             description:
@@ -127,6 +147,8 @@ const {
     outputRulesInstructions,
     inverseOutputRulesInstructions,
     compliance,
+    rulesModel,
+    evalModel,
 } = vars;
 const models = (vars.models || "").split(/;/g).filter((m) => !!m);
 const options: PromptPexOptions = {
@@ -137,6 +159,8 @@ const options: PromptPexOptions = {
         inverseOutputRules: inverseOutputRulesInstructions,
     },
     workflowDiagram: true,
+    rulesModel,
+    evalModel,
 };
 const files = await loadPromptFiles(env.files[0], options);
 
