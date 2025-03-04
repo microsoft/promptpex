@@ -29,7 +29,7 @@ export async function evaluateTestsQuality(
         const testEval = await evaluateTestQuality(files, test, { force })
         if (testEval) testEvals.push(testEval)
     }
-    return CSV.stringify(testEvals, { header: true })
+    return JSON.stringify(testEvals, null, 2)
 }
 
 function updateTestEval(res: PromptPexTestEval) {

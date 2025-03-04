@@ -36,6 +36,7 @@ export async function runTests(
         maxTests,
         ignoreBaseline,
     } = options || {}
+    console.debug({ models })
     assert(models.every((m) => !!m))
     const rulesTests = parseRulesTests(files.tests.content)
     const baselineTests = ignoreBaseline ? [] : parseBaselineTests(files)

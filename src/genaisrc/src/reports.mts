@@ -171,7 +171,12 @@ ${DOCS_GLOSSARY}
 
         if (lang === "csv")
             res.push(CSV.markdownify(CSV.parse(file.content), { headers }))
-        else {
+        else if (lang === "json") {
+            const data = parsers.JSON5(file.content)
+            if (Array.isArray(data) && typeof data[0] === "object")
+                res.push(CSV.markdownify(data, { headers }))
+            else res.push("```json", file.content, "```")
+        } else {
             let content = file.content
             if (file === files.rules) content = addLineNumbers(content, 1)
             else if (file === files.inverseRules)

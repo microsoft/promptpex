@@ -37,10 +37,10 @@ export async function loadPromptFiles(
     const baselineTests = path.join(dir, "baseline_tests.txt")
     const tests = path.join(dir, "tests.csv")
     const testResults = path.join(dir, "test_results.json")
-    const testEvals = path.join(dir, "test_evals.csv")
-    const ruleEvals = path.join(dir, "rule_evals.csv")
-    const ruleCoverage = path.join(dir, "rule_coverage.csv")
-    const baselineTestEvals = path.join(dir, "baseline_test_evals.csv")
+    const testEvals = path.join(dir, "test_evals.json")
+    const baselineTestEvals = path.join(dir, "baseline_test_evals.json")
+    const ruleEvals = path.join(dir, "rule_evals.json")
+    const ruleCoverage = path.join(dir, "rule_coverage.json")
     const frontmatter = MD.frontmatter(promptFile.content) || {}
     const meta: PromptPexContext["meta"] = frontmatter.promptPex || {}
     const inputs = parseInputs(promptFile)

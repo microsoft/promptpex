@@ -80,7 +80,7 @@ export async function evaluateRulesGrounded(
         res.push(ev)
     }
 
-    files.ruleEvals.content = CSV.stringify(res, { header: true })
+    files.ruleEvals.content = JSON.stringify(res, null, 2)
     await workspace.writeText(files.ruleEvals.filename, files.ruleEvals.content)
     return res
 }

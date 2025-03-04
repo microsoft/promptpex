@@ -47,7 +47,7 @@ export async function evaluateRulesSpecAgreement(
             //coverage: parseOKERR(res.text),
         })
     }
-    files.ruleCoverages.content = CSV.stringify(results, { header: true })
+    files.ruleCoverages.content = JSON.stringify(results, null, 2)
     await workspace.writeText(
         files.ruleCoverages.filename,
         files.ruleCoverages.content

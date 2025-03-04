@@ -41,5 +41,5 @@ export async function evaluateBaselineTests(
             ...rest,
         })
     }
-    return CSV.stringify(results, { header: true })
+    return JSON.stringify(results, null, 2)
 }
