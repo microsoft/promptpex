@@ -60,7 +60,7 @@ export async function runTests(
         }
     }
 
-    return CSV.stringify(testResults, { header: true })
+    return JSON.stringify(testResults, null, 2)
 }
 
 function updateTestResultCompliant(testRes: PromptPexTestResult) {

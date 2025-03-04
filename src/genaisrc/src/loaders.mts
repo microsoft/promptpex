@@ -36,7 +36,7 @@ export async function loadPromptFiles(
     const inputSpec = path.join(dir, "input_spec.txt")
     const baselineTests = path.join(dir, "baseline_tests.txt")
     const tests = path.join(dir, "tests.csv")
-    const testResults = path.join(dir, "test_results.csv")
+    const testResults = path.join(dir, "test_results.json")
     const testEvals = path.join(dir, "test_evals.csv")
     const ruleEvals = path.join(dir, "rule_evals.csv")
     const ruleCoverage = path.join(dir, "rule_coverage.csv")

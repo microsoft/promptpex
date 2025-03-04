@@ -93,10 +93,9 @@ export function parseTestResults(
     files: PromptPexContext
 ): PromptPexTestResult[] {
     const rules = parseRules(files.rules.content)
-    const res = CSV.parse(files.testOutputs.content, {
-        delimiter: ",",
-    }) as PromptPexTestResult[]
-    res?.forEach((r) => {
+    const res = (parsers.JSON5(files.testOutputs.content) ||
+        []) as PromptPexTestResult[]
+    res.forEach((r) => {
         r.inverse =
             r.ruleid !== null && parseInt(r.ruleid as any) > rules.length
     })
