@@ -164,9 +164,10 @@ promptPex:
             title: "Custom Test Evaluation Template",
             required: false,
             uiType: "textarea",
-            description: `This template will be used to evaluate the test results.
+            description: `This prompt will be used to evaluate the test results.
+<details><summary>Template</summary>
 
-\`\`\`
+\`\`\`markdown
 ---
 name: Custom Test Result Evaluation
 description: |
@@ -205,7 +206,9 @@ user:
 <OUTPUT>
 {{ output }}
 </OUTPUT>
-\`\`\`            
+\`\`\`
+
+</details>       
             `,
         },
         customTestEvalModel: {
