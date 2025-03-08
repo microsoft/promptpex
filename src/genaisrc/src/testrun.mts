@@ -1,3 +1,4 @@
+import { evaluateCustomTestResult } from "./customtestresulteval.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -21,7 +22,7 @@ const { generator, output } = env
 
 export async function runTests(
     files: PromptPexContext,
-    options?: {
+    options?: PromptPexOptions & {
         models?: ModelType[]
         force?: boolean
         compliance?: boolean
@@ -53,6 +54,7 @@ export async function runTests(
                 `${files.name}> ${model}: run test ${testi + 1}/${tests.length} ${test.testinput.slice(0, 42)}...`
             )
             const testRes = await runTest(files, test, {
+                ...options,
                 model,
                 force,
                 compliance,
@@ -78,7 +80,7 @@ export async function runTest(
         force?: boolean
     }
 ): Promise<PromptPexTestResult> {
-    const { model, force, compliance, evalCache } = options || {}
+    const { model, force, compliance, customTestEvalModel, customTestEvalTemplate, evalCache } = options || {}
     const moptions = {
         ...modelOptions(model, options),
     }
@@ -113,7 +115,7 @@ export async function runTest(
             output: "invalid test input",
         } satisfies PromptPexTestResult
 
-    const res = await measure("llm.test-run", () =>
+    const res = await measure("llm.test.run", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(files.prompt.filename, args, {
@@ -149,6 +151,12 @@ export async function runTest(
         )
         updateTestResultCompliant(testRes)
     }
+
+    if (customTestEvalTemplate) {
+        const customTestEval = await evaluateCustomTestResult(files, testRes, options)
+        testRes.customEvalText = customTestEval        
+    }
+
     if (file)
         await workspace.writeText(
             file.filename,

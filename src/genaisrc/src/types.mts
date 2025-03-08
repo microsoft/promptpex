@@ -73,6 +73,15 @@ export interface PromptPexOptions {
      * Number of tests to generate per rule
      */
     testsPerRule?: number
+
+    /**
+     * Custom test evaluation template
+     */
+    customTestEvalTemplate?: string
+    /**
+     * Custom model to use for test evaluation
+     */
+    customTestEvalModel?: string
 }
 
 /**
@@ -200,6 +209,8 @@ export interface PromptPexTestResult {
 
     compliance?: "ok" | "err"
     complianceText?: string
+
+    customEvalText?: string
 }
 
 export interface PromptPexTestEval {

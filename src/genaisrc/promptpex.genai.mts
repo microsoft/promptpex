@@ -208,7 +208,7 @@ user:
 \`\`\`            
             `,
         },
-        customEvalModel: {
+        customTestEvalModel: {
             type: "string",
             description:
                 "Model used to evaluate custom test results (you can also override the model alias 'usereval')",
@@ -235,7 +235,7 @@ const {
     prompt: promptText,
     testsPerRule,
     customTestEvalTemplate,
-    customEvalModel,
+    customTestEvalModel,
 } = vars
 const models = (vars.models || "").split(/;/g).filter((m) => !!m)
 const options: PromptPexOptions = {
@@ -249,8 +249,11 @@ const options: PromptPexOptions = {
     baselineModel,
     rulesModel,
     evalModel,
-    testsPerRule,    
+    testsPerRule,
+    customTestEvalTemplate,
+    customTestEvalModel,
 }
+
 initPerf({ output })
 if (env.files[0] && promptText)
     cancel(

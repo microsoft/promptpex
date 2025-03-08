@@ -10,12 +10,13 @@ const { generator } = env
 export async function evaluateCustomTestResult(
     files: PromptPexContext,
     testResult: PromptPexTestResult,
-    customEvalTemplate: string,
     options: PromptPexOptions
 ): Promise<string> {
-    const { evalModel = "eval" } = options || {}
+    const { customTestEvalTemplate, customTestEvalModel = "usereval" } =
+        options || {}
+    if (!customTestEvalTemplate) throw new Error("No custom test eval template")
     const moptions = {
-        ...modelOptions(evalModel, options),
+        ...modelOptions(customTestEvalModel, options),
     }
 
     const content = MD.content(files.prompt.content)
@@ -26,13 +27,14 @@ export async function evaluateCustomTestResult(
                 ctx.importTemplate(
                     {
                         filename: "custom.prompt",
-                        content: customEvalTemplate,
+                        content: customTestEvalTemplate,
                     },
                     {
                         prompt: content.replace(/^(system|user):/gm, ""),
                         input: testResult.input,
                         output: testResult.output,
-                    }
+                    },
+                    { allowExtraArguments: true }
                 )
             },
             {
