@@ -1,5 +1,5 @@
 export type PromptPexModelAliases = OptionsOrString<
-    "rules" | "eval" | "large" | "baseline"
+    "rules" | "eval" | "large" | "baseline" | "usereval"
 >
 
 export interface PromptPexPrompts {

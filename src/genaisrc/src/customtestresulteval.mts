@@ -1,0 +1,46 @@
+import { modelOptions, checkLLMResponse } from "./parsers.mts"
+import { measure } from "./perf.mts"
+import {
+    PromptPexContext,
+    PromptPexTestResult,
+    PromptPexOptions,
+} from "./types.mts"
+const { generator } = env
+
+export async function evaluateCustomTestResult(
+    files: PromptPexContext,
+    testResult: PromptPexTestResult,
+    customEvalTemplate: string,
+    options: PromptPexOptions
+): Promise<string> {
+    const { evalModel = "eval" } = options || {}
+    const moptions = {
+        ...modelOptions(evalModel, options),
+    }
+
+    const content = MD.content(files.prompt.content)
+    const res = await measure("llm.eval.user", () =>
+        generator.runPrompt(
+            (ctx) => {
+                // removes frontmatter
+                ctx.importTemplate(
+                    {
+                        filename: "custom.prompt",
+                        content: customEvalTemplate,
+                    },
+                    {
+                        prompt: content.replace(/^(system|user):/gm, ""),
+                        input: testResult.input,
+                        output: testResult.output,
+                    }
+                )
+            },
+            {
+                ...moptions,
+                label: `${files.name}> evaluate custom test result ${testResult.model} ${testResult.input.slice(0, 42)}...`,
+            }
+        )
+    )
+    const evaluation = checkLLMResponse(res)
+    return evaluation
+}

@@ -1,0 +1,38 @@
+---
+name: Custom Test Result Evaluation
+description: |
+  A template for a custom evaluation of the results.
+tags:
+    - unlisted
+inputs:
+    prompt:
+        type: string
+        description: The prompt to be evaluated.
+    input:
+        type: string
+        description: The input to be used with the prompt.
+    output:
+        type: string
+        description: The output from the model execution.
+---
+system:
+
+You are a chatbot that helps users evaluate the performance of a model. 
+You will be given a prompt, an input, and the output from the model. 
+Your task is to evaluate the output based on the prompt and input provided.
+
+**Update this message with your own instructions to the model**
+
+<PROMPT>
+{{ prompt }}
+</PROMPT>
+
+user:
+
+<INPUT>
+{{ input }}
+</INPUT>
+
+<OUTPUT>
+{{ output }}
+</OUTPUT>

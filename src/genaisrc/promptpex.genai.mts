@@ -114,8 +114,8 @@ promptPex:
         evalModel: {
             type: "string",
             description:
-                "Model used to evaluate rules (you can also override the model alias 'eval'",
-            enum: [
+                "Model used to evaluate rules (you can also override the model alias 'eval')",
+            uiSuggestions: [
                 "openai:gpt-4o",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
@@ -124,7 +124,7 @@ promptPex:
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            enum: ["openai:gpt-4o"],
+            uiSuggestions: ["openai:gpt-4o"],
         },
         models: {
             type: "string",
@@ -159,6 +159,65 @@ promptPex:
             description:
                 "These instructions will be added to the inverse output rules generation prompt.",
         },
+        customTestEvalTemplate: {
+            type: "string",
+            title: "Custom Test Evaluation Template",
+            required: false,
+            uiType: "textarea",
+            description: `This template will be used to evaluate the test results.
+
+\`\`\`
+---
+name: Custom Test Result Evaluation
+description: |
+  A template for a custom evaluation of the results.
+tags:
+    - unlisted
+inputs:
+    prompt:
+        type: string
+        description: The prompt to be evaluated.
+    input:
+        type: string
+        description: The input to be used with the prompt.
+    output:
+        type: string
+        description: The output from the model execution.
+---
+system:
+
+You are a chatbot that helps users evaluate the performance of a model. 
+You will be given a prompt, an input, and the output from the model. 
+Your task is to evaluate the output based on the prompt and input provided.
+
+**Update this message with your own instructions to the model**
+
+<PROMPT>
+{{ prompt }}
+</PROMPT>
+
+user:
+
+<INPUT>
+{{ input }}
+</INPUT>
+
+<OUTPUT>
+{{ output }}
+</OUTPUT>
+\`\`\`            
+            `,
+        },
+        customEvalModel: {
+            type: "string",
+            description:
+                "Model used to evaluate custom test results (you can also override the model alias 'usereval')",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+        },
     },
 })
 
@@ -175,6 +234,8 @@ const {
     maxTests,
     prompt: promptText,
     testsPerRule,
+    customTestEvalTemplate,
+    customEvalModel,
 } = vars
 const models = (vars.models || "").split(/;/g).filter((m) => !!m)
 const options: PromptPexOptions = {
@@ -188,7 +249,7 @@ const options: PromptPexOptions = {
     baselineModel,
     rulesModel,
     evalModel,
-    testsPerRule,
+    testsPerRule,    
 }
 initPerf({ output })
 if (env.files[0] && promptText)
