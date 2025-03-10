@@ -83,4 +83,4 @@ Issues may arise from:
 ## Learn more about PromptPex
 
 For more information, visit the PromptPex project page on GitHub.
-Read the [PromptPex technical paper](https://arxiv.org/abs/2402.00001) for more details.
+Read the [PromptPex technical paper](http://arxiv.org/abs/2503.05070) for more details.
