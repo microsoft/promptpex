@@ -16,10 +16,11 @@ export function initPerf(options: { filename?: string; output?: OutputTrace }) {
 }
 
 export function start(id: string) {
-    performance.mark(id + ".start")
+    const uid = id + Math.random().toString(36).substring(7)
+    performance.mark(uid + ".start")
     return () => {
-        performance.mark(id + ".end")
-        const m = performance.measure(id, id + ".start", id + ".end")
+        performance.mark(uid + ".end")
+        const m = performance.measure(uid, uid + ".start", uid + ".end")
         const duration = Math.ceil(m.duration)
         totals[id] = (totals[id] || 0) + m.duration
 
