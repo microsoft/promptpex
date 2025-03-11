@@ -2,10 +2,7 @@ import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { loadPromptFiles } from "./src/loaders.mts"
-import {
-    outputFile,
-    outputLines,
-} from "./src/output.mts"
+import { outputFile, outputLines } from "./src/output.mts"
 import { parseRulesTests, parseTestResults } from "./src/parsers.mts"
 import { initPerf, reportPerf } from "./src/perf.mts"
 import { generateReports } from "./src/reports.mts"
@@ -17,19 +14,6 @@ import type { PromptPexOptions } from "./src/types.mts"
 script({
     title: "PromptPex Test Generator",
     description: `Generate tests for a LLM prompt using PromptPex.
-
-<details><summary>What is PromptPex?</summary>
-  This tool accepts a prompt file formatted in Markdown
-  and generates tests for them. The tests can be used to validate your prompt
-  for various models automatically.
-
-  - [Markdown Prompty Syntax](https://prompty.ai/docs)
-  - [GitHub](https://github.com/microsoft/promptpex/)
-  - [Archiv](https://github.com/microsoft/promptpex/)
-
-  PromptPex uses an LLM internally to generate and evaluate test cases and results.
-  PromptPex was tested using OpenAI GPT-4o / Llama3.3 70b. Results on other models may vary.
-</details>
 
 <details><summary>Prompt format</summary>
 
@@ -134,6 +118,7 @@ promptPex:
             type: "boolean",
             description: "Evaluate Test Result compliance",
             default: false,
+            uiType: "runOption",
         },
         maxTests: {
             type: "number",
