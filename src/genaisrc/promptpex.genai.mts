@@ -88,7 +88,7 @@ promptPex:
             type: "string",
             description:
                 "Model used to generate rules (you can also override the model alias 'rules'",
-            enum: [
+            uiSuggestions: [
                 "openai:gpt-4o",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
