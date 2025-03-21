@@ -2,17 +2,17 @@ export const PROMPT_GENERATE_INPUT_SPEC = "src/prompts/generate_input_spec.promp
 export const PROMPT_GENERATE_INTENT = "src/prompts/generate_intent.prompty"
 export const PROMPT_GENERATE_OUTPUT_RULES = "src/prompts/generate_output_rules.prompty"
 export const PROMPT_GENERATE_BASELINE_TESTS =
-    "src/prompts/baseline_test.prompty"
-export const PROMPT_GENERATE_INVERSE_RULES = "src/prompts/inverse_rule.prompty"
+    "src/prompts/generate_baseline_tests.prompty"
+export const PROMPT_GENERATE_INVERSE_RULES = "src/prompts/generate_inverse_rules.prompty"
 export const PROMPT_GENERATE_TESTS = "src/prompts/generate_tests.prompty"
 export const PROMPT_EVAL_RULE_GROUNDED =
-    "src/prompts/check_rule_grounded.prompty"
+    "src/prompts/eval_rule_grounded.prompty"
 export const PROMPT_EVAL_TEST_VALIDITY =
-    "src/prompts/check_violation_with_input_spec.prompty"
-export const PROMPT_EVAL_TEST_COVERAGE =
-    "src/prompts/evaluate_test_coverage.prompty"
+    "src/prompts/eval_test_validity.prompty"
+export const PROMPT_EVAL_OUTPUT_RULE_AGREEMENT =
+    "src/prompts/eval_output_rule_agreement.prompty"
 export const PROMPT_EVAL_TEST_RESULT =
-    "src/prompts/check_violation_with_system_prompt.prompty"
+    "src/prompts/eval_test_result.prompty"
 
 export const PROMPT_ALL = [
     PROMPT_GENERATE_INPUT_SPEC,
@@ -23,7 +23,7 @@ export const PROMPT_ALL = [
     PROMPT_GENERATE_TESTS,
     PROMPT_EVAL_RULE_GROUNDED,
     PROMPT_EVAL_TEST_VALIDITY,
-    PROMPT_EVAL_TEST_COVERAGE,
+    PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
     PROMPT_EVAL_TEST_RESULT,
 ]
 

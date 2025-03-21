@@ -31,6 +31,7 @@ const { chunkSize, maxChunks, gitmoji } = env.vars
 // lint
 await host.exec("npm", ["run", "lint"])
 await host.exec("npm", ["run", "build"])
+await host.exec("npm", ["run", "test"])
 
 // Check for staged changes and stage all changes if none are staged
 const diff = await git.diff({

@@ -8,6 +8,5 @@ script({
 const { output, vars } = env
 
 initPerf({ output })
-const files = await loadPromptFiles(
-    await workspace.readText("samples/demo/demo.prompty")
-)
+const demo = await workspace.readText("samples/demo/demo.prompty")
+const files = await loadPromptFiles(demo)
