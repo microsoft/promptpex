@@ -85,5 +85,6 @@ IOR --> PPT
         )
     )
     const text = checkLLMResponse(res)
-    return parsers.unfence(text, "csv")
+    const csv = parsers.unfence(text, "csv")
+    return csv
 }

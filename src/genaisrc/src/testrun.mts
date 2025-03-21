@@ -147,6 +147,11 @@ export async function runTest(
         throw new Error(res.error.message)
     }
     const actualOutput = res.text
+    output.detailsFenced(
+        `test result: ${testInput.slice(0, 42)}}...`,
+        testInput + "\n\n---\n\n" + actualOutput
+    )
+
     const testRes: PromptPexTestResult = {
         id,
         promptid,
