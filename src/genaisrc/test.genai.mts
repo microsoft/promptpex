@@ -21,14 +21,21 @@ script({
 })
 
 const { output } = env
-const models = process.env.PROMPTPEX_MODELS.split(";")
+const modelsUnderTest = process.env.PROMPTPEX_MODELS.split(";").filter(
+    (s) => !!s
+)
+if (!modelsUnderTest?.length)
+    throw new Error("No models found in PROMPTPEX_MODELS")
 const options: PromptPexOptions = {
     disableSafety: true,
     workflowDiagram: false,
     testsPerRule: 2,
     runsPerTest: 2,
+    maxTestsToRun: 4,
     compliance: true,
     baselineTests: true,
+    cache: true,
+    modelsUnderTest,
 }
 
 initPerf({ output })
@@ -70,8 +77,6 @@ output.table(baselineTests)
 output.heading(3, "Test results")
 files.testOutputs.content = await runTests(files, {
     ...options,
-    maxTestsToRun: 4,
-    models,
     force: true,
 })
 const testResultsParsed = parseTestResults(files)

@@ -18,7 +18,6 @@ import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 
 type PaperOptions = PromptPexOptions & {
     force?: boolean
-    models?: ModelType[]
     evals?: boolean
 }
 
@@ -79,8 +78,11 @@ const { disableSafety, force, out, evals, testsPerRule, runsPerTest } =
 let maxTestsToRun = diagnostics ? 2 : vars.maxTestsToRun
 
 const prompts = await loadPromptContext(files, { disableSafety, out })
-const models = env.vars.models?.split(/[;\n ,]/g).map((model) => model.trim())
-if (!models?.length) throw new Error(`no models provided for evaluation`)
+const modelsUnderTest = env.vars.models
+    ?.split(/[;\n ,]/g)
+    .map((model) => model.trim())
+if (!modelsUnderTest?.length)
+    throw new Error(`no modelsUnderTest provided for evaluation`)
 
 if (diagnostics) {
     for (const files of prompts) {
@@ -93,7 +95,7 @@ const res = []
 const options = Object.freeze({
     disableSafety,
     force,
-    models,
+    modelsUnderTest,
     evals,
     evalCache: true,
     testsPerRule,
@@ -280,7 +282,7 @@ async function generate(
     // test exhaustiveness
     const tc = await evaluateTestsQuality(files, {
         ...(options || {}),
-        ...{ force },
+        force,
     })
     if (tc !== files.testEvals.content) {
         files.testEvals.content = tc
@@ -295,7 +297,6 @@ async function generate(
 
     files.testOutputs.content = await runTests(files, {
         ...options,
-        models,
         force,
     })
     await workspace.writeText(

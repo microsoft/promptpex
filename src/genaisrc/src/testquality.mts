@@ -14,7 +14,10 @@ import type {
 } from "./types.mts"
 import { resolveTestEvalPath } from "./filecache.mts"
 import { measure } from "./perf.mts"
-import { PROMPT_EVAL_OUTPUT_RULE_AGREEMENT, PROMPT_EVAL_TEST_VALIDITY } from "./constants.mts"
+import {
+    PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
+    PROMPT_EVAL_TEST_VALIDITY,
+} from "./constants.mts"
 const { generator } = env
 
 export async function evaluateTestsQuality(
@@ -80,26 +83,21 @@ export async function evaluateTestQuality(
             error: "invalid test input",
         } satisfies PromptPexTestEval
 
-    const moptions = {
-        ...modelOptions(evalModel, options),
-    }
+    const moptions = modelOptions(evalModel, options)
     const [resCoverage, resValidity] = await measure(
         "llm.eval.test.quality",
         () =>
             Promise.all([
                 generator.runPrompt(
                     (ctx) => {
-                        ctx.importTemplate(
-                            PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
-                            {
-                                intent,
-                                rules: allRules
-                                    .filter((r) => !r.inverse)
-                                    .map((r) => r.rule)
-                                    .join("\n"),
-                                testInput,
-                            }
-                        )
+                        ctx.importTemplate(PROMPT_EVAL_OUTPUT_RULE_AGREEMENT, {
+                            intent,
+                            rules: allRules
+                                .filter((r) => !r.inverse)
+                                .map((r) => r.rule)
+                                .join("\n"),
+                            testInput,
+                        })
                     },
                     {
                         ...moptions,

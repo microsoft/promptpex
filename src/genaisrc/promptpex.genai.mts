@@ -118,7 +118,7 @@ promptPex:
             description: "Model used to generate baseline tests",
             uiSuggestions: ["openai:gpt-4o"],
         },
-        models: {
+        modelsUnderTest: {
             type: "string",
             description:
                 "List of models to run the prompt again; semi-colon separated",
@@ -235,7 +235,9 @@ const {
     customTestEvalModel,
     runsPerTest,
 } = vars
-const models = (vars.models || "").split(/;/g).filter((m) => !!m)
+const modelsUnderTest = (vars.modelsUnderTest || "")
+    .split(/;/g)
+    .filter((m) => !!m)
 const options: PromptPexOptions = {
     disableSafety,
     instructions: {
@@ -254,6 +256,7 @@ const options: PromptPexOptions = {
     customTestEvalModel,
     compliance,
     baselineTests: false,
+    modelsUnderTest,
 }
 
 initPerf({ output })
@@ -269,7 +272,7 @@ const files = await loadPromptFiles(file, options)
 if (diagnostics) await generateReports(files)
 
 output.itemValue(`model`, meta.model)
-output.detailsFenced(`options`, { options, models }, "yaml")
+output.detailsFenced(`options`, options, "yaml")
 
 // prompt info
 output.heading(3, `Prompt Under Test`)
@@ -301,8 +304,8 @@ output.table(tests)
 output.detailsFenced(`tests (csv)`, tests, "csv")
 output.detailsFenced(`generated`, files.tests.content)
 
-if (!models?.length) {
-    output.warn(`No models specified. Skipping test run.`)
+if (!modelsUnderTest?.length) {
+    output.warn(`No modelsUnderTest specified. Skipping test run.`)
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Results`)

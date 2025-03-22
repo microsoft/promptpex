@@ -13,9 +13,8 @@ export async function evaluateRulesSpecAgreement(
     options?: PromptPexOptions & { model?: ModelType; force?: boolean }
 ) {
     const { model } = options || {}
-    const moptions = {
-        ...modelOptions(model, options),
-    }
+    const moptions = modelOptions(model, options)
+
     const baselineTests = parsBaselineTestEvals(files)
     const validBaselineTests = baselineTests.filter((t) => t.validity === "ok")
 

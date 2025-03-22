@@ -23,23 +23,19 @@ const { generator, output } = env
 export async function runTests(
     files: PromptPexContext,
     options?: PromptPexOptions & {
-        models?: ModelType[]
         force?: boolean
-        compliance?: boolean
         q?: PromiseQueue
-        maxTestsToRun?: number
-        baselineTests?: boolean
     }
 ): Promise<string> {
     const {
         force,
-        models = [],
+        modelsUnderTest,
         compliance,
         maxTestsToRun,
         runsPerTest = 1,
     } = options || {}
-    console.debug({ models })
-    assert(models.every((m) => !!m))
+    if (!modelsUnderTest?.length) throw new Error("No models to run tests on")
+
     const rulesTests = parseRulesTests(files.tests.content)
     const baselineTests = options?.baselineTests
         ? []
@@ -48,21 +44,20 @@ export async function runTests(
     if (!tests?.length) throw new Error("No tests found to run")
 
     console.log(
-        `running ${tests.length} tests (x ${runsPerTest}) with ${models.length} models`
+        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
     )
     const testResults: PromptPexTestResult[] = []
-    for (const model of models) {
+    for (const modelUnderTest of modelsUnderTest) {
         for (let testi = 0; testi < tests.length; ++testi) {
             const test = tests[testi]
             console.log(
-                `${files.name}> ${model}: run test ${testi + 1}/${tests.length}x${runsPerTest} ${test.testinput.slice(0, 42)}...`
+                `${files.name}> ${modelUnderTest}: run test ${testi + 1}/${tests.length}x${runsPerTest} ${test.testinput.slice(0, 42)}...`
             )
             for (let ri = 0; ri < runsPerTest; ++ri) {
                 const testRes = await runTest(files, test, {
                     ...options,
-                    model,
+                    model: modelUnderTest,
                     force,
-                    compliance,
                 })
                 assert(testRes.model)
                 if (testRes) testResults.push(testRes)
@@ -86,17 +81,12 @@ export async function runTest(
         force?: boolean
     }
 ): Promise<PromptPexTestResult> {
-    const {
-        model,
-        force,
-        compliance,
-        customTestEvalModel,
-        customTestEvalTemplate,
-        evalCache,
-    } = options || {}
-    const moptions = {
-        ...modelOptions(model, options),
-    }
+    const { model, force, compliance, customTestEvalTemplate, evalCache } =
+        options || {}
+    if (!model) throw new Error("No model provided for test")
+
+    const moptions = modelOptions(model, options)
+
     const { id, promptid, file } = await resolveTestPath(files, test, {
         model,
         evalCache,

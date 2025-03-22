@@ -15,13 +15,14 @@ export function modelOptions(
     modelAlias: PromptPexModelAliases,
     options: PromptPexOptions
 ): PromptGeneratorOptions {
-    const { temperature = 1, modelAliases } = options || {}
+    const { temperature = 1, modelAliases, cache } = options || {}
     return {
         model: modelAliases?.[modelAlias] || modelAlias,
         temperature,
         responseType: "text",
         // RAI must be checked by an external service
         system: [],
+        cache
     }
 }
 

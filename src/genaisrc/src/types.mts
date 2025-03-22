@@ -102,6 +102,16 @@ export interface PromptPexOptions {
      * Maximum number of tests to run
      */
     maxTestsToRun?: number
+
+    /**
+     * Cache applied to all runPrompts
+     */
+    cache?: boolean | string
+
+    /**
+     * List of models to run the prompt against
+     */
+    modelsUnderTest?: ModelType[]
 }
 
 /**
