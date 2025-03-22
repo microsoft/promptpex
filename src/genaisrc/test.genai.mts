@@ -8,7 +8,7 @@ import {
     parseRulesTests,
     parseTestResults,
 } from "./src/parsers.mts"
-import { initPerf } from "./src/perf.mts"
+import { initPerf, reportPerf } from "./src/perf.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
@@ -81,3 +81,5 @@ files.testOutputs.content = await runTests(files, {
 })
 const testResultsParsed = parseTestResults(files)
 if (!testResultsParsed) throw new Error("No test results found")
+
+reportPerf()
