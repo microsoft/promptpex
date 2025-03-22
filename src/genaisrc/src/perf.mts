@@ -46,10 +46,15 @@ export function reportPerf() {
     if (!output) return
 
     output.heading(3, "Performance")
-    output.table(
-        Object.entries(totals).map(([id, duration]) => ({
-            id,
-            duration: Math.ceil(duration),
-        }))
+    output.fence(
+        JSON.stringify(
+            Object.entries(totals).map(([id, duration]) => ({
+                id,
+                duration: Math.ceil(duration),
+            })),
+            null,
+            2
+        ),
+        "barchart"
     )
 }

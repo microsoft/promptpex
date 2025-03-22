@@ -20,15 +20,11 @@ script({
     files: "samples/demo/demo.prompty",
 })
 
-const { output, vars } = env
-const testModel = "ollama:gemma3:4b"
-const models = ["ollama:gemma3:1b", "ollama:llama3.2:1b"]
+const { output } = env
+const models = process.env.PROMPTPEX_MODELS.split(";")
 const options: PromptPexOptions = {
     disableSafety: true,
     workflowDiagram: false,
-    baselineModel: testModel,
-    rulesModel: testModel,
-    evalModel: testModel,
     testsPerRule: 2,
     runsPerTest: 2,
     compliance: true,
