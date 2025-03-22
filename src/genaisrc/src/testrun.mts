@@ -30,7 +30,6 @@ export async function runTests(
     const {
         force,
         modelsUnderTest,
-        compliance,
         maxTestsToRun,
         runsPerTest = 1,
     } = options || {}
@@ -128,7 +127,7 @@ export async function runTest(
             },
             {
                 ...moptions,
-                label: `${files.name}> run test ${testInput.slice(0, 42)}...`,
+                label: `${files.name}> ${moptions.model}: run test ${testInput.slice(0, 42)}...`,
             }
         )
     )
