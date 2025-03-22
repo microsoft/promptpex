@@ -33,7 +33,7 @@ OR --> IOR
     let pirules: string[]
     let retry = 3
     do {
-        const res = await measure("llm.gen.inverseoutputrules", () =>
+        const res = await measure("gen.inverseoutputrules", () =>
             generator.runPrompt(
                 (ctx) => {
                     ctx.importTemplate(pn, {

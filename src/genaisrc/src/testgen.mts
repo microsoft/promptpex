@@ -46,7 +46,7 @@ IOR --> PPT
     let repaired = false
     const pn = PROMPT_GENERATE_TESTS
     await outputPrompty(pn, options)
-    const res = await measure("llm.gen.tests", () =>
+    const res = await measure("gen.tests", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(pn, {

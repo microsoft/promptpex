@@ -17,7 +17,7 @@ export async function evaluateBaselineTests(
     const results = []
     for (const baselineTest of baselineTests) {
         const { testinput, ...rest } = baselineTest
-        const resValidity = await measure("llm.eval.baseline", () =>
+        const resValidity = await measure("eval.baseline", () =>
             generator.runPrompt(
                 (ctx) => {
                     ctx.importTemplate(PROMPT_EVAL_TEST_VALIDITY, {

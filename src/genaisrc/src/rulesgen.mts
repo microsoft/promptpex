@@ -25,7 +25,7 @@ PUT --> OR
     const input_data = MD.content(files.prompt.content)
     const pn = PROMPT_GENERATE_OUTPUT_RULES
     await outputPrompty(pn, options)
-    const res = await measure("llm.gen.outputrules", () =>
+    const res = await measure("gen.outputrules", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(pn, {

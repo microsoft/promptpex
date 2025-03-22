@@ -36,7 +36,7 @@ export async function evaluateRuleGrounded(
     }
 
     const description = MD.content(files.prompt.content)
-    const res = await measure("llm.eval.rules.grounding", () =>
+    const res = await measure("eval.rules.grounding", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(PROMPT_EVAL_RULE_GROUNDED, {

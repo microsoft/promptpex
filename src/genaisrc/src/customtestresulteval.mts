@@ -18,7 +18,7 @@ export async function evaluateCustomTestResult(
     const moptions = modelOptions(customTestEvalModel, options)
 
     const content = MD.content(files.prompt.content)
-    const res = await measure("llm.eval.user", () =>
+    const res = await measure("eval.user", () =>
         generator.runPrompt(
             (ctx) => {
                 // removes frontmatter

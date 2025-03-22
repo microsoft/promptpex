@@ -117,7 +117,7 @@ export async function runTest(
             output: "invalid test input",
         } satisfies PromptPexTestResult
 
-    const res = await measure("llm.test.run", () =>
+    const res = await measure("test.run", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(files.prompt, args, {

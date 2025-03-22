@@ -23,7 +23,7 @@ export async function evaluateRulesSpecAgreement(
 
     const results: PromptPexTestEval[] = []
     for (const baselineTest of validBaselineTests) {
-        const res = await measure("llm.eval.rules.agreement", () =>
+        const res = await measure("eval.rules.agreement", () =>
             generator.runPrompt(
                 (ctx) => {
                     ctx.importTemplate(PROMPT_EVAL_OUTPUT_RULE_AGREEMENT, {

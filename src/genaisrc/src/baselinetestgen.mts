@@ -24,7 +24,7 @@ export async function generateBaselineTests(
     const context = MD.content(files.prompt.content)
     const pn = PROMPT_GENERATE_BASELINE_TESTS
     await outputPrompty(pn, options)
-    const res = await measure("llm.gen.baseline", () =>
+    const res = await measure("gen.baseline", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(pn, {

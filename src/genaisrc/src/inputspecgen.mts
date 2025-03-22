@@ -21,7 +21,7 @@ PUT --> IS`,
     const context = MD.content(files.prompt.content)
     const pn = PROMPT_GENERATE_INPUT_SPEC
     await outputPrompty(pn, options)
-    const res = await measure("llm.gen.inputspec", () =>
+    const res = await measure("gen.inputspec", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(pn, {

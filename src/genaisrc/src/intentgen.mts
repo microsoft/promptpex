@@ -14,7 +14,7 @@ export async function generateIntent(
     const instructions = options?.instructions?.intent || ""
     const pn = PROMPT_GENERATE_INTENT
     await outputPrompty(pn, options)
-    const res = await measure("llm.gen.intent", () =>
+    const res = await measure("gen.intent", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(pn, {
