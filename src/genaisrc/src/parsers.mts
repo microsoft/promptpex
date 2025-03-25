@@ -112,6 +112,7 @@ export function parseTestResults(
 }
 
 export function cleanBaselineTests(content: string) {
+    if (!content) return []
     const tests = parsers
         .unfence(content, "")
         .split(/\s*===\s*/g)

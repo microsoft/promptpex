@@ -148,14 +148,13 @@ async function generate(
     files: PromptPexContext,
     options?: PromptPexOptions & {
         force?: boolean
-        models?: ModelType[]
         evals?: boolean
     }
 ) {
     const {
         disableSafety = false,
         force = false,
-        models,
+        modelsUnderTest,
         evals,
     } = options || {}
     const { output } = env
@@ -276,8 +275,13 @@ async function generate(
     await evaluateRulesGrounded(files, options)
     await generateReports(files)
 
-    await evaluateRulesSpecAgreement(files, { ...options, model: models[0] })
-    await generateReports(files)
+    if (modelsUnderTest.length > 0) {
+        await evaluateRulesSpecAgreement(files, {
+            ...options,
+            model: modelsUnderTest[0],
+        })
+        await generateReports(files)
+    }
 
     // test exhaustiveness
     const tc = await evaluateTestsQuality(files, {
