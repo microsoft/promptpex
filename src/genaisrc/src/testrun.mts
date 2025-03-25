@@ -17,6 +17,8 @@ import type {
     PromptPexTestResult,
 } from "./types.mts"
 import assert from "node:assert/strict"
+// https://microsoft.github.io/genaiscript/reference/scripts/logging/
+const dbg = host.logger("promptpex:testrun")
 
 const { generator, output } = env
 
@@ -36,6 +38,7 @@ export async function runTests(
     } = options || {}
     if (!modelsUnderTest?.length) throw new Error("No models to run tests on")
 
+    dbg('parsing tests')
     console.debug("[runTests] Parsing tests...")
     const rulesTests = parseRulesTests(files.tests.content)
     console.debug("[runTests] Found rules tests:", rulesTests.length)
