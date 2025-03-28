@@ -34,28 +34,48 @@ script({
             description: "Number of prompts to sample",
             required: false,
         },
+        cache: {
+            type: "string",
+            description: "cache categories: intent, inputspec, rules, tests",
+        },
     },
 })
 const { output, vars } = env
-const { fabric, samplePrompts } = vars as {
+const {
+    fabric,
+    samplePrompts,
+    cache = "",
+} = vars as {
     fabric: string
     samplePrompts: number
+    cache: string
 }
 const out = "evals/dev"
 const commOptions: PromptPexOptions = {
     outputPrompts: true,
     evalCache: true,
+    cache,
 }
 
 const repeatIntent = 1
 const repeatInputSpec = 1
 const repeatRules = 1
 const repeatInverseRules = 1
-const repeatTests = 1
+const repeatTests = 5
 const repeatBaselineTests = 1
 const repeastRulesGroundedness = 5
 const configs: (PromptPexOptions & { name: string })[] = [
     {
+        name: "github",
+        modelAliases: {
+            large: "not-supported",
+            small: "not-supported",
+            rules: "github:gpt-4o",
+            eval: "github:gpt-4o",
+            baseline: "github:gpt-4o",
+        },
+    },
+    /*    {
         name: "gpt-4o",
         modelAliases: {
             large: "not-supported",
@@ -64,7 +84,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             eval: "azure:gpt-4o_2024-08-06",
             baseline: "azure:gpt-4o_2024-08-06",
         },
-    },
+    },*/
     /*    {
         name: "llama3.3:70b",
         modelAliases: {
@@ -126,6 +146,7 @@ prompts.forEach((files) => output.itemValue(files.name, files.prompt.filename))
 
 async function apply(
     title: string,
+    cacheid: string,
     repeat: number,
     selector: (files: PromptPexContext) => WorkspaceFile,
     fn: (
@@ -147,7 +168,11 @@ async function apply(
             const { name, ...restConfig } = config
             output.heading(4, name)
             for (let i = 0; i < repeat; ++i) {
-                const res = await fn(files, { ...commOptions, ...restConfig })
+                const res = await fn(files, {
+                    ...commOptions,
+                    ...restConfig,
+                    cache: String(commOptions.cache).includes(cacheid),
+                })
                 if (file) {
                     file.content = res
                     output.fence(file.content, "text")
@@ -163,17 +188,19 @@ async function apply(
 
 await apply(
     "Intents",
+    "intent",
     repeatIntent,
     (_) => _.intent,
     (files, options) => generateIntent(files, options)
 )
 await apply(
     "Input Specs",
+    "inputspec",
     repeatInputSpec,
     (ctx) => ctx.inputSpec,
     (files, options) => generateInputSpec(files, options)
 )
-await apply("Rules", repeatRules, undefined, async (files, options) => {
+await apply("Rules", "rule", repeatRules, undefined, async (files, options) => {
     files.rules.content = await generateOutputRules(files, options)
     output.fence(files.rules.content, "text")
 
@@ -197,24 +224,29 @@ await apply("Rules", repeatRules, undefined, async (files, options) => {
 })
 await apply(
     "Inverse Rules",
+    "inverserule",
     repeatInverseRules,
     (_) => _.inverseRules,
     (files, options) => generateInverseOutputRules(files, options)
 )
 await apply(
     "Tests",
+    "test",
     repeatTests,
     (_) => _.tests,
     (files, options) => generateTests(files, options)
 )
+cancel("done")
 await apply(
     "Baseline Tests",
+    "baseline",
     repeatBaselineTests,
     (_) => _.baselineTests,
     (files, options) => generateBaselineTests(files, options)
 )
 await apply(
     "Evaluating Rules Coverage",
+    "rulecov",
     repeastRulesGroundedness,
     undefined,
     async (files, options) => {
