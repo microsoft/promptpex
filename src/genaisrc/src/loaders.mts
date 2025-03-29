@@ -43,7 +43,7 @@ export async function loadPromptFiles(
     const inverseRules = path.join(dir, "inverse_rules.txt")
     const inputSpec = path.join(dir, "input_spec.txt")
     const baselineTests = path.join(dir, "baseline_tests.txt")
-    const tests = path.join(dir, "tests.csv")
+    const tests = path.join(dir, "tests.json")
     const testResults = path.join(dir, "test_results.json")
     const testEvals = path.join(dir, "test_evals.json")
     const baselineTestEvals = path.join(dir, "baseline_test_evals.json")
