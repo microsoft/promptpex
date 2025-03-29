@@ -20,6 +20,7 @@
         "lint": "prettier --write src/**/*.mts",
         "test": "genaiscript run test --env .env.test",
         "promptpex:demo:ollama": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --vars \"models=ollama:llama3.2:1b;ollama:qwen2.5:3b\"",
+        "promptpex:demo:openai": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --model \"openai:gpt-4o\" --vars \"models=openai:gpt-4o-mini\"",
         "promptpex:demo:github": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --model \"github:gpt-4o\" --vars \"models=github:gpt-4o-mini;github:Phi-4-mini-instruct\"",
         "promptpex:demo:azure": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --model \"azure:gpt-4o_2024-08-06\" --vars \"models=azure:gpt-4o-mini_2024-07-18;azure:gpt-35-turbo_1106\"",
         "promptpex:speech-tag:github": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"models=github:gpt-4o-mini;github:Phi-4-mini-instruct\"",

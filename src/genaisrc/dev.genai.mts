@@ -15,13 +15,13 @@ script({
     unlisted: true,
     files: [
         "samples/speech-tag/speech-tag.prompty",
-        "samples/text-to-p/text-to-p.prompty",
+/*        "samples/text-to-p/text-to-p.prompty",
         "samples/openai-examples/elements.prompty",
         "samples/big-prompt-lib/art-prompt.prompty",
         "samples/prompt-guide/extract-names.prompty",
         "samples/text-classification/classify-input-text.prompty",
         "samples/big-prompt-lib/sentence-rewrite.prompty",
-        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
+        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",*/
     ],
     parameters: {
         fabric: {
@@ -44,7 +44,7 @@ const { output, vars } = env
 const {
     fabric,
     samplePrompts,
-    cache = "",
+    cache = "intent, inputspec, rules",
 } = vars as {
     fabric: string
     samplePrompts: number
@@ -66,6 +66,16 @@ const repeatBaselineTests = 1
 const repeastRulesGroundedness = 5
 const configs: (PromptPexOptions & { name: string })[] = [
     {
+        name: "openai",
+        modelAliases: {
+            large: "not-supported",
+            small: "not-supported",
+            rules: "openai:gpt-4o",
+            eval: "openai:gpt-4o",
+            baseline: "openai:gpt-4o",
+        },
+    },
+/*    {
         name: "github",
         modelAliases: {
             large: "not-supported",
@@ -74,7 +84,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             eval: "github:gpt-4o",
             baseline: "github:gpt-4o",
         },
-    },
+    },*/
     /*    {
         name: "gpt-4o",
         modelAliases: {

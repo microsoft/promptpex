@@ -22,7 +22,7 @@ export function modelOptions(
         // responseType: "text",
         // RAI must be checked by an external service
         system: [],
-        cache
+        cache,
     }
 }
 
@@ -80,13 +80,7 @@ export function parseRules(rules: string) {
 export function parseRulesTests(text: string): PromptPexTest[] {
     if (!text) return []
     if (isUnassistedResponse(text)) return []
-    const content = text.trim().replace(/\\"/g, '""')
-    const rulesTests = content
-        ? (CSV.parse(content, {
-              delimiter: ",",
-              repair: true,
-          }) as PromptPexTest[])
-        : []
+    const rulesTests: PromptPexTest[] = parsers.JSON5(text) || []
     return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }
 
