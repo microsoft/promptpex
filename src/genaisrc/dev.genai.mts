@@ -9,13 +9,14 @@ import { generateIntent } from "./src/intentgen.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { loadFabricPrompts } from "./src/fabricloader.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
+const dbg = host.logger("promptpex:dev")
 
 script({
     title: "PromptPex Dev",
     unlisted: true,
     files: [
         "samples/speech-tag/speech-tag.prompty",
-/*        "samples/text-to-p/text-to-p.prompty",
+        /*        "samples/text-to-p/text-to-p.prompty",
         "samples/openai-examples/elements.prompty",
         "samples/big-prompt-lib/art-prompt.prompty",
         "samples/prompt-guide/extract-names.prompty",
@@ -44,7 +45,7 @@ const { output, vars } = env
 const {
     fabric,
     samplePrompts,
-    cache = "intent, inputspec, rules",
+    cache = "intent, inputspec, rules, inverserules, rule",
 } = vars as {
     fabric: string
     samplePrompts: number
@@ -65,7 +66,7 @@ const repeatTests = 5
 const repeatBaselineTests = 1
 const repeastRulesGroundedness = 5
 const configs: (PromptPexOptions & { name: string })[] = [
-/*    {
+    /*    {
         name: "openai",
         modelAliases: {
             large: "not-supported",
@@ -75,7 +76,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             baseline: "openai:gpt-4o",
         },
     },*/
-/*    {
+    /*    {
         name: "github",
         modelAliases: {
             large: "not-supported",
@@ -85,7 +86,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             baseline: "github:gpt-4o",
         },
     },*/
-        {
+    {
         name: "gpt-4o",
         modelAliases: {
             large: "not-supported",
@@ -151,6 +152,8 @@ if (samplePrompts)
     prompts = parsers.tidyData(prompts, {
         sliceSample: samplePrompts,
     }) as PromptPexContext[]
+
+dbg(prompts)
 output.itemValue("prompts", prompts.length)
 prompts.forEach((files) => output.itemValue(files.name, files.prompt.filename))
 
@@ -164,7 +167,11 @@ async function apply(
         options: PromptPexOptions
     ) => Awaitable<string>
 ) {
+    const dbgc = host.logger("promptpex:dev:" + cacheid)
+    dbgc(title)
     output.heading(2, title)
+    const cache = String(commOptions.cache).includes(cacheid)
+    dbgc(`cache: ${cache} (${commOptions.cache})`)
     const table = []
     for (const files of prompts) {
         const row = { prompt: files.name }
@@ -181,7 +188,7 @@ async function apply(
                 const res = await fn(files, {
                     ...commOptions,
                     ...restConfig,
-                    cache: String(commOptions.cache).includes(cacheid),
+                    cache,
                 })
                 if (file) {
                     file.content = res
@@ -210,10 +217,15 @@ await apply(
     (ctx) => ctx.inputSpec,
     (files, options) => generateInputSpec(files, options)
 )
-await apply("Rules", "rule", repeatRules, undefined, async (files, options) => {
-    files.rules.content = await generateOutputRules(files, options)
-    output.fence(files.rules.content, "text")
-/*
+await apply(
+    "Rules",
+    "rules",
+    repeatRules,
+    undefined,
+    async (files, options) => {
+        files.rules.content = await generateOutputRules(files, options)
+        output.fence(files.rules.content, "text")
+        /*
     output.heading(3, "Evaluating Rules Groundedness")
     const groundedness = await evaluateRulesGrounded(files, options)
     output.table([
@@ -231,11 +243,12 @@ await apply("Rules", "rule", repeatRules, undefined, async (files, options) => {
     ])
     output.detailsFenced(`data`, groundedness, "csv")
     */
-    return ""
-})
+        return ""
+    }
+)
 await apply(
     "Inverse Rules",
-    "inverserule",
+    "inverserules",
     repeatInverseRules,
     (_) => _.inverseRules,
     (files, options) => generateInverseOutputRules(files, options)
