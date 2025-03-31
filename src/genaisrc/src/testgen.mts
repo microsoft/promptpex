@@ -9,7 +9,7 @@ import {
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
 const { generator, output } = env
-const dbg = host.logger("promptpex:testgen")
+const dbg = host.logger("promptpex:gen:test")
 
 export async function generateTests(
     files: PromptPexContext,
@@ -87,7 +87,7 @@ IOR --> PPT
                 //      logprobs: true,
                 label: `${files.name}> generate tests`,
                 responseSchema,
-                responseType: "json_object"
+                responseType: "json_object",
             }
         )
     )

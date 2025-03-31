@@ -46,12 +46,6 @@ outputs:
             - testinput
             - expectedoutput
             - reasoning
-        example:
-            ruleid: "1"
-            testid: "1"
-            testinput: "Write a poem about the beauty of nature, focusing on the changing seasons."
-            expectedoutput: "A poem that describes the beauty of nature through the lens of the changing seasons, using vivid imagery and poetic devices."
-            reasoning: "This test case checks if the software can generate a poem that adheres to the specified theme of nature and seasons, ensuring it follows the input specification." 
 ---
 system:
 You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of <RULES> as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
@@ -73,6 +67,7 @@ Guidelines for generating test cases:
 - Never generate similar or redundant test cases
 
 Each test case should adhere to principles of good software testing practices, emphasizing coverage, specificity and independence. Critically assess potential weaknesses in the software's handling of inputs based on the rule and focus on creating diverse test cases that effectively challenge the software's capabilities.
+Generate a JSON array of test cases.
 
 Since you will be given {{ num_rules }} rules, 
 you are expected to generated {{ num_rules * num }} tests, 

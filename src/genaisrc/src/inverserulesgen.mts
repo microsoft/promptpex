@@ -50,6 +50,11 @@ OR --> IOR
         )
         irules = tidyRules(checkLLMResponse(res))
         pirules = parseRules(irules)
+
+        if(pirules.length !== prules.length)
+            console.warn(
+                `inverse rules length mismatch: generated ${pirules.length}, expected ${prules.length}`
+            )
     } while (retry-- > 0 && pirules.length !== prules.length)
 
     if (pirules.length !== prules.length) {
