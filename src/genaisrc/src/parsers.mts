@@ -80,12 +80,15 @@ export function parseRules(rules: string) {
 export function parseRulesTests(text: string): PromptPexTest[] {
     if (!text) return []
     if (isUnassistedResponse(text)) return []
-    const rulesTests: PromptPexTest[] = parsers.JSON5(text) || []
-    if (!Array.isArray(rulesTests))
+    const rulesTests: { testcases: PromptPexTest[] } = parsers.JSON5(text) || {
+        testcases: [],
+    }
+    if (!Array.isArray(rulesTests)) {
         throw new Error(
             `Expected array of rules tests, got ${typeof rulesTests}`
         )
-    return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
+    }
+    return rulesTests.testcases.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }
 
 export function parseTestResults(

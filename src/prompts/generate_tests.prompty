@@ -21,31 +21,38 @@ inputs:
     num_rules:
         type: integer
 outputs:
-    type: array
-    items:
-        type: object
-        properties:
-            ruleid:
-                type: number
-                description: "Identifier for the rule being tested."
-            testid:
-                type: number
-                description: "Sequential identifier for each test case under a rule."
-            testinput:
-                type: string
-                description: "Detailed input provided to the software."
-            expectedoutput:
-                type: string
-                description: "Output or behavior expected from the software to affirm rule adherence."
-            reasoning:
-                type: string
-                description: "Brief explanation of why this test case is relevant and contributes to robust testing of the rule."
-        required:
-            - ruleid
-            - testid
-            - testinput
-            - expectedoutput
-            - reasoning
+    description: "A JSON object containing an array of test cases generated based on the provided rules and specifications."
+    type: object
+    required:
+        - testcases
+    properties:
+        testcases:
+            description: "An array of test cases generated based on the provided rules and specifications."
+            type: array
+            items:
+                type: object
+                properties:
+                    ruleid:
+                        type: number
+                        description: "Identifier for the rule being tested."
+                    testid:
+                        type: number
+                        description: "Sequential identifier for each test case under a rule."
+                    testinput:
+                        type: string
+                        description: "Detailed input provided to the software."
+                    expectedoutput:
+                        type: string
+                        description: "Output or behavior expected from the software to affirm rule adherence."
+                    reasoning:
+                        type: string
+                        description: "Brief explanation of why this test case is relevant and contributes to robust testing of the rule."
+                required:
+                    - ruleid
+                    - testid
+                    - testinput
+                    - expectedoutput
+                    - reasoning
 ---
 system:
 You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of <RULES> as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.

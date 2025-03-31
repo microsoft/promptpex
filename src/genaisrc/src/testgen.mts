@@ -87,12 +87,13 @@ IOR --> PPT
                 //      logprobs: true,
                 label: `${files.name}> generate tests`,
                 responseSchema,
-                responseType: "json_object",
+                responseType: "json_schema",
             }
         )
     )
     checkLLMResponse(res)
     const tests = res.json
-    if (!tests) throw new Error("no tests generated")
+    dbg(tests)
+    if (!Array.isArray(tests.testcases)) throw new Error("no tests generated")
     return JSON.stringify(tests, null, 2)
 }
