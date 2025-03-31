@@ -49,7 +49,7 @@ IOR --> PPT
     const { outputs: responseSchema } = MD.frontmatter(
         await workspace.readText(pn)
     )
-    dbg(responseSchema)
+    //dbg(responseSchema)
     await outputPrompty(pn, options)
     const res = await measure("gen.tests", () =>
         generator.runPrompt(
@@ -93,7 +93,7 @@ IOR --> PPT
     )
     checkLLMResponse(res)
     const tests = res.json
-    dbg(tests)
+    //dbg(tests)
     if (!Array.isArray(tests.testcases)) throw new Error("no tests generated")
     return JSON.stringify(tests, null, 2)
 }

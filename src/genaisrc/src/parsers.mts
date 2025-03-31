@@ -8,6 +8,7 @@ import type {
     PromptPexTestEval,
     PromptPexTestResult,
 } from "./types.mts"
+const dbg = host.logger("promptpex:gen:parsers")
 
 const { output } = env
 
@@ -80,15 +81,17 @@ export function parseRules(rules: string) {
 export function parseRulesTests(text: string): PromptPexTest[] {
     if (!text) return []
     if (isUnassistedResponse(text)) return []
-    const rulesTests: { testcases: PromptPexTest[] } = parsers.JSON5(text) || {
+    const res: { testcases: PromptPexTest[] } = parsers.JSON5(text) || {
         testcases: [],
     }
+    const rulesTests: PromptPexTest[] = res.testcases || []
     if (!Array.isArray(rulesTests)) {
+        dbg(rulesTests)
         throw new Error(
             `Expected array of rules tests, got ${typeof rulesTests}`
         )
     }
-    return rulesTests.testcases.map((r) => ({ ...r, testinput: r.testinput || "" }))
+    return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }
 
 export function parseTestResults(
