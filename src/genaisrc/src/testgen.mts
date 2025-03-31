@@ -57,6 +57,7 @@ IOR --> PPT
                         .map((r, index) => `${index + 1}. ${r.rule}`)
                         .join("\n"),
                     num_rules: allRules.length,
+                    entities: files.entities?.content || "",
                 })
                 ctx.defChatParticipant((p, c) => {
                     const last: string = c.at(-1)?.content

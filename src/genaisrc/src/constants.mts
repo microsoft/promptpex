@@ -8,6 +8,10 @@ export const PROMPT_GENERATE_INPUT_SPEC = join(
     promptDir,
     "generate_input_spec.prompty"
 )
+export const PROMPT_EXTRACT_INPUT_ENTITIES = join(
+    promptDir,
+    "extract_input_entities.prompty"
+)
 export const PROMPT_GENERATE_INTENT = join(promptDir, "generate_intent.prompty")
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
     promptDir,
@@ -41,6 +45,7 @@ export const PROMPT_EVAL_TEST_RESULT = join(
 
 export const PROMPT_ALL = [
     PROMPT_GENERATE_INPUT_SPEC,
+    PROMPT_EXTRACT_INPUT_ENTITIES,
     PROMPT_GENERATE_INTENT,
     PROMPT_GENERATE_OUTPUT_RULES,
     PROMPT_GENERATE_BASELINE_TESTS,
@@ -100,5 +105,5 @@ export const DOCS_GLOSSARY = `
 - Test Coverage (TC) - Result generated for PPT and BT on PUTI + OR with MPP
 
 - Test Output (TO) - Result generated for PPT and BT on PUT with each MUT
-- Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
+- Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
 `

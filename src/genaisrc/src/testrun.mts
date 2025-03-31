@@ -23,44 +23,44 @@ const { generator, output } = env
 export async function runTests(
     files: PromptPexContext,
     options?: PromptPexOptions & {
+        models?: ModelType[]
         force?: boolean
+        compliance?: boolean
         q?: PromiseQueue
+        maxTests?: number
+        ignoreBaseline?: boolean
     }
 ): Promise<string> {
     const {
         force,
-        modelsUnderTest,
-        maxTestsToRun,
-        runsPerTest = 1,
+        models = [],
+        compliance,
+        maxTests,
+        ignoreBaseline,
     } = options || {}
-    if (!modelsUnderTest?.length) throw new Error("No models to run tests on")
-
+    console.debug({ models })
+    assert(models.every((m) => !!m))
     const rulesTests = parseRulesTests(files.tests.content)
-    const baselineTests = options?.baselineTests
-        ? []
-        : parseBaselineTests(files)
-    const tests = [...rulesTests, ...baselineTests].slice(0, maxTestsToRun)
+    const baselineTests = ignoreBaseline ? [] : parseBaselineTests(files)
+    const tests = [...rulesTests, ...baselineTests].slice(0, maxTests)
     if (!tests?.length) throw new Error("No tests found to run")
 
-    console.log(
-        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
-    )
+    console.log(`executing ${tests.length} tests with ${models.length} models`)
     const testResults: PromptPexTestResult[] = []
-    for (const modelUnderTest of modelsUnderTest) {
+    for (const model of models) {
         for (let testi = 0; testi < tests.length; ++testi) {
             const test = tests[testi]
             console.log(
-                `${files.name}> ${modelUnderTest}: run test ${testi + 1}/${tests.length}x${runsPerTest} ${test.testinput.slice(0, 42)}...`
+                `${files.name}> ${model}: run test ${testi + 1}/${tests.length} ${test.testinput.slice(0, 42)}...`
             )
-            for (let ri = 0; ri < runsPerTest; ++ri) {
-                const testRes = await runTest(files, test, {
-                    ...options,
-                    model: modelUnderTest,
-                    force,
-                })
-                assert(testRes.model)
-                if (testRes) testResults.push(testRes)
-            }
+            const testRes = await runTest(files, test, {
+                ...options,
+                model,
+                force,
+                compliance,
+            })
+            assert(testRes.model)
+            if (testRes) testResults.push(testRes)
         }
     }
 
@@ -80,12 +80,17 @@ export async function runTest(
         force?: boolean
     }
 ): Promise<PromptPexTestResult> {
-    const { model, force, compliance, customTestEvalTemplate, evalCache } =
-        options || {}
-    if (!model) throw new Error("No model provided for test")
-
-    const moptions = modelOptions(model, options)
-
+    const {
+        model,
+        force,
+        compliance,
+        customTestEvalModel,
+        customTestEvalTemplate,
+        evalCache,
+    } = options || {}
+    const moptions = {
+        ...modelOptions(model, options),
+    }
     const { id, promptid, file } = await resolveTestPath(files, test, {
         model,
         evalCache,
@@ -117,7 +122,7 @@ export async function runTest(
             output: "invalid test input",
         } satisfies PromptPexTestResult
 
-    const res = await measure("test.run", () =>
+    const res = await measure("llm.test.run", () =>
         generator.runPrompt(
             (ctx) => {
                 ctx.importTemplate(files.prompt, args, {
@@ -127,22 +132,12 @@ export async function runTest(
             },
             {
                 ...moptions,
-                label: `${files.name}> ${moptions.model}: run test ${testInput.slice(0, 42)}...`,
+                label: `${files.name}> run test ${testInput.slice(0, 42)}...`,
             }
         )
     )
-    if (res.error) {
-        console.debug(res.finishReason)
-        console.debug(JSON.stringify(res.error, null, 2))
-        throw new Error(res.error.message)
-    }
+    if (res.error) throw new Error(res.error.message)
     const actualOutput = res.text
-    output.startDetails(`test result: ${testInput.slice(0, 42)}}...`)
-    output.itemValue("model", model)
-    output.fence(testInput)
-    output.fence(actualOutput)
-    output.endDetails()
-
     const testRes: PromptPexTestResult = {
         id,
         promptid,
