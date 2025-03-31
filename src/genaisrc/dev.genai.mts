@@ -65,7 +65,7 @@ const repeatTests = 5
 const repeatBaselineTests = 1
 const repeastRulesGroundedness = 5
 const configs: (PromptPexOptions & { name: string })[] = [
-    {
+/*    {
         name: "openai",
         modelAliases: {
             large: "not-supported",
@@ -74,7 +74,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             eval: "openai:gpt-4o",
             baseline: "openai:gpt-4o",
         },
-    },
+    },*/
 /*    {
         name: "github",
         modelAliases: {
@@ -85,16 +85,16 @@ const configs: (PromptPexOptions & { name: string })[] = [
             baseline: "github:gpt-4o",
         },
     },*/
-    /*    {
+        {
         name: "gpt-4o",
         modelAliases: {
             large: "not-supported",
             small: "not-supported",
-            rules: "azure:gpt-4o_2024-08-06",
-            eval: "azure:gpt-4o_2024-08-06",
-            baseline: "azure:gpt-4o_2024-08-06",
+            rules: "azure:gpt-4o_2024-11-20",
+            eval: "azure:gpt-4o_2024-11-20",
+            baseline: "azure:gpt-4o_2024-11-20",
         },
-    },*/
+    },
     /*    {
         name: "llama3.3:70b",
         modelAliases: {
@@ -213,7 +213,7 @@ await apply(
 await apply("Rules", "rule", repeatRules, undefined, async (files, options) => {
     files.rules.content = await generateOutputRules(files, options)
     output.fence(files.rules.content, "text")
-
+/*
     output.heading(3, "Evaluating Rules Groundedness")
     const groundedness = await evaluateRulesGrounded(files, options)
     output.table([
@@ -230,6 +230,7 @@ await apply("Rules", "rule", repeatRules, undefined, async (files, options) => {
         },
     ])
     output.detailsFenced(`data`, groundedness, "csv")
+    */
     return ""
 })
 await apply(

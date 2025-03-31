@@ -46,10 +46,10 @@ IOR --> PPT
     const context = MD.content(files.prompt.content)
     let repaired = false
     const pn = PROMPT_GENERATE_TESTS
-    const { outputs: responseType } = MD.frontmatter(
+    const { outputs: responseSchema } = MD.frontmatter(
         await workspace.readText(pn)
     )
-    dbg(responseType)
+    dbg(responseSchema)
     await outputPrompty(pn, options)
     const res = await measure("gen.tests", () =>
         generator.runPrompt(
@@ -86,7 +86,8 @@ IOR --> PPT
                 ...modelOptions(rulesModel, options),
                 //      logprobs: true,
                 label: `${files.name}> generate tests`,
-                responseType,
+                responseSchema,
+                responseType: "json_object"
             }
         )
     )
