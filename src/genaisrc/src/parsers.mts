@@ -22,7 +22,7 @@ export function modelOptions(
         // responseType: "text",
         // RAI must be checked by an external service
         system: [],
-        cache
+        cache,
     }
 }
 
@@ -60,6 +60,7 @@ export function tidyRules(text: string) {
         .map((line) => line.replace(/^(\d+\.|_|-|\*)\s+/i, "")) // unneded numbering
         .filter((s) => !!s)
         .filter((s) => !/^\s*Rules:\s*$/i.test(s))
+        .map((line) => line.replace(/^\["(.*)"\]$/, (_, rule) => rule)) // ["..."]
         .join("\n")
 }
 
