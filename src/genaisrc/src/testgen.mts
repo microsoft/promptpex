@@ -9,6 +9,7 @@ import {
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
 const { generator, output } = env
+const dbg = host.logger("promptpex:gen:test")
 
 export async function generateTests(
     files: PromptPexContext,
@@ -45,6 +46,10 @@ IOR --> PPT
     const context = MD.content(files.prompt.content)
     let repaired = false
     const pn = PROMPT_GENERATE_TESTS
+    const { outputs: responseSchema } = MD.frontmatter(
+        await workspace.readText(pn)
+    )
+    //dbg(responseSchema)
     await outputPrompty(pn, options)
     const res = await measure("gen.tests", () =>
         generator.runPrompt(
@@ -81,10 +86,14 @@ IOR --> PPT
                 ...modelOptions(rulesModel, options),
                 //      logprobs: true,
                 label: `${files.name}> generate tests`,
+                responseSchema,
+                responseType: "json_schema",
             }
         )
     )
-    const text = checkLLMResponse(res)
-    const csv = parsers.unfence(text, "csv")
-    return csv
+    checkLLMResponse(res)
+    const tests = res.json
+    //dbg(tests)
+    if (!Array.isArray(tests.testcases)) throw new Error("no tests generated")
+    return JSON.stringify(tests, null, 2)
 }

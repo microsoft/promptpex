@@ -8,6 +8,7 @@ import type {
     PromptPexTestEval,
     PromptPexTestResult,
 } from "./types.mts"
+const dbg = host.logger("promptpex:gen:parsers")
 
 const { output } = env
 
@@ -22,7 +23,7 @@ export function modelOptions(
         // responseType: "text",
         // RAI must be checked by an external service
         system: [],
-        cache
+        cache,
     }
 }
 
@@ -60,6 +61,7 @@ export function tidyRules(text: string) {
         .map((line) => line.replace(/^(\d+\.|_|-|\*)\s+/i, "")) // unneded numbering
         .filter((s) => !!s)
         .filter((s) => !/^\s*Rules:\s*$/i.test(s))
+        .map((line) => line.replace(/^\["(.*)"\]$/, (_, rule) => rule)) // unneded quotes
         .join("\n")
 }
 
@@ -80,13 +82,16 @@ export function parseRules(rules: string) {
 export function parseRulesTests(text: string): PromptPexTest[] {
     if (!text) return []
     if (isUnassistedResponse(text)) return []
-    const content = text.trim().replace(/\\"/g, '""')
-    const rulesTests = content
-        ? (CSV.parse(content, {
-              delimiter: ",",
-              repair: true,
-          }) as PromptPexTest[])
-        : []
+    const res: { testcases: PromptPexTest[] } = parsers.JSON5(text) || {
+        testcases: [],
+    }
+    const rulesTests: PromptPexTest[] = res.testcases || []
+    if (!Array.isArray(rulesTests)) {
+        dbg(rulesTests)
+        throw new Error(
+            `Expected array of rules tests, got ${typeof rulesTests}`
+        )
+    }
     return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }
 
