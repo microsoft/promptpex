@@ -36,6 +36,9 @@ const options: PromptPexOptions = {
     baselineTests: true,
     cache: true,
     modelsUnderTest,
+    splitRules: false,
+    maxRulesPerTestGeneration: 100,
+    testGenerations: 1,
 }
 
 initPerf({ output })
