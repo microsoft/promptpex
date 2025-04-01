@@ -10,7 +10,7 @@ export const PROMPT_GENERATE_INPUT_SPEC = join(
 )
 export const PROMPT_EXTRACT_INPUT_ENTITIES = join(
     promptDir,
-    "extract_input_entities.prompty"
+    "generate_input_entities.prompty"
 )
 export const PROMPT_GENERATE_INTENT = join(promptDir, "generate_intent.prompty")
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
