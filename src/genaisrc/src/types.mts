@@ -258,6 +258,11 @@ export interface PromptPexTestEval {
     error?: string
 }
 
+export interface PromptPexRule {
+    rule: string
+    inverse?: boolean
+}
+
 export interface PromptPexRuleEval {
     id: string
     promptid: string

@@ -3,6 +3,7 @@ import type {
     PromptPexContext,
     PromptPexModelAliases,
     PromptPexOptions,
+    PromptPexRule,
     PromptPexRuleEval,
     PromptPexTest,
     PromptPexTestEval,
@@ -151,9 +152,7 @@ export function parsBaselineTestEvals(files: PromptPexContext) {
     }) || []) as PromptPexTestEval[]
 }
 
-export function parseAllRules(
-    files: PromptPexContext
-): { rule: string; inverse?: boolean }[] {
+export function parseAllRules(files: PromptPexContext): PromptPexRule[] {
     const rules = parseRules(files.rules.content)
     const inverseRules = parseRules(files.inverseRules.content)
     const allRules = [
