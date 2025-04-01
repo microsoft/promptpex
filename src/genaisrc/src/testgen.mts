@@ -21,8 +21,11 @@ export async function generateTests(
     files: PromptPexContext,
     options?: PromptPexOptions
 ): Promise<string> {
-    const { testsPerRule: num = TESTS_NUM, rulesModel = "rules" } =
-        options || {}
+    const {
+        testsPerRule: num = TESTS_NUM,
+        rulesModel = "rules",
+        testGenerations = 1,
+    } = options || {}
 
     if (!files.rules.content) throw new Error("No rules found")
     if (!files.inputSpec.content) throw new Error("No input spec found")
@@ -50,7 +53,6 @@ IOR --> PPT
     )
 
     const context = MD.content(files.prompt.content)
-    let repaired = false
     const pn = PROMPT_GENERATE_TESTS
     await outputPrompty(pn, options)
 
@@ -60,7 +62,9 @@ IOR --> PPT
 
     dbg(`${allRules.length} rules, ${rulesGroups.length} groups`)
     for (const rulesGroup of rulesGroups) {
-        const res = await measure("gen.tests", () =>
+        let testGeneration = 0
+        let repaired = false
+        await measure("gen.tests", () =>
             generator.runPrompt(
                 (ctx) => {
                     ctx.importTemplate(pn, {
@@ -92,6 +96,17 @@ IOR --> PPT
                                 )
                                 output.fence(last, "txt")
                             }
+                        } else {
+                            if (csv?.length) {
+                                dbg(`adding ${csv.length} tests`)
+                                tests.push(...csv)
+                            }
+                            if (testGeneration < testGenerations) {
+                                testGeneration++
+                                dbg(`test generation ${testGeneration + 1}`)
+                                repaired = false
+                                p.$`Generate ${num} more tests for the same rules. Do not duplicate the previous tests.`
+                            }
                         }
                     })
                 },
@@ -102,10 +117,6 @@ IOR --> PPT
                 }
             )
         )
-        const text = checkLLMResponse(res)
-        const csv = parsers.unfence(text, "csv")
-        const current = parseCsvTests(csv)
-        if (current?.length) tests.push(...current)
         // TODO retry
         rulesCount += rulesGroup.length
     }

@@ -77,6 +77,12 @@ script({
             type: "integer",
             description: "Maximum number of rules to use per test generation",
         },
+        testGenerations: {
+            type: "integer",
+            description: "Number of times to amplify the test generation",
+            minimum: 1,
+            maximum: 10,
+        },
         models: { type: "string", description: "List of models to evaluate" },
         out: { type: "string", description: "Output directory", default: "" },
     },
@@ -93,6 +99,7 @@ const {
     runsPerTest,
     splitRules,
     maxRulesPerTestGeneration,
+    testGenerations,
 } = vars as PromptPexOptions & {
     force?: boolean
     out?: string
@@ -128,6 +135,7 @@ const options = Object.freeze({
     maxTestsToRun,
     splitRules,
     maxRulesPerTestGeneration,
+    testGenerations,
     compliance: true,
     baselineTests: true,
 } satisfies PaperOptions)

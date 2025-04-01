@@ -257,7 +257,7 @@ const options: PromptPexOptions = {
         outputRules: outputRulesInstructions,
         inverseOutputRules: inverseOutputRulesInstructions,
     },
-    workflowDiagram: true,
+    workflowDiagram: !process.env.DEBUG,
     baselineModel,
     rulesModel,
     evalModel,
@@ -269,7 +269,9 @@ const options: PromptPexOptions = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
-    splitRules: true
+    splitRules: true,
+    maxRulesPerTestGeneration: 3,
+    testGenerations: 2,
 }
 
 if (env.files[0] && promptText)

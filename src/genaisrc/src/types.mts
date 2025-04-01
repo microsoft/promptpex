@@ -122,6 +122,11 @@ export interface PromptPexOptions {
      * Maximum number of rules to use per test generation
      */
     maxRulesPerTestGeneration?: number
+
+    /**
+     * Number of times to amplify the test generation, default is 1
+     */
+    testGenerations?: number
 }
 
 /**
