@@ -1,5 +1,5 @@
 import { diagnostics } from "./src/flags.mts"
-import { generateInputSpec } from "./src/inputspecgen.mts"
+import { generateInputSpec, generateInputEntities } from "./src/inputspecgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { loadPromptFiles } from "./src/loaders.mts"
 import { outputFile, outputLines } from "./src/output.mts"
@@ -291,6 +291,11 @@ output.detailsFenced(`options`, options, "yaml")
 output.heading(3, `Prompt Under Test`)
 output.itemValue(`filename`, files.prompt.filename)
 output.fence(files.prompt.content, "md")
+
+// generate input entities
+output.heading(3, "Input Entities")
+files.inputEntities.content = await generateInputEntities(files, options)
+outputFile(files.inputEntities)
 
 // generate input spec
 output.heading(3, "Input Specification")
