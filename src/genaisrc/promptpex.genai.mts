@@ -86,6 +86,24 @@ promptPex:
             maximum: 10,
             default: 3,
         },
+        splitRules: {
+            type: "boolean",
+            description:
+                "Split rules and inverse rules in separate prompts for generation",
+            default: true,
+        },
+        maxRulesPerTestGeneration: {
+            type: "integer",
+            description: "Maximum number of rules to use per test generation",
+            default: 3,
+        },
+        testGenerations: {
+            type: "integer",
+            description: "Number of times to amplify the test generation",
+            default: 2,
+            minimum: 1,
+            maximum: 10,
+        },
         runsPerTest: {
             type: "integer",
             description: "Number of runs to execute per test",
@@ -244,6 +262,9 @@ const {
     customTestEvalTemplate,
     customTestEvalModel,
     runsPerTest,
+    splitRules,
+    maxRulesPerTestGeneration,
+    testGenerations,
 } = vars
 const modelsUnderTest = (vars.modelsUnderTest || "")
     .split(/;/g)
@@ -269,9 +290,9 @@ const options: PromptPexOptions = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
-    splitRules: true,
-    maxRulesPerTestGeneration: 3,
-    testGenerations: 2,
+    splitRules,
+    maxRulesPerTestGeneration,
+    testGenerations,
 }
 
 if (env.files[0] && promptText)
