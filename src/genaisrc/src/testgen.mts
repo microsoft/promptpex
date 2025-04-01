@@ -5,6 +5,7 @@ import {
     parseRulesTests,
     modelOptions,
     checkLLMResponse,
+    isUnassistedResponse,
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -13,6 +14,7 @@ import type {
     PromptPexRule,
     PromptPexTest,
 } from "./types.mts"
+const dbg = host.logger("promptpex:gen:test")
 const { generator, output } = env
 
 export async function generateTests(
@@ -56,6 +58,7 @@ IOR --> PPT
     const tests: PromptPexTest[] = []
     let rulesCount = 0
 
+    dbg(`${allRules.length} rules, ${rulesGroups.length} groups`)
     for (const rulesGroup of rulesGroups) {
         const res = await measure("gen.tests", () =>
             generator.runPrompt(
@@ -100,14 +103,28 @@ IOR --> PPT
         )
         const text = checkLLMResponse(res)
         const csv = parsers.unfence(text, "csv")
-        const current = parseRulesTests(csv)
+        const current = parseCsvTests(csv)
         if (current?.length) tests.push(...current)
+        // TODO retry
         rulesCount += rulesGroup.length
     }
-    const resc = CSV.stringify(tests)
+    const resc = JSON.stringify(tests, null, 2)
     return resc
 }
 
 function splitRules(rules: PromptPexRule[]) {
     return [rules.filter((r) => !r.inverse), rules.filter((r) => r.inverse)]
+}
+
+function parseCsvTests(text: string): PromptPexTest[] {
+    if (!text) return []
+    if (isUnassistedResponse(text)) return []
+    const content = text.trim().replace(/\\"/g, '""')
+    const rulesTests = content
+        ? (CSV.parse(content, {
+              delimiter: ",",
+              repair: true,
+          }) as PromptPexTest[])
+        : []
+    return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }
