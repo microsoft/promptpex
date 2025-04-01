@@ -77,9 +77,10 @@ IOR --> PPT
                     })
                     ctx.defChatParticipant((p, c) => {
                         const last: string = c.at(-1)?.content
-                        const csv = parseRulesTests(last)
+                        const csv = parseCsvTests(last)
                         if (!csv.length) {
                             if (!repaired) {
+                                dbg(`no tests found, trying to repair`)
                                 console.warn(
                                     "Invalid generated test format or no test generated, trying to repair"
                                 )
