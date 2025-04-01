@@ -147,8 +147,8 @@ export interface PromptPexContext {
      */
     prompt: WorkspaceFile
     /**
- 0  * Prompt Under Test Intent (PUTI)
-   */
+     * Prompt Under Test Intent (PUTI)
+     */
     intent: WorkspaceFile
     /**
      * Output Rules (OR) - Extracted output constraints of PUT using MPP
@@ -162,6 +162,11 @@ export interface PromptPexContext {
      * Input specification (IS): Extracted input constraints of PUT using MPP
      */
     inputSpec: WorkspaceFile
+
+    /**
+     * Input Entities (IE): Extracted entities that can be used as input variables
+     */
+    inputEntities: WorkspaceFile
 
     /**
      * Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP

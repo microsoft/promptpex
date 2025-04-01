@@ -1,5 +1,5 @@
 import { generateBaselineTests } from "./src/baselinetestgen.mts"
-import { generateInputSpec } from "./src/inputspecgen.mts"
+import { generateInputSpec, generateInputEntities } from "./src/inputspecgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { loadPromptFiles } from "./src/loaders.mts"
 import {
@@ -41,6 +41,10 @@ const options: PromptPexOptions = {
 initPerf({ output })
 const promptFile = env.files.find((f) => f.filename.endsWith(".prompty"))
 const files = await loadPromptFiles(promptFile)
+
+output.heading(3, "Input Entities")
+files.inputEntities.content = await generateInputEntities(files, options)
+output.fence(files.inputEntities.content, "text")
 
 output.heading(3, "Input Specification")
 files.inputSpec.content = await generateInputSpec(files, options)

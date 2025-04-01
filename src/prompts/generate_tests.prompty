@@ -9,6 +9,7 @@ sample:
     num: 1
     num_rules: 3
     rule: "The output must be in the form of a poem, which is a piece of writing that typically uses rhythmic and metaphorical language. The poem must consist of multiple lines. Each line in the poem should contribute to an overarching theme or emotion. The poem may have a rhyme scheme, but it is not mandatory unless specifically requested. The language used in the poem should be imaginative and could include similes, metaphors, or other poetic devices. The poem should evoke emotion or imagery, providing a sensory experience for the reader. The length of the poem can vary, but it should be sufficient to convey the intended theme or message. The poem should have coherence and flow, ensuring that it is understandable and has a logical progression. The poem can follow a specific structure, like a haiku or sonnet, only if explicitly requested. Otherwise, flexibility in structure is allowed. The tone of the poem should be consistent unless a shift serves the thematic purpose. The poem should avoid complex jargon, ensuring accessibility to a wide audience unless complex language is part of the requested style. The poem should not include explicit or offensive content, ensuring it is appropriate for all audiences. If specific poetic constraints (such as style, theme, or form) are provided by the user, the poem should adhere to these constraints while still maintaining creativity."
+    entities: "theme of poem, style of poem, subject of poem"
 inputs:
     input_spec:
         type: string
@@ -20,6 +21,8 @@ inputs:
         type: string
     num_rules:
         type: integer
+    entities:
+        type: string
 ---
 system:
 You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of rules as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
@@ -30,9 +33,12 @@ Use the following input specification to understand valid inputs and generate go
 
 Use the following functional specification of the software to generate the test cases: {{context}}
 
+The following entities have been identified in the prompt that must be part of the test cases:
+{{entities}}
+
 Guidelines for generating test cases:
 - Analyze the input specifications to understand the valid input formats, components of the input and scenarios for the software.
-- If the test case have multiple components, try to use all the components in the test case and tag them with their name, like, component name: value
+- For each test case, use the identified entities as input variables. Format them as: name: description
 - Develop {{num}} test cases for each rule provided in the list.
 - Each test case must be crafted to rigorously assess whether the software's output meets the stipulated rule based on the inputs that conform to the provided input specification.
 - Use valid and realistic input scenarios that fully comply with the input specifications and are relevant to the rule being tested.
@@ -45,14 +51,14 @@ Each test case should adhere to principles of good software testing practices, e
 Format your response in a structured CSV format as follows:
 - "ruleid": Identifier for the rule being tested.
 - "testid": Sequential identifier for each test case under a rule.
-- "testinput": Detailed input provided to the software.
+- "testinput": Detailed input provided to the software as a json object with entity names as keys.
 - "expectedoutput": Output or behavior expected from the software to affirm rule adherence.
 - "reasoning": Brief explanation of why this test case is relevant and contributes to robust testing of the rule. List the input specification that this test case does not follow.
 
 Example CSV layout:
 ruleid, testid, testinput, expectedoutput, reasoning
-1, 1, "input based on rule 1 scenario 1", "expected outcome demonstrating rule adherence", "Explains the relevance and effectiveness of the test and how it follows the input specification"
-1, 2, "input based on rule 1 scenario 2, examples", "expected response confirming rule", "Illustrates how inputs challenge the software and ensure compliance and how is a valid test case based on input specification"
+1, 1, "{'theme': 'nature', 'style': 'haiku', 'subject': 'cherry blossoms'}", "expected outcome demonstrating rule adherence", "Explains the relevance and effectiveness of the test and how it follows the input specification"
+1, 2, "{'theme': 'love', 'style': 'sonnet', 'subject': 'first meeting'}", "expected response confirming rule", "Illustrates how inputs challenge the software and ensure compliance and how is a valid test case based on input specification"
 
 Only output the test cases in the specified CSV format and nothing else. Please make sure that the CSV generated is well formed, only have five columns and each value in a these columns must only have commas inside quoted value else they will be counted as a new column. Do not wrap the output in any additional text or formatting like triple backticks or quotes.
 

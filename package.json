@@ -34,6 +34,7 @@
         "promptpex:paper": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" \"samples/text-to-p/text-to-p.prompty\" \"samples/openai-examples/elements.prompty\" \"samples/big-prompt-lib/art-prompt.prompty\" \"samples/prompt-guide/extract-names.prompty\" \"samples/text-classification/classify-input-text.prompty\" \"samples/big-prompt-lib/sentence-rewrite.prompty\" \"samples/azure-ai-studio/shakespearean-writing-assistant.prompty\" --vars \"evals=true\" --vars \"models=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper\"",
         "ollama": "npm run ollama:stop && npm run ollama:start",
         "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
-        "ollama:stop": "docker stop ollama && docker rm ollama"
+        "ollama:stop": "docker stop ollama && docker rm ollama",
+        "promptpex:multiple-inputs-speech-tag": "genaiscript run multiple_inputs \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"models=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-speech-tag\""
     }
 }

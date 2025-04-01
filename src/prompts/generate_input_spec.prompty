@@ -5,10 +5,13 @@ tags:
     - unlisted
 sample:
   context: "Write a poem."
+  input_entities: "theme: theme of the poem"
 inputs:
   context:
     type: string
   instructions:
+    type: string
+  input_entities:
     type: string
 ---
 system:
@@ -16,6 +19,10 @@ You are an expert in analyzing chatbot functionalities and identifying the requi
 Your response should focus solely on input requirements and ignore any details related to output generation or other functionalities. 
 Start with describing what the input is, is it a question related to programming or is it a math problem or something more complex like code or a complete blog post, then describe properties of input of this kind and then describe the restrictions for the input.
 Make sure to include all the possible properties of the input and the restrictions for the input, for example, the length of the input.
+
+You must cover all the following entities which are the part of the input:
+
+{{input_entities}}
 
 If the chatbot description in <PROMPT> handles a corner case, for example if the description says ignore all the greetings, it means that a greeting is a valid input but the chatbot is handling it in a special way which makes it a part of the input domain and there must not be a rules against it.
 

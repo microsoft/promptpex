@@ -1,6 +1,6 @@
 import { generateBaselineTests } from "./src/baselinetestgen.mts"
 import { evaluateBaselineTests } from "./src/baselinetestseval.mts"
-import { generateInputSpec } from "./src/inputspecgen.mts"
+import { generateInputSpec, generateInputEntities } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { outputFile } from "./src/output.mts"
 import { loadPromptContext } from "./src/loaders.mts"
@@ -194,6 +194,15 @@ async function generate(
     }
 
     outputFile(files.intent)
+
+    // generate input entities
+    if (!files.inputEntities.content || force) {
+        files.inputEntities.content = await generateInputEntities(files, options)
+        await workspace.writeText(
+            files.inputEntities.filename,
+            files.inputEntities.content
+        )
+    }
 
     // generate input spec
     if (!files.inputSpec.content || force) {
