@@ -269,6 +269,7 @@ const options: PromptPexOptions = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
+    splitRules: true
 }
 
 if (env.files[0] && promptText)

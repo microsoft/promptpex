@@ -54,7 +54,7 @@ IOR --> PPT
     const pn = PROMPT_GENERATE_TESTS
     await outputPrompty(pn, options)
 
-    const rulesGroups = splitRules(allRules)
+    const rulesGroups = splitRules(allRules, options)
     const tests: PromptPexTest[] = []
     let rulesCount = 0
 
@@ -113,8 +113,22 @@ IOR --> PPT
     return resc
 }
 
-function splitRules(rules: PromptPexRule[]) {
-    return [rules.filter((r) => !r.inverse), rules.filter((r) => r.inverse)]
+function splitRules(rules: PromptPexRule[], options?: PromptPexOptions) {
+    const { splitRules, maxRulesPerTestGeneration } = options || {}
+    let res = splitRules
+        ? [rules.filter((r) => !r.inverse), rules.filter((r) => r.inverse)]
+        : [rules.slice(0)]
+    if (maxRulesPerTestGeneration > 0)
+        res = res.flatMap((r) => chunkArray(r, maxRulesPerTestGeneration))
+    return res
+}
+
+function chunkArray<T>(array: T[], n: number): T[][] {
+    const result: T[][] = []
+    for (let i = 0; i < array.length; i += n) {
+        result.push(array.slice(i, i + n))
+    }
+    return result
 }
 
 function parseCsvTests(text: string): PromptPexTest[] {

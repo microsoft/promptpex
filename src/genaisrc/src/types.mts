@@ -112,6 +112,16 @@ export interface PromptPexOptions {
      * List of models to run the prompt against
      */
     modelsUnderTest?: ModelType[]
+
+    /**
+     * Split rules/inverse rules in separate prompts
+     */
+    splitRules?: boolean
+
+    /**
+     * Maximum number of rules to use per test generation
+     */
+    maxRulesPerTestGeneration?: number
 }
 
 /**
