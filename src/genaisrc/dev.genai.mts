@@ -16,13 +16,13 @@ script({
     unlisted: true,
     files: [
         "samples/speech-tag/speech-tag.prompty",
-        /*        "samples/text-to-p/text-to-p.prompty",
+        "samples/text-to-p/text-to-p.prompty",
         "samples/openai-examples/elements.prompty",
         "samples/big-prompt-lib/art-prompt.prompty",
         "samples/prompt-guide/extract-names.prompty",
         "samples/text-classification/classify-input-text.prompty",
         "samples/big-prompt-lib/sentence-rewrite.prompty",
-        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",*/
+        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
     ],
     parameters: {
         fabric: {
@@ -192,7 +192,9 @@ async function apply(
                 })
                 if (file) {
                     file.content = res
-                    output.fence(file.content, "text")
+                    if (file === files.tests)
+                        output.table(parsers.JSON5(file.content)?.testcases)
+                    else output.fence(file.content, "text")
                 }
                 row[`${config.name}/${i}`] = res
             }
