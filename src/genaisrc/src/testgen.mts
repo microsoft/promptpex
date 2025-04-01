@@ -18,7 +18,7 @@ const { generator, output } = env
 export async function generateTests(
     files: PromptPexContext,
     options?: PromptPexOptions
-) {
+): Promise<string> {
     const { testsPerRule: num = TESTS_NUM, rulesModel = "rules" } =
         options || {}
 
@@ -54,6 +54,7 @@ IOR --> PPT
 
     const rulesGroups = splitRules(allRules)
     const tests: PromptPexTest[] = []
+    let rulesCount = 0
 
     for (const rulesGroup of rulesGroups) {
         const res = await measure("gen.tests", () =>
@@ -66,7 +67,7 @@ IOR --> PPT
                         rule: rulesGroup
                             .map(
                                 (r, index) =>
-                                    `${tests.length + index + 1}. ${r.rule}`
+                                    `${rulesCount + index + 1}. ${r.rule}`
                             )
                             .join("\n"),
                         num_rules: rulesGroup.length,
@@ -101,8 +102,10 @@ IOR --> PPT
         const csv = parsers.unfence(text, "csv")
         const current = parseRulesTests(csv)
         if (current?.length) tests.push(...current)
+        rulesCount += rulesGroup.length
     }
-    return CSV.stringify(tests)
+    const resc = CSV.stringify(tests)
+    return resc
 }
 
 function splitRules(rules: PromptPexRule[]) {
