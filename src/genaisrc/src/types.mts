@@ -292,3 +292,10 @@ export interface PromptPexLoaderOptions {
     out?: string
     disableSafety?: boolean
 }
+
+export interface PromptPexPromptyFrontmatter {
+    name?: string
+    inputs?: any
+    outputs?: any
+    scenarios?: string[]
+}

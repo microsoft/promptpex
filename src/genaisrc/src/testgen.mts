@@ -1,16 +1,19 @@
-import { TESTS_NUM, PROMPT_GENERATE_TESTS } from "./constants.mts"
+import {
+    TESTS_NUM,
+    PROMPT_GENERATE_TESTS,
+    DIAGRAM_GENERATE_TESTS,
+} from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
 import {
     parseAllRules,
-    parseRulesTests,
     modelOptions,
-    checkLLMResponse,
     isUnassistedResponse,
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
     PromptPexContext,
     PromptPexOptions,
+    PromptPexPromptyFrontmatter,
     PromptPexRule,
     PromptPexTest,
 } from "./types.mts"
@@ -32,93 +35,86 @@ export async function generateTests(
     const allRules = parseAllRules(files)
     if (!allRules) throw new Error("No rules found")
 
-    outputWorkflowDiagram(
-        `PUT(["Prompt Under Test (PUT)"])
-IS["Input Specification (IS)"]
-OR["Output Rules (OR)"]
-IOR["Inverse Output Rules (IOR)"]
-PPT["PromptPex Tests (PPT)"]
+    outputWorkflowDiagram(DIAGRAM_GENERATE_TESTS, options)
 
-PUT --> IS
-
-PUT --> OR
-OR --> IOR
-
-PUT --> PPT
-IS --> PPT
-OR --> PPT
-IOR --> PPT        
-`,
-        options
-    )
-
+    const { scenarios = [""] }: PromptPexPromptyFrontmatter =
+        MD.frontmatter(files.prompt.content) || {}
     const context = MD.content(files.prompt.content)
     const pn = PROMPT_GENERATE_TESTS
     await outputPrompty(pn, options)
 
     const rulesGroups = splitRules(allRules, options)
     const tests: PromptPexTest[] = []
-    let rulesCount = 0
 
-    dbg(`${allRules.length} rules, ${rulesGroups.length} groups`)
-    for (const rulesGroup of rulesGroups) {
-        let testGeneration = 0
-        let repaired = false
-        await measure("gen.tests", () =>
-            generator.runPrompt(
-                (ctx) => {
-                    ctx.importTemplate(pn, {
-                        input_spec: files.inputSpec.content,
-                        context,
-                        num,
-                        rule: rulesGroup
-                            .map(
-                                (r, index) =>
-                                    `${rulesCount + index + 1}. ${r.rule}`
-                            )
-                            .join("\n"),
-                        num_rules: rulesGroup.length,
-                    })
-                    ctx.defChatParticipant((p, c) => {
-                        const last: string = c.at(-1)?.content
-                        const csv = parseCsvTests(last)
-                        if (!csv.length) {
-                            if (!repaired) {
-                                dbg(`no tests found, trying to repair`)
-                                console.warn(
-                                    "Invalid generated test format or no test generated, trying to repair"
-                                )
-                                repaired = true
-                                p.$`The generated tests are not valid CSV. Please fix formatting issues and try again.`
+    dbg(
+        `${scenarios.length} scenarios, ${allRules.length} rules, ${rulesGroups.length} groups`
+    )
+    for (let si = 0; si < scenarios.length; si++) {
+        const scenario = scenarios[si]
+        dbg(`scenario: ${JSON.stringify(scenario)}`)
+        let rulesCount = 0
+        for (let ri = 0; ri < rulesGroups.length; ri++) {
+            const rulesGroup = rulesGroups[ri]
+            let testGeneration = 0
+            let repaired = false
+            const rule = rulesGroup
+                .map((r, index) => `${rulesCount + index + 1}. ${r.rule}`)
+                .join("\n")
+            dbg(`rule: ${rule}`)
+            await measure("gen.tests", () =>
+                generator.runPrompt(
+                    (ctx) => {
+                        ctx.importTemplate(pn, {
+                            input_spec: files.inputSpec.content,
+                            context,
+                            num,
+                            scenario,
+                            rule,
+                            num_rules: rulesGroup.length,
+                        })
+                        ctx.defChatParticipant((p, c) => {
+                            const last: string = c.at(-1)?.content
+                            const csv = parseCsvTests(last)
+                            if (!csv.length) {
+                                if (!repaired) {
+                                    dbg(`no tests found, trying to repair`)
+                                    console.warn(
+                                        "Invalid generated test format or no test generated, trying to repair"
+                                    )
+                                    repaired = true
+                                    p.$`The generated tests are not valid CSV. Please fix formatting issues and try again.`
+                                } else {
+                                    output.warn(
+                                        "Invalid generated test format, skipping repair."
+                                    )
+                                    output.fence(last, "txt")
+                                }
                             } else {
-                                output.warn(
-                                    "Invalid generated test format, skipping repair."
-                                )
-                                output.fence(last, "txt")
+                                if (csv?.length) {
+                                    dbg(`adding ${csv.length} tests`)
+                                    tests.push(...csv)
+                                }
+                                testGeneration++
+                                if (testGeneration < testGenerations) {
+                                    dbg(
+                                        `next test generation ${testGeneration}`
+                                    )
+                                    repaired = false
+                                    p.$`Generate ${num} more tests for the same rules. Do not duplicate the previous tests.`
+                                }
                             }
-                        } else {
-                            if (csv?.length) {
-                                dbg(`adding ${csv.length} tests`)
-                                tests.push(...csv)
-                            }
-                            testGeneration++
-                            if (testGeneration < testGenerations) {
-                                dbg(`next test generation ${testGeneration}`)
-                                repaired = false
-                                p.$`Generate ${num} more tests for the same rules. Do not duplicate the previous tests.`
-                            }
-                        }
-                    })
-                },
-                {
-                    ...modelOptions(rulesModel, options),
-                    //      logprobs: true,
-                    label: `${files.name}> generate tests`,
-                }
+                        })
+                    },
+                    {
+                        ...modelOptions(rulesModel, options),
+                        //      logprobs: true,
+                        label: `${files.name}> generate tests (scenario ${si + 1}/${scenarios.length}, rules ${ri + 1}/${rulesGroups.length}, generation ${testGeneration + 1}/${testGenerations})`,
+                    }
+                )
             )
-        )
-        // TODO retry
-        rulesCount += rulesGroup.length
+            // TODO retry
+            rulesCount += rulesGroup.length
+        }
     }
     const resc = JSON.stringify(tests, null, 2)
     return resc

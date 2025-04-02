@@ -18,17 +18,32 @@ inputs:
         type: integer
     rule:
         type: string
+    scenario:
+        type: string
     num_rules:
         type: integer
 ---
 system:
-You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of rules as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
+You are tasked with developing multiple test cases for an software, given its functional and input specification and a list of rules in <RULES> as input. For each rule, you must create {{num}} test cases. These test cases must be designed to validate whether the software's outputs correctly adhere to a particular rule. These tests must be well defined based on the input specifications.
 
 Start with first understanding what is a input for the software using the given input specification. Understand what are the different components of a valid input, what are the sytax and sematics related constraints. A good test must always be a valid input meeting the requirements from the given input specification.
 
-Use the following input specification to understand valid inputs and generate good tests: {{input_spec}}
+Use the following input specification to understand valid inputs and generate good tests: 
+<INPUT_SPEC>
+{{input_spec}}
+</INPUT_SPEC>
 
-Use the following functional specification of the software to generate the test cases: {{context}}
+Use the following functional specification of the software to generate the test cases: 
+<FUNCTIONAL_SPEC>
+{{context}}
+</FUNCTIONAL_SPEC>
+
+{% if scenario %}
+Use the following scenario constraint when generating test cases:
+<SCENARIO>
+{{scenario}}
+</SCENARIO>
+{% endif %}
 
 Guidelines for generating test cases:
 - Analyze the input specifications to understand the valid input formats, components of the input and scenarios for the software.
@@ -57,8 +72,9 @@ ruleid, testid, testinput, expectedoutput, reasoning
 
 Only output the test cases in the specified CSV format and nothing else. Please make sure that the CSV generated is well formed, only have five columns and each value in a these columns must only have commas inside quoted value else they will be counted as a new column. Do not wrap the output in any additional text or formatting like triple backticks or quotes.
 
-Since you will be given {{ num_rules }} rules, you are expected to generated {{ num_rules * num }} tests, {{ num }} for each given rule.
+Since you will be given {{ num_rules }} rules in <RULES>, you are expected to generated {{ num_rules * num }} tests, {{ num }} for each given rule.
 
 user:
-List of Rules:
+<RULES>
 {{rule}}
+</RULES>

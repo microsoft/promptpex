@@ -102,3 +102,20 @@ export const DOCS_GLOSSARY = `
 - Test Output (TO) - Result generated for PPT and BT on PUT with each MUT
 - Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
 `
+
+export const DIAGRAM_GENERATE_TESTS = `PUT(["Prompt Under Test (PUT)"])
+IS["Input Specification (IS)"]
+OR["Output Rules (OR)"]
+IOR["Inverse Output Rules (IOR)"]
+PPT["PromptPex Tests (PPT)"]
+
+PUT --> IS
+
+PUT --> OR
+OR --> IOR
+
+PUT --> PPT
+IS --> PPT
+OR --> PPT
+IOR --> PPT        
+`
