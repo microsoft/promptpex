@@ -209,6 +209,7 @@ graph TD
     TO["Test Output (TO) for MUT"]
     TNC["Test Non-Compliance (TNC)"]
     TV["Test Validity (TV)"]
+    TGS["Test Generation Scenario (TGS)"]
     BT{{"Baseline Tests (BT)"}}
 
     PUT ==> IS
@@ -228,6 +229,8 @@ graph TD
 
     PPT --> TV
     IS --> TV
+
+    TGS --> PPT
 
     PPT --> SA
     PUTI --> SA
