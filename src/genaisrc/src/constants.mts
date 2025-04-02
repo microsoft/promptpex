@@ -119,3 +119,6 @@ IS --> PPT
 OR --> PPT
 IOR --> PPT        
 `
+export const DIAGRAM_GENERATE_INPUT_SPEC = `PUT(["Prompt Under Test (PUT)"])
+IS["Input Specification (IS)"]
+PUT --> IS`
