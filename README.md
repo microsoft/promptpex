@@ -42,6 +42,8 @@ PromptPex provides the following capabilities:
 
 -   Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
 
+-   Test Generation Scenario (TGS) - Set of additional input constraint variations not captured in the prompt.
+
 -   PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
 -   Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
 
@@ -148,6 +150,46 @@ GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-08-06"
 GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-08-06"
 GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-08-06"
 ```
+
+## Test Generation Scenarios
+
+PromptPex supports specify a set of additional input constraints (scenario)
+to generate specific test suites. A canonical example would be 
+localization testing: `generate English, generate French`.
+
+```mermaid
+graph TD
+    PUT(["Prompt Under Test (PUT)"])
+    IS["Input Specification (IS)"]
+    OR["Output Rules (OR)"]
+    IOR["Inverse Output Rules (IOR)"]
+    PPT["PromptPex Tests (PPT)"]
+    TO["Test Output (TO) for MUT"]
+    TGS["Test Generation Scenario (TGS)"]
+
+    PUT --> IS
+
+    PUT --> OR
+    OR --> IOR
+
+    PUT --> PPT
+    IS --> PPT
+    OR --> PPT
+    IOR --> PPT
+
+    TGS --> PPT
+
+    PPT --> TO
+    PUT --> TO
+```
+
+The scenario are currently encoded in the prompty frontmatter as an string array:
+
+```yaml
+scenarios:
+  - "generate English"
+  - "generate French"
+```  
 
 ## Test and Eval Workflow
 
