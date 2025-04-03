@@ -9,19 +9,21 @@ import { generateIntent } from "./src/intentgen.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { loadFabricPrompts } from "./src/fabricloader.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
+import { evaluateTestsQuality } from "./src/testquality.mts"
 
 script({
     title: "PromptPex Dev",
     unlisted: true,
     files: [
-        "samples/speech-tag/speech-tag.prompty",
+        "samples/demo/demo.prompty",
+        /*        "samples/speech-tag/speech-tag.prompty",
         "samples/text-to-p/text-to-p.prompty",
         "samples/openai-examples/elements.prompty",
         "samples/big-prompt-lib/art-prompt.prompty",
         "samples/prompt-guide/extract-names.prompty",
         "samples/text-classification/classify-input-text.prompty",
         "samples/big-prompt-lib/sentence-rewrite.prompty",
-        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
+        "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",*/
     ],
     parameters: {
         fabric: {
@@ -44,6 +46,7 @@ const { fabric, samplePrompts } = vars as {
 const out = "evals/dev"
 const commOptions: PromptPexOptions = {
     outputPrompts: true,
+    cache: true,
     evalCache: true,
 }
 
@@ -52,10 +55,21 @@ const repeatInputSpec = 1
 const repeatRules = 1
 const repeatInverseRules = 1
 const repeatTests = 1
-const repeatBaselineTests = 1
-const repeastRulesGroundedness = 5
+const repeatBaselineTests = 0
+const repeastRulesGroundedness = 0
+const repeatTestsQualityEval = 1
 const configs: (PromptPexOptions & { name: string })[] = [
     {
+        name: "github",
+        modelAliases: {
+            large: "not-supported",
+            small: "not-supported",
+            rules: "github:gpt-4o",
+            eval: "github:gpt-4o",
+            baseline: "github:gpt-4o",
+        },
+    },
+    /*    {
         name: "gpt-4o",
         modelAliases: {
             large: "not-supported",
@@ -64,7 +78,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
             eval: "azure:gpt-2024-11-20",
             baseline: "azure:gpt-4o_2024-11-20",
         },
-    },
+    },*/
     /*    {
         name: "llama3.3:70b",
         modelAliases: {
@@ -236,4 +250,10 @@ await apply(
         output.detailsFenced(`data`, res, "csv")
         return ""
     }
+)
+await apply(
+    "Evaluate Tests Quality",
+    repeatTestsQualityEval,
+    (_) => _.testEvals,
+    async (files, options) => await evaluateTestsQuality(files, options)
 )

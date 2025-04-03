@@ -28,7 +28,9 @@ export function modelOptions(
     }
 }
 
-export function parseInputs(file: WorkspaceFile) {
+export function parseInputs(
+    file: WorkspaceFile
+): Record<string, JSONSchemaSimpleType> {
     const frontmatter = MD.frontmatter(file.content) || {}
     const inputs = frontmatter["inputs"] || {}
     // under specified inputs, try to find any missing inputs

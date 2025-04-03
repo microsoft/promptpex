@@ -151,7 +151,7 @@ export interface PromptPexContext {
     /**
      * Inputs extracted from the prompt frontmatter
      */
-    inputs: Record<string, any>
+    inputs: Record<string, JSONSchemaSimpleType>
     /**
      * Metadata extract from the prompt frontmatter
      */

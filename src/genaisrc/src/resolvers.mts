@@ -21,14 +21,33 @@ export function resolvePromptArgs(
 ) {
     const inputs = files.inputs
     const inputKeys = Object.keys(inputs)
+    const unresolved = new Set(inputKeys)
     const expectedOutput = test["expectedoutput"]
     const testInput = test["testinput"]
     const args: Record<string, any> = {}
-    if (inputKeys.length === 1) args[inputKeys[0]] = testInput
-    else if (inputKeys.length > 1) {
+
+    // apply defaults
+    for (const [iname, ivalue] of Object.entries(inputs)) {
+        if (unresolved.has(iname) && ivalue?.default) {
+            args[iname] = ivalue.default
+            unresolved.delete(iname)
+        }
+    }
+
+    if (unresolved.size === 1) {
+        dbg(`unresolved input: ${unresolved[0]}`)
+        args[unresolved[0]] = testInput
+    } else if (unresolved.size > 1) {
         // not supported yet
-        dbg(`multiple inputs not supported: %O`, { inputKeys, testInput })
-        throw new Error("multiple inputs not supported yet")
+        dbg(`multiple unspecified inputs not supported: %O`, {
+            inputKeys,
+            unresolved,
+            testInput,
+        })
+        throw new Error("multiple unspecified inputs not supported yet")
+    } else if (unresolved.size === 0 && inputKeys.length > 0) {
+        dbg(`all inputs prefilled, replacing first with test input`)
+        args[inputKeys[0]] = testInput
     }
     return { inputs, args, testInput, expectedOutput }
 }
