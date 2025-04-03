@@ -29,13 +29,14 @@ export function resolvePromptArgs(
     // apply defaults
     for (const [iname, ivalue] of Object.entries(inputs)) {
         if (unresolved.has(iname) && ivalue?.default) {
+            dbg(`input %s has default value: %s`, iname, ivalue.default)
             args[iname] = ivalue.default
             unresolved.delete(iname)
         }
     }
 
     if (unresolved.size === 1) {
-        dbg(`unresolved input: ${unresolved[0]}`)
+        dbg(`last unresolved input: ${unresolved[0]}`)
         args[unresolved[0]] = testInput
     } else if (unresolved.size > 1) {
         // not supported yet
@@ -46,7 +47,10 @@ export function resolvePromptArgs(
         })
         throw new Error("multiple unspecified inputs not supported yet")
     } else if (unresolved.size === 0 && inputKeys.length > 0) {
-        dbg(`all inputs prefilled, replacing first with test input`)
+        dbg(
+            `all inputs prefilled, replacing first (%s) with test input`,
+            inputKeys[0]
+        )
         args[inputKeys[0]] = testInput
     }
     return { inputs, args, testInput, expectedOutput }
