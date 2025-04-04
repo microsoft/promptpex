@@ -1,0 +1,13 @@
+{
+  "id": "8d3e353",
+  "promptid": "a928b14",
+  "ruleid": 14,
+  "rule": "The output must include explanations, surrounding text, or context apart from the expected response, exceeding one word and deviating from the required format (from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Un sourire éclatant illumine tout.\",\"word\":\"sourire\"}",
+  "output": "CC: Intrinsic clause tag (implied by the colon and the word \"éclatant\") \n\n(Waiting for the complete analysis... \n\n_tagged variant:_ VBZ",
+  "compliance": "err",
+  "complianceText": "The chatbot provides explanations beyond just the part-of-speech tag, includes irrelevant details (\"Waiting for the complete analysis...\"), and presents multiple tags/variants, violating the instruction to return *only* the tag.\nERR"
+}

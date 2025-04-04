@@ -5,7 +5,7 @@ import { loadPromptFiles } from "./src/loaders.mts"
 import { outputFile, outputLines } from "./src/output.mts"
 import { parseRulesTests, parseTestResults } from "./src/parsers.mts"
 import { initPerf, reportPerf } from "./src/perf.mts"
-import { generateReports } from "./src/reports.mts"
+import { computeOverview, generateReports } from "./src/reports.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
@@ -75,6 +75,10 @@ promptPex:
             type: "boolean",
             description: "Cache all LLM calls",
         },
+        testRunCache: {
+            type: "boolean",
+            description: "Cache test run results",
+        },
         evalCache: {
             type: "boolean",
             description: "Cache eval evaluation results",
@@ -85,6 +89,24 @@ promptPex:
             minimum: 1,
             maximum: 10,
             default: 3,
+        },
+        splitRules: {
+            type: "boolean",
+            description:
+                "Split rules and inverse rules in separate prompts for generation",
+            default: true,
+        },
+        maxRulesPerTestGeneration: {
+            type: "integer",
+            description: "Maximum number of rules to use per test generation",
+            default: 3,
+        },
+        testGenerations: {
+            type: "integer",
+            description: "Number of times to amplify the test generation",
+            default: 2,
+            minimum: 1,
+            maximum: 10,
         },
         runsPerTest: {
             type: "integer",
@@ -231,6 +253,7 @@ const {
     cache,
     evalCache,
     disableSafety,
+    testRunCache,
     inputSpecInstructions,
     outputRulesInstructions,
     inverseOutputRulesInstructions,
@@ -244,12 +267,21 @@ const {
     customTestEvalTemplate,
     customTestEvalModel,
     runsPerTest,
-} = vars
+    splitRules,
+    maxRulesPerTestGeneration,
+    testGenerations,
+} = vars as PromptPexOptions & {
+    prompt?: string
+    inputSpecInstructions?: string
+    outputRulesInstructions?: string
+    inverseOutputRulesInstructions?: string
+}
 const modelsUnderTest = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter((m) => !!m)
 const options: PromptPexOptions = {
     cache,
+    testRunCache,
     evalCache,
     disableSafety,
     instructions: {
@@ -257,7 +289,7 @@ const options: PromptPexOptions = {
         outputRules: outputRulesInstructions,
         inverseOutputRules: inverseOutputRulesInstructions,
     },
-    workflowDiagram: true,
+    workflowDiagram: !process.env.DEBUG,
     baselineModel,
     rulesModel,
     evalModel,
@@ -269,6 +301,9 @@ const options: PromptPexOptions = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
+    splitRules,
+    maxRulesPerTestGeneration,
+    testGenerations,
 }
 
 if (env.files[0] && promptText)
@@ -311,22 +346,29 @@ outputLines(files.inverseRules, "generate inverse output rule")
 output.heading(3, "Tests")
 files.tests.content = await generateTests(files, options)
 const tests = parseRulesTests(files.tests.content).map(
-    ({ testinput, expectedoutput }) => ({ testinput, expectedoutput })
+    ({ scenario, testinput, expectedoutput }) => ({
+        scenario,
+        testinput,
+        expectedoutput,
+    })
 )
 output.table(tests)
-output.detailsFenced(`tests (csv)`, tests, "csv")
+output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`generated`, files.tests.content)
 
 if (!modelsUnderTest?.length) {
     output.warn(`No modelsUnderTest specified. Skipping test run.`)
 } else {
     // run tests against the model(s)
-    output.heading(3, `Test Results`)
+    output.heading(3, `Test with Models Under Test`)
+    output.itemValue(`models under test`, modelsUnderTest.join(", "))
     files.testOutputs.content = await runTests(files, options)
     const results = parseTestResults(files)
+    output.startDetails(`results (table)`)
     output.table(
         results.map(
             ({
+                scenario,
                 rule,
                 inverse,
                 model,
@@ -336,18 +378,25 @@ if (!modelsUnderTest?.length) {
             }) => ({
                 rule,
                 model,
+                scenario,
                 input,
                 output,
                 compliance: compliance
                     ? testCompliance === "ok"
                         ? "✓"
-                        : "✗"
+                        : testCompliance === "err"
+                          ? "✗"
+                          : "?"
                     : undefined,
                 inverse: inverse ? "✓" : "",
             })
         )
     )
+    output.endDetails()
     output.detailsFenced(`results`, results, "csv")
 }
+
+const { overview } = await computeOverview(files, { percent: true })
+output.table(overview)
 
 reportPerf()

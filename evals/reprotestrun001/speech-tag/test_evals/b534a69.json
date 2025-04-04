@@ -1,0 +1,14 @@
+{
+  "id": "b534a69",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "input": "sentence: He said something meaningless., word: meaningless",
+  "validityText": "The input provides a sentence and a word. The sentence \"He said something meaningless.\" is a grammatically valid string. It contains normal linguistic usage and does not have special characters or symbols. The word \"meaningless\" is a substring within the sentence. The word does not include punctuation. Therefore, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which aligns with the description's requirement to return a tag. However, the description specifies a precise list of tags to use, and \"ADJECTIVE\" is not among them. Therefore, the output violates the rule of returning only from the provided list.\nERR",
+  "coverage": "err"
+}

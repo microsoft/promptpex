@@ -1,0 +1,13 @@
+{
+  "id": "e3cd4ed",
+  "promptid": "a928b14",
+  "ruleid": 10,
+  "rule": "The output must never consist of only one word, and it must represent an invalid part-of-speech tag or any unaccepted option other than \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"La mer est calme.\",\"word\":\"calme\"}",
+  "output": "CC: Coordinating conjunction\nKnown because it can be tagged as a conjunction in this context.",
+  "compliance": "err",
+  "complianceText": "The chatbot provides not only the tag but also an explanation, violating the instruction to return *just* the tag. The explanation is extraneous information.\nERR"
+}

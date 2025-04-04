@@ -1,0 +1,13 @@
+{
+  "id": "253049f",
+  "promptid": "a928b14",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Cela pourrait être utile.\",\"word\":\"cela\"}",
+  "output": "JJS - Cela",
+  "compliance": "err",
+  "complianceText": "The chatbot outputs a part-of-speech tag (JJS) followed by a word (\"Cela\"). The description asks for returning only the part-of-speech tag. Therefore, including the word \"Cela\" violates the description.\nERR"
+}

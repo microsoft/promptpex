@@ -1,0 +1,13 @@
+{
+  "id": "004c405",
+  "promptid": "a928b14",
+  "ruleid": 11,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must include at least two of those tags concatenated with additional characters, spaces, or punctuation marks.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Le livre est nouveau.\",\"word\":\"livre\"}",
+  "output": "CC: Coordinating conjunction\nNP: Noun (singular or mass)",
+  "compliance": "err",
+  "complianceText": "The chatbot outputs two part-of-speech tags, 'CC' and 'NP'. The description lists a set of valid tags, and 'NP' is not one of them. Therefore, the chatbot does not comply with the description.\nERR"
+}

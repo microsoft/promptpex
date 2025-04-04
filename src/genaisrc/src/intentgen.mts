@@ -11,7 +11,10 @@ export async function generateIntent(
 ): Promise<string> {
     const { rulesModel = "rules" } = options || {}
     const context = MD.content(files.prompt.content)
-    const instructions = options?.instructions?.intent || ""
+    const instructions =
+        options?.instructions?.intent ||
+        files.frontmatter?.instructions?.intent ||
+        ""
     const pn = PROMPT_GENERATE_INTENT
     await outputPrompty(pn, options)
     const res = await measure("gen.intent", () =>

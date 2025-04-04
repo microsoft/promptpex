@@ -1,0 +1,13 @@
+{
+  "id": "4f1c3bc",
+  "promptid": "a928b14",
+  "ruleid": 18,
+  "rule": "The response must include more than one word under all circumstances.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Un travail complexe en cours.\",\"word\":\"complexe\"}",
+  "output": "CC: Subject\n\nCantAnswer",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a tag and a value. The description asks to return just the tag for the part of speech, or \"Unknown\" or \"CantAnswer\" if it cannot be tagged. The output provides \"CC: Subject\" which is not just the tag. \nERR"
+}

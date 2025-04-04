@@ -1,0 +1,13 @@
+{
+  "id": "3a461d6",
+  "promptid": "a928b14",
+  "ruleid": 7,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must signify the chatbot was completely unable to process or make a determination for any unspecified reason.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Ceci est une erreur incompréhensible.\",\"word\":\"erreur\"}",
+  "output": "CC: Error",
+  "compliance": "err",
+  "complianceText": "The chatbot outputs \"CC: Error\". The description asks for a part-of-speech tag, and lists possible tags. The output includes “CC” which is a valid tag. However, it also includes “Error” which is not a valid tag according to the description, nor is it one of the allowed return values.\nERR"
+}

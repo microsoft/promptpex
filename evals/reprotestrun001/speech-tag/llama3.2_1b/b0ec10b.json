@@ -1,0 +1,13 @@
+{
+  "id": "b0ec10b",
+  "promptid": "a928b14",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Le ciel est bleu.\",\"word\":\"bleu\"}",
+  "output": "CC: Coordinating conjunction\nBP: Base form (VB)\nIN: Preposition or subordinating conjunction",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a list of part-of-speech tags, but the description specifies an alphabetical list. Additionally, 'BP' is not in the listed tags.\nERR"
+}

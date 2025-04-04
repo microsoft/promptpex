@@ -1,0 +1,13 @@
+{
+  "id": "15721c0",
+  "promptid": "a928b14",
+  "ruleid": 10,
+  "rule": "The output must never consist of only one word, and it must represent an invalid part-of-speech tag or any unaccepted option other than \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Ils mangent différemment.\",\"word\":\"mangent\"}",
+  "output": "CC: Coordinating conjunction\nVB: Verb\n\nLet me know if you have any further questions or if there's anything else I can help with.",
+  "compliance": "err",
+  "complianceText": "The chatbot provides two part-of-speech tags followed by a conversational sentence. The description specifies that the chatbot should *only* return the part-of-speech tag. The extra sentence violates this rule.\nERR"
+}

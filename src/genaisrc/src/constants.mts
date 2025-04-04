@@ -81,6 +81,35 @@ graph TD
     PUT --> TO
 `
 
+export const DIAGRAM_GENERATE_TESTS = `PUT(["Prompt Under Test (PUT)"])
+IS["Input Specification (IS)"]
+OR["Output Rules (OR)"]
+IOR["Inverse Output Rules (IOR)"]
+PPT["PromptPex Tests (PPT)"]
+
+PUT --> IS
+
+PUT --> OR
+OR --> IOR
+
+PUT --> PPT
+IS --> PPT
+OR --> PPT
+IOR --> PPT        
+`
+export const DIAGRAM_GENERATE_INPUT_SPEC = `PUT(["Prompt Under Test (PUT)"])
+IS["Input Specification (IS)"]
+PUT --> IS`
+export const DIAGRAM_GENERATE_OUTPUT_RULES = `PUT(["Prompt Under Test (PUT)"])
+OR["Output Rules (OR)"]
+
+PUT --> OR        
+`
+
+export const SCENARIO_SYMBOL = "⚙"
+export const RULE_SYMBOL = "⊢"
+export const GENERATION_SYMBOL = "◎"
+
 export const DOCS_GLOSSARY = `
 - Prompt Under Test (PUT) - like Program Under Test; the prompt
 - Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
@@ -88,7 +117,7 @@ export const DOCS_GLOSSARY = `
 
 - Intent (I) - 
 - Input Specification (IS) - Extracting input constraints of PUT using MPP
-- Output Rules (OR) - Extracting output constraints of PUT using MPP
+- Output Rules ${RULE_SYMBOL} (OR) - Extracting output constraints of PUT using MPP
 - Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP
 
 - Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP
@@ -101,4 +130,9 @@ export const DOCS_GLOSSARY = `
 
 - Test Output (TO) - Result generated for PPT and BT on PUT with each MUT
 - Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
+
+- Test Generation Scenario ${SCENARIO_SYMBOL} (TGS) - A scenario used to generate tests
+- Test Generation Iteration ${GENERATION_SYMBOL} (TGI) - A scenario used to generate tests
 `
+
+export const OK_ERR_CHOICES = ["OK", "ERR"]

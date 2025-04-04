@@ -1,0 +1,14 @@
+{
+  "id": "722649c",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 7,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must signify the chatbot was completely unable to process or make a determination for any unspecified reason.",
+  "inverse": false,
+  "input": "sentence: The term does not exist., word: nonexistent",
+  "validityText": "The input provides a sentence and a word. The sentence \"The term does not exist.\" is a grammatically valid string. It does not contain special characters or symbols not part of normal linguistic usage. The word \"nonexistent\" is not a substring within the sentence \"The term does not exist.\". Therefore, the input does not comply with the input specification, as the word must be a substring within the sentence.\n\nERR",
+  "validity": "err",
+  "coverageText": "Unknown",
+  "coverageEvalText": "The chatbot output is a single word, \"Unknown\", which is one of the valid tags listed in the description as a possible return value if the word cannot be tagged. It does not violate any explicit rule defined in the description.\nOK",
+  "coverage": "ok"
+}

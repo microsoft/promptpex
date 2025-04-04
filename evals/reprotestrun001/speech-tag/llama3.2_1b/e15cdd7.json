@@ -1,0 +1,13 @@
+{
+  "id": "e15cdd7",
+  "promptid": "a928b14",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Ce mot est d'origine étrangère.\",\"word\":\"étrangère\"}",
+  "output": "CC: Coordinating conjunction\nUH: Interjection\nEX: Existential there\nNN: Noun\nJJR: Adjective, comparative\nIN: Preposition or subordinating conjunction\nNP: Proper noun, singular",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists part-of-speech tags, as described in <DESC>, but it includes 'NP' which is not in the list of allowed tags. It also includes descriptions after the tags, which is not allowed.\nERR"
+}

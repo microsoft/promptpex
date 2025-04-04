@@ -1,0 +1,14 @@
+{
+  "id": "817e293",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 1,
+  "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+  "inverse": false,
+  "input": "{\"sentence\":\"Le chat est sur le tapis.\",\"word\":\"chat\"}",
+  "validityText": "The input is a JSON object with \"sentence\" and \"word\" keys. The sentence \"Le chat est sur le tapis.\" is a grammatically valid French sentence. It does not contain any special characters or symbols that aren't part of normal linguistic usage. The word \"chat\" is a substring within the sentence and does not include punctuation. Therefore, the input complies with the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output provides a single word, \"NOUN\", which could be a valid part-of-speech tag according to the description. The description asks for returning only the tag.\nOK",
+  "coverage": "ok"
+}

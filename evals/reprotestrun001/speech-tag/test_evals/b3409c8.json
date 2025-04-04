@@ -1,0 +1,14 @@
+{
+  "id": "b3409c8",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 13,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must not be \"CantAnswer\"; it must instead provide an explanation or reasoning in multi-line text.",
+  "inverse": true,
+  "input": "sentence: Excessive token #problems handled., word: TokenNotExist",
+  "validityText": "The input provides a sentence and a word. The sentence contains a special character '#' which is not part of normal linguistic usage, violating the specification that the sentence should not have special characters or symbols that are not part of normal linguistic usage. Additionally, the provided word \"TokenNotExist\" is not a substring of the provided sentence \"Excessive token #problems handled.\".\n\nERR",
+  "validity": "err",
+  "coverageText": "CantAnswer",
+  "coverageEvalText": "",
+  "coverage": "unknown"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "cecdff1",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 11,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must include at least two of those tags concatenated with additional characters, spaces, or punctuation marks.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Elle est intelligente et rapide.\",\"word\":\"intelligente\"}",
+  "validityText": "The input provides a JSON-like structure with \"sentence\" and \"word\" keys. The sentence \"Elle est intelligente et rapide.\" is a grammatically valid string in French. It does not contain special characters or symbols that are not part of normal linguistic usage. The word \"intellegente\" is a substring of the sentence. The word does not include punctuation. Therefore, the input complies with the specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which is in line with the description's requirement to return a tag. It doesn't return any other information, fulfilling the instruction to return *just* the tag. The tag itself, 'ADJECTIVE', is not among the listed tags. However, the description states to return 'Unknown' if the word cannot be tagged with listed tags. The output did not return 'Unknown'.\nERR",
+  "coverage": "err"
+}

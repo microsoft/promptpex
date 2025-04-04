@@ -10,6 +10,7 @@ import {
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
 const { generator } = env
+const dbg = host.logger("promptpex:gen:baseline")
 
 export async function generateBaselineTests(
     files: PromptPexContext,
@@ -40,7 +41,13 @@ export async function generateBaselineTests(
         )
     )
 
-    if (isUnassistedResponse(res.text)) return ""
+    if (isUnassistedResponse(res.text)) {
+        dbg(`unassisted response: ${res.text}`)
+        return ""
+    }
     checkLLMResponse(res)
-    return cleanBaselineTests(res.text).join("\n===\n")
+    const cleaned = cleanBaselineTests(res.text)
+    dbg(`cleaned baseline tests: %O`, cleaned)
+    const txt = cleaned.join("\n===\n")
+    return txt
 }

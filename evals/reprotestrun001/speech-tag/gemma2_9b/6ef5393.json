@@ -1,0 +1,13 @@
+{
+  "id": "6ef5393",
+  "promptid": "a928b14",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "gemma2:9b",
+  "input": "{\"sentence\":\"Un concept flou mais essentiel.\",\"word\":\"flou\"}",
+  "output": "JJ \n",
+  "compliance": "ok",
+  "complianceText": "The chatbot output provides only a part-of-speech tag. The description specifies that the chatbot should return *only* the tag, and the given output adheres to this requirement. The output also uses a tag that is present in the list of possible tags.\nOK"
+}

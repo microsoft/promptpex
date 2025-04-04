@@ -1,0 +1,13 @@
+{
+  "id": "8a4fd14",
+  "promptid": "a928b14",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: They gave me five of them., word: them",
+  "output": "CD: Cardinal number \n\nNote: The word \"them\" is a definite article, it does not need to be tagged with the cardinal number part-of-speech.\n\nAlso, note that this word contains multiple meanings, but in this context, it refers to both the noun phrase \"five of them\" and the pronoun \"them\".",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a part-of-speech tag and then includes additional notes and explanations that are not requested by the description. The description only asks for the tag itself. This additional information represents a violation of the instruction to *only* return the tag.\nERR"
+}

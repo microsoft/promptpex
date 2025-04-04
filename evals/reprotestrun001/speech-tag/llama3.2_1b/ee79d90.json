@@ -1,0 +1,13 @@
+{
+  "id": "ee79d90",
+  "promptid": "a928b14",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: A rather unknown context., word: context",
+  "output": "* POS: sentence (noun)\n* Context is also a noun.",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides a part-of-speech tag (POS) along with a justification, but it also includes additional explanatory text (\"Context is also a noun.\"). The description explicitly states to return “just the tag” and does not permit any additional information or explanation. Thus, the output violates the requirement of returning *only* the tag.\nERR"
+}

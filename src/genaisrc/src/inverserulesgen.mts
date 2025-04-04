@@ -15,7 +15,10 @@ export async function generateInverseOutputRules(
     options?: PromptPexOptions
 ) {
     const { rulesModel = "rules" } = options || {}
-    const instructions = options?.instructions?.inverseOutputRules || ""
+    const instructions =
+        options?.instructions?.inverseOutputRules ||
+        files.frontmatter?.instructions?.inverseOutputRules ||
+        ""
     outputWorkflowDiagram(
         `OR["Output Rules (OR)"]
 IOR["Inverse Output Rules (IOR)"]

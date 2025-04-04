@@ -1,0 +1,14 @@
+{
+  "id": "8a31c20",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "input": "sentence: What a peculiar scene!, word: peculiar",
+  "validityText": "The input provides a sentence and a word. The sentence \"What a peculiar scene!\" is a grammatically valid string and does not contain any special characters beyond normal punctuation. The word \"peculiar\" is a substring of the sentence \"What a peculiar scene!\". The word \"peculiar\" does not contain punctuation. Therefore, the input complies with all the rules in the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, 'ADJECTIVE', which isn't present in the list of acceptable tags in the description. The description explicitly defines an alphabetized list of tags and requires the chatbot to return only those tags.\nERR",
+  "coverage": "err"
+}

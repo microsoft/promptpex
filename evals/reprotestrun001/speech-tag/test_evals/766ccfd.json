@@ -1,0 +1,14 @@
+{
+  "id": "766ccfd",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 17,
+  "rule": "If \"Unknown\" is chosen as the output, it must not signify the word has a recognizable part of speech but misaligns with the provided list, and it must include justification or commentary.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Le choix est difficile.\",\"word\":\"choix\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Le choix est difficile.\" is a grammatically valid string. It does not contain special characters or symbols that are not part of normal linguistic usage. The word \"choix\" is a substring of the sentence. The word does not include punctuation. Therefore, the input complies with the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output consists of a single word, \"NOUN\", which is a valid part-of-speech tag, as listed in the provided description. The description specifies that the chatbot should return only the tag.\nOK",
+  "coverage": "ok"
+}

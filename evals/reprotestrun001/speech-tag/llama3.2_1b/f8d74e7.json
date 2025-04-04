@@ -1,0 +1,13 @@
+{
+  "id": "f8d74e7",
+  "promptid": "a928b14",
+  "ruleid": 17,
+  "rule": "If \"Unknown\" is chosen as the output, it must not signify the word has a recognizable part of speech but misaligns with the provided list, and it must include justification or commentary.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Des livres anciens remplis de savoir.\",\"word\":\"anciens\"}",
+  "output": "JJJ: Adjective\nPDT: Predeterminer\nNN: Noun",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists part-of-speech tags, which is relevant to the description. The description provides a list of allowed tags. The output provides tags which are not specifically listed in the description.\nERR"
+}

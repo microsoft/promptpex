@@ -1,0 +1,14 @@
+{
+  "id": "44f128c",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 13,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must not be \"CantAnswer\"; it must instead provide an explanation or reasoning in multi-line text.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Des clés perdues dans l'obscurité.\",\"word\":\"perdues\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Des clés perdues dans l'obscurité.\" appears to be grammatically valid, and contains regular linguistic constructs. The word \"perdues\" is present as a substring within the sentence. There are no special characters or symbols in the sentence that are not part of normal linguistic usage. The word does not include any punctuation. All conditions of the specification appears to be met.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJ",
+  "coverageEvalText": "The chatbot output provides only \"ADJ\" which is not a valid part-of-speech tag according to the provided description. The description requires a specific tag from the provided list.\nERR",
+  "coverage": "err"
+}

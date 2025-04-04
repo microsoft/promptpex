@@ -1,0 +1,14 @@
+{
+  "id": "e2fdd7a",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 6,
+  "rule": "Each output must strictly adhere to the capitalization format provided, with all part-of-speech tags written in uppercase, and both \"Unknown\" and \"CantAnswer\" written in sentence capitalization as specified.",
+  "inverse": false,
+  "input": "sentence: This is unusual., word: unusual",
+  "validityText": "The input provides a sentence \"This is unusual.\" and a word \"unusual\". The sentence is grammatically valid and contains one or more words. The sentence contains punctuation (period) which is acceptable. The word \"unusual\" is a substring of the sentence. The word does not contain any punctuation. Therefore, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag 'ADJECTIVE' which is not present in the provided list of allowed tags. The description explicitly states to return only the tags from the provided list and 'Unknown' if it can't be tagged, or 'CantAnswer' if unable to tag.\nERR",
+  "coverage": "err"
+}

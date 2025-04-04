@@ -1,0 +1,13 @@
+{
+  "id": "b3409c8",
+  "promptid": "a928b14",
+  "ruleid": 13,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must not be \"CantAnswer\"; it must instead provide an explanation or reasoning in multi-line text.",
+  "inverse": true,
+  "scenario": "English",
+  "model": "gemma2:9b",
+  "input": "sentence: Excessive token #problems handled., word: TokenNotExist",
+  "output": "Unknown \n",
+  "compliance": "ok",
+  "complianceText": "The chatbot output consists of a single word, \"Unknown\". The description specifies that the chatbot should return only the part-of-speech tag, or \"Unknown\" if the word cannot be tagged, or \"CantAnswer\" if unable to tag. Since \"Unknown\" is a valid tag according to the description, the chatbot complies with the rules.\nOK"
+}

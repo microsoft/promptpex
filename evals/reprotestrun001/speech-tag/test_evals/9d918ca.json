@@ -1,0 +1,14 @@
+{
+  "id": "9d918ca",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "sentence: The quick brown fox., word: brownish",
+  "validityText": "The input specifies that the sentence should not have special characters or symbols that are not part of normal linguistic usage, but the sentence \"The quick brown fox.\" includes a period at the end, which is a punctuation mark. The input also specifies that the word should be a substring within the given sentence. The word \"brownish\" is not a substring of \"The quick brown fox.\". Therefore, the input does not comply with the input specification.\nERR",
+  "validity": "err",
+  "coverageText": "Unknown",
+  "coverageEvalText": "The chatbot output consists of a single word, \"Unknown\", which is a valid part-of-speech tag as specified in the description when the word cannot be categorized. Therefore, this output complies with the description.\nOK",
+  "coverage": "ok"
+}

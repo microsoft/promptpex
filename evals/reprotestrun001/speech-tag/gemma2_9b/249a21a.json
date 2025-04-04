@@ -1,0 +1,13 @@
+{
+  "id": "249a21a",
+  "promptid": "a928b14",
+  "ruleid": 4,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must be \"CantAnswer\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "gemma2:9b",
+  "input": "{\"sentence\":\"Phrase avec mot inconnu.\",\"word\":\"inconnu\"}",
+  "output": "JJ \n",
+  "compliance": "ok",
+  "complianceText": "The chatbot output consists of a single part-of-speech tag, 'JJ', which is present in the list of allowed tags in the <DESC>. It adheres to the rule of returning only the part-of-speech tag.\nOK"
+}

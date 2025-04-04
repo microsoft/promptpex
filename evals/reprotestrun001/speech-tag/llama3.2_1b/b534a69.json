@@ -1,0 +1,13 @@
+{
+  "id": "b534a69",
+  "promptid": "a928b14",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: He said something meaningless., word: meaningless",
+  "output": "Part-of-speech tag for \"meaningful\" is NN. Part-of-speech tag for \"He\" is PRP$. Part-of-speech tag for \"said\" is VBZ.",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides the part-of-speech tag along with the word, which violates the instruction to return *only* the tag. It also provides multiple tags, and the description does not specify how many tags it should respond with, which is a deviation from the requirements.\nERR"
+}

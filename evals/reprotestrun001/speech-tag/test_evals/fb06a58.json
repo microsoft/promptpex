@@ -1,0 +1,14 @@
+{
+  "id": "fb06a58",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 6,
+  "rule": "Each output must strictly adhere to the capitalization format provided, with all part-of-speech tags written in uppercase, and both \"Unknown\" and \"CantAnswer\" written in sentence capitalization as specified.",
+  "inverse": false,
+  "input": "{\"sentence\":\"La porte est grande ouverte.\",\"word\":\"grande\"}",
+  "validityText": "The input is a JSON-like structure with two keys: \"sentence\" and \"word\". The sentence is \"La porte est grande ouverte.\", which appears to be a grammatically valid French sentence. It does not contain any special characters or symbols that are not part of normal linguistic usage. The word is \"grande\", which is a substring of the sentence. The word does not include punctuation. All the requirements of the input specification are met.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, but it utilizes \"ADJECTIVE\" instead of the specified tags like \"JJ\", \"JJR\", or \"JJS\". This is a direct violation of the instruction to return only the tags listed in the description.\nERR",
+  "coverage": "err"
+}

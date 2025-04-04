@@ -40,8 +40,9 @@ export interface PromptPexOptions {
      * Emit diagrams in output
      */
     workflowDiagram?: boolean
+
     /**
-     * Aditional instructions
+     * Additional instructions
      */
     instructions?: PromptPexPrompts
     /**
@@ -53,6 +54,11 @@ export interface PromptPexOptions {
      * Caches resuls in the file system
      */
     evalCache?: boolean
+
+    /**
+     * Cache runTest results
+     */
+    testRunCache?: boolean
 
     /**
      * Model used to generate rules
@@ -104,7 +110,12 @@ export interface PromptPexOptions {
     maxTestsToRun?: number
 
     /**
-     * Cache applied to all runPrompts
+     * Maximum number of output rules (and inverse rules) to use
+     */
+    maxRules?: number
+
+    /**
+     * Cache applied to all prompts, expect run test.
      */
     cache?: boolean | string
 
@@ -112,6 +123,21 @@ export interface PromptPexOptions {
      * List of models to run the prompt against
      */
     modelsUnderTest?: ModelType[]
+
+    /**
+     * Split rules/inverse rules in separate prompts
+     */
+    splitRules?: boolean
+
+    /**
+     * Maximum number of rules to use per test generation
+     */
+    maxRulesPerTestGeneration?: number
+
+    /**
+     * Number of times to amplify the test generation, default is 1
+     */
+    testGenerations?: number
 }
 
 /**
@@ -132,11 +158,11 @@ export interface PromptPexContext {
     /**
      * Prompt parsed frontmatter section
      */
-    frontmatter: any
+    frontmatter: PromptPexPromptyFrontmatter
     /**
      * Inputs extracted from the prompt frontmatter
      */
-    inputs: Record<string, any>
+    inputs: Record<string, JSONSchemaSimpleType>
     /**
      * Metadata extract from the prompt frontmatter
      */
@@ -223,6 +249,16 @@ export interface PromptPexTest {
      * Explanation of the test generation process
      */
     reasoning?: string
+
+    /**
+     * Scenario name
+     */
+    scenario?: string
+
+    /**
+     * Test generation iteration index
+     */
+    generation?: number
 }
 
 export interface PromptPexTestResult {
@@ -230,6 +266,7 @@ export interface PromptPexTestResult {
     promptid: string
     ruleid: number
     rule: string
+    scenario: string
     inverse?: boolean
     baseline?: boolean
     model: string
@@ -237,7 +274,7 @@ export interface PromptPexTestResult {
     output: string
     error?: string
 
-    compliance?: "ok" | "err"
+    compliance?: PromptPexEvalResultType
     complianceText?: string
 
     customEvalText?: string
@@ -250,13 +287,22 @@ export interface PromptPexTestEval {
     rule: string
     inverse?: boolean
     input: string
-    coverage?: "ok" | "err"
+    coverage?: PromptPexEvalResultType
     coverageEvalText?: string
     coverageText?: string
-    validity?: "ok" | "err"
+    coverageUncertainty?: number
+    validity?: PromptPexEvalResultType
     validityText?: string
+    validityUncertainty?: number
     error?: string
 }
+
+export interface PromptPexRule {
+    rule: string
+    inverse?: boolean
+}
+
+export type PromptPexEvalResultType = "ok" | "err" | "unknown"
 
 export interface PromptPexRuleEval {
     id: string
@@ -264,11 +310,31 @@ export interface PromptPexRuleEval {
     ruleid: number
     rule: string
     groundedText?: string
-    grounded?: "ok" | "err"
+    grounded?: PromptPexEvalResultType
     error?: string
 }
 
 export interface PromptPexLoaderOptions {
     out?: string
     disableSafety?: boolean
+}
+
+export interface PromptPexTestGenerationScenario {
+    name: string
+    instructions?: string
+    parameters?: Record<string, number | string | boolean>
+}
+
+export interface PromptPexPromptyFrontmatter {
+    name?: string
+    inputs?: PromptParametersSchema
+    outputs?: JSONSchemaObject["properties"]
+    instructions?: PromptPexPrompts
+    scenarios?: PromptPexTestGenerationScenario[]
+}
+
+export interface PromptPexEvaluation {
+    content: string
+    uncertainty?: number
+    perplexity?: number
 }

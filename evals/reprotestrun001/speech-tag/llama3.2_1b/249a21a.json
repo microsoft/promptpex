@@ -1,0 +1,13 @@
+{
+  "id": "249a21a",
+  "promptid": "a928b14",
+  "ruleid": 4,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must be \"CantAnswer\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Phrase avec mot inconnu.\",\"word\":\"inconnu\"}",
+  "output": "CC: Phrases  DC: inconnu EX: unknown RB: Adverb LS: List item marker NN: Noun singular or mass NNP: Proper noun singular NNPS: Proper noun plural RP: Particle VB: Verb base form VBD: Verb past tense VBG: Verb gerund or present participle WRB: Wh-adverb",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists several part-of-speech tags, but it does so in a format that doesn't align with the description's instruction to *return just the tag* for a given word. The description specifies returning only the tag itself, not a list of tags with descriptions.\nERR"
+}

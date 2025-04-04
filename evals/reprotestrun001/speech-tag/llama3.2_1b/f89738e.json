@@ -1,0 +1,13 @@
+{
+  "id": "f89738e",
+  "promptid": "a928b14",
+  "ruleid": 7,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must signify the chatbot was completely unable to process or make a determination for any unspecified reason.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: This symbol & is invalid., word: &",
+  "output": "In the sentence \"This symbol & is invalid.\", the word \"&\" is an Adverb.\n\nThe tag for the word \"and\" is ADVERB.",
+  "compliance": "err",
+  "complianceText": "The chatbot returns a sentence describing the context, and then provides a tag. The description asks to return only the tag. Additionally, the provided tag 'ADVERB' is not one of the allowed tags (it should be 'RB').\nERR"
+}

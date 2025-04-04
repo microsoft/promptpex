@@ -1,0 +1,13 @@
+{
+  "id": "f9c0f3e",
+  "promptid": "a928b14",
+  "ruleid": 15,
+  "rule": "Each output must ignore the capitalization format provided, using lowercase for all part-of-speech tags and altered capitalization for both \"unknown\" and \"cantanswer\".",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Ils regardent vers l'horizon.\",\"word\":\"regardent\"}",
+  "output": "CC: Filler/ connecting marker\nJJS: Adjective, superlative",
+  "compliance": "err",
+  "complianceText": "The chatbot provides definitions or explanations alongside the part-of-speech tags, which violates the instruction to \"return just the tag\". It also includes explanations that are not part of the defined tags.\nERR"
+}

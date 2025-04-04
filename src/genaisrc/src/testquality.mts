@@ -15,6 +15,7 @@ import type {
 import { resolveTestEvalPath } from "./filecache.mts"
 import { measure } from "./perf.mts"
 import {
+    OK_ERR_CHOICES,
     PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
     PROMPT_EVAL_TEST_VALIDITY,
 } from "./constants.mts"
@@ -22,7 +23,7 @@ const { generator } = env
 
 export async function evaluateTestsQuality(
     files: PromptPexContext,
-    options?: { force?: boolean }
+    options?: PromptPexOptions & { force?: boolean }
 ): Promise<string> {
     const { force } = options || {}
     const tests = parseRulesTests(files.tests.content)
@@ -31,7 +32,7 @@ export async function evaluateTestsQuality(
     console.log(`evaluating quality of ${tests.length} tests`)
     const testEvals: PromptPexTestEval[] = []
     for (const test of tests) {
-        const testEval = await evaluateTestQuality(files, test, { force })
+        const testEval = await evaluateTestQuality(files, test, options)
         if (testEval) testEvals.push(testEval)
     }
     return JSON.stringify(testEvals, null, 2)
@@ -114,7 +115,7 @@ export async function evaluateTestQuality(
                     },
                     {
                         ...moptions,
-                        choices: ["OK", "ERR"],
+                        choices: OK_ERR_CHOICES,
                         //        logprobs: true,
                         label: `${files.name}> evaluate validity of test ${testInput.slice(0, 42)}...`,
                     }
@@ -125,6 +126,7 @@ export async function evaluateTestQuality(
     const error = [resCoverage.error?.message, resValidity?.error?.message]
         .filter((s) => !!s)
         .join(" ")
+    const validity = parseOKERR(resValidity.text)
     const testEval: PromptPexTestEval = {
         id,
         promptid,
@@ -132,14 +134,16 @@ export async function evaluateTestQuality(
         ...rule,
         input: testInput,
         validityText: resValidity.text,
-        validity: parseOKERR(resValidity.text),
+        validity: validity,
+        validityUncertainty: resValidity.uncertainty,
         coverageText: resCoverage.text,
     } satisfies PromptPexTestEval
 
-    const coverageEvalText = await evaluateTestResult(
+    const coverageEval = await evaluateTestResult(
         files,
         {
             id: "cov-" + testEval.id,
+            scenario: test.scenario,
             rule: testEval.rule,
             ruleid: test.ruleid,
             promptid,
@@ -150,8 +154,10 @@ export async function evaluateTestQuality(
         options
     )
 
-    testEval.coverageEvalText = coverageEvalText
+    testEval.coverageEvalText = coverageEval.content
     testEval.coverage = parseOKERR(testEval.coverageEvalText)
+    if (!isNaN(coverageEval.uncertainty))
+        testEval.coverageUncertainty = coverageEval.uncertainty
     testEval.error = error || undefined
 
     if (file)

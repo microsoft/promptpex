@@ -1,0 +1,13 @@
+{
+  "id": "066edbc",
+  "promptid": "a928b14",
+  "ruleid": 16,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must never signify the chatbot was unable to process; instead, it must imply a specific reason for failure.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Un faible sens dans ces lignes.\",\"word\":\"faible\"}",
+  "output": "CC: Coordinating conjunction\nCantAnswer",
+  "compliance": "err",
+  "complianceText": "The chatbot returns two different tags, one is a valid tag and the other is one of the specified return values if it cannot tag the word. The description does not allow for returning two tags.\nERR"
+}

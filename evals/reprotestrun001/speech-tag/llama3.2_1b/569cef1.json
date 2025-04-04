@@ -1,0 +1,13 @@
+{
+  "id": "569cef1",
+  "promptid": "a928b14",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Chaque couleur a sa profondeur.\",\"word\":\"couleur\"}",
+  "output": "CC: Coordinating conjunction\n \nUnknown",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides a tag 'CC: Coordinating conjunction' followed by 'Unknown'. According to the description, the chatbot should return only the part-of-speech tag. The output contains both the tag and its definition which violates the requirement to return *just* the tag. Additionally, the output also contains 'Unknown' which is a valid tag as defined in the description. Since the output does not only contain the tag, the output does not comply with the rules.\nERR"
+}

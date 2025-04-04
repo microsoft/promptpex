@@ -1,0 +1,14 @@
+{
+  "id": "35f0605",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 16,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must never signify the chatbot was unable to process; instead, it must imply a specific reason for failure.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Les discussions animées continuent.\",\"word\":\"animées\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Les discussions animées continuent.\" appears to be grammatically valid and does not contain any special characters or symbols that are not part of normal linguistic usage. The word \"animées\" is a substring of the sentence. It does not include any punctuation. Thus, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech category ('ADJECTIVE') instead of a specific tag as listed in the description. It doesn't adhere to the requirement of returning only the tag.\nERR",
+  "coverage": "err"
+}

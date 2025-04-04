@@ -1,0 +1,13 @@
+{
+  "id": "5336d9d",
+  "promptid": "a928b14",
+  "ruleid": 14,
+  "rule": "The output must include explanations, surrounding text, or context apart from the expected response, exceeding one word and deviating from the required format (from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Douce mélodie dans l'air.\",\"word\":\"douce\"}",
+  "output": "CC: Adjective\nCantAnswer",
+  "compliance": "err",
+  "complianceText": "The chatbot outputs two lines. The first line maps \"CC\" to \"Adjective\", and the second line outputs \"CantAnswer\". The description asks for only the part of speech tag, and provides a list of valid tags. \"Adjective\" is not a valid tag in the provided list.\nERR"
+}

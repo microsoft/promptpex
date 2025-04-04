@@ -1,0 +1,14 @@
+{
+  "id": "bf4352f",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "sentence: The book is on the shelf., word: book",
+  "validityText": "The input provides a sentence and a word. The sentence \"The book is on the shelf.\" is grammatically valid and doesn't contain unusual symbols. The word \"book\" is present as a substring within the sentence. The word \"book\" does not include any punctuation. Thus, the input complies with all the rules outlined in the specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output consists of a single word, \"NOUN\", which could be a valid part-of-speech tag according to the provided description. The description allows for returning a part-of-speech tag, and \"NOUN\" aligns with the provided list (NN, NNS, NNP, NNPS). It complies with the requested format of returning only the tag.\nOK",
+  "coverage": "ok"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "004c405",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 11,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must include at least two of those tags concatenated with additional characters, spaces, or punctuation marks.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Le livre est nouveau.\",\"word\":\"livre\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Le livre est nouveau.\" appears to be grammatically valid and does not contain any unusual symbols. The word \"livre\" is indeed a substring of the sentence. All rules of the specification appear to be followed.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output provides a single word, \"NOUN\", which could be a valid part-of-speech tag as listed in the description. It doesn't violate any explicit rule without knowing the input sentence and target word.\nOK",
+  "coverage": "ok"
+}

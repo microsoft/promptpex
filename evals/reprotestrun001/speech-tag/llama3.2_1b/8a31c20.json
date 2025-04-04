@@ -1,0 +1,13 @@
+{
+  "id": "8a31c20",
+  "promptid": "a928b14",
+  "ruleid": 8,
+  "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: What a peculiar scene!, word: peculiar",
+  "output": "P = Proper noun\nJC:JJR Adjective comparative: The JC tags indicate that 'peculiar' is an adjective in comparative form and the 'JJ'R tag indicates it comes before another adjective.",
+  "compliance": "err",
+  "complianceText": "The chatbot provides explanations alongside the part-of-speech tag, and uses tags which are not listed in the description. This violates the requirement to return *only* the tag, and to use tags from the defined list.\nERR"
+}

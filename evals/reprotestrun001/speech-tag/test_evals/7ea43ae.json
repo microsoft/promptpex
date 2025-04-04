@@ -1,0 +1,14 @@
+{
+  "id": "7ea43ae",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "input": "sentence: The format was unsuitable., word: unsuitable",
+  "validityText": "The input provides a sentence and a word. The sentence \"The format was unsuitable.\" appears to be grammatically valid and contains normal linguistic elements. The word \"unsuitable\" is a substring of the sentence. There are no special characters or symbols that violate the specification. The word does not include punctuation. Therefore, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which is in line with the description's instructions to return a part-of-speech tag. The provided tag is not present in the list of valid tags, but the description says to return 'Unknown' in that case, not 'ADJECTIVE'.\nERR",
+  "coverage": "err"
+}

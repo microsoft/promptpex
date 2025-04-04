@@ -1,0 +1,13 @@
+{
+  "id": "9d918ca",
+  "promptid": "a928b14",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: The quick brown fox., word: brownish",
+  "output": "JJ: adjective (specifically comparative/adjective)",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a part-of-speech tag (JJ) and a description of the tag but it does not adhere to the rule which states that it should return only the tag and nothing else.\nERR"
+}

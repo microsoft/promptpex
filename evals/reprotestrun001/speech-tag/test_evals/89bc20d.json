@@ -1,0 +1,14 @@
+{
+  "id": "89bc20d",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 7,
+  "rule": "If \"CantAnswer\" is chosen as the output, it must signify the chatbot was completely unable to process or make a determination for any unspecified reason.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Mot sinon inutilisable.\",\"word\":\"inutilisable\"}",
+  "validityText": "The input appears to be a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence is \"Mot sinon inutilisable.\", which is a grammatically valid French sentence. The word is \"inutilisable\", which is a substring of the sentence. There are no special characters or symbols that are not part of normal linguistic usage. Thus, the input complies with the given specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, 'ADJECTIVE', which is not present in the provided list of allowed tags. Therefore, it violates the requirement to only return tags from the specified list.\nERR",
+  "coverage": "err"
+}

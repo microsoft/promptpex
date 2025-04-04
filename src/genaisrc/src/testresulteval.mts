@@ -1,10 +1,11 @@
-import { PROMPT_EVAL_TEST_RESULT } from "./constants.mts"
-import { modelOptions, checkLLMResponse } from "./parsers.mts"
+import { OK_ERR_CHOICES, PROMPT_EVAL_TEST_RESULT } from "./constants.mts"
+import { modelOptions, checkLLMEvaluation } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
     PromptPexContext,
     PromptPexTestResult,
     PromptPexOptions,
+    PromptPexEvaluation,
 } from "./types.mts"
 const { generator } = env
 
@@ -12,7 +13,7 @@ export async function evaluateTestResult(
     files: PromptPexContext,
     testResult: PromptPexTestResult,
     options: PromptPexOptions
-): Promise<string> {
+): Promise<PromptPexEvaluation> {
     const { evalModel = "eval" } = options || {}
     const moptions = modelOptions(evalModel, options)
 
@@ -28,11 +29,12 @@ export async function evaluateTestResult(
             },
             {
                 ...moptions,
-                choices: ["OK", "ERR"],
-                label: `${files.name}> evaluate test result ${testResult.model} ${testResult.input.slice(0, 42)}...`,
+                choices: OK_ERR_CHOICES,
+                logprobs: true,
+                label: `${files.name}> eval test result ${testResult.model} ${testResult.input.slice(0, 42)}...`,
             }
         )
     )
-    const evaluation = checkLLMResponse(res)
+    const evaluation = checkLLMEvaluation(res, { allowUnassisted: true })
     return evaluation
 }

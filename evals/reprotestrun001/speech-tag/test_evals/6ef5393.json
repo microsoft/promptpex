@@ -1,0 +1,14 @@
+{
+  "id": "6ef5393",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Un concept flou mais essentiel.\",\"word\":\"flou\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Un concept flou mais essentiel.\" appears to be grammatically valid, although it is in French. The specification does not restrict the language, and it does not contain any special characters or symbols. The word \"flou\" is a substring of the sentence. The word itself does not contain punctuation. Therefore, the input complies with all the rules specified.\n\nOK",
+  "validity": "ok",
+  "coverageText": "Unknown",
+  "coverageEvalText": "The chatbot output consists of a single word \"Unknown\". This tag is listed as a valid return value in the chatbot description when the word cannot be tagged. Thus, the output complies with the description.\nOK",
+  "coverage": "ok"
+}

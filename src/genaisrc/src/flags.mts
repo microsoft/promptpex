@@ -1,3 +1,3 @@
 export const diagnostics =
-    !!process.env.GENAISCRIPT_DEBUG || !!process.env.DEBUG
+    !!process.env.GENAISCRIPT_DEBUG
 if (diagnostics) console.warn(`diagnostics enabled`)

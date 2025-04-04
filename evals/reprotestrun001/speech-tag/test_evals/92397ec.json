@@ -1,0 +1,14 @@
+{
+  "id": "92397ec",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "sentence: These apples are very fresh., word: fresh",
+  "validityText": "The input provides a sentence and a word. The sentence \"These apples are very fresh.\" is a grammatically valid string containing multiple words. It does not contain special characters or symbols that are not part of normal linguistic usage. The word \"fresh\" is a substring within the given sentence. The word \"fresh\" does not include punctuation. Therefore, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot returns 'ADJECTIVE' which is not one of the tags listed in the description. It should return one of the listed tags or 'Unknown' or 'CantAnswer'.\nERR",
+  "coverage": "err"
+}

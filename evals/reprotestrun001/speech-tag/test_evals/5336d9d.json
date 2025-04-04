@@ -1,0 +1,14 @@
+{
+  "id": "5336d9d",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 14,
+  "rule": "The output must include explanations, surrounding text, or context apart from the expected response, exceeding one word and deviating from the required format (from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": true,
+  "input": "{\"sentence\":\"Douce mélodie dans l'air.\",\"word\":\"douce\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Douce mélodie dans l'air.\" appears to be grammatically valid and does not contain special characters or symbols outside of normal linguistic usage (the accent on \"mé\" and \"é\" are acceptable). The word \"douce\" is a substring of the sentence. Therefore, the input appears to comply with all specified rules.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, \"ADJECTIVE\", which is not present in the defined list of tags within the <DESC>. Therefore, it doesn't comply with the description.\nERR",
+  "coverage": "err"
+}

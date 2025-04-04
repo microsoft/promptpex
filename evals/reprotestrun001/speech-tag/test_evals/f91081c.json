@@ -1,0 +1,14 @@
+{
+  "id": "f91081c",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 17,
+  "rule": "If \"Unknown\" is chosen as the output, it must not signify the word has a recognizable part of speech but misaligns with the provided list, and it must include justification or commentary.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Une mer agitée sous un vent fort.\",\"word\":\"agitée\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence appears to be grammatically valid and contains only normal linguistic characters. The word \"agitée\" is a substring of the sentence. There are no punctuation issues with the word. Therefore, the input is compliant with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which is consistent with the requirement to return a part-of-speech tag. The tag 'ADJECTIVE' is not present in the provided list of tags. Thus, the output does not comply with the provided description.\nERR",
+  "coverage": "err"
+}

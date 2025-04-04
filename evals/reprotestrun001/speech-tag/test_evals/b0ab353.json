@@ -1,0 +1,14 @@
+{
+  "id": "b0ab353",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "sentence: His name is Mr. James!, word: Mr.",
+  "validityText": "The input provides a sentence and a word. The sentence \"His name is Mr. James!\" is a grammatically valid string and contains words. The word \"Mr.\" is a substring of the sentence. However, the sentence contains a special character \"!\" which is not part of normal linguistic usage. This violates the input specification which states \"The sentence should not have special characters or symbols that are not part of normal linguistic usage.\"\n\nERR",
+  "validity": "err",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output consists of a single word, \"NOUN\", which could potentially be a valid part-of-speech tag from the provided list. It doesn't violate any explicit rule stated in the description as it seems to be a tag, and the description doesn't require knowing the input to evaluate this aspect.\nOK",
+  "coverage": "ok"
+}

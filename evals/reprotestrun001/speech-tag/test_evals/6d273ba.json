@@ -1,0 +1,14 @@
+{
+  "id": "6d273ba",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 1,
+  "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+  "inverse": false,
+  "input": "{\"sentence\":\"Elle court rapidement au parc.\",\"word\":\"rapidement\"}",
+  "validityText": "The input is a JSON-like structure with \"sentence\" and \"word\" keys. The sentence is \"Elle court rapidement au parc.\" and the word is \"rapidement\". The sentence appears to be grammatically valid and doesn't contain unusual symbols. The word \"rapidement\" is a substring of the sentence. There are no punctuation issues. Therefore, the input complies with the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADV",
+  "coverageEvalText": "The chatbot provides a single tag, 'ADV', which is not present in the list of valid part-of-speech tags provided in the description. Therefore, it violates the rule that the output must be one of the listed tags or 'Unknown' or 'CantAnswer'.\nERR",
+  "coverage": "err"
+}

@@ -1,4 +1,4 @@
-import { PROMPT_EVAL_RULE_GROUNDED } from "./constants.mts"
+import { OK_ERR_CHOICES, PROMPT_EVAL_RULE_GROUNDED } from "./constants.mts"
 import { outputPrompty } from "./output.mts"
 import {
     modelOptions,
@@ -13,6 +13,7 @@ import type {
     PromptPexRuleEval,
 } from "./types.mts"
 import { measure } from "./perf.mts"
+const dbg = host.logger("promptpex:gen:rules:groundedness")
 const { generator } = env
 
 export async function evaluateRuleGrounded(
@@ -46,12 +47,12 @@ export async function evaluateRuleGrounded(
             },
             {
                 ...modelOptions(evalModel, options),
-                choices: ["OK", "ERR"],
+                choices: OK_ERR_CHOICES,
                 label: `${files.name}> eval rule grounded ${rule.slice(0, 18)}...`,
             }
         )
     )
-    const resText = checkLLMResponse(res)
+    const resText = checkLLMResponse(res, { allowUnassisted: true })
 
     const ruleEval: PromptPexRuleEval = {
         id,
@@ -75,7 +76,13 @@ export async function evaluateRulesGrounded(
     options?: PromptPexOptions
 ) {
     const rules = parseRules(files.rules.content)
-    if (!rules) throw new Error("No rules found")
+    if (!rules) {
+        dbg(
+            `failed to parse rules in ${files.rules.filename} %O`,
+            files.rules.content
+        )
+        throw new Error("No rules found")
+    }
     await outputPrompty(PROMPT_EVAL_RULE_GROUNDED, options)
     const res: PromptPexRuleEval[] = []
     for (let i = 0; i < rules.length; ++i) {

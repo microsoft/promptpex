@@ -1,0 +1,13 @@
+{
+  "id": "fc40b2b",
+  "promptid": "a928b14",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Cet animal dort beaucoup.\",\"word\":\"animal\"}",
+  "output": "CC: Determiner \nUnknown: cet",
+  "compliance": "unknown",
+  "complianceText": "The chatbot outputs a part of speech tag followed by a colon and a word. It also outputs 'Unknown' which is not part of the part of speech tags.\nERR\n\nThe output contains \"Unknown: cet\". The description specifies returning only the part-of-speech tag or \"Unknown\" if unable to tag. However the output includes the tag \"Unknown\" followed by a colon, and a word which violates the rule to return just the tag."
+}

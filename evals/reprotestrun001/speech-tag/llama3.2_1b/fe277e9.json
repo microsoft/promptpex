@@ -1,0 +1,13 @@
+{
+  "id": "fe277e9",
+  "promptid": "a928b14",
+  "ruleid": 5,
+  "rule": "The output must not include explanations, context, or any other surrounding text apart from the required single word as the exact response (either from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: Can you please notify quickly?, word: notify",
+  "output": "Determiner: the\nNoun: quickly \nTag for \"quickly\": ADVERB\n Tag for \"notify\": VERB \n\nWould you like to try another sentence?",
+  "compliance": "err",
+  "complianceText": "The output provides more than just the part-of-speech tag, it also includes explanations and asks a question, violating the instruction to return *only* the tag. The output also includes \"Tag for\" prefixes which are not allowed.\nERR"
+}

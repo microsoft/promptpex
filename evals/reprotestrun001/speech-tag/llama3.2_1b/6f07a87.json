@@ -1,0 +1,13 @@
+{
+  "id": "6f07a87",
+  "promptid": "a928b14",
+  "ruleid": 6,
+  "rule": "Each output must strictly adhere to the capitalization format provided, with all part-of-speech tags written in uppercase, and both \"Unknown\" and \"CantAnswer\" written in sentence capitalization as specified.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: She owns a dog., word: owns",
+  "output": "CC: Possessive ending",
+  "compliance": "err",
+  "complianceText": "The chatbot returns a part-of-speech tag and a description, but the description does not match the tag. The description should describe the tag itself, not another POS tag. This violates the description's requirement to return only the tag.\nERR"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "5649b7e",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "input": "{\"sentence\":\"Des heures précieuses chaque jour.\",\"word\":\"précieuses\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Des heures précieuses chaque jour.\" appears to be grammatically valid and contains normal linguistic usage. The word \"précieuses\" is a substring of the sentence, and it doesn't contain any unexpected punctuation. Therefore, the input appears to comply with all the rules in the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which aligns with the task description that asks for returning only the tag. The provided tag is a valid tag that could potentially be one of the tags listed in the description.\nOK",
+  "coverage": "ok"
+}

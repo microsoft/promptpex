@@ -1,0 +1,13 @@
+{
+  "id": "85f11e7",
+  "promptid": "a928b14",
+  "ruleid": 10,
+  "rule": "The output must never consist of only one word, and it must represent an invalid part-of-speech tag or any unaccepted option other than \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Un temps magnifique aujourd'hui.\",\"word\":\"magnifique\"}",
+  "output": "CC: Adjective",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides a part-of-speech tag (\"CC\") followed by a description (\"Adjective\"). The description is unnecessary and violates the rule that only the tag should be returned.\nERR"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "0aa655a",
+  "promptid": "a928b14",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Il a mentionné un mot complexe.\",\"word\":\"complexe\"}",
+  "output": "CC: Locative",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a part-of-speech tag and its description, but \"Locative\" isn't in the provided list of acceptable tags. This violates the rule of only returning tags from the specified list or \"Unknown\" or \"CantAnswer\".\nERR"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "d315558",
+  "promptid": "a928b14",
+  "ruleid": 11,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must include at least two of those tags concatenated with additional characters, spaces, or punctuation marks.",
+  "inverse": true,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: I need two pairs of socks., word: two",
+  "output": "* CS: Coordinating conjunction (conjunction)\n* NN: Noun (pair)",
+  "compliance": "err",
+  "complianceText": "The chatbot output lists part-of-speech tags with explanations. However, the description explicitly states that the chatbot should *only* return the tag, not the tag and explanation. The output includes information beyond what is requested in the description.\nERR"
+}

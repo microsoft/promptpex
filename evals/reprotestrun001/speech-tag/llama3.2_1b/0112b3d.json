@@ -1,0 +1,13 @@
+{
+  "id": "0112b3d",
+  "promptid": "a928b14",
+  "ruleid": 1,
+  "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Nous regardons un film.\",\"word\":\"regardons\"}",
+  "output": "Here are the part of speech tags for each word in the sentence:\n\n* Nous: CC: Coordinating conjunction\n* regardons: IN: Preposition or subordinating conjunction, VWBZ: Verb, 3rd person singular present\n\nTherefore, the tagged words are:\n\nCC, CC",
+  "compliance": "err",
+  "complianceText": "The chatbot provides multiple tags for some words and lists them with bullet points, also provides a 'Therefore' statement not required by the description. The description asks for a single tag per word.\nERR"
+}

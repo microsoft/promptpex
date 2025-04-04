@@ -1,0 +1,13 @@
+{
+  "id": "1b3a95f",
+  "promptid": "a928b14",
+  "ruleid": 9,
+  "rule": "The response must not include more than one word under any circumstances.",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: He jumped high., word: jumped",
+  "output": "For the given sentence \"He jumped high.\", the tag for the word \"jumped\" is JD: Adjective.\n\nThere is only one listed tag JD: Adjective. Since it cannot be tagged, I will return CANTANswer instead.",
+  "compliance": "err",
+  "complianceText": "The chatbot returns a tag 'JD: Adjective' which is not in the list of allowed tags, then it attempts to correct itself by returning 'CANTAnswer'. The description states to return 'Unknown' if it cannot be tagged with the listed tags.\nERR\n"
+}

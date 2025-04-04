@@ -1,5 +1,11 @@
+import { DOCS_GLOSSARY } from "./constants.mts"
 import type { PromptPexOptions } from "./types.mts"
 const { output } = env
+
+export function outputGlossary(options: PromptPexOptions) {
+    if (!options?.workflowDiagram) return
+    output.details(`Glossary`, DOCS_GLOSSARY)
+}
 
 export function outputWorkflowDiagram(
     diagram: string,

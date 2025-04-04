@@ -1,0 +1,14 @@
+{
+  "id": "9532e23",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 5,
+  "rule": "The output must not include explanations, context, or any other surrounding text apart from the required single word as the exact response (either from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": false,
+  "input": "sentence: The professor lectured brilliantly., word: brilliantly",
+  "validityText": "The input consists of a sentence and a word. The sentence \"The professor lectured brilliantly.\" is a grammatically valid string and does not contain special characters. The word \"brilliantly\" is a substring of the sentence. The word does not contain punctuation. Therefore, the input complies with all the specifications.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADVERB",
+  "coverageEvalText": "The chatbot output provides a single word, \"ADVERB,\" which could be a part-of-speech tag. The description asks for *just* the tag, and \"ADVERB\" isn't on the list of tags provided in the description. However, 'RB' is a valid tag for Adverb, and this is what the chatbot should have returned.\nERR",
+  "coverage": "err"
+}

@@ -1,4 +1,10 @@
-import type { PromptPexContext, PromptPexTest } from "./types.mts"
+import type {
+    PromptPexContext,
+    PromptPexPromptyFrontmatter,
+    PromptPexTest,
+    PromptPexTestGenerationScenario,
+} from "./types.mts"
+const dbg = host.logger("promptpex:resolvers")
 
 export async function resolveTestId(
     files: PromptPexContext,
@@ -14,27 +20,77 @@ export async function resolveTestId(
     return testid
 }
 
+export function resolveScenarios(
+    files: PromptPexContext
+): PromptPexTestGenerationScenario[] {
+    return (
+        files.frontmatter?.scenarios || [
+            {
+                name: "",
+                instructions: "",
+                parameters: {},
+            } satisfies PromptPexTestGenerationScenario,
+        ]
+    )
+}
+
 export function resolvePromptArgs(
     files: PromptPexContext,
     test: PromptPexTest
 ) {
     const inputs = files.inputs
     const inputKeys = Object.keys(inputs)
+    const unresolved = new Set(inputKeys)
+    dbg(`unresolved inputs: %s`, inputKeys)
     const expectedOutput = test["expectedoutput"]
     const testInput = test["testinput"]
     const args: Record<string, any> = {}
-    if (inputKeys.length === 1) args[inputKeys[0]] = testInput
-    else if (inputKeys.length > 1) {
+
+    // apply defaults
+    for (const [iname, ivalue] of Object.entries(inputs)) {
+        if (unresolved.has(iname) && ivalue?.default) {
+            dbg(`input %s default: %s`, iname, ivalue.default)
+            args[iname] = ivalue.default
+            unresolved.delete(iname)
+        }
+    }
+
+    // apply scenario values
+    if (test.scenario) {
+        const scenarios = resolveScenarios(files)
+        const scenario = scenarios.find((s) => s.name === test.scenario)
+        if (!scenario) throw new Error(`Scenario ${test.scenario} not found`)
+        for (const [iname, ivalue] of Object.entries(
+            scenario.parameters || {}
+        )) {
+            if (unresolved.has(iname) && ivalue !== undefined) {
+                dbg(`input %s scenario: %s`, iname, ivalue)
+                args[iname] = ivalue
+                unresolved.delete(iname)
+            }
+        }
+    }
+
+    // fill last whole with generated input
+    dbg(`remaining unresolved inputs: %s`, unresolved)
+    if (unresolved.size === 1) {
+        const key = Array.from(unresolved)[0]
+        dbg(`input %s <- %s`, key, testInput)
+        args[key] = testInput
+    } else if (unresolved.size > 1) {
         // not supported yet
-        throw new Error("multiple inputs not supported yet")
-        /*
-    const testInputArgs =
-      parsers.INI(testInput) ||
-      parsers.YAML(testInput) ||
-      parsers.JSON5(testInput);
-    if (!testInputArgs) return undefined;
-    for (const key of inputKeys) args[key] = testInputArgs[key];
-    */
+        dbg(`multiple unspecified inputs not supported: %O`, {
+            inputKeys,
+            unresolved,
+            testInput,
+        })
+        throw new Error("multiple unspecified inputs not supported yet")
+    } else if (unresolved.size === 0 && inputKeys.length > 0) {
+        dbg(
+            `all inputs prefilled, replacing first (%s) with test input`,
+            inputKeys[0]
+        )
+        args[inputKeys[0]] = testInput
     }
     return { inputs, args, testInput, expectedOutput }
 }

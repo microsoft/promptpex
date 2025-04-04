@@ -1,4 +1,3 @@
-import { DOCS_GLOSSARY } from "./constants.mts"
 import {
     parseAllRules,
     parseBaselineTests,
@@ -8,76 +7,87 @@ import {
     parseTestEvals,
     parseTestResults,
 } from "./parsers.mts"
+import { groupBy } from "genaiscript/runtime"
 import { resolveRule } from "./resolvers.mts"
-import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
+import type { PromptPexContext, PromptPexOptions } from "./types.mts"
+const dbg = host.logger("promptpex:reports")
+const dbgtests = host.logger("promptpex:reports:tests")
 
 export function computeOverview(
     files: PromptPexContext,
-    options?: { percent?: boolean }
+    options?: PromptPexOptions & { percent?: boolean }
 ) {
     const { percent } = options || {}
     const testResults = parseTestResults(files)
+    dbg(`testResults: %d`, testResults.length)
     const testEvals = parseTestEvals(files)
-    const rules = parseAllRules(files)
+    dbg(`testEvals: %d`, testEvals.length)
+    const rules = parseAllRules(files, options)
+    dbg(`rules: %d`, rules.length)
     const ruleEvals = parseRuleEvals(files)
-    const testResultsPerModels = testResults.reduce(
-        (acc, result) => {
-            const group = result.error ? "error" : result.model || "???"
-            if (!acc[group]) acc[group] = []
-            acc[group].push(result)
-            return acc
-        },
-        {} as Record<string, PromptPexTestResult[]>
+    dbg(`ruleEvals: %d`, ruleEvals.length)
+
+    const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
+    const testResultsPerModelsAndScenario = groupBy(
+        testResults.filter((tr) => tr.scenario),
+        (result) => `${result.model}:${result.scenario || defaultScenario}`
     )
-    const overview = Object.entries(testResultsPerModels).map(
-        ([model, results]) => {
-            const tests = results.filter((tr) => tr.rule).length
+    const overview = Object.entries(testResultsPerModelsAndScenario).map(
+        ([key, results]) => {
+            const { model, scenario, error } = results[0]
+            const tests = results.filter((tr) => !tr.error && tr.rule)
+            const errors =
+                (error ? 1 : 0) + results.filter((tr) => tr.error).length
+            const baseline = results.filter((tr) => !tr.error && !tr.rule)
+            dbg(
+                `${key}: ${tests.length} tests, ${baseline.length} baseline, ${errors} errors`
+            )
+            dbgtests("%O", tests)
             const norm = (v: number) =>
-                tests === 0
+                tests.length === 0
                     ? "--"
                     : percent
-                      ? Math.round((v / tests) * 100) + "%"
+                      ? Math.round((v / tests.length) * 100) + "%"
                       : v
-            const baseline = results.filter((tr) => !tr.rule).length
             const bnorm = (v: number) =>
-                baseline === 0
+                baseline.length === 0
                     ? "--"
                     : percent
-                      ? Math.round((v / baseline) * 100) + "%"
+                      ? Math.round((v / baseline.length) * 100) + "%"
                       : v
             return {
                 model,
-                tests,
+                scenario,
+                errors,
+                tests: tests.length,
                 ["tests compliant"]: norm(
-                    results.filter((tr) => tr.rule && tr.compliance === "ok")
-                        .length
+                    tests.filter((tr) => tr.compliance === "ok").length
+                ),
+                ["tests compliance unknown"]: norm(
+                    tests.filter(
+                        (tr) =>
+                            tr.compliance !== "ok" && tr.compliance !== "err"
+                    ).length
                 ),
                 ["baseline compliant"]: bnorm(
-                    results.filter((tr) => !tr.rule && tr.compliance === "ok")
-                        .length
+                    baseline.filter((tr) => tr.compliance === "ok").length
                 ),
-                ["tests positive"]: results.filter(
-                    (tr) => tr.rule && !tr.inverse
+                ["tests positive"]: tests.filter((tr) => !tr.inverse).length,
+                ["tests positive compliant"]: tests.filter(
+                    (tr) => tr.compliance === "ok"
                 ).length,
-                ["tests positive compliant"]: results.filter(
-                    (tr) => tr.rule && !tr.inverse && tr.compliance === "ok"
+                ["tests negative"]: tests.filter((tr) => tr.inverse).length,
+                ["tests negative compliant"]: tests.filter(
+                    (tr) => tr.compliance === "ok"
                 ).length,
-                ["tests negative"]: results.filter(
-                    (tr) => tr.rule && tr.inverse
-                ).length,
-                ["tests negative compliant"]: results.filter(
-                    (tr) => tr.rule && tr.inverse && tr.compliance === "ok"
-                ).length,
-                baseline,
-                ["tests valid"]: results.filter(
+                baseline: baseline.length,
+                ["tests valid"]: tests.filter(
                     (tr) =>
-                        tr.rule &&
                         testEvals.find((te) => te.id === tr.id)?.validity ===
-                            "ok"
+                        "ok"
                 ).length,
-                ["tests valid compliant"]: results.filter(
+                ["tests valid compliant"]: tests.filter(
                     (tr) =>
-                        tr.rule &&
                         tr.compliance === "ok" &&
                         testEvals.find((te) => te.id === tr.id)?.validity ===
                             "ok"
@@ -107,6 +117,9 @@ async function generateMarkdownReport(files: PromptPexContext) {
     const ts = testResults.length
     const oks = testResults.filter((t) => t.compliance === "ok").length
     const errs = testResults.filter((t) => t.compliance === "err").length
+    const unknowns = testResults.filter(
+        (t) => t.compliance !== "ok" && t.compliance !== "err"
+    ).length
     const rp = (n: number, t: number) =>
         `${n}/${t} (${Math.floor((n / t) * 100)}%)`
 
@@ -117,18 +130,13 @@ async function generateMarkdownReport(files: PromptPexContext) {
         `- ${inverseRules?.length ?? 0} inverse rules`,
         `- ${tests.length ?? 0} tests, ${tests.filter((t) => t.baseline).length} baseline tests`,
         testResults?.length
-            ? `- ${testResults?.length ?? 0} test results, ${rp(oks, ts)} oks, ${rp(errs, ts)} errs`
+            ? `- ${testResults?.length ?? 0} test results, ${rp(oks, ts)} oks, ${rp(errs, ts)} errs, ${rp(unknowns, ts)} unknowns`
             : undefined,
         ``,
     ].filter((l) => l !== undefined)
 
     res.push("### Overview", "")
-    res.push(`<details><summary>Glossary</summary>
-    
-${DOCS_GLOSSARY}
 
-</details>
-`)
     const { overview } = computeOverview(files, { percent: true })
     await workspace.writeText(
         path.join(files.dir, "overview.csv"),
@@ -147,13 +155,22 @@ ${DOCS_GLOSSARY}
         const ext = path.extname(file.filename).slice(1)
         const headers =
             file === files.testOutputs
-                ? ["model", "rule", "input", "output", "compliance"]
+                ? ["model", "scenario", "rule", "input", "output", "compliance"]
                 : file === files.tests
-                  ? ["testinput", "expectedoutput", "reasoning"]
+                  ? ["scenario", "testinput", "expectedoutput", "reasoning"]
                   : file === files.baselineTests
                     ? ["testinput"]
                     : file === files.testEvals
-                      ? ["rule", "model", "input", "coverage", "validity"]
+                      ? [
+                            "scenario",
+                            "rule",
+                            "model",
+                            "input",
+                            "coverage",
+                            "coverageUncertainty",
+                            "validity",
+                            "validityUncertainty",
+                        ]
                       : file === files.ruleEvals
                         ? ["ruleid", "rule", "grounded"]
                         : file === files.baselineTestEvals
@@ -244,13 +261,13 @@ export async function generateJSONReport(files: PromptPexContext) {
 
 export async function generateReports(files: PromptPexContext) {
     const jsonreport = await generateJSONReport(files)
-    await workspace.writeText(
-        path.join(files.dir, "report.json"),
-        JSON.stringify(jsonreport, null, 2)
-    )
+    const fnjson = path.join(files.dir, "report.json")
+    dbg(`report (json): ${fnjson}`)
+    await workspace.writeText(fnjson, JSON.stringify(jsonreport, null, 2))
 
     const mdreport = await generateMarkdownReport(files)
     const fn = path.join(files.dir, "README.md")
+    dbg(`report (markdown): ${fn}`)
     await workspace.writeText(fn, mdreport)
     return fn
 }

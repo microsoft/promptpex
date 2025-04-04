@@ -1,0 +1,14 @@
+{
+  "id": "85f11e7",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 10,
+  "rule": "The output must never consist of only one word, and it must represent an invalid part-of-speech tag or any unaccepted option other than \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "input": "{\"sentence\":\"Un temps magnifique aujourd'hui.\",\"word\":\"magnifique\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Un temps magnifique aujourd'hui.\" is a grammatically valid string, although it's in French. It does not contain any special characters or symbols that are not part of normal linguistic usage. The word \"magnifique\" is a substring within the sentence. The word does not include punctuation. Therefore, the input complies with the input specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "",
+  "coverage": "unknown"
+}

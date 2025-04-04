@@ -1,0 +1,13 @@
+{
+  "id": "a8c0070",
+  "promptid": "a928b14",
+  "ruleid": 1,
+  "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+  "inverse": false,
+  "scenario": "English",
+  "model": "llama3.2:1b",
+  "input": "sentence: The sky is blue., word: sky",
+  "output": "CC: Coordinating conjunction\n\nExplanation: In the sentence \"The sky is blue,\" the word \"sky\" is functioning as a noun. It's the subject of the sentence and an object in a prepositional phrase (\"is blue\").",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides not only a part-of-speech tag but also a detailed explanation and an example sentence, which violates the instruction to return *only* the part-of-speech tag. The explanation and example are extraneous information and represent non-compliance.\nERR"
+}

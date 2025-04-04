@@ -1,0 +1,14 @@
+{
+  "id": "b0ec10b",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Le ciel est bleu.\",\"word\":\"bleu\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Le ciel est bleu.\" is a grammatically valid French sentence. It doesn't contain special characters or symbols not part of normal linguistic usage. The word \"bleu\" is a substring of the sentence. It doesn't include punctuation. Therefore, the input complies with all the given specifications.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which is in line with the description’s requirement to return a tag. The description lists several valid tags, and 'ADJECTIVE' could be a valid tag if it was one of the listed tags. However, the description provides a very specific list of tags to use. 'ADJECTIVE' is not one of them. Therefore, the output violates the explicit instruction of only returning tags from the provided list.\nERR",
+  "coverage": "err"
+}

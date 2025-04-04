@@ -1,0 +1,13 @@
+{
+  "id": "9a328cb",
+  "promptid": "a928b14",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Le train arrive à 8 heures.\",\"word\":\"train\"}",
+  "output": "CC: Adjective\nUH: Interjection",
+  "compliance": "err",
+  "complianceText": "The chatbot provides part-of-speech tags with descriptions, but the description explicitly states to return *only* the tag. It does not mention returning the description as well.\nERR"
+}

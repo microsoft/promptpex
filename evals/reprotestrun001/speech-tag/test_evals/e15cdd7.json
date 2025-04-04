@@ -1,0 +1,14 @@
+{
+  "id": "e15cdd7",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Ce mot est d'origine étrangère.\",\"word\":\"étrangère\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Ce mot est d'origine étrangère.\" appears to be grammatically valid French. The word \"étrangère\" is present as a substring within the sentence. The word itself does not include any punctuation beyond what is permissible in the sentence. Therefore, all conditions specified in the input specification are met.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot returns \"ADJECTIVE\" which is not a valid part-of-speech tag as specified in the description. The description lists specific tags that the chatbot should return, and \"ADJECTIVE\" is not one of them.\nERR",
+  "coverage": "err"
+}

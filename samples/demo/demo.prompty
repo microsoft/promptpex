@@ -2,12 +2,29 @@
 name: A demo
 inputs:
     joke: "how do you make a tissue dance? You put a little boogie in it."
+    locale: 
+      type: "string"
+      description: "The locale of the user. It is used to determine the language and region settings for the user."
+      default: "en-us"
+instructions:
+  inputSpec: "Do not generate input rules for the 'locale' input."
+  outputRules: "The chatbox output should always be in English."
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French. 
+      locale: fr-FR
+    - name: Vietnamese
+      instructions: The user speaks and writes in Vietnamese. 
+      locale: vi-VN
 tags:
     - unlisted
 ---
 system:
 You are an assistant 
 and you need to categorize a joke as funny or not.
+The input local is {{locale}}.
 
 user:
 {{joke}}

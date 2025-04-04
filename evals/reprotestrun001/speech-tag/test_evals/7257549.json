@@ -1,0 +1,14 @@
+{
+  "id": "7257549",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 9,
+  "rule": "The response must not include more than one word under any circumstances.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Il trouve cela étrange.\",\"word\":\"étrange\"}",
+  "validityText": "The input appears to be a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Il trouve cela étrange.\" is a grammatically valid French sentence. The word \"étrange\" is present as a substring within the sentence. There are no special characters or symbols that violate the specification. The word doesn't contain any punctuation beyond what is part of the word itself. Thus the input complies with the specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, but it does not use the specific tags listed in the <DESC>. It uses a general term \"ADJECTIVE\" instead of \"JJ\", \"JJR\", or \"JJS\". This violates the rule of only returning the tags from the specified list.\nERR",
+  "coverage": "err"
+}

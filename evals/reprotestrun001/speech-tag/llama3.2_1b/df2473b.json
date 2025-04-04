@@ -1,0 +1,13 @@
+{
+  "id": "df2473b",
+  "promptid": "a928b14",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Chaque problème a une solution.\",\"word\":\"problème\"}",
+  "output": "CC: Coordinating conjunction\nCantAnswer: CantAnswer\nUnknown: Unknown",
+  "compliance": "err",
+  "complianceText": "The chatbot provides a list of part-of-speech tags along with associated values. While it lists tags as defined in the description, it also includes “CantAnswer” and “Unknown” as if they are possible tags. The description specifies these as return values when tagging is not possible, not as tags themselves. This violates the instruction to *only* return the tag.\nERR"
+}

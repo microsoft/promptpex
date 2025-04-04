@@ -1,0 +1,14 @@
+{
+  "id": "9b43c56",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 15,
+  "rule": "Each output must ignore the capitalization format provided, using lowercase for all part-of-speech tags and altered capitalization for both \"unknown\" and \"cantanswer\".",
+  "inverse": true,
+  "input": "{\"sentence\":\"Le matin est lumineux.\",\"word\":\"lumineux\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Le matin est lumineux.\" is a grammatically valid French sentence. It does not contain special characters or symbols not part of normal linguistic usage. The word \"lumineux\" is a substring of the sentence. It does not include punctuation. Therefore, the input complies with the specification.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJ\n",
+  "coverageEvalText": "The chatbot output consists of a single word 'ADJ'. The description specifies that the chatbot should return only the part-of-speech tag. 'ADJ' is a valid part-of-speech tag representation, as it is a shorthand for 'JJ' (Adjective). It adheres to the output format mentioned in the description.\nOK",
+  "coverage": "ok"
+}

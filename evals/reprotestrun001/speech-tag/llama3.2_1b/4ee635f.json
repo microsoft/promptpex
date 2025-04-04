@@ -1,0 +1,13 @@
+{
+  "id": "4ee635f",
+  "promptid": "a928b14",
+  "ruleid": 13,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must not be \"CantAnswer\"; it must instead provide an explanation or reasoning in multi-line text.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Le chien court rapidement.\",\"word\":\"rapidement\"}",
+  "output": "CC: Coordinating conjunction\nExplanation: rapidement is an adverb. \n\nResult: CC",
+  "compliance": "err",
+  "complianceText": "The chatbot output provides a part-of-speech tag ('CC') and an explanation. The description asks for *only* the tag, and does not allow for any additional explanation. Therefore, the inclusion of the explanation violates the requirements.\nERR"
+}

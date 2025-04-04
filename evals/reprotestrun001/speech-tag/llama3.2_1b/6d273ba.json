@@ -1,0 +1,13 @@
+{
+  "id": "6d273ba",
+  "promptid": "a928b14",
+  "ruleid": 1,
+  "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+  "inverse": false,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Elle court rapidement au parc.\",\"word\":\"rapidement\"}",
+  "output": "RC: Rhythmically",
+  "compliance": "err",
+  "complianceText": "The chatbot returns 'RC' which is not one of the part-of-speech tags listed in the description. It violates the instruction to return only valid tags, or 'Unknown' or 'CantAnswer'.\nERR"
+}

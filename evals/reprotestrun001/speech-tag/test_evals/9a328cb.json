@@ -1,0 +1,14 @@
+{
+  "id": "9a328cb",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 2,
+  "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Le train arrive à 8 heures.\",\"word\":\"train\"}",
+  "validityText": "The input is a JSON-like structure with \"sentence\" and \"word\" keys. The sentence is \"Le train arrive à 8 heures.\", which is a grammatically valid French sentence. It contains words and a number, but no invalid characters or symbols. The word \"train\" is a substring of the sentence. It doesn't include any punctuation. The input adheres to all the specifications.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output consists of a single word, \"NOUN\", which is a valid part-of-speech tag listed in the provided description. It adheres to the requirement of returning only the tag and doesn't contain any extraneous information.\nOK",
+  "coverage": "ok"
+}

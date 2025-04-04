@@ -1,0 +1,14 @@
+{
+  "id": "e3cd4ed",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 10,
+  "rule": "The output must never consist of only one word, and it must represent an invalid part-of-speech tag or any unaccepted option other than \"Unknown\" or \"CantAnswer\".",
+  "inverse": true,
+  "input": "{\"sentence\":\"La mer est calme.\",\"word\":\"calme\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"La mer est calme.\" is a grammatically valid string in French, containing one or more words. It does not contain special characters or symbols. The word \"calme\" is a substring of the sentence. It does not include punctuation. Therefore, it complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which is in line with the description's requirement to return only the tag. However, the description provides a specific list of tags, and \"ADJECTIVE\" is not one of them.\nERR",
+  "coverage": "err"
+}

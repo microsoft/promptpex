@@ -1,0 +1,14 @@
+{
+  "id": "e1dc203",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 12,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has an identifiable part of speech, the output must not include \"Unknown\" or any other recognizable label; instead, it must contain added context, phrases, or alternate formatting.",
+  "inverse": true,
+  "input": "sentence: Collective group noun., word: group",
+  "validityText": "The input consists of a sentence and a word. The sentence \"Collective group noun.\" appears to be grammatically valid, although somewhat terse. It contains standard linguistic elements and doesn't include unusual symbols. The word \"group\" is a substring of the sentence. There are no punctuation issues with the word. Thus, the input appears to comply with all specified rules.\n\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output provides a single word \"NOUN\", which is a valid part-of-speech tag, although not listed in the provided tags. However, the instructions state to return 'Unknown' if the word cannot be tagged with the listed tags. Since \"NOUN\" is not in the list, this is a violation.\nERR",
+  "coverage": "err"
+}

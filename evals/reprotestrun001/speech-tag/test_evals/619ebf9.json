@@ -1,0 +1,14 @@
+{
+  "id": "619ebf9",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 5,
+  "rule": "The output must not include explanations, context, or any other surrounding text apart from the required single word as the exact response (either from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+  "inverse": false,
+  "input": "{\"sentence\":\"Le chat noir s'endort.\",\"word\":\"chat\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Le chat noir s'endort.\" appears to be grammatically valid and uses normal linguistic constructs. The word \"chat\" is indeed a substring of the sentence. There are no special characters or symbols that violate the specification. The word \"chat\" does not include punctuation. Thus, the input complies with the provided specification.\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output provides a single word \"NOUN\". The description specifies a list of part-of-speech tags, and the chatbot is expected to return one of those tags. \"NOUN\" is not in the list of acceptable tags, nor is it a valid tag.\nERR",
+  "coverage": "err"
+}

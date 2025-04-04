@@ -1,0 +1,14 @@
+{
+  "id": "587451b",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Son origine est floue.\",\"word\":\"origine\"}",
+  "validityText": "The input is a JSON-like structure with \"sentence\" and \"word\" keys. The sentence \"Son origine est floue.\" is a grammatically valid string in French, containing one or more words. It does not contain special characters or symbols not part of normal linguistic usage. The word \"origine\" is a substring of the sentence. It does not include punctuation. The word matches one occurrence within the sentence. Therefore, the input complies with the input specification.\nOK",
+  "validity": "ok",
+  "coverageText": "NOUN",
+  "coverageEvalText": "The chatbot output consists of a single word, \"NOUN\", which could potentially be a valid part-of-speech tag according to the provided description. The description specifies a list of allowed tags, and while \"NOUN\" isn't directly listed, it's a reasonable abbreviation for NN, NNS, NNP, or NNPS. However, the description explicitly asks for the exact tags from the provided list, not generalized abbreviations.\nERR",
+  "coverage": "err"
+}

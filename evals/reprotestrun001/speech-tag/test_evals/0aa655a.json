@@ -1,0 +1,14 @@
+{
+  "id": "0aa655a",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "{\"sentence\":\"Il a mentionné un mot complexe.\",\"word\":\"complexe\"}",
+  "validityText": "The input is a JSON-like structure with a \"sentence\" and a \"word\" key. The sentence \"Il a mentionné un mot complexe.\" appears to be grammatically valid and doesn't contain unusual symbols. The word \"complexe\" is present as a substring within the sentence. There are no punctuation marks within the word itself. All constraints are met.\n\nOK",
+  "validity": "ok",
+  "coverageText": "ADJECTIVE",
+  "coverageEvalText": "The chatbot output provides a part-of-speech tag, which aligns with the description's instruction to return a tag. The provided tag 'ADJECTIVE' is not present in the provided list of allowed tags.\nERR",
+  "coverage": "err"
+}

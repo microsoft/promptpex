@@ -1,0 +1,14 @@
+{
+  "id": "28e2ad7",
+  "promptid": "a928b14",
+  "model": "gemma3:27b",
+  "ruleid": 3,
+  "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+  "inverse": false,
+  "input": "sentence: Is there zzzz?., word: zzzz",
+  "validityText": "The input includes a sentence with punctuation that is not part of normal linguistic usage (\".,\" at the end). According to the specification, the sentence should not have special characters or symbols that are not part of normal linguistic usage. Therefore, the input does not comply with the input specification.\nERR",
+  "validity": "err",
+  "coverageText": "Unknown",
+  "coverageEvalText": "The chatbot output is a single word \"Unknown\". According to the description, \"Unknown\" is a valid output if the word cannot be tagged with the listed tags. This complies with the description.\nOK",
+  "coverage": "ok"
+}

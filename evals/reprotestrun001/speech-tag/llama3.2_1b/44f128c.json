@@ -1,0 +1,13 @@
+{
+  "id": "44f128c",
+  "promptid": "a928b14",
+  "ruleid": 13,
+  "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must not be \"CantAnswer\"; it must instead provide an explanation or reasoning in multi-line text.",
+  "inverse": true,
+  "scenario": "French",
+  "model": "llama3.2:1b",
+  "input": "{\"sentence\":\"Des clés perdues dans l'obscurité.\",\"word\":\"perdues\"}",
+  "output": "CC: Clé \n\nReturned tag: Perdue (Part of speech is Clé which means \"Key\", a noun)",
+  "compliance": "err",
+  "complianceText": "The chatbot returns a tag and additional information about the word. The description asks for *only* the tag to be returned. The additional information violates the instruction.\nERR"
+}

@@ -2,7 +2,7 @@
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
-effective prompts are increasingly important. 
+effective prompts are increasingly important.
 
 - [Prompts Are Programs - ACM Blog Post](https://blog.sigplan.org/2024/10/22/prompts-are-programs/)
 
@@ -11,45 +11,47 @@ intended to be used by developers who have prompts as part of their code base.
 PromptPex treats a prompt as a function and automatically generates test inputs
 to the function to support unit testing.
 
-- [PromptPex technical paper](http://arxiv.org/abs/2503.05070) 
+- [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
 https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949
 
 PromptPex provides the following capabilities:
 
--   It will **automatically extract output rules** that are expressed in natural language in the
-    prompt. An example of a rule might be "The output should be formatted as JSON".
--   From the rules, it will **generate unit test cases** specifically
-    designed to determine if the prompt, for a given model, correctly
-    follows the rule.
--   Given a set of rules and tests, PromptPex will **evaluate the
-    performance of the prompt on any given model**. For example,
-    a user can determine if a set of unit tests succeeds on gpt-4o-mini
-    but fails on phi3.
--   PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
+- It will **automatically extract output rules** that are expressed in natural language in the
+  prompt. An example of a rule might be "The output should be formatted as JSON".
+- From the rules, it will **generate unit test cases** specifically
+  designed to determine if the prompt, for a given model, correctly
+  follows the rule.
+- Given a set of rules and tests, PromptPex will **evaluate the
+  performance of the prompt on any given model**. For example,
+  a user can determine if a set of unit tests succeeds on gpt-4o-mini
+  but fails on phi3.
+- PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 
 <details>
 <summary>Glossary</summary>
 
--   Prompt Under Test (PUT) - like Program Under Test; the prompt
--   Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
--   Model Used by PromptPex (MPP) - gpt-4o
+- Prompt Under Test (PUT) - like Program Under Test; the prompt
+- Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
+- Model Used by PromptPex (MPP) - gpt-4o
 
--   Input Specification (IS) - Extracting input constraints of PUT using MPP (input_spec)
--   Output Rules (OR) - Extracting output constraints of PUT using MPP (rules_global)
--   Inverse Output Rules (IOR) - Inverse of the generated Output Rules
--   Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded)
+- Input Specification (IS) - Extracting input constraints of PUT using MPP (input_spec)
+- Output Rules (OR) - Extracting output constraints of PUT using MPP (rules_global)
+- Inverse Output Rules (IOR) - Inverse of the generated Output Rules
+- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded)
 
--   Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
+- Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
 
--   PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
--   Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
+- Test Generation Scenario (TGS) - Set of additional input constraint variations not captured in the prompt.
 
--   Test Validity (TV) - Checking if PPT and BT meets the constraints in IS using MPP (check_violation_with_input_spec)
--   Spec Agreement (SA) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate_test_coverage)
+- PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
+- Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
 
--   Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
--   Test Non-Compliance (TNC) - Checking if TO meets the constraints in PUT using MPP (check_violation_with_system_prompt)
+- Test Validity (TV) - Checking if PPT and BT meets the constraints in IS using MPP (check_violation_with_input_spec)
+- Spec Agreement (SA) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate_test_coverage)
+
+- Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
+- Test Non-Compliance (TNC) - Checking if TO meets the constraints in PUT using MPP (check_violation_with_system_prompt)
 
 </details>
 
@@ -119,14 +121,14 @@ Tests generated from the rules:
 PromptPex uses [GenAIScript](https://microsoft.github.io/genaiscript)
 to execute.
 
--   Install [Node.js v20+](https://nodejs.org/)
--   Configure your LLM credentials in `.env`
+- Install [Node.js v20+](https://nodejs.org/)
+- Configure your LLM credentials in `.env`
 
 ```sh
 npx --yes genaiscript configure
 ```
 
--   Launch promptpex remotely
+- Launch promptpex remotely
 
 ```sh
 npx --yes genaiscript serve --remote microsoft/promptpex
@@ -142,11 +144,90 @@ PromptPex defines the following model aliases for the different phases of the te
 
 If you are using a specific set of models, you can use a `.env` file to override the eval/rules/baseline aliases
 
-
 ```text
-GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-08-06"
-GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-08-06"
-GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-08-06"
+GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-11-20"
+```
+
+## Test Generation Scenarios
+
+PromptPex supports specify a set of additional input constraints (scenario)
+to generate specific test suites. A canonical example would be
+localization testing: `generate English, generate French`.
+
+```mermaid
+graph TD
+    PUT(["Prompt Under Test (PUT)"])
+    IS["Input Specification (IS)"]
+    OR["Output Rules (OR)"]
+    IOR["Inverse Output Rules (IOR)"]
+    PPT["PromptPex Tests (PPT)"]
+    TO["Test Output (TO) for MUT"]
+    TGS["Test Generation Scenario (TGS)"]
+
+    PUT --> IS
+
+    PUT --> OR
+    OR --> IOR
+
+    PUT --> PPT
+    IS --> PPT
+    OR --> PPT
+    IOR --> PPT
+
+    TGS --> PPT
+
+    PPT --> TO
+    PUT --> TO
+```
+
+The scenario are currently encoded in the prompty front-matter as an string array:
+
+```yaml
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French.
+      parameters:
+          locale: fr-Fr
+```
+
+## Prompt format: prompty
+
+PromptPex takes [Prompty](https://www.prompty.ai/) file as inputs; these are just markdown with a bit of syntax to
+represent messages and the input/output signature of the prompt.
+
+The `demo` prompt below defines a set of parameters (`inputs` as a set of JSON schema types).
+The `system`/`user` messages are separate by `system:`, `user:` markers in the markdown body.
+It uses the Jinja2 template engine to insert values (`{{joke}}`).
+The `scenarios` array is used to expand the test generation with further input specification and optional input values.
+
+```md
+---
+name: A demo
+inputs:
+    joke: "how do you make a tissue dance? You put a little boogie in it."
+    locale: "en-us"
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French.
+      parameters:
+          locale: fr-FR
+tags:
+    - unlisted
+---
+
+system:
+You are an assistant
+and you need to categorize a joke as funny or not.
+The input local is {{locale}}.
+
+user:
+{{joke}}
 ```
 
 ## Test and Eval Workflow
@@ -167,6 +248,7 @@ graph TD
     TO["Test Output (TO) for MUT"]
     TNC["Test Non-Compliance (TNC)"]
     TV["Test Validity (TV)"]
+    TGS["Test Generation Scenario (TGS)"]
     BT{{"Baseline Tests (BT)"}}
 
     PUT ==> IS
@@ -186,6 +268,8 @@ graph TD
 
     PPT --> TV
     IS --> TV
+
+    TGS --> PPT
 
     PPT --> SA
     PUTI --> SA
@@ -207,12 +291,12 @@ graph TD
 
 <br/>
 
--   Every node is created by a LLM call (aside from the PUT).
--   Rounded nodes can be edited by the user.
--   Square nodes are evaluations.
--   Diamond nodes are outputs.
--   Lines represent data dependencies.
--   Bolded lines are the minimum path to generate tests.
+- Every node is created by a LLM call (aside from the PUT).
+- Rounded nodes can be edited by the user.
+- Square nodes are evaluations.
+- Diamond nodes are outputs.
+- Lines represent data dependencies.
+- Bolded lines are the minimum path to generate tests.
 
 ## Intended Uses
 
@@ -226,8 +310,8 @@ PromptPex is shared for research purposes only. It is not meant to be used in pr
 
 ### Setup
 
--   Install [Node.js v20+](https://nodejs.org/)
--   Install dependencies
+- Install [Node.js v20+](https://nodejs.org/)
+- Install dependencies
 
 ```sh
 npm install
@@ -235,13 +319,13 @@ npm install
 
 ### Web interface
 
--   Launch web interface
+- Launch web interface
 
 ```sh
 npm run serve
 ```
 
--   Open localhost
+- Open localhost
 
 ### Typecheck scripts
 
@@ -261,9 +345,9 @@ npm run gcm
 
 ### Debug
 
--   Open a `JavaScript Debug Terminal` in Visual Studio Code
--   Put a breakpoint in your script
--   Launch the script
+- Open a `JavaScript Debug Terminal` in Visual Studio Code
+- Put a breakpoint in your script
+- Launch the script
 
 ### Upgrade dependencies
 
@@ -277,6 +361,12 @@ Set the `DEBUG=promptpex:*` environment variable to enable additional logging.
 
 ```sh
 DEBUG=promptpex:* npm run ...
+```
+
+To pipe the stderr, stdout to a file,
+
+```sh
+DEBUG=* npm run ... > output.txt 2>&1
 ```
 
 ### Caching

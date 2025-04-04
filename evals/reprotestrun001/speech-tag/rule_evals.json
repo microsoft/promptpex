@@ -1,0 +1,74 @@
+[
+  {
+    "id": "e2a5d5a",
+    "promptid": "a928b14",
+    "ruleid": 1,
+    "rule": "The output must always consist of only one word, which represents a valid part-of-speech tag from the provided alphabetical list or one of the accepted non-list options, \"Unknown\" or \"CantAnswer\".",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "3f12ad8",
+    "promptid": "a928b14",
+    "ruleid": 2,
+    "rule": "If the given word's part of speech can be determined and aligns with one of the part-of-speech tags in the alphabetical list provided, the output must be exactly one of those part-of-speech tags written in uppercase without any additional characters, spaces, or punctuation.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "992f28f",
+    "promptid": "a928b14",
+    "ruleid": 3,
+    "rule": "If the given word's part of speech cannot be categorized under the tags in the alphabetical list but still has a identifiable part of speech, the output must be \"Unknown\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "0a8d876",
+    "promptid": "a928b14",
+    "ruleid": 4,
+    "rule": "If the chatbot is unable to process or determine the part of speech for the provided word, the output must be \"CantAnswer\", written exactly as shown and must not include any additional characters, spaces, or punctuation.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "3a21ebf",
+    "promptid": "a928b14",
+    "ruleid": 5,
+    "rule": "The output must not include explanations, context, or any other surrounding text apart from the required single word as the exact response (either from the list or one of the alternatives \"Unknown\" or \"CantAnswer\").",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "fe3afbe",
+    "promptid": "a928b14",
+    "ruleid": 6,
+    "rule": "Each output must strictly adhere to the capitalization format provided, with all part-of-speech tags written in uppercase, and both \"Unknown\" and \"CantAnswer\" written in sentence capitalization as specified.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "f2c24e5",
+    "promptid": "a928b14",
+    "ruleid": 7,
+    "rule": "If \"CantAnswer\" is chosen as the output, it must signify the chatbot was completely unable to process or make a determination for any unspecified reason.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  },
+  {
+    "id": "6e24f40",
+    "promptid": "a928b14",
+    "ruleid": 8,
+    "rule": "If \"Unknown\" is chosen as the output, it must signify the word has a recognizable part of speech, but does not align with the provided list specifically.",
+    "groundedText": "ERR",
+    "grounded": "err"
+  },
+  {
+    "id": "cc09605",
+    "promptid": "a928b14",
+    "ruleid": 9,
+    "rule": "The response must not include more than one word under any circumstances.",
+    "groundedText": "OK",
+    "grounded": "ok"
+  }
+]
