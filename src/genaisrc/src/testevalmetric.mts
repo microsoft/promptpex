@@ -27,42 +27,43 @@ export async function evaluateTestMetrics(files: PromptPexContext, options: Prom
             testResult.metrics[metricName(metric)] = res
         }
     }
+}
 
-    async function evaluateTestMetric(
-        metric: WorkspaceFile,
-        files: PromptPexContext,
-        testResult: PromptPexTestResult,
-        options: PromptPexOptions
-    ): Promise<PromptPexEvaluation> {
-        const { metricsEvalModel: customTestEvalModel = "usereval" } =
-            options || {}
-        dbg(metric.filename)
-        const moptions = modelOptions(customTestEvalModel, options)
+async function evaluateTestMetric(
+    metric: WorkspaceFile,
+    files: PromptPexContext,
+    testResult: PromptPexTestResult,
+    options: PromptPexOptions
+): Promise<PromptPexEvaluation> {
+    const { metricsEvalModel: customTestEvalModel = "usereval" } =
+        options || {}
+    dbg(metric.filename)
+    const moptions = modelOptions(customTestEvalModel, options)
 
-        const content = MD.content(files.prompt.content)
-        const res = await measure("eval.metric", () =>
-            generator.runPrompt(
-                (ctx) => {
-                    // removes frontmatter
-                    ctx.importTemplate(
-                        metric,
-                        {
-                            prompt: content.replace(/^(system|user):/gm, ""),
-                            intent: files.intent.content,
-                            inputSpec: files.inputSpec.content,
-                            rules: files.rules.content,
-                            input: testResult.input,
-                            output: testResult.output,
-                        },
-                        { allowExtraArguments: true }
-                    )
-                },
-                {
-                    ...moptions,
-                    label: `${files.name}> evaluate metric ${testResult.model} ${testResult.input.slice(0, 42)}...`,
-                }
-            )
+    const content = MD.content(files.prompt.content)
+    const res = await measure("eval.metric", () =>
+        generator.runPrompt(
+            (ctx) => {
+                // removes frontmatter
+                ctx.importTemplate(
+                    metric,
+                    {
+                        prompt: content.replace(/^(system|user):/gm, ""),
+                        intent: files.intent.content,
+                        inputSpec: files.inputSpec.content,
+                        rules: files.rules.content,
+                        input: testResult.input,
+                        output: testResult.output,
+                    },
+                    { allowExtraArguments: true }
+                )
+            },
+            {
+                ...moptions,
+                label: `${files.name}> evaluate metric ${testResult.model} ${testResult.input.slice(0, 42)}...`,
+            }
         )
-        const evaluation = checkLLMEvaluation(res, { allowUnassisted: true })
-        return evaluation
-    }
+    )
+    const evaluation = checkLLMEvaluation(res, { allowUnassisted: true })
+    return evaluation
+}

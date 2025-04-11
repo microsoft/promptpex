@@ -151,6 +151,7 @@ export async function evaluateTestQuality(
             model: testEval.model,
             input: testEval.input,
             output: testEval.coverageText,
+            metrics: {}
         },
         options
     )
