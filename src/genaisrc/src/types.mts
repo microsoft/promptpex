@@ -21,15 +21,7 @@ export interface PromptPexPrompts {
     intent?: string
 }
 
-export interface PromptPexOptions {
-    /**
-     * Output folder for the generated files
-     */
-    out?: string
-    /**
-     * Do not include Responsible AI safety prompts and validation
-     */
-    disableSafety?: boolean
+export interface PromptPexOptions extends PromptPexLoaderOptions {
     /**
      * Generate temperature for requests
      */
@@ -88,15 +80,10 @@ export interface PromptPexOptions {
      * Number of run to execute per test
      */
     runsPerTest?: number
-
-    /**
-     * Custom test evaluation template
-     */
-    customTestEvalTemplate?: string
     /**
      * Custom model to use for test evaluation
      */
-    customTestEvalModel?: ModelType
+    metricsEvalModel?: ModelType
 
     /**
      * Evaluate test result coverage and validity
@@ -228,6 +215,11 @@ export interface PromptPexContext {
      * Baseline tests validaty
      */
     baselineTestEvals: WorkspaceFile
+
+    /**
+     * Evaludation metrics prompt files
+     */
+    metrics: WorkspaceFile[]
 }
 
 export interface PromptPexTest {
@@ -288,7 +280,7 @@ export interface PromptPexTestResult {
     compliance?: PromptPexEvalResultType
     complianceText?: string
 
-    customEvalText?: string
+    metrics: Record<string, PromptPexEvaluation>
 }
 
 export interface PromptPexTestEval {
@@ -328,6 +320,7 @@ export interface PromptPexRuleEval {
 export interface PromptPexLoaderOptions {
     out?: string
     disableSafety?: boolean
+    customMetric?: string
 }
 
 export interface PromptPexTestGenerationScenario {
@@ -348,4 +341,5 @@ export interface PromptPexEvaluation {
     content: string
     uncertainty?: number
     perplexity?: number
+    ok: PromptPexEvalResultType
 }

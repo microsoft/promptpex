@@ -1,4 +1,4 @@
-import { evaluateCustomTestResult } from "./customtestresulteval.mts"
+import { evaluateTestMetrics } from "./testevalmetric.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -80,7 +80,7 @@ async function runTest(
         compliance?: boolean
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, customTestEvalTemplate, evalCache } =
+    const { model, compliance, evalCache } =
         options || {}
     if (!model) throw new Error("No model provided for test")
 
@@ -110,6 +110,7 @@ async function runTest(
             error: "invalid test input",
             input: testInput,
             output: "invalid test input",
+            metrics: {},
         } satisfies PromptPexTestResult
     }
 
@@ -154,6 +155,7 @@ async function runTest(
         error: res.error?.message,
         input: testInput,
         output: actualOutput,
+        metrics: {},
     } satisfies PromptPexTestResult
 
     if (compliance) {
@@ -163,14 +165,7 @@ async function runTest(
         updateTestResultCompliant(testRes)
     }
 
-    if (customTestEvalTemplate) {
-        const customTestEval = await evaluateCustomTestResult(
-            files,
-            testRes,
-            options
-        )
-        testRes.customEvalText = customTestEval
-    }
+    await evaluateTestMetrics(files, options)
 
     if (file)
         await workspace.writeText(

@@ -70,6 +70,9 @@ export async function loadPromptFiles(
     const inputs = frontmatter.inputs as Record<string, JSONSchemaSimpleType>
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
 
+    const metrics = await workspace.findFiles(path.join(dir, '*.metric.prompty'))
+    if (options?.customMetric) metrics.push({ filename: "custom.metric.prompty", content: options.customMetric })
+
     const res = {
         writeResults,
         dir,
@@ -89,6 +92,7 @@ export async function loadPromptFiles(
         baselineTests: await workspace.readText(baselineTests),
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
+        metrics
     } satisfies PromptPexContext
 
     if (!disableSafety) await checkPromptSafety(res)

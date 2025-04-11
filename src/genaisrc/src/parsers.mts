@@ -59,6 +59,7 @@ export function checkLLMEvaluation(
         content,
         uncertainty: res.uncertainty,
         perplexity: res.perplexity,
+        ok: parseOKERR(content),
     } satisfies PromptPexEvaluation
 }
 
@@ -83,9 +84,9 @@ export function parseRules(rules: string, options?: PromptPexOptions) {
     const { maxRules } = options || {}
     const res = rules
         ? tidyRules(rules)
-              .split(/\r?\n/g)
-              .map((l) => l.trim())
-              .filter((l) => !!l)
+            .split(/\r?\n/g)
+            .map((l) => l.trim())
+            .filter((l) => !!l)
         : []
     return maxRules > 0 ? res.slice(0, maxRules) : res
 }
@@ -106,6 +107,7 @@ export function parseTestResults(
     res.forEach((r) => {
         r.inverse =
             r.ruleid !== null && parseInt(r.ruleid as any) > rules.length
+        r.metrics = r.metrics || {}
     })
     for (const r of res.filter((r) => !r.error && !r.model)) {
         output.warn(
@@ -175,6 +177,6 @@ export function parseOKERR(text: string): PromptPexEvalResultType | undefined {
     return /(^|\W)ERR\s*$/.test(text)
         ? "err"
         : /(^|\W)OK\s*$/.test(text)
-          ? "ok"
-          : "unknown"
+            ? "ok"
+            : "unknown"
 }
