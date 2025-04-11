@@ -1,0 +1,46 @@
+---
+name: Rules compliance evaluation metric
+description: |
+  A metric that measure rules compliance of the test result.
+tags:
+    - unlisted
+    - scorer
+inputs:
+    prompt:
+        type: string
+        description: The prompt to be evaluated.
+    intent:
+        type: string
+        description: The extracted intent of the prompt.
+    inputSpec:
+        type: string
+        description: The input specification for the prompt.
+    rules:
+        type: string
+        description: The rules to be applied for the test generation.
+    input:
+        type: string
+        description: The input to be used with the prompt.
+    output:
+        type: string
+        description: The output from the model execution.
+---
+Evaluate the following LLM response based on the instructions below and LLM Response provided.
+
+Instruction:
+-Rate the text for the criteria from 0 to 100 where 100 is the best rating and 0 is the worst i.e it does not satisfy the criteria.
+
+Criteria: Ensure that the LLM response is compliant with all the Rules.
+
+Rules: 
+{{rules}}
+
+LLM Response: 
+{{output}}
+
+### Evaluation:
+Ensure your response is always in the following JSON format:
+{
+	"score": [Provide a score from 0 to 100 based on the criteria of the LLM Response as defined above],
+	"explanation": [Explain why this score was given based on the criteria outlined in the instruction.]
+}

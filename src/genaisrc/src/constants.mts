@@ -2,44 +2,44 @@ import { fileURLToPath } from "node:url"
 import { dirname, join, resolve } from "node:path"
 
 const genaisrcSrcDir = dirname(fileURLToPath(import.meta.url))
-const promptDir = resolve(genaisrcSrcDir, "..", "..", "prompts")
+export const PROMPT_DIR = resolve(genaisrcSrcDir, "..", "..", "prompts")
 
 export const PROMPT_GENERATE_INPUT_SPEC = join(
-    promptDir,
+    PROMPT_DIR,
     "generate_input_spec.prompty"
 )
-export const PROMPT_GENERATE_INTENT = join(promptDir, "generate_intent.prompty")
+export const PROMPT_GENERATE_INTENT = join(PROMPT_DIR, "generate_intent.prompty")
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
-    promptDir,
+    PROMPT_DIR,
     "generate_output_rules.prompty"
 )
 export const PROMPT_GENERATE_BASELINE_TESTS = join(
-    promptDir,
+    PROMPT_DIR,
     "generate_baseline_tests.prompty"
 )
 export const PROMPT_GENERATE_INVERSE_RULES = join(
-    promptDir,
+    PROMPT_DIR,
     "generate_inverse_rules.prompty"
 )
-export const PROMPT_GENERATE_TESTS = join(promptDir, "generate_tests.prompty")
+export const PROMPT_GENERATE_TESTS = join(PROMPT_DIR, "generate_tests.prompty")
 export const PROMPT_EVAL_RULE_GROUNDED = join(
-    promptDir,
+    PROMPT_DIR,
     "eval_rule_grounded.prompty"
 )
 export const PROMPT_EVAL_TEST_VALIDITY = join(
-    promptDir,
+    PROMPT_DIR,
     "eval_test_validity.prompty"
 )
 export const PROMPT_EVAL_OUTPUT_RULE_AGREEMENT = join(
-    promptDir,
+    PROMPT_DIR,
     "eval_output_rule_agreement.prompty"
 )
 export const PROMPT_EVAL_TEST_RESULT = join(
-    promptDir,
+    PROMPT_DIR,
     "eval_test_result.prompty"
 )
 
-export const PROMPT_EXPAND_TEST = join(promptDir, "expand_test.prompty")
+export const PROMPT_EXPAND_TEST = join(PROMPT_DIR, "expand_test.prompty")
 
 export const PROMPT_ALL = [
     PROMPT_GENERATE_INPUT_SPEC,

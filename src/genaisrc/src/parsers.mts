@@ -14,6 +14,10 @@ const dbg = host.logger("promptpex:parsers")
 
 const { output } = env
 
+export function metricName(metric: WorkspaceFile) {
+    return path.basename(metric.filename).replace(/\.metric\.prompty$/, "") 
+}
+
 export function modelOptions(
     modelAlias: PromptPexModelAliases,
     options: PromptPexOptions
@@ -59,7 +63,7 @@ export function checkLLMEvaluation(
         content,
         uncertainty: res.uncertainty,
         perplexity: res.perplexity,
-        ok: parseOKERR(content),
+        outcome: parseOKERR(content),
     } satisfies PromptPexEvaluation
 }
 

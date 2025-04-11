@@ -1,4 +1,5 @@
-import { modelOptions, checkLLMResponse, parseTestResults, parseOKERR, checkLLMEvaluation } from "./parsers.mts"
+import { checkConfirm } from "./confirm.mts"
+import { modelOptions, checkLLMEvaluation, metricName } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
     PromptPexContext,
@@ -9,23 +10,18 @@ import type {
 const { generator } = env
 const dbg = host.logger("promptpex:eval:metric")
 
-export function metricName(metric: WorkspaceFile) {
-    return path.basename(metric.filename).replace(/\.metric\.prompty$/, "")
-}
-
-export async function evaluateTestMetrics(files: PromptPexContext, options: PromptPexOptions) {
+export async function evaluateTestMetrics(
+    testResult: PromptPexTestResult,
+    files: PromptPexContext,
+    options: PromptPexOptions
+) {
     const { metrics } = files
-    const testResults = await parseTestResults(files)
-    for (const testResult of testResults) {
-        for (const metric of metrics) {
-            const res = await evaluateTestMetric(
-                metric,
-                files,
-                testResult,
-                options
-            )
-            testResult.metrics[metricName(metric)] = res
-        }
+    dbg(`evaluating ${metrics.length} metrics`)
+    checkConfirm("metric")
+
+    for (const metric of metrics) {
+        const res = await evaluateTestMetric(metric, files, testResult, options)
+        testResult.metrics[metricName(metric)] = res
     }
 }
 
@@ -35,28 +31,25 @@ async function evaluateTestMetric(
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { metricsEvalModel: customTestEvalModel = "usereval" } =
-        options || {}
-    dbg(metric.filename)
-    const moptions = modelOptions(customTestEvalModel, options)
-
+    const { evalModel = "eval" } = options || {}
+    const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
+    const parameters = {
+        prompt: content.replace(/^(system|user):/gm, ""),
+        intent: files.intent.content || "",
+        inputSpec: files.inputSpec.content || "",
+        rules: files.rules.content,
+        input: testResult.input,
+        output: testResult.output,
+    }
+    dbg(`metric: ${metric.filename}`)
     const res = await measure("eval.metric", () =>
         generator.runPrompt(
             (ctx) => {
                 // removes frontmatter
-                ctx.importTemplate(
-                    metric,
-                    {
-                        prompt: content.replace(/^(system|user):/gm, ""),
-                        intent: files.intent.content,
-                        inputSpec: files.inputSpec.content,
-                        rules: files.rules.content,
-                        input: testResult.input,
-                        output: testResult.output,
-                    },
-                    { allowExtraArguments: true }
-                )
+                ctx.importTemplate(metric, parameters, {
+                    allowExtraArguments: true,
+                })
             },
             {
                 ...moptions,
@@ -65,5 +58,6 @@ async function evaluateTestMetric(
         )
     )
     const evaluation = checkLLMEvaluation(res, { allowUnassisted: true })
+    dbg(`metric eval: %o`, evaluation)
     return evaluation
 }

@@ -261,17 +261,6 @@ user:
 </details>       
             `,
         },
-        metricsEvalModel: {
-            type: "string",
-            description:
-                "Model used to evaluate custom test results (you can also override the model alias 'usereval')",
-            uiSuggestions: [
-                "openai:gpt-4o",
-                "ollama:gemma3:27b",
-                "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-            ],
-        },
     },
 })
 
@@ -293,7 +282,6 @@ const {
     prompt: promptText,
     testsPerRule,
     customMetric,
-    metricsEvalModel,
     runsPerTest,
     splitRules,
     maxRulesPerTestGeneration,
@@ -326,7 +314,6 @@ const options = {
     maxTestsToRun,
     runsPerTest,
     customMetric,
-    metricsEvalModel,
     compliance,
     baselineTests: false,
     modelsUnderTest,
@@ -396,6 +383,7 @@ if (!modelsUnderTest?.length) {
     output.heading(3, `Test with Models Under Test`)
     output.itemValue(`models under test`, modelsUnderTest.join(", "))
     const results = await runTests(files, options)
+
     output.startDetails(`results (table)`)
     output.table(
         results.map(
@@ -417,8 +405,8 @@ if (!modelsUnderTest?.length) {
                     ? testCompliance === "ok"
                         ? "✓"
                         : testCompliance === "err"
-                            ? "✗"
-                            : "?"
+                          ? "✗"
+                          : "?"
                     : undefined,
                 inverse: inverse ? "✓" : "",
             })

@@ -1,4 +1,5 @@
 import {
+    metricName,
     parseAllRules,
     parseBaselineTests,
     parseRuleEvals,
@@ -94,6 +95,11 @@ export function computeOverview(
                         testEvals.find((te) => te.id === tr.id)?.validity ===
                             "ok"
                 ).length,
+                ...files.metrics.map((m) => ({
+                    [metricName(m)]: tests.filter(
+                        (t) => t.metrics[metricName(m)].outcome === "ok"
+                    ),
+                })),
             }
         }
     )

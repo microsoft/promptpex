@@ -1,5 +1,5 @@
 export type PromptPexModelAliases = OptionsOrString<
-    "rules" | "eval" | "large" | "baseline" | "usereval"
+    "rules" | "eval" | "large" | "baseline"
 >
 
 export interface PromptPexPrompts {
@@ -80,10 +80,6 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      * Number of run to execute per test
      */
     runsPerTest?: number
-    /**
-     * Custom model to use for test evaluation
-     */
-    metricsEvalModel?: ModelType
 
     /**
      * Evaluate test result coverage and validity
@@ -341,5 +337,5 @@ export interface PromptPexEvaluation {
     content: string
     uncertainty?: number
     perplexity?: number
-    ok: PromptPexEvalResultType
+    outcome: PromptPexEvalResultType
 }

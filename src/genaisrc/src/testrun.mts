@@ -1,4 +1,3 @@
-import { evaluateTestMetrics } from "./testevalmetric.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -9,6 +8,7 @@ import {
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
+import { evaluateTestMetrics } from "./testevalmetric.mts"
 import { evaluateTestResult } from "./testresulteval.mts"
 import type {
     PromptPexContext,
@@ -42,6 +42,11 @@ export async function runTests(
     )
     if (!tests?.length) throw new Error("No tests found to run")
 
+    const checkpoint = async () => {
+        files.testOutputs.content = JSON.stringify(testResults, null, 2)
+        if (files.writeResults) await workspace.writeFiles(files.testOutputs)
+    }
+
     console.log(
         `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
     )
@@ -58,13 +63,15 @@ export async function runTests(
                     model: modelUnderTest,
                 })
                 assert(testRes.model)
-                if (testRes) testResults.push(testRes)
+                if (testRes) {
+                    testResults.push(testRes)
+                    await checkpoint()
+                }
             }
         }
     }
 
-    files.testOutputs.content = JSON.stringify(testResults, null, 2)
-    if (files.writeResults) await workspace.writeFiles(files.testOutputs)
+    await checkpoint()
     return testResults
 }
 
@@ -80,8 +87,7 @@ async function runTest(
         compliance?: boolean
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, evalCache } =
-        options || {}
+    const { model, compliance, evalCache } = options || {}
     if (!model) throw new Error("No model provided for test")
 
     const { cache, testRunCache, ...optionsNoCache } = options || {}
@@ -165,7 +171,7 @@ async function runTest(
         updateTestResultCompliant(testRes)
     }
 
-    await evaluateTestMetrics(files, options)
+    await evaluateTestMetrics(testRes, files, options)
 
     if (file)
         await workspace.writeText(

@@ -1,5 +1,5 @@
 import { checkConfirm } from "./confirm.mts"
-import { CONCURRENCY, PROMPT_ALL } from "./constants.mts"
+import { CONCURRENCY, PROMPT_ALL, PROMPT_DIR } from "./constants.mts"
 import { tidyRulesFile } from "./parsers.mts"
 import { checkPromptSafety } from "./safety.mts"
 import type {
@@ -70,8 +70,19 @@ export async function loadPromptFiles(
     const inputs = frontmatter.inputs as Record<string, JSONSchemaSimpleType>
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
 
-    const metrics = await workspace.findFiles(path.join(dir, '*.metric.prompty'))
-    if (options?.customMetric) metrics.push({ filename: "custom.metric.prompty", content: options.customMetric })
+    const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
+    if (filename)
+        metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
+    const metrics = await workspace.findFiles(metricGlobs)
+    if (options?.customMetric)
+        metrics.push({
+            filename: "custom.metric.prompty",
+            content: options.customMetric,
+        })
+    dbg(
+        `metrics: %O`,
+        metrics.map(({ filename }) => filename)
+    )
 
     const res = {
         writeResults,
@@ -92,7 +103,7 @@ export async function loadPromptFiles(
         baselineTests: await workspace.readText(baselineTests),
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
-        metrics
+        metrics,
     } satisfies PromptPexContext
 
     if (!disableSafety) await checkPromptSafety(res)
