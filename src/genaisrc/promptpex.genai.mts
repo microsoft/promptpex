@@ -342,7 +342,7 @@ const files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
     await generateReports(files)
-    await generateEvals(files)
+    await generateEvals(files, [])
     await checkConfirm("diag")
 }
 
@@ -386,7 +386,7 @@ output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
 
-await generateEvals(files)
+await generateEvals(files, tests)
 await checkConfirm("evals")
 
 if (!modelsUnderTest?.length) {

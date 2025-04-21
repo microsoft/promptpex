@@ -1,6 +1,6 @@
 import type { OpenAI } from "openai"
-import type { PromptPexContext } from "./types.mts"
-import { metricName } from "./parsers.mts"
+import type { PromptPexContext, PromptPexTest } from "./types.mts"
+import { metricName, parseTestEvals } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
 const { output } = env
@@ -84,7 +84,7 @@ async function evalsCreateRequest(
     const { metrics } = files
     const metricOptions = { model }
     const item_schema = METRIC_SCHEMA
-    const res = {
+    const body = {
         name,
         data_source_config: {
             type: "custom",
@@ -95,20 +95,11 @@ async function evalsCreateRequest(
             metricToTestingCriteria(metric, metricOptions)
         ),
     } satisfies OpenAI.Evals.EvalCreateParams
-    dbg(`%O`, res)
-    return res
-}
+    dbg(`%O`, body)
 
-export async function generateEvals(
-    files: PromptPexContext,
-    options?: EvalsOptions
-) {
-    const { upload = false } = options ?? {}
-    dbg(`generating`)
-    const create = await evalsCreateRequest(files, options)
     await workspace.writeText(
         path.join(files.dir, "evals.create.json"),
-        JSON.stringify(create, null, 2)
+        JSON.stringify(body, null, 2)
     )
 
     const apiKey = process.env.OPENAI_API_KEY
@@ -121,7 +112,7 @@ export async function generateEvals(
                 Authorization: `Bearer ${apiKey}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(create),
+            body: JSON.stringify(body),
         })
         dbg(`res: %d %s`, res.status, res.statusText)
         if (!res.ok) {
@@ -130,6 +121,81 @@ export async function generateEvals(
         }
         const evalDef = (await res.json()) as { id: string }
         dbg(`eval: %O`, evalDef)
-        output.itemValue(`eval uuid`, evalDef.id)
+        output.detailsFenced(`eval object`, evalDef, "json")
+        return evalDef.id
     }
+
+    return undefined
+}
+
+async function evalsCreateRun(
+    evalId: string,
+    files: PromptPexContext,
+    tests: PromptPexTest[]
+) {
+    const content = MD.content(files.prompt.content).replace(
+        /^(system|user):/gm,
+        ""
+    )
+    const parameters = {
+        prompt: content,
+        intent: files.intent.content || "",
+        inputSpec: files.inputSpec.content || "",
+        rules: files.rules.content,
+        //        input: testResult.input,
+        //       output: testResult.output,
+    }
+
+    const body = {
+        name: `promptpex_${files.name}`,
+        data_source: {
+            type: "jsonl",
+            source: {
+                type: "file_content",
+                content: tests.map((test) => ({
+                    item: {
+                        ...parameters,
+                        input: test.testinput,
+                    },
+                    sample: {},
+                })),
+            },
+        },
+    }
+
+    await workspace.writeText(
+        path.join(files.dir, "evals.run.json"),
+        JSON.stringify(body, null, 2)
+    )
+
+    const apiKey = process.env.OPENAI_API_KEY
+    dbg(`eval run: %s %d tests`, evalId, tests.length)
+    if (apiKey && evalId && tests.length > 0) {
+        dbg(`uploading eval run to OpenAI`)
+        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
+        const res = await fetch(apiBase + `v1/evals/${evalId}/runs`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        })
+        dbg(`res: %d %s`, res.status, res.statusText)
+        if (!res.ok) {
+            output.fence(await res.text())
+            throw new Error(`failed to upload eval run: ${res.statusText}`)
+        }
+        const run = (await res.json()) as any
+        output.detailsFenced(`eval run object`, run, "json")
+    }
+}
+
+export async function generateEvals(
+    files: PromptPexContext,
+    tests: PromptPexTest[],
+    options?: EvalsOptions
+) {
+    const evalId = await evalsCreateRequest(files, options)
+    if (tests?.length) await evalsCreateRun(evalId, files, tests)
 }
