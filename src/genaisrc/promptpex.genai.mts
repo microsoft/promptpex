@@ -1,4 +1,5 @@
 import { checkConfirm } from "./src/confirm.mts"
+import { generateEvals } from "./src/evals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
@@ -339,7 +340,10 @@ initPerf({ output })
 const file = env.files[0] || { filename: "", content: promptText }
 const files = await loadPromptFiles(file, options)
 
-if (diagnostics) await generateReports(files)
+if (diagnostics) {
+    await generateReports(files)
+    await generateEvals(files)
+}
 
 output.detailsFenced(`options`, options, "yaml")
 
@@ -380,6 +384,8 @@ output.table(
 output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
+
+await generateEvals(files)
 
 if (!modelsUnderTest?.length) {
     output.warn(`No modelsUnderTest specified. Skipping test run.`)
