@@ -3,11 +3,12 @@ import type { PromptPexContext } from "./types.mts"
 import { metricName } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
+const { output } = env
 
 export interface EvalsOptions {
     name?: string
-    share_with_openai?: boolean
     model?: string
+    upload?: boolean
 }
 
 function metricToTestingCriteria(
@@ -54,6 +55,7 @@ function metricToTestingCriteria(
 }
 
 const METRIC_SCHEMA = {
+    type: "object",
     properties: {
         prompt: {
             type: "string",
@@ -78,17 +80,12 @@ async function evalsCreateRequest(
     files: PromptPexContext,
     options?: EvalsOptions
 ) {
-    const {
-        name = `promptpex_${files.name}`,
-        share_with_openai = false,
-        model,
-    } = options ?? {}
+    const { name = `promptpex_${files.name}`, model } = options ?? {}
     const { metrics } = files
     const metricOptions = { model }
     const item_schema = METRIC_SCHEMA
     const res = {
         name,
-        share_with_openai,
         data_source_config: {
             type: "custom",
             include_sample_schema: true,
@@ -106,9 +103,33 @@ export async function generateEvals(
     files: PromptPexContext,
     options?: EvalsOptions
 ) {
+    const { upload = false } = options ?? {}
+    dbg(`generating`)
     const create = await evalsCreateRequest(files, options)
     await workspace.writeText(
         path.join(files.dir, "evals.create.json"),
         JSON.stringify(create, null, 2)
     )
+
+    const apiKey = process.env.OPENAI_API_KEY
+    if (apiKey) {
+        dbg(`uploading evals to OpenAI`)
+        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
+        const res = await fetch(apiBase + `v1/evals`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(create),
+        })
+        dbg(`res: %d %s`, res.status, res.statusText)
+        if (!res.ok) {
+            output.fence(await res.text())
+            throw new Error(`failed to upload evals: ${res.statusText}`)
+        }
+        const evalDef = (await res.json()) as { id: string }
+        dbg(`eval: %O`, evalDef)
+        output.itemValue(`eval uuid`, evalDef.id)
+    }
 }

@@ -343,6 +343,7 @@ const files = await loadPromptFiles(file, options)
 if (diagnostics) {
     await generateReports(files)
     await generateEvals(files)
+    await checkConfirm("diag")
 }
 
 output.detailsFenced(`options`, options, "yaml")
@@ -386,6 +387,7 @@ output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
 
 await generateEvals(files)
+await checkConfirm("evals")
 
 if (!modelsUnderTest?.length) {
     output.warn(`No modelsUnderTest specified. Skipping test run.`)
