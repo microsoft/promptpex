@@ -18,15 +18,16 @@ export interface EvalsOptions {
 async function toEvalTemplate(file: WorkspaceFile) {
     const patched = {
         filename: file.filename,
-        content: file.content
-            .replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
-                if (id === "output") return "{{ sample.output_text }}"
-                return `{{ item.${id} }}`
-            })
-            .replace(/^(system|user):/gm, ""),
+        content: file.content.replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
+            if (id === "output") return "{{ sample.output_text }}"
+            return `{{ item.${id} }}`
+        }),
     }
     const pp = await parsers.prompty(patched)
-    return { input: pp.messages, text: MD.content(patched.content) }
+    return {
+        input: pp.messages,
+        text: MD.content(patched.content).replace(/^(system|user|assistant):/gm, ""),
+    }
 }
 
 async function metricToTestingCriteria(
