@@ -11,6 +11,16 @@ export interface EvalsOptions {
     upload?: boolean
 }
 
+function toEvalTemplate(file: WorkspaceFile) {
+    const content = MD.content(file.content)
+        .replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
+            if (id === "output") return "{{ sample.output_text }}"
+            return `{{ item.${id} }}`
+        })
+        .replace(/^(system|user):/gm, "")
+    return content
+}
+
 function metricToTestingCriteria(
     metric: WorkspaceFile,
     options?: { model?: string }
@@ -19,13 +29,7 @@ function metricToTestingCriteria(
     const name = metricName(metric)
     const fm = MD.frontmatter(metric.content) as { tags?: string[] }
     const scorer = fm.tags?.includes("scorer")
-    const content = MD.content(metric.content).replace(
-        /\{\{\s*(?<id>\w+)\s*\}\}/g,
-        (_, id) => {
-            if (id === "output") return "{{ sample.output_text }}"
-            return `{{ item.${id} }}`
-        }
-    )
+    const content = toEvalTemplate(metric)
     // {{ output }} -> {{ sample.output_text }}
     // {{ * }} -> {{ item.input }}
     const input = [
@@ -81,15 +85,21 @@ async function evalsCreateRequest(
     options?: EvalsOptions
 ) {
     const { name = `promptpex_${files.name}`, model } = options ?? {}
-    const { metrics } = files
+    const { metrics, inputs } = files
     const metricOptions = { model }
-    const item_schema = METRIC_SCHEMA
     const body = {
         name,
         data_source_config: {
             type: "custom",
             include_sample_schema: true,
-            item_schema,
+            item_schema: {
+                type: "object",
+                properties: {
+                    ...inputs,
+                    ...METRIC_SCHEMA.properties,
+                },
+                required: [...Object.keys(inputs), ...METRIC_SCHEMA.required],
+            },
         },
         testing_criteria: metrics.map((metric) =>
             metricToTestingCriteria(metric, metricOptions)
@@ -133,36 +143,46 @@ async function evalsCreateRun(
     files: PromptPexContext,
     tests: PromptPexTest[]
 ) {
-    const content = MD.content(files.prompt.content).replace(
-        /^(system|user):/gm,
-        ""
-    )
+    const content = toEvalTemplate(files.prompt)
     const parameters = {
         prompt: content,
         intent: files.intent.content || "",
         inputSpec: files.inputSpec.content || "",
         rules: files.rules.content,
-        //        input: testResult.input,
-        //       output: testResult.output,
     }
 
     const body = {
         name: `promptpex_${files.name}`,
         data_source: {
-            type: "jsonl",
+            type: "completions",
+            input_messages: {
+                type: "template",
+                template: [
+                    {
+                        type: "message",
+                        role: "system",
+                        content: {
+                            type: "input_text",
+                            text: content,
+                        },
+                    },
+                ],
+            },
+            model: "gpt-4o-mini",
             source: {
                 type: "file_content",
                 content: tests.map((test) => ({
                     item: {
                         ...parameters,
                         input: test.testinput,
+                        ...JSON.parse(test.testinput),
                     },
-                    sample: {},
                 })),
             },
         },
     }
 
+    dbg(`%O`, body)
     await workspace.writeText(
         path.join(files.dir, "evals.run.json"),
         JSON.stringify(body, null, 2)
