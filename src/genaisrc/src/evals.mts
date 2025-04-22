@@ -89,9 +89,9 @@ async function evalsCreateRequest(
     options?: PromptPexOptions & EvalsOptions
 ) {
     const {
-        name = `promptpex_${files.name}`,
+        name = `${files.name} (promptpex)`,
         model,
-        createEvalRun,
+        createEvalRuns,
     } = options ?? {}
     const { metrics, inputs } = files
     const metricOptions = { model }
@@ -121,7 +121,7 @@ async function evalsCreateRequest(
     )
 
     const apiKey = process.env.OPENAI_API_KEY
-    if (createEvalRun && apiKey) {
+    if (createEvalRuns && apiKey) {
         dbg(`uploading evals to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
         const res = await fetch(apiBase + `v1/evals`, {
@@ -148,11 +148,12 @@ async function evalsCreateRequest(
 
 async function evalsCreateRun(
     evalId: string,
+    model: string,
     files: PromptPexContext,
     tests: PromptPexTest[],
     options?: PromptPexOptions
 ) {
-    const { createEvalRun } = options ?? {}
+    const { createEvalRuns } = options ?? {}
     const content = toEvalTemplate(files.prompt)
     const parameters = {
         prompt: content,
@@ -162,7 +163,7 @@ async function evalsCreateRun(
     }
 
     const body = {
-        name: `promptpex_${files.name}`,
+        name: model,
         data_source: {
             type: "completions",
             input_messages: {
@@ -178,7 +179,7 @@ async function evalsCreateRun(
                     },
                 ],
             },
-            model: "gpt-4o-mini",
+            model,
             source: {
                 type: "file_content",
                 content: tests.map((test) => ({
@@ -199,7 +200,7 @@ async function evalsCreateRun(
     )
 
     const apiKey = process.env.OPENAI_API_KEY
-    if (createEvalRun && apiKey && evalId && tests.length > 0) {
+    if (createEvalRuns && apiKey && evalId && tests.length > 0) {
         dbg(`uploading eval run to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
         const res = await fetch(apiBase + `v1/evals/${evalId}/runs`, {
@@ -221,10 +222,22 @@ async function evalsCreateRun(
 }
 
 export async function generateEvals(
+    models: string[],
     files: PromptPexContext,
     tests: PromptPexTest[],
     options?: PromptPexOptions & EvalsOptions
 ) {
     const evalId = await evalsCreateRequest(files, options)
-    if (tests?.length) await evalsCreateRun(evalId, files, tests, options)
+    dbg(`eval id: %s`, evalId)
+    if (tests?.length) {
+        for (const modelId of models) {
+            if (!/^openai:/.test(modelId)) {
+                dbg(`skipping model %s`, modelId)
+                continue
+            }
+            const model = modelId.replace(/^openai:/, "")
+            dbg(`generate eval run for model %s`, model)
+            await evalsCreateRun(evalId, model, files, tests, options)
+        }
+    }
 }

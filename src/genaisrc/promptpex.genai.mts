@@ -267,7 +267,7 @@ user:
 </details>       
             `,
         },
-        createEvalRun: {
+        createEvalRuns: {
             type: "boolean",
             description:
                 "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
@@ -297,7 +297,7 @@ const {
     splitRules,
     maxRulesPerTestGeneration,
     testGenerations,
-    createEvalRun,
+    createEvalRuns,
 } = vars as PromptPexOptions & {
     customMetric?: string
     prompt?: string
@@ -305,7 +305,7 @@ const {
     outputRulesInstructions?: string
     inverseOutputRulesInstructions?: string
 }
-const modelsUnderTest = (vars.modelsUnderTest || "")
+const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter((m) => !!m)
 const options = {
@@ -332,7 +332,7 @@ const options = {
     splitRules,
     maxRulesPerTestGeneration,
     testGenerations,
-    createEvalRun,
+    createEvalRuns,
     out,
 } satisfies PromptPexOptions
 
@@ -349,7 +349,6 @@ const files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
     await generateReports(files)
-    await generateEvals(files, [], options)
     await checkConfirm("diag")
 }
 
@@ -393,7 +392,7 @@ output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
 
-await generateEvals(files, tests, options)
+await generateEvals(modelsUnderTest, files, tests, options)
 await checkConfirm("evals")
 
 if (!modelsUnderTest?.length) {

@@ -129,7 +129,7 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     /**
      * Creates a new eval run in OpenAI. Requires OpenAI API key.
      */
-    createEvalRun?: boolean
+    createEvalRuns?: boolean
 }
 
 /**
