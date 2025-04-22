@@ -1,5 +1,9 @@
 import type { OpenAI } from "openai"
-import type { PromptPexContext, PromptPexTest } from "./types.mts"
+import type {
+    PromptPexContext,
+    PromptPexOptions,
+    PromptPexTest,
+} from "./types.mts"
 import { metricName, parseTestEvals } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
@@ -82,9 +86,13 @@ const METRIC_SCHEMA = {
 
 async function evalsCreateRequest(
     files: PromptPexContext,
-    options?: EvalsOptions
+    options?: PromptPexOptions & EvalsOptions
 ) {
-    const { name = `promptpex_${files.name}`, model } = options ?? {}
+    const {
+        name = `promptpex_${files.name}`,
+        model,
+        createEvalRun,
+    } = options ?? {}
     const { metrics, inputs } = files
     const metricOptions = { model }
     const body = {
@@ -113,7 +121,7 @@ async function evalsCreateRequest(
     )
 
     const apiKey = process.env.OPENAI_API_KEY
-    if (apiKey) {
+    if (createEvalRun && apiKey) {
         dbg(`uploading evals to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
         const res = await fetch(apiBase + `v1/evals`, {
@@ -141,8 +149,10 @@ async function evalsCreateRequest(
 async function evalsCreateRun(
     evalId: string,
     files: PromptPexContext,
-    tests: PromptPexTest[]
+    tests: PromptPexTest[],
+    options?: PromptPexOptions
 ) {
+    const { createEvalRun } = options ?? {}
     const content = toEvalTemplate(files.prompt)
     const parameters = {
         prompt: content,
@@ -189,8 +199,7 @@ async function evalsCreateRun(
     )
 
     const apiKey = process.env.OPENAI_API_KEY
-    dbg(`eval run: %s %d tests`, evalId, tests.length)
-    if (apiKey && evalId && tests.length > 0) {
+    if (createEvalRun && apiKey && evalId && tests.length > 0) {
         dbg(`uploading eval run to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
         const res = await fetch(apiBase + `v1/evals/${evalId}/runs`, {
@@ -214,8 +223,8 @@ async function evalsCreateRun(
 export async function generateEvals(
     files: PromptPexContext,
     tests: PromptPexTest[],
-    options?: EvalsOptions
+    options?: PromptPexOptions & EvalsOptions
 ) {
     const evalId = await evalsCreateRequest(files, options)
-    if (tests?.length) await evalsCreateRun(evalId, files, tests)
+    if (tests?.length) await evalsCreateRun(evalId, files, tests, options)
 }

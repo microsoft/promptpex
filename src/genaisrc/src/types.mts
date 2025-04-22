@@ -47,7 +47,7 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     modelAliases?: Partial<Record<PromptPexModelAliases, string>>
 
     /**
-     * Caches resuls in the file system
+     * Caches results in the file system
      */
     evalCache?: boolean
 
@@ -125,6 +125,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      * Number of times to amplify the test generation, default is 1
      */
     testGenerations?: number
+
+    /**
+     * Creates a new eval run in OpenAI. Requires OpenAI API key.
+     */
+    createEvalRun?: boolean
 }
 
 /**
