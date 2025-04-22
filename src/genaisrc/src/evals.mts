@@ -15,33 +15,32 @@ export interface EvalsOptions {
     upload?: boolean
 }
 
-function toEvalTemplate(file: WorkspaceFile) {
-    const content = MD.content(file.content)
-        .replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
-            if (id === "output") return "{{ sample.output_text }}"
-            return `{{ item.${id} }}`
-        })
-        .replace(/^(system|user):/gm, "")
-    return content
+async function toEvalTemplate(file: WorkspaceFile) {
+    const patched = {
+        filename: file.filename,
+        content: file.content
+            .replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
+                if (id === "output") return "{{ sample.output_text }}"
+                return `{{ item.${id} }}`
+            })
+            .replace(/^(system|user):/gm, ""),
+    }
+    const pp = await parsers.prompty(patched)
+    return { input: pp.messages, text: MD.content(patched.content) }
 }
 
-function metricToTestingCriteria(
+async function metricToTestingCriteria(
     metric: WorkspaceFile,
     options?: { model?: string }
-): OpenAI.Evals.EvalCreateParams.LabelModel | any {
+): Promise<OpenAI.Evals.EvalCreateParams.LabelModel | any> {
     const { model = "gpt-4o" } = options
     const name = metricName(metric)
     const fm = MD.frontmatter(metric.content) as { tags?: string[] }
     const scorer = fm.tags?.includes("scorer")
-    const content = toEvalTemplate(metric)
+    const { input } = await toEvalTemplate(metric)
+    dbg(`input: %O`, input)
     // {{ output }} -> {{ sample.output_text }}
     // {{ * }} -> {{ item.input }}
-    const input = [
-        {
-            role: "system",
-            content,
-        },
-    ]
     if (scorer)
         return {
             type: "score_model",
@@ -59,7 +58,7 @@ function metricToTestingCriteria(
             labels: OK_ERR_CHOICES,
             passing_labels: [OK_CHOICE],
             input,
-        }
+        } satisfies OpenAI.Evals.EvalCreateParams.LabelModel
 }
 
 const METRIC_SCHEMA = {
@@ -109,8 +108,10 @@ async function evalsCreateRequest(
                 required: [...Object.keys(inputs), ...METRIC_SCHEMA.required],
             },
         },
-        testing_criteria: metrics.map((metric) =>
-            metricToTestingCriteria(metric, metricOptions)
+        testing_criteria: await Promise.all(
+            metrics.map((metric) =>
+                metricToTestingCriteria(metric, metricOptions)
+            )
         ),
     } satisfies OpenAI.Evals.EvalCreateParams
     dbg(`%O`, body)
@@ -154,9 +155,9 @@ async function evalsCreateRun(
     options?: PromptPexOptions
 ) {
     const { createEvalRuns } = options ?? {}
-    const content = toEvalTemplate(files.prompt)
+    const { text } = await toEvalTemplate(files.prompt)
     const parameters = {
-        prompt: content,
+        prompt: text,
         intent: files.intent.content || "",
         inputSpec: files.inputSpec.content || "",
         rules: files.rules.content,
@@ -174,7 +175,7 @@ async function evalsCreateRun(
                         role: "system",
                         content: {
                             type: "input_text",
-                            text: content,
+                            text,
                         },
                     },
                 ],
