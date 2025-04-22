@@ -32,8 +32,7 @@ export async function generateInputSpec(
             },
             {
                 ...modelOptions(rulesModel, options),
-                //      logprobs: true,
-                label: `${files.name}> generate input spec`,
+                label: `${files.name}> input spec`,
             }
         )
     )

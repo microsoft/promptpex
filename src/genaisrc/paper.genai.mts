@@ -250,8 +250,7 @@ async function generate(
 
     // generate intent
     if (!files.intent.content || force) {
-        files.intent.content = await generateIntent(files, options)
-        await workspace.writeText(files.intent.filename, files.intent.content)
+        await generateIntent(files, options)
     }
 
     outputFile(files.intent)
