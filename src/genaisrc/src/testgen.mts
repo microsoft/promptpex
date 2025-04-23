@@ -217,9 +217,9 @@ function parseCsvTests(
     if (!text) return []
     if (isUnassistedResponse(text)) return []
 
-    const content = text.trim().replace(/\\"/g, '""')
+    const content = parsers.unfence(text.trim().replace(/\\"/g, '""'), "csv")
     const rulesTests = content
-        ? (CSV.parse(content, {
+        ? (parsers.CSV(content, {
               delimiter: ",",
               repair: true,
           }) as PromptPexTest[])
