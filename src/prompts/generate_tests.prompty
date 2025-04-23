@@ -23,6 +23,9 @@ inputs:
         default: ""
     num_rules:
         type: integer
+    examples:
+        type: string
+        description: "Examples of test inputs that are valid and invalid based on the input specification"
     testinput_descriptions:
         type: string
         description: "Markdown bullet item items of each test input"
@@ -62,6 +65,15 @@ Use the following scenario constraint when generating test cases:
 <SCENARIO>
 {{scenario}}
 </SCENARIO>
+{% endif %}
+
+{% if examples %}
+Use the following <TEST_SAMPLES> to augment your understanding about the input specification.
+Do not use them verbatim but feel free to reuse names, links, dates and other keywords or entities in the tests you generate.
+Also focus on clues like length and style of these tests. 
+<TEST_SAMPLES>
+{{examples}}
+</TEST_SAMPLES>
 {% endif %}
 
 Guidelines for generating test cases:
