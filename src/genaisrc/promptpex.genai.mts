@@ -360,6 +360,12 @@ output.heading(3, `Prompt Under Test`)
 output.itemValue(`filename`, files.prompt.filename)
 output.fence(files.prompt.content, "md")
 
+if (files.testSamples?.length) {
+    output.startDetails("test samples")
+    output.table(files.testSamples)
+    output.endDetails()
+}
+
 // generate intent
 output.heading(3, "Intent")
 await generateIntent(files, options)
