@@ -55,7 +55,11 @@ async function metricToTestingCriteria(
             model,
             labels: OK_ERR_CHOICES,
             passing_labels: [OK_CHOICE],
-            input,
+            input: input.map(({ content, ...rest }) => ({
+                type: "message",
+                content: content as string,
+                ...rest,
+            })),
         } satisfies OpenAI.Evals.EvalCreateParams.LabelModel
 }
 
