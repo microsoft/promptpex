@@ -20,6 +20,8 @@ export async function generateInputSpec(
 
     const { rulesModel = "rules" } = options || {}
     const context = MD.content(files.prompt.content)
+    const testSamples = (files.testSamples || []).slice(0, 5)
+    const examples = testSamples?.length ? YAML.stringify(testSamples) : ""
     const pn = PROMPT_GENERATE_INPUT_SPEC
     await outputPrompty(pn, options)
     const res = await measure("gen.inputspec", () =>
@@ -28,6 +30,7 @@ export async function generateInputSpec(
                 ctx.importTemplate(pn, {
                     context,
                     instructions,
+                    examples,
                 })
             },
             {

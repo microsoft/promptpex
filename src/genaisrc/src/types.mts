@@ -213,7 +213,7 @@ export interface PromptPexContext {
      */
     ruleCoverages: WorkspaceFile
     /**
-     * Baseline tests validaty
+     * Baseline tests validity
      */
     baselineTestEvals: WorkspaceFile
 
@@ -221,6 +221,11 @@ export interface PromptPexContext {
      * Evaluation metrics prompt files
      */
     metrics: WorkspaceFile[]
+
+    /**
+     * Existing test data if any
+     */
+    testSamples?: Record<string, number | string | boolean>[]
 
     /**
      * Versions of tooling
@@ -344,6 +349,10 @@ export interface PromptPexPromptyFrontmatter {
     outputs?: JSONSchemaObject["properties"]
     instructions?: PromptPexPrompts
     scenarios?: PromptPexTestGenerationScenario[]
+    /**
+     * A list of samples or file containing samples.
+     */
+    testSamples?: (string | Record<string, number | string | boolean>)[]
 }
 
 export interface PromptPexEvaluation {

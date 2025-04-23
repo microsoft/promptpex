@@ -75,7 +75,7 @@ export async function loadPromptFiles(
     })
     const inputs = frontmatter.inputs as Record<string, JSONSchemaSimpleType>
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
-
+    const testSamples = await parseTestSamples(frontmatter)
     const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
@@ -110,6 +110,7 @@ export async function loadPromptFiles(
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
         metrics,
+        testSamples,
         versions: {
             promptpex: packageJson.version,
             node: process.version,
@@ -165,6 +166,31 @@ async function checkPromptFiles() {
         const content = MD.content(file)
         if (!content) throw new Error(`prompt file ${filename} is empty`)
     }
+}
+
+async function parseTestSamples(fm: PromptPexPromptyFrontmatter) {
+    const { testSamples } = fm
+    if (!testSamples) return undefined
+
+    dbg(`parsing test samples`)
+    const res: Record<string, string>[] = []
+    for (const sample of testSamples) {
+        if (typeof sample === "string") {
+            dbg(`loading test sample %s`, sample)
+            const data = await workspace.readData(sample)
+            dbg(`%O`, data)
+            if (!Array.isArray(data))
+                throw new Error(`test sample is not an array`)
+            if (data.some((d) => typeof d !== "object"))
+                throw new Error(`test sample contains invalid data`)
+            res.push(...data)
+        } else if (typeof sample === "object") {
+            res.push(sample as any)
+        } else {
+            throw new Error(`test sample ${sample} is not a string or object`)
+        }
+    }
+    return res
 }
 
 export async function validateFrontmatter(
