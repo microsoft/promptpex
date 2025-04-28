@@ -8,6 +8,7 @@ import { loadPromptFiles } from "./src/loaders.mts"
 import { outputFile, outputLines } from "./src/output.mts"
 import { metricName } from "./src/parsers.mts"
 import { initPerf, reportPerf } from "./src/perf.mts"
+import { expandTests } from "./src/testexpand.mts"
 import {
     computeOverview,
     generateReports,
@@ -273,6 +274,11 @@ user:
             description:
                 "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
         },
+        testExpansion: {
+            type: "boolean",
+            description:
+                "Apply expansion phase to generate tests. This will increase the complexity of the generated tests.",
+        },
         testSamplesCount: {
             type: "integer",
             description: "Number of test samples to generate for the prompt.",
@@ -310,6 +316,7 @@ const {
     createEvalRuns,
     testSamplesCount,
     testSamplesShuffle,
+    testExpansion,
 } = vars as PromptPexOptions & {
     customMetric?: string
     prompt?: string
@@ -347,6 +354,7 @@ const options = {
     createEvalRuns,
     testSamplesCount,
     testSamplesShuffle,
+    testExpansion,
     out,
 } satisfies PromptPexOptions
 
@@ -417,6 +425,21 @@ output.table(
 output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
+
+if (testExpansion) {
+    output.heading(3, "Expanded Tests")
+    await expandTests(files, tests, options)
+    output.table(
+        tests.map(({ scenario, testinput, expectedoutput }) => ({
+            scenario,
+            testinput,
+            expectedoutput,
+        }))
+    )
+    await checkConfirm("expansion")
+    output.detailsFenced(`tests (json)`, tests, "json")
+    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+}
 
 await generateEvals(modelsUnderTest, files, tests, options)
 await checkConfirm("evals")

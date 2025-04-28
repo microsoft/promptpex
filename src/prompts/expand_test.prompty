@@ -11,6 +11,8 @@ inputs:
         type: string
     test:
         type: string
+    examples:
+        type: string
 sample:
     intent: "Determine the part of speech for a given word"
     rules: "The output must contain only a single string that represents the part-of-speech tag"  
@@ -50,6 +52,16 @@ Your task is to expand a test case into a more realistic and comprehensive versi
    - Use appropriate domain terminology
    - Maintain proper grammar and flow
    - Sound like something a real user would write
+
+{% if examples %}
+## Examples:
+
+The following examples are some realistic input collected for given prompt, try to infer generalized requirements from them.
+These might not represent all the possible inputs but will be helpful in understanding the expected length of the input, the diversity in the data, style and other characteristic.
+<EXAMPLES>
+{{examples}}
+<\EXAMPLES>
+{% endif %}
 
 ## Output Format:
 
