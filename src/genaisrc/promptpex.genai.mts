@@ -273,6 +273,15 @@ user:
             description:
                 "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
         },
+        testSamplesCount: {
+            type: "integer",
+            description: "Number of test samples to generate for the prompt.",
+        },
+        testSamplesShuffle: {
+            type: "boolean",
+            description:
+                "Shuffle the test samples before generating tests for the prompt.",
+        },
     },
 })
 
@@ -299,6 +308,8 @@ const {
     maxRulesPerTestGeneration,
     testGenerations,
     createEvalRuns,
+    testSamplesCount,
+    testSamplesShuffle,
 } = vars as PromptPexOptions & {
     customMetric?: string
     prompt?: string
@@ -334,6 +345,8 @@ const options = {
     maxRulesPerTestGeneration,
     testGenerations,
     createEvalRuns,
+    testSamplesCount,
+    testSamplesShuffle,
     out,
 } satisfies PromptPexOptions
 

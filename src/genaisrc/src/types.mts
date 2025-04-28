@@ -335,6 +335,15 @@ export interface PromptPexLoaderOptions {
     out?: string
     disableSafety?: boolean
     customMetric?: string
+
+    /**
+     * The number of test samples to use for input spec generation, test generation.
+     */
+    testSamplesCount?: number
+    /**
+     * Pick a random sample from the test samples for input spec generation, test generation.
+     */
+    testSamplesShuffle?: boolean
 }
 
 export interface PromptPexTestGenerationScenario {
