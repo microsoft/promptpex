@@ -1,5 +1,6 @@
 import { generateBaselineTests } from "./src/baselinetestgen.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
+import { generateIntent } from "./src/intentgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { loadPromptFiles } from "./src/loaders.mts"
 import {
@@ -18,11 +19,11 @@ script({
     accept: ".prompty",
     title: "test suite assuming very limited access to models",
     files: "samples/demo/demo.prompty",
-    unlisted: true
+    unlisted: true,
 })
 
 const { output } = env
-const modelsUnderTest = process.env.PROMPTPEX_MODELS.split(";").filter(
+const modelsUnderTest = process.env.PROMPTPEX_MODELS?.split(";").filter(
     (s) => !!s
 )
 if (!modelsUnderTest?.length)
@@ -45,6 +46,11 @@ const options: PromptPexOptions = {
 initPerf({ output })
 const promptFile = env.files.find((f) => f.filename.endsWith(".prompty"))
 const files = await loadPromptFiles(promptFile)
+
+// generate intent
+output.heading(3, "Intent")
+await generateIntent(files, options)
+output.fence(files.intent.content, "text")
 
 output.heading(3, "Input Specification")
 await generateInputSpec(files, options)
