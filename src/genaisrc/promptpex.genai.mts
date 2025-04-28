@@ -274,8 +274,8 @@ user:
             description:
                 "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
         },
-        testExpansion: {
-            type: "boolean",
+        testExpansions: {
+            type: "integer",
             description:
                 "Apply expansion phase to generate tests. This will increase the complexity of the generated tests.",
         },
@@ -316,7 +316,7 @@ const {
     createEvalRuns,
     testSamplesCount,
     testSamplesShuffle,
-    testExpansion,
+    testExpansions,
 } = vars as PromptPexOptions & {
     customMetric?: string
     prompt?: string
@@ -354,7 +354,7 @@ const options = {
     createEvalRuns,
     testSamplesCount,
     testSamplesShuffle,
-    testExpansion,
+    testExpansions,
     out,
 } satisfies PromptPexOptions
 
@@ -426,7 +426,7 @@ output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
 
-if (testExpansion) {
+if (testExpansions > 0) {
     output.heading(3, "Expanded Tests")
     await expandTests(files, tests, options)
     output.table(

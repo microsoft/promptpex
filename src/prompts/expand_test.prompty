@@ -12,7 +12,7 @@ inputs:
     test:
         type: string
     examples:
-        type: string
+        type: string    
 sample:
     intent: "Determine the part of speech for a given word"
     rules: "The output must contain only a single string that represents the part-of-speech tag"  
@@ -43,7 +43,7 @@ Your task is to expand a test case into a more realistic and comprehensive versi
    - The core elements being tested remain clear
 
 4. **Length and Complexity Considerations**:
-   - Aim for 2-3x the original length
+   - Aim for 3x-4x the original length
    - Add complexity gradually and naturally
    - Keep the expansion reasonable and relevant to the domain
 
@@ -54,8 +54,9 @@ Your task is to expand a test case into a more realistic and comprehensive versi
    - Sound like something a real user would write
 
 {% if examples %}
-## Examples:
+6. **Use examples for Guidance**: 
 
+Use the examples in <EXAMPLES> to understand the expected length, diversity, and style of the input. These examples can help inform how to expand the test case while keeping it realistic.
 The following examples are some realistic input collected for given prompt, try to infer generalized requirements from them.
 These might not represent all the possible inputs but will be helpful in understanding the expected length of the input, the diversity in the data, style and other characteristic.
 <EXAMPLES>

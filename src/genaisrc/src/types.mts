@@ -134,7 +134,7 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     /**
      * Applying expansion phase to generate tests.
      */
-    testExpansion?: boolean
+    testExpansions?: number
 }
 
 /**
