@@ -91,6 +91,23 @@
                     }
                 }
             }
+        },
+        "testSamples": {
+            "type": "array",
+            "description": "The test samples for the prompty",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The file to be loaded to be used in the prompty test execution"
+                    },
+                    {
+                        "type": "object",
+                        "description": "The test sample of the prompty",
+                        "additionalProperties": true
+                    }
+                ]
+            }
         }
     },
     "additionalProperties": false

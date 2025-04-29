@@ -47,6 +47,8 @@ PromptPex provides the following capabilities:
 - PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
 - Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline_test)
 
+- Test Expansion (TE) - Expanding the test cases from examples and generally telling the LLM to make them more complex (test_expansion)
+
 - Test Validity (TV) - Checking if PPT and BT meets the constraints in IS using MPP (check_violation_with_input_spec)
 - Spec Agreement (SA) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate_test_coverage)
 
@@ -164,6 +166,38 @@ graph TD
     IOR["Inverse Output Rules (IOR)"]
     PPT["PromptPex Tests (PPT)"]
     TO["Test Output (TO) for MUT"]
+    TGS[["Test Generation Scenario (TGS)"]]
+
+    PUT --> IS
+
+    PUT --> OR
+    OR --> IOR
+
+    PUT --> PPT
+    IS --> PPT
+    OR --> PPT
+    IOR --> PPT
+
+    PPT -->|"Test Expansion (TE)"| PPT
+
+    TGS ==> PPT
+
+    PPT --> TO
+    PUT --> TO
+```
+
+## Test Expansion
+
+Test expansion is a way to generate more complex tests from the initial test cases. It uses the same LLM as the one used for the prompt under test.
+
+```mermaid
+graph TD
+    PUT(["Prompt Under Test (PUT)"])
+    IS["Input Specification (IS)"]
+    OR["Output Rules (OR)"]
+    IOR["Inverse Output Rules (IOR)"]
+    PPT["PromptPex Tests (PPT)"]
+    TO["Test Output (TO) for MUT"]
     TGS["Test Generation Scenario (TGS)"]
 
     PUT --> IS
@@ -175,6 +209,8 @@ graph TD
     IS --> PPT
     OR --> PPT
     IOR --> PPT
+
+    PPT ==>|"Test Expansion (TE)"| PPT
 
     TGS --> PPT
 
@@ -291,6 +327,7 @@ graph TD
     SA --> SAE
     PUT --> SAE
 
+    PPT -->|"Test Expansion (TE)"| PPT
 
     PPT --> TO
     PUT --> TO
@@ -365,9 +402,21 @@ The <OUTPUT> is in English.
 
 user:
 <OUTPUT>
-{{ output }}
+{{output}}
 </OUTPUT>
 ```
+
+## Export to OpenAI Evals API
+
+PromptPex support exporting the generated tests into a [OpenAI Evals Run](https://platform.openai.com/docs/api-reference/evals).
+PromptPex will generate an **eval** and launch an **eval run** for each Model Under Test (MUT) in the test generation.
+
+To enable this mode, you need to
+
+- set the `OPENAI_API_KEY` environment variable to your OpenAI API key
+- set the `createEvalRuns` parameter to true.
+
+![A screenshot of the evals screen in openai](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
 
 ## Intended Uses
 

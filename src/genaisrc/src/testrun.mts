@@ -40,7 +40,11 @@ export async function runTests(
     dbg(
         `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
     )
-    if (!tests?.length) throw new Error("No tests found to run")
+    if (!tests?.length) {
+        dbg(`rules tests:\n%s`, files.tests.content)
+        dbg(`baseline tests:\n%s`, files.baselineTests.content)
+        throw new Error("No tests found to run")
+    }
 
     const checkpoint = async () => {
         files.testOutputs.content = JSON.stringify(testResults, null, 2)

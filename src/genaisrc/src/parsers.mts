@@ -106,7 +106,6 @@ export function parseRules(rules: string, options?: PromptPexOptions) {
 
 export function parseRulesTests(text: string): PromptPexTest[] {
     if (!text) return []
-    if (isUnassistedResponse(text)) return []
     const rulesTests: PromptPexTest[] = parsers.JSON5(text) || []
     return rulesTests.map((r) => ({ ...r, testinput: r.testinput || "" }))
 }

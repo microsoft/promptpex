@@ -9,12 +9,15 @@ import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
 const { output } = env
 
+// OpenAI: https://platform.openai.com/docs/api-reference/evals
+// Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
+
 async function toEvalTemplate(file: WorkspaceFile) {
     const patched = {
         filename: file.filename,
         content: file.content.replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
-            if (id === "output") return "{{ sample.output_text }}"
-            return `{{ item.${id} }}`
+            if (id === "output") return "{{sample.output_text}}"
+            return `{{item.${id}}}`
         }),
     }
     const pp = await parsers.prompty(patched)
@@ -37,8 +40,8 @@ async function metricToTestingCriteria(
     const scorer = fm.tags?.includes("scorer")
     const { input } = await toEvalTemplate(metric)
     dbg(`input: %O`, input)
-    // {{ output }} -> {{ sample.output_text }}
-    // {{ * }} -> {{ item.input }}
+    // {{output}} -> {{sample.output_text}}
+    // {{*}} -> {{item.input}}
     if (scorer)
         return {
             type: "score_model",
@@ -55,7 +58,11 @@ async function metricToTestingCriteria(
             model,
             labels: OK_ERR_CHOICES,
             passing_labels: [OK_CHOICE],
-            input,
+            input: input.map(({ content, ...rest }) => ({
+                type: "message",
+                content: content as string,
+                ...rest,
+            })),
         } satisfies OpenAI.Evals.EvalCreateParams.LabelModel
 }
 

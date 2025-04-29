@@ -4,6 +4,7 @@ import {
     PARAMETER_INPUT_TEXT,
     PROMPT_ALL,
     PROMPT_DIR,
+    TEST_SAMPLES_COUNT_DEFAULT,
 } from "./constants.mts"
 import { tidyRulesFile } from "./parsers.mts"
 import { checkPromptSafety } from "./safety.mts"
@@ -75,7 +76,11 @@ export async function loadPromptFiles(
     })
     const inputs = frontmatter.inputs as Record<string, JSONSchemaSimpleType>
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
-
+    const testSamples = await parseTestSamples(
+        filename ? path.dirname(filename) : undefined,
+        frontmatter,
+        options
+    )
     const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
@@ -110,6 +115,7 @@ export async function loadPromptFiles(
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
         metrics,
+        testSamples,
         versions: {
             promptpex: packageJson.version,
             node: process.version,
@@ -165,6 +171,55 @@ async function checkPromptFiles() {
         const content = MD.content(file)
         if (!content) throw new Error(`prompt file ${filename} is empty`)
     }
+}
+
+async function parseTestSamples(
+    dir: string,
+    fm: PromptPexPromptyFrontmatter,
+    options?: PromptPexLoaderOptions
+) {
+    const { testSamples } = fm
+    if (!testSamples) return []
+
+    dbg(`parsing test samples`)
+    let res: Record<string, string>[] = []
+    for (const sample of testSamples) {
+        if (typeof sample === "string") {
+            dbg(`loading test sample %s`, sample)
+            const sampleFile = path.resolve(
+                dir ? path.join(dir, sample) : sample
+            )
+            dbg(`resolved sample file %s`, sampleFile)
+            let data = await workspace.readData(sampleFile)
+            dbg(`%O`, data)
+            if (!data) throw new Error(`test sample ${sample} not found`)
+            if (
+                !Array.isArray(data) &&
+                typeof data === "object" &&
+                Object.keys(data).length === 1
+            ) {
+                dbg(`using first field`)
+                data = data[Object.keys(data)[0]]
+            }
+            if (!Array.isArray(data))
+                throw new Error(`test sample is not an array`)
+            if (data.some((d) => typeof d !== "object"))
+                throw new Error(`test sample contains invalid data`)
+            res.push(...data)
+        } else if (typeof sample === "object") {
+            res.push(sample as any)
+        } else {
+            throw new Error(`test sample ${sample} is not a string or object`)
+        }
+    }
+
+    dbg(`found %d test samples`, res.length)
+    const count = options?.testSamplesCount ?? TEST_SAMPLES_COUNT_DEFAULT
+    // shuffle first
+    if (options?.testSamplesShuffle) res.sort(() => Math.random() - 0.5)
+    // then slice
+    res = res.slice(0, count)
+    return res
 }
 
 export async function validateFrontmatter(

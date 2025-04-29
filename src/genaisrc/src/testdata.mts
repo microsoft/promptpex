@@ -34,6 +34,7 @@ export async function convertToTestData(
     const testDataRaw = tests.map(
         (testResult) => resolvePromptArgs(files, testResult).args
     )
+    const testDataDataRaw = { data: testDataRaw }
     files.testData.content = JSON.stringify(testData, null, 2)
     if (files.writeResults) {
         await workspace.writeFiles(files.testData)
@@ -49,6 +50,10 @@ export async function convertToTestData(
         await workspace.writeText(
             path.changeext(files.testData.filename, ".raw.json"),
             JSON.stringify(testDataRaw, null, 2)
+        )
+        await workspace.writeText(
+            path.changeext(files.testData.filename, ".training.json"),
+            JSON.stringify(testDataDataRaw, null, 2)
         )
     }
 }

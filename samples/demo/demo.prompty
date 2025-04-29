@@ -1,5 +1,7 @@
 ---
 name: A demo
+tags:
+    - unlisted
 inputs:
     joke: "how do you make a tissue dance? You put a little boogie in it."
     locale: 
@@ -15,8 +17,13 @@ scenarios:
       instructions: The user speaks and writes in French. 
       parameters:
         locale: fr-FR
-tags:
-    - unlisted
+testSamples:
+    - locale: "en-us"
+      joke: "Why did the scarecrow win an award? Because he was outstanding in his field."
+      output: "funny"
+    - locale: "fr-FR"
+      joke: "Pourquoi les plongeurs plongent-ils toujours en arrière et jamais en avant? Parce que sinon ils tombent dans le bateau."
+      output: "funny"
 ---
 system:
 You are an assistant  and you need to categorize a joke as funny or not.
