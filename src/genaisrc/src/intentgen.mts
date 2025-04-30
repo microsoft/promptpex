@@ -4,7 +4,7 @@ import { modelOptions, checkLLMResponse } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
 const { generator } = env
-const dbg = host.logger("promptpex:intent")
+const dbg = host.logger("promptpex:gen:intent")
 
 export async function generateIntent(
     files: PromptPexContext,
@@ -40,6 +40,7 @@ export async function generateIntent(
         if (files.intent.content) break
 
         dbg(`failed, try again`)
+        dbg(res.text)
     }
     if (!files.intent.content) throw new Error("failed to generate intent")
 }
