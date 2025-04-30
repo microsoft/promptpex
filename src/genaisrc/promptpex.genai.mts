@@ -83,18 +83,22 @@ promptPex:
         out: {
             type: "string",
             description: "Output folder for the generated files",
+            uiGroup: "Cache",
         },
         cache: {
             type: "boolean",
             description: "Cache all LLM calls",
+            uiGroup: "Cache",
         },
         testRunCache: {
             type: "boolean",
             description: "Cache test run results",
+            uiGroup: "Cache",
         },
         evalCache: {
             type: "boolean",
             description: "Cache eval evaluation results",
+            uiGroup: "Cache",
         },
         testsPerRule: {
             type: "integer",
@@ -102,17 +106,20 @@ promptPex:
             minimum: 1,
             maximum: 10,
             default: 3,
+            uiGroup: "Generation",
         },
         splitRules: {
             type: "boolean",
             description:
                 "Split rules and inverse rules in separate prompts for generation",
             default: true,
+            uiGroup: "Generation",
         },
         maxRulesPerTestGeneration: {
             type: "integer",
             description: "Maximum number of rules to use per test generation",
             default: 3,
+            uiGroup: "Generation",
         },
         testGenerations: {
             type: "integer",
@@ -120,6 +127,7 @@ promptPex:
             default: 2,
             minimum: 1,
             maximum: 10,
+            uiGroup: "Generation",
         },
         runsPerTest: {
             type: "integer",
@@ -127,6 +135,7 @@ promptPex:
             minimum: 1,
             maximum: 100,
             default: 2,
+            uiGroup: "Evaluation",
         },
         disableSafety: {
             type: "boolean",
@@ -144,6 +153,7 @@ promptPex:
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
             ],
+            uiGroup: "Generation",
         },
         evalModel: {
             type: "string",
@@ -155,11 +165,13 @@ promptPex:
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
             ],
+            uiGroup: "Evaluation",
         },
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
             uiSuggestions: ["openai:gpt-4o"],
+            uiGroup: "Evaluation",
         },
         modelsUnderTest: {
             type: "string",
@@ -171,35 +183,41 @@ promptPex:
             description: "Evaluate Test Result compliance",
             default: false,
             uiType: "runOption",
+            uiGroup: "Evaluation",
         },
         maxTestsToRun: {
             type: "number",
             description: "Maximum number of tests to run",
             required: false,
+            uiGroup: "Evaluation",
         },
         inputSpecInstructions: {
             type: "string",
             title: "Input Specification instructions",
             description:
                 "These instructions will be added to the input specification generation prompt.",
+            uiGroup: "Instructions",
         },
         outputRulesInstructions: {
             type: "string",
             title: "Output Rules instructions",
             description:
                 "These instructions will be added to the output rules generation prompt.",
+            uiGroup: "Instructions",
         },
         inverseOutputRulesInstructions: {
             type: "string",
             title: "Inverse Output Rules instructions",
             description:
                 "These instructions will be added to the inverse output rules generation prompt.",
+            uiGroup: "Instructions",
         },
         customMetric: {
             type: "string",
             title: "Custom Test Evaluation Template",
             required: false,
             uiType: "textarea",
+            uiGroup: "Evaluation",
             description: `This prompt will be used to evaluate the test results.
 <details><summary>Template</summary>
 
@@ -272,21 +290,24 @@ user:
         createEvalRuns: {
             type: "boolean",
             description:
-                "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
+                "Create an Evals run in OpenAI Evals. Requires OpenAI API key in environment variable `OPENAI_API_KEY`.",
         },
         testExpansions: {
             type: "integer",
             description:
                 "Apply expansion phase to generate tests. This will increase the complexity of the generated tests.",
+            uiGroup: "Generation",
         },
         testSamplesCount: {
             type: "integer",
             description: "Number of test samples to generate for the prompt.",
+            uiGroup: "Generation",
         },
         testSamplesShuffle: {
             type: "boolean",
             description:
                 "Shuffle the test samples before generating tests for the prompt.",
+            uiGroup: "Generation",
         },
     },
 })
