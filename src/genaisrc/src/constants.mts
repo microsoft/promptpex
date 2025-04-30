@@ -56,6 +56,7 @@ export const PROMPT_ALL = [
     PROMPT_EXPAND_TEST,
 ]
 
+export const INTENT_RETRY = 2
 export const CONCURRENCY = 2
 export const RULES_NUM = 0
 export const TESTS_NUM = 3
