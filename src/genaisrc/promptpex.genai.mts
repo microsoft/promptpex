@@ -76,33 +76,36 @@ promptPex:
         prompt: {
             type: "string",
             description:
-                "Prompt template to analyze. You can either copy the source here or upload a file prompt.",
+                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
             required: false,
             uiType: "textarea",
         },
         out: {
             type: "string",
-            description: "Output folder for the generated files",
+            description:
+                "Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.",
             uiGroup: "Cache",
         },
         cache: {
             type: "boolean",
-            description: "Cache all LLM calls",
+            description:
+                "Cache all LLM calls. This accelerates experiementation but you may miss issues due to LLM flakiness.",
             uiGroup: "Cache",
         },
         testRunCache: {
             type: "boolean",
-            description: "Cache test run results",
+            description: "Cache test run results in files.",
             uiGroup: "Cache",
         },
         evalCache: {
             type: "boolean",
-            description: "Cache eval evaluation results",
+            description: "Cache eval evaluation results in files.",
             uiGroup: "Cache",
         },
         testsPerRule: {
             type: "integer",
-            description: "Number of tests to generate per rule",
+            description:
+                "Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. You can modify this parameter to control the number of tests generated.",
             minimum: 1,
             maximum: 10,
             default: 3,
@@ -111,19 +114,21 @@ promptPex:
         splitRules: {
             type: "boolean",
             description:
-                "Split rules and inverse rules in separate prompts for generation",
+                "Split rules and inverse rules in separate prompts for test generation.",
             default: true,
             uiGroup: "Generation",
         },
         maxRulesPerTestGeneration: {
             type: "integer",
-            description: "Maximum number of rules to use per test generation",
+            description:
+                "Maximum number of rules to use per test generation which influences the complexity of the generated tests. Increase this value to generate tests faster but potentially less complex tests.",
             default: 3,
             uiGroup: "Generation",
         },
         testGenerations: {
             type: "integer",
-            description: "Number of times to amplify the test generation",
+            description:
+                "Number of times to amplify the test generation. This parameter allows to generate more tests for the same rules by repeatidly running the test generation process, while asking the LLM to avoid regenerating existing tests.",
             default: 2,
             minimum: 1,
             maximum: 10,
@@ -131,7 +136,8 @@ promptPex:
         },
         runsPerTest: {
             type: "integer",
-            description: "Number of runs to execute per test",
+            description:
+                "Number of runs to execute per test. During the evaluation phase, this parameter allows to run the same test multiple times to check for consistency and reliability of the model's output.",
             minimum: 1,
             maximum: 100,
             default: 2,
@@ -140,13 +146,13 @@ promptPex:
         disableSafety: {
             type: "boolean",
             description:
-                "Do not include safety system prompts and do not run safety content service",
+                "Do not include safety system prompts and do not run safety content service. By default, system safety prompts are included in the prompt and the content is checked for safety. This option disables both.",
             default: false,
         },
         rulesModel: {
             type: "string",
             description:
-                "Model used to generate rules (you can also override the model alias 'rules'",
+                "Model used to generate rules (you can also override the model alias 'rules')",
             uiSuggestions: [
                 "openai:gpt-4o",
                 "ollama:gemma3:27b",
@@ -210,6 +216,13 @@ promptPex:
             title: "Inverse Output Rules instructions",
             description:
                 "These instructions will be added to the inverse output rules generation prompt.",
+            uiGroup: "Instructions",
+        },
+        testExpansionInstructions: {
+            type: "string",
+            title: "Test Expansion instructions",
+            description:
+                "These instructions will be added to the test expansion generation prompt.",
             uiGroup: "Instructions",
         },
         customMetric: {
@@ -290,17 +303,21 @@ user:
         createEvalRuns: {
             type: "boolean",
             description:
-                "Create an Evals run in OpenAI Evals. Requires OpenAI API key in environment variable `OPENAI_API_KEY`.",
+                "Create an Evals run in [OpenAI Evals](https://platform.openai.com/docs/guides/evals). Requires OpenAI API key in environment variable `OPENAI_API_KEY`.",
         },
         testExpansions: {
             type: "integer",
             description:
-                "Apply expansion phase to generate tests. This will increase the complexity of the generated tests.",
+                "Number of test expansion phase to generate tests. This will increase the complexity of the generated tests.",
+            minimum: 0,
+            default: 1,
+            maximum: 5,
             uiGroup: "Generation",
         },
         testSamplesCount: {
             type: "integer",
-            description: "Number of test samples to generate for the prompt.",
+            description:
+                "Number of test samples to include for the rules and test generation. If a test sample is provided, the samples will be injected in prompts to few-shot train the model.",
             uiGroup: "Generation",
         },
         testSamplesShuffle: {
@@ -322,6 +339,7 @@ const {
     inputSpecInstructions,
     outputRulesInstructions,
     inverseOutputRulesInstructions,
+    testExpansionInstructions,
     compliance,
     baselineModel,
     rulesModel,
@@ -344,6 +362,7 @@ const {
     inputSpecInstructions?: string
     outputRulesInstructions?: string
     inverseOutputRulesInstructions?: string
+    testExpansionInstructions?: string
 }
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
@@ -357,6 +376,7 @@ const options = {
         inputSpec: inputSpecInstructions,
         outputRules: outputRulesInstructions,
         inverseOutputRules: inverseOutputRulesInstructions,
+        testExpansion: testExpansionInstructions,
     },
     workflowDiagram: !process.env.DEBUG,
     baselineModel,
