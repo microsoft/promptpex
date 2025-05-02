@@ -1,4 +1,4 @@
-from .core import PromptPexIntegrator
+from .core import PythonPromptPex
 
 __version__ = "1.0.0"
-__all__ = ["PromptPexIntegrator"]
+__all__ = ["PythonPromptPex"]
