@@ -335,7 +335,7 @@ graph TD
 - Lines represent data dependencies.
 - Bolded lines are the minimum path to generate tests.
 
-## Metrics
+### Metrics
 
 You can provide custom metrics for the test result evaluation step. Metric can be qualitative (`ok`, `err`, `unknown`) or quantitative (e.g. `0` to `100` good).
 
@@ -393,7 +393,7 @@ user:
 </OUTPUT>
 ```
 
-## Export to OpenAI Evals API
+### Export to OpenAI Evals API
 
 PromptPex support exporting the generated tests into a [OpenAI Evals Run](https://platform.openai.com/docs/api-reference/evals).
 PromptPex will generate an **eval** and launch an **eval run** for each Model Under Test (MUT) in the test generation.
@@ -405,13 +405,29 @@ To enable this mode, you need to
 
 ![A screenshot of the evals screen in openai](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
 
-## Python
+## Getting started
+
+### GitHub Codespaces
+
+**Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
+
+### Dockerized
+
+Clone this repository and run the following command to run genaiscript in a docker container:
+
+```sh
+docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine npx --yes genaiscript@latest serve --network
+```
+
+### Python
 
 A python implementation of PromptPex is available
 using the **src/python** folder. It is a standalone implementation of the test generation process
 using the prompt templates.
 
-## GenAIScript
+### GenAIScript
 
 The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
 
@@ -444,15 +460,7 @@ GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-11-20"
 GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-11-20"
 ```
 
-## Intended Uses
-
-PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
-
 ## Developer Guide
-
-**Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
 ### Setup
 
@@ -518,6 +526,10 @@ DEBUG=* npm run ... > output.txt 2>&1
 ### Caching
 
 Add `--vars cache=true` to the command line to enable caching of LLM calls.
+
+## Intended Uses
+
+PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
 
 ## Responsible AI Transparency Note
 
