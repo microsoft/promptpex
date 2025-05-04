@@ -21,6 +21,10 @@ export async function expandTests(
     const allRules = parseAllRules(files)
     const testSamples = files.testSamples
     const examples = testSamples?.length ? YAML.stringify(testSamples) : ""
+    const instructions =
+        options?.instructions?.testExpansion ||
+        files.frontmatter?.instructions?.testExpansion ||
+        ""
 
     const checkpoint = async () => {
         dbg(`saving ${ruleTests.length} tests`)
@@ -59,6 +63,7 @@ export async function expandTests(
                             targetRule: targetRule?.rule,
                             examples,
                             test: test.testinput,
+                            instructions
                         })
                     },
                     {

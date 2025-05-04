@@ -19,6 +19,10 @@ export interface PromptPexPrompts {
      * Prompt intent, overrides intent generation
      */
     intent?: string
+    /**
+     * Test expansion prompt
+    ) */
+    testExpansion?: string
 }
 
 export interface PromptPexOptions extends PromptPexLoaderOptions {
