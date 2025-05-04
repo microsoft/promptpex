@@ -1,5 +1,7 @@
 # PromptPex
 
+> Test Generation for Prompts
+
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
 effective prompts are increasingly important.
@@ -13,7 +15,7 @@ to the function to support unit testing.
 
 - [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
-https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949
+<https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949>
 
 PromptPex provides the following capabilities:
 
@@ -22,11 +24,11 @@ PromptPex provides the following capabilities:
 - From the rules, it will **generate unit test cases** specifically
   designed to determine if the prompt, for a given model, correctly
   follows the rule.
-- Given a set of rules and tests, PromptPex will **evaluate the
-  performance of the prompt on any given model**. For example,
+- Given a set of rules and tests, PromptPex will **evaluate the performance of the prompt on any given model**. For example,
   a user can determine if a set of unit tests succeeds on gpt-4o-mini
   but fails on phi3.
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
+- Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
 
 <details>
 <summary>Glossary</summary>
@@ -84,7 +86,7 @@ graph TD
 
 Here is an example of PromptPex in practice.
 
-Prompt:
+- Prompt
 
 ```text
 In this task, you will be presented with a sentence and a word contained in that sentence. You have to determine the part of speech
@@ -92,64 +94,73 @@ for a given word and return just the tag for the word's part of speech. Return o
 If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
 ```
 
-Input Specification:
+- Input Specification
 
 ```text
-1. The input consists of a sentence combined with a specific word from that sentence.
-2. The sentence must contain natural language text.
-3. The word must be a single word from the provided sentence.
+The input consists of a sentence combined with a specific word from that sentence.
+The sentence must contain natural language text.
+The word must be a single word from the provided sentence.
 ```
 
-Extracted rules:
+- Extracted rules
 
 ```text
-1. The output must return only the part of speech tag without any additional text or formatting.
-2. If the given word can be identified with one of the listed part of speech tags, the output must include only the specific tag for that word from the provided alphabetical list.
-3. If the given word cannot be tagged with any of the listed part of speech tags, the output should be the word "Unknown".
-4. If tagging the given word is not possible for any reason, the output should be the word "CantAnswer".
+The output must return only the part of speech tag without any additional text or formatting.
+If the given word can be identified with one of the listed part of speech tags, the output must include only the specific tag for that word from the provided alphabetical list.
+If the given word cannot be tagged with any of the listed part of speech tags, the output should be the word "Unknown".
+If tagging the given word is not possible for any reason, the output should be the word "CantAnswer".
 ```
 
 Tests generated from the rules:
 
 ```text
-1. sentence: 'An aura of mystery surrounded them.', word: 'aura'
-2. sentence: 'The researchers documented carefully.', word: 'carefully'
-(Note this tests the Unknown corner case)
-3. sentence: 'This is such a unique perspective.', word: 'such'
+sentence: 'An aura of mystery surrounded them.', word: 'aura'
+sentence: 'The researchers documented carefully.', word: 'carefully'
+# Note this tests the Unknown corner case
+sentence: 'This is such a unique perspective.', word: 'such'
 ```
 
-## Getting started
+## Bring Your Own Inference Library
 
-PromptPex uses [GenAIScript](https://microsoft.github.io/genaiscript)
-to execute.
+PromptPex is workflow of LLM prompts that implement the test generation process.
+The template are stored in a [markdown-ish, framework agnostic, template format](https://prompty.ai).
 
-- Install [Node.js v20+](https://nodejs.org/)
-- Configure your LLM credentials in `.env`
+**PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
 
-```sh
-npx --yes genaiscript configure
-```
+## Prompty Prompt Format
 
-- Launch promptpex remotely
+PromptPex takes [Prompty](https://www.prompty.ai/) file as inputs; these are just markdown with a bit of syntax to
+represent messages and the input/output signature of the prompt.
 
-```sh
-npx --yes genaiscript serve --remote microsoft/promptpex
-```
+The `demo` prompt below defines a set of parameters (`inputs` as a set of JSON schema types).
+The `system`/`user` messages are separate by `system:`, `user:` markers in the markdown body.
+It uses the Jinja2 template engine to insert values (`{{joke}}`).
+The `scenarios` array is used to expand the test generation with further input specification and optional input values.
 
-### Configure the eval, rules, baseline aliases
+```md
+---
+name: A demo
+inputs:
+    joke: "how do you make a tissue dance? You put a little boogie in it."
+    locale: "en-us"
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French.
+      parameters:
+          locale: fr-FR
+tags:
+    - unlisted
+---
 
-PromptPex defines the following model aliases for the different phases of the test generation:
+system:
+You are an assistant
+and you need to categorize a joke as funny or not.
+The input local is {{locale}}.
 
-- `rules`: rule, inverse rules, test generation
-- `eval`: rule and test quality evaluations
-- `baseline`: baseline test generation
-
-If you are using a specific set of models, you can use a `.env` file to override the eval/rules/baseline aliases
-
-```text
-GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-11-20"
-GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-11-20"
-GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-11-20"
+user:
+{{joke}}
 ```
 
 ## Test Generation Scenarios
@@ -186,6 +197,18 @@ graph TD
     PUT --> TO
 ```
 
+The test generation scenarios are configured in the `prompty` front-matter of the prompt under test.
+
+```yaml
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French.
+      parameters:
+          locale: fr-FR
+```
+
 ## Test Expansion
 
 Test expansion is a way to generate more complex tests from the initial test cases. It uses the same LLM as the one used for the prompt under test.
@@ -216,42 +239,6 @@ graph TD
 
     PPT --> TO
     PUT --> TO
-```
-
-## Prompt format: prompty
-
-PromptPex takes [Prompty](https://www.prompty.ai/) file as inputs; these are just markdown with a bit of syntax to
-represent messages and the input/output signature of the prompt.
-
-The `demo` prompt below defines a set of parameters (`inputs` as a set of JSON schema types).
-The `system`/`user` messages are separate by `system:`, `user:` markers in the markdown body.
-It uses the Jinja2 template engine to insert values (`{{joke}}`).
-The `scenarios` array is used to expand the test generation with further input specification and optional input values.
-
-```md
----
-name: A demo
-inputs:
-    joke: "how do you make a tissue dance? You put a little boogie in it."
-    locale: "en-us"
-scenarios:
-    - name: English
-      instructions: The user speaks and writes in English.
-    - name: French
-      instructions: The user speaks and writes in French.
-      parameters:
-          locale: fr-FR
-tags:
-    - unlisted
----
-
-system:
-You are an assistant
-and you need to categorize a joke as funny or not.
-The input local is {{locale}}.
-
-user:
-{{joke}}
 ```
 
 ### Instructions
@@ -418,6 +405,45 @@ To enable this mode, you need to
 
 ![A screenshot of the evals screen in openai](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
 
+## Python
+
+A python implementation of PromptPex is available
+using the **src/python** folder. It is a standalone implementation of the test generation process
+using the prompt templates.
+
+## GenAIScript
+
+The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
+
+- Install [Node.js v20+](https://nodejs.org/)
+- Configure your LLM credentials in `.env`
+
+```sh
+npx --yes genaiscript configure
+```
+
+- Launch promptpex remotely
+
+```sh
+npx --yes genaiscript serve --remote microsoft/promptpex
+```
+
+### Configure the eval, rules, baseline aliases
+
+PromptPex defines the following model aliases for the different phases of the test generation:
+
+- `rules`: rule, inverse rules, test generation
+- `eval`: rule and test quality evaluations
+- `baseline`: baseline test generation
+
+If you are using a specific set of models, you can use a `.env` file to override the eval/rules/baseline aliases
+
+```text
+GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-11-20"
+```
+
 ## Intended Uses
 
 PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
@@ -501,7 +527,7 @@ Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](./RESPONSIBLE_AI_TRANSPAR
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
