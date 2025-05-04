@@ -1,18 +1,8 @@
 ---
-title: PromptPex
-description: Test Generation for Prompts
-template: splash
-hero:
-    actions:
-        - text: GitHub
-          link: https://github.com/microsoft/genaiscript/
-          icon: github
+title: Overview
+sidebar:
+    order: 0
 ---
-
-import { Image } from "astro:assets"
-import { Card, CardGrid } from "@astrojs/starlight/components"
-import { FileTree } from "@astrojs/starlight/components"
-import { YouTube } from "astro-embed"
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
@@ -63,24 +53,10 @@ graph TD
     PUT --> TO
 ```
 
+## Intended Uses
 
-## Getting started
+PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
 
+## Responsible AI Transparency Note
 
-### GenAIScript
-
-The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
-
-- Install [Node.js v20+](https://nodejs.org/)
-- Configure your LLM credentials in `.env`
-
-```sh
-npx --yes genaiscript configure
-```
-
-- Launch promptpex remotely
-
-```sh
-npx --yes genaiscript serve --remote microsoft/promptpex
-```
-
+Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](./RESPONSIBLE_AI_TRANSPARENCY_NOTE.md) for more information.

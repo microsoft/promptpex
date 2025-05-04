@@ -2,6 +2,7 @@ import { defineConfig, passthroughImageService } from "astro/config"
 import starlight from "@astrojs/starlight"
 import rehypeMermaid from "rehype-mermaid"
 import starlightLinksValidator from "starlight-links-validator"
+import starlightLlmsTxt from "starlight-llms-txt"
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,7 +17,15 @@ export default defineConfig({
     integrations: [
         starlight({
             title: "PromptPex",
-            plugins: [starlightLinksValidator()],
+            plugins: [
+                starlightLlmsTxt({
+                    pageSeparator: "\n\n=|=|=|=|=|=\n\n",
+                    minify: {
+                        customSelectors: ["picture"],
+                    },
+                }),
+                starlightLinksValidator(),
+            ],
             components: {
                 Head: "./src/components/Head.astro",
                 Footer: "./src/components/Footer.astro",
@@ -32,12 +41,6 @@ export default defineConfig({
                 baseUrl:
                     "https://github.com/microsoft/promptpex/edit/main/docs/",
             },
-            sidebar: [
-                {
-                    label: "Start Here",
-                    autogenerate: { directory: "getting-started" },
-                },
-            ],
         }),
     ],
 })
