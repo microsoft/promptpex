@@ -7,7 +7,7 @@ sidebar:
 It is possible to define test samples in the `testSamples` section of the YAML file. This section allows you to specify a list of test cases and expected output. 
 The test samples are used in the test generation process to generate tests that mimic actual user input.
 
-## Prompt configuration
+## Configuration
 
 You can specify `testSamples` in the prompt frontmatter as an array of objects.
 

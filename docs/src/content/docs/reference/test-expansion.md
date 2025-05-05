@@ -35,3 +35,7 @@ graph TD
     PPT --> TO
     PUT --> TO
 ```
+
+## Parameters
+
+- `testExpansions`: The number of test expansions to generate. This is a positive integer. The default value is `1`.

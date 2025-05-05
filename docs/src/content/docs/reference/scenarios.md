@@ -36,9 +36,12 @@ graph TD
     PUT --> TO
 ```
 
-The test generation scenarios are configured in the `prompty` front-matter of the prompt under test.
+## Configuration
 
-```yaml
+The test generation scenarios are configured in the prompt front-matter. You can decide to fill in any of the 
+template variables in each scenario.
+
+```yaml wrap
 scenarios:
     - name: English
       instructions: The user speaks and writes in English.
