@@ -32,10 +32,6 @@ PromptPex provides the following capabilities:
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
 
-## Intended Uses
-
-PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
-
 ## Responsible AI Transparency Note
 
 Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](./RESPONSIBLE_AI_TRANSPARENCY_NOTE.md) for more information.
