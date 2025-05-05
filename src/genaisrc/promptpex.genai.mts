@@ -535,6 +535,11 @@ if (createEvalRuns) {
 output.heading(3, `Results Overview`)
 const { overview } = await computeOverview(files, { percent: true })
 output.table(overview)
+if (files.writeResults)
+    await workspace.writeText(
+        path.join(files.dir, "overview.csv"),
+        CSV.stringify(overview)
+    )
 
 output.appendContent("\n\n---\n\n")
 
