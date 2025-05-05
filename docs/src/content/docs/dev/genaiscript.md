@@ -6,6 +6,21 @@ sidebar:
 
 [GenAIScript](https://microsoft.github.io/genaiscript) is a tool for generating and executing scripts using LLMs. It is used in PromptPex to generate the test generation scripts.
 
+## Try PromptPex
+
+- Install [Node.js v20+](https://nodejs.org/)
+- Configure your LLM credentials in `.env`. You can use OpenAI, Azure OpenAI, or Ollama.
+
+```sh
+npx --yes genaiscript configure
+```
+
+- Launch promptpex remotely
+
+```sh
+npx --yes genaiscript serve --remote microsoft/promptpex
+```
+
 ## GitHub Codespaces
 
 Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
