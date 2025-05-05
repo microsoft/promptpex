@@ -25,8 +25,8 @@ jobs:
             - run: npm ci
             - name: Build docs
               run: npm run build
-            - name: no jekyll
-              run: touch docs/dist/.nojekyll
+            - name: No jekyll
+              run: touch dist/.nojekyll
             - name: Deploy 🚀
               uses: JamesIves/github-pages-deploy-action@v4.6.4
               with:
