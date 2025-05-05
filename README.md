@@ -1,6 +1,8 @@
 # PromptPex
 
-> Test Generation for Prompts
+> Test Generation for Prompts0
+
+- [Read the documentation](https://microsoft.github.io/promptpex/)
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
@@ -418,7 +420,7 @@ To enable this mode, you need to
 Clone this repository and run the following command to run genaiscript in a docker container:
 
 ```sh
-docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine npx --yes genaiscript@latest serve --network
+docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:20-alpine npx --yes genaiscript@latest serve --network
 ```
 
 ### Python
