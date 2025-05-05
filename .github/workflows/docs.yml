@@ -1,4 +1,4 @@
-name: Deploy static content to Pages
+name: GitHub Pages
 on:
     workflow_dispatch:
     push:
@@ -6,24 +6,15 @@ on:
             - main
             - dev
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+    contents: write
 defaults:
     run:
         working-directory: ./docs
-concurrency:
-    group: "pages"
-    cancel-in-progress: false
 jobs:
-    deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+    build:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
               with:
                   submodules: "recursive"
                   fetch-depth: 10
@@ -37,12 +28,8 @@ jobs:
               run: npm run build
             - name: no jekyll
               run: touch docs/dist/.nojekyll
-            - name: Setup Pages
-              uses: actions/configure-pages@v5
-            - name: Upload artifact
-              uses: actions/upload-pages-artifact@v3
+            - name: Deploy 🚀
+              uses: JamesIves/github-pages-deploy-action@v4.6.4
               with:
-                  path: "dist"
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
+                  folder: dist
+                  single-commit: true
