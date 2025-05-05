@@ -2,6 +2,8 @@
 
 > Test Generation for Prompts0
 
+- [Read the documentation](https://microsoft.github.io/promptpex/)
+
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
 effective prompts are increasingly important.
