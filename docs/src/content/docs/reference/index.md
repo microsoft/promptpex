@@ -60,4 +60,4 @@ PromptPex is shared for research purposes only. It is not meant to be used in pr
 
 ## Responsible AI Transparency Note
 
-Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](./RESPONSIBLE_AI_TRANSPARENCY_NOTE.md) for more information.
+Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](https://github.com/microsoft/promptpex/RESPONSIBLE_AI_TRANSPARENCY_NOTE.md) for more information.

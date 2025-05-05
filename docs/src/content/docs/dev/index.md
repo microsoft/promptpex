@@ -9,7 +9,7 @@ This section provides documentation for developers who want to use PromptPex in 
 ## Bring Your Own Inference Library
 
 PromptPex is workflow of LLM prompts that implement the test generation process.
-The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/prompt-format).
+The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/reference/prompt-format/).
 
 **PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
 
