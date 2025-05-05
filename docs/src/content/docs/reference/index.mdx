@@ -4,6 +4,7 @@ sidebar:
     order: 20
     title: Reference
 ---
+import { LinkCard } from "@astrojs/starlight/components"
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
@@ -31,33 +32,4 @@ PromptPex provides the following capabilities:
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
 
-```mermaid
-graph TD
-    PUT(["Prompt Under Test (PUT)"])
-    IS["Input Specification (IS)"]
-    OR["Output Rules (OR)"]
-    IOR["Inverse Output Rules (IOR)"]
-    PPT["PromptPex Tests (PPT)"]
-    TO["Test Output (TO) for MUT"]
-
-    PUT --> IS
-
-    PUT --> OR
-    OR --> IOR
-
-    PUT --> PPT
-    IS --> PPT
-    OR --> PPT
-    IOR --> PPT
-
-    PPT --> TO
-    PUT --> TO
-```
-
-## Intended Uses
-
-PromptPex is shared for research purposes only. It is not meant to be used in practice. PromptPex was not extensively tested for its capabilities and properties, including its accuracy and reliability in practical use cases, security and privacy.
-
-## Responsible AI Transparency Note
-
-Please reference [RESPONSIBLE_AI_TRANSPARENCY_NOTE.md](https://github.com/microsoft/promptpex/RESPONSIBLE_AI_TRANSPARENCY_NOTE.md) for more information.
+<LinkCard  title="Example" href="/promptpex/reference/example" />
