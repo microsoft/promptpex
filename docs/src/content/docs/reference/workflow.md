@@ -1,7 +1,7 @@
 ---
 title: Workflow
 sidebar:
-    order: 80
+    order: 29
 ---
 
 The diagram below shows the flow of test generation in PromptPex, starting from the PUT (database shape).

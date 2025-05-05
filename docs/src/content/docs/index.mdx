@@ -2,17 +2,19 @@
 title: PromptPex
 description: Test Generation for Prompts
 template: splash
+sidebar:
+    order: 0
 hero:
     actions:
+        - text: Get Started
+          link: /promptpex/getting-started
+          icon: rocket    
         - text: GitHub
           link: https://github.com/microsoft/genaiscript/
           icon: github
 ---
 
-import { Image } from "astro:assets"
-import { Card, CardGrid } from "@astrojs/starlight/components"
-import { FileTree } from "@astrojs/starlight/components"
-import { YouTube } from "astro-embed"
+import { LinkButton } from "@astrojs/starlight/components"
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
@@ -63,24 +65,4 @@ graph TD
     PUT --> TO
 ```
 
-
-## Getting started
-
-
-### GenAIScript
-
-The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
-
-- Install [Node.js v20+](https://nodejs.org/)
-- Configure your LLM credentials in `.env`
-
-```sh
-npx --yes genaiscript configure
-```
-
-- Launch promptpex remotely
-
-```sh
-npx --yes genaiscript serve --remote microsoft/promptpex
-```
-
+<LinkButton href="/promptpex/reference/">Learn more about PromptPex</LinkButton>

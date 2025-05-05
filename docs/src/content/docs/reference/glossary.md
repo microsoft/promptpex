@@ -1,7 +1,7 @@
 ---
 title: Glossary
 sidebar:
-    order: 81
+    order: 29.1
 ---
 
 - Prompt Under Test (PUT) - like Program Under Test; the prompt

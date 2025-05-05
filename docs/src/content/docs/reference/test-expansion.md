@@ -1,7 +1,7 @@
 ---
 title: Test Expansion
 sidebar:
-    order: 52
+    order: 26
 ---
 
 ## Test Expansion

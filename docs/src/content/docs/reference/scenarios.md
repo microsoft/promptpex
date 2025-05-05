@@ -1,7 +1,7 @@
 ---
 title: Scenarios
 sidebar:
-    order: 51
+    order: 25
 ---
 
 PromptPex supports specify a set of additional input constraints (scenario)

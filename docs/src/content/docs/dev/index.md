@@ -1,15 +1,22 @@
 ---
 title: Overview
 sidebar:
-    order: 0
+    order: 30
 ---
+
+This section provides documentation for developers who want to use PromptPex in their own projects or infrastructure.
 
 ## Bring Your Own Inference Library
 
 PromptPex is workflow of LLM prompts that implement the test generation process.
-The template are stored in a [markdown-ish, framework agnostic, template format](https://prompty.ai).
+The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/prompt-format).
 
 **PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
+
+It currently has the following implementations:
+
+- [GenAIScript](/promptpex/dev/genaiscript/) - a JavaScript/TypeScript implementation of the test generation process using the prompt templates.
+- [Python](/promptpex/dev/python/) - a Python implementation of the test generation process using the prompt templates.
 
 ## Contributing
 

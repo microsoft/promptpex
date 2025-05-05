@@ -1,13 +1,20 @@
 ---
 title: GenAIScript
 sidebar:
-    order: 10
+    order: 31
 ---
 
-## Setup
+[GenAIScript](https://microsoft.github.io/genaiscript) is a tool for generating and executing scripts using LLMs. It is used in PromptPex to generate the test generation scripts.
 
-### Local development
+## GitHub Codespaces
 
+Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
+
+## Local development
+
+- Clone this repository
 - Install [Node.js v20+](https://nodejs.org/)
 - Install dependencies
 
@@ -22,12 +29,6 @@ Clone this repository and run the following command to run genaiscript in a dock
 ```sh
 docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:20-alpine npx --yes genaiscript@latest serve --network
 ```
-
-### GitHub Codespaces
-
-**Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.**
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
 
 ## Configure the eval, rules, baseline aliases
 

@@ -1,7 +1,7 @@
 ---
 title: Prompt Format
 sidebar:
-    order: 50
+    order: 21
 ---
 
 PromptPex takes [Prompty](https://www.prompty.ai/) file as inputs; these are just markdown with a bit of syntax to

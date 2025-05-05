@@ -1,7 +1,8 @@
 ---
 title: Overview
 sidebar:
-    order: 0
+    order: 20
+    title: Reference
 ---
 
 **Prompts** are an important part of any software project that incorporates

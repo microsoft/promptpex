@@ -1,7 +1,7 @@
 ---
 title: OpenAI Evals API
 sidebar:
-    order: 61
+    order: 28
 ---
 
 PromptPex support exporting the generated tests into a [OpenAI Evals Run](https://platform.openai.com/docs/api-reference/evals).

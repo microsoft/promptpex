@@ -1,7 +1,7 @@
 ---
 title: Metrics
 sidebar:
-    order: 60
+    order: 28
 ---
 
 You can provide custom metrics for the test result evaluation step. Metric can be qualitative (`ok`, `err`, `unknown`) or quantitative (e.g. `0` to `100` good).

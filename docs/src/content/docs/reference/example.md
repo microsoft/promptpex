@@ -1,7 +1,7 @@
 ---
 title: Example
 sidebar:
-    order: 30
+    order: 21
 ---
 
 Here is an example of PromptPex in practice.
