@@ -17,6 +17,7 @@ export default defineConfig({
     integrations: [
         starlight({
             title: "PromptPex",
+            pagination: true,
             plugins: [
                 starlightLlmsTxt({
                     pageSeparator: "\n\n=|=|=|=|=|=\n\n",
