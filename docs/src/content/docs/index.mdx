@@ -14,7 +14,7 @@ hero:
           icon: github
 ---
 
-import { LinkButton } from "@astrojs/starlight/components"
+import { CardGrid, Card, LinkButton } from "@astrojs/starlight/components"
 
 ## Prompts Are Programs
 
@@ -33,44 +33,25 @@ to the function to support unit testing.
 
 <video src="https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949" />
 
-## Overview
-
-PromptPex provides the following capabilities:
-
-- It will **automatically extract output rules** that are expressed in natural language in the
-  prompt. An example of a rule might be "The output should be formatted as JSON".
-- From the rules, it will **generate unit test cases** specifically
-  designed to determine if the prompt, for a given model, correctly
-  follows the rule.
-- Given a set of rules and tests, PromptPex will **evaluate the performance of the prompt on any given model**. For example,
-  a user can determine if a set of unit tests succeeds on gpt-4o-mini
-  but fails on phi3.
-- PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
-- Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
-
-```mermaid
-graph TD
-    PUT(["Prompt Under Test (PUT)"])
-    IS["Input Specification (IS)"]
-    OR["Output Rules (OR)"]
-    IOR["Inverse Output Rules (IOR)"]
-    PPT["PromptPex Tests (PPT)"]
-    TO["Test Output (TO) for MUT"]
-
-    PUT --> IS
-
-    PUT --> OR
-    OR --> IOR
-
-    PUT --> PPT
-    IS --> PPT
-    OR --> PPT
-    IOR --> PPT
-
-    PPT --> TO
-    PUT --> TO
-```
+<CardGrid stagger>
+  <Card title="Automated Test Generation" icon="open-book">
+    PromptPex uses [an LLM-based process](/promptpex/reference/) to generate a set of inputs that capture the behavior of your prompt.
+  </Card>
+  <Card title="Output Rules Evaluation" icon="approve-check-circle">
+    Eval your prompt's output against a set of rules that are automatically extracted from your prompt,
+    or define your own [metrics](/promptpex/reference/metrics).
+  </Card>
+  <Card title="OpenAI Evals" icon="add-document">
+    Export generated tests and metrics using [OpenAI Evals](https://platform.openai.com/docs/guides/evals).
+  </Card>
+  <Card title="Bring your own LLM library" icon="approve-check-circle">  
+    Integrate with your own LLM library or use our [GenAIScript](/promptpex/reference/genaiscript) / [Python](/promptpex/reference/python) implementations
+  </Card>
+  <Card title="Flexible" icon="open-book">
+    Use [scenarios](/promptpex/reference/scenarios), [test expansions](/promptpex/reference/test-expansions) or [custom instruction](/promptpex/reference/custom-instructions) to configure the test generation.
+  </Card>
+</CardGrid>
 
 <LinkButton href="/promptpex/reference" variant="primary" icon="rocket">
-    Read the docs
+Get started
 </LinkButton>

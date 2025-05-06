@@ -7,9 +7,9 @@ Here is an example of basic idea of PromptPex applied to a prompt.
 
 ## Example prompt
 
-Let's look at a prompt that is designed to identify the part of speech of a word in a sentence ([full version](https://github.com/microsoft/promptpex/blob/main/samples/speech-tag/speech-tag.prompty)).
+Let's look at a prompt that is designed to identify the part of speech of a word in a sentence ([full version](https://github.com/microsoft/promptpex/blob/main/samples/speech-tag/speech-tag.prompty)). The prompt is referenced as the **Prompt Under Test (PUT)**. 
 
-```text wrap title="speech_tag.prompty"
+```markdown wrap
 In this task, you will be presented with a sentence and a word contained in that sentence. You have to determine the part of speech
 for a given word and return just the tag for the word's part of speech. Return only the part of speech tag.
 If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -17,7 +17,7 @@ If the word cannot be tagged with the listed tags, return Unknown. If you are un
 
 ## Input Specification
 
-The first transformation takes the prompt and extracts the input specification. 
+The first transformation takes the prompt uder test and extracts the **input specification (IS)**. 
 The input specification is a description of the input to the prompt. 
 In this case, the input consists of a sentence and a word from that sentence.
 
@@ -37,7 +37,7 @@ The word must be a single word from the provided sentence.
 
 ## Output Rules
 
-The second transformation takes the prompt and extracts the output rules.
+The second transformation takes the prompt under test and extracts the **output rules (OR)**.
 The output rules are a description of the output of the prompt.
 In this case, the output consists of a part of speech tag for the word.
 
@@ -58,7 +58,7 @@ If tagging the given word is not possible for any reason, the output should be t
 
 ## Inverse Output Rules
 
-The third transformation takes the output rules and generates the inverse output rules.
+The third transformation takes the output rules and generates the **inverse output rules (IOR)**.
 The inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
 In this case, the inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
 

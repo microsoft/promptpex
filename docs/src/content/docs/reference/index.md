@@ -29,3 +29,27 @@ PromptPex provides the following capabilities:
   but fails on phi3.
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
+
+
+```mermaid
+graph TD
+    PUT(["Prompt Under Test (PUT)"])
+    IS["Input Specification (IS)"]
+    OR["Output Rules (OR)"]
+    IOR["Inverse Output Rules (IOR)"]
+    PPT["PromptPex Tests (PPT)"]
+    TO["Test Output (TO) for MUT"]
+
+    PUT --> IS
+
+    PUT --> OR
+    OR --> IOR
+
+    PUT --> PPT
+    IS --> PPT
+    OR --> PPT
+    IOR --> PPT
+
+    PPT --> TO
+    PUT --> TO
+```
