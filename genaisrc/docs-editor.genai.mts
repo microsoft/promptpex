@@ -4,7 +4,10 @@ script({
     files: "docs/src/content/**",
 })
 
-def("FILE", env.files)
+const files = env.files.filter(
+    ({ filename }) => !/responsible-ai-transparency-note.md/.test(filename)
+)
+def("FILE", files)
 
 $`## Step 1: Update documentation
 
@@ -27,6 +30,5 @@ Bob, your task is to review and update the project documentation following these
 - Be specific and provide examples from the documentation to support your feedback.
 
 ### Output
-- Explain your reasoning in markdown.
-- Report your updates using the Annotations format.
+Report your updates using the Annotations format.
 `
