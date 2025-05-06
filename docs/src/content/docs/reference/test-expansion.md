@@ -3,8 +3,6 @@ title: Test Expansion
 sidebar:
     order: 26
 ---
-import { LinkCard } from "@astrojs/starlight/components"
-
 ## Test Expansion
 
 Test expansion is a way to generate more complex tests from the initial test cases. It uses the same LLM as the one used for the prompt under test.
@@ -40,5 +38,3 @@ graph TD
 ## Parameters
 
 - `testExpansions`: The number of test expansions to generate. This is a positive integer. The default value is `1`.
-
-<LinkCard  title="Test Samples" href="/promptpex/reference/test-samples" />

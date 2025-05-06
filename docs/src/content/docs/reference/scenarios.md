@@ -1,10 +1,8 @@
 ---
 title: Scenarios
 sidebar:
-    order: 27
+    order: 28
 ---
-import { LinkCard } from "@astrojs/starlight/components"
-
 PromptPex supports specify a set of additional input constraints (scenario)
 to generate specific test suites. A canonical example would be
 localization testing: `generate English, generate French`.
@@ -51,5 +49,3 @@ scenarios:
       parameters:
           locale: fr-FR
 ```
-
-<LinkCard  title="Test Expansion" href="/promptpex/reference/test-expansion" />

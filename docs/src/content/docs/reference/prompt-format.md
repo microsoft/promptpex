@@ -3,9 +3,8 @@ title: Prompt Format
 sidebar:
     order: 21
 ---
-import { LinkCard } from "@astrojs/starlight/components"
 
-PromptPex takes [Prompty](https://www.prompty.ai/) file as inputs; these are just markdown with a bit of syntax to
+PromptPex supports markdown-based prompt format based on [Prompty](https://www.prompty.ai/); these are just markdown with a bit of syntax to
 represent messages and the input/output signature of the prompt.
 
 The `demo` prompt below defines a set of parameters (`inputs` as a set of JSON schema types).
@@ -19,15 +18,6 @@ name: A demo
 inputs:
     joke: "how do you make a tissue dance? You put a little boogie in it."
     locale: "en-us"
-scenarios:
-    - name: English
-      instructions: The user speaks and writes in English.
-    - name: French
-      instructions: The user speaks and writes in French.
-      parameters:
-          locale: fr-FR
-tags:
-    - unlisted
 ---
 
 system:
@@ -39,4 +29,6 @@ user:
 {{joke}}
 ```
 
-<LinkCard  title="Scenarios" href="/promptpex/reference/scenarios" />
+## Schema
+
+The JSON schema of the prompt front matter is available at [https://microsoft.github.io/promptex/schemas/prompt.json](/promptex/schemas/prompt.json).

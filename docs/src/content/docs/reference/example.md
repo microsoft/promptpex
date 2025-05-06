@@ -3,8 +3,6 @@ title: Example
 sidebar:
     order: 21
 ---
-import { LinkCard } from "@astrojs/starlight/components"
-
 Here is an example of basic idea of PromptPex applied to a prompt.
 
 ## Example prompt
@@ -105,6 +103,3 @@ sentence: 'The researchers documented carefully.', word: 'carefully'
 # Note this tests the Unknown corner case
 sentence: 'This is such a unique perspective.', word: 'such'
 ```
-
-<LinkCard  title="Prompt Format" href="/promptpex/reference/prompt-format" />
-

@@ -4,8 +4,6 @@ sidebar:
     order: 20
     title: Reference
 ---
-import { LinkCard } from "@astrojs/starlight/components"
-
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
 effective prompts are increasingly important.
@@ -31,5 +29,3 @@ PromptPex provides the following capabilities:
   but fails on phi3.
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
-
-<LinkCard  title="Example" href="/promptpex/reference/example" />
