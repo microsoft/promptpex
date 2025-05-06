@@ -31,4 +31,4 @@ user:
 
 ## Schema
 
-The JSON schema of the prompt front matter is available at [https://microsoft.github.io/promptex/schemas/prompt.json](/promptex/schemas/prompt.json).
+The JSON schema of the prompt front matter is available at [https://microsoft.github.io/promptex/schemas/prompt.json](ttps://microsoft.github.io/promptex/schemas/prompt.json).
