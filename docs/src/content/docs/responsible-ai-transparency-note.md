@@ -7,7 +7,7 @@ keywords: AI prompts, LLM testing, prompt engineering, AI development, responsib
 lastUpdated: 2025-02-18
 ---
 
-# PromptPex: Responsible AI Transparency Note
+# Responsible AI Transparency Note
 
 ## What is PromptPex?
 
