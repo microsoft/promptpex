@@ -12,4 +12,7 @@ To enable this mode, you need to
 - set the `OPENAI_API_KEY` environment variable to your OpenAI API key
 - set the `createEvalRuns` parameter to true.
 
+The OpenAI models that can be used as MUT are available here: [OpenAI Models](https://platform.openai.com/docs/models).
+
+
 ![A screenshot of the evals screen in openai](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
