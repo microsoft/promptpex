@@ -9,6 +9,9 @@ import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
 const { output } = env
 
+// OpenAI: https://platform.openai.com/docs/api-reference/evals
+// Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
+
 async function toEvalTemplate(file: WorkspaceFile) {
     const patched = {
         filename: file.filename,

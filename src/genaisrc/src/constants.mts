@@ -56,6 +56,8 @@ export const PROMPT_ALL = [
     PROMPT_EXPAND_TEST,
 ]
 
+export const INTENT_RETRY = 2
+export const INPUT_SPEC_RETRY = 2
 export const CONCURRENCY = 2
 export const RULES_NUM = 0
 export const TESTS_NUM = 3
@@ -142,3 +144,5 @@ export const DOCS_GLOSSARY = `
 export const OK_ERR_CHOICES = ["OK", "ERR"]
 export const OK_CHOICE = OK_ERR_CHOICES[0]
 export const TEST_DATA_LENGTH = 64
+
+export const TEST_SAMPLES_COUNT_DEFAULT = 5

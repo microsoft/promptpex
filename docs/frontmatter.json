@@ -1,0 +1,114 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://github.com/microsoft/promptpext/prompty-frontmatter.json",
+    "title": "Promptpex front matter schema specification",
+    "description": "A specification that describes how to provision a new prompty using definition frontmatter.",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string",
+            "description": "Name of the prompty"
+        },
+        "description": {
+            "type": "string",
+            "description": "Description of the prompty"
+        },
+        "version": {
+            "type": "string",
+            "description": "Version of the prompty"
+        },
+        "source": {
+            "type": "string",
+            "description": "Source of the prompty"
+        },
+        "url": {
+            "type": "string",
+            "description": "URL of the prompty"
+        },
+        "model": {
+            "type": "object",
+            "description": "The model to be used in the prompty",
+            "additionalProperties": true
+        },
+        "tags": {
+            "type": "array",
+            "description": "Tags of the prompty",
+            "items": {
+                "type": "string"
+            }
+        },
+        "sample": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "description": "The sample to be used in the prompty test execution",
+                    "additionalProperties": true
+                },
+                {
+                    "type": "string",
+                    "description": "The file to be loaded to be used in the prompty test execution"
+                }
+            ]
+        },
+        "inputs": {
+            "type": "object",
+            "description": "The inputs to the prompty"
+        },
+        "outputs": {
+            "type": "object",
+            "description": "The outputs of the prompty"
+        },
+        "instructions": {
+            "type": "object",
+            "description": "Custom prompting instructions",
+            "additionalProperties": true
+        },
+        "scenarios": {
+            "type": "array",
+            "description": "The scenarios for promptpex",
+            "items": {
+                "type": "object",
+                "description": "The scenario of the prompty",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the scenario"
+                    },
+                    "instructions": {
+                        "type": "string",
+                        "description": "Custom prompt instructions for the scenario for rule generation"
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "description": "The parameters for the scenario",
+                        "additionalProperties": {
+                            "type": ["boolean", "string", "number", "integer"],
+                            "description": "The parameter for the scenario"
+                        }
+                    }
+                }
+            }
+        },
+        "testSamples": {
+            "type": "array",
+            "description": "The test samples for the prompty",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The file to be loaded to be used in the prompty test execution"
+                    },
+                    {
+                        "type": "object",
+                        "description": "The test sample of the prompty",
+                        "additionalProperties": true
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": false
+}
