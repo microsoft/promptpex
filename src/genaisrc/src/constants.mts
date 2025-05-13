@@ -146,3 +146,6 @@ export const OK_CHOICE = OK_ERR_CHOICES[0]
 export const TEST_DATA_LENGTH = 64
 
 export const TEST_SAMPLES_COUNT_DEFAULT = 5
+
+export const MODEL_ALIAS_EVAL = "eval"
+export const MODEL_ALIAS_STORE = "store"

@@ -59,6 +59,7 @@ export async function loadPromptFiles(
         ? path.join(out || path.dirname(filename), basename)
         : ""
     dbg(`dir: ${dir}`)
+    const runId = Math.random().toString(36).slice(2, 10)
     const intent = path.join(dir, "intent.txt")
     const rules = path.join(dir, "rules.txt")
     const inverseRules = path.join(dir, "inverse_rules.txt")
@@ -96,6 +97,7 @@ export async function loadPromptFiles(
     )
 
     const res = {
+        runId,
         writeResults,
         dir,
         name: basename,

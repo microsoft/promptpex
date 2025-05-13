@@ -1,3 +1,4 @@
+import { MODEL_ALIAS_STORE } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -25,8 +26,8 @@ export async function runTests(
     files: PromptPexContext,
     options?: PromptPexOptions
 ): Promise<PromptPexTestResult[]> {
-    const { modelsUnderTest, maxTestsToRun, storeModel, runsPerTest = 1 } = options || {}
-    if (!modelsUnderTest?.length && !storeModel) throw new Error("No models to run tests on")
+    const { modelsUnderTest, maxTestsToRun, storeCompletions, storeModel = MODEL_ALIAS_STORE, runsPerTest = 1 } = options || {}
+    if (!modelsUnderTest?.length && !storeCompletions) throw new Error("No models to run tests on")
 
     const rulesTests = parseRulesTests(files.tests.content)
     dbg(`found ${rulesTests.length} tests`)
@@ -60,7 +61,7 @@ export async function runTests(
     })
 
     const modelsToRun: { model: ModelType, metadata: Record<string, string> }[] = [
-        storeModel ? {
+        storeCompletions ? {
             model: storeModel,
             metadata: {
                 prompt: files.name,
@@ -81,6 +82,7 @@ export async function runTests(
             )
             const testMetadata: Record<string, string> = metadata ? {
                 ...metadata,
+                run: files.runId,
                 scenario: test.scenario,
                 testid: !isNaN(test.testid) ? String(test.testid) : undefined,
                 ruleid: !isNaN(test.ruleid) ? String(test.ruleid) : undefined,

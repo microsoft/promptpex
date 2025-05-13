@@ -1,4 +1,5 @@
 import { checkConfirm } from "./confirm.mts"
+import { MODEL_ALIAS_EVAL } from "./constants.mts"
 import { modelOptions, checkLLMEvaluation, metricName } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -31,7 +32,7 @@ async function evaluateTestMetric(
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = "eval" } = options || {}
+    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
     if (testResult.input === undefined)

@@ -68,12 +68,12 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     /**
      * Model used to evaluate rules
      */
-    evalModel?: ModelType
+    evalModel?: ModelType | "eval"
 
     /**
      * Model used to run tests for distillation/evaluation
      */
-    storeModel?: ModelType
+    storeModel?: ModelType | "store"
 
     /**
      * Model used to generate baseline tests
@@ -116,6 +116,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     cache?: boolean | string
 
     /**
+     * Run tests with 'store' model and store completions for fine tuning or evaluation
+     */
+    storeCompletions?: boolean
+
+    /**
      * List of models to run the prompt against
      */
     modelsUnderTest?: ModelType[]
@@ -153,6 +158,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
  * - Model Under Test (MUT) - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
  */
 export interface PromptPexContext {
+    /**
+     * Unique identifier for the run
+     */
+    runId: string
+
     /** Should write results to files */
     writeResults?: boolean
     /**

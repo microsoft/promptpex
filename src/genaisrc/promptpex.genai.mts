@@ -19,6 +19,7 @@ import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions } from "./src/types.mts"
+import { MODEL_ALIAS_STORE } from "./src/constants.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -227,6 +228,10 @@ promptPex:
                 "These instructions will be added to the test expansion generation prompt.",
             uiGroup: "Instructions",
         },
+        storeCompletions: {
+            type: "boolean",
+            description: "Run the test with `store` model and store the results using [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions).",
+        },
         storeModel: {
             type: "string",
             description:
@@ -356,6 +361,7 @@ const {
     baselineModel,
     rulesModel,
     evalModel,
+    storeCompletions,
     storeModel,
     maxTestsToRun,
     prompt: promptText,
@@ -394,6 +400,7 @@ const options = {
     workflowDiagram: !process.env.DEBUG,
     baselineModel,
     rulesModel,
+    storeCompletions,
     evalModel,
     storeModel,
     testsPerRule,
@@ -501,11 +508,13 @@ await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)
-} else if (!modelsUnderTest?.length && !storeModel) {
-    output.warn(`No modelsUnderTest or storeModel specified. Skipping test run.`)
+} else if (!modelsUnderTest?.length && !storeCompletions) {
+    output.warn(`No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`)
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Runs with Models Under Test`)
+    if (storeCompletions)
+        output.itemValue(`stored completion model`, (await host.resolveLanguageModel(storeModel || MODEL_ALIAS_STORE))?.model || 'store')
     output.itemValue(`models under test`, modelsUnderTest.join(", "))
 
     output.heading(4, `Metrics`)
@@ -553,7 +562,7 @@ if (files.writeResults)
     await workspace.writeText(
         path.join(files.dir, "overview.csv"),
         CSV.stringify(overview, { header: true })
-        
+
     )
 
 output.appendContent("\n\n---\n\n")
