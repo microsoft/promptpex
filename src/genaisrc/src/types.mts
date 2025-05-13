@@ -71,6 +71,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     evalModel?: ModelType
 
     /**
+     * Model used to run tests for distillation/evaluation
+     */
+    storeModel?: ModelType
+
+    /**
      * Model used to generate baseline tests
      */
     baselineModel?: ModelType

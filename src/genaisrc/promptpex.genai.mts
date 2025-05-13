@@ -89,7 +89,7 @@ promptPex:
         cache: {
             type: "boolean",
             description:
-                "Cache all LLM calls. This accelerates experiementation but you may miss issues due to LLM flakiness.",
+                "Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.",
             uiGroup: "Cache",
         },
         testRunCache: {
@@ -128,7 +128,7 @@ promptPex:
         testGenerations: {
             type: "integer",
             description:
-                "Number of times to amplify the test generation. This parameter allows to generate more tests for the same rules by repeatidly running the test generation process, while asking the LLM to avoid regenerating existing tests.",
+                "Number of times to amplify the test generation. This parameter allows to generate more tests for the same rules by repeatedly running the test generation process, while asking the LLM to avoid regenerating existing tests.",
             default: 2,
             minimum: 1,
             maximum: 10,
@@ -155,6 +155,7 @@ promptPex:
                 "Model used to generate rules (you can also override the model alias 'rules')",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
@@ -167,6 +168,7 @@ promptPex:
                 "Model used to evaluate rules (you can also override the model alias 'eval')",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
@@ -176,7 +178,7 @@ promptPex:
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            uiSuggestions: ["openai:gpt-4o"],
+            uiSuggestions: ["openai:gpt-4o", "azure:gpt-4o"],
             uiGroup: "Evaluation",
         },
         modelsUnderTest: {
@@ -224,6 +226,16 @@ promptPex:
             description:
                 "These instructions will be added to the test expansion generation prompt.",
             uiGroup: "Instructions",
+        },
+        storeModel: {
+            type: "string",
+            description:
+                "Model used to create [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) (you can also override the model alias 'store'). ",
+            uiSuggestions: [
+                "openai:gpt-4.1",
+                "azure:gpt-4.1"
+            ],
+            uiGroup: "Evaluation",
         },
         customMetric: {
             type: "string",
@@ -344,6 +356,7 @@ const {
     baselineModel,
     rulesModel,
     evalModel,
+    storeModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -382,6 +395,7 @@ const options = {
     baselineModel,
     rulesModel,
     evalModel,
+    storeModel,
     testsPerRule,
     maxTestsToRun,
     runsPerTest,
@@ -487,8 +501,8 @@ await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)
-} else if (!modelsUnderTest?.length) {
-    output.warn(`No modelsUnderTest specified. Skipping test run.`)
+} else if (!modelsUnderTest?.length && !storeModel) {
+    output.warn(`No modelsUnderTest or storeModel specified. Skipping test run.`)
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Runs with Models Under Test`)

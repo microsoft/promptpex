@@ -25,8 +25,8 @@ export async function runTests(
     files: PromptPexContext,
     options?: PromptPexOptions
 ): Promise<PromptPexTestResult[]> {
-    const { modelsUnderTest, maxTestsToRun, runsPerTest = 1 } = options || {}
-    if (!modelsUnderTest?.length) throw new Error("No models to run tests on")
+    const { modelsUnderTest, maxTestsToRun, storeModel, runsPerTest = 1 } = options || {}
+    if (!modelsUnderTest?.length && !storeModel) throw new Error("No models to run tests on")
 
     const rulesTests = parseRulesTests(files.tests.content)
     dbg(`found ${rulesTests.length} tests`)
@@ -58,17 +58,41 @@ export async function runTests(
     output.startDetails(`running ${tests.length} tests (x ${runsPerTest})`, {
         expanded: false,
     })
+
+    const modelsToRun: { model: ModelType, metadata: Record<string, string> }[] = [
+        storeModel ? {
+            model: storeModel,
+            metadata: {
+                prompt: files.name,
+                ...files.versions,
+            }
+        } : undefined,
+        ...modelsUnderTest.map(model => ({ model, metadata: undefined }))
+    ].filter(Boolean)
+
+    const ntraining = tests.length * 0.75
     const testResults: PromptPexTestResult[] = []
-    for (const modelUnderTest of modelsUnderTest) {
+    for (const modelToRun of modelsToRun) {
+        const { model: modelUnderTest, metadata } = modelToRun
         for (let testi = 0; testi < tests.length; ++testi) {
             const test = tests[testi]
             console.log(
                 `${files.name}> ${modelUnderTest}: run test ${testi + 1}/${tests.length}x${runsPerTest} ${test.testinput.slice(0, 42)}...`
             )
+            const testMetadata: Record<string, string> = metadata ? {
+                ...metadata,
+                scenario: test.scenario,
+                testid: !isNaN(test.testid) ? String(test.testid) : undefined,
+                ruleid: !isNaN(test.ruleid) ? String(test.ruleid) : undefined,
+                baseline: test.baseline ? 'true' : undefined,
+                generation: !isNaN(test.generation) ? String(test.generation) : undefined,
+                dataset: testi < ntraining ? 'training' : 'test',
+            } : undefined
             for (let ri = 0; ri < runsPerTest; ++ri) {
                 const testRes = await runTest(files, test, {
                     ...options,
                     model: modelUnderTest,
+                    metadata: testMetadata
                 })
                 assert(testRes.model)
                 if (testRes) {
@@ -94,9 +118,10 @@ async function runTest(
     options?: PromptPexOptions & {
         model?: ModelType
         compliance?: boolean
+        metadata?: Record<string, string>
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, evalCache } = options || {}
+    const { model, compliance, evalCache, metadata } = options || {}
     if (!model) throw new Error("No model provided for test")
 
     const { cache, testRunCache, ...optionsNoCache } = options || {}
@@ -139,6 +164,7 @@ async function runTest(
             },
             {
                 ...moptions,
+                metadata,
                 label: `${files.name}> ${moptions.model}: run test ${testInput.slice(0, 42)}...`,
             }
         )
