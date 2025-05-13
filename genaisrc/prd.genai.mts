@@ -2,6 +2,7 @@ script({
     title: "Pull Request Descriptor",
     description: "Generate a pull request description from the git diff",
     temperature: 0.5,
+    unlisted: true,
     systemSafety: true,
     parameters: {
         base: {
