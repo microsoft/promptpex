@@ -61,13 +61,16 @@ export async function runTests(
 
     const modelsToRun: { model: ModelType, metadata: Record<string, string> }[] = [
         storeModel ? {
-            model: storeModel, metadata: {
-                generator: "promptpex"
+            model: storeModel,
+            metadata: {
+                prompt: files.name,
+                ...files.versions,
             }
         } : undefined,
         ...modelsUnderTest.map(model => ({ model, metadata: undefined }))
     ].filter(Boolean)
 
+    const ntraining = tests.length * 0.75
     const testResults: PromptPexTestResult[] = []
     for (const modelToRun of modelsToRun) {
         const { model: modelUnderTest, metadata } = modelToRun
@@ -76,11 +79,20 @@ export async function runTests(
             console.log(
                 `${files.name}> ${modelUnderTest}: run test ${testi + 1}/${tests.length}x${runsPerTest} ${test.testinput.slice(0, 42)}...`
             )
+            const testMetadata: Record<string, string> = metadata ? {
+                ...metadata,
+                scenario: test.scenario,
+                testid: !isNaN(test.testid) ? String(test.testid) : undefined,
+                ruleid: !isNaN(test.ruleid) ? String(test.ruleid) : undefined,
+                baseline: test.baseline ? 'true' : undefined,
+                generation: !isNaN(test.generation) ? String(test.generation) : undefined,
+                dataset: testi < ntraining ? 'training' : 'test',
+            } : undefined
             for (let ri = 0; ri < runsPerTest; ++ri) {
                 const testRes = await runTest(files, test, {
                     ...options,
                     model: modelUnderTest,
-                    metadata
+                    metadata: testMetadata
                 })
                 assert(testRes.model)
                 if (testRes) {
@@ -109,7 +121,7 @@ async function runTest(
         metadata?: Record<string, string>
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, evalCache } = options || {}
+    const { model, compliance, evalCache, metadata } = options || {}
     if (!model) throw new Error("No model provided for test")
 
     const { cache, testRunCache, ...optionsNoCache } = options || {}
@@ -152,7 +164,7 @@ async function runTest(
             },
             {
                 ...moptions,
-//                metadata,
+                metadata,
                 label: `${files.name}> ${moptions.model}: run test ${testInput.slice(0, 42)}...`,
             }
         )
