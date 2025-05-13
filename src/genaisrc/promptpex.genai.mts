@@ -552,7 +552,8 @@ output.table(overview)
 if (files.writeResults)
     await workspace.writeText(
         path.join(files.dir, "overview.csv"),
-        CSV.stringify(overview)
+        CSV.stringify(overview, { header: true })
+        
     )
 
 output.appendContent("\n\n---\n\n")
