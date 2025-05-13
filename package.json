@@ -2,9 +2,10 @@
     "name": "promptpex",
     "version": "0.0.1",
     "devDependencies": {
-        "genaiscript": "^1.134.2",
-        "openai": "^4.97.0",
-        "prettier": "^3.5.3"
+        "genaiscript": "^1.136.0",
+        "openai": "^4.98.0",
+        "prettier": "^3.5.3",
+        "zx": "^8.5.4"
     },
     "scripts": {
         "postinstall": "genaiscript scripts fix",
@@ -27,7 +28,7 @@
         "dev": "genaiscript run dev",
         "dev:fabric": "genaiscript run dev --vars \"fabric=v1.4.149\" --vars \"samplePrompts=1\"",
         "lint": "prettier --write src/**/*.mts",
-        "test": "genaiscript run test --env .env.test",
+        "test": "genaiscript run test --env .test.env",
         "docs": "npm run build:schemas && cd docs && npm run dev",
         "promptpex:bare:azure": "genaiscript run promptpex \"samples/demo/bare.prompty\" --vars \"compliance=true\" --model \"azure:gpt-4o_2024-11-20\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals",
         "promptpex:joke:github": "genaiscript run promptpex \"samples/demo/joke.prompty\" --model \"github:gpt-4o\" --vars \"modelsUnderTest=github:gpt-4o-mini\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals",
@@ -47,6 +48,7 @@
         "promptpex:paper-speech-tag-cache": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"cache=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-speech-tag-tplus\"",
         "promptpex:paper-speech-tag-1tpr-3rpt": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-speech-tag-1tpr-3rpt\" --vars \"testsPerRule=1\" --vars \"runsPerTest=5\" ",
         "promptpex:paper-speech-tag-4o": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:phi4;ollama:qwen2.5:3b\" --vars \"out=evals/paper-speech-tag-4o\"",
+        "promptpex:speech-tag-evaltest": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\" --vars \"evals=true\" --vars \"createEvalRuns=true\" --vars \"modelsUnderTest=openai:gpt-4.1-nano-2025-04-14;openai:gpt-4o-mini-2024-07-18\"  --vars \"splitRules=false\" --vars \"maxRulesPerTestGeneration=20\" --vars \"testGenerations=1\"  --vars \"testExpansions=1\" --vars \"out=evals/paper-speech-tag-evaltest\"",
         "promptpex:paper-classify-input-text": "genaiscript run paper \"samples/text-classification/classify-input-text.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-classify-input-text\"",
         "promptpex:paper-art-prompt": "genaiscript run paper \"samples/big-prompt-lib/art-prompt.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-art-prompt\"",
         "promptpex:paper": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" \"samples/text-to-p/text-to-p.prompty\" \"samples/openai-examples/elements.prompty\" \"samples/big-prompt-lib/art-prompt.prompty\" \"samples/prompt-guide/extract-names.prompty\" \"samples/text-classification/classify-input-text.prompty\" \"samples/big-prompt-lib/sentence-rewrite.prompty\" \"samples/azure-ai-studio/shakespearean-writing-assistant.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper\"",

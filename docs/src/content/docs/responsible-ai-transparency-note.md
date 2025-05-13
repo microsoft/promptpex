@@ -25,7 +25,7 @@ PromptPex provides a suite of functionalities including:
 
 The intended use of PromptPex, as identified through its impact assessment, is to simplify the development of AI prompts by providing structured and automated tools for prompt evaluation and testing. This is aimed at improving the reliability of AI interactions and facilitating better integration of AI capabilities within software applications.
 
-The released version of PromptPex is intended as a research prototype and should be used primarily for research purposes. It is not intended for production use. The goal of the release is to highlight new tools to support the development of AI systems, and to solicit feedback from the community on the tool's capabilities and limitations.
+The released version of PromptPex is an open-source library under active development and intended for use for research purposes. It should not be used in any downstream applications without additional detailed evaluation of robustness, safety issues and assessment of any potential harm or bias in the proposed application.
 
 ## How was PromptPex evaluated? What metrics are used to measure performance?
 
