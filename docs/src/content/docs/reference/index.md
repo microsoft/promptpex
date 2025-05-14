@@ -23,22 +23,19 @@ to the function to support unit testing.
 
 - [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
+## How test generation works
 
-## How it works
+The test generation process is a workflow of LLM invocation that process the prompt template into a test suite.
 
-PromptPex provides the following capabilities:
+The essential concepts are:
 
-- It will **automatically extract output rules** that are expressed in natural language in the
-  prompt. An example of a rule might be "The output should be formatted as JSON".
-- From the rules, it will **generate unit test cases** specifically
-  designed to determine if the prompt, for a given model, correctly
-  follows the rule.
-- Given a set of rules and tests, PromptPex will **evaluate the performance of the prompt on any given model**. For example,
-  a user can determine if a set of unit tests succeeds on gpt-4o-mini
-  but fails on phi3.
-- PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
-- Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
+- **Prompt Under Test (PUT)**: The prompt under test is the prompt that is being tested. It is a function that takes an input and produces an output.
+- **Input Specification (IS)**: The input specification describes the input to the prompt. It is a set of constraints on the input that are used to generate test cases.
+- **Output Rules (OR)**: The output rules describe the expected output of the prompt. It is a set of constraints on the output that are used to generate test cases.
+- **Inverse Output Rules (IOR)**: The inverse output rules is the inverse of the output rules. It is used
+  to generate diverse test cases that stress test the robustness of the prompt.
 
+The input specification, output rules and prompts is then used to generate a set of test cases using various LLM calls.
 
 ```mermaid
 graph TD

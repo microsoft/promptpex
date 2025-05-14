@@ -18,7 +18,7 @@ npx --yes genaiscript configure
 - Launch promptpex remotely
 
 ```sh
-npx --yes genaiscript serve --remote microsoft/promptpex
+npx --yes genaiscript serve --remote microsoft/promptpex --remoteBranch dev
 ```
 
 ## GitHub Codespaces

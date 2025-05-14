@@ -12,7 +12,7 @@ The `system`/`user` messages are separate by `system:`, `user:` markers in the m
 It uses the Jinja2 template engine to insert values (`{{joke}}`).
 The `scenarios` array is used to expand the test generation with further input specification and optional input values.
 
-```md
+```md wrap
 ---
 name: A demo
 inputs:
@@ -29,6 +29,52 @@ user:
 {{joke}}
 ```
 
-## Schema
+## Messages
+
+You can represent entire chat conversations in the prompt using the `system`, `user` and `assistant` messages.
+
+```md wrap "user:" "system:" "assistant:"
+---
+name: A travel assistant
+input:
+    answer: "Next week."
+---
+system:
+You are a travel assistant.
+
+user:
+I want to go to Paris.
+
+assistant:
+Where do you want to go in Paris?
+
+user:
+{{answer}}
+```
+
+## Frontmatter 
+
+The frontmatter is a YAML block at the beginning of the markdown file. It contains metadata about the prompt, such as the name, inputs, and other properties. It starts and ends with `---` lines.
+
+PromptPex supports most of the [Prompty frontmatter](https://www.prompty.ai/docs/prompt-frontmatter) properties with a few additions.
+
+```yaml
+---
+name: A demo
+inputs:
+    joke: "how do you make a tissue dance? You put a little boogie in it."
+    locale: "en-us"
+---
+```
+
+### Schema
 
 The JSON schema of the prompt front matter is available at [https://microsoft.github.io/promptpex/schemas/prompt.json](https://microsoft.github.io/promptpex/schemas/prompt.json).
+
+## Converting your prompt
+
+The [promptpex-importer](https://github.com/microsoft/promptpex/blob/dev/src/genaisrc/prompty-importer.genai.mts) script is a tool that uses an LLM to convert your prompt to the prompty format.
+
+Follow the [GenAIScript](/promptpex/dev/genaiscript) instructions to launch the web server
+and the run `promptpex-importer` command to convert your prompt.
+

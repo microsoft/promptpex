@@ -111,3 +111,29 @@ sentence: 'The researchers documented carefully.', word: 'carefully'
 # Note this tests the Unknown corner case
 sentence: 'This is such a unique perspective.', word: 'such'
 ```
+
+## Try it out!
+
+We provide a local web interface to try out the test generation process.
+It requires to configure your LLM credentials in `.env` file.
+
+![A screenshot of the promptpex web interface](./web-interface.png)
+
+- Install [Node.js v20+](https://nodejs.org/)
+- Configure your LLM credentials in `.env`. You can use OpenAI, Azure OpenAI, or Ollama.
+
+```sh
+npx --yes genaiscript configure
+```
+
+- Launch promptpex remotely
+
+```sh
+npx --yes genaiscript serve --remote microsoft/promptpex --remoteBranch dev
+```
+
+:::tip
+
+Want to use Python? Checkout the [Python implementation](/promptpex/dev/python/).
+
+:::
