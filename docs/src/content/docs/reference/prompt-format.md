@@ -62,14 +62,21 @@ PromptPex supports most of the [Prompty frontmatter](https://www.prompty.ai/docs
 ---
 name: A demo
 inputs:
+    # shortcut syntax: provide a value
     joke: "how do you make a tissue dance? You put a little boogie in it."
-    locale: "en-us"
+    # JSON schema syntax
+    locale:
+        type: string
+        description: The locale of the joke.
+        default: "en-us"
 ---
 ```
 
 ### Schema
 
 The JSON schema of the prompt front matter is available at [https://microsoft.github.io/promptpex/schemas/prompt.json](https://microsoft.github.io/promptpex/schemas/prompt.json).
+
+The TypeScript types are available at [https://github.com/microsoft/promptpex/blob/dev/src/genaisrc/src/types.mts](https://github.com/microsoft/promptpex/blob/dev/src/genaisrc/src/types.mts).
 
 ## Converting your prompt
 
