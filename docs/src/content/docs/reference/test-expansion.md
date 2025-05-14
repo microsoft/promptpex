@@ -3,10 +3,8 @@ title: Test Expansion
 sidebar:
     order: 22
 ---
-import { Code } from '@astrojs/starlight/components';
-import promptSrc from "../../../../../src/prompts/expand_test.prompty?raw";
 
-Test expansion uses a LLM call to _expand_ a test and make it more complex. It can be applied repeatedly to generate a set of tests with different levels of complexity.
+Test expansion uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/expand_test.prompty) to _expand_ a test and make it more complex. It can be applied repeatedly to generate a set of tests with different levels of complexity.
 
 ```mermaid
 graph TD
@@ -59,10 +57,3 @@ testExpansions: 0
 testExpansions: 2
 ---
 ```
-
-## LLM Template
-
-The [expand_test](https://github.com/microsoft/promptpex/blob/main/src/prompts/expand_test.prompty)
-template implements the test expansion.
-
-<Code code={promptSrc} wrap title="src/prompts/expand_test.prompty" lang="md" />

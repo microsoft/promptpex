@@ -1,9 +1,11 @@
 ---
-title: Example
+title: Test Generation
 sidebar:
     order: 21
 ---
-Here is an example of basic idea of PromptPex applied to a prompt.
+The heart of the test generation process is a series of transformations that take a prompt under test and generate a set of tests. 
+
+- [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
 ## Example prompt
 
@@ -23,7 +25,7 @@ If the word cannot be tagged with the listed tags, return Unknown. If you are un
 
 ## Input Specification
 
-The first transformation takes the prompt uder test and extracts the **input specification (IS)**. 
+The [first transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_intent.prompty) takes the prompt uder test and extracts the **input specification (IS)**. 
 The input specification is a description of the input to the prompt. 
 In this case, the input consists of a sentence and a word from that sentence.
 
@@ -43,7 +45,7 @@ The word must be a single word from the provided sentence.
 
 ## Output Rules
 
-The second transformation takes the prompt under test and extracts the **output rules (OR)**.
+The [second transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_output_rules.prompty) takes the prompt under test and extracts the **output rules (OR)**.
 The output rules are a description of the output of the prompt.
 In this case, the output consists of a part of speech tag for the word.
 
@@ -64,7 +66,7 @@ If tagging the given word is not possible for any reason, the output should be t
 
 ## Inverse Output Rules
 
-The third transformation takes the output rules and generates the **inverse output rules (IOR)**.
+The [third transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_inverse_rules.prompty) takes the output rules and generates the **inverse output rules (IOR)**.
 The inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
 In this case, the inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
 
@@ -87,7 +89,7 @@ The output must not include the word "CantAnswer".
 
 ## Tests generated from the rules:
 
-From the input specification, output rules, inverse output rules, PromptPex generates a set of tests.
+From the input specification, output rules, inverse output rules, PromptPex uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_tests.prompty) to generate a set of tests.
 ```mermaid
 graph TD
     PUT(["Prompt Under Test (PUT)"])
