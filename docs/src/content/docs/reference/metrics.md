@@ -1,14 +1,14 @@
 ---
-title: Metrics
+title: Custom Metrics
 sidebar:
-    order: 28
+    order: 27
 ---
 
 You can provide custom metrics for the test result evaluation step. Metric can be qualitative (`ok`, `err`, `unknown`) or quantitative (e.g. `0` to `100` good).
 
 A metric should be a `.metric.prompty` in the same folder as the prompt under test.
 
-```markdown
+```markdown wrap title="custom.metric.prompty"
 ---
 name: Custom Test Result Evaluation
 description: |

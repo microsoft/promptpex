@@ -1,5 +1,5 @@
 ---
-title: OpenAI Evals API
+title: OpenAI Evals
 sidebar:
     order: 28
 ---

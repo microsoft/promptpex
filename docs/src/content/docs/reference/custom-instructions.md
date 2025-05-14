@@ -9,7 +9,20 @@ in the prompty front-matter.
 
 ```yaml title="summarize.prompty"
 instructions:
-    inputSpec: "Do not generate input rules for the 'locale' input."
-    outputRules: "The chatbot output should always be in English."
+    inputSpec: "..."
+    outputRules: "..."
+    inverseOutputRules: "..."
+    intent: "..."
+    testExpansion: "..."
 ```
 
+## Example
+
+You can influence the input specification generation by injecting prompting instructions.
+
+```md wrap
+---
+instructions:
+    outputRules: "Ignore the 'safety' section, it is handled elsewhere."
+---
+```

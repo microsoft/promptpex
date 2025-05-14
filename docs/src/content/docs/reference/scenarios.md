@@ -1,7 +1,7 @@
 ---
-title: Scenarios
+title: Test Scenarios
 sidebar:
-    order: 28
+    order: 26
 ---
 PromptPex supports specify a set of additional input constraints (scenario)
 to generate specific test suites. A canonical example would be
@@ -11,28 +11,26 @@ localization testing: `generate English, generate French`.
 graph TD
     PUT(["Prompt Under Test (PUT)"])
     IS["Input Specification (IS)"]
-    OR["Output Rules (OR)"]
-    IOR["Inverse Output Rules (IOR)"]
+    R["Output + Inverse Rules (R)"]
     PPT["PromptPex Tests (PPT)"]
-    TO["Test Output (TO) for MUT"]
-    TGS[["Test Generation Scenario (TGS)"]]
+    TS["Test Scenario (TS)"]
 
     PUT --> IS
-
-    PUT --> OR
-    OR --> IOR
+    PUT --> R
 
     PUT --> PPT
     IS --> PPT
-    OR --> PPT
-    IOR --> PPT
+    R --> PPT
+    
+    TS ==> PPT
+```
 
-    PPT -->|"Test Expansion (TE)"| PPT
+PromptPex enumerates through the scenarios and the rules and generates a test for each combination.
 
-    TGS ==> PPT
-
-    PPT --> TO
-    PUT --> TO
+```py
+for each scenario in scenarios:
+  for each rule in rules:
+    generate test for scenario, rule
 ```
 
 ## Configuration

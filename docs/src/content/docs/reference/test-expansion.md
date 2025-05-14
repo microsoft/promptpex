@@ -28,13 +28,13 @@ graph TD
 
 For example,
 
-```txt
+```txt wrap
 The quick fox leaped over 10 fences.
 ```
 
 becomes
 
-```txt
+```txt wrap
 In a quiet meadow, the quick brown fox daringly leaped over a total of ten tall, wooden fences, amazing the onlooking wildlife with its agility and grace.
 ```
 

@@ -137,7 +137,7 @@ export const DOCS_GLOSSARY = `
 - Test Output (TO) - Result generated for PPT and BT on PUT with each MUT
 - Test Output Compliance (TOC) - Checking if TO meets the constraints in PUT using MPP
 
-- Test Generation Scenario ${SCENARIO_SYMBOL} (TGS) - A scenario used to generate tests
+- Test Generation Scenario ${SCENARIO_SYMBOL} (TS) - A scenario used to generate tests
 - Test Generation Iteration ${GENERATION_SYMBOL} (TGI) - A scenario used to generate tests
 `
 
