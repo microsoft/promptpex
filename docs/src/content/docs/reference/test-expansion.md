@@ -10,17 +10,17 @@ Test expansion uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/d
 graph TD
     PUT(["Prompt Under Test (PUT)"])
     IS["Input Specification (IS)"]
-    OR["Output Rules + Inverse (OR+IOR)"]
+    R["Output + Inverse Rules (R)"]
     PPT["PromptPex Tests (PPT)"]
     TE("Test Expansion (TE)")
 
     PUT --> IS
 
-    PUT --> OR
+    PUT --> R
 
     PUT --> PPT
     IS --> PPT
-    OR --> PPT
+    R --> PPT
 
     PPT ==> TE
     TE ==> PPT
