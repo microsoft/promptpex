@@ -26,14 +26,18 @@ export async function expandTests(
         files.frontmatter?.instructions?.testExpansion ||
         ""
 
-    const checkpoint = async () => {
-        dbg(`saving ${ruleTests.length} tests`)
-        const resc = JSON.stringify(ruleTests, null, 2)
-        files.tests.content = resc
-        if (files.writeResults) await workspace.writeFiles(files.tests)
-        await convertToTestData(files, ruleTests)
+    let lastCheckPoint = Date.now()
+    const checkpoint = async (force?: boolean) => {
+        if (force || Date.now() - lastCheckPoint > 5000) {
+            dbg(`saving ${ruleTests.length} tests`)
+            const resc = JSON.stringify(ruleTests, null, 2)
+            files.tests.content = resc
+            if (files.writeResults) await workspace.writeFiles(files.tests)
+            await convertToTestData(files, ruleTests)
+        }
     }
 
+    await checkpoint(true)
     for (let i = 0; i < ruleTests.length; i++) {
         const test = ruleTests[i]
         const targetRule = resolveRule(allRules, test)
@@ -63,7 +67,7 @@ export async function expandTests(
                             targetRule: targetRule?.rule,
                             examples,
                             test: test.testinput,
-                            instructions
+                            instructions,
                         })
                     },
                     {
@@ -86,10 +90,10 @@ export async function expandTests(
             }
             dbg(`expansion:\n%s\n->\n%s`, test.testinput, res.text)
             test.testinput = res.text
-            // recompute?
-            // delete test.expectedoutput
-            await checkpoint()
         }
+        // recompute?
+        // delete test.expectedoutput
+        await checkpoint()
     }
-    await checkpoint()
+    await checkpoint(true)
 }
