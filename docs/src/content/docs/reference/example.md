@@ -9,6 +9,12 @@ Here is an example of basic idea of PromptPex applied to a prompt.
 
 Let's look at a prompt that is designed to identify the part of speech of a word in a sentence ([full version](https://github.com/microsoft/promptpex/blob/main/samples/speech-tag/speech-tag.prompty)). The prompt is referenced as the **Prompt Under Test (PUT)**. 
 
+```mermaid
+graph LR
+    PUT(["Prompt Under Test (PUT)"])
+```
+
+
 ```markdown wrap
 In this task, you will be presented with a sentence and a word contained in that sentence. You have to determine the part of speech
 for a given word and return just the tag for the word's part of speech. Return only the part of speech tag.
@@ -22,7 +28,7 @@ The input specification is a description of the input to the prompt.
 In this case, the input consists of a sentence and a word from that sentence.
 
 ```mermaid
-graph TD
+graph LR
     PUT(["Prompt Under Test (PUT)"])
     IS["Input Specification (IS)"]
 
@@ -42,7 +48,7 @@ The output rules are a description of the output of the prompt.
 In this case, the output consists of a part of speech tag for the word.
 
 ```mermaid
-graph TD
+graph LR
     PUT(["Prompt Under Test (PUT)"])
     OR["Output Rules (OR)"]
 
@@ -63,11 +69,13 @@ The inverse output rules are a description of the output of the prompt that is t
 In this case, the inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
 
 ```mermaid
-graph TD
+graph LR
+    PUT(["Prompt Under Test (PUT)"])
     OR["Output Rules (OR)"]
     IOR["Inverse Output Rules (IOR)"]
 
-    OR --> IOR
+    PUT --> OR
+    OR ==> IOR
 ```
 
 ```text wrap title="Inverse Output Rules"
@@ -90,11 +98,11 @@ graph TD
 
     PUT --> IS
     PUT --> OR
-    IS --> PPT
     OR --> IOR
-    OR --> PPT
-    PUT --> PPT
-    IOR --> PPT
+    IS ==> PPT
+    OR ==> PPT
+    PUT ==> PPT
+    IOR ==> PPT
 ```        
 
 ```text wrap

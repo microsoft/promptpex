@@ -4,6 +4,12 @@ sidebar:
     order: 20
     title: Reference
 ---
+
+PromptPex is a test generator for LLM prompts.
+From a templated prompt, it generates a set of test cases and a compliance evaluation metric.
+
+## Prompts are Programs
+
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
 effective prompts are increasingly important.
@@ -16,6 +22,9 @@ PromptPex treats a prompt as a function and automatically generates test inputs
 to the function to support unit testing.
 
 - [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
+
+
+## How it works
 
 PromptPex provides the following capabilities:
 
