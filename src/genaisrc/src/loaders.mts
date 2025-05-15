@@ -100,7 +100,10 @@ export async function loadPromptFiles(
     metrics = metrics
         .filter((m) => {
             const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
-            if (fm?.tags?.includes("experimental")) return undefined
+            if (fm?.tags?.includes("experimental")) {
+                dbg(`metric %s is experimental, skip`, m.filename)
+                return undefined
+            }
             return m
         })
         .filter(Boolean)
