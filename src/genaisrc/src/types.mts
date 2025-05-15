@@ -378,6 +378,7 @@ export interface PromptPexTestGenerationScenario {
 
 export interface PromptPexPromptyFrontmatter {
     name?: string
+    tags?: OptionsOrString<"scorer" | "unlisted" | "experimental">[]
     inputs?: PromptParametersSchema
     outputs?: JSONSchemaObject["properties"]
     instructions?: PromptPexPrompts

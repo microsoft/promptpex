@@ -85,14 +85,27 @@ export async function loadPromptFiles(
     const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
-    const metrics = await workspace.findFiles(metricGlobs)
+    let metrics = await workspace.findFiles(metricGlobs)
     if (options?.customMetric)
         metrics.push({
             filename: "custom.metric.prompty",
             content: options.customMetric,
         })
     dbg(
-        `metrics: %O`,
+        `metrics (unfiltered): %O`,
+        metrics.map(({ filename }) => filename)
+    )
+
+    // now apply metric files
+    metrics = metrics
+        .filter((m) => {
+            const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
+            if (fm?.tags?.includes("experimental")) return undefined
+            return m
+        })
+        .filter(Boolean)
+    dbg(
+        `metrics (filtered): %O`,
         metrics.map(({ filename }) => filename)
     )
 
