@@ -15,4 +15,4 @@ To enable this mode, you need to
 The OpenAI models that can be used as MUT are available here: [OpenAI Models](https://platform.openai.com/docs/models).
 
 
-![A screenshot of the evals screen in openai](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
+![](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)

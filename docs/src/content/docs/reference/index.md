@@ -20,7 +20,7 @@ It generates a set of test cases and a compliance evaluation metric.
 
 The generated test cases can be used to:
 
-- distilatte a smaller model to run the prompt and reduce costs (using Azure OpenAI Stored Completions)
+- distillate a smaller model to run the prompt and reduce costs (using Azure OpenAI Stored Completions)
 - evaluate the prompt performance when migrating to a new model (using OpenAI Evals API)
 - evaluate the prompt performance when making changes to the prompt
-...
+  ...
