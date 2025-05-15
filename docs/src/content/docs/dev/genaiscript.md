@@ -21,10 +21,21 @@ npx --yes genaiscript configure
 npx --yes genaiscript@latest serve --remote microsoft/promptpex --remote-branch dev
 ```
 
-- Launch promptpex in a docker container (You need to have Docker installed)
+### Docker
+
+To launch PromptPex in a docker container, first create an image with the following command:
 
 ```sh wrap
-docker run  --env GITHUB_TOKEN --env-file .env --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine sh -c "apk add --no-cache git && npx --yes genaiscript serve --network  --remote microsoft/promptpex --remote-branch dev"
+docker build -t genaiscript -<<EOF
+FROM node:alpine
+RUN apk add --no-cache git && npm install -g genaiscript
+EOF
+```
+
+Launch promptpex using the `genaiscript` image
+
+```sh wrap
+docker run  --env GITHUB_TOKEN --env-file .env --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace genaiscript genaiscript serve --network --remote microsoft/promptpex --remote-branch dev
 ```
 
 ## GitHub Codespaces
@@ -32,6 +43,12 @@ docker run  --env GITHUB_TOKEN --env-file .env --name genaiscript --rm -it --exp
 Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=microsoft/promptpex)
+
+then launch the server
+
+```sh
+npm run serve
+```
 
 ## Local development
 
