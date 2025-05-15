@@ -3,7 +3,7 @@ description: "Check violation with system prompt"
 tags:
     - unlisted
 inputs:
-    system:
+    prompt:
         type: string
         description: "Chatbot description"
     rules:
@@ -22,7 +22,7 @@ Since the input is given to you in <INPUT>, you can use it to check for the rule
 The chatbot description that you must use as the basis for your evaluation are provided between the delimiters <DESC> and </DESC>. The description is as follows:
 
 <DESC>
-{{system}}
+{{prompt}}
 </DESC>
 
 The rules that you must use for your evaluation are provided between the delimiters <RULES> and </RULES> and which are extracted from the description. The rules are as follows:
