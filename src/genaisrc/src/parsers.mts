@@ -58,6 +58,16 @@ function parseScore(text: string) {
     const res = parsers.JSONLLM(text)
     const score = Number(res?.score)
     if (!isNaN(score)) return score
+
+    // try to parse as a number
+    const { scoreDigits } =
+        /score[^\d]+(?<scoreDigits>\d+)/.exec(text)?.groups || {}
+    if (scoreDigits) {
+        const score = Number(scoreDigits)
+        return score
+    }
+
+    // give up
     dbg(`score not parsed:\n%s`, text)
     return undefined
 }
@@ -98,9 +108,9 @@ export function parseRules(rules: string, options?: PromptPexOptions) {
     const { maxRules } = options || {}
     const res = rules
         ? tidyRules(rules)
-            .split(/\r?\n/g)
-            .map((l) => l.trim())
-            .filter((l) => !!l)
+              .split(/\r?\n/g)
+              .map((l) => l.trim())
+              .filter((l) => !!l)
         : []
     return maxRules > 0 ? res.slice(0, maxRules) : res
 }
@@ -190,6 +200,6 @@ export function parseOKERR(text: string): PromptPexEvalResultType | undefined {
     return /(^|\W)ERR\s*$/.test(text)
         ? "err"
         : /(^|\W)OK\s*$/.test(text)
-            ? "ok"
-            : "unknown"
+          ? "ok"
+          : "unknown"
 }
