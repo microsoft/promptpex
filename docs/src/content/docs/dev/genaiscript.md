@@ -15,10 +15,16 @@ sidebar:
 npx --yes genaiscript configure
 ```
 
-- Launch promptpex remotely
+- Launch promptpex locally
 
 ```sh
 npx --yes genaiscript@latest serve --remote microsoft/promptpex --remote-branch dev
+```
+
+- Launch promptpex in a docker container (You need to have Docker installed)
+
+```sh
+docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine sh -c "apk add --no-cache git && npx --yes genaiscript serve --network  --remote microsoft/promptpex --remote-branch dev" --dot-env .env
 ```
 
 ## GitHub Codespaces
