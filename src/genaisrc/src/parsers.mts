@@ -58,6 +58,7 @@ function parseScore(text: string) {
     const res = parsers.JSONLLM(text)
     if (typeof res === "object" && typeof res.score === "number")
         return res.score
+    dbg(`score not parsed: %s`, text)
     return undefined
 }
 
