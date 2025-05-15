@@ -56,9 +56,9 @@ export function checkLLMResponse(
 
 function parseScore(text: string) {
     const res = parsers.JSONLLM(text)
-    if (typeof res === "object" && typeof res.score === "number")
-        return res.score
-    dbg(`score not parsed: %s`, text)
+    const score = Number(res?.score)
+    if (!isNaN(score)) return score
+    dbg(`score not parsed:\n%s`, text)
     return undefined
 }
 
