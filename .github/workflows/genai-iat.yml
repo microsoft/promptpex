@@ -19,6 +19,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
+            - run: npm ci
             - name: genaiscript
               run: npx --yes genaiscript run iat -m github:gpt-4.1 --out-trace $GITHUB_STEP_SUMMARY
               env:

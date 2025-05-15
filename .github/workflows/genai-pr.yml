@@ -12,7 +12,6 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
-              with:
-                    node-version: '20'
+            - run: npm ci
             - name: genai docs-editor
               run: npm run genai docs-editor -p github -prc -prr
