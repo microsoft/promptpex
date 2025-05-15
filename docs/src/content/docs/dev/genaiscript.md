@@ -24,7 +24,7 @@ npx --yes genaiscript@latest serve --remote microsoft/promptpex --remote-branch 
 - Launch promptpex in a docker container (You need to have Docker installed)
 
 ```sh
-docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine sh -c "apk add --no-cache git && npx --yes genaiscript serve --network  --remote microsoft/promptpex --remote-branch dev" --dot-env .env
+docker run  --env GITHUB_TOKEN --env-file .env --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:alpine sh -c "apk add --no-cache git && npx --yes genaiscript serve --network  --remote microsoft/promptpex --remote-branch dev"
 ```
 
 ## GitHub Codespaces
@@ -41,14 +41,6 @@ Use CodeSpaces / dev container to get a fully configured environment, including 
 
 ```sh
 npm install
-```
-
-### Dockerized
-
-Clone this repository and run the following command to run genaiscript in a docker container:
-
-```sh
-docker run --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace node:20-alpine npx --yes genaiscript@latest serve --network
 ```
 
 ## Configure the eval, rules, baseline aliases
