@@ -8,7 +8,6 @@ import {
     parseTestEvals,
     parseTestResults,
 } from "./parsers.mts"
-import { groupBy } from "genaiscript/runtime"
 import { resolveRule } from "./resolvers.mts"
 import type {
     PromptPexContext,
@@ -34,7 +33,7 @@ export function computeOverview(
     dbg(`ruleEvals: %d`, ruleEvals.length)
 
     const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
-    const testResultsPerModelsAndScenario = groupBy(
+    const testResultsPerModelsAndScenario = Object.groupBy(
         testResults,
         (result) => `${result.model}:${result.scenario || defaultScenario}`
     )
