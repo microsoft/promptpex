@@ -8,6 +8,9 @@ inputs:
     output:
         type: string
         description: The output from the model execution.
+    outputFormat:
+        type: string
+        description: The format of the output.
 ---
 system:
 
@@ -20,11 +23,7 @@ Your task is to evaluate the <CRITERIA> based <OUTPUT> provided.
 The <OUTPUT> is in English.
 </CRITERIA>
 
-## Output
-
-**Binary Decision on Evaluation**: You are required to make a binary decision based on your evaluation:
-- Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
-- Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
+{{outputFormat}}
 
 user:
 <OUTPUT>

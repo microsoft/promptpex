@@ -7,6 +7,7 @@ import type {
     PromptPexTestResult,
     PromptPexOptions,
     PromptPexEvaluation,
+    PromptPexPromptyFrontmatter,
 } from "./types.mts"
 const { generator } = env
 const dbg = host.logger("promptpex:eval:metric")
@@ -26,8 +27,9 @@ export async function evaluateTestMetrics(
     }
 }
 
-const outputFormat = `
-### Evaluation:
+// TODO: move to prompts
+const scoringOutputFormat = `
+### Evaluation
 Ensure your response is valid JSON using the following JSON schema:
 
 {
@@ -49,6 +51,14 @@ Ensure your response is valid JSON using the following JSON schema:
 
 `
 
+const okErrorOutputFormat = `
+## Output
+
+**Binary Decision on Evaluation**: You are required to make a binary decision based on your evaluation:
+- Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
+- Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
+`
+
 async function evaluateTestMetric(
     metric: WorkspaceFile,
     files: PromptPexContext,
@@ -58,6 +68,8 @@ async function evaluateTestMetric(
     const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
+    const metricMeta = MD.frontmatter(metric) as PromptPexPromptyFrontmatter
+    const scorer = metricMeta?.tags?.includes("scorer")
     if (testResult.input === undefined)
         return {
             outcome: "unknown",
@@ -75,11 +87,12 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
-        outputFormat,
+        outputFormat: scorer ? scoringOutputFormat : okErrorOutputFormat,
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,
         output: parameters.output,
+        scorer,
     })
     const res = await measure("eval.metric", () =>
         generator.runPrompt(
