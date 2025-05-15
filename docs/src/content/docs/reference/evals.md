@@ -7,6 +7,8 @@ sidebar:
 PromptPex support exporting the generated tests into a [OpenAI Evals Run](https://platform.openai.com/docs/api-reference/evals).
 PromptPex will generate an **eval** and launch an **eval run** for each Model Under Test (MUT) in the test generation.
 
+## OpenAI
+
 To enable this mode, you need to
 
 - set the `OPENAI_API_KEY` environment variable to your OpenAI API key
