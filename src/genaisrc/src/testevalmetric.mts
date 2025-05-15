@@ -26,6 +26,29 @@ export async function evaluateTestMetrics(
     }
 }
 
+const outputFormat = `
+### Evaluation:
+Ensure your response is valid JSON using the following JSON schema:
+
+{
+    "type": "object",
+    "properties": {
+        "explanation": {
+            "type": "string",
+            "description": "Explain reasoning behind generating the score based on the criteria outlined in the instruction. Only keep a minimum draft with 5 words at most."
+        },
+        "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Provide a score from 0 to 100 based on the criteria of the chatbot output as defined above"
+        }
+    },
+    "required": ["explanation", "score"],
+}
+
+`
+
 async function evaluateTestMetric(
     metric: WorkspaceFile,
     files: PromptPexContext,
@@ -52,6 +75,7 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
+        outputFormat,
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,
