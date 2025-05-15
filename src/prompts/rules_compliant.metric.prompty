@@ -42,12 +42,25 @@ By adhering to these guidelines, you ensure a consistent and rigorous evaluation
 {{rules}}
 </RULES>
 
-### Evaluation:
-Ensure your response is always in the following valid JSON format:
+### Output Format:
+Ensure your response is valid JSON using the following JSON schema:
 
-```json
-{ "explanation": "Explain reasoning behind generating the score based on the criteria outlined in the instruction", "score": "Provide a score from 0 to 100 based on the criteria of the chatbot output as defined above" }
-```
+{
+    "type": "object",
+    "properties": {
+        "explanation": {
+            "type": "string",
+            "description": "Explain reasoning behind generating the score based on the criteria outlined in the instruction. Only keep a minimum draft with 5 words at most."
+        },
+        "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Provide a score from 0 to 100 based on the criteria of the chatbot output as defined above"
+        }
+    },
+    "required": ["explanation", "score"],
+}
 
 user:
 <CHATBOT_OUTPUT>
