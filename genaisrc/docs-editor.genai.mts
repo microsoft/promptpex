@@ -1,13 +1,23 @@
 script({
     title: "Docs Editor",
     unlisted: true,
-    files: "docs/src/content/**",
+    accept: ".md,.mdx",
 })
+
+const head = env.vars.commit || "HEAD"
+
+// diff latest commit
+const changes = await git.diff({
+    head,
+    paths: ["**.md", "**.mdx"],
+    maxTokensFullDiff: 6000,
+})
+if (changes) def("GIT_DIFF", changes, { language: "diff" })
 
 const files = env.files.filter(
     ({ filename }) => !/responsible-ai-transparency-note.md/.test(filename)
 )
-def("FILE", files)
+if (files.length) def("FILE", files, { maxTokens: 6000 })
 
 $`## Step 1: Update documentation
 
