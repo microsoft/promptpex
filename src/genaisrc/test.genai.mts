@@ -31,14 +31,15 @@ if (!modelsUnderTest?.length)
 const options: PromptPexOptions = {
     disableSafety: true,
     workflowDiagram: false,
-    testsPerRule: 2,
-    runsPerTest: 2,
-    maxTestsToRun: 4,
+    testsPerRule: 1,
+    runsPerTest: 1,
+    maxTestsToRun: 1,
     compliance: true,
     baselineTests: true,
     cache: true,
     modelsUnderTest,
     splitRules: false,
+    maxRules: 2,
     maxRulesPerTestGeneration: 100,
     testGenerations: 1,
 }

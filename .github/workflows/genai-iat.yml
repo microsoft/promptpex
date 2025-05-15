@@ -1,0 +1,32 @@
+name: genai iat
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - dev
+        paths:
+            - "**.md*"
+concurrency:
+    group: iat-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+permissions:
+    pull-requests: write
+    models: read
+    contents: write
+jobs:
+    generate-alt-text:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+            - run: npm ci
+            - name: genaiscript
+              run: npx --yes genaiscript run iat -m github:gpt-4.1 --out-trace $GITHUB_STEP_SUMMARY
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - run: git status
+            - uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: "[genai] image alt text"
+                  commit_user_name: "genaiscript"
+                

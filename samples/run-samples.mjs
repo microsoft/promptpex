@@ -22,5 +22,5 @@ const outDir = `evals/test-all-${dateStr}`;
 for (const prompty of promptyFilesAll.slice(0, 1)) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
 
-    await $`npm run promptpex "${prompty}" --vars "splitRules=true" --vars "maxRulesPerTestGeneration=5" --vars "testGenerations=1" --vars "evals=true" "testExpansions=0" --vars "evals=false" --vars "compliance=true" --vars baselineTests=false --vars "modelsUnderTest=ollama:llama3.2:1b" --vars "out=${outDir}/${promptyFileBase}"`;
+    await $`npm run promptpex ${prompty} -- --vars "splitRules=true" --vars "maxRulesPerTestGeneration=5" --vars "testGenerations=1" --vars "evals=true" "testExpansions=0" --vars "compliance=true" --vars baselineTests=false --vars "modelsUnderTest=ollama:llama3.2:1b" --vars "out=${outDir}/${promptyFileBase}"`;
 }
