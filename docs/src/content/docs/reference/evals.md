@@ -10,7 +10,7 @@ PromptPex will generate an **eval** and launch an **eval run** for each Model Un
 To enable this mode, you need to
 
 - set the `OPENAI_API_KEY` environment variable to your OpenAI API key
-- set the `createEvalRuns` parameter to true.
+- set the `createEvalRuns` parameter to true in the web interface or on the command line.
 
 The OpenAI models that can be used as **Model Under Test** are available at [OpenAI Models](https://platform.openai.com/docs/models).
 
