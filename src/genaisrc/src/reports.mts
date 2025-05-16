@@ -1,3 +1,4 @@
+import { groupBy } from "./groupby.mts"
 import {
     metricName,
     parseAllRules,
@@ -33,7 +34,7 @@ export function computeOverview(
     dbg(`ruleEvals: %d`, ruleEvals.length)
 
     const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
-    const testResultsPerModelsAndScenario = Object.groupBy(
+    const testResultsPerModelsAndScenario = groupBy(
         testResults,
         (result) => `${result.model}:${result.scenario || defaultScenario}`
     )
