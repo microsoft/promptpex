@@ -27,38 +27,6 @@ export async function evaluateTestMetrics(
     }
 }
 
-// TODO: move to prompts
-const scoringOutputFormat = `
-### Evaluation
-Ensure your response is valid JSON using the following JSON schema:
-
-{
-    "type": "object",
-    "properties": {
-        "explanation": {
-            "type": "string",
-            "description": "Explain reasoning behind generating the score based on the criteria outlined in the instruction. Only keep a minimum draft with 5 words at most."
-        },
-        "score": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 100,
-            "description": "Provide a score from 0 to 100 based on the criteria of the chatbot output as defined above"
-        }
-    },
-    "required": ["explanation", "score"],
-}
-
-`
-
-const okErrorOutputFormat = `
-## Output
-
-**Binary Decision on Evaluation**: You are required to make a binary decision based on your evaluation:
-- Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
-- Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
-`
-
 async function evaluateTestMetric(
     metric: WorkspaceFile,
     files: PromptPexContext,
@@ -87,7 +55,6 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
-        outputFormat: scorer ? scoringOutputFormat : okErrorOutputFormat,
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,
