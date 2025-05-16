@@ -449,6 +449,7 @@ if (diagnostics) {
     await checkConfirm("diag")
 }
 
+output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
 
 // prompt info
