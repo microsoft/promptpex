@@ -394,6 +394,7 @@ const {
     testExpansionInstructions?: string
 }
 const efforts = EFFORTS[effort || ""] || {}
+if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter((m) => !!m)
