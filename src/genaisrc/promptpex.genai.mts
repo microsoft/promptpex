@@ -557,19 +557,20 @@ if (createEvalRuns) {
                 compliance: testCompliance,
                 metrics,
             }) => ({
-                rule,
+
                 model,
                 scenario,
-                inverse: inverse ? "🔄" : "",
                 input,
                 output,
-                compliance: renderEvaluationOutcome(testCompliance),
                 ...Object.fromEntries(
                     Object.entries(metrics).map(([k, v]) => [
                         k,
                         renderEvaluation(v),
                     ])
                 ),
+                compliance: renderEvaluationOutcome(testCompliance),
+                rule,
+                inverse: inverse ? "🔄" : "",
             })
         )
     )
