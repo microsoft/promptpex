@@ -1,4 +1,4 @@
-import { OK_ERR_CHOICES, PROMPT_EVAL_TEST_VALIDITY } from "./constants.mts"
+import { MODEL_ALIAS_EVAL, OK_ERR_CHOICES, PROMPT_EVAL_TEST_VALIDITY } from "./constants.mts"
 import { modelOptions, parseOKERR, parseBaselineTests } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
@@ -9,7 +9,7 @@ export async function evaluateBaselineTests(
     files: PromptPexContext,
     options?: PromptPexOptions & { force?: boolean }
 ) {
-    const { evalModel = "eval" } = options || {}
+    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const moptions = modelOptions(evalModel, options)
     const inputSpec = files.inputSpec.content
     const baselineTests = parseBaselineTests(files)

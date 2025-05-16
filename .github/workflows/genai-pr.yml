@@ -1,0 +1,21 @@
+name: genai pull request
+permissions:
+    contents: read
+    pull-requests: write
+    models: read
+on:
+    pull_request:
+    workflow_dispatch:
+jobs:
+    genai:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+            - run: npm ci
+            - run: git fetch origin && git pull origin dev:dev
+            - name: genai docs-editor
+              run: npm run genai docs-editor -p github -prc -prr
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha}}

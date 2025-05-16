@@ -15,6 +15,7 @@ import type {
 import { resolveTestEvalPath } from "./filecache.mts"
 import { measure } from "./perf.mts"
 import {
+    MODEL_ALIAS_EVAL,
     OK_ERR_CHOICES,
     PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
     PROMPT_EVAL_TEST_VALIDITY,
@@ -51,7 +52,7 @@ export async function evaluateTestQuality(
     test: PromptPexTest,
     options?: PromptPexOptions & { force?: boolean }
 ): Promise<PromptPexTestEval> {
-    const { force, evalModel = "eval" } = options || {}
+    const { force, evalModel = MODEL_ALIAS_EVAL } = options || {}
     const { id, promptid, file } = await resolveTestEvalPath(
         files,
         test,

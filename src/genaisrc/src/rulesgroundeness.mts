@@ -1,4 +1,4 @@
-import { OK_ERR_CHOICES, PROMPT_EVAL_RULE_GROUNDED } from "./constants.mts"
+import { MODEL_ALIAS_EVAL, OK_ERR_CHOICES, PROMPT_EVAL_RULE_GROUNDED } from "./constants.mts"
 import { outputPrompty } from "./output.mts"
 import {
     modelOptions,
@@ -22,7 +22,7 @@ export async function evaluateRuleGrounded(
     rule: string,
     options?: PromptPexOptions
 ): Promise<PromptPexRuleEval> {
-    const { evalModel = "eval" } = options || {}
+    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const { id, promptid, file } = await resolveRuleEvalPath(
         files,
         rule,

@@ -4,6 +4,7 @@ import {
     PARAMETER_INPUT_TEXT,
     PROMPT_ALL,
     PROMPT_DIR,
+    TEST_SAMPLES_COUNT_DEFAULT,
 } from "./constants.mts"
 import { tidyRulesFile } from "./parsers.mts"
 import { checkPromptSafety } from "./safety.mts"
@@ -58,6 +59,7 @@ export async function loadPromptFiles(
         ? path.join(out || path.dirname(filename), basename)
         : ""
     dbg(`dir: ${dir}`)
+    const runId = Math.random().toString(36).slice(2, 10)
     const intent = path.join(dir, "intent.txt")
     const rules = path.join(dir, "rules.txt")
     const inverseRules = path.join(dir, "inverse_rules.txt")
@@ -77,23 +79,41 @@ export async function loadPromptFiles(
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
     const testSamples = await parseTestSamples(
         filename ? path.dirname(filename) : undefined,
-        frontmatter
+        frontmatter,
+        options
     )
     const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
-    const metrics = await workspace.findFiles(metricGlobs)
+    let metrics = await workspace.findFiles(metricGlobs)
     if (options?.customMetric)
         metrics.push({
             filename: "custom.metric.prompty",
             content: options.customMetric,
         })
     dbg(
-        `metrics: %O`,
+        `metrics (unfiltered): %O`,
+        metrics.map(({ filename }) => filename)
+    )
+
+    // now apply metric files
+    metrics = metrics
+        .filter((m) => {
+            const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
+            if (fm?.tags?.includes("experimental")) {
+                dbg(`metric %s is experimental, skip`, m.filename)
+                return undefined
+            }
+            return m
+        })
+        .filter(Boolean)
+    dbg(
+        `metrics (filtered): %O`,
         metrics.map(({ filename }) => filename)
     )
 
     const res = {
+        runId,
         writeResults,
         dir,
         name: basename,
@@ -171,12 +191,16 @@ async function checkPromptFiles() {
     }
 }
 
-async function parseTestSamples(dir: string, fm: PromptPexPromptyFrontmatter) {
+async function parseTestSamples(
+    dir: string,
+    fm: PromptPexPromptyFrontmatter,
+    options?: PromptPexLoaderOptions
+) {
     const { testSamples } = fm
-    if (!testSamples) return undefined
+    if (!testSamples) return []
 
     dbg(`parsing test samples`)
-    const res: Record<string, string>[] = []
+    let res: Record<string, string>[] = []
     for (const sample of testSamples) {
         if (typeof sample === "string") {
             dbg(`loading test sample %s`, sample)
@@ -206,6 +230,13 @@ async function parseTestSamples(dir: string, fm: PromptPexPromptyFrontmatter) {
             throw new Error(`test sample ${sample} is not a string or object`)
         }
     }
+
+    dbg(`found %d test samples`, res.length)
+    const count = options?.testSamplesCount ?? TEST_SAMPLES_COUNT_DEFAULT
+    // shuffle first
+    if (options?.testSamplesShuffle) res.sort(() => Math.random() - 0.5)
+    // then slice
+    res = res.slice(0, count)
     return res
 }
 

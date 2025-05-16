@@ -8,6 +8,7 @@ import { loadPromptFiles } from "./src/loaders.mts"
 import { outputFile, outputLines } from "./src/output.mts"
 import { metricName } from "./src/parsers.mts"
 import { initPerf, reportPerf } from "./src/perf.mts"
+import { expandTests } from "./src/testexpand.mts"
 import {
     computeOverview,
     generateReports,
@@ -18,6 +19,7 @@ import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions } from "./src/types.mts"
+import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -75,74 +77,98 @@ promptPex:
         prompt: {
             type: "string",
             description:
-                "Prompt template to analyze. You can either copy the source here or upload a file prompt.",
+                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
             required: false,
             uiType: "textarea",
         },
+        effort: {
+            type: "string",
+            enum: ["min", "low", "medium", "high"],
+            required: false,
+            description:
+                "Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.",
+        },
         out: {
             type: "string",
-            description: "Output folder for the generated files",
+            description:
+                "Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.",
+            uiGroup: "Cache",
         },
         cache: {
             type: "boolean",
-            description: "Cache all LLM calls",
+            description:
+                "Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.",
+            uiGroup: "Cache",
         },
         testRunCache: {
             type: "boolean",
-            description: "Cache test run results",
+            description: "Cache test run results in files.",
+            uiGroup: "Cache",
         },
         evalCache: {
             type: "boolean",
-            description: "Cache eval evaluation results",
+            description: "Cache eval evaluation results in files.",
+            uiGroup: "Cache",
         },
         testsPerRule: {
             type: "integer",
-            description: "Number of tests to generate per rule",
+            description:
+                "Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. You can modify this parameter to control the number of tests generated.",
             minimum: 1,
             maximum: 10,
             default: 3,
+            uiGroup: "Generation",
         },
         splitRules: {
             type: "boolean",
             description:
-                "Split rules and inverse rules in separate prompts for generation",
+                "Split rules and inverse rules in separate prompts for test generation.",
             default: true,
+            uiGroup: "Generation",
         },
         maxRulesPerTestGeneration: {
             type: "integer",
-            description: "Maximum number of rules to use per test generation",
+            description:
+                "Maximum number of rules to use per test generation which influences the complexity of the generated tests. Increase this value to generate tests faster but potentially less complex tests.",
             default: 3,
+            uiGroup: "Generation",
         },
         testGenerations: {
             type: "integer",
-            description: "Number of times to amplify the test generation",
+            description:
+                "Number of times to amplify the test generation. This parameter allows to generate more tests for the same rules by repeatedly running the test generation process, while asking the LLM to avoid regenerating existing tests.",
             default: 2,
             minimum: 1,
             maximum: 10,
+            uiGroup: "Generation",
         },
         runsPerTest: {
             type: "integer",
-            description: "Number of runs to execute per test",
+            description:
+                "Number of runs to execute per test. During the evaluation phase, this parameter allows to run the same test multiple times to check for consistency and reliability of the model's output.",
             minimum: 1,
             maximum: 100,
             default: 2,
+            uiGroup: "Evaluation",
         },
         disableSafety: {
             type: "boolean",
             description:
-                "Do not include safety system prompts and do not run safety content service",
+                "Do not include safety system prompts and do not run safety content service. By default, system safety prompts are included in the prompt and the content is checked for safety. This option disables both.",
             default: false,
         },
         rulesModel: {
             type: "string",
             description:
-                "Model used to generate rules (you can also override the model alias 'rules'",
+                "Model used to generate rules (you can also override the model alias 'rules')",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
             ],
+            uiGroup: "Generation",
         },
         evalModel: {
             type: "string",
@@ -150,15 +176,18 @@ promptPex:
                 "Model used to evaluate rules (you can also override the model alias 'eval')",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
                 "lmstudio:llama-3.3-70b",
             ],
+            uiGroup: "Evaluation",
         },
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            uiSuggestions: ["openai:gpt-4o"],
+            uiSuggestions: ["openai:gpt-4o", "azure:gpt-4o"],
+            uiGroup: "Evaluation",
         },
         modelsUnderTest: {
             type: "string",
@@ -170,35 +199,62 @@ promptPex:
             description: "Evaluate Test Result compliance",
             default: false,
             uiType: "runOption",
+            uiGroup: "Evaluation",
         },
         maxTestsToRun: {
             type: "number",
             description: "Maximum number of tests to run",
             required: false,
+            uiGroup: "Evaluation",
         },
         inputSpecInstructions: {
             type: "string",
             title: "Input Specification instructions",
             description:
                 "These instructions will be added to the input specification generation prompt.",
+            uiGroup: "Instructions",
         },
         outputRulesInstructions: {
             type: "string",
             title: "Output Rules instructions",
             description:
                 "These instructions will be added to the output rules generation prompt.",
+            uiGroup: "Instructions",
         },
         inverseOutputRulesInstructions: {
             type: "string",
             title: "Inverse Output Rules instructions",
             description:
                 "These instructions will be added to the inverse output rules generation prompt.",
+            uiGroup: "Instructions",
+        },
+        testExpansionInstructions: {
+            type: "string",
+            title: "Test Expansion instructions",
+            description:
+                "These instructions will be added to the test expansion generation prompt.",
+            uiGroup: "Instructions",
+        },
+        storeCompletions: {
+            type: "boolean",
+            title: "Stored Completion",
+            description:
+                "Store chat completions using [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions).",
+            uiGroup: "Azure OpenAI Evals",
+        },
+        storeModel: {
+            type: "string",
+            description:
+                "Model used to create [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) (you can also override the model alias 'store'). ",
+            uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
+            uiGroup: "Azure OpenAI Evals",
         },
         customMetric: {
             type: "string",
             title: "Custom Test Evaluation Template",
             required: false,
             uiType: "textarea",
+            uiGroup: "Evaluation",
             description: `This prompt will be used to evaluate the test results.
 <details><summary>Template</summary>
 
@@ -271,7 +327,29 @@ user:
         createEvalRuns: {
             type: "boolean",
             description:
-                "Create an Evals run in OpenAI Evals. Requires OpenAI API key.",
+                "Create an Evals run in [OpenAI Evals](https://platform.openai.com/docs/guides/evals). Requires OpenAI API key in environment variable `OPENAI_API_KEY`.",
+            uiGroup: "Azure OpenAI Evals",
+        },
+        testExpansions: {
+            type: "integer",
+            description:
+                "Number of test expansion phase to generate tests. This will increase the complexity of the generated tests.",
+            minimum: 0,
+            default: 1,
+            maximum: 5,
+            uiGroup: "Generation",
+        },
+        testSamplesCount: {
+            type: "integer",
+            description:
+                "Number of test samples to include for the rules and test generation. If a test sample is provided, the samples will be injected in prompts to few-shot train the model.",
+            uiGroup: "Generation",
+        },
+        testSamplesShuffle: {
+            type: "boolean",
+            description:
+                "Shuffle the test samples before generating tests for the prompt.",
+            uiGroup: "Generation",
         },
     },
 })
@@ -286,10 +364,13 @@ const {
     inputSpecInstructions,
     outputRulesInstructions,
     inverseOutputRulesInstructions,
+    testExpansionInstructions,
     compliance,
     baselineModel,
     rulesModel,
     evalModel,
+    storeCompletions,
+    storeModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -299,16 +380,24 @@ const {
     maxRulesPerTestGeneration,
     testGenerations,
     createEvalRuns,
+    testSamplesCount,
+    testSamplesShuffle,
+    testExpansions,
+    effort,
 } = vars as PromptPexOptions & {
+    effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
     prompt?: string
     inputSpecInstructions?: string
     outputRulesInstructions?: string
     inverseOutputRulesInstructions?: string
+    testExpansionInstructions?: string
 }
+const efforts = EFFORTS[effort || ""] || {}
+if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
-    .filter((m) => !!m)
+    .filter(Boolean)
 const options = {
     cache,
     testRunCache,
@@ -318,11 +407,14 @@ const options = {
         inputSpec: inputSpecInstructions,
         outputRules: outputRulesInstructions,
         inverseOutputRules: inverseOutputRulesInstructions,
+        testExpansion: testExpansionInstructions,
     },
     workflowDiagram: !process.env.DEBUG,
     baselineModel,
     rulesModel,
+    storeCompletions,
     evalModel,
+    storeModel,
     testsPerRule,
     maxTestsToRun,
     runsPerTest,
@@ -334,7 +426,11 @@ const options = {
     maxRulesPerTestGeneration,
     testGenerations,
     createEvalRuns,
+    testSamplesCount,
+    testSamplesShuffle,
+    testExpansions,
     out,
+    ...efforts,
 } satisfies PromptPexOptions
 
 if (env.files[0] && promptText)
@@ -345,6 +441,7 @@ if (!env.files[0] && !promptText)
     cancel("No prompt file or prompt text provided.")
 
 initPerf({ output })
+
 const file = env.files[0] || { filename: "", content: promptText }
 const files = await loadPromptFiles(file, options)
 
@@ -353,7 +450,17 @@ if (diagnostics) {
     await checkConfirm("diag")
 }
 
+output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
+
+if (modelsUnderTest?.length) {
+    output.heading(3, `Models Under Test`)
+    for (const modelUnderTest of modelsUnderTest) {
+        const resolved = await host.resolveLanguageModel(modelUnderTest)
+        if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
+        output.item(`${resolved.provider}:${resolved.model}`)
+    }
+}
 
 // prompt info
 output.heading(3, `Prompt Under Test`)
@@ -405,16 +512,39 @@ output.detailsFenced(`tests (json)`, tests, "json")
 output.detailsFenced(`test data (json)`, files.testData.content, "json")
 await checkConfirm("test")
 
+if (testExpansions > 0) {
+    output.heading(3, "Expanded Tests")
+    await expandTests(files, tests, options)
+    output.table(
+        tests.map(({ scenario, testinput, expectedoutput }) => ({
+            scenario,
+            testinput,
+            expectedoutput,
+        }))
+    )
+    await checkConfirm("expansion")
+    output.detailsFenced(`tests (json)`, tests, "json")
+    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+}
+
 await generateEvals(modelsUnderTest, files, tests, options)
 await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)
-} else if (!modelsUnderTest?.length) {
-    output.warn(`No modelsUnderTest specified. Skipping test run.`)
+} else if (!modelsUnderTest?.length && !storeCompletions) {
+    output.warn(
+        `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
+    )
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Runs with Models Under Test`)
+    if (storeCompletions)
+        output.itemValue(
+            `stored completion model`,
+            (await host.resolveLanguageModel(storeModel || MODEL_ALIAS_STORE))
+                ?.model || "store"
+        )
     output.itemValue(`models under test`, modelsUnderTest.join(", "))
 
     output.heading(4, `Metrics`)
@@ -437,19 +567,19 @@ if (createEvalRuns) {
                 compliance: testCompliance,
                 metrics,
             }) => ({
-                rule,
                 model,
                 scenario,
-                inverse: inverse ? "🔄" : "",
                 input,
                 output,
-                compliance: renderEvaluationOutcome(testCompliance),
                 ...Object.fromEntries(
                     Object.entries(metrics).map(([k, v]) => [
                         k,
                         renderEvaluation(v),
                     ])
                 ),
+                compliance: renderEvaluationOutcome(testCompliance),
+                rule,
+                inverse: inverse ? "🔄" : "",
             })
         )
     )
@@ -458,6 +588,11 @@ if (createEvalRuns) {
 output.heading(3, `Results Overview`)
 const { overview } = await computeOverview(files, { percent: true })
 output.table(overview)
+if (files.writeResults)
+    await workspace.writeText(
+        path.join(files.dir, "overview.csv"),
+        CSV.stringify(overview, { header: true })
+    )
 
 output.appendContent("\n\n---\n\n")
 
