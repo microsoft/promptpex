@@ -557,7 +557,6 @@ if (createEvalRuns) {
                 compliance: testCompliance,
                 metrics,
             }) => ({
-
                 model,
                 scenario,
                 input,
