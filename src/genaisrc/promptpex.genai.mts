@@ -83,7 +83,7 @@ promptPex:
         },
         effort: {
             type: "string",
-            enum: ["low", "medium", "high"],
+            enum: ["min", "low", "medium", "high"],
             required: false,
             description:
                 "Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.",
@@ -385,7 +385,7 @@ const {
     testExpansions,
     effort,
 } = vars as PromptPexOptions & {
-    effort?: "low" | "medium" | "high"
+    effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
     prompt?: string
     inputSpecInstructions?: string

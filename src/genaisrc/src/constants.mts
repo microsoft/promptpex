@@ -157,7 +157,17 @@ export const MODEL_ALIAS_STORE = "store"
 export const TEST_TRAINING_DATASET_RATIO = 0.75
 
 export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
-    low: {
+    min: {
+        splitRules: false,
+        testGenerations: 1,
+        testsPerRule: 1,
+        runsPerTest: 1,
+        testExpansions: 0,
+        maxRules: 6,
+        maxRulesPerTestGeneration: 100,
+        maxTestsToRun: 10,
+        compliance: false,
+    },low: {
         testExpansions: 0,
         maxRules: 3,
         maxRulesPerTestGeneration: 100,
