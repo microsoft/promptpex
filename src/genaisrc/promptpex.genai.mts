@@ -237,15 +237,17 @@ promptPex:
         },
         storeCompletions: {
             type: "boolean",
+            title: "Stored Completion",
             description:
-                "Run the test with `store` model and store the results using [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions).",
+                "Store chat completions using [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions).",
+            uiGroup: "Azure OpenAI Evals",
         },
         storeModel: {
             type: "string",
             description:
                 "Model used to create [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) (you can also override the model alias 'store'). ",
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
-            uiGroup: "Evaluation",
+            uiGroup: "Azure OpenAI Evals",
         },
         customMetric: {
             type: "string",
@@ -326,6 +328,7 @@ user:
             type: "boolean",
             description:
                 "Create an Evals run in [OpenAI Evals](https://platform.openai.com/docs/guides/evals). Requires OpenAI API key in environment variable `OPENAI_API_KEY`.",
+            uiGroup: "Azure OpenAI Evals",
         },
         testExpansions: {
             type: "integer",
@@ -395,7 +398,6 @@ const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter((m) => !!m)
 const options = {
-    ...efforts,
     cache,
     testRunCache,
     evalCache,
@@ -427,6 +429,7 @@ const options = {
     testSamplesShuffle,
     testExpansions,
     out,
+    ...efforts,
 } satisfies PromptPexOptions
 
 if (env.files[0] && promptText)
