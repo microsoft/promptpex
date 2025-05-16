@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url"
 import { dirname, join, resolve } from "node:path"
+import type { PromptPexOptions } from "./types.mts"
 
 const genaisrcSrcDir = dirname(fileURLToPath(import.meta.url))
 export const PARAMETER_INPUT_TEXT = "input_text"
@@ -9,7 +10,10 @@ export const PROMPT_GENERATE_INPUT_SPEC = join(
     PROMPT_DIR,
     "generate_input_spec.prompty"
 )
-export const PROMPT_GENERATE_INTENT = join(PROMPT_DIR, "generate_intent.prompty")
+export const PROMPT_GENERATE_INTENT = join(
+    PROMPT_DIR,
+    "generate_intent.prompty"
+)
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
     PROMPT_DIR,
     "generate_output_rules.prompty"
@@ -151,3 +155,22 @@ export const MODEL_ALIAS_EVAL = "eval"
 export const MODEL_ALIAS_STORE = "store"
 
 export const TEST_TRAINING_DATASET_RATIO = 0.75
+
+export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
+    low: {
+        testExpansions: 0,
+        maxRules: 3,
+        maxRulesPerTestGeneration: 100,
+        maxTestsToRun: 10,
+    },
+    medium: {
+        testExpansions: 1,
+        maxRules: 10,
+        maxRulesPerTestGeneration: 3,
+        maxTestsToRun: 5,
+    },
+    high: {
+        testExpansions: 2,
+        maxRulesPerTestGeneration: 1,
+    },
+}

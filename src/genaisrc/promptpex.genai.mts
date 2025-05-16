@@ -19,7 +19,7 @@ import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions } from "./src/types.mts"
-import { MODEL_ALIAS_STORE } from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -80,6 +80,13 @@ promptPex:
                 "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
             required: false,
             uiType: "textarea",
+        },
+        effort: {
+            type: "string",
+            enum: ["low", "medium", "high"],
+            required: false,
+            description:
+                "Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.",
         },
         out: {
             type: "string",
@@ -373,7 +380,9 @@ const {
     testSamplesCount,
     testSamplesShuffle,
     testExpansions,
+    effort,
 } = vars as PromptPexOptions & {
+    effort?: "low" | "medium" | "high"
     customMetric?: string
     prompt?: string
     inputSpecInstructions?: string
@@ -381,10 +390,12 @@ const {
     inverseOutputRulesInstructions?: string
     testExpansionInstructions?: string
 }
+const efforts = EFFORTS[effort || ""] || {}
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter((m) => !!m)
 const options = {
+    ...efforts,
     cache,
     testRunCache,
     evalCache,
