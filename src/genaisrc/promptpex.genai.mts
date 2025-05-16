@@ -397,7 +397,7 @@ const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
-    .filter((m) => !!m)
+    .filter(Boolean)
 const options = {
     cache,
     testRunCache,
@@ -441,6 +441,7 @@ if (!env.files[0] && !promptText)
     cancel("No prompt file or prompt text provided.")
 
 initPerf({ output })
+
 const file = env.files[0] || { filename: "", content: promptText }
 const files = await loadPromptFiles(file, options)
 
@@ -451,6 +452,15 @@ if (diagnostics) {
 
 output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
+
+if (modelsUnderTest?.length) {
+    output.heading(3, `Models Under Test`)
+    for (const modelUnderTest of modelsUnderTest) {
+        const resolved = await host.resolveLanguageModel(modelUnderTest)
+        if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
+        output.item(`${resolved.provider}:${resolved.model}`)
+    }
+}
 
 // prompt info
 output.heading(3, `Prompt Under Test`)
