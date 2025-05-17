@@ -1,0 +1,949 @@
+<SYSTEM>This is the full developer documentation for PromptPex</SYSTEM>
+
+=|=|=|=|=|=
+
+# PromptPex
+
+> Test Generation for Prompts
+
+# Test Generation for Prompts
+
+[Section titled “Test Generation for Prompts”](#test-generation-for-prompts)
+
+**Prompts** are an important part of any software project that incorporates the power of AI models. As a result, tools to help developers create and maintain effective prompts are increasingly important.
+
+**PromptPex** is a tool for exploring and testing AI model prompts. PromptPex is intended to be used by developers who have prompts as part of their code base. PromptPex treats a prompt as a function and automatically generates test inputs to the function to support unit testing.
+
+[](https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949)
+
+***
+
+## Features
+
+[Section titled “Features”](#features)
+
+Automated Test Generation
+
+PromptPex uses [an LLM-based process](/promptpex/reference/) to generate a set of inputs that capture the behavior of your prompt.
+
+Output Rules Evaluation
+
+Eval your prompt’s output compliance against a set of rules that are automatically extracted from your prompt, or define your own [metrics](/promptpex/reference/metrics).
+
+Export to OpenAI Evals
+
+Export generated tests and metrics using (Azure) [OpenAI Evals](/promptpex/reference/evals).
+
+Azure OpenAI Store Completions
+
+Use generated tests to distillate to smaller models using [Azure OpenAI Stored Completions](/promptpex/reference/stored-completions).
+
+Bring your own LLM library
+
+Integrate with your own LLM library or use our [GenAIScript](/promptpex/dev/genaiscript) / [Python](/promptpex/dev/python) implementations
+
+Flexible Generation
+
+Use [scenarios](/promptpex/reference/scenarios), [test expansions](/promptpex/reference/test-expansion) or [custom instruction](/promptpex/reference/custom-instructions) to configure the test generation.
+
+=|=|=|=|=|=
+
+# Overview
+
+This section provides documentation for developers who want to use PromptPex in their own projects or infrastructure.
+
+## Bring Your Own Inference Library
+
+[Section titled “Bring Your Own Inference Library”](#bring-your-own-inference-library)
+
+PromptPex is workflow of LLM prompts that implement the test generation process. The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/reference/prompt-format/).
+
+* [prompts directory](https://github.com/microsoft/promptpex/tree/main/src/prompts)
+
+**PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
+
+## GenAIScript
+
+[Section titled “GenAIScript”](#genaiscript)
+
+[GenAIScript](/promptpex/dev/genaiscript/) implementation of the test generation process using the prompt templates.
+
+## Python
+
+[Section titled “Python”](#python)
+
+A [Python](/promptpex/dev/python/) implementation of the test generation process using the prompt templates.
+
+=|=|=|=|=|=
+
+# GenAIScript
+
+[GenAIScript](https://microsoft.github.io/genaiscript) is a tool for generating and executing scripts using LLMs. It is used in PromptPex to generate the test generation scripts.
+
+## Try PromptPex
+
+[Section titled “Try PromptPex”](#try-promptpex)
+
+* Install [Node.js v20+](https://nodejs.org/)
+* Configure your LLM credentials in `.env`. You can use OpenAI, Azure OpenAI, or Ollama.
+
+```sh
+npx --yes genaiscript configure
+```
+
+* Launch promptpex locally
+
+```sh
+npx --yes genaiscript@latest serve --remote microsoft/promptpex --remote-branch dev
+```
+
+### Docker
+
+[Section titled “Docker”](#docker)
+
+To launch PromptPex in a docker container, first create an image with the following command:
+
+```sh
+docker build -t genaiscript -<<EOF
+FROM node:alpine
+RUN apk add --no-cache git && npm install -g genaiscript
+EOF
+```
+
+Launch promptpex using the `genaiscript` image
+
+```sh
+docker run  --env GITHUB_TOKEN --env-file .env --name genaiscript --rm -it --expose 8003 -p 8003:8003 -v ${PWD}:/workspace -w /workspace genaiscript genaiscript serve --network --remote microsoft/promptpex --remote-branch dev
+```
+
+## GitHub Codespaces
+
+[Section titled “GitHub Codespaces”](#github-codespaces)
+
+Use CodeSpaces / dev container to get a fully configured environment, including access to LLMs through GitHub Marketplace Models.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true\&ref=main\&repo=microsoft/promptpex)
+
+then launch the server
+
+```sh
+npm run serve
+```
+
+## Local development
+
+[Section titled “Local development”](#local-development)
+
+* Clone this repository
+* Install [Node.js v20+](https://nodejs.org/)
+* Install dependencies
+
+```sh
+npm install
+```
+
+## Configure the eval, rules, baseline aliases
+
+[Section titled “Configure the eval, rules, baseline aliases”](#configure-the-eval-rules-baseline-aliases)
+
+PromptPex defines the following model aliases for the different phases of the test generation:
+
+* `rules`: rule, inverse rules, test generation
+* `eval`: rule and test quality evaluations
+* `baseline`: baseline test generation
+
+If you are using a specific set of models, you can use a `.env` file to override the eval/rules/baseline aliases
+
+```text
+GENAISCRIPT_MODEL_EVAL="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_RULES="azure:gpt-4o_2024-11-20"
+GENAISCRIPT_MODEL_BASELINE="azure:gpt-4o_2024-11-20"
+```
+
+## Web interface
+
+[Section titled “Web interface”](#web-interface)
+
+* Launch web interface
+
+```sh
+npm run serve
+```
+
+* Open localhost
+
+## Development
+
+[Section titled “Development”](#development)
+
+The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
+
+* Install [Node.js v20+](https://nodejs.org/)
+* Configure your LLM credentials in `.env`
+
+## Typecheck scripts
+
+[Section titled “Typecheck scripts”](#typecheck-scripts)
+
+Use Visual Studio Code to get builtin typechecking from TypeScript or
+
+```sh
+npm run build
+```
+
+## Create a commit
+
+[Section titled “Create a commit”](#create-a-commit)
+
+For convenience,
+
+```sh
+npm run gcm
+```
+
+## Debug
+
+[Section titled “Debug”](#debug)
+
+* Open a `JavaScript Debug Terminal` in Visual Studio Code
+* Put a breakpoint in your script
+* Launch the script
+
+## Upgrade dependencies
+
+[Section titled “Upgrade dependencies”](#upgrade-dependencies)
+
+```sh
+npm run upgrade
+```
+
+## Diagnostics mode
+
+[Section titled “Diagnostics mode”](#diagnostics-mode)
+
+Set the `DEBUG=promptpex:*` environment variable to enable additional logging.
+
+```sh
+DEBUG=promptpex:* npm run ...
+```
+
+To pipe the stderr, stdout to a file,
+
+```sh
+DEBUG=* npm run ... > output.txt 2>&1
+```
+
+## Caching
+
+[Section titled “Caching”](#caching)
+
+Add `--vars cache=true` to the command line to enable caching of LLM calls.
+
+=|=|=|=|=|=
+
+# Python
+
+A python implementation of PromptPex is available using the **src/python** folder. It is a standalone implementation of the test generation process using the prompt templates.
+
+=|=|=|=|=|=
+
+# FAQ
+
+## What is PromptPex?
+
+[Section titled “What is PromptPex?”](#what-is-promptpex)
+
+PromptPex is a tool for evaluating and testing prompts using various AI models. It helps ensure the quality and reliability of prompt-based applications by providing a systematic way to test prompt behavior.
+
+=|=|=|=|=|=
+
+# Overview
+
+If we treat [LLM prompts as programs](/promptpex/reference/prompts-are-programs), then it makes sense to build tests for those. This is exactly what started PromptPex: a test generator for LLM prompts.
+
+From a templated prompt,
+
+speech-tag.prompty
+
+```md
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+It generates a set of test cases and a compliance evaluation metric.
+
+The generated test cases can be used to:
+
+* distillate a smaller model to run the prompt and reduce costs (using Azure OpenAI Stored Completions)
+* evaluate the prompt performance when migrating to a new model (using OpenAI Evals API)
+* evaluate the prompt performance when making changes to the prompt …
+
+=|=|=|=|=|=
+
+# Custom instructions
+
+You can provide custom instructions for the test generation for each step in the prompty front-matter.
+
+summarize.prompty
+
+```yaml
+instructions:
+    inputSpec: "..."
+    outputRules: "..."
+    inverseOutputRules: "..."
+    intent: "..."
+    testExpansion: "..."
+```
+
+## Example
+
+[Section titled “Example”](#example)
+
+You can influence the input specification generation by injecting prompting instructions.
+
+```md
+---
+instructions:
+    outputRules: "Ignore the 'safety' section, it is handled elsewhere."
+---
+```
+
+=|=|=|=|=|=
+
+# OpenAI Evals
+
+PromptPex support exporting the generated tests into a [OpenAI Evals Run](https://platform.openai.com/docs/api-reference/evals). PromptPex will generate an **eval** and launch an **eval run** for each Model Under Test (MUT) in the test generation.
+
+## OpenAI
+
+[Section titled “OpenAI”](#openai)
+
+To enable this mode, you need to
+
+* set the `OPENAI_API_KEY` environment variable to your OpenAI API key
+* set the `createEvalRuns` parameter to true in the web interface or on the command line.
+
+The OpenAI models that can be used as **Model Under Test** are available at [OpenAI Models](https://platform.openai.com/docs/models).
+
+![Screenshot of an evaluation dashboard showing a model named "gpt-4o-mini" with performance scores of 96% for rules compliance and 100% for niceness, passing 29 out of 30 and 30 out of 30 tests respectively. The left sidebar lists navigation options such as Logs, Traces, Assistants, Batches, Evaluations, Fine-tuning, Storage, Usage, and API keys.](https://github.com/user-attachments/assets/988f9b7e-95a9-450f-9475-61a887a3f85f)
+
+=|=|=|=|=|=
+
+# Glossary
+
+* **Prompt Under Test (PUT)** - like Program Under Test; the prompt
+
+* **Model Under Test (MUT)** - Model which we are testing against with specific temperature, etc example: gpt-4o-mini
+
+* Model Used by PromptPex (MPP) - gpt-4o
+
+* Input Specification (IS) - Extracting input constraints of PUT using MPP (input\_spec)
+
+* Output Rules (OR) - Extracting output constraints of PUT using MPP (rules\_global)
+
+* Inverse Output Rules (IOR) - Inverse of the generated Output Rules
+
+* Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check\_rule\_grounded)
+
+* Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract\_intent)
+
+* Test Scenario (TS) - Set of additional input constraint variations not captured in the prompt.
+
+* PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
+
+* Baseline Tests (BT) - Zero shot test cases generated for PUT with MPP (baseline\_test)
+
+* Test Expansion (TE) - Expanding the test cases from examples and generally telling the LLM to make them more complex (test\_expansion)
+
+* Test Validity (TV) - Checking if PPT and BT meets the constraints in IS using MPP (check\_violation\_with\_input\_spec)
+
+* Spec Agreement (SA) - Result generated for PPT and BT on PUTI + OR with MPP (evaluate\_test\_coverage)
+
+* Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
+
+* Test Non-Compliance (TNC) - Checking if TO meets the constraints in PUT using MPP (check\_violation\_with\_system\_prompt)
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 1700.73828125 686.7216796875' style='max-width: 1700.73828125px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-0'%3e%3cstyle%3e%23mermaid-0%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-0 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .error-icon%7bfill:%23552222%3b%7d%23mermaid-0 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-0 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-0 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-0 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-0 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-0 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-0 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-0 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-0 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-0 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-0 p%7bmargin:0%3b%7d%23mermaid-0 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-0 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-0 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-0 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-0 .label text%2c%23mermaid-0 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-0 .node rect%2c%23mermaid-0 .node circle%2c%23mermaid-0 .node ellipse%2c%23mermaid-0 .node polygon%2c%23mermaid-0 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label text%2c%23mermaid-0 .node .label text%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-0 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label%2c%23mermaid-0 .node .label%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-0 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-0 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-0 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-0 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-0 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-0 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-0 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-0 .cluster text%7bfill:%23333%3b%7d%23mermaid-0 .cluster span%7bcolor:%23333%3b%7d%23mermaid-0 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-0 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-0 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-0 .icon-shape%2c%23mermaid-0 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .icon-shape p%2c%23mermaid-0 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-0 .icon-shape rect%2c%23mermaid-0 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M1251.663%2c55.627L1059.863%2c65.976C868.062%2c76.325%2c484.461%2c97.024%2c292.66%2c114.789C100.859%2c132.555%2c100.859%2c147.388%2c100.859%2c162.222C100.859%2c177.055%2c100.859%2c191.888%2c100.859%2c206.055C100.859%2c220.222%2c100.859%2c233.722%2c100.859%2c240.472L100.859%2c247.222'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_OR_0' d='M1251.663%2c58.519L1133.609%2c68.386C1015.555%2c78.253%2c779.447%2c97.987%2c661.393%2c111.355C543.339%2c124.722%2c543.339%2c131.722%2c543.339%2c135.222L543.339%2c138.722'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_IOR_0' d='M464.722%2c180.603L446.104%2c184.956C427.486%2c189.309%2c390.251%2c198.016%2c371.633%2c209.119C353.016%2c220.222%2c353.016%2c233.722%2c353.016%2c240.472L353.016%2c247.222'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_ORG_0' d='M491.555%2c181.722L480.489%2c185.888C469.424%2c190.055%2c447.294%2c198.388%2c493.84%2c210.242C540.387%2c222.096%2c655.609%2c237.471%2c713.221%2c245.159L770.832%2c252.846'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_ORG_0' d='M1251.663%2c67.304L1233.883%2c75.707C1216.104%2c84.11%2c1180.544%2c100.916%2c1162.764%2c116.735C1144.984%2c132.555%2c1144.984%2c147.388%2c1144.984%2c162.222C1144.984%2c177.055%2c1144.984%2c191.888%2c1127.264%2c204.027C1109.544%2c216.165%2c1074.103%2c225.609%2c1056.382%2c230.33L1038.662%2c235.052'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PUTI_0' d='M1268.083%2c85.942L1260.098%2c91.238C1252.113%2c96.535%2c1236.142%2c107.128%2c1228.157%2c119.842C1220.172%2c132.555%2c1220.172%2c147.388%2c1220.172%2c162.222C1220.172%2c177.055%2c1220.172%2c191.888%2c1220.172%2c209.972C1220.172%2c228.055%2c1220.172%2c249.388%2c1220.172%2c270.722C1220.172%2c292.055%2c1220.172%2c313.388%2c1220.172%2c327.555C1220.172%2c341.722%2c1220.172%2c348.722%2c1220.172%2c352.222L1220.172%2c355.722'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PPT_0' d='M1315.366%2c91.773L1312.031%2c96.098C1308.697%2c100.423%2c1302.028%2c109.072%2c1298.694%2c120.814C1295.359%2c132.555%2c1295.359%2c147.388%2c1295.359%2c162.222C1295.359%2c177.055%2c1295.359%2c191.888%2c1295.359%2c209.972C1295.359%2c228.055%2c1295.359%2c249.388%2c1295.359%2c270.722C1295.359%2c292.055%2c1295.359%2c313.388%2c1187.167%2c332.287C1078.975%2c351.186%2c862.591%2c367.651%2c754.399%2c375.883L646.207%2c384.115'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_PPT_0' d='M97.813%2c290.222L96.654%2c297.638C95.495%2c305.055%2c93.177%2c319.888%2c151.282%2c334.755C209.387%2c349.622%2c327.914%2c364.523%2c387.178%2c371.973L446.442%2c379.423'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_PPT_0' d='M523.17%2c181.722L518.861%2c185.888C514.551%2c190.055%2c505.932%2c198.388%2c501.622%2c213.222C497.313%2c228.055%2c497.313%2c249.388%2c497.313%2c270.722C497.313%2c292.055%2c497.313%2c313.388%2c502.138%2c329.795C506.963%2c346.201%2c516.614%2c357.681%2c521.439%2c363.42L526.265%2c369.16'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IOR_PPT_0' d='M353.016%2c290.222L353.016%2c297.638C353.016%2c305.055%2c353.016%2c319.888%2c373.38%2c333.365C393.745%2c346.841%2c434.474%2c358.961%2c454.839%2c365.021L475.203%2c371.081'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PPT_TV_0' d='M453.926%2c410.551L423.412%2c416.746C392.898%2c422.941%2c331.871%2c435.332%2c289.969%2c445.475C248.067%2c455.618%2c225.291%2c463.515%2c213.903%2c467.463L202.515%2c471.411'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_TV_0' d='M103.906%2c290.222L105.065%2c297.638C106.224%2c305.055%2c108.542%2c319.888%2c109.701%2c336.722C110.859%2c353.555%2c110.859%2c372.388%2c110.859%2c391.222C110.859%2c410.055%2c110.859%2c428.888%2c111.535%2c441.817C112.21%2c454.746%2c113.561%2c461.77%2c114.236%2c465.282L114.912%2c468.794'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TS_PPT_0' d='M628.555%2c297.722L628.555%2c303.888C628.555%2c310.055%2c628.555%2c322.388%2c620.034%2c334.427C611.513%2c346.465%2c594.471%2c358.209%2c585.95%2c364.08L577.429%2c369.952'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PPT_SA_0' d='M457.579%2c411.222L429.79%2c417.305C402.001%2c423.388%2c346.422%2c435.555%2c353.838%2c447.314C361.255%2c459.073%2c431.667%2c470.424%2c466.873%2c476.1L502.079%2c481.775'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUTI_SA_0' d='M1220.172%2c422.722L1220.172%2c426.888C1220.172%2c431.055%2c1220.172%2c439.388%2c1137.604%2c450.631C1055.036%2c461.874%2c889.9%2c476.026%2c807.332%2c483.102L724.764%2c490.178'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_SA_0' d='M621.956%2c168.867L696.596%2c175.176C771.236%2c181.485%2c920.517%2c194.103%2c995.157%2c211.079C1069.797%2c228.055%2c1069.797%2c249.388%2c1069.797%2c270.722C1069.797%2c292.055%2c1069.797%2c313.388%2c1069.797%2c333.472C1069.797%2c353.555%2c1069.797%2c372.388%2c1069.797%2c391.222C1069.797%2c410.055%2c1069.797%2c428.888%2c1012.289%2c444.857C954.782%2c460.826%2c839.767%2c473.931%2c782.26%2c480.483L724.752%2c487.035'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_SA_SAE_0' d='M613.403%2c526.722L613.403%2c532.888C613.403%2c539.055%2c613.403%2c551.388%2c668.554%2c566.572C723.704%2c581.755%2c834.005%2c599.789%2c889.156%2c608.805L944.306%2c617.822'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_SAE_0' d='M1362.648%2c92.578L1363.965%2c96.768C1365.281%2c100.959%2c1367.914%2c109.34%2c1369.23%2c120.948C1370.547%2c132.555%2c1370.547%2c147.388%2c1370.547%2c162.222C1370.547%2c177.055%2c1370.547%2c191.888%2c1370.547%2c209.972C1370.547%2c228.055%2c1370.547%2c249.388%2c1370.547%2c270.722C1370.547%2c292.055%2c1370.547%2c313.388%2c1370.547%2c333.472C1370.547%2c353.555%2c1370.547%2c372.388%2c1370.547%2c391.222C1370.547%2c410.055%2c1370.547%2c428.888%2c1370.547%2c446.972C1370.547%2c465.055%2c1370.547%2c482.388%2c1370.547%2c501.722C1370.547%2c521.055%2c1370.547%2c542.388%2c1344.143%2c559.92C1317.74%2c577.452%2c1264.932%2c591.183%2c1238.529%2c598.048L1212.125%2c604.913'/%3e%3cpath style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='PPT-cyclic-special-1' d='M545.191%2c411.222L545.107%2c417.305C545.024%2c423.388%2c544.857%2c435.555%2c528.111%2c450.301C511.366%2c465.046%2c478.041%2c482.371%2c461.378%2c491.033L444.716%2c499.696'/%3e%3cpath style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='PPT-cyclic-special-mid' d='M444.666%2c499.772L444.666%2c510.43C444.666%2c521.088%2c444.666%2c542.405%2c465.27%2c565.725C485.875%2c589.045%2c527.084%2c614.368%2c547.689%2c627.029L568.294%2c639.691'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='PPT-cyclic-special-2' d='M568.394%2c639.713L638.507%2c627.048C708.621%2c614.382%2c848.848%2c589.052%2c918.962%2c565.72C989.076%2c542.388%2c989.076%2c521.055%2c989.076%2c501.722C989.076%2c482.388%2c989.076%2c465.055%2c931.533%2c449.144C873.991%2c433.233%2c758.906%2c418.745%2c701.364%2c411.501L643.821%2c404.257'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PPT_TO_0' d='M637.058%2c409.347L670.744%2c415.743C704.43%2c422.139%2c771.803%2c434.93%2c836.455%2c446.516C901.106%2c458.101%2c963.036%2c468.48%2c994.002%2c473.669L1024.967%2c478.859'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_TO_0' d='M1375.226%2c92.173L1377.779%2c96.431C1380.333%2c100.689%2c1385.44%2c109.205%2c1387.993%2c120.88C1390.547%2c132.555%2c1390.547%2c147.388%2c1390.547%2c162.222C1390.547%2c177.055%2c1390.547%2c191.888%2c1390.547%2c209.972C1390.547%2c228.055%2c1390.547%2c249.388%2c1390.547%2c270.722C1390.547%2c292.055%2c1390.547%2c313.388%2c1390.547%2c333.472C1390.547%2c353.555%2c1390.547%2c372.388%2c1390.547%2c391.222C1390.547%2c410.055%2c1390.547%2c428.888%2c1371.106%2c442.498C1351.665%2c456.108%2c1312.782%2c464.494%2c1293.341%2c468.687L1273.9%2c472.88'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TO_TNC_0' d='M1149.451%2c526.722L1149.451%2c532.888C1149.451%2c539.055%2c1149.451%2c551.388%2c1183.028%2c565.164C1216.606%2c578.94%2c1283.76%2c594.159%2c1317.338%2c601.768L1350.915%2c609.377'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_TNC_0' d='M1434.508%2c84.904L1442.893%2c90.373C1451.278%2c95.843%2c1468.047%2c106.782%2c1476.432%2c119.669C1484.816%2c132.555%2c1484.816%2c147.388%2c1484.816%2c162.222C1484.816%2c177.055%2c1484.816%2c191.888%2c1484.816%2c209.972C1484.816%2c228.055%2c1484.816%2c249.388%2c1484.816%2c270.722C1484.816%2c292.055%2c1484.816%2c313.388%2c1484.816%2c333.472C1484.816%2c353.555%2c1484.816%2c372.388%2c1484.816%2c391.222C1484.816%2c410.055%2c1484.816%2c428.888%2c1484.816%2c446.972C1484.816%2c465.055%2c1484.816%2c482.388%2c1484.816%2c501.722C1484.816%2c521.055%2c1484.816%2c542.388%2c1484.816%2c558.555C1484.816%2c574.722%2c1484.816%2c585.722%2c1484.816%2c591.222L1484.816%2c596.722'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_BT_0' d='M1446.866%2c75.941L1473.435%2c82.905C1500.003%2c89.868%2c1553.14%2c103.795%2c1579.709%2c118.175C1606.277%2c132.555%2c1606.277%2c147.388%2c1606.277%2c162.222C1606.277%2c177.055%2c1606.277%2c191.888%2c1606.277%2c209.972C1606.277%2c228.055%2c1606.277%2c249.388%2c1606.277%2c270.722C1606.277%2c292.055%2c1606.277%2c313.388%2c1606.277%2c333.472C1606.277%2c353.555%2c1606.277%2c372.388%2c1606.277%2c391.222C1606.277%2c410.055%2c1606.277%2c428.888%2c1606.351%2c443.138C1606.424%2c457.389%2c1606.57%2c467.055%2c1606.644%2c471.889L1606.717%2c476.722'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_BT_TNC_0' d='M1606.777%2c519.722L1606.694%2c527.055C1606.611%2c534.388%2c1606.444%2c549.055%2c1597.07%2c562.201C1587.697%2c575.348%2c1569.116%2c586.974%2c1559.826%2c592.787L1550.536%2c598.6'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(444.66562500037253%2c 563.7217102050781)' class='edgeLabel'%3e%3cg transform='translate(-72.03125%2c -12)' class='label'%3e%3cforeignObject height='24' width='144.0625'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3cp%3eTest Expansion (TE)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(1349.264843750745%2c 50.36085510253906)' id='flowchart-PUT-0' class='node default'%3e%3cpath transform='translate(-97.6015625%2c -42.36085492607232)' style='' class='basic label-container' d='M0%2c15.240569950714878 a97.6015625%2c15.240569950714878 0%2c0%2c0 195.203125%2c0 a97.6015625%2c15.240569950714878 0%2c0%2c0 -195.203125%2c0 l0%2c54.24056995071488 a97.6015625%2c15.240569950714878 0%2c0%2c0 195.203125%2c0 l0%2c-54.24056995071488'/%3e%3cg transform='translate(-90.1015625%2c -2)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(100.859375%2c 270.7217102050781)' id='flowchart-IS-1' class='node default'%3e%3crect height='39' width='185.71875' y='-19.5' x='-92.859375' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(543.3390625007451%2c 162.22171020507812)' id='flowchart-OR-2' class='node default'%3e%3crect height='39' width='157.234375' y='-19.5' x='-78.6171875' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules (OR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(353.015625%2c 270.7217102050781)' id='flowchart-IOR-3' class='node default'%3e%3crect height='39' width='218.59375' y='-19.5' x='-109.296875' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-96.921875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='193.84375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInverse Output Rules (IOR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(904.796875%2c 270.7217102050781)' id='flowchart-ORG-4' class='node default'%3e%3crect height='78' width='260' y='-39' x='-130' style='' class='basic label-container'/%3e%3cg transform='translate(-100%2c -24)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='48' width='200'%3e%3cdiv style='display: table%3b white-space: break-spaces%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b width: 200px%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules Groundedness (ORG)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(1220.171875%2c 391.2217102050781)' id='flowchart-PUTI-5' class='node default'%3e%3crect height='63' width='230.75' y='-31.5' x='-115.375' ry='31.5' rx='31.5' style='' class='basic label-container'/%3e%3cg transform='translate(-100%2c -24)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='48' width='200'%3e%3cdiv style='display: table%3b white-space: break-spaces%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b width: 200px%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test Intent (PUTI)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(544.6906250007451%2c 391.2217102050781)' id='flowchart-PPT-6' class='node default'%3e%3cpolygon transform='translate(-100.6796875%2c19.5)' class='label-container' points='9.75%2c0 191.609375%2c0 201.359375%2c-19.5 191.609375%2c-39 9.75%2c-39 0%2c-19.5'/%3e%3cg transform='translate(-83.4296875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='166.859375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePromptPex Tests (PPT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(613.4031250011176%2c 499.7217102050781)' id='flowchart-SA-7' class='node default'%3e%3crect height='54' width='214.75' y='-27' x='-107.375' style='' class='basic label-container'/%3e%3cg transform='translate(-77.375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='154.75'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eSpec Agreement (SA)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(1078.25390625%2c 639.7217102050781)' id='flowchart-SAE-8' class='node default'%3e%3crect height='78' width='260' y='-39' x='-130' style='' class='basic label-container'/%3e%3cg transform='translate(-100%2c -24)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='48' width='200'%3e%3cdiv style='display: table%3b white-space: break-spaces%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b width: 200px%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eSpec Agreement Evaluation (SAE)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(1149.4507812503725%2c 499.7217102050781)' id='flowchart-TO-9' class='node default'%3e%3crect height='54' width='241.078125' y='-27' x='-120.5390625' style='' class='basic label-container'/%3e%3cg transform='translate(-90.5390625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='181.078125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Output (TO) for MUT%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(1484.81640625%2c 639.7217102050781)' id='flowchart-TNC-10' class='node default'%3e%3crect height='78' width='260' y='-39' x='-130' style='' class='basic label-container'/%3e%3cg transform='translate(-100%2c -24)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='48' width='200'%3e%3cdiv style='display: table%3b white-space: break-spaces%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b width: 200px%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Non-Compliance (TNC)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(120.859375%2c 499.7217102050781)' id='flowchart-TV-11' class='node default'%3e%3crect height='54' width='179.734375' y='-27' x='-89.8671875' style='' class='basic label-container'/%3e%3cg transform='translate(-59.8671875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='119.734375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Validity (TV)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(628.5546875%2c 270.7217102050781)' id='flowchart-TS-12' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Scenario (TS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(1606.27734375%2c 499.7217102050781)' id='flowchart-BT-13' class='node default'%3e%3cpolygon transform='translate(-86.4609375%2c19.5)' class='label-container' points='9.75%2c0 163.171875%2c0 172.921875%2c-19.5 163.171875%2c-39 9.75%2c-39 0%2c-19.5'/%3e%3cg transform='translate(-69.2109375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='138.421875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eBaseline Tests (BT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(444.66562500037253%2c 499.7217102050781)' id='PPT---PPT---1' class='label edgeLabel'%3e%3crect height='0.1' width='0.1'/%3e%3cg transform='translate(0%2c 0)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 10px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(568.34375%2c 639.7217102050781)' id='PPT---PPT---2' class='label edgeLabel'%3e%3crect height='0.1' width='0.1'/%3e%3cg transform='translate(0%2c 0)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 10px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+
+
+* Every node is created by a LLM call (aside from the PUT).
+* Rounded nodes can be edited by the user.
+* Square nodes are evaluations.
+* Diamond nodes are outputs.
+* Lines represent data dependencies.
+* Bolded lines are the minimum path to generate tests.
+
+=|=|=|=|=|=
+
+# Custom Metrics
+
+You can provide custom metrics for the test result evaluation step. Metric can be qualitative (`ok`, `err`, `unknown`) or quantitative (e.g. `0` to `100` good).
+
+A metric should be a `.metric.prompty` in the same folder as the prompt under test.
+
+custom.metric.prompty
+
+```markdown
+---
+name: Custom Test Result Evaluation
+description: |
+    A template for a custom evaluation of the results.
+tags:
+    - unlisted
+inputs:
+    prompt:
+        type: string
+        description: The prompt to be evaluated.
+    intent:
+        type: string
+        description: The extracted intent of the prompt.
+    inputSpec:
+        type: string
+        description: The input specification for the prompt.
+    rules:
+        type: string
+        description: The rules to be applied for the test generation.
+    input:
+        type: string
+        description: The input to be used with the prompt.
+    output:
+        type: string
+        description: The output from the model execution.
+---
+
+
+system:
+
+
+## Task
+
+
+You are a chatbot that helps users evaluate the performance of a model.
+Your task is to evaluate the <CRITERIA> based <OUTPUT> provided.
+
+
+<CRITERIA>
+The <OUTPUT> is in English.
+</CRITERIA>
+
+
+## Output
+
+
+**Binary Decision on Evaluation**: You are required to make a binary decision based on your evaluation:
+
+
+- Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
+- Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
+
+
+user:
+<OUTPUT>
+{{output}}
+</OUTPUT>
+```
+
+=|=|=|=|=|=
+
+# Prompt Format
+
+PromptPex supports markdown-based prompt format based on [Prompty](https://www.prompty.ai/); these are just markdown with a bit of syntax to represent messages and the input/output signature of the prompt.
+
+The `demo` prompt below defines a set of parameters (`inputs` as a set of JSON schema types). The `system`/`user` messages are separate by `system:`, `user:` markers in the markdown body. It uses the Jinja2 template engine to insert values (`{{joke}}`). The `scenarios` array is used to expand the test generation with further input specification and optional input values.
+
+```md
+---
+name: A demo
+inputs:
+    joke: "how do you make a tissue dance? You put a little boogie in it."
+    locale: "en-us"
+---
+
+
+system:
+You are an assistant
+and you need to categorize a joke as funny or not.
+The input local is {{locale}}.
+
+
+user:
+{{joke}}
+```
+
+## Messages
+
+[Section titled “Messages”](#messages)
+
+You can represent entire chat conversations in the prompt using the `system`, `user` and `assistant` messages.
+
+```md
+---
+name: A travel assistant
+input:
+    answer: "Next week."
+---
+system:
+You are a travel assistant.
+
+
+user:
+I want to go to Paris.
+
+
+assistant:
+Where do you want to go in Paris?
+
+
+user:
+{{answer}}
+```
+
+## Frontmatter
+
+[Section titled “Frontmatter”](#frontmatter)
+
+The frontmatter is a YAML block at the beginning of the markdown file. It contains metadata about the prompt, such as the name, inputs, and other properties. It starts and ends with `---` lines.
+
+PromptPex supports most of the [Prompty frontmatter](https://www.prompty.ai/docs/prompt-frontmatter) properties with a few additions.
+
+```yaml
+---
+name: A demo
+inputs:
+    # shortcut syntax: provide a value
+    joke: "how do you make a tissue dance? You put a little boogie in it."
+    # JSON schema syntax
+    locale:
+        type: string
+        description: The locale of the joke.
+        default: "en-us"
+---
+```
+
+### Schema
+
+[Section titled “Schema”](#schema)
+
+The JSON schema of the prompt front matter is available at <https://microsoft.github.io/promptpex/schemas/prompt.json>.
+
+The TypeScript types are available at <https://github.com/microsoft/promptpex/blob/dev/src/genaisrc/src/types.mts>.
+
+## Converting your prompt
+
+[Section titled “Converting your prompt”](#converting-your-prompt)
+
+The [promptpex-importer](https://github.com/microsoft/promptpex/blob/dev/src/genaisrc/prompty-importer.genai.mts) script is a tool that uses an LLM to convert your prompt to the prompty format.
+
+Follow the [GenAIScript](/promptpex/dev/genaiscript) instructions to launch the web server and the run `promptpex-importer` command to convert your prompt.
+
+=|=|=|=|=|=
+
+# Prompts are Programs
+
+**Prompts** are an important part of any software project that incorporates the power of AI models. As a result, tools to help developers create and maintain effective prompts are increasingly important.
+
+* [Prompts Are Programs - ACM Blog Post](https://blog.sigplan.org/2024/10/22/prompts-are-programs/)
+
+**PromptPex** is a tool for exploring and testing AI model prompts. PromptPex is intended to be used by developers who have prompts as part of their code base. PromptPex treats a prompt as a function and automatically generates test inputs to the function to support unit testing.
+
+* [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
+
+## Part of Speech Tagging Example
+
+[Section titled “Part of Speech Tagging Example”](#part-of-speech-tagging-example)
+
+Let’s look at a prompt that is designed to identify the [part of speech of a word in a sentence](https://github.com/microsoft/promptpex/blob/dev/samples/speech-tag/speech-tag.prompty).
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+...list of tags...
+```
+
+When the user enters
+
+```txt
+"The brown fox was lazy", lazy`
+```
+
+the LLM responds
+
+```txt
+JJ
+```
+
+If we look closely at the prompt, we can observe the following sections.
+
+* define **inputs**.
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+* **compute** an intermediate result
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+* return an **output**
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+* **structure**, assertions
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+* **constraints**
+
+```txt
+In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
+
+
+Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+=|=|=|=|=|=
+
+# Test Scenarios
+
+PromptPex supports specify a set of additional input constraints (scenario) to generate specific test suites. A canonical example would be localization testing: `generate English, generate French`.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='-35 0 815.203125 263' style='max-width: 815.203125px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-0'%3e%3cstyle%3e%23mermaid-0%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-0 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .error-icon%7bfill:%23552222%3b%7d%23mermaid-0 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-0 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-0 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-0 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-0 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-0 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-0 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-0 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-0 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-0 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-0 p%7bmargin:0%3b%7d%23mermaid-0 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-0 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-0 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-0 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-0 .label text%2c%23mermaid-0 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-0 .node rect%2c%23mermaid-0 .node circle%2c%23mermaid-0 .node ellipse%2c%23mermaid-0 .node polygon%2c%23mermaid-0 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label text%2c%23mermaid-0 .node .label text%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-0 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label%2c%23mermaid-0 .node .label%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-0 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-0 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-0 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-0 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-0 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-0 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-0 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-0 .cluster text%7bfill:%23333%3b%7d%23mermaid-0 .cluster span%7bcolor:%23333%3b%7d%23mermaid-0 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-0 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-0 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-0 .icon-shape%2c%23mermaid-0 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .icon-shape p%2c%23mermaid-0 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-0 .icon-shape rect%2c%23mermaid-0 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M118.484%2c47L118.484%2c51.167C118.484%2c55.333%2c118.484%2c63.667%2c118.484%2c71.333C118.484%2c79%2c118.484%2c86%2c118.484%2c89.5L118.484%2c93'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_R_0' d='M220.961%2c43.453L251.525%2c48.211C282.089%2c52.968%2c343.216%2c62.484%2c373.78%2c70.742C404.344%2c79%2c404.344%2c86%2c404.344%2c89.5L404.344%2c93'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PPT_0' d='M54.733%2c47L41.111%2c51.167C27.489%2c55.333%2c0.244%2c63.667%2c-13.378%2c76.5C-27%2c89.333%2c-27%2c106.667%2c-27%2c124C-27%2c141.333%2c-27%2c158.667%2c1.508%2c172.473C30.016%2c186.28%2c87.032%2c196.56%2c115.54%2c201.699L144.048%2c206.839'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_PPT_0' d='M118.484%2c151L118.484%2c155.167C118.484%2c159.333%2c118.484%2c167.667%2c129.311%2c175.772C140.137%2c183.877%2c161.789%2c191.755%2c172.615%2c195.694L183.442%2c199.632'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_R_PPT_0' d='M404.344%2c151L404.344%2c155.167C404.344%2c159.333%2c404.344%2c167.667%2c393.518%2c175.772C382.691%2c183.877%2c361.039%2c191.755%2c350.213%2c195.694L339.387%2c199.632'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TS_PPT_0' d='M675.961%2c151L675.961%2c155.167C675.961%2c159.333%2c675.961%2c167.667%2c626.436%2c178.046C576.912%2c188.425%2c477.862%2c200.849%2c428.337%2c207.061L378.813%2c213.274'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(118.484375%2c 27.5)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(118.484375%2c 124)' id='flowchart-IS-1' class='node default'%3e%3crect height='54' width='220.96875' y='-27' x='-110.484375' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(404.34375%2c 124)' id='flowchart-R-2' class='node default'%3e%3crect height='54' width='250.75' y='-27' x='-125.375' style='' class='basic label-container'/%3e%3cg transform='translate(-95.375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='190.75'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput %2b Inverse Rules (R)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(261.4140625%2c 228)' id='flowchart-PPT-3' class='node default'%3e%3crect height='54' width='226.859375' y='-27' x='-113.4296875' style='' class='basic label-container'/%3e%3cg transform='translate(-83.4296875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='166.859375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePromptPex Tests (PPT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(675.9609375%2c 124)' id='flowchart-TS-4' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Scenario (TS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+PromptPex enumerates through the scenarios and the rules and generates a test for each combination.
+
+```py
+for each scenario in scenarios:
+  for each rule in rules:
+    generate test for scenario, rule
+```
+
+## Configuration
+
+[Section titled “Configuration”](#configuration)
+
+The test generation scenarios are configured in the prompt front-matter. You can decide to fill in any of the template variables in each scenario.
+
+```yaml
+scenarios:
+    - name: English
+      instructions: The user speaks and writes in English.
+    - name: French
+      instructions: The user speaks and writes in French.
+      parameters:
+          locale: fr-FR
+```
+
+=|=|=|=|=|=
+
+# OpenAI Stored Completions
+
+> Run the generated tests and store the completion in Azure OpenAI for distillation and evaluation.
+
+[Azure OpenAI Stored Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) is a feature that allows you to store the completions generated by the OpenAI API. This can be useful for various purposes, such as evaluating the performance of the model, training new models, or simply keeping a record of the generated text.
+
+## Metadata
+
+[Section titled “Metadata”](#metadata)
+
+When PromptPex uploads the test results, it attaches metadata to allow filtering of the tests:
+
+* `runId`: a unique identifier for the run.
+* `testId`: a unique identifier for the test.
+* `scenario`: the scenario name.
+* `dataset`: `training` or `test` to allow for different sets to be used
+* `prompt`: the name of the prompt
+
+## Parameters
+
+[Section titled “Parameters”](#parameters)
+
+* `storedCompletions`: enables the stored completion feature.
+* `storeModel`: the model to use for storing completions. This is a string that specifies the model name. The default value is the `store` model alias which resolves to `large` alias.
+
+=|=|=|=|=|=
+
+# Test Expansion
+
+Test expansion uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/expand_test.prompty) to *expand* a test and make it more complex. It can be applied repeatedly to generate a set of tests with different levels of complexity.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='-32.05500030517578 0 572.7190551757812 367' style='max-width: 572.7190551757812px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-0'%3e%3cstyle%3e%23mermaid-0%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-0 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .error-icon%7bfill:%23552222%3b%7d%23mermaid-0 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-0 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-0 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-0 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-0 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-0 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-0 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-0 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-0 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-0 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-0 p%7bmargin:0%3b%7d%23mermaid-0 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-0 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-0 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-0 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-0 .label text%2c%23mermaid-0 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-0 .node rect%2c%23mermaid-0 .node circle%2c%23mermaid-0 .node ellipse%2c%23mermaid-0 .node polygon%2c%23mermaid-0 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label text%2c%23mermaid-0 .node .label text%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-0 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label%2c%23mermaid-0 .node .label%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-0 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-0 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-0 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-0 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-0 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-0 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-0 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-0 .cluster text%7bfill:%23333%3b%7d%23mermaid-0 .cluster span%7bcolor:%23333%3b%7d%23mermaid-0 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-0 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-0 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-0 .icon-shape%2c%23mermaid-0 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .icon-shape p%2c%23mermaid-0 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-0 .icon-shape rect%2c%23mermaid-0 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M121.43%2c47L121.43%2c51.167C121.43%2c55.333%2c121.43%2c63.667%2c121.43%2c71.333C121.43%2c79%2c121.43%2c86%2c121.43%2c89.5L121.43%2c93'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_R_0' d='M223.906%2c43.453L254.47%2c48.211C285.034%2c52.968%2c346.161%2c62.484%2c376.725%2c70.742C407.289%2c79%2c407.289%2c86%2c407.289%2c89.5L407.289%2c93'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PPT_0' d='M57.678%2c47L44.056%2c51.167C30.434%2c55.333%2c3.19%2c63.667%2c-10.433%2c76.5C-24.055%2c89.333%2c-24.055%2c106.667%2c-24.055%2c124C-24.055%2c141.333%2c-24.055%2c158.667%2c-13.025%2c171.276C-1.995%2c183.885%2c20.064%2c191.769%2c31.093%2c195.711L42.123%2c199.654'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_PPT_0' d='M121.43%2c151L121.43%2c155.167C121.43%2c159.333%2c121.43%2c167.667%2c121.43%2c175.333C121.43%2c183%2c121.43%2c190%2c121.43%2c193.5L121.43%2c197'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_R_PPT_0' d='M407.289%2c151L407.289%2c155.167C407.289%2c159.333%2c407.289%2c167.667%2c379.207%2c176.942C351.124%2c186.217%2c294.96%2c196.434%2c266.877%2c201.542L238.795%2c206.65'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PPT_TE_0' d='M116.237%2c255L115.436%2c259.167C114.635%2c263.333%2c113.032%2c271.667%2c112.906%2c279.345C112.78%2c287.024%2c114.131%2c294.048%2c114.807%2c297.56L115.482%2c301.072'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TE_PPT_0' d='M126.622%2c305L127.423%2c300.833C128.225%2c296.667%2c129.827%2c288.333%2c129.953%2c280.655C130.079%2c272.976%2c128.728%2c265.952%2c128.053%2c262.44L127.377%2c258.928'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(121.4296875%2c 27.5)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(121.4296875%2c 124)' id='flowchart-IS-1' class='node default'%3e%3crect height='54' width='220.96875' y='-27' x='-110.484375' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(407.2890625%2c 124)' id='flowchart-R-2' class='node default'%3e%3crect height='54' width='250.75' y='-27' x='-125.375' style='' class='basic label-container'/%3e%3cg transform='translate(-95.375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='190.75'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput %2b Inverse Rules (R)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(121.4296875%2c 228)' id='flowchart-PPT-3' class='node default'%3e%3crect height='54' width='226.859375' y='-27' x='-113.4296875' style='' class='basic label-container'/%3e%3cg transform='translate(-83.4296875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='166.859375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePromptPex Tests (PPT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(121.4296875%2c 332)' id='flowchart-TE-4' class='node default'%3e%3crect height='54' width='174.0625' y='-27' x='-87.03125' ry='5' rx='5' style='' class='basic label-container'/%3e%3cg transform='translate(-72.03125%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='144.0625'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Expansion (TE)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+For example,
+
+```txt
+The quick fox leaped over 10 fences.
+```
+
+becomes
+
+```txt
+In a quiet meadow, the quick brown fox daringly leaped over a total of ten tall, wooden fences, amazing the onlooking wildlife with its agility and grace.
+```
+
+## Frontmatter Parameters
+
+[Section titled “Frontmatter Parameters”](#frontmatter-parameters)
+
+* `testExpansions`: The number of test expansions to generate. This is a positive integer. The default value is `1`.
+
+* to disable test expansion, set `testExpansions` to `0`.
+
+```md
+---
+testExpansions: 0
+---
+```
+
+* to expand twice, set `testExpansions` to `2`.
+
+```md
+---
+testExpansions: 2
+---
+```
+
+=|=|=|=|=|=
+
+# Test Generation
+
+The heart of the test generation process is a series of transformations that take a prompt under test and generate a set of tests.
+
+* [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
+
+## Example prompt
+
+[Section titled “Example prompt”](#example-prompt)
+
+Let’s look at a prompt that is designed to identify the part of speech of a word in a sentence ([full version](https://github.com/microsoft/promptpex/blob/main/samples/speech-tag/speech-tag.prompty)). The prompt is referenced as the **Prompt Under Test (PUT)**.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 220.953125 55' style='max-width: 220.953125px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-0'%3e%3cstyle%3e%23mermaid-0%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-0 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .error-icon%7bfill:%23552222%3b%7d%23mermaid-0 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-0 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-0 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-0 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-0 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-0 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-0 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-0 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-0 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-0 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-0 p%7bmargin:0%3b%7d%23mermaid-0 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-0 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-0 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-0 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-0 .label text%2c%23mermaid-0 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-0 .node rect%2c%23mermaid-0 .node circle%2c%23mermaid-0 .node ellipse%2c%23mermaid-0 .node polygon%2c%23mermaid-0 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label text%2c%23mermaid-0 .node .label text%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-0 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label%2c%23mermaid-0 .node .label%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-0 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-0 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-0 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-0 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-0 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-0 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-0 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-0 .cluster text%7bfill:%23333%3b%7d%23mermaid-0 .cluster span%7bcolor:%23333%3b%7d%23mermaid-0 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-0 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-0 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-0 .icon-shape%2c%23mermaid-0 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .icon-shape p%2c%23mermaid-0 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-0 .icon-shape rect%2c%23mermaid-0 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'/%3e%3cg class='edgeLabels'/%3e%3cg class='nodes'%3e%3cg transform='translate(110.4765625%2c 27.5)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+```markdown
+In this task, you will be presented with a sentence and a word contained in that sentence. You have to determine the part of speech
+for a given word and return just the tag for the word's part of speech. Return only the part of speech tag.
+If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+```
+
+## Input Specification
+
+[Section titled “Input Specification”](#input-specification)
+
+The [first transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_intent.prompty) takes the prompt uder test and extracts the **input specification (IS)**. The input specification is a description of the input to the prompt. In this case, the input consists of a sentence and a word from that sentence.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 491.921875 70' style='max-width: 491.921875px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-1'%3e%3cstyle%3e%23mermaid-1%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-1 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-1 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-1 .error-icon%7bfill:%23552222%3b%7d%23mermaid-1 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-1 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-1 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-1 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-1 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-1 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-1 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-1 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-1 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-1 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-1 p%7bmargin:0%3b%7d%23mermaid-1 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-1 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-1 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-1 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-1 .label text%2c%23mermaid-1 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-1 .node rect%2c%23mermaid-1 .node circle%2c%23mermaid-1 .node ellipse%2c%23mermaid-1 .node polygon%2c%23mermaid-1 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-1 .rough-node .label text%2c%23mermaid-1 .node .label text%2c%23mermaid-1 .image-shape .label%2c%23mermaid-1 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-1 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-1 .rough-node .label%2c%23mermaid-1 .node .label%2c%23mermaid-1 .image-shape .label%2c%23mermaid-1 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-1 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-1 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-1 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-1 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-1 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-1 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-1 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-1 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-1 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-1 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-1 .cluster text%7bfill:%23333%3b%7d%23mermaid-1 .cluster span%7bcolor:%23333%3b%7d%23mermaid-1 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-1 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-1 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-1 .icon-shape%2c%23mermaid-1 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-1 .icon-shape p%2c%23mermaid-1 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-1 .icon-shape rect%2c%23mermaid-1 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-1 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-1_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-1_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-1_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-1_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-1_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-1_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-1_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M212.953%2c35L217.12%2c35C221.286%2c35%2c229.62%2c35%2c237.286%2c35C244.953%2c35%2c251.953%2c35%2c255.453%2c35L258.953%2c35'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(110.4765625%2c 35)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(373.4375%2c 35)' id='flowchart-IS-1' class='node default'%3e%3crect height='54' width='220.96875' y='-27' x='-110.484375' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+Input Specification
+
+```text
+The input consists of a sentence combined with a specific word from that sentence.
+The sentence must contain natural language text.
+The word must be a single word from the provided sentence.
+```
+
+## Output Rules
+
+[Section titled “Output Rules”](#output-rules)
+
+The [second transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_output_rules.prompty) takes the prompt under test and extracts the **output rules (OR)**. The output rules are a description of the output of the prompt. In this case, the output consists of a part of speech tag for the word.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 463.4375 70' style='max-width: 463.4375px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-2'%3e%3cstyle%3e%23mermaid-2%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-2 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-2 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-2 .error-icon%7bfill:%23552222%3b%7d%23mermaid-2 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-2 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-2 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-2 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-2 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-2 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-2 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-2 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-2 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-2 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-2 p%7bmargin:0%3b%7d%23mermaid-2 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-2 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-2 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-2 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-2 .label text%2c%23mermaid-2 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-2 .node rect%2c%23mermaid-2 .node circle%2c%23mermaid-2 .node ellipse%2c%23mermaid-2 .node polygon%2c%23mermaid-2 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-2 .rough-node .label text%2c%23mermaid-2 .node .label text%2c%23mermaid-2 .image-shape .label%2c%23mermaid-2 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-2 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-2 .rough-node .label%2c%23mermaid-2 .node .label%2c%23mermaid-2 .image-shape .label%2c%23mermaid-2 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-2 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-2 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-2 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-2 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-2 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-2 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-2 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-2 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-2 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-2 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-2 .cluster text%7bfill:%23333%3b%7d%23mermaid-2 .cluster span%7bcolor:%23333%3b%7d%23mermaid-2 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-2 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-2 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-2 .icon-shape%2c%23mermaid-2 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-2 .icon-shape p%2c%23mermaid-2 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-2 .icon-shape rect%2c%23mermaid-2 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-2 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-2_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-2_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-2_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-2_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-2_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-2_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-2_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_OR_0' d='M212.953%2c35L217.12%2c35C221.286%2c35%2c229.62%2c35%2c237.286%2c35C244.953%2c35%2c251.953%2c35%2c255.453%2c35L258.953%2c35'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(110.4765625%2c 35)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(359.1953125%2c 35)' id='flowchart-OR-1' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules (OR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+Output Rules
+
+```text
+The output must return only the part of speech tag without any additional text or formatting.
+If the given word can be identified with one of the listed part of speech tags, the output must include only the specific tag for that word from the provided alphabetical list.
+If the given word cannot be tagged with any of the listed part of speech tags, the output should be the word "Unknown".
+If tagging the given word is not possible for any reason, the output should be the word "CantAnswer".
+```
+
+## Inverse Output Rules
+
+[Section titled “Inverse Output Rules”](#inverse-output-rules)
+
+The [third transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_inverse_rules.prompty) takes the output rules and generates the **inverse output rules (IOR)**. The inverse output rules are a description of the output of the prompt that is the opposite of the output rules. In this case, the inverse output rules are a description of the output of the prompt that is the opposite of the output rules.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 767.28125 70' style='max-width: 767.28125px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-3'%3e%3cstyle%3e%23mermaid-3%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-3 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-3 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-3 .error-icon%7bfill:%23552222%3b%7d%23mermaid-3 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-3 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-3 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-3 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-3 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-3 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-3 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-3 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-3 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-3 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-3 p%7bmargin:0%3b%7d%23mermaid-3 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-3 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-3 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-3 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-3 .label text%2c%23mermaid-3 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-3 .node rect%2c%23mermaid-3 .node circle%2c%23mermaid-3 .node ellipse%2c%23mermaid-3 .node polygon%2c%23mermaid-3 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-3 .rough-node .label text%2c%23mermaid-3 .node .label text%2c%23mermaid-3 .image-shape .label%2c%23mermaid-3 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-3 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-3 .rough-node .label%2c%23mermaid-3 .node .label%2c%23mermaid-3 .image-shape .label%2c%23mermaid-3 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-3 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-3 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-3 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-3 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-3 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-3 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-3 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-3 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-3 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-3 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-3 .cluster text%7bfill:%23333%3b%7d%23mermaid-3 .cluster span%7bcolor:%23333%3b%7d%23mermaid-3 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-3 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-3 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-3 .icon-shape%2c%23mermaid-3 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-3 .icon-shape p%2c%23mermaid-3 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-3 .icon-shape rect%2c%23mermaid-3 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-3 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-3_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-3_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-3_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-3_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-3_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-3_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-3_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_OR_0' d='M212.953%2c35L217.12%2c35C221.286%2c35%2c229.62%2c35%2c237.286%2c35C244.953%2c35%2c251.953%2c35%2c255.453%2c35L258.953%2c35'/%3e%3cpath marker-end='url(%23mermaid-3_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_IOR_0' d='M455.438%2c35L459.604%2c35C463.771%2c35%2c472.104%2c35%2c479.771%2c35C487.438%2c35%2c494.438%2c35%2c497.938%2c35L501.438%2c35'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(110.4765625%2c 35)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(359.1953125%2c 35)' id='flowchart-OR-1' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules (OR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(632.359375%2c 35)' id='flowchart-IOR-2' class='node default'%3e%3crect height='54' width='253.84375' y='-27' x='-126.921875' style='' class='basic label-container'/%3e%3cg transform='translate(-96.921875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='193.84375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInverse Output Rules (IOR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+Inverse Output Rules
+
+```text
+The output must not return any additional text or formatting.
+The output must not include any of the listed part of speech tags.
+The output must not include the word "Unknown".
+The output must not include the word "CantAnswer".
+```
+
+## Tests generated from the rules:
+
+[Section titled “Tests generated from the rules:”](#tests-generated-from-the-rules)
+
+From the input specification, output rules, inverse output rules, PromptPex uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_tests.prompty) to generate a set of tests.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 651.4340209960938 367' style='max-width: 651.4340209960938px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-4'%3e%3cstyle%3e%23mermaid-4%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-4 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-4 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-4 .error-icon%7bfill:%23552222%3b%7d%23mermaid-4 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-4 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-4 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-4 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-4 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-4 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-4 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-4 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-4 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-4 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-4 p%7bmargin:0%3b%7d%23mermaid-4 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-4 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-4 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-4 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-4 .label text%2c%23mermaid-4 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-4 .node rect%2c%23mermaid-4 .node circle%2c%23mermaid-4 .node ellipse%2c%23mermaid-4 .node polygon%2c%23mermaid-4 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-4 .rough-node .label text%2c%23mermaid-4 .node .label text%2c%23mermaid-4 .image-shape .label%2c%23mermaid-4 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-4 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-4 .rough-node .label%2c%23mermaid-4 .node .label%2c%23mermaid-4 .image-shape .label%2c%23mermaid-4 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-4 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-4 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-4 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-4 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-4 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-4 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-4 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-4 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-4 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-4 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-4 .cluster text%7bfill:%23333%3b%7d%23mermaid-4 .cluster span%7bcolor:%23333%3b%7d%23mermaid-4 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-4 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-4 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-4 .icon-shape%2c%23mermaid-4 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-4 .icon-shape p%2c%23mermaid-4 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-4 .icon-shape rect%2c%23mermaid-4 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-4 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-4_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-4_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-4_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-4_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-4_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-4_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M384.375%2c39.88L340.06%2c45.233C295.745%2c50.586%2c207.115%2c61.293%2c162.799%2c75.313C118.484%2c89.333%2c118.484%2c106.667%2c118.484%2c124C118.484%2c141.333%2c118.484%2c158.667%2c118.484%2c170.833C118.484%2c183%2c118.484%2c190%2c118.484%2c193.5L118.484%2c197'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_OR_0' d='M486.852%2c47L486.852%2c51.167C486.852%2c55.333%2c486.852%2c63.667%2c486.852%2c71.333C486.852%2c79%2c486.852%2c86%2c486.852%2c89.5L486.852%2c93'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_IOR_0' d='M444.814%2c151L438.327%2c155.167C431.84%2c159.333%2c418.865%2c167.667%2c412.378%2c175.333C405.891%2c183%2c405.891%2c190%2c405.891%2c193.5L405.891%2c197'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_PPT_0' d='M118.484%2c255L118.484%2c259.167C118.484%2c263.333%2c118.484%2c271.667%2c160.314%2c281.738C202.143%2c291.81%2c285.802%2c303.619%2c327.632%2c309.524L369.461%2c315.429'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_PPT_0' d='M528.889%2c151L535.376%2c155.167C541.863%2c159.333%2c554.838%2c167.667%2c561.325%2c180.5C567.813%2c193.333%2c567.813%2c210.667%2c567.813%2c228C567.813%2c245.333%2c567.813%2c262.667%2c561.886%2c275.14C555.96%2c287.613%2c544.107%2c295.226%2c538.181%2c299.032L532.255%2c302.838'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PPT_0' d='M555.466%2c47L570.127%2c51.167C584.789%2c55.333%2c614.111%2c63.667%2c628.772%2c76.5C643.434%2c89.333%2c643.434%2c106.667%2c643.434%2c124C643.434%2c141.333%2c643.434%2c158.667%2c643.434%2c176C643.434%2c193.333%2c643.434%2c210.667%2c643.434%2c228C643.434%2c245.333%2c643.434%2c262.667%2c631.52%2c275.29C619.606%2c287.913%2c595.778%2c295.826%2c583.864%2c299.783L571.95%2c303.739'/%3e%3cpath marker-end='url(%23mermaid-4_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IOR_PPT_0' d='M405.891%2c255L405.891%2c259.167C405.891%2c263.333%2c405.891%2c271.667%2c411.817%2c279.64C417.743%2c287.613%2c429.596%2c295.226%2c435.522%2c299.032L441.449%2c302.838'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(486.8515625%2c 27.5)' id='flowchart-PUT-0' class='node default'%3e%3crect height='39' width='204.953125' y='-19.5' x='-102.4765625' ry='19.5' rx='19.5' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(118.484375%2c 228)' id='flowchart-IS-1' class='node default'%3e%3crect height='54' width='220.96875' y='-27' x='-110.484375' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(486.8515625%2c 124)' id='flowchart-OR-2' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules (OR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(405.890625%2c 228)' id='flowchart-IOR-3' class='node default'%3e%3crect height='54' width='253.84375' y='-27' x='-126.921875' style='' class='basic label-container'/%3e%3cg transform='translate(-96.921875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='193.84375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInverse Output Rules (IOR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(486.8515625%2c 332)' id='flowchart-PPT-4' class='node default'%3e%3crect height='54' width='226.859375' y='-27' x='-113.4296875' style='' class='basic label-container'/%3e%3cg transform='translate(-83.4296875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='166.859375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePromptPex Tests (PPT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+```text
+sentence: 'An aura of mystery surrounded them.', word: 'aura'
+sentence: 'The researchers documented carefully.', word: 'carefully'
+# Note this tests the Unknown corner case
+sentence: 'This is such a unique perspective.', word: 'such'
+```
+
+=|=|=|=|=|=
+
+# Test Samples
+
+It is possible to define test samples in the `testSamples` section of the YAML file. This section allows you to specify a list of test cases and expected output. The test samples are used in the test generation process to generate tests that mimic actual user input.
+
+![](<data:image/svg+xml,%3csvg aria-roledescription='flowchart-v2' role='graphics-document document' viewBox='0 0 731.43798828125 486' style='max-width: 731.43798828125px%3b' class='flowchart' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='100%25' id='mermaid-0'%3e%3cstyle%3e%23mermaid-0%7bfont-family:arial%2csans-serif%3bfont-size:16px%3bfill:%23333%3b%7d%40keyframes edge-animation-frame%7bfrom%7bstroke-dashoffset:0%3b%7d%7d%40keyframes dash%7bto%7bstroke-dashoffset:0%3b%7d%7d%23mermaid-0 .edge-animation-slow%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 50s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .edge-animation-fast%7bstroke-dasharray:9%2c5!important%3bstroke-dashoffset:900%3banimation:dash 20s linear infinite%3bstroke-linecap:round%3b%7d%23mermaid-0 .error-icon%7bfill:%23552222%3b%7d%23mermaid-0 .error-text%7bfill:%23552222%3bstroke:%23552222%3b%7d%23mermaid-0 .edge-thickness-normal%7bstroke-width:1px%3b%7d%23mermaid-0 .edge-thickness-thick%7bstroke-width:3.5px%3b%7d%23mermaid-0 .edge-pattern-solid%7bstroke-dasharray:0%3b%7d%23mermaid-0 .edge-thickness-invisible%7bstroke-width:0%3bfill:none%3b%7d%23mermaid-0 .edge-pattern-dashed%7bstroke-dasharray:3%3b%7d%23mermaid-0 .edge-pattern-dotted%7bstroke-dasharray:2%3b%7d%23mermaid-0 .marker%7bfill:%23333333%3bstroke:%23333333%3b%7d%23mermaid-0 .marker.cross%7bstroke:%23333333%3b%7d%23mermaid-0 svg%7bfont-family:arial%2csans-serif%3bfont-size:16px%3b%7d%23mermaid-0 p%7bmargin:0%3b%7d%23mermaid-0 .label%7bfont-family:arial%2csans-serif%3bcolor:%23333%3b%7d%23mermaid-0 .cluster-label text%7bfill:%23333%3b%7d%23mermaid-0 .cluster-label span%7bcolor:%23333%3b%7d%23mermaid-0 .cluster-label span p%7bbackground-color:transparent%3b%7d%23mermaid-0 .label text%2c%23mermaid-0 span%7bfill:%23333%3bcolor:%23333%3b%7d%23mermaid-0 .node rect%2c%23mermaid-0 .node circle%2c%23mermaid-0 .node ellipse%2c%23mermaid-0 .node polygon%2c%23mermaid-0 .node path%7bfill:%23ECECFF%3bstroke:%239370DB%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label text%2c%23mermaid-0 .node .label text%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-anchor:middle%3b%7d%23mermaid-0 .node .katex path%7bfill:black%3bstroke:black%3bstroke-width:1px%3b%7d%23mermaid-0 .rough-node .label%2c%23mermaid-0 .node .label%2c%23mermaid-0 .image-shape .label%2c%23mermaid-0 .icon-shape .label%7btext-align:center%3b%7d%23mermaid-0 .node.clickable%7bcursor:pointer%3b%7d%23mermaid-0 .root .anchor path%7bfill:%23333333!important%3bstroke-width:0%3bstroke:%23333333%3b%7d%23mermaid-0 .arrowheadPath%7bfill:%23333333%3b%7d%23mermaid-0 .edgePath .path%7bstroke:%23333333%3bstroke-width:2.0px%3b%7d%23mermaid-0 .flowchart-link%7bstroke:%23333333%3bfill:none%3b%7d%23mermaid-0 .edgeLabel%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .edgeLabel p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .edgeLabel rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 .labelBkg%7bbackground-color:rgba(232%2c 232%2c 232%2c 0.5)%3b%7d%23mermaid-0 .cluster rect%7bfill:%23ffffde%3bstroke:%23aaaa33%3bstroke-width:1px%3b%7d%23mermaid-0 .cluster text%7bfill:%23333%3b%7d%23mermaid-0 .cluster span%7bcolor:%23333%3b%7d%23mermaid-0 div.mermaidTooltip%7bposition:absolute%3btext-align:center%3bmax-width:200px%3bpadding:2px%3bfont-family:arial%2csans-serif%3bfont-size:12px%3bbackground:hsl(80%2c 100%25%2c 96.2745098039%25)%3bborder:1px solid %23aaaa33%3bborder-radius:2px%3bpointer-events:none%3bz-index:100%3b%7d%23mermaid-0 .flowchartTitleText%7btext-anchor:middle%3bfont-size:18px%3bfill:%23333%3b%7d%23mermaid-0 rect.text%7bfill:none%3bstroke-width:0%3b%7d%23mermaid-0 .icon-shape%2c%23mermaid-0 .image-shape%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3btext-align:center%3b%7d%23mermaid-0 .icon-shape p%2c%23mermaid-0 .image-shape p%7bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bpadding:2px%3b%7d%23mermaid-0 .icon-shape rect%2c%23mermaid-0 .image-shape rect%7bopacity:0.5%3bbackground-color:rgba(232%2c232%2c232%2c 0.8)%3bfill:rgba(232%2c232%2c232%2c 0.8)%3b%7d%23mermaid-0 :root%7b--mermaid-font-family:arial%2csans-serif%3b%7d%3c/style%3e%3cg%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointEnd'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 0 L 10 5 L 0 10 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='8' markerWidth='8' markerUnits='userSpaceOnUse' refY='5' refX='4.5' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-pointStart'%3e%3cpath style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 0 5 L 10 10 L 10 0 z'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='11' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleEnd'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5' refX='-1' viewBox='0 0 10 10' class='marker flowchart-v2' id='mermaid-0_flowchart-v2-circleStart'%3e%3ccircle style='stroke-width: 1%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' r='5' cy='5' cx='5'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='12' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossEnd'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cmarker orient='auto' markerHeight='11' markerWidth='11' markerUnits='userSpaceOnUse' refY='5.2' refX='-1' viewBox='0 0 11 11' class='marker cross flowchart-v2' id='mermaid-0_flowchart-v2-crossStart'%3e%3cpath style='stroke-width: 2%3b stroke-dasharray: 1%2c 0%3b' class='arrowMarkerPath' d='M 1%2c1 l 9%2c9 M 10%2c1 l -9%2c9'/%3e%3c/marker%3e%3cg class='root'%3e%3cg class='clusters'/%3e%3cg class='edgePaths'%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_IS_0' d='M443.859%2c48.712L387.964%2c55.093C332.068%2c61.474%2c220.276%2c74.237%2c164.38%2c89.285C108.484%2c104.333%2c108.484%2c121.667%2c108.484%2c139C108.484%2c156.333%2c108.484%2c173.667%2c108.484%2c191C108.484%2c208.333%2c108.484%2c225.667%2c108.484%2c243C108.484%2c260.333%2c108.484%2c277.667%2c109.16%2c289.845C109.835%2c302.024%2c111.186%2c309.048%2c111.861%2c312.56L112.537%2c316.072'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TS_IS_0' d='M205.285%2c263L198.843%2c268.333C192.401%2c273.667%2c179.517%2c284.333%2c169.67%2c293.344C159.823%2c302.355%2c153.012%2c309.71%2c149.607%2c313.387L146.202%2c317.065'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_OR_0' d='M563.961%2c62L563.961%2c66.167C563.961%2c70.333%2c563.961%2c78.667%2c563.961%2c86.333C563.961%2c94%2c563.961%2c101%2c563.961%2c104.5L563.961%2c108'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_IOR_0' d='M523.426%2c166L517.171%2c170.167C510.916%2c174.333%2c498.405%2c182.667%2c492.15%2c190.333C485.895%2c198%2c485.895%2c205%2c485.895%2c208.5L485.895%2c212'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_OR_TE_0' d='M607.501%2c166L614.22%2c170.167C620.94%2c174.333%2c634.378%2c182.667%2c641.097%2c195.5C647.816%2c208.333%2c647.816%2c225.667%2c647.816%2c243C647.816%2c260.333%2c647.816%2c277.667%2c639.898%2c290.207C631.979%2c302.747%2c616.141%2c310.495%2c608.222%2c314.369L600.303%2c318.242'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IOR_TE_0' d='M485.895%2c270L485.895%2c274.167C485.895%2c278.333%2c485.895%2c286.667%2c489.864%2c294.545C493.834%2c302.423%2c501.774%2c309.846%2c505.744%2c313.557L509.714%2c317.268'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TS_TE_0' d='M227.09%2c263L226.705%2c268.333C226.321%2c273.667%2c225.551%2c284.333%2c260.292%2c295.433C295.033%2c306.534%2c365.285%2c318.067%2c400.411%2c323.834L435.537%2c329.601'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_PUT_PPT_0' d='M646.766%2c62L659.545%2c66.167C672.323%2c70.333%2c697.88%2c78.667%2c710.659%2c91.5C723.438%2c104.333%2c723.438%2c121.667%2c723.438%2c139C723.438%2c156.333%2c723.438%2c173.667%2c723.438%2c191C723.438%2c208.333%2c723.438%2c225.667%2c723.438%2c243C723.438%2c260.333%2c723.438%2c277.667%2c723.438%2c295C723.438%2c312.333%2c723.438%2c329.667%2c723.438%2c347C723.438%2c364.333%2c723.438%2c381.667%2c691.99%2c395.676C660.542%2c409.686%2c597.647%2c420.372%2c566.2%2c425.715L534.752%2c431.058'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_IS_PPT_0' d='M118.484%2c374L118.484%2c378.167C118.484%2c382.333%2c118.484%2c390.667%2c148.738%2c400.097C178.992%2c409.527%2c239.5%2c420.054%2c269.754%2c425.317L300.008%2c430.581'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TE_PPT_0' d='M541.516%2c374L541.516%2c378.167C541.516%2c382.333%2c541.516%2c390.667%2c532.184%2c398.742C522.852%2c406.818%2c504.188%2c414.636%2c494.856%2c418.545L485.524%2c422.455'/%3e%3cpath marker-end='url(%23mermaid-0_flowchart-v2-pointEnd)' style='' class='edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link' id='L_TS_PPT_0' d='M259.036%2c263L267.524%2c268.333C276.013%2c273.667%2c292.991%2c284.333%2c301.48%2c298.333C309.969%2c312.333%2c309.969%2c329.667%2c309.969%2c347C309.969%2c364.333%2c309.969%2c381.667%2c317.975%2c394.21C325.982%2c406.752%2c341.995%2c414.505%2c350.001%2c418.381L358.008%2c422.257'/%3e%3c/g%3e%3cg class='edgeLabels'%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg class='edgeLabel'%3e%3cg transform='translate(0%2c 0)' class='label'%3e%3cforeignObject height='0' width='0'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' class='labelBkg' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='edgeLabel'%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3cg class='nodes'%3e%3cg transform='translate(563.9609375%2c 35)' id='flowchart-PUT-0' class='node default'%3e%3crect height='54' width='240.203125' y='-27' x='-120.1015625' style='' class='basic label-container'/%3e%3cg transform='translate(-90.1015625%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='180.203125'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePrompt Under Test (PUT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(118.484375%2c 347)' id='flowchart-IS-1' class='node default'%3e%3crect height='54' width='220.96875' y='-27' x='-110.484375' style='' class='basic label-container'/%3e%3cg transform='translate(-80.484375%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='160.96875'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInput Specification (IS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(563.9609375%2c 139)' id='flowchart-OR-2' class='node default'%3e%3crect height='54' width='192.484375' y='-27' x='-96.2421875' style='' class='basic label-container'/%3e%3cg transform='translate(-66.2421875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='132.484375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eOutput Rules (OR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(485.89453125%2c 243)' id='flowchart-IOR-3' class='node default'%3e%3crect height='54' width='253.84375' y='-27' x='-126.921875' style='' class='basic label-container'/%3e%3cg transform='translate(-96.921875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='193.84375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eInverse Output Rules (IOR)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(417.37890625%2c 451)' id='flowchart-PPT-4' class='node default'%3e%3crect height='54' width='226.859375' y='-27' x='-113.4296875' style='' class='basic label-container'/%3e%3cg transform='translate(-83.4296875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='166.859375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3ePromptPex Tests (PPT)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(227.67578125%2c 243)' id='flowchart-TS-5' class='node default'%3e%3cpolygon transform='translate(-73.296875%2c19.5)' class='label-container' points='0%2c0 146.59375%2c0 146.59375%2c-39 0%2c-39 0%2c0 -8%2c0 154.59375%2c0 154.59375%2c-39 -8%2c-39 -8%2c0'/%3e%3cg transform='translate(-65.796875%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='131.59375'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Samples (TS)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3cg transform='translate(541.515625%2c 347)' id='flowchart-TE-6' class='node default'%3e%3crect height='54' width='204.0625' y='-27' x='-102.03125' style='' class='basic label-container'/%3e%3cg transform='translate(-72.03125%2c -12)' style='' class='label'%3e%3crect/%3e%3cforeignObject height='24' width='144.0625'%3e%3cdiv style='display: table-cell%3b white-space: nowrap%3b line-height: 1.5%3b max-width: 200px%3b text-align: center%3b' xmlns='http://www.w3.org/1999/xhtml'%3e%3cspan class='nodeLabel'%3e%3cp%3eTest Expansion (TE)%3c/p%3e%3c/span%3e%3c/div%3e%3c/foreignObject%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e>)
+
+## Configuration
+
+[Section titled “Configuration”](#configuration)
+
+You can specify `testSamples` in the prompt frontmatter as an array of objects.
+
+```yaml
+testSamples:
+    - locale: "en-us"
+      joke: "Why did the scarecrow win an award? Because he was outstanding in his field."
+      output: "funny"
+    - locale: "fr-FR"
+      joke: "Pourquoi les plongeurs plongent-ils toujours en arrière et jamais en avant? Parce que sinon ils tombent dans le bateau."
+      output: "funny"
+```
+
+## Parameters
+
+[Section titled “Parameters”](#parameters)
+
+When invoking promptex, you can also provide filters to limit the number of test samples used in the generation:
+
+* `testSamplesCount`: The number of test samples to use in the generation. This is useful to limit the amount of test samples used in the generation.
+* `testSamplesShuffle`: Whether to shuffle the test samples before using them in the generation. This is useful to ensure that the test samples are not used in the same order every time.
+
+=|=|=|=|=|=
+
+# Transparency Note
+
+> PromptPex is a tool designed to assist developers by exploring and testing AI model prompts.
+
+# Responsible AI Transparency Note
+
+[Section titled “Responsible AI Transparency Note”](#responsible-ai-transparency-note)
+
+## What is PromptPex?
+
+[Section titled “What is PromptPex?”](#what-is-promptpex)
+
+PromptPex (<https://github.com/microsoft/promptpex>) is an AI-driven tool developed to assist software developers in creating, managing, and testing prompts for large language models (LLMs). By treating prompts as functions, PromptPex automates the generation of test inputs and the extraction of functional specifications. It aims to enhance the efficiency and reliability of AI prompts, thereby improving their performance across various AI models.
+
+## What can PromptPex do?
+
+[Section titled “What can PromptPex do?”](#what-can-promptpex-do)
+
+PromptPex provides a suite of functionalities including:
+
+* Automated rule extraction from natural language prompts.
+* Generation of diverse test cases to validate the performance of those prompts.
+* Support for testing prompts across multiple AI models, ensuring that developers understand how their inputs are interpreted and how outputs are generated.
+
+## What is PromptPex’s intended use?
+
+[Section titled “What is PromptPex’s intended use?”](#what-is-promptpexs-intended-use)
+
+The intended use of PromptPex, as identified through its impact assessment, is to simplify the development of AI prompts by providing structured and automated tools for prompt evaluation and testing. This is aimed at improving the reliability of AI interactions and facilitating better integration of AI capabilities within software applications.
+
+The released version of PromptPex is an open-source library under active development and intended for use for research purposes. It should not be used in any downstream applications without additional detailed evaluation of robustness, safety issues and assessment of any potential harm or bias in the proposed application.
+
+## How was PromptPex evaluated? What metrics are used to measure performance?
+
+[Section titled “How was PromptPex evaluated? What metrics are used to measure performance?”](#how-was-promptpex-evaluated-what-metrics-are-used-to-measure-performance)
+
+PromptPex undergoes rigorous evaluations focused on its ability to generate valid and diverse test cases that accurately reflect the rules defined by the prompts. Effectiveness is measured using metrics such as:
+
+* Percentage of non-compliant outputs generated during testing.
+* Groundedness of the rules extracted from prompts, which assesses whether the rules are adequately supported by the prompt descriptions.
+* Validity of the test cases generated, ensuring they are relevant and applicable to the prompts being tested.
+
+## What are the limitations of PromptPex? How can users minimize the impact of PromptPex’s limitations when using the system?
+
+[Section titled “What are the limitations of PromptPex? How can users minimize the impact of PromptPex’s limitations when using the system?”](#what-are-the-limitations-of-promptpex-how-can-users-minimize-the-impact-of-promptpexs-limitations-when-using-the-system)
+
+Limitations include:
+
+* Dependence on the quality of initial prompt formulations, as vague or poorly defined prompts can lead to suboptimal performance.
+* Variance in rule extraction accuracy, especially with complex or idiomatic language. To minimize these impacts, users should focus on crafting clear and precise prompts, thoroughly test against a variety of input scenarios, and continually iterate on prompt designs as needed.
+
+## What operational factors and settings allow for effective and responsible use of PromptPex?
+
+[Section titled “What operational factors and settings allow for effective and responsible use of PromptPex?”](#what-operational-factors-and-settings-allow-for-effective-and-responsible-use-of-promptpex)
+
+Effective and responsible use of PromptPex requires:
+
+* Understanding of the underlying AI models that will be used with the prompts.
+* Continuous updates and adaptations to align with advancements in AI technologies.
+* Active engagement with the developer community to share insights and gathered feedback for improvements.
+
+## How do I provide feedback on PromptPex?
+
+[Section titled “How do I provide feedback on PromptPex?”](#how-do-i-provide-feedback-on-promptpex)
+
+We welcome feedback and collaboration from our audience. If you have suggestions, questions, or observe unexpected/offensive behavior in our technology, please contact us at: <jhalleux@microsoft.com>, <reshabh@cs.washington.edu>, <sbarke@microsoft.com>, <zorn@microsoft.com>.
+
+If the team receives reports of undesired behavior or identifies issues independently, we will update this repository with appropriate mitigations.
+
+## Foundation model best practices
+
+[Section titled “Foundation model best practices”](#foundation-model-best-practices)
+
+We strongly encourage users to use LLMs/MLLMs that support robust Responsible AI mitigations, such as Azure Open AI (AOAI) services. Such services continually update their safety and RAI mitigations with the latest industry standards for responsible use. For more on AOAI’s best practices when employing foundations models for scripts and applications:
+
+* [Blog post on responsible AI features in AOAI that were presented at Ignite 2023](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/announcing-new-ai-safety-amp-responsible-ai-features-in-azure/ba-p/3983686)
+
+* [Overview of Responsible AI practices for Azure OpenAI models](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/overview)
+
+* [Azure OpenAI Transparency Note](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/transparency-note)
+
+* [OpenAI’s Usage policies](https://openai.com/policies/usage-policies)
+
+* [Azure OpenAI’s Code of Conduct](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/code-of-conduct) “
+
+## What kinds of issues may arise when using PromptPex?
+
+[Section titled “What kinds of issues may arise when using PromptPex?”](#what-kinds-of-issues-may-arise-when-using-promptpex)
+
+Issues may arise from:
+
+* Inaccurate rule extraction, potentially leading to incorrect tests being generated.
+* Developers misapplying test cases without fully understanding their prompts’ nuances.
+* Unexpected results due to testing models that were not part of the initial PromptPex testing suite. To mitigate these issues, it is crucial to thoroughly educate users on the prompt crafting process and the importance of contextual understanding. Please see the related technical paper for more details.
+
+## Learn more about PromptPex
+
+[Section titled “Learn more about PromptPex”](#learn-more-about-promptpex)
+
+For more information, visit the PromptPex project page on GitHub. Read the [PromptPex technical paper](http://arxiv.org/abs/2503.05070) for more details.
