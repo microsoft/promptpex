@@ -1,8 +1,17 @@
 ---
+<<<<<<<< HEAD:docs/src/content/docs/reference/example-output.md
+title: Example Output
+sidebar:
+    order: 50
+---
+
+
+========
 title: Example PromptPex Output
 sidebar:
     order: 30
 ---
+>>>>>>>> 38a8247911e381673018412ae0562e7736d43d29:docs/src/content/docs/reference/promptpex-demo-output.md
 ## PromptPex Output from Video Demo
 
 The following is the output from the video demo of the PromptPex tool. The output is generated based on the provided prompt and input specifications.
