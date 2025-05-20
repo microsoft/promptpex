@@ -1,3 +1,10 @@
+---
+title: Example Output
+sidebar:
+    order: 50
+---
+
+
 ## PromptPex Output from Video Demo
 
 The following is the output from the video demo of the PromptPex tool. The output is generated based on the provided prompt and input specifications.
@@ -43,7 +50,7 @@ maxRules: 6
 
 -   filename: 
 
-```md
+```md wrap
 ---
 name: Rate a chatbot interaction with a customer
 tags:
@@ -82,7 +89,7 @@ The user's response to the answer is
 
 -   gen.intent: 2095ms
 
-```.txt
+```.txt wrap
 To evaluate the quality of user interactions with a chatbot by rating them on a scale from 1 to 10 based on specific criteria.
 ```
 
@@ -90,7 +97,7 @@ To evaluate the quality of user interactions with a chatbot by rating them on a 
 
 -   gen.inputspec: 10177ms
 
-```.txt
+```.txt wrap
 The input is an interaction consisting of three main components: the user's question, the chatbot's answer, and the user's feedback.
 The input for {{user_question}} must be a textual string, which can be a formal or informal query about a specific issue.
 The user's question can include technical, non-technical, or general inquiries phrased as complete sentences or fragments. 
@@ -121,7 +128,7 @@ The input must not contain any non-textual elements such as images, links, or at
 data
 </summary>
 
-```.txt
+```.txt wrap
 The output must contain only a numeric score within the range of 1 to 10 followed by a colon and one short sentence explaining the reasoning for the score without exceeding a single sentence.
 The numeric score in the output must reflect the overall experience of the interaction based on the factors listed, including customer satisfaction, response accuracy, conciseness, helpfulness, and appropriateness of the content.
 If there is any inappropriate content in the conversation (either from the chatbot, the user, or both), the output must give the interaction a score of 1 in the numeric rating.
@@ -155,7 +162,7 @@ The numeric score must directly account for whether the user's response (user_fe
 data
 </summary>
 
-```.txt
+```.txt wrap
 The output must contain a non-numeric score outside the range of 1 to 10, without a colon, and multiple sentences that avoid explaining the reasoning for the score.  
 The numeric score in the output must ignore the overall experience of the interaction and exclude factors such as customer satisfaction, response accuracy, conciseness, helpfulness, and appropriateness of the content.  
 If there is any inappropriate content in the conversation (either from the chatbot, the user, or both), the output must never give the interaction a score of 1 in the numeric rating.  
@@ -2316,63 +2323,4 @@ results (json)
 |llama3\.2:1b| |\{"user\_question":"My package is still not here\.","chatbot\_answer":"This is your fault for not checking earlier\.","user\_feedback":"How rude of you to say that\!"\}|1: The interaction score was negatively impacted by the customer's expression of sarcasm and potentially hurtful tone, especially since it contains phrases like "how rude\."|0|0| |If there is any inappropriate content in the conversation \(either from the chatbot, the user, or both\), the output must never give the interaction a score of 1 in the numeric rating\.|🔄|
 |llama3\.2:1b| |\{"user\_question":"What is a common issue with this device?","chatbot\_answer":"Users report battery issues\.","user\_feedback":"That makes sense"\}|7: The chatbot's accurate and concise response, including clear language, provided helpful information about an associated customer question\. However, the user expressed satisfaction with the issue being addressed rather than the content of its resolution\. Although there were no inappropriate contents, this could be seen as not entirely a positive feedback towards the system's quality\.<br><br>1: The user directly attacked the chatbot with anger in response to its accurate and correct answer about battery issues\. This shows poor communication skills during interaction\.|0|0| |The short sentence in the output must provide a vague and non\-specific explanation of the given numeric score, avoiding any reference to the factors listed in the input\.|🔄|
 
-
-
-
-### Results Overview
-
-
-
-|model|scenario|errors|tests|tests compliant|tests compliance unknown|baseline compliant|tests positive|tests positive compliant|tests negative|tests negative compliant|baseline|tests valid|tests valid compliant|use_rules_prompt_input|use_prompt|
-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
-|gpt\-4o\-mini\-2024\-07\-18| |0|10|0%|100%|\-\-|7|0|3|0|0|0|0|29|15|
-|llama3\.2:1b| |0|10|0%|100%|\-\-|7|0|3|0|0|0|0|7|10|
-
-
-
-
----
-
-
-
-<details class="genaiscript">
-<summary>
-performance
-</summary>
-
-
-```barchart
-[
-  {
-    "id": "gen.intent",
-    "duration": 2095
-  },
-  {
-    "id": "gen.inputspec",
-    "duration": 10177
-  },
-  {
-    "id": "gen.outputrules",
-    "duration": 7883
-  },
-  {
-    "id": "gen.inverseoutputrules",
-    "duration": 22660
-  },
-  {
-    "id": "gen.tests",
-    "duration": 20368
-  },
-  {
-    "id": "test.run",
-    "duration": 36941
-  },
-  {
-    "id": "eval.metric",
-    "duration": 61151
-  }
-]
-```
-
-</details>
 

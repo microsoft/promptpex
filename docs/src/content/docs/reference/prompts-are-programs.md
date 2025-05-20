@@ -21,7 +21,7 @@ to the function to support unit testing.
 
 Let's look at a prompt that is designed to identify the [part of speech of a word in a sentence](https://github.com/microsoft/promptpex/blob/dev/samples/speech-tag/speech-tag.prompty).
 
-```txt wrap
+```text wrap
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -30,13 +30,13 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 
 When the user enters 
 
-```txt
+```text wrap
 "The brown fox was lazy", lazy`
 ``` 
 
 the LLM responds 
 
-```txt
+```text wrap
 JJ
 ```
 
@@ -44,7 +44,7 @@ If we look closely at the prompt, we can observe the following sections.
 
 - define **inputs**. 
 
-```txt wrap ins="two items: 1) a sentence and 2) a word contained in that sentence"
+```text wrap ins="two items: 1) a sentence and 2) a word contained in that sentence"
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -52,7 +52,7 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 
 - **compute** an intermediate result
 
-```txt wrap ins="determine the part of speech"
+```text wrap ins="determine the part of speech"
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -60,7 +60,7 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 
 - return an **output**
 
-```txt wrap ins="return just the tag for the word's part of speech."
+```text wrap ins="return just the tag for the word's part of speech."
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -68,7 +68,7 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 
 - **structure**, assertions
 
-```txt wrap ins="If the word cannot be tagged with the listed tags, return Unknown."
+```text wrap ins="If the word cannot be tagged with the listed tags, return Unknown."
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
@@ -76,7 +76,7 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 
 - **constraints**
 
-```txt wrap ins="Return only the part of speech tag."
+```text wrap ins="Return only the part of speech tag."
 In this task, you will be presented with two items: 1) a sentence and 2) a word contained in that sentence. You have to determine the part of speech for a given word and return just the tag for the word's part of speech. ​
 
 Return only the part of speech tag. If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
