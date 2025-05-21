@@ -4,7 +4,7 @@ import { $ } from "zx";
 import path from "path";
 
 // List of 8 .prompty files to substitute for speech-tag.prompty
-const promptyFilesAll_ = [
+const promptyFilesAll = [
     "samples/speech-tag/speech-tag.prompty",
     "samples/text-to-p/text-to-p.prompty",
     "samples/openai-examples/elements.prompty",
@@ -15,7 +15,7 @@ const promptyFilesAll_ = [
     "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
 ];
 
-const promptyFilesAll = [
+const promptyFilesAll_ = [
 
     "samples/speech-tag/speech-tag.prompty",
 
