@@ -32,7 +32,7 @@ export async function evalTestCollection (
                 }
             )
         )
-        if (!files.rateTests) files.rateTests = { filename: files.name + ".rateTests.md", content: "" };
+        if (!files.rateTests) files.rateTests = { filename: path.join(files.dir,"rateTests.md"), content: "" };
         files.rateTests.content = checkLLMResponse(res)
         if (files.writeResults) await workspace.writeFiles([files.rateTests])
         if (files.rateTests.content) break
@@ -52,9 +52,9 @@ export async function evalTestCollection (
                 (ctx) => {
                     ctx.importTemplate(pnf, {
                         prompt: context,
-                        tests: files.testData.content,
+                        tests: files.tests.content,
                         filter_critera: files.rateTests.content,
-                        target_test_number: options.filterTestCount
+                        target_test_number: options?.filterTestCount
                     })
                 },
                 {
@@ -64,7 +64,7 @@ export async function evalTestCollection (
                 }
             )
         )
-        if (!files.filteredTests) files.filteredTests = { filename: files.name + ".filteredTests.json", content: "" };
+        if (!files.filteredTests) files.filteredTests = { filename: path.join(files.dir,"filteredTests.json"), content: "" };
         files.filteredTests.content = checkLLMResponse(res)
         if (files.writeResults) await workspace.writeFiles([files.filteredTests])
         if (files.filteredTests.content) break

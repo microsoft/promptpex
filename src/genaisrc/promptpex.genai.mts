@@ -446,6 +446,8 @@ const options = {
     testSamplesCount,
     testSamplesShuffle,
     testExpansions,
+    rateTests,
+    filterTestCount,
     out,
     ...efforts,
 } satisfies PromptPexOptions
@@ -547,7 +549,7 @@ if (testExpansions > 0) {
 // After test expansion, before evals
 if (rateTests) {
     output.heading(3, "Test Set Quality Review")
-    await evalTestCollection(files, { ...(options as any), filterTestCount })
+    await evalTestCollection(files, options)
     outputFile(files.rateTests)
     await checkConfirm("rateTests")
 }
