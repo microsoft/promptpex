@@ -18,7 +18,7 @@ import {
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
-import type { PromptPexOptions } from "./src/types.mts"
+import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
 import { evalTestCollection } from "./src/testcollectioneval.mts"
 
@@ -550,11 +550,20 @@ if (testExpansions > 0) {
 if (rateTests) {
     output.heading(3, "Test Set Quality Review")
     await evalTestCollection(files, options)
-    outputFile(files.rateTests)
-    await checkConfirm("rateTests")
-}
+    output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
+    output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
 
-await generateEvals(modelsUnderTest, files, tests, options)
+}
+await checkConfirm("rateTests")
+
+if (rateTests && (options.filterTestCount > 0)) {
+    // Parse the JSON content
+    output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
+    const filteredTests: PromptPexTest[] = JSON.parse(files.filteredTests.content);
+    await generateEvals(modelsUnderTest, files, filteredTests, options)
+} else {
+    await generateEvals(modelsUnderTest, files, tests, options)
+}
 await checkConfirm("evals")
 
 if (createEvalRuns) {
