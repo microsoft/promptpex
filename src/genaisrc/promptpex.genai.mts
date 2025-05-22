@@ -18,8 +18,9 @@ import {
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
-import type { PromptPexOptions } from "./src/types.mts"
+import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
+import { evalTestCollection } from "./src/testcollectioneval.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -156,6 +157,12 @@ promptPex:
             description:
                 "Do not include safety system prompts and do not run safety content service. By default, system safety prompts are included in the prompt and the content is checked for safety. This option disables both.",
             default: false,
+        },
+        rateTests: {
+            type: "boolean",
+            description:
+                "Generate a report rating the quality of the test set.",
+            default: true,
         },
         rulesModel: {
             type: "string",
@@ -351,6 +358,13 @@ user:
                 "Shuffle the test samples before generating tests for the prompt.",
             uiGroup: "Generation",
         },
+        filterTestCount: {
+            type: "integer",
+            description:
+                "Number of tests to include in the filtered output of evalTestCollection.",
+            default: 5,
+            uiGroup: "Evaluation",
+        },
     },
 })
 
@@ -384,6 +398,8 @@ const {
     testSamplesShuffle,
     testExpansions,
     effort,
+    rateTests, 
+    filterTestCount,
 } = vars as PromptPexOptions & {
     effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
@@ -393,6 +409,7 @@ const {
     inverseOutputRulesInstructions?: string
     testExpansionInstructions?: string
 }
+
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
@@ -429,6 +446,8 @@ const options = {
     testSamplesCount,
     testSamplesShuffle,
     testExpansions,
+    rateTests,
+    filterTestCount,
     out,
     ...efforts,
 } satisfies PromptPexOptions
@@ -527,7 +546,24 @@ if (testExpansions > 0) {
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
 }
 
-await generateEvals(modelsUnderTest, files, tests, options)
+// After test expansion, before evals
+if (rateTests) {
+    output.heading(3, "Test Set Quality Review")
+    await evalTestCollection(files, options)
+    output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
+    output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
+
+}
+await checkConfirm("rateTests")
+
+if (rateTests && (options.filterTestCount > 0)) {
+    // Parse the JSON content
+    output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
+    const filteredTests: PromptPexTest[] = JSON.parse(files.filteredTests.content);
+    await generateEvals(modelsUnderTest, files, filteredTests, options)
+} else {
+    await generateEvals(modelsUnderTest, files, tests, options)
+}
 await checkConfirm("evals")
 
 if (createEvalRuns) {

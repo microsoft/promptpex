@@ -1,3 +1,4 @@
+import { OutputItemListResponsesPage } from "openai/resources/evals/runs/output-items.mjs"
 import { MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
@@ -35,8 +36,13 @@ export async function runTests(
     } = options || {}
     if (!modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
-
-    const rulesTests = parseRulesTests(files.tests.content)
+    
+    var rulesTests: PromptPexTest[] = []
+    if (options.rateTests && options.filterTestCount > 0) {
+        rulesTests = parseRulesTests(files.filteredTests.content)
+    } else {
+        rulesTests = parseRulesTests(files.tests.content)
+    }
     dbg(`found ${rulesTests.length} tests`)
     const baselineTests = options?.baselineTests
         ? parseBaselineTests(files)

@@ -14,6 +14,14 @@ export const PROMPT_GENERATE_INTENT = join(
     PROMPT_DIR,
     "generate_intent.prompty"
 )
+export const PROMPT_RATE_TESTS = join(
+    PROMPT_DIR,
+    "eval_test_collection.prompty"
+)
+export const PROMPT_FILTER_TESTS = join(
+    PROMPT_DIR,
+    "filter_test_collection.prompty"
+)
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
     PROMPT_DIR,
     "generate_output_rules.prompty"
@@ -61,6 +69,7 @@ export const PROMPT_ALL = [
 ]
 
 export const INTENT_RETRY = 2
+export const RATE_TESTS_RETRY = 2
 export const INPUT_SPEC_RETRY = 2
 export const CONCURRENCY = 2
 export const RULES_NUM = 0
@@ -175,14 +184,18 @@ export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
         maxTestsToRun: 10,
     },
     medium: {
-        testExpansions: 1,
-        maxRules: 10,
-        maxRulesPerTestGeneration: 3,
-        maxTestsToRun: 5,
+        testExpansions: 0,
+        maxRules: 20,
+        maxRulesPerTestGeneration: 5,
+        splitRules: true,
+        testGenerations: 1,  
     },
     high: {
-        testExpansions: 2,
-        maxRulesPerTestGeneration: 1,
+        testExpansions: 1,
+        maxRules: 50,
+        maxRulesPerTestGeneration: 2,
+        splitRules: true,
+        testGenerations: 2,  
     },
 }
 
