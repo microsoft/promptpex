@@ -2,9 +2,9 @@
   "name": "promptpex",
   "version": "0.0.1",
   "devDependencies": {
-    "genaiscript": "^1.138.2",
+    "genaiscript": "^1.138.5",
     "lint-staged": "^16.0.0",
-    "openai": "^4.100.0",
+    "openai": "^4.102.0",
     "prettier": "^3.5.3",
     "zx": "^8.5.4"
   },
@@ -22,6 +22,7 @@
     "gcm:azure": "genaiscript run gcm -m azure:gpt-4o_2024-11-20",
     "prd": "genaiscript run prd -prd -m github:gpt-4.1",
     "serve": "genaiscript serve",
+    "serve:github": "genaiscript serve -p github --env .github.env",
     "build": "genaiscript scripts compile",
     "build:schemas": "cp src/genaisrc/src/frontmatter.json docs/public/schemas/prompt.json",
     "build:docs": "npm run build:schemas && cd docs && npm run build",

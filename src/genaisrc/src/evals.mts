@@ -120,12 +120,12 @@ async function evalsCreateRequest(
             promptpex: files.versions.promptpex,
         },
     } satisfies OpenAI.Evals.EvalCreateParams
-    dbg(`%O`, body)
-
-    await workspace.writeText(
-        path.join(files.dir, "evals.create.json"),
-        JSON.stringify(body, null, 2)
-    )
+    output.detailsFenced(`evals.create.json`, body, "json")
+    if (files.writeResults)
+        await workspace.writeText(
+            path.join(files.dir, "evals.create.json"),
+            JSON.stringify(body, null, 2)
+        )
 
     const apiKey = process.env.OPENAI_API_KEY
     if (createEvalRuns && apiKey) {
