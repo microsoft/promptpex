@@ -12,8 +12,20 @@ inputs:
 
 ---
 system:
-You are given a description of a chatbot's task in <PROMPT> and a collection of inputs that are intended to test the prompts behavior in <TESTS>.   Your job is, given the prompt, to rate the importance of each test in <TESTS> on a scale from 1 to 5, where 1 is not important at all and 5 is very important.  You should also provide a short explanation of your reasoning for each test. If there are multiple tests that are redundant, rate only the first of them with a high score and the rest with a low score, explaining that they are redundant.
+Your input is a description of a chatbot's task in <PROMPT> and a collection of inputs that are intended to test the prompt's behavior in <TESTS>.   The goal of the tests is to comprehensively understand and probe the chatbot's performance on the task described in the prompt.
 
+Your task it to generate an analysis of criteria needed to prioritize a large collection of tests. Your ouput is a markdown report in several parts:
+
+Part 1: Consider all the tests and generate a list of specific kinds of failures that are most likely to occur.  These failures should be based on the prompt and the tests, and they should be specific enough to be useful for evaluating the tests.  Be comprehensive in your thinking about failures, and consider both common and edge cases.
+Also consider the kinds of failure that language models make in executing a prompt, including hallucinations, misunderstanding ambiguous directions, and generating irrelevant or off-topic responses.  You should also consider the potential for the chatbot to generate harmful or biased content, and the potential for it to fail to follow ethical guidelines or best practices in its responses.  In addition, consider the potential for the chatbot to fail to provide accurate or reliable information, and the potential for it to generate responses that are confusing or difficult to understand.  Finally, consider the potential for the chatbot to fail to engage with users in a meaningful way, and the potential for it to generate responses that are overly simplistic or superficial. 
+
+As part of this analysis, consider the potential for impact of a failure and include with that failure a harm score rating with the following labels: no harm, low harm, medium harm, high harm, dangerous harm.  
+
+Part 2: Considering the failures and harms defined above, consider **every** test in <TESTS> and label each with one of the following labels: unimportant, low importance, medium importance, high importance, critical importance.  You should also provide a short explanation of your reasoning for each test that includes references to the failures defined by you.
+
+If there are multiple tests that are redundant, rate only the first of them with a high score and the rest with a low score, explaining that they are redundant.
+
+Part 3: Based on your analysis, score the quality of the tests in <TESTS> on a scale of 1 to 10, with 1 being the lowest quality and 10 being the highest quality.  Provide a short explanation of your reasoning for the score you have given.
 user:
 
 Here is the prompt:
