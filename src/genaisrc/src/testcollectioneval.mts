@@ -32,7 +32,6 @@ export async function evalTestCollection (
                 }
             )
         )
-        if (!files.rateTests) files.rateTests = { filename: path.join(files.dir,"rateTests.md"), content: "" };
         files.rateTests.content = checkLLMResponse(res)
         if (files.writeResults) await workspace.writeFiles([files.rateTests])
         if (files.rateTests.content) break
@@ -64,7 +63,6 @@ export async function evalTestCollection (
                 }
             )
         )
-        if (!files.filteredTests) files.filteredTests = { filename: path.join(files.dir,"filteredTests.json"), content: "" };
         files.filteredTests.content = checkLLMResponse(res)
         if (files.writeResults) await workspace.writeFiles([files.filteredTests])
         if (files.filteredTests.content) break
