@@ -1,0 +1,27 @@
+---
+description: "Given a prompt and collection of tests, rate them"
+tags:
+    - unlisted
+sample:
+    prompt: "Description of the chatbot's task"
+inputs:
+    prompt:
+        type: string
+    tests:
+        type: string
+
+---
+system:
+You are given a description of a chatbot's task in <PROMPT> and a collection of inputs that are intended to test the prompts behavior in <TESTS>.   Your job is, given the prompt, to rate the importance of each test in <TESTS> on a scale from 1 to 5, where 1 is not important at all and 5 is very important.  You should also provide a short explanation of your reasoning for each test. If there are multiple tests that are redundant, rate only the first of them with a high score and the rest with a low score, explaining that they are redundant.
+
+user:
+
+Here is the prompt:
+<PROMPT>
+{{prompt}}
+</PROMPT>
+
+Here are the tests:
+<TESTS>
+{{tests}}
+</TESTS>

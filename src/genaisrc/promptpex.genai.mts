@@ -20,6 +20,7 @@ import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions } from "./src/types.mts"
 import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
+import { eval_test_collection } from "./src/testcollectioneval.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -156,6 +157,12 @@ promptPex:
             description:
                 "Do not include safety system prompts and do not run safety content service. By default, system safety prompts are included in the prompt and the content is checked for safety. This option disables both.",
             default: false,
+        },
+        rateTests: {
+            type: "boolean",
+            description:
+                "Generate a report rating the quality of the test set.",
+            default: true,
         },
         rulesModel: {
             type: "string",
@@ -384,6 +391,7 @@ const {
     testSamplesShuffle,
     testExpansions,
     effort,
+    rateTests, // <-- add the new flag
 } = vars as PromptPexOptions & {
     effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
@@ -392,6 +400,7 @@ const {
     outputRulesInstructions?: string
     inverseOutputRulesInstructions?: string
     testExpansionInstructions?: string
+    rateTests?: boolean
 }
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
@@ -525,6 +534,14 @@ if (testExpansions > 0) {
     await checkConfirm("expansion")
     output.detailsFenced(`tests (json)`, tests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
+}
+
+// After test expansion, before evals
+if (rateTests) {
+    output.heading(3, "Test Set Quality Review")
+    await eval_test_collection(files, options)
+    outputFile(files.rateTests)
+    await checkConfirm("rateTests")
 }
 
 await generateEvals(modelsUnderTest, files, tests, options)
