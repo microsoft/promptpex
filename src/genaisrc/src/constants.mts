@@ -18,6 +18,10 @@ export const PROMPT_RATE_TESTS = join(
     PROMPT_DIR,
     "eval_test_collection.prompty"
 )
+export const PROMPT_FILTER_TESTS = join(
+    PROMPT_DIR,
+    "filter_test_collection.prompty"
+)
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
     PROMPT_DIR,
     "generate_output_rules.prompty"

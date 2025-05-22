@@ -149,6 +149,16 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      * Applying expansion phase to generate tests.
      */
     testExpansions?: number
+
+    /**
+     * Evaluate the test collection
+     */
+    rateTests?: boolean
+
+     /**
+     * Evaluate the test collection
+     */
+    filterTestCount?: number   
 }
 
 /**
@@ -221,6 +231,11 @@ export interface PromptPexContext {
      * PromptPex rateTests
      */
     rateTests: WorkspaceFile
+
+    /**
+     * PromptPex rateTests
+     */
+    filteredTests: WorkspaceFile
 
     /**
      * Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)

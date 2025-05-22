@@ -20,7 +20,7 @@ import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions } from "./src/types.mts"
 import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
-import { eval_test_collection } from "./src/testcollectioneval.mts"
+import { evalTestCollection } from "./src/testcollectioneval.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -358,6 +358,13 @@ user:
                 "Shuffle the test samples before generating tests for the prompt.",
             uiGroup: "Generation",
         },
+        filterTestCount: {
+            type: "integer",
+            description:
+                "Number of tests to include in the filtered output of evalTestCollection.",
+            default: 5,
+            uiGroup: "Evaluation",
+        },
     },
 })
 
@@ -391,7 +398,8 @@ const {
     testSamplesShuffle,
     testExpansions,
     effort,
-    rateTests, // <-- add the new flag
+    rateTests, 
+    filterTestCount,
 } = vars as PromptPexOptions & {
     effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
@@ -400,8 +408,8 @@ const {
     outputRulesInstructions?: string
     inverseOutputRulesInstructions?: string
     testExpansionInstructions?: string
-    rateTests?: boolean
 }
+
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
@@ -539,7 +547,7 @@ if (testExpansions > 0) {
 // After test expansion, before evals
 if (rateTests) {
     output.heading(3, "Test Set Quality Review")
-    await eval_test_collection(files, options)
+    await evalTestCollection(files, { ...(options as any), filterTestCount })
     outputFile(files.rateTests)
     await checkConfirm("rateTests")
 }
