@@ -1,0 +1,32 @@
+---
+name: Rate a chatbot interaction with a customer
+tags:
+    - unlisted
+inputs:
+    user_question:
+        type: string
+    chatbot_answer:
+        type: string
+    user_feedback:
+        type: string
+sample:
+    user_question: "What is the weather like today?"
+    chatbot_answer: "The weather today is sunny with a high of 75°F."
+    user_feedback: "Thanks for the info!"
+---
+system:
+You are given an interaction between a customer and a chatbot. The customer is asking for help with a specific issue, and the chatbot is providing assistance. The customer then responds based on the chatbot's answer.  Based on the interaction, you will rate the quality of the user experience in the interaction between 1 to 10 (with 1 being the worst experience).
+
+Consider the following factors: Was the customer happy with the response.  Did the customer express anger, satire, or sarcasm in the response.  Was the chatbot response accurate and concise.  Was the chatbot response helpful and did it answer the question.  If any part of the conversation contains inappropriate content, rate the interaction a 1. 
+
+Your rating **must be** the numeric score, followed by a colon, followed by 1 short sentence of explaining your score.
+
+user:
+The user's question is
+{{user_question}}
+
+The chatbot's answer is
+{{chatbot_answer}}
+
+The user's response to the answer is
+{{user_feedback}}

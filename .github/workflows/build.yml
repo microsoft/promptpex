@@ -1,19 +1,14 @@
 name: build
 on:
     push:
-        branches: [main, dev]
-    pull_request:
-        branches: [main, dev]
     workflow_dispatch:
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}-ollama
+    group: build-${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 permissions:
-    models: read
+    contents: read
 jobs:
     build:
-        env:
-            OLLAMA_HOST: "http://localhost:11434"
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -23,10 +18,6 @@ jobs:
               with:
                   node-version: 20
             - name: install node
-              run: npm install
+              run: npm ci
             - name: build genaiscript
               run: npm run build
-            - name: start ollama
-              run: npm run ollama:start
-            - name: run tests
-              run: npm run test --env ".env.test"

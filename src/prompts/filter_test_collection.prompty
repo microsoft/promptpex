@@ -1,0 +1,35 @@
+---
+description: "Filter a collection of tests based on priority"
+tags:
+    - unlisted
+inputs:
+    prompt:
+        type: string
+    tests:
+        type: string
+    filter_critera:
+        type: string
+    target_test_number:
+        type: integer
+---
+system:
+You are given a description of a chatbot's task in <PROMPT> and a collection of inputs that are intended to test the prompts behavior in <TESTS>.   You have an analysis of the collection of tests in <FILTER_CRITERIA>.  The tests are intended to evaluate the chatbot's performance on the task described in the prompt.  The tests are not necessarily exhaustive, but they should cover a range of scenarios that are relevant to the task.  The tests may include both positive and negative examples, and they may vary in complexity and difficulty.
+
+Your job is to filter the tests based on the criteria provided in <FILTER_CRITERIA> and the target number of tests in the filtered collection should be {{target_test_number}}.  The output should be in exactly the same format as the <TEST> and be an exact subset of the original tests. 
+
+user:
+
+Here is the prompt:
+<PROMPT>
+{{prompt}}
+</PROMPT>
+
+Here are the tests:
+<TESTS>
+{{tests}}
+</TESTS>
+
+Here are the filter criteria:
+<FILTER_CRITERIA>
+{{filter_critera}}
+</FILTER_CRITERIA>

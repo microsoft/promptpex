@@ -1,3 +1,4 @@
+import { groupBy } from "./groupby.mts"
 import {
     metricName,
     parseAllRules,
@@ -8,7 +9,6 @@ import {
     parseTestEvals,
     parseTestResults,
 } from "./parsers.mts"
-import { groupBy } from "genaiscript/runtime"
 import { resolveRule } from "./resolvers.mts"
 import type {
     PromptPexContext,

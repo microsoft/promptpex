@@ -4,6 +4,7 @@ import {
     PARAMETER_INPUT_TEXT,
     PROMPT_ALL,
     PROMPT_DIR,
+    TEST_SAMPLES_COUNT_DEFAULT,
 } from "./constants.mts"
 import { tidyRulesFile } from "./parsers.mts"
 import { checkPromptSafety } from "./safety.mts"
@@ -58,18 +59,21 @@ export async function loadPromptFiles(
         ? path.join(out || path.dirname(filename), basename)
         : ""
     dbg(`dir: ${dir}`)
-    const intent = path.join(dir, "intent.txt")
-    const rules = path.join(dir, "rules.txt")
-    const inverseRules = path.join(dir, "inverse_rules.txt")
-    const inputSpec = path.join(dir, "input_spec.txt")
-    const baselineTests = path.join(dir, "baseline_tests.txt")
-    const tests = path.join(dir, "tests.json")
-    const testData = path.join(dir, "test_data.json")
-    const testResults = path.join(dir, "test_results.json")
-    const testEvals = path.join(dir, "test_evals.json")
-    const baselineTestEvals = path.join(dir, "baseline_test_evals.json")
-    const ruleEvals = path.join(dir, "rule_evals.json")
-    const ruleCoverage = path.join(dir, "rule_coverage.json")
+    const runId = Math.random().toString(36).slice(2, 10)
+    let intent = path.join(dir, "intent.txt")
+    let rules = path.join(dir, "rules.txt")
+    let inverseRules = path.join(dir, "inverse_rules.txt")
+    let inputSpec = path.join(dir, "input_spec.txt")
+    let baselineTests = path.join(dir, "baseline_tests.txt")
+    let tests = path.join(dir, "tests.json")
+    let filteredTests = path.join(dir, "filtered_tests.json")
+    let rateTests = path.join(dir, "test_collection_review.md")
+    let testData = path.join(dir, "test_data.json")
+    let testResults = path.join(dir, "test_results.json")
+    let testEvals = path.join(dir, "test_evals.json")
+    let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
+    let ruleEvals = path.join(dir, "rule_evals.json")
+    let ruleCoverage = path.join(dir, "rule_coverage.json")
     const frontmatter = await validateFrontmatter(promptFile, {
         patchFrontmatter: true,
     })
@@ -77,23 +81,41 @@ export async function loadPromptFiles(
     if (!inputs) throw new Error(`prompt ${promptFile.filename} has no inputs`)
     const testSamples = await parseTestSamples(
         filename ? path.dirname(filename) : undefined,
-        frontmatter
+        frontmatter,
+        options
     )
     const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
-    const metrics = await workspace.findFiles(metricGlobs)
+    let metrics = await workspace.findFiles(metricGlobs)
     if (options?.customMetric)
         metrics.push({
             filename: "custom.metric.prompty",
             content: options.customMetric,
         })
     dbg(
-        `metrics: %O`,
+        `metrics (unfiltered): %O`,
+        metrics.map(({ filename }) => filename)
+    )
+
+    // now apply metric files
+    metrics = metrics
+        .filter((m) => {
+            const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
+            if (fm?.tags?.includes("experimental")) {
+                dbg(`metric %s is experimental, skip`, m.filename)
+                return undefined
+            }
+            return m
+        })
+        .filter(Boolean)
+    dbg(
+        `metrics (filtered): %O`,
         metrics.map(({ filename }) => filename)
     )
 
     const res = {
+        runId,
         writeResults,
         dir,
         name: basename,
@@ -106,7 +128,10 @@ export async function loadPromptFiles(
         rules: tidyRulesFile(await workspace.readText(rules)),
         ruleEvals: await workspace.readText(ruleEvals),
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
+        promptPexTests: [],
         tests: await workspace.readText(tests),
+        filteredTests: await workspace.readText(filteredTests),
+        rateTests: await workspace.readText(rateTests),
         testData: await workspace.readText(testData),
         testEvals: await workspace.readText(testEvals),
         baselineTests: await workspace.readText(baselineTests),
@@ -124,6 +149,30 @@ export async function loadPromptFiles(
     await checkConfirm("loader")
 
     return res
+}
+
+export function updateOutput(
+    dir: string,
+    ctx: PromptPexContext
+): void {
+    ctx.dir = dir
+    dbg(`updating out: ${ctx.dir}`)
+
+    const writeResults = !!ctx.dir
+    ctx.intent = { filename: path.join(dir, "intent.txt"), content: ctx.intent?.content ?? "" };
+    ctx.rules = { filename: path.join(dir, "rules.txt"), content: ctx.rules?.content ?? "" };
+    ctx.inverseRules = { filename: path.join(dir, "inverse_rules.txt"), content: ctx.inverseRules?.content ?? "" };
+    ctx.inputSpec = { filename: path.join(dir, "input_spec.txt"), content: ctx.inputSpec?.content ?? "" };
+    ctx.baselineTests = { filename: path.join(dir, "baseline_tests.txt"), content: ctx.baselineTests?.content ?? "" };
+    ctx.tests = { filename: path.join(dir, "tests.json"), content: ctx.tests?.content ?? "" };
+    ctx.filteredTests = { filename: path.join(dir, "filtered_tests.json"), content: ctx.filteredTests?.content ?? "" };
+    ctx.rateTests = { filename: path.join(dir, "test_collection_review.md"), content: ctx.rateTests?.content ?? "" };
+    ctx.testData = { filename: path.join(dir, "test_data.json"), content: ctx.testData?.content ?? "" };
+    ctx.testOutputs = { filename: path.join(dir, "test_results.json"), content: ctx.testOutputs?.content ?? "" };
+    ctx.testEvals = { filename: path.join(dir, "test_evals.json"), content: ctx.testEvals?.content ?? "" };
+    ctx.baselineTestEvals = { filename: path.join(dir, "baseline_test_evals.json"), content: ctx.baselineTestEvals?.content ?? "" };
+    ctx.ruleEvals = { filename: path.join(dir, "rule_evals.json"), content: ctx.ruleEvals?.content ?? "" };
+    ctx.ruleCoverages = { filename: path.join(dir, "rule_coverage.json"), content: ctx.ruleCoverages?.content ?? "" };
 }
 
 function parseInputs(
@@ -171,12 +220,16 @@ async function checkPromptFiles() {
     }
 }
 
-async function parseTestSamples(dir: string, fm: PromptPexPromptyFrontmatter) {
+async function parseTestSamples(
+    dir: string,
+    fm: PromptPexPromptyFrontmatter,
+    options?: PromptPexLoaderOptions
+) {
     const { testSamples } = fm
-    if (!testSamples) return undefined
+    if (!testSamples) return []
 
     dbg(`parsing test samples`)
-    const res: Record<string, string>[] = []
+    let res: Record<string, string>[] = []
     for (const sample of testSamples) {
         if (typeof sample === "string") {
             dbg(`loading test sample %s`, sample)
@@ -206,6 +259,13 @@ async function parseTestSamples(dir: string, fm: PromptPexPromptyFrontmatter) {
             throw new Error(`test sample ${sample} is not a string or object`)
         }
     }
+
+    dbg(`found %d test samples`, res.length)
+    const count = options?.testSamplesCount ?? TEST_SAMPLES_COUNT_DEFAULT
+    // shuffle first
+    if (options?.testSamplesShuffle) res.sort(() => Math.random() - 0.5)
+    // then slice
+    res = res.slice(0, count)
     return res
 }
 

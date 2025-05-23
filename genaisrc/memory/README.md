@@ -1,0 +1,1 @@
+This folder contains the shared memory of agents in GenAIScript.

@@ -72,12 +72,13 @@ export function resolvePromptArgs(
 
     // fill last whole with generated input
     dbg(`remaining unresolved inputs: %s`, Array.from(unresolved))
+    const parsedInputs = parsers.JSON5(testinput)
     if (unresolved.size === 1) {
         const key = Array.from(unresolved)[0]
-        dbg(`input %s <- %s`, key, testinput)
-        args[key] = testinput
+        const val = parsedInputs?.[key] ?? testinput
+        dbg(`input %s <- %s`, key, val)
+        args[key] = val
     } else if (unresolved.size > 1) {
-        const parsedInputs = parsers.JSON5(testinput)
         dbg(`parsed inputs: %O`, parsedInputs)
         if (typeof parsedInputs !== "object") {
             dbg(`invalid test input format: %o`, testinput)
