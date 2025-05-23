@@ -1,4 +1,4 @@
-name: genai pull request
+name: genai docs editor
 permissions:
     contents: read
     pull-requests: write
@@ -7,13 +7,13 @@ on:
     pull_request:
     workflow_dispatch:
 jobs:
-    genai:
+    genai-docs-editor:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
             - run: npm ci
-            - run: git fetch origin && git pull origin dev:dev
+            - run: git pull
             - name: genai docs-editor
               run: npm run genai docs-editor -p github -prc -prr
               env:
