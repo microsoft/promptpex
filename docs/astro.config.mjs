@@ -18,6 +18,10 @@ export default defineConfig({
         starlight({
             title: "PromptPex",
             pagination: true,
+            favicon: "/images/favicon.png",
+            logo: {
+                src: "./public/images/logo.svg",
+            },
             plugins: [
                 starlightLlmsTxt({
                     pageSeparator: "\n\n=|=|=|=|=|=\n\n",
