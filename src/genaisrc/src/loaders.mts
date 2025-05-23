@@ -128,6 +128,7 @@ export async function loadPromptFiles(
         rules: tidyRulesFile(await workspace.readText(rules)),
         ruleEvals: await workspace.readText(ruleEvals),
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
+        promptPexTests: [],
         tests: await workspace.readText(tests),
         filteredTests: await workspace.readText(filteredTests),
         rateTests: await workspace.readText(rateTests),

@@ -21,6 +21,7 @@ import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
 import { evalTestCollection } from "./src/testcollectioneval.mts"
+import { saveContextState, restoreContextState } from "./src/context.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -162,7 +163,7 @@ promptPex:
             type: "boolean",
             description:
                 "Generate a report rating the quality of the test set.",
-            default: true,
+            default: false,
         },
         rulesModel: {
             type: "string",
@@ -365,6 +366,21 @@ user:
             default: 5,
             uiGroup: "Evaluation",
         },
+        loadContext: {
+            type: "boolean",
+            description: "Load contenxt from a file.",
+            default: false,
+            required: false,
+            uiGroup: "Generation",
+        },
+        loadContextFile: {
+            type: "string",
+            description:
+                "Filename to load PromptPexContext from before running.",
+            default: "promptpex_context.json",
+            required: false,
+            uiGroup: "Generation",
+        },
     },
 })
 
@@ -398,8 +414,10 @@ const {
     testSamplesShuffle,
     testExpansions,
     effort,
-    rateTests, 
+    rateTests,
     filterTestCount,
+    loadContext,
+    loadContextFile,
 } = vars as PromptPexOptions & {
     effort?: "min" | "low" | "medium" | "high"
     customMetric?: string
@@ -448,6 +466,8 @@ const options = {
     testExpansions,
     rateTests,
     filterTestCount,
+    loadContext,
+    loadContextFile,
     out,
     ...efforts,
 } satisfies PromptPexOptions
@@ -481,69 +501,78 @@ if (modelsUnderTest?.length) {
     }
 }
 
-// prompt info
-output.heading(3, `Prompt Under Test`)
-output.itemValue(`filename`, files.prompt.filename)
-output.fence(files.prompt.content, "md")
+// use context state if available
 
-if (files.testSamples?.length) {
-    output.startDetails("test samples")
-    output.table(files.testSamples)
-    output.endDetails()
-}
+if (!options.loadContext) {
+    // prompt info
+    output.heading(3, `Prompt Under Test`)
+    output.itemValue(`filename`, files.prompt.filename)
+    output.fence(files.prompt.content, "md")
 
-// generate intent
-output.heading(3, "Intent")
-await generateIntent(files, options)
-outputFile(files.intent)
-await checkConfirm("intent")
+    if (files.testSamples?.length) {
+        output.startDetails("test samples")
+        output.table(files.testSamples)
+        output.endDetails()
+    }
 
-// generate input spec
-output.heading(3, "Input Specification")
-await generateInputSpec(files, options)
-outputFile(files.inputSpec)
-await checkConfirm("inputspec")
+    // generate intent
+    output.heading(3, "Intent")
+    await generateIntent(files, options)
+    outputFile(files.intent)
+    await checkConfirm("intent")
 
-// generate rules
-output.heading(3, "Output Rules")
-await generateOutputRules(files, options)
-outputLines(files.rules, "rule")
-await checkConfirm("rule")
+    // generate input spec
+    output.heading(3, "Input Specification")
+    await generateInputSpec(files, options)
+    outputFile(files.inputSpec)
+    await checkConfirm("inputspec")
 
-// generate inverse rules
-output.heading(3, "Inverse Output Rules")
-await generateInverseOutputRules(files, options)
-outputLines(files.inverseRules, "generate inverse output rule")
-await checkConfirm("inverse")
+    // generate rules
+    output.heading(3, "Output Rules")
+    await generateOutputRules(files, options)
+    outputLines(files.rules, "rule")
+    await checkConfirm("rule")
 
-// generate tests
-output.heading(3, "Tests")
-const tests = await generateTests(files, options)
+    // generate inverse rules
+    output.heading(3, "Inverse Output Rules")
+    await generateInverseOutputRules(files, options)
+    outputLines(files.inverseRules, "generate inverse output rule")
+    await checkConfirm("inverse")
 
-output.table(
-    tests.map(({ scenario, testinput, expectedoutput }) => ({
-        scenario,
-        testinput,
-        expectedoutput,
-    }))
-)
-output.detailsFenced(`tests (json)`, tests, "json")
-output.detailsFenced(`test data (json)`, files.testData.content, "json")
-await checkConfirm("test")
+    // generate tests
+    output.heading(3, "Tests")
+    files.promptPexTests = await generateTests(files, options)
 
-if (testExpansions > 0) {
-    output.heading(3, "Expanded Tests")
-    await expandTests(files, tests, options)
     output.table(
-        tests.map(({ scenario, testinput, expectedoutput }) => ({
+        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
             scenario,
             testinput,
             expectedoutput,
         }))
     )
-    await checkConfirm("expansion")
-    output.detailsFenced(`tests (json)`, tests, "json")
+    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    await checkConfirm("test")
+
+    if (testExpansions > 0) {
+        output.heading(3, "Expanded Tests")
+        await expandTests(files, files.promptPexTests, options)
+        output.table(
+            files.promptPexTests.map(
+                ({ scenario, testinput, expectedoutput }) => ({
+                    scenario,
+                    testinput,
+                    expectedoutput,
+                })
+            )
+        )
+        await checkConfirm("expansion")
+        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
+        output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    }
+} else {
+    output.heading(3, `Loading context from ${options.loadContextFile}`)
+    const context = await restoreContextState(options.loadContextFile)
 }
 
 // After test expansion, before evals
@@ -552,17 +581,18 @@ if (rateTests) {
     await evalTestCollection(files, options)
     output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
     output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
-
 }
 await checkConfirm("rateTests")
 
-if (rateTests && (options.filterTestCount > 0)) {
+if (rateTests && options.filterTestCount > 0) {
     // Parse the JSON content
     output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-    const filteredTests: PromptPexTest[] = JSON.parse(files.filteredTests.content);
+    const filteredTests: PromptPexTest[] = JSON.parse(
+        files.filteredTests.content
+    )
     await generateEvals(modelsUnderTest, files, filteredTests, options)
 } else {
-    await generateEvals(modelsUnderTest, files, tests, options)
+    await generateEvals(modelsUnderTest, files, files.promptPexTests, options)
 }
 await checkConfirm("evals")
 
@@ -631,5 +661,6 @@ if (files.writeResults)
     )
 
 output.appendContent("\n\n---\n\n")
+saveContextState(files, path.join(files.dir, "promptpex_context.json"))
 
 reportPerf()
