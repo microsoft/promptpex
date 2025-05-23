@@ -13,7 +13,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
             - run: npm ci
-            - run: git pull
+            - run: git pull origin dev
             - name: genai docs-editor
               run: npm run genai docs-editor -p github -prc -prr
               env:
