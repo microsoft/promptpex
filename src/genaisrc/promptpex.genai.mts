@@ -19,7 +19,11 @@ import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
-import { EFFORTS, MODEL_ALIAS_STORE } from "./src/constants.mts"
+import {
+    EFFORTS,
+    MODEL_ALIAS_STORE,
+    PROMPTPEX_CONTEXT,
+} from "./src/constants.mts"
 import { evalTestCollection } from "./src/testcollectioneval.mts"
 import { saveContextState, restoreContextState } from "./src/context.mts"
 
@@ -377,7 +381,7 @@ user:
             type: "string",
             description:
                 "Filename to load PromptPexContext from before running.",
-            default: "promptpex_context.json",
+            default: PROMPTPEX_CONTEXT,
             required: false,
             uiGroup: "Generation",
         },
@@ -482,7 +486,7 @@ if (!env.files[0] && !promptText)
 initPerf({ output })
 
 const file = env.files[0] || { filename: "", content: promptText }
-var files = await loadPromptFiles(file, options)
+let files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
     await generateReports(files)
@@ -571,7 +575,10 @@ if (!options.loadContext) {
         output.detailsFenced(`test data (json)`, files.testData.content, "json")
     }
 } else {
-    output.heading(3, `Loading context from ${options.loadContextFile}`)
+    output.heading(3, `Loading context from file`)
+    output.appendContent(
+        `loading PromptPexContext from ${options.loadContextFile}`
+    )
     files = await restoreContextState(options.loadContextFile)
 }
 
@@ -661,6 +668,12 @@ if (files.writeResults)
     )
 
 output.appendContent("\n\n---\n\n")
-saveContextState(files, path.join(files.dir, "promptpex_context.json"))
+
+if (files.writeResults) {
+    saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
+    output.appendContent(
+        `saving PromptPexContext to ${path.join(files.dir, PROMPTPEX_CONTEXT)}`
+    )
+}
 
 reportPerf()
