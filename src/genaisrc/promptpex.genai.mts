@@ -398,7 +398,7 @@ const {
     testSamplesShuffle,
     testExpansions,
     effort,
-    rateTests, 
+    rateTests,
     filterTestCount,
 } = vars as PromptPexOptions & {
     effort?: "min" | "low" | "medium" | "high"
@@ -552,14 +552,15 @@ if (rateTests) {
     await evalTestCollection(files, options)
     output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
     output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
-
 }
 await checkConfirm("rateTests")
 
-if (rateTests && (options.filterTestCount > 0)) {
+if (rateTests && options.filterTestCount > 0) {
     // Parse the JSON content
     output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-    const filteredTests: PromptPexTest[] = JSON.parse(files.filteredTests.content);
+    const filteredTests: PromptPexTest[] = JSON.parse(
+        files.filteredTests.content
+    )
     await generateEvals(modelsUnderTest, files, filteredTests, options)
 } else {
     await generateEvals(modelsUnderTest, files, tests, options)
