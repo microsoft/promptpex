@@ -51,6 +51,7 @@ export const PROMPT_EVAL_TEST_RESULT = join(
     PROMPT_DIR,
     "eval_test_result.prompty"
 )
+export const PROMPTPEX_CONTEXT = "promptpex_context.json"
 
 export const PROMPT_EXPAND_TEST = join(PROMPT_DIR, "expand_test.prompty")
 

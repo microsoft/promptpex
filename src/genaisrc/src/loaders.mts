@@ -60,20 +60,20 @@ export async function loadPromptFiles(
         : ""
     dbg(`dir: ${dir}`)
     const runId = Math.random().toString(36).slice(2, 10)
-    const intent = path.join(dir, "intent.txt")
-    const rules = path.join(dir, "rules.txt")
-    const inverseRules = path.join(dir, "inverse_rules.txt")
-    const inputSpec = path.join(dir, "input_spec.txt")
-    const baselineTests = path.join(dir, "baseline_tests.txt")
-    const tests = path.join(dir, "tests.json")
-    const filteredTests = path.join(dir, "filtered_tests.json")
-    const rateTests = path.join(dir, "test_collection_review.md")
-    const testData = path.join(dir, "test_data.json")
-    const testResults = path.join(dir, "test_results.json")
-    const testEvals = path.join(dir, "test_evals.json")
-    const baselineTestEvals = path.join(dir, "baseline_test_evals.json")
-    const ruleEvals = path.join(dir, "rule_evals.json")
-    const ruleCoverage = path.join(dir, "rule_coverage.json")
+    let intent = path.join(dir, "intent.txt")
+    let rules = path.join(dir, "rules.txt")
+    let inverseRules = path.join(dir, "inverse_rules.txt")
+    let inputSpec = path.join(dir, "input_spec.txt")
+    let baselineTests = path.join(dir, "baseline_tests.txt")
+    let tests = path.join(dir, "tests.json")
+    let filteredTests = path.join(dir, "filtered_tests.json")
+    let rateTests = path.join(dir, "test_collection_review.md")
+    let testData = path.join(dir, "test_data.json")
+    let testResults = path.join(dir, "test_results.json")
+    let testEvals = path.join(dir, "test_evals.json")
+    let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
+    let ruleEvals = path.join(dir, "rule_evals.json")
+    let ruleCoverage = path.join(dir, "rule_coverage.json")
     const frontmatter = await validateFrontmatter(promptFile, {
         patchFrontmatter: true,
     })
@@ -128,6 +128,7 @@ export async function loadPromptFiles(
         rules: tidyRulesFile(await workspace.readText(rules)),
         ruleEvals: await workspace.readText(ruleEvals),
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
+        promptPexTests: [],
         tests: await workspace.readText(tests),
         filteredTests: await workspace.readText(filteredTests),
         rateTests: await workspace.readText(rateTests),
@@ -148,6 +149,30 @@ export async function loadPromptFiles(
     await checkConfirm("loader")
 
     return res
+}
+
+export function updateOutput(
+    dir: string,
+    ctx: PromptPexContext
+): void {
+    ctx.dir = dir
+    dbg(`updating out: ${ctx.dir}`)
+
+    const writeResults = !!ctx.dir
+    ctx.intent = { filename: path.join(dir, "intent.txt"), content: ctx.intent?.content ?? "" };
+    ctx.rules = { filename: path.join(dir, "rules.txt"), content: ctx.rules?.content ?? "" };
+    ctx.inverseRules = { filename: path.join(dir, "inverse_rules.txt"), content: ctx.inverseRules?.content ?? "" };
+    ctx.inputSpec = { filename: path.join(dir, "input_spec.txt"), content: ctx.inputSpec?.content ?? "" };
+    ctx.baselineTests = { filename: path.join(dir, "baseline_tests.txt"), content: ctx.baselineTests?.content ?? "" };
+    ctx.tests = { filename: path.join(dir, "tests.json"), content: ctx.tests?.content ?? "" };
+    ctx.filteredTests = { filename: path.join(dir, "filtered_tests.json"), content: ctx.filteredTests?.content ?? "" };
+    ctx.rateTests = { filename: path.join(dir, "test_collection_review.md"), content: ctx.rateTests?.content ?? "" };
+    ctx.testData = { filename: path.join(dir, "test_data.json"), content: ctx.testData?.content ?? "" };
+    ctx.testOutputs = { filename: path.join(dir, "test_results.json"), content: ctx.testOutputs?.content ?? "" };
+    ctx.testEvals = { filename: path.join(dir, "test_evals.json"), content: ctx.testEvals?.content ?? "" };
+    ctx.baselineTestEvals = { filename: path.join(dir, "baseline_test_evals.json"), content: ctx.baselineTestEvals?.content ?? "" };
+    ctx.ruleEvals = { filename: path.join(dir, "rule_evals.json"), content: ctx.ruleEvals?.content ?? "" };
+    ctx.ruleCoverages = { filename: path.join(dir, "rule_coverage.json"), content: ctx.ruleCoverages?.content ?? "" };
 }
 
 function parseInputs(

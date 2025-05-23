@@ -159,6 +159,16 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      * Evaluate the test collection
      */
     filterTestCount?: number   
+
+    /**
+     * Load PromptPexContext from a file
+     */
+    loadContext?: boolean
+
+    /**
+     * Filename to load PromptPexContext from 
+     */
+    loadContextFile?: string
 }
 
 /**
@@ -221,6 +231,11 @@ export interface PromptPexContext {
      * PromptPex Tests (PPT) - Test cases generated for PUT with MPP using IS and OR (test)
      */
     tests: WorkspaceFile
+
+    /**
+     * promptPexTests - Array of test cases generated for PUT
+     */
+    promptPexTests: PromptPexTest[]
 
     /**
      * PromptPex Test with resolved input parameters
