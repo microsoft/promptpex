@@ -87,7 +87,7 @@ The user's response to the answer is
 
 -   gen.intent: 2095ms
 
-```.txt wrap
+```text wrap
 To evaluate the quality of user interactions with a chatbot by rating them on a scale from 1 to 10 based on specific criteria.
 ```
 
@@ -95,7 +95,7 @@ To evaluate the quality of user interactions with a chatbot by rating them on a 
 
 -   gen.inputspec: 10177ms
 
-```.txt wrap
+```text wrap
 The input is an interaction consisting of three main components: the user's question, the chatbot's answer, and the user's feedback.
 The input for {{user_question}} must be a textual string, which can be a formal or informal query about a specific issue.
 The user's question can include technical, non-technical, or general inquiries phrased as complete sentences or fragments. 
@@ -126,7 +126,7 @@ The input must not contain any non-textual elements such as images, links, or at
 data
 </summary>
 
-```.txt wrap
+```text wrap
 The output must contain only a numeric score within the range of 1 to 10 followed by a colon and one short sentence explaining the reasoning for the score without exceeding a single sentence.
 The numeric score in the output must reflect the overall experience of the interaction based on the factors listed, including customer satisfaction, response accuracy, conciseness, helpfulness, and appropriateness of the content.
 If there is any inappropriate content in the conversation (either from the chatbot, the user, or both), the output must give the interaction a score of 1 in the numeric rating.
@@ -160,7 +160,7 @@ The numeric score must directly account for whether the user's response (user_fe
 data
 </summary>
 
-```.txt wrap
+```text wrap
 The output must contain a non-numeric score outside the range of 1 to 10, without a colon, and multiple sentences that avoid explaining the reasoning for the score.  
 The numeric score in the output must ignore the overall experience of the interaction and exclude factors such as customer satisfaction, response accuracy, conciseness, helpfulness, and appropriateness of the content.  
 If there is any inappropriate content in the conversation (either from the chatbot, the user, or both), the output must never give the interaction a score of 1 in the numeric rating.  
