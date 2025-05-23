@@ -5,7 +5,11 @@ sidebar:
 ---
 The heart of the test generation process is a series of transformations that take a prompt under test and generate a set of tests. 
 
-- [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
+:::tip
+
+Looking for a deep dive? Read the [PromptPex technical paper](http://arxiv.org/abs/2503.05070).
+
+:::
 
 ## Example prompt
 
@@ -17,10 +21,13 @@ graph LR
 ```
 
 
-```markdown wrap
+```markdown wrap title="speech-tag.prompty"
+system:
 In this task, you will be presented with a sentence and a word contained in that sentence. You have to determine the part of speech
 for a given word and return just the tag for the word's part of speech. Return only the part of speech tag.
 If the word cannot be tagged with the listed tags, return Unknown. If you are unable to tag the word, return CantAnswer.
+user:
+sentence: {{sentence}}, word: {{word}}
 ```
 
 ## Input Specification
@@ -113,3 +120,5 @@ sentence: 'The researchers documented carefully.', word: 'carefully'
 # Note this tests the Unknown corner case
 sentence: 'This is such a unique perspective.', word: 'such'
 ```
+
+At this point, we have a set of inputs and predicted outputs that we can use in a variety of ways.
