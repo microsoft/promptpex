@@ -4,7 +4,7 @@
   "devDependencies": {
     "genaiscript": "^1.138.5",
     "lint-staged": "^16.0.0",
-    "openai": "^4.102.0",
+    "openai": "^4.103.0",
     "prettier": "^3.5.3",
     "zx": "^8.5.4"
   },
@@ -17,10 +17,10 @@
     "genaiscript": "genaiscript",
     "az:login": "az login --scope api://trapi/.default --use-device-code",
     "genai": "genaiscript run",
-    "gcm": "genaiscript run gcm -m github:gpt-4.1",
-    "gcm:ollama": "genaiscript run gcm -m ollama:gemma3:27b",
-    "gcm:azure": "genaiscript run gcm -m azure:gpt-4o_2024-11-20",
-    "prd": "genaiscript run prd -prd -m github:gpt-4.1",
+    "gcm": "genaiscript run gcm -m github:gpt-4.1 --no-run-trace --no-output-trace",
+    "gcm:ollama": "genaiscript run gcm -m ollama:gemma3:27b --no-run-trace --no-output-trace",
+    "gcm:azure": "genaiscript run gcm -m azure:gpt-4o_2024-11-20 --no-run-trace --no-output-trace",
+    "prd": "genaiscript run prd -prd -m github:gpt-4.1 --no-run-trace --no-output-trace",
     "serve": "genaiscript serve",
     "serve:github": "genaiscript serve -p github --env .github.env",
     "build": "genaiscript scripts compile",

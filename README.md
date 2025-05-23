@@ -1,6 +1,6 @@
 # PromptPex
 
-> Test Generation for Prompts0
+> Test Generation for Prompts
 
 - [Read the documentation](https://microsoft.github.io/promptpex/)
 
