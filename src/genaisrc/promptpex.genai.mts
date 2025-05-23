@@ -482,7 +482,7 @@ if (!env.files[0] && !promptText)
 initPerf({ output })
 
 const file = env.files[0] || { filename: "", content: promptText }
-const files = await loadPromptFiles(file, options)
+var files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
     await generateReports(files)
@@ -572,7 +572,7 @@ if (!options.loadContext) {
     }
 } else {
     output.heading(3, `Loading context from ${options.loadContextFile}`)
-    const context = await restoreContextState(options.loadContextFile)
+    files = await restoreContextState(options.loadContextFile)
 }
 
 // After test expansion, before evals
