@@ -32,7 +32,7 @@ sentence: {{sentence}}, word: {{word}}
 
 ## Input Specification
 
-The [first transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_intent.prompty) takes the prompt uder test and extracts the **input specification (IS)**. 
+The [first transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_intent.prompty) takes the prompt under test and extracts the **input specification (IS)**. 
 The input specification is a description of the input to the prompt. 
 In this case, the input consists of a sentence and a word from that sentence.
 

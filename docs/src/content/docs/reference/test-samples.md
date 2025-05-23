@@ -3,7 +3,8 @@ title: Test Samples
 sidebar:
     order: 25
 ---
-It is possible to define test samples in the `testSamples` section of the YAML file. This section allows you to specify a list of test cases and expected output. 
+
+It is possible to define test samples in the `testSamples` section of the YAML file. This section allows you to specify a list of test cases and expected output.
 The test samples are used in the test generation process to generate tests that mimic actual user input.
 
 ```mermaid
@@ -15,7 +16,7 @@ graph TD
     PPT["PromptPex Tests (PPT)"]
     TS[["Test Samples (TS)"]]
     TE["Test Expansion (TE)"]
-    
+
 
     PUT --> IS
     TS ==> IS
@@ -33,7 +34,6 @@ graph TD
     TS ==> PPT
 ```
 
-
 ## Configuration
 
 You can specify `testSamples` in the prompt frontmatter as an array of objects.
@@ -50,7 +50,7 @@ testSamples:
 
 ## Parameters
 
-When invoking promptex, you can also provide filters to limit the number of test samples used
+When invoking PromptPex, you can also provide filters to limit the number of test samples used
 in the generation:
 
 - `testSamplesCount`: The number of test samples to use in the generation. This is useful to limit the amount of test samples used in the generation.

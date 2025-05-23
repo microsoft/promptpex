@@ -1,5 +1,5 @@
 ---
-title: Custom instructions
+title: Custom Instructions
 sidebar:
     order: 27
 ---
