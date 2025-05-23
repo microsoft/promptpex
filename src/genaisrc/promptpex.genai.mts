@@ -4,7 +4,7 @@ import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
-import { loadPromptFiles } from "./src/loaders.mts"
+import { loadPromptFiles, updateOutput } from "./src/loaders.mts"
 import { outputFile, outputLines } from "./src/output.mts"
 import { metricName } from "./src/parsers.mts"
 import { initPerf, reportPerf } from "./src/perf.mts"
@@ -557,29 +557,29 @@ if (!options.loadContext) {
     output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
     await checkConfirm("test")
-
-    if (testExpansions > 0) {
-        output.heading(3, "Expanded Tests")
-        await expandTests(files, files.promptPexTests, options)
-        output.table(
-            files.promptPexTests.map(
-                ({ scenario, testinput, expectedoutput }) => ({
-                    scenario,
-                    testinput,
-                    expectedoutput,
-                })
-            )
-        )
-        await checkConfirm("expansion")
-        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-        output.detailsFenced(`test data (json)`, files.testData.content, "json")
-    }
 } else {
     output.heading(3, `Loading context from file`)
+    const newOut = options.out
     output.appendContent(
         `loading PromptPexContext from ${options.loadContextFile}`
     )
     files = await restoreContextState(options.loadContextFile)
+    updateOutput(newOut, files)
+}
+
+if (testExpansions > 0) {
+    output.heading(3, "Expanded Tests")
+    await expandTests(files, files.promptPexTests, options)
+    output.table(
+        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
+            scenario,
+            testinput,
+            expectedoutput,
+        }))
+    )
+    await checkConfirm("expansion")
+    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
+    output.detailsFenced(`test data (json)`, files.testData.content, "json")
 }
 
 // After test expansion, before evals
