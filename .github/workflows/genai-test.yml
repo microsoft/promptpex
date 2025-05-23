@@ -1,12 +1,16 @@
 name: build
 on:
-    push:
+    pull_request:
+        types: [ready_for_review, synchronize]
+        branches:
+            - main
+            - dev
     workflow_dispatch:
 concurrency:
-    group: build-${{ github.workflow }}-${{ github.ref }}
+    group: genai-test-${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 permissions:
-    contents: read
+    models: read
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -21,3 +25,7 @@ jobs:
               run: npm ci
             - name: build genaiscript
               run: npm run build
+            - name: run tests
+              run: npm run test
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
