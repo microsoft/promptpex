@@ -127,16 +127,28 @@ async function evalsCreateRequest(
             JSON.stringify(body, null, 2)
         )
 
-    const apiKey = process.env.OPENAI_API_KEY
-    if (createEvalRuns && apiKey) {
+    let createUrl: string | undefined
+    let createHeaders: Record<string, string> | undefined
+    let createDashboardUrl: string | undefined
+
+    // OpenAI
+    const openaiApiKey = process.env.OPENAI_API_KEY
+    if (createEvalRuns && openaiApiKey) {
         dbg(`uploading evals to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
-        const res = await fetch(apiBase + `v1/evals`, {
+        createUrl = apiBase + `v1/evals`
+        createHeaders = {
+            Authorization: `Bearer ${openaiApiKey}`,
+            "Content-Type": "application/json",
+        }
+        createDashboardUrl = "https://platform.openai.com/evaluations/"
+    }
+    // Azure OpenAI
+
+    if (createUrl) {
+        const res = await fetch(createUrl, {
             method: "POST",
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-            },
+            headers: createHeaders,
             body: JSON.stringify(body),
         })
         dbg(`res: %d %s`, res.status, res.statusText)
@@ -146,14 +158,32 @@ async function evalsCreateRequest(
         }
         const evalDef = (await res.json()) as { id: string }
         dbg(`eval: %O`, evalDef)
-        output.item(
-            `[eval dashboard](https://platform.openai.com/evaluations/${evalDef.id})`
-        )
+        if (createDashboardUrl)
+            output.itemLink(
+                "eval dashboard",
+                `${createDashboardUrl}${evalDef.id}`
+            )
+        else output.itemValue(`eval id`, evalDef.id)
         output.detailsFenced(`eval object`, evalDef, "json")
         return evalDef.id
     }
 
     return undefined
+}
+
+async function azureTryGetToken() {
+    const { DefaultAzureCredential } = await import("@azure/identity")
+    try {
+        const credential = new DefaultAzureCredential()
+        const tokenResponse = await credential.getToken(
+            "https://cognitiveservices.azure.com/.default"
+        )
+        dbg(`Azure token: %s`, tokenResponse.token)
+        return tokenResponse.token
+    } catch (error) {
+        dbg(`Failed to get Azure token: %O`, error)
+        return {}
+    }
 }
 
 async function evalsCreateRun(
