@@ -133,6 +133,8 @@ async function evalsCreateRequest(
 
     // OpenAI
     const openaiApiKey = process.env.OPENAI_API_KEY
+    const azureEndpoint =
+        process.env.AZURE_OPENAI_ENDPOINT || process.env.AZURE_OPENAI_API_BASE
     if (createEvalRuns && openaiApiKey) {
         dbg(`uploading evals to OpenAI`)
         const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
@@ -144,6 +146,15 @@ async function evalsCreateRequest(
         createDashboardUrl = "https://platform.openai.com/evaluations/"
     }
     // Azure OpenAI
+    else if (createEvalRuns && azureEndpoint) {
+        dbg(`uploading evals to Azure OpenAI`)
+        createUrl = azureEndpoint + `openai/evals`
+        const token = await azureGetToken()
+        createHeaders = {
+            "Content-Type": "application/json",
+            "api-key": token,
+        }
+    }
 
     if (createUrl) {
         const res = await fetch(createUrl, {
@@ -171,19 +182,14 @@ async function evalsCreateRequest(
     return undefined
 }
 
-async function azureTryGetToken() {
+async function azureGetToken(): Promise<string> {
     const { DefaultAzureCredential } = await import("@azure/identity")
-    try {
-        const credential = new DefaultAzureCredential()
-        const tokenResponse = await credential.getToken(
-            "https://cognitiveservices.azure.com/.default"
-        )
-        dbg(`Azure token: %s`, tokenResponse.token)
-        return tokenResponse.token
-    } catch (error) {
-        dbg(`Failed to get Azure token: %O`, error)
-        return {}
-    }
+    const credential = new DefaultAzureCredential()
+    const tokenResponse = await credential.getToken(
+        "https://cognitiveservices.azure.com/.default"
+    )
+    dbg(`Azure token: %s`, tokenResponse.token)
+    return tokenResponse.token
 }
 
 async function evalsCreateRun(
