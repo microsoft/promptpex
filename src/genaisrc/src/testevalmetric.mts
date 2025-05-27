@@ -1,4 +1,5 @@
 import { checkConfirm } from "./confirm.mts"
+import { MODEL_ALIAS_EVAL } from "./constants.mts"
 import { modelOptions, checkLLMEvaluation, metricName } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -6,6 +7,7 @@ import type {
     PromptPexTestResult,
     PromptPexOptions,
     PromptPexEvaluation,
+    PromptPexPromptyFrontmatter,
 } from "./types.mts"
 const { generator } = env
 const dbg = host.logger("promptpex:eval:metric")
@@ -31,9 +33,11 @@ async function evaluateTestMetric(
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = "eval" } = options || {}
+    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
+    const metricMeta = MD.frontmatter(metric) as PromptPexPromptyFrontmatter
+    const scorer = metricMeta?.tags?.includes("scorer")
     if (testResult.input === undefined)
         return {
             outcome: "unknown",
@@ -55,6 +59,7 @@ async function evaluateTestMetric(
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,
         output: parameters.output,
+        scorer,
     })
     const res = await measure("eval.metric", () =>
         generator.runPrompt(

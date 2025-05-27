@@ -36,6 +36,7 @@ await host.exec("npm", ["run", "build"])
 const diff = await git.diff({
     staged: true,
     askStageOnEmpty: true,
+    excludedPaths: ["package-lock.json", "yarn.lock"],
 })
 
 // If no staged changes are found, cancel the script with a message

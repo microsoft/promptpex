@@ -47,7 +47,7 @@ export async function generateTests(
     const context = MD.content(files.prompt.content)
     const pn = PROMPT_GENERATE_TESTS
     // TODO: parameterize how many and which test samples to use
-    const testSamples = (files.testSamples || []).slice(0, 5)
+    const testSamples = files.testSamples
     const test_samples = testSamples?.length ? YAML.stringify(testSamples) : ""
     dbg(`test samples: %d`, test_samples)
 

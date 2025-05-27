@@ -1,4 +1,4 @@
-import { OK_ERR_CHOICES, PROMPT_EVAL_TEST_RESULT } from "./constants.mts"
+import { MODEL_ALIAS_EVAL, OK_ERR_CHOICES, PROMPT_EVAL_TEST_RESULT } from "./constants.mts"
 import { modelOptions, checkLLMEvaluation } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -14,7 +14,7 @@ export async function evaluateTestResult(
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = "eval" } = options || {}
+    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
     const moptions = modelOptions(evalModel, options)
 
     const content = MD.content(files.prompt.content)

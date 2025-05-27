@@ -2,12 +2,16 @@ import type { OpenAI } from "openai"
 import type {
     PromptPexContext,
     PromptPexOptions,
+    PromptPexPromptyFrontmatter,
     PromptPexTest,
 } from "./types.mts"
 import { metricName } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 const dbg = host.logger("promptpex:evals")
 const { output } = env
+
+// OpenAI: https://platform.openai.com/docs/api-reference/evals
+// Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
 
 async function toEvalTemplate(file: WorkspaceFile) {
     const patched = {
@@ -33,7 +37,7 @@ async function metricToTestingCriteria(
 ): Promise<OpenAI.Evals.EvalCreateParams.LabelModel | any> {
     const { model = "gpt-4o" } = options
     const name = metricName(metric)
-    const fm = MD.frontmatter(metric.content) as { tags?: string[] }
+    const fm = MD.frontmatter(metric.content) as PromptPexPromptyFrontmatter
     const scorer = fm.tags?.includes("scorer")
     const { input } = await toEvalTemplate(metric)
     dbg(`input: %O`, input)
@@ -116,12 +120,12 @@ async function evalsCreateRequest(
             promptpex: files.versions.promptpex,
         },
     } satisfies OpenAI.Evals.EvalCreateParams
-    dbg(`%O`, body)
-
-    await workspace.writeText(
-        path.join(files.dir, "evals.create.json"),
-        JSON.stringify(body, null, 2)
-    )
+    output.detailsFenced(`evals.create.json`, body, "json")
+    if (files.writeResults)
+        await workspace.writeText(
+            path.join(files.dir, "evals.create.json"),
+            JSON.stringify(body, null, 2)
+        )
 
     const apiKey = process.env.OPENAI_API_KEY
     if (createEvalRuns && apiKey) {
