@@ -18,7 +18,7 @@ s */
  *
  * @see https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects#evaluation
  */
-export async function azureAIEvaluate(files: PromptPexContext) {
+export async function azureAIProjectEvaluationCreate(files: PromptPexContext) {
     const { name, dir, promptPexTests } = files
     const { AIProjectClient, EvaluatorIds } = await import("@azure/ai-projects")
     const { DefaultAzureCredential } = await import("@azure/identity")
