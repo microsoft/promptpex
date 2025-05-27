@@ -8,12 +8,18 @@ const { generator } = env
 const dbg = host.logger("promptpex:eval:azure")
 
 /**
+ * Type of an entry in the dataset JSONL file
+ * https://github.com/Azure/azure-sdk-for-js/blob/9ee6f429a4bd699c946b5dabc94be4b1c213c4d1/sdk/ai/ai-projects/samples-dev/evaluations/samples_folder/sample_data_evaluation.jsonl
+ * https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk#conversation-support-for-text
+s */
+
+/**
  * Creates an evaluation run using Azure AI Evaluations.
  *
  * @see https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects#evaluation
  */
 export async function azureAIEvaluate(files: PromptPexContext) {
-    const { name } = files
+    const { name, dir, promptPexTests } = files
     const { AIProjectClient, EvaluatorIds } = await import("@azure/ai-projects")
     const { DefaultAzureCredential } = await import("@azure/identity")
 
@@ -22,13 +28,30 @@ export async function azureAIEvaluate(files: PromptPexContext) {
         throw new Error(
             "AZURE_AI_PROJECT_ENDPOINT_STRING environment variable is not set"
         )
+    const deploymentName = process.env["AZURE_AI_PROJECT_DEPLOYMENT_NAME"]
+    if (!deploymentName)
+        throw new Error(
+            "AZURE_AI_PROJECT_DEPLOYMENT_NAME environment variable is not set"
+        )
+
     const project = new AIProjectClient(endpoint, new DefaultAzureCredential())
     dbg(`project: %s`, project.getEndpointUrl())
+    const version = await findNextVersion()
 
+    // convert tests to DatasetRow[]
+    const data = promptPexTests.map((test) => {
+        return {
+            query: "What is the capital of france?",
+            response: "paris",
+        }
+    })
+    const datasetFile = path.join(dir, `azure-ai-eval-dataset.jsonl`)
+    await workspace.writeText(datasetFile, JSONL.stringify(data))
+    dbg(`dataset file: %s`, datasetFile)
     const dataset: DatasetVersion = await project.datasets.uploadFile(
         name,
-        "1",
-        "./samples_folder/sample_data_evaluation.jsonl"
+        version.toString(),
+        datasetFile
     )
     dbg(`dataset: %s`, dataset.id)
 
@@ -41,7 +64,7 @@ export async function azureAIEvaluate(files: PromptPexContext) {
         },
         evaluators: {
             relevance: {
-                id: EvaluatorIds.BLUE_SCORE,
+                id: EvaluatorIds.RELEVANCE,
                 initParams: {
                     deploymentName: "gpt-4o-mini", // TODO: make it configurable
                 },
@@ -54,4 +77,19 @@ export async function azureAIEvaluate(files: PromptPexContext) {
     }
     const evalResp = await project.evaluations.create(newEvaluation)
     dbg("eval: %O", evalResp)
+
+    async function findNextVersion() {
+        let nextVersion = 0
+        const versions = await project.datasets.listVersions(name)
+        for await (const version of versions) {
+            dbg("version: %s", version.version)
+            const v = parseFloat(version.version) || 0
+            if (v > nextVersion) {
+                nextVersion = v
+            }
+        }
+        nextVersion = nextVersion + 1
+        dbg("next version: %s", nextVersion)
+        return nextVersion
+    }
 }
