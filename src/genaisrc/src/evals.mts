@@ -118,7 +118,7 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
         dbg(`aoia: %O`, aoia)
         if (aoia?.token) {
             dbg(`connection: Azure OpenAI`)
-            url = aoia.base.replace(/\/deployments$/, `/evals?version=${aoia.version}`)
+            url = aoia.base.replace(/\/deployments$/, `/evals?version=${aoia.version || "2025-04-01-preview"}`)
             headers = {
                 "Content-Type": "application/json",
                 "api-key": aoia.token,
