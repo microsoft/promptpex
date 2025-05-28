@@ -16,6 +16,7 @@ jobs:
             - run: git pull origin dev
             - name: genai docs-editor
               run: npm run genai docs-editor -p github -prc -prr
+              continue-on-error: true
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha}}
