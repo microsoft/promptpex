@@ -101,7 +101,7 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
     let dashboardUrl: string | undefined
 
     // OpenAI
-    const oai = await host.resolveLanguageModelProvider("openai")
+    const oai = await host.resolveLanguageModelProvider("openai", { token: true })
     dbg(`oai: %O`, oai)
     if (oai?.token) {
         dbg(`connection: OpenAI`)
@@ -114,11 +114,11 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
     }
     // Azure OpenAI
     else {
-        const aoia = await host.resolveLanguageModelProvider("azure")
+        const aoia = await host.resolveLanguageModelProvider("azure", { token: true })
         dbg(`aoia: %O`, aoia)
         if (aoia?.token) {
             dbg(`connection: Azure OpenAI`)
-            url = aoia.base + `/openai/evals?version=${aoia.version}`
+            url = aoia.base.replace(/\/deployments$/, `/evals?version=${aoia.version}`)
             headers = {
                 "Content-Type": "application/json",
                 "api-key": aoia.token,
