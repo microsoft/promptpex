@@ -89,16 +89,6 @@ const METRIC_SCHEMA = {
     required: ["prompt", "intent", "inputSpec", "rules", "input"],
 }
 
-async function azureGetToken(): Promise<string> {
-    const { DefaultAzureCredential } = await import("@azure/identity")
-    const credential = new DefaultAzureCredential()
-    const tokenResponse = await credential.getToken(
-        "https://cognitiveservices.azure.com/.default"
-    )
-    dbg(`azure token received`)
-    return tokenResponse.token
-}
-
 interface OpenAIConnection {
     url: string
     headers: Record<string, string>
@@ -111,30 +101,30 @@ async function resolveConnection(): Promise<OpenAIConnection> {
     let dashboardUrl: string | undefined
 
     // OpenAI
-    const openaiApiKey: string = process.env.OPENAI_API_KEY
-    const azureEndpoint: string =
-        process.env.AZURE_OPENAI_ENDPOINT || process.env.AZURE_OPENAI_API_BASE
-    if (openaiApiKey) {
+    const oai = await host.resolveLanguageModelProvider("openai")
+    if (oai?.token) {
         dbg(`connection: OpenAI`)
-        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
-        url = apiBase + `v1/evals`
+        url = oai.base + `v1/evals`
         headers = {
-            Authorization: `Bearer ${openaiApiKey}`,
+            Authorization: `Bearer ${oai.token}`,
             "Content-Type": "application/json",
         }
         dashboardUrl = "https://platform.openai.com/evaluations/"
     }
     // Azure OpenAI
-    else if (azureEndpoint) {
-        dbg(`connection: Azure OpenAI`)
-        url = azureEndpoint.replace(/\/$/, "") + `/openai/evals`
-        const token = await azureGetToken()
-        headers = {
-            "Content-Type": "application/json",
-            "api-key": token,
+    else {
+        const aoia = await host.resolveLanguageModelProvider("azure")
+        if (aoia?.token) {
+            dbg(`connection: Azure OpenAI`)
+            url = aoia.base + `/openai/evals?version=${aoia.version}`
+            headers = {
+                "Content-Type": "application/json",
+                "api-key": aoia.token,
+            }
         }
     }
 
+    dbg(`connection: %O`, { url, headers, dashboardUrl })
     return url ? { url, headers, dashboardUrl } : undefined
 }
 
