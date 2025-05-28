@@ -132,8 +132,8 @@ async function evalsCreateRequest(
     let createDashboardUrl: string | undefined
 
     // OpenAI
-    const openaiApiKey = process.env.OPENAI_API_KEY
-    const azureEndpoint =
+    const openaiApiKey: string = process.env.OPENAI_API_KEY
+    const azureEndpoint: string =
         process.env.AZURE_OPENAI_ENDPOINT || process.env.AZURE_OPENAI_API_BASE
     if (createEvalRuns && openaiApiKey) {
         dbg(`uploading evals to OpenAI`)
@@ -148,7 +148,7 @@ async function evalsCreateRequest(
     // Azure OpenAI
     else if (createEvalRuns && azureEndpoint) {
         dbg(`uploading evals to Azure OpenAI`)
-        createUrl = azureEndpoint + `openai/evals`
+        createUrl = azureEndpoint.replace(/\/$/, "") + `/openai/evals`
         const token = await azureGetToken()
         createHeaders = {
             "Content-Type": "application/json",
@@ -157,6 +157,7 @@ async function evalsCreateRequest(
     }
 
     if (createUrl) {
+        dbg(`create: %s`, createUrl)
         const res = await fetch(createUrl, {
             method: "POST",
             headers: createHeaders,
