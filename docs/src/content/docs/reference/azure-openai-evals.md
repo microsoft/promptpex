@@ -21,3 +21,8 @@ The Azure OpenAI models that can be used as **Model Under Test** are the deploym
 - Open [Azure AI Foundry](https://ai.azure.com/) and select your Azure OpenAI resource.
 - Navigate to the **Azure OpenAI Evaluation** section.
 - You should see the evaluations created by PromptPex listed there.
+
+## Common errors
+
+- Make sure that the **Model Under Tests** are deployment names in your Azure OpenAI service. They are should something like `azure:gpt-4.1-mini`, `azure:gpt-4.1-nano`, or `azure:gpt-4o-mini`.
+- Make sure to check the `createEvalRuns` parameter is set to `true` in the web interface or on the command line.
