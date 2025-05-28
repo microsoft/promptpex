@@ -15,3 +15,9 @@ PromptPex uses the Azure OpenAI credentials configured either in environment var
 or through the Azure CLI / Azure Developer CLI. See [GenAIScript Azure OpenAI Configuration](https://microsoft.github.io/genaiscript/configuration/azure-openai/).
 
 The Azure OpenAI models that can be used as **Model Under Test** are the deployments available in your Azure OpenAI service.
+
+## Azure AI Foundry Portal
+
+- Open [Azure AI Foundry](https://ai.azure.com/) and select your Azure OpenAI resource.
+- Navigate to the **Azure OpenAI Evaluation** section.
+- You should see the evaluations created by PromptPex listed there.
