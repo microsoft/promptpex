@@ -89,11 +89,60 @@ const METRIC_SCHEMA = {
     required: ["prompt", "intent", "inputSpec", "rules", "input"],
 }
 
+async function azureGetToken(): Promise<string> {
+    const { DefaultAzureCredential } = await import("@azure/identity")
+    const credential = new DefaultAzureCredential()
+    const tokenResponse = await credential.getToken(
+        "https://cognitiveservices.azure.com/.default"
+    )
+    dbg(`azure token received`)
+    return tokenResponse.token
+}
+
+interface OpenAIConnection {
+    url: string
+    headers: Record<string, string>
+    dashboardUrl?: string
+}
+
+async function resolveConnection(): Promise<OpenAIConnection> {
+    let url: string | undefined
+    let headers: Record<string, string> | undefined
+    let dashboardUrl: string | undefined
+
+    // OpenAI
+    const openaiApiKey: string = process.env.OPENAI_API_KEY
+    const azureEndpoint: string =
+        process.env.AZURE_OPENAI_ENDPOINT || process.env.AZURE_OPENAI_API_BASE
+    if (openaiApiKey) {
+        dbg(`connection: OpenAI`)
+        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
+        url = apiBase + `v1/evals`
+        headers = {
+            Authorization: `Bearer ${openaiApiKey}`,
+            "Content-Type": "application/json",
+        }
+        dashboardUrl = "https://platform.openai.com/evaluations/"
+    }
+    // Azure OpenAI
+    else if (azureEndpoint) {
+        dbg(`connection: Azure OpenAI`)
+        url = azureEndpoint.replace(/\/$/, "") + `/openai/evals`
+        const token = await azureGetToken()
+        headers = {
+            "Content-Type": "application/json",
+            "api-key": token,
+        }
+    }
+
+    return url ? { url, headers, dashboardUrl } : undefined
+}
+
 async function evalsCreateRequest(
+    connection: OpenAIConnection,
     files: PromptPexContext,
     options?: PromptPexOptions
 ) {
-    const { createEvalRuns } = options ?? {}
     const name = `${files.name} (promptpex)`
     const { metrics, inputs } = files
     const metricOptions = { model: "gpt-4o" } // TODO: support other?
@@ -127,40 +176,12 @@ async function evalsCreateRequest(
             JSON.stringify(body, null, 2)
         )
 
-    let createUrl: string | undefined
-    let createHeaders: Record<string, string> | undefined
-    let createDashboardUrl: string | undefined
-
-    // OpenAI
-    const openaiApiKey: string = process.env.OPENAI_API_KEY
-    const azureEndpoint: string =
-        process.env.AZURE_OPENAI_ENDPOINT || process.env.AZURE_OPENAI_API_BASE
-    if (createEvalRuns && openaiApiKey) {
-        dbg(`uploading evals to OpenAI`)
-        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
-        createUrl = apiBase + `v1/evals`
-        createHeaders = {
-            Authorization: `Bearer ${openaiApiKey}`,
-            "Content-Type": "application/json",
-        }
-        createDashboardUrl = "https://platform.openai.com/evaluations/"
-    }
-    // Azure OpenAI
-    else if (createEvalRuns && azureEndpoint) {
-        dbg(`uploading evals to Azure OpenAI`)
-        createUrl = azureEndpoint.replace(/\/$/, "") + `/openai/evals`
-        const token = await azureGetToken()
-        createHeaders = {
-            "Content-Type": "application/json",
-            "api-key": token,
-        }
-    }
-
-    if (createUrl) {
-        dbg(`create: %s`, createUrl)
-        const res = await fetch(createUrl, {
+    if (connection) {
+        const { url, headers, dashboardUrl } = connection
+        dbg(`create: %s`, url)
+        const res = await fetch(url, {
             method: "POST",
-            headers: createHeaders,
+            headers: headers,
             body: JSON.stringify(body),
         })
         dbg(`res: %d %s`, res.status, res.statusText)
@@ -170,11 +191,8 @@ async function evalsCreateRequest(
         }
         const evalDef = (await res.json()) as { id: string }
         dbg(`eval: %O`, evalDef)
-        if (createDashboardUrl)
-            output.itemLink(
-                "eval dashboard",
-                `${createDashboardUrl}${evalDef.id}`
-            )
+        if (dashboardUrl)
+            output.itemLink("eval dashboard", `${dashboardUrl}${evalDef.id}`)
         else output.itemValue(`eval id`, evalDef.id)
         output.detailsFenced(`eval object`, evalDef, "json")
         return evalDef.id
@@ -183,24 +201,14 @@ async function evalsCreateRequest(
     return undefined
 }
 
-async function azureGetToken(): Promise<string> {
-    const { DefaultAzureCredential } = await import("@azure/identity")
-    const credential = new DefaultAzureCredential()
-    const tokenResponse = await credential.getToken(
-        "https://cognitiveservices.azure.com/.default"
-    )
-    dbg(`Azure token: %s`, tokenResponse.token)
-    return tokenResponse.token
-}
-
 async function evalsCreateRun(
+    connection: OpenAIConnection | undefined,
     evalId: string,
     model: string,
     files: PromptPexContext,
     tests: PromptPexTest[],
     options?: PromptPexOptions
 ) {
-    const { createEvalRuns } = options ?? {}
     const { text } = await toEvalTemplate(files.prompt)
     const parameters = {
         prompt: text,
@@ -246,16 +254,12 @@ async function evalsCreateRun(
         JSON.stringify(body, null, 2)
     )
 
-    const apiKey = process.env.OPENAI_API_KEY
-    if (createEvalRuns && apiKey && evalId && tests.length > 0) {
+    if (connection && evalId && tests.length > 0) {
+        const { url, headers, dashboardUrl } = connection
         dbg(`uploading eval run to OpenAI`)
-        const apiBase = process.env.OPENAI_API_BASE || "https://api.openai.com/"
-        const res = await fetch(apiBase + `v1/evals/${evalId}/runs`, {
+        const res = await fetch(url + `/${evalId}/runs`, {
             method: "POST",
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-            },
+            headers,
             body: JSON.stringify(body),
         })
         dbg(`res: %d %s`, res.status, res.statusText)
@@ -265,7 +269,7 @@ async function evalsCreateRun(
         }
         const run = (await res.json()) as { id: string; name: string }
         output.item(
-            `[${run.name} dashboard](https://platform.openai.com/evaluations/${evalId}/data?run_id=${run.id})`
+            `[${run.name} dashboard](${dashboardUrl}${evalId}/data?run_id=${run.id})`
         )
         output.detailsFenced(`eval run object`, run, "json")
     }
@@ -278,8 +282,10 @@ export async function generateEvals(
     options?: PromptPexOptions
 ) {
     output.heading(3, "Evals")
+    const { createEvalRuns } = options || {}
 
-    const evalId = await evalsCreateRequest(files, options)
+    const connection = createEvalRuns ? await resolveConnection() : undefined
+    const evalId = await evalsCreateRequest(connection, files, options)
     dbg(`eval id: %s`, evalId)
     if (tests?.length) {
         for (const modelId of models) {
@@ -289,7 +295,14 @@ export async function generateEvals(
             }
             const model = modelId.replace(/^openai:/, "")
             dbg(`generate eval run for model %s`, model)
-            await evalsCreateRun(evalId, model, files, tests, options)
+            await evalsCreateRun(
+                connection,
+                evalId,
+                model,
+                files,
+                tests,
+                options
+            )
         }
     }
 }
