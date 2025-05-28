@@ -489,9 +489,13 @@ const file = env.files[0] || { filename: "", content: promptText }
 let files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
+    output.heading(2, `PromptPex Diagnostics`)
     await generateReports(files)
+    if (createEvalRuns) {
+        const conn = await evalsResolveConnection()
+        if (!conn) throw new Error("evals connection configuration not found")
+    }
     await checkConfirm("diag")
-    if (createEvalRuns) await evalsResolveConnection()
 }
 
 output.itemValue(`effort`, effort)

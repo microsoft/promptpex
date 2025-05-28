@@ -102,6 +102,7 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
 
     // OpenAI
     const oai = await host.resolveLanguageModelProvider("openai")
+    dbg(`oai: %O`, oai)
     if (oai?.token) {
         dbg(`connection: OpenAI`)
         url = oai.base + `v1/evals`
@@ -114,6 +115,7 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
     // Azure OpenAI
     else {
         const aoia = await host.resolveLanguageModelProvider("azure")
+        dbg(`aoia: %O`, aoia)
         if (aoia?.token) {
             dbg(`connection: Azure OpenAI`)
             url = aoia.base + `/openai/evals?version=${aoia.version}`
