@@ -7,11 +7,13 @@ import type {
 } from "./types.mts"
 import { metricName } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
+import { resolvePromptArgs } from "./resolvers.mts"
 const dbg = host.logger("promptpex:evals")
 const { output } = env
 
 // OpenAI: https://platform.openai.com/docs/api-reference/evals
 // Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
+// https://learn.microsoft.com/en-us/azure/ai-services/openai/authoring-reference-preview
 
 async function toEvalTemplate(file: WorkspaceFile) {
     const patched = {
@@ -93,12 +95,14 @@ interface OpenAIConnection {
     url: string
     headers: Record<string, string>
     dashboardUrl?: string
+    version?: string
 }
 
 export async function evalsResolveConnection(): Promise<OpenAIConnection> {
     let url: string | undefined
     let headers: Record<string, string> | undefined
     let dashboardUrl: string | undefined
+    let version: string | undefined
 
     // OpenAI
     const oai = await host.resolveLanguageModelProvider("openai", { token: true })
@@ -112,22 +116,46 @@ export async function evalsResolveConnection(): Promise<OpenAIConnection> {
         }
         dashboardUrl = "https://platform.openai.com/evaluations/"
     }
+
     // Azure OpenAI
-    else {
+    if (!url) {
         const aoia = await host.resolveLanguageModelProvider("azure", { token: true })
         dbg(`aoia: %O`, aoia)
         if (aoia?.token) {
             dbg(`connection: Azure OpenAI`)
-            url = aoia.base.replace(/\/deployments$/, `/evals?version=${aoia.version || "2025-04-01-preview"}`)
+            url = aoia.base.replace(/\/deployments\/?$/, `/evals`)
             headers = {
                 "Content-Type": "application/json",
-                "api-key": aoia.token,
+                "Authorization": aoia.token,
             }
+            version = aoia.version || "2025-04-01-preview"
         }
     }
 
-    dbg(`connection: %O`, { url, headers, dashboardUrl })
-    return url ? { url, headers, dashboardUrl } : undefined
+    dbg(`connection: %O`, { url, headers, dashboardUrl, version })
+    return url ? { url, headers, dashboardUrl, version } : undefined
+}
+
+function urlWithVersion(base: string, route: string, version?: string) {
+    return `${base}${route}${version ? `?api-version=${version}` : ''}`
+}
+
+export async function evalsListEvals() {
+    const { url, headers, version } = await evalsResolveConnection()
+    if (!url) return {}
+    const listUrl = urlWithVersion(url, '', version)
+    const res = await fetch(listUrl, {
+        method: "GET",
+        headers: headers,
+    })
+    const data = await res.json()
+    dbg(`evals.list: %O`, data)
+    return {
+        ok: res.ok,
+        status: res.status,
+        statusText: res.statusText,
+        data,
+    }
 }
 
 async function evalsCreateRequest(
@@ -169,9 +197,10 @@ async function evalsCreateRequest(
         )
 
     if (connection) {
-        const { url, headers, dashboardUrl } = connection
-        dbg(`create: %s`, url)
-        const res = await fetch(url, {
+        const { url, version, headers, dashboardUrl } = connection
+        const createUrl = urlWithVersion(url, '', version)
+        dbg(`create:\nPOST %s\n%O\n%O`, createUrl, headers, body)
+        const res = await fetch(createUrl, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body),
@@ -229,13 +258,16 @@ async function evalsCreateRun(
             model,
             source: {
                 type: "file_content",
-                content: tests.map((test) => ({
-                    item: {
-                        ...parameters,
-                        input: test.testinput,
-                        ...JSON.parse(test.testinput),
-                    },
-                })),
+                content: tests.map((test) => {
+                    const { args } = resolvePromptArgs(files, test)
+                    return ({
+                        item: {
+                            ...parameters,
+                            input: test.testinput,
+                            ...args,
+                        },
+                    })
+                }),
             },
         },
     }
@@ -247,9 +279,11 @@ async function evalsCreateRun(
     )
 
     if (connection && evalId && tests.length > 0) {
-        const { url, headers, dashboardUrl } = connection
-        dbg(`uploading eval run to OpenAI`)
-        const res = await fetch(url + `/${evalId}/runs`, {
+        const { url, headers, dashboardUrl, version } = connection
+        dbg(`uploading eval run`)
+        const createRunUrl = urlWithVersion(url, `/${evalId}/runs`, version)
+        dbg(`POST %s\n%O\n%O`, createRunUrl, headers, body)
+        const res = await fetch(createRunUrl, {
             method: "POST",
             headers,
             body: JSON.stringify(body),
@@ -276,18 +310,20 @@ export async function generateEvals(
     output.heading(3, "Evals")
     const { createEvalRuns } = options || {}
 
+    output.heading(3, "Evals")
     const connection = createEvalRuns
         ? await evalsResolveConnection()
         : undefined
     const evalId = await evalsCreateRequest(connection, files, options)
+    output.itemValue(`eval id`, evalId)
     dbg(`eval id: %s`, evalId)
     if (tests?.length) {
         for (const modelId of models) {
-            if (!/^openai:/.test(modelId)) {
+            if (!/^(openai|azure):/.test(modelId)) {
                 dbg(`skipping model %s`, modelId)
                 continue
             }
-            const model = modelId.replace(/^openai:/, "")
+            const model = modelId.replace(/^(openai|azure):/, "")
             dbg(`generate eval run for model %s`, model)
             await evalsCreateRun(
                 connection,

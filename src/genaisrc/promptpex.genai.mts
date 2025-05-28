@@ -1,5 +1,5 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { evalsResolveConnection, generateEvals } from "./src/evals.mts"
+import { evalsListEvals, generateEvals } from "./src/evals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -492,8 +492,8 @@ if (diagnostics) {
     output.heading(2, `PromptPex Diagnostics`)
     await generateReports(files)
     if (createEvalRuns) {
-        const conn = await evalsResolveConnection()
-        if (!conn) throw new Error("evals connection configuration not found")
+        const evals = await evalsListEvals()
+        if (!evals.ok) throw new Error("evals configuration not found")
     }
     await checkConfirm("diag")
 }
