@@ -7,11 +7,11 @@ sidebar:
 PromptPex support exporting the generated tests into a [Azure OpenAI Evaluations](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input).
 PromptPex will generate an **eval** and launch an **eval run** for each Model Under Test (MUT) in the test generation.
 
-## Azure OpenAI
+![](azure-openai-evals.png)
 
-To enable this mode, you need to
+## Configuration
 
-- set the `AZURE_OPENAI_ENDPOINT` environment variable to your Azure OpenAI API endpoint
-- set the `createEvalRuns` parameter to true in the web interface or on the command line.
+PromptPex uses the Azure OpenAI credentials configured either in environment variables
+or through the Azure CLI / Azure Developer CLI. See [GenAIScript Azure OpenAI Configuration](https://microsoft.github.io/genaiscript/configuration/azure-openai/).
 
-The Azure OpenAI models that can be used as **Model Under Test** are available at [Azure OpenAI Models](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input).
+The Azure OpenAI models that can be used as **Model Under Test** are the deployments available in your Azure OpenAI service.
