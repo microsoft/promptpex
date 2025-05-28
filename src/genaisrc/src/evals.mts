@@ -294,9 +294,9 @@ async function evalsCreateRun(
             throw new Error(`failed to upload eval run: ${res.statusText}`)
         }
         const run = (await res.json()) as { id: string; name: string }
-        output.item(
-            `[${run.name} dashboard](${dashboardUrl}${evalId}/data?run_id=${run.id})`
-        )
+        if (dashboardUrl)
+            output.itemLink(run.name, `${dashboardUrl}${evalId}/data?run_id=${run.id}`)
+        else output.itemValue(`eval run id`, run.id)
         output.detailsFenced(`eval run object`, run, "json")
     }
 }
