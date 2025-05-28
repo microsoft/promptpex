@@ -95,7 +95,7 @@ interface OpenAIConnection {
     dashboardUrl?: string
 }
 
-async function resolveConnection(): Promise<OpenAIConnection> {
+export async function evalsResolveConnection(): Promise<OpenAIConnection> {
     let url: string | undefined
     let headers: Record<string, string> | undefined
     let dashboardUrl: string | undefined
@@ -274,7 +274,9 @@ export async function generateEvals(
     output.heading(3, "Evals")
     const { createEvalRuns } = options || {}
 
-    const connection = createEvalRuns ? await resolveConnection() : undefined
+    const connection = createEvalRuns
+        ? await evalsResolveConnection()
+        : undefined
     const evalId = await evalsCreateRequest(connection, files, options)
     dbg(`eval id: %s`, evalId)
     if (tests?.length) {

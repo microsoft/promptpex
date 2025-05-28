@@ -1,5 +1,5 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { generateEvals } from "./src/evals.mts"
+import { evalsResolveConnection, generateEvals } from "./src/evals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -491,6 +491,7 @@ let files = await loadPromptFiles(file, options)
 if (diagnostics) {
     await generateReports(files)
     await checkConfirm("diag")
+    if (createEvalRuns) await evalsResolveConnection()
 }
 
 output.itemValue(`effort`, effort)
