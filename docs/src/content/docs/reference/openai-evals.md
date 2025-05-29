@@ -17,3 +17,10 @@ To enable this mode, you need to
 - set the `createEvalRuns` parameter to true in the web interface or on the command line.
 
 The OpenAI models that can be used as **Model Under Test** are available at [OpenAI Models](https://platform.openai.com/docs/models).
+
+## Demo
+
+Here's a video showing the use of OpenAI evals in action.  In the demo, we show how PromptPex can generate a test the can measure how effectivel 2 OpenAI models understand sarcasm.
+
+https://github.com/user-attachments/assets/edb887fc-558f-46df-9bca-2fc8da2df297
+
