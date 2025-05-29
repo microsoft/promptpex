@@ -39,6 +39,7 @@ graph TD
 You can specify `testSamples` in the prompt frontmatter as an array of objects.
 
 ```yaml wrap
+---
 testSamples:
     - locale: "en-us"
       joke: "Why did the scarecrow win an award? Because he was outstanding in his field."
@@ -46,6 +47,7 @@ testSamples:
     - locale: "fr-FR"
       joke: "Pourquoi les plongeurs plongent-ils toujours en arrière et jamais en avant? Parce que sinon ils tombent dans le bateau."
       output: "funny"
+---
 ```
 
 ## Parameters
