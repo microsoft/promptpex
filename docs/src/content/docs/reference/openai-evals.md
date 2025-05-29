@@ -20,7 +20,7 @@ The OpenAI models that can be used as **Model Under Test** are available at [Ope
 
 ## Demo
 
-Here's a video showing the use of OpenAI evals in action.  In the demo, we show how PromptPex can generate a test the can measure how effectivel 2 OpenAI models understand sarcasm.
+Here's a video showing the use of OpenAI evals in action.  In the demo, we show how PromptPex can generate a test the can measure how effectively 2 OpenAI models understand sarcasm.
 
 <video
     src="[Using PromptPex with OpenAI Evals](https://github.com/user-attachments/assets/edb887fc-558f-46df-9bca-2fc8da2df297)"
