@@ -347,7 +347,7 @@ user:
             description:
                 "Number of test expansion phase to generate tests. This will increase the complexity of the generated tests.",
             minimum: 0,
-            default: 1,
+            default: 0,
             maximum: 5,
             uiGroup: "Generation",
         },
