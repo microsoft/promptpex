@@ -52,7 +52,11 @@ export async function evaluateTestQuality(
     test: PromptPexTest,
     options?: PromptPexOptions & { force?: boolean }
 ): Promise<PromptPexTestEval> {
-    const { force, evalModel = MODEL_ALIAS_EVAL } = options || {}
+
+    const { force, evalModelSet = MODEL_ALIAS_EVAL } = options || {}
+    const evalModel = evalModelSet[0]
+
+    // const { force, evalModel = MODEL_ALIAS_EVAL } = options || {}
     const { id, promptid, file } = await resolveTestEvalPath(
         files,
         test,
@@ -140,8 +144,10 @@ export async function evaluateTestQuality(
         coverageText: resCoverage.text,
     } satisfies PromptPexTestEval
 
+
     const coverageEval = await evaluateTestResult(
         files,
+        evalModel,
         {
             id: "cov-" + testEval.id,
             scenario: test.scenario,

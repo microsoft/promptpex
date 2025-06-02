@@ -1,5 +1,5 @@
 import { OutputItemListResponsesPage } from "openai/resources/evals/runs/output-items.mjs"
-import { MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -227,9 +227,12 @@ async function runTest(
         metrics: {},
     } satisfies PromptPexTestResult
 
+
     if (compliance) {
+        const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
+        const evalModel = evalModelSet[0]
         testRes.compliance = undefined
-        const compliance = await evaluateTestResult(files, testRes, options)
+        const compliance = await evaluateTestResult(files, evalModel, testRes, options)
         testRes.complianceText = compliance.content
         updateTestResultCompliant(testRes)
     }

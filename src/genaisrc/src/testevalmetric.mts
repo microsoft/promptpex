@@ -21,19 +21,23 @@ export async function evaluateTestMetrics(
     dbg(`evaluating ${metrics.length} metrics`)
     checkConfirm("metric")
 
-    for (const metric of metrics) {
-        const res = await evaluateTestMetric(metric, files, testResult, options)
-        testResult.metrics[metricName(metric)] = res
+    const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
+    for (const evalModel of evalModelSet) {
+        for (const metric of metrics) {
+            const res = await evaluateTestMetric(metric, evalModel, files, testResult, options)
+            testResult.metrics[metricName(metric)+"|em|"+evalModel] = res
+        }
     }
 }
 
 async function evaluateTestMetric(
     metric: WorkspaceFile,
+    evalModel: ModelType,
     files: PromptPexContext,
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
+
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
     const metricMeta = MD.frontmatter(metric) as PromptPexPromptyFrontmatter
