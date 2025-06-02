@@ -182,19 +182,6 @@ promptPex:
             ],
             uiGroup: "Generation",
         },
-        evalModel: {
-            type: "string",
-            description:
-                "Model used to evaluate rules (you can also override the model alias 'eval')",
-            uiSuggestions: [
-                "openai:gpt-4o",
-                "azure:gpt-4o",
-                "ollama:gemma3:27b",
-                "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-            ],
-            uiGroup: "Evaluation",
-        },
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
@@ -205,6 +192,19 @@ promptPex:
             type: "string",
             description:
                 "List of models to run the prompt again; semi-colon separated",
+        },
+        evalModelSet: {
+            type: "string",
+            description:
+                "List of models to use for test evaluation; semi-colon separated",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "azure:gpt-4o",
+                "ollama:gemma3:27b",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+            uiGroup: "Evaluation",
         },
         compliance: {
             type: "boolean",
@@ -402,7 +402,6 @@ const {
     compliance,
     baselineModel,
     rulesModel,
-    evalModel,
     storeCompletions,
     storeModel,
     maxTestsToRun,
@@ -437,6 +436,9 @@ if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
+const evalModelSet: string[] = (vars.evalModelSet || "")
+    .split(/;/g)
+    .filter(Boolean)
 const options = {
     cache,
     testRunCache,
@@ -452,7 +454,6 @@ const options = {
     baselineModel,
     rulesModel,
     storeCompletions,
-    evalModel,
     storeModel,
     testsPerRule,
     maxTestsToRun,
@@ -461,6 +462,7 @@ const options = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
+    evalModelSet,
     splitRules,
     maxRulesPerTestGeneration,
     testGenerations,
@@ -506,6 +508,15 @@ if (modelsUnderTest?.length) {
     for (const modelUnderTest of modelsUnderTest) {
         const resolved = await host.resolveLanguageModel(modelUnderTest)
         if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
+        output.item(`${resolved.provider}:${resolved.model}`)
+    }
+}
+
+if (evalModelSet?.length) {
+    output.heading(3, `Evaluation Models`)
+    for (const evalModel of evalModelSet) {
+        const resolved = await host.resolveLanguageModel(evalModel)
+        if (!resolved) throw new Error(`Model ${evalModel} not found`)
         output.item(`${resolved.provider}:${resolved.model}`)
     }
 }
@@ -629,6 +640,7 @@ if (createEvalRuns) {
     for (const metric of files.metrics)
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
+    output.itemValue(`evaluation models`, evalModelSet.join(", "))
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
     output.detailsFenced(`results (json)`, results, "json")
