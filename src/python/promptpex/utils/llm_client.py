@@ -20,8 +20,7 @@ class AzureOpenAIClient:
     
     def _setup_client(self) -> AzureOpenAI:
         """Set up the Azure OpenAI client."""
-        credential = DefaultAzureCredential()
-        token = credential.get_token("https://cognitiveservices.azure.com/.default").token
+        credential = DefaultAzureCredential()  # CodeQL [SM05139] This is non-production testing code which is not deployed.        token = credential.get_token("https://cognitiveservices.azure.com/.default").token
         base_url = self.azure_config["azure_endpoint"].strip()
         if not base_url:
             raise ValueError("Azure OpenAI endpoint URL cannot be empty")

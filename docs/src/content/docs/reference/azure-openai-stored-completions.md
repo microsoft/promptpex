@@ -1,5 +1,5 @@
 ---
-title: OpenAI Stored Completions
+title: Azure OpenAI Stored Completions
 description: Run the generated tests and store the completion in Azure OpenAI for distillation and evaluation.
 sidebar:
     order: 28.1

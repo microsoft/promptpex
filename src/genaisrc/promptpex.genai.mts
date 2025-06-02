@@ -1,5 +1,5 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { generateEvals } from "./src/evals.mts"
+import { evalsListEvals, generateEvals } from "./src/evals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -347,7 +347,7 @@ user:
             description:
                 "Number of test expansion phase to generate tests. This will increase the complexity of the generated tests.",
             minimum: 0,
-            default: 1,
+            default: 0,
             maximum: 5,
             uiGroup: "Generation",
         },
@@ -489,7 +489,12 @@ const file = env.files[0] || { filename: "", content: promptText }
 let files = await loadPromptFiles(file, options)
 
 if (diagnostics) {
+    output.heading(2, `PromptPex Diagnostics`)
     await generateReports(files)
+    if (createEvalRuns) {
+        const evals = await evalsListEvals()
+        if (!evals.ok) throw new Error("evals configuration not found")
+    }
     await checkConfirm("diag")
 }
 
