@@ -18,11 +18,12 @@ export async function evaluateTestMetrics(
     options: PromptPexOptions
 ) {
     const { metrics } = files
-    dbg(`evaluating ${metrics.length} metrics`)
+
     checkConfirm("metric")
 
     const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
     for (const evalModel of evalModelSet) {
+        dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, evalModel)
         for (const metric of metrics) {
             const res = await evaluateTestMetric(metric, evalModel, files, testResult, options)
             testResult.metrics[metricName(metric)+"|em|"+evalModel] = res

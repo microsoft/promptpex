@@ -229,6 +229,7 @@ async function runTest(
 
 
     if (compliance) {
+
         const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
         const evalModel = evalModelSet[0]
         testRes.compliance = undefined

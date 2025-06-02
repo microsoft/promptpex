@@ -20,6 +20,7 @@ import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import {
+    MODEL_ALIAS_EVAL,
     EFFORTS,
     MODEL_ALIAS_STORE,
     PROMPTPEX_CONTEXT,
@@ -513,7 +514,8 @@ if (modelsUnderTest?.length) {
 }
 
 if (evalModelSet?.length) {
-    output.heading(3, `Evaluation Models`)
+    const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
+    output.heading(2, `Evaluation Models`)
     for (const evalModel of evalModelSet) {
         const resolved = await host.resolveLanguageModel(evalModel)
         if (!resolved) throw new Error(`Model ${evalModel} not found`)
