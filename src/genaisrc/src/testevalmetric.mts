@@ -21,8 +21,7 @@ export async function evaluateTestMetrics(
 
     checkConfirm("metric")
 
-    const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
-    for (const evalModel of evalModelSet) {
+    for (const evalModel of options.evalModelSet) {
         dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, evalModel)
         for (const metric of metrics) {
             const res = await evaluateTestMetric(metric, evalModel, files, testResult, options)

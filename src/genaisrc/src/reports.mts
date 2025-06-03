@@ -101,19 +101,39 @@ export function computeOverview(
                             "ok"
                 ).length,
                 ...Object.fromEntries(
-                    files.metrics.map((m) => {
+                    files.metrics.flatMap((m) => {
                         const n = metricName(m)
-                        const ms = tests
-                            .map((t) => t.metrics[n])
-                            .filter((m) => !!m)
-                        const scorer = ms.some((m) => !isNaN(m.score))
-                        return [
-                            n,
-                            scorer
-                                ? ms.reduce((total, m) => total + m.score, 0) /
-                                  ms.length
-                                : ms.filter((m) => m.outcome === "ok").length,
-                        ]
+                        // Ensure evalModelSet is always an array of strings
+                        let evalModelSet: string[] = []
+                        if (typeof options?.evalModelSet === "string") {
+                            evalModelSet = options.evalModelSet.split(";").map(s => s.trim()).filter(Boolean)
+                        } else if (Array.isArray(options?.evalModelSet)) {
+                            evalModelSet = options.evalModelSet
+                        }
+                        // Fallback to all evalModel keys found in test metrics
+                        const allEvalModels = Array.from(
+                            new Set(
+                                tests.flatMap((t) =>
+                                    Object.keys(t.metrics || {})
+                                        .filter((k) => k.startsWith(n + "|em|"))
+                                        .map((k) => k.split("|em|")[1])
+                                )
+                            )
+                        )
+                        const evalModels = evalModelSet.length ? evalModelSet : allEvalModels
+                        return evalModels.map((evalModel) => {
+                            const metricKey = `${n}|em|${evalModel}`
+                            const ms = tests
+                                .map((t) => t.metrics?.[metricKey])
+                                .filter((m) => !!m)
+                            const scorer = ms.some((m) => !isNaN(m.score))
+                            return [
+                                metricKey,
+                                scorer
+                                    ? ms.reduce((total, m) => total + m.score, 0) / ms.length
+                                    : ms.filter((m) => m.outcome === "ok").length,
+                            ]
+                        })
                     })
                 ),
             }
