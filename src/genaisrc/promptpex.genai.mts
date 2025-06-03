@@ -389,6 +389,8 @@ user:
     },
 })
 
+const dbg = host.logger("promptpex:main")
+
 const { output, vars } = env
 const {
     out,
@@ -432,12 +434,16 @@ const {
     testExpansionInstructions?: string
 }
 
+dbg(`PromptPex starting = compliance: %0`, compliance)
+
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
-const evalModelSet: string[] = (vars.evalModelSet || "")
+const evalModelSet: string[] = (
+    vars.evalModelSet || process.env.GENAISCRIPT_MODEL_EVAL
+)
     .split(/;/g)
     .filter(Boolean)
 const options = {
@@ -479,6 +485,15 @@ const options = {
     ...efforts,
 } satisfies PromptPexOptions
 
+options.compliance = compliance ?? options.compliance
+dbg(
+    `PromptPex starting = compliance: %0, options.compliance: %1`,
+    compliance,
+    options.compliance
+)
+
+dbg(`PromptPex evalModelSet: %0`, evalModelSet)
+
 if (env.files[0] && promptText)
     cancel(
         "You can only provide either a prompt file or prompt text, not both."
@@ -514,13 +529,14 @@ if (modelsUnderTest?.length) {
 }
 
 if (evalModelSet?.length) {
-    const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
     output.heading(2, `Evaluation Models`)
     for (const evalModel of evalModelSet) {
         const resolved = await host.resolveLanguageModel(evalModel)
         if (!resolved) throw new Error(`Model ${evalModel} not found`)
         output.item(`${resolved.provider}:${resolved.model}`)
     }
+} else {
+    cancel("No evaluation model defined.")
 }
 
 // use context state if available
