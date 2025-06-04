@@ -16,24 +16,55 @@ export async function evaluateTestMetrics(
     testResult: PromptPexTestResult,
     files: PromptPexContext,
     options: PromptPexOptions
-) {
+): Promise<PromptPexTestResult> {
     const { metrics } = files
-    dbg(`evaluating ${metrics.length} metrics`)
+
     checkConfirm("metric")
 
-    for (const metric of metrics) {
-        const res = await evaluateTestMetric(metric, files, testResult, options)
-        testResult.metrics[metricName(metric)] = res
+    // Remove all previous metrics before computing new ones
+    testResult.metrics = {}
+
+    for (const eModel of options.evalModel) {
+        dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, eModel)
+        for (const metric of metrics) {
+            const key = metricName(metric)+"|em|"+eModel
+            const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
+            testResult.metrics[key] = res
+        }
     }
+    // After all evalModels, compute combined metric for each metric
+    let evalModelArr: string[] = []
+    if (typeof options.evalModel === "string") {
+        evalModelArr = options.evalModel.split(";").map(s => s.trim()).filter(Boolean)
+    } else if (Array.isArray(options.evalModel)) {
+        evalModelArr = options.evalModel
+    }
+    for (const metric of metrics) {
+        const n = metricName(metric)
+        const keys = evalModelArr.map((eModel) => `${n}|em|${eModel}`)
+        const metricResults = keys
+            .map((k) => testResult.metrics[k])
+            .filter((m) => m && typeof m.score === "number" && !isNaN(m.score))
+        if (metricResults.length > 0 && evalModelArr.length > 1) {
+            const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
+            testResult.metrics[`${n}|em|combined`] = {
+                score: avgScore,
+                outcome: undefined,
+                content: `Average of evalModels: ${keys.join(", ")}`,
+            }
+        }
+    }
+    return testResult
 }
 
 async function evaluateTestMetric(
     metric: WorkspaceFile,
+    evalModel: ModelType,
     files: PromptPexContext,
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
+
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
     const metricMeta = MD.frontmatter(metric) as PromptPexPromptyFrontmatter

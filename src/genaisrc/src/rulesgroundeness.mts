@@ -46,7 +46,8 @@ export async function evaluateRuleGrounded(
                 })
             },
             {
-                ...modelOptions(evalModel, options),
+                // assume first evalModel is the one to use for rule grounding
+                ...modelOptions(evalModel[0], options),
                 choices: OK_ERR_CHOICES,
                 label: `${files.name}> eval rule grounded ${rule.slice(0, 18)}...`,
             }

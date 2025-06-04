@@ -65,10 +65,6 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      */
     rulesModel?: string
 
-    /**
-     * Model used to evaluate rules
-     */
-    evalModel?: ModelType | "eval"
 
     /**
      * Model used to run tests for distillation/evaluation
@@ -124,6 +120,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      * List of models to run the prompt against
      */
     modelsUnderTest?: ModelType[]
+
+    /**
+     * List of models to use for test evaluation
+     */
+    evalModel?: ModelType[] | "eval"
 
     /**
      * Split rules/inverse rules in separate prompts

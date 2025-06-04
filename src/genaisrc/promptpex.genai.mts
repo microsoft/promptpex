@@ -18,8 +18,10 @@ import {
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
+import { evaluateTestMetrics } from "./src/testevalmetric.mts"
 import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import {
+    MODEL_ALIAS_EVAL,
     EFFORTS,
     MODEL_ALIAS_STORE,
     PROMPTPEX_CONTEXT,
@@ -182,19 +184,6 @@ promptPex:
             ],
             uiGroup: "Generation",
         },
-        evalModel: {
-            type: "string",
-            description:
-                "Model used to evaluate rules (you can also override the model alias 'eval')",
-            uiSuggestions: [
-                "openai:gpt-4o",
-                "azure:gpt-4o",
-                "ollama:gemma3:27b",
-                "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-            ],
-            uiGroup: "Evaluation",
-        },
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
@@ -205,6 +194,19 @@ promptPex:
             type: "string",
             description:
                 "List of models to run the prompt again; semi-colon separated",
+        },
+        evalModel: {
+            type: "string",
+            description:
+                "List of models to use for test evaluation; semi-colon separated",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "azure:gpt-4o",
+                "ollama:gemma3:27b",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+            uiGroup: "Evaluation",
         },
         compliance: {
             type: "boolean",
@@ -388,6 +390,8 @@ user:
     },
 })
 
+const dbg = host.logger("promptpex:main")
+
 const { output, vars } = env
 const {
     out,
@@ -402,7 +406,6 @@ const {
     compliance,
     baselineModel,
     rulesModel,
-    evalModel,
     storeCompletions,
     storeModel,
     maxTestsToRun,
@@ -432,9 +435,16 @@ const {
     testExpansionInstructions?: string
 }
 
+dbg(`PromptPex starting = compliance: %0`, compliance)
+
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
+    .split(/;/g)
+    .filter(Boolean)
+const evalModel: string[] = (
+    vars.evalModel || process.env.GENAISCRIPT_MODEL_EVAL
+)
     .split(/;/g)
     .filter(Boolean)
 const options = {
@@ -452,7 +462,6 @@ const options = {
     baselineModel,
     rulesModel,
     storeCompletions,
-    evalModel,
     storeModel,
     testsPerRule,
     maxTestsToRun,
@@ -461,6 +470,7 @@ const options = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
+    evalModel,
     splitRules,
     maxRulesPerTestGeneration,
     testGenerations,
@@ -476,6 +486,16 @@ const options = {
     ...efforts,
 } satisfies PromptPexOptions
 
+// I need copy this - I'm not sure why
+options.compliance = compliance ?? options.compliance
+dbg(
+    `PromptPex starting = compliance ${compliance}, options.compliance: ${options.compliance}`
+)
+
+dbg(
+    `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
+)
+
 if (env.files[0] && promptText)
     cancel(
         "You can only provide either a prompt file or prompt text, not both."
@@ -487,6 +507,16 @@ initPerf({ output })
 
 const file = env.files[0] || { filename: "", content: promptText }
 let files = await loadPromptFiles(file, options)
+
+// If env.files[0] exists, compute the path to that filename in a variable
+let envFilePath: string | undefined = undefined
+if (env.files && env.files[0] && env.files[0].filename) {
+    const envFilename = env.files[0].filename
+    envFilePath = path.isAbsolute(envFilename)
+        ? envFilename
+        : path.join(files.dir, envFilename)
+    dbg(`Computed envFilePath: ${envFilePath}`)
+}
 
 if (diagnostics) {
     output.heading(2, `PromptPex Diagnostics`)
@@ -508,6 +538,17 @@ if (modelsUnderTest?.length) {
         if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
         output.item(`${resolved.provider}:${resolved.model}`)
     }
+}
+
+if (evalModel?.length) {
+    output.heading(2, `Evaluation Models`)
+    for (const eModel of evalModel) {
+        const resolved = await host.resolveLanguageModel(eModel)
+        if (!resolved) throw new Error(`Model ${eModel} not found`)
+        output.item(`${resolved.provider}:${resolved.model}`)
+    }
+} else {
+    cancel("No evaluation model defined.")
 }
 
 // use context state if available
@@ -614,6 +655,21 @@ if (createEvalRuns) {
     output.warn(
         `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
     )
+    if (options.evalModel?.length && loadContext) {
+        output.note(`Evaluating saved test results using evalModel.`)
+        const results = JSON.parse(files.testOutputs.content)
+        // Evaluate metrics for all test results
+        for (const testRes of results) {
+            const newResult = await evaluateTestMetrics(testRes, files, options)
+            testRes.metrics = newResult.metrics
+        }
+
+        await workspace.writeText(
+            files.testOutputs.filename,
+            JSON.stringify(results, null, 2)
+        )
+        output.detailsFenced(`results (json)`, results, "json")
+    }
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Runs with Models Under Test`)
@@ -629,8 +685,14 @@ if (createEvalRuns) {
     for (const metric of files.metrics)
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
+    output.itemValue(`evaluation models`, evalModel.join(", "))
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
+
+    // Evaluate metrics for all test results
+    for (const testRes of results) {
+        await evaluateTestMetrics(testRes, files, options)
+    }
     output.detailsFenced(`results (json)`, results, "json")
 
     output.table(

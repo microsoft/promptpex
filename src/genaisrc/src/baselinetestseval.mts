@@ -9,8 +9,8 @@ export async function evaluateBaselineTests(
     files: PromptPexContext,
     options?: PromptPexOptions & { force?: boolean }
 ) {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
-    const moptions = modelOptions(evalModel, options)
+    // assume first evalModel is the one to use for baseline tests
+    const moptions = modelOptions(options.evalModel[0], options)
     const inputSpec = files.inputSpec.content
     const baselineTests = parseBaselineTests(files)
 
