@@ -20,6 +20,7 @@ import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import { evaluateTestMetrics } from "./src/testevalmetric.mts"
 import type {
+    PromptPexContext,
     PromptPexOptions,
     PromptPexTest,
     PromptPexTestResult,
@@ -84,7 +85,7 @@ promptPex:
 
 </details>
 `,
-    accept: ".prompty,.md,.txt",
+    accept: ".prompty,.md,.txt,.json",
     parameters: {
         prompt: {
             type: "string",
@@ -508,6 +509,8 @@ dbg(
     `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
 )
 
+dbg(`PromptPex starting: env.files[0] ${env.files[0]}`)
+
 if (env.files[0] && promptText)
     cancel(
         "You can only provide either a prompt file or prompt text, not both."
@@ -517,31 +520,31 @@ if (!env.files[0] && !promptText)
 
 initPerf({ output })
 
-const file = env.files[0] || { filename: "", content: promptText }
-let files = await loadPromptFiles(file, options)
+// determine the source of the prompt to use
 
-// If env.files[0] exists, compute the path to that filename in a variable
-let envFilePath: string | undefined = undefined
-if (env.files && env.files[0] && env.files[0].filename) {
-    const envFilename = env.files[0].filename
-    envFilePath = path.isAbsolute(envFilename)
-        ? envFilename
-        : path.join(files.dir, envFilename)
-    dbg(`Computed envFilePath: ${envFilePath}`)
-}
-
-if (diagnostics) {
-    output.heading(2, `PromptPex Diagnostics`)
-    await generateReports(files)
-    if (createEvalRuns) {
-        const evals = await evalsListEvals()
-        if (!evals.ok) throw new Error("evals configuration not found")
+const file0 = env.files[0]
+let file: any
+if (file0 && file0.filename) {
+    const ext = path.extname(file0.filename)
+    if (ext === ".prompty") {
+        file = file0
+    } else if (ext === ".json") {
+        // Set loadContext and loadContextFile to the path to env.files[0]
+        options.loadContext = true
+        options.loadContextFile = path.isAbsolute(file0.filename)
+            ? file0.filename
+            : path.join(process.cwd(), file0.filename)
+    } else {
+        file = file0
     }
-    await checkConfirm("diag")
+} else {
+    file = { filename: "CLI.prompty", content: promptText }
 }
 
 output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
+
+// preliminary checking
 
 if (modelsUnderTest?.length) {
     output.heading(3, `Models Under Test`)
@@ -564,9 +567,46 @@ if (evals)
         cancel("No evaluation model defined.")
     }
 
+// process the prompt file (or read the context file)
+
+let files: PromptPexContext
+if (!options.loadContext) files = await loadPromptFiles(file, options)
+
 // use context state if available
 
-if (!options.loadContext) {
+if (options.loadContext) {
+    output.heading(3, `Loading context from file`)
+    const newOut = options.out
+    output.appendContent(
+        `loading PromptPexContext from ${options.loadContextFile}`
+    )
+    files = await restoreContextState(options.loadContextFile)
+    updateOutput(newOut, files)
+
+    // Save the contents of the prompt file to the out directory with the original prompt file name
+    if (
+        files.prompt &&
+        files.prompt.filename &&
+        files.prompt.content &&
+        options.out
+    ) {
+        const promptOutPath = path.join(
+            options.out,
+            path.basename(files.prompt.filename)
+        )
+        await workspace.writeText(promptOutPath, files.prompt.content)
+        dbg(`Saved prompt file to ${promptOutPath}`)
+    }
+} else {
+    if (diagnostics) {
+        output.heading(2, `PromptPex Diagnostics`)
+        await generateReports(files)
+        if (createEvalRuns) {
+            const evals = await evalsListEvals()
+            if (!evals.ok) throw new Error("evals configuration not found")
+        }
+        await checkConfirm("diag")
+    }
     // prompt info
     output.heading(3, `Prompt Under Test`)
     output.itemValue(`filename`, files.prompt.filename)
@@ -616,14 +656,6 @@ if (!options.loadContext) {
     output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
     await checkConfirm("test")
-} else {
-    output.heading(3, `Loading context from file`)
-    const newOut = options.out
-    output.appendContent(
-        `loading PromptPexContext from ${options.loadContextFile}`
-    )
-    files = await restoreContextState(options.loadContextFile)
-    updateOutput(newOut, files)
 }
 
 if (testExpansions > 0) {
@@ -668,7 +700,8 @@ if (createEvalRuns) {
     output.warn(
         `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
     )
-    if (options.evalModel?.length && loadContext) {
+
+    if (options.evalModel?.length && options.loadContext) {
         output.note(`Evaluating saved test results using evalModel.`)
         const results = JSON.parse(files.testOutputs.content)
         // Evaluate metrics for all test results
