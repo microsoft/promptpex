@@ -19,7 +19,11 @@ import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
 import { evaluateTestMetrics } from "./src/testevalmetric.mts"
-import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
+import type {
+    PromptPexOptions,
+    PromptPexTest,
+    PromptPexTestResult,
+} from "./src/types.mts"
 import {
     MODEL_ALIAS_EVAL,
     EFFORTS,
@@ -663,11 +667,13 @@ if (createEvalRuns) {
             const newResult = await evaluateTestMetrics(testRes, files, options)
             testRes.metrics = newResult.metrics
         }
+        files.testOutputs.content = JSON.stringify(results, null, 2)
 
-        await workspace.writeText(
-            files.testOutputs.filename,
-            JSON.stringify(results, null, 2)
-        )
+        if (files.writeResults)
+            await workspace.writeText(
+                files.testOutputs.filename,
+                JSON.stringify(results, null, 2)
+            )
         output.detailsFenced(`results (json)`, results, "json")
     }
 } else {
@@ -689,10 +695,19 @@ if (createEvalRuns) {
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
 
+    let newResult: PromptPexTestResult
     // Evaluate metrics for all test results
     for (const testRes of results) {
-        await evaluateTestMetrics(testRes, files, options)
+        newResult = await evaluateTestMetrics(testRes, files, options)
+        testRes.metrics = newResult.metrics
     }
+    files.testOutputs.content = JSON.stringify(results, null, 2)
+
+    if (files.writeResults)
+        await workspace.writeText(
+            files.testOutputs.filename,
+            JSON.stringify(results, null, 2)
+        )
     output.detailsFenced(`results (json)`, results, "json")
 
     output.table(

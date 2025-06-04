@@ -240,7 +240,7 @@ async function runTest(
 
     if (file)
         await workspace.writeText(
-            file.filename,
+            files.testOutputs.filename,
             JSON.stringify(testRes, null, 2)
         )
     return testRes
