@@ -122,6 +122,12 @@ promptPex:
             description: "Cache eval evaluation results in files.",
             uiGroup: "Cache",
         },
+        evals: {
+            type: "boolean",
+            description: "Evaluate the test results",
+            uiGroup: "Evaluation",
+            default: false,
+        },
         testsPerRule: {
             type: "integer",
             description:
@@ -401,6 +407,7 @@ const {
     out,
     cache,
     evalCache,
+    evals,
     disableSafety,
     testRunCache,
     inputSpecInstructions,
@@ -455,6 +462,7 @@ const options = {
     cache,
     testRunCache,
     evalCache,
+    evals,
     disableSafety,
     instructions: {
         inputSpec: inputSpecInstructions,
@@ -544,16 +552,17 @@ if (modelsUnderTest?.length) {
     }
 }
 
-if (evalModel?.length) {
-    output.heading(2, `Evaluation Models`)
-    for (const eModel of evalModel) {
-        const resolved = await host.resolveLanguageModel(eModel)
-        if (!resolved) throw new Error(`Model ${eModel} not found`)
-        output.item(`${resolved.provider}:${resolved.model}`)
+if (evals)
+    if (evalModel?.length) {
+        output.heading(2, `Evaluation Models`)
+        for (const eModel of evalModel) {
+            const resolved = await host.resolveLanguageModel(eModel)
+            if (!resolved) throw new Error(`Model ${eModel} not found`)
+            output.item(`${resolved.provider}:${resolved.model}`)
+        }
+    } else {
+        cancel("No evaluation model defined.")
     }
-} else {
-    cancel("No evaluation model defined.")
-}
 
 // use context state if available
 
@@ -655,7 +664,7 @@ await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)
-} else if (!modelsUnderTest?.length && !storeCompletions) {
+} else if (evals && !modelsUnderTest?.length && !storeCompletions) {
     output.warn(
         `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
     )
@@ -695,20 +704,23 @@ if (createEvalRuns) {
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
 
-    let newResult: PromptPexTestResult
-    // Evaluate metrics for all test results
-    for (const testRes of results) {
-        newResult = await evaluateTestMetrics(testRes, files, options)
-        testRes.metrics = newResult.metrics
-    }
-    files.testOutputs.content = JSON.stringify(results, null, 2)
+    // only measure metrics if eval is true
+    if (evals) {
+        let newResult: PromptPexTestResult
+        // Evaluate metrics for all test results
+        for (const testRes of results) {
+            newResult = await evaluateTestMetrics(testRes, files, options)
+            testRes.metrics = newResult.metrics
+        }
+        files.testOutputs.content = JSON.stringify(results, null, 2)
 
-    if (files.writeResults)
-        await workspace.writeText(
-            files.testOutputs.filename,
-            JSON.stringify(results, null, 2)
-        )
-    output.detailsFenced(`results (json)`, results, "json")
+        if (files.writeResults)
+            await workspace.writeText(
+                files.testOutputs.filename,
+                JSON.stringify(results, null, 2)
+            )
+        output.detailsFenced(`results (json)`, results, "json")
+    }
 
     output.table(
         results.map(
