@@ -53,8 +53,8 @@ export async function evaluateTestQuality(
     options?: PromptPexOptions & { force?: boolean }
 ): Promise<PromptPexTestEval> {
 
-    const { force, evalModelSet = MODEL_ALIAS_EVAL } = options || {}
-    const evalModel = evalModelSet[0]
+    const { force } = options || {}
+    const evalModel = options.evalModel[0]
 
     // const { force, evalModel = MODEL_ALIAS_EVAL } = options || {}
     const { id, promptid, file } = await resolveTestEvalPath(

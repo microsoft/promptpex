@@ -195,7 +195,7 @@ promptPex:
             description:
                 "List of models to run the prompt again; semi-colon separated",
         },
-        evalModelSet: {
+        evalModel: {
             type: "string",
             description:
                 "List of models to use for test evaluation; semi-colon separated",
@@ -442,8 +442,8 @@ if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
-const evalModelSet: string[] = (
-    vars.evalModelSet || process.env.GENAISCRIPT_MODEL_EVAL
+const evalModel: string[] = (
+    vars.evalModel || process.env.GENAISCRIPT_MODEL_EVAL
 )
     .split(/;/g)
     .filter(Boolean)
@@ -470,7 +470,7 @@ const options = {
     compliance,
     baselineTests: false,
     modelsUnderTest,
-    evalModelSet,
+    evalModel,
     splitRules,
     maxRulesPerTestGeneration,
     testGenerations,
@@ -493,7 +493,7 @@ dbg(
 )
 
 dbg(
-    `PromptPex evalModelSet: ${evalModelSet}, options.evalModelSet: ${options.evalModelSet}`
+    `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
 )
 
 if (env.files[0] && promptText)
@@ -540,11 +540,11 @@ if (modelsUnderTest?.length) {
     }
 }
 
-if (evalModelSet?.length) {
+if (evalModel?.length) {
     output.heading(2, `Evaluation Models`)
-    for (const evalModel of evalModelSet) {
-        const resolved = await host.resolveLanguageModel(evalModel)
-        if (!resolved) throw new Error(`Model ${evalModel} not found`)
+    for (const eModel of evalModel) {
+        const resolved = await host.resolveLanguageModel(eModel)
+        if (!resolved) throw new Error(`Model ${eModel} not found`)
         output.item(`${resolved.provider}:${resolved.model}`)
     }
 } else {
@@ -655,8 +655,8 @@ if (createEvalRuns) {
     output.warn(
         `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
     )
-    if (options.evalModelSet?.length && loadContext) {
-        output.note(`Evaluating saved test results using evalModelSet.`)
+    if (options.evalModel?.length && loadContext) {
+        output.note(`Evaluating saved test results using evalModel.`)
         const results = JSON.parse(files.testOutputs.content)
         // Evaluate metrics for all test results
         for (const testRes of results) {
@@ -685,7 +685,7 @@ if (createEvalRuns) {
     for (const metric of files.metrics)
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
-    output.itemValue(`evaluation models`, evalModelSet.join(", "))
+    output.itemValue(`evaluation models`, evalModel.join(", "))
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
 

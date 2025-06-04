@@ -24,28 +24,28 @@ export async function evaluateTestMetrics(
     // Remove all previous metrics before computing new ones
     testResult.metrics = {}
 
-    for (const evalModel of options.evalModelSet) {
-        dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, evalModel)
+    for (const eModel of options.evalModel) {
+        dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, eModel)
         for (const metric of metrics) {
-            const key = metricName(metric)+"|em|"+evalModel
-            const res = await evaluateTestMetric(metric, evalModel, files, testResult, options)
+            const key = metricName(metric)+"|em|"+eModel
+            const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
             testResult.metrics[key] = res
         }
     }
     // After all evalModels, compute combined metric for each metric
-    let evalModelSetArr: string[] = []
-    if (typeof options.evalModelSet === "string") {
-        evalModelSetArr = options.evalModelSet.split(";").map(s => s.trim()).filter(Boolean)
-    } else if (Array.isArray(options.evalModelSet)) {
-        evalModelSetArr = options.evalModelSet
+    let evalModelArr: string[] = []
+    if (typeof options.evalModel === "string") {
+        evalModelArr = options.evalModel.split(";").map(s => s.trim()).filter(Boolean)
+    } else if (Array.isArray(options.evalModel)) {
+        evalModelArr = options.evalModel
     }
     for (const metric of metrics) {
         const n = metricName(metric)
-        const keys = evalModelSetArr.map((evalModel) => `${n}|em|${evalModel}`)
+        const keys = evalModelArr.map((eModel) => `${n}|em|${eModel}`)
         const metricResults = keys
             .map((k) => testResult.metrics[k])
             .filter((m) => m && typeof m.score === "number" && !isNaN(m.score))
-        if (metricResults.length > 0 && evalModelSetArr.length > 1) {
+        if (metricResults.length > 0 && evalModelArr.length > 1) {
             const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
             testResult.metrics[`${n}|em|combined`] = {
                 score: avgScore,

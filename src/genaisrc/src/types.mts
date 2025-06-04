@@ -124,7 +124,7 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     /**
      * List of models to use for test evaluation
      */
-    evalModelSet?: ModelType[] | "eval"
+    evalModel?: ModelType[] | "eval"
 
     /**
      * Split rules/inverse rules in separate prompts
