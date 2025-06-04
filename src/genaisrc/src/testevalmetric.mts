@@ -16,10 +16,13 @@ export async function evaluateTestMetrics(
     testResult: PromptPexTestResult,
     files: PromptPexContext,
     options: PromptPexOptions
-) {
+): Promise<PromptPexTestResult> {
     const { metrics } = files
 
     checkConfirm("metric")
+
+    // Remove all previous metrics before computing new ones
+    testResult.metrics = {}
 
     for (const evalModel of options.evalModelSet) {
         dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, evalModel)
@@ -51,6 +54,7 @@ export async function evaluateTestMetrics(
             }
         }
     }
+    return testResult
 }
 
 async function evaluateTestMetric(

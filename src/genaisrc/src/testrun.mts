@@ -229,7 +229,6 @@ async function runTest(
 
 
     if (compliance) {
-
         const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
         const evalModel = evalModelSet[0]
         testRes.compliance = undefined
@@ -237,8 +236,6 @@ async function runTest(
         testRes.complianceText = compliance.content
         updateTestResultCompliant(testRes)
     }
-
-    await evaluateTestMetrics(testRes, files, options)
 
     if (file)
         await workspace.writeText(

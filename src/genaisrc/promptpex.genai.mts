@@ -18,6 +18,7 @@ import {
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { generateTests } from "./src/testgen.mts"
 import { runTests } from "./src/testrun.mts"
+import { evaluateTestMetrics } from "./src/testevalmetric.mts"
 import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
 import {
     MODEL_ALIAS_EVAL,
@@ -485,14 +486,15 @@ const options = {
     ...efforts,
 } satisfies PromptPexOptions
 
+// I need copy this - I'm not sure why
 options.compliance = compliance ?? options.compliance
 dbg(
-    `PromptPex starting = compliance: %0, options.compliance: %1`,
-    compliance,
-    options.compliance
+    `PromptPex starting = compliance ${compliance}, options.compliance: ${options.compliance}`
 )
 
-dbg(`PromptPex evalModelSet: %0`, evalModelSet)
+dbg(
+    `PromptPex evalModelSet: ${evalModelSet}, options.evalModelSet: ${options.evalModelSet}`
+)
 
 if (env.files[0] && promptText)
     cancel(
@@ -505,6 +507,16 @@ initPerf({ output })
 
 const file = env.files[0] || { filename: "", content: promptText }
 let files = await loadPromptFiles(file, options)
+
+// If env.files[0] exists, compute the path to that filename in a variable
+let envFilePath: string | undefined = undefined
+if (env.files && env.files[0] && env.files[0].filename) {
+    const envFilename = env.files[0].filename
+    envFilePath = path.isAbsolute(envFilename)
+        ? envFilename
+        : path.join(files.dir, envFilename)
+    dbg(`Computed envFilePath: ${envFilePath}`)
+}
 
 if (diagnostics) {
     output.heading(2, `PromptPex Diagnostics`)
@@ -643,6 +655,21 @@ if (createEvalRuns) {
     output.warn(
         `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
     )
+    if (options.evalModelSet?.length && loadContext) {
+        output.note(`Evaluating saved test results using evalModelSet.`)
+        const results = JSON.parse(files.testOutputs.content)
+        // Evaluate metrics for all test results
+        for (const testRes of results) {
+            const newResult = await evaluateTestMetrics(testRes, files, options)
+            testRes.metrics = newResult.metrics
+        }
+
+        await workspace.writeText(
+            files.testOutputs.filename,
+            JSON.stringify(results, null, 2)
+        )
+        output.detailsFenced(`results (json)`, results, "json")
+    }
 } else {
     // run tests against the model(s)
     output.heading(3, `Test Runs with Models Under Test`)
@@ -661,6 +688,11 @@ if (createEvalRuns) {
     output.itemValue(`evaluation models`, evalModelSet.join(", "))
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
+
+    // Evaluate metrics for all test results
+    for (const testRes of results) {
+        await evaluateTestMetrics(testRes, files, options)
+    }
     output.detailsFenced(`results (json)`, results, "json")
 
     output.table(
