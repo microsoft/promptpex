@@ -56,6 +56,11 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     evalCache?: boolean
 
     /**
+     * Evaluate the test results
+     */
+    evals?: boolean
+
+    /**
      * Cache runTest results
      */
     testRunCache?: boolean
