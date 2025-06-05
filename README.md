@@ -34,7 +34,7 @@ PromptPex provides the following capabilities:
 
 ## Responsible AI Transparency Note
 
-Please reference [./docs/responsible-ai-transparency-note.md](./docs/responsible-ai-transparency-note.md) for more information.
+Please reference [responsible-ai-transparency-note.md](./docs/src/content/docs/responsible-ai-transparency-note.md) for more information.
 
 ## Contributing
 
