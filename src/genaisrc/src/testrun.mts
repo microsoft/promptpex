@@ -1,5 +1,4 @@
-import { OutputItemListResponsesPage } from "openai/resources/evals/runs/output-items.mjs"
-import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -10,7 +9,6 @@ import {
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
-import { evaluateTestMetrics } from "./testevalmetric.mts"
 import { evaluateTestResult } from "./testresulteval.mts"
 import type {
     PromptPexContext,
@@ -36,7 +34,7 @@ export async function runTests(
     } = options || {}
     if (!modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
-    
+
     var rulesTests: PromptPexTest[] = []
     if (options.rateTests && options.filterTestCount > 0) {
         rulesTests = parseRulesTests(files.filteredTests.content)
@@ -79,12 +77,12 @@ export async function runTests(
     }[] = [
         storeCompletions
             ? {
-                  model: storeModel,
-                  metadata: {
-                      prompt: files.name,
-                      ...files.versions,
-                  },
-              }
+                model: storeModel,
+                metadata: {
+                    prompt: files.name,
+                    ...files.versions,
+                },
+            }
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
@@ -100,21 +98,21 @@ export async function runTests(
             )
             const testMetadata: Record<string, string> = metadata
                 ? {
-                      ...metadata,
-                      run: files.runId,
-                      scenario: test.scenario,
-                      testid: !isNaN(test.testid)
-                          ? String(test.testid)
-                          : undefined,
-                      ruleid: !isNaN(test.ruleid)
-                          ? String(test.ruleid)
-                          : undefined,
-                      baseline: test.baseline ? "true" : undefined,
-                      generation: !isNaN(test.generation)
-                          ? String(test.generation)
-                          : undefined,
-                      dataset: testi < ntraining ? "training" : "test",
-                  }
+                    ...metadata,
+                    run: files.runId,
+                    scenario: test.scenario,
+                    testid: !isNaN(test.testid)
+                        ? String(test.testid)
+                        : undefined,
+                    ruleid: !isNaN(test.ruleid)
+                        ? String(test.ruleid)
+                        : undefined,
+                    baseline: test.baseline ? "true" : undefined,
+                    generation: !isNaN(test.generation)
+                        ? String(test.generation)
+                        : undefined,
+                    dataset: testi < ntraining ? "training" : "test",
+                }
                 : undefined
             for (let ri = 0; ri < runsPerTest; ++ri) {
                 const testRes = await runTest(files, test, {
