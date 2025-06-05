@@ -74,6 +74,7 @@
     "promptpex:test-experience": "genaiscript run promptpex \"samples/demo/rate-customer-experience.prompty\"  --vars \"effort=min\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\"  --vars \"modelsUnderTest=ollama:llama3.2:1b\" --vars \"out=evals/test-experience\"",
     "ollama": "npm run ollama:stop && npm run ollama:start",
     "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
-    "ollama:stop": "docker stop ollama && docker rm ollama"
+    "ollama:stop": "docker stop ollama && docker rm ollama",
+    "start": "genaiscript run action --github-workspace"
   }
 }

@@ -1,0 +1,17 @@
+name: promptpex
+description: Action
+inputs:
+  github_token:
+    description: "GitHub token with `models: read` permission at least."
+    required: true
+  debug:
+    description: Enable debug logging.
+    required: false
+outputs:
+  text:
+    description: The generated text output.
+  data:
+    description: The generated JSON data output, parsed and stringified.
+runs:
+  using: docker
+  image: Dockerfile
