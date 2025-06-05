@@ -74,6 +74,7 @@ export async function loadPromptFiles(
     let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
     let ruleEvals = path.join(dir, "rule_evals.json")
     let ruleCoverage = path.join(dir, "rule_coverage.json")
+    const { messages } = await parsers.prompty(promptFile)
     const frontmatter = await validateFrontmatter(promptFile, {
         patchFrontmatter: true,
     })
@@ -121,6 +122,7 @@ export async function loadPromptFiles(
         name: basename,
         frontmatter,
         inputs,
+        messages,
         prompt: promptFile,
         testOutputs: await workspace.readText(testResults),
         intent: await workspace.readText(intent),

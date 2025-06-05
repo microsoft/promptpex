@@ -1,0 +1,161 @@
+const dbg = host.logger("promptpex:github:models")
+/*
+
+
+name: Custom LLM Evaluator Example
+description: Example showing how to use a custom LLM-based evaluator as a judge
+model: openai/gpt-4o
+modelParameters:
+  temperature: 0.3
+  maxTokens: 200
+
+testData:
+  - input: "What is machine learning?"
+    expected: "Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed."
+  - input: "Explain photosynthesis in simple terms"
+    expected: "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to create their own food and produce oxygen."
+  - input: "What are the benefits of exercise?"
+    expected: "Exercise improves physical health, mental well-being, helps maintain healthy weight, strengthens muscles and bones, and reduces the risk of chronic diseases."
+
+messages:
+  - role: system
+    content: You are a helpful and knowledgeable assistant that provides accurate, clear, and concise explanations on various topics.
+  - role: user
+    content: "{{input}}"
+
+evaluators:
+  # String-based evaluator for basic checks
+  - name: response-length-check
+    string:
+      contains: "is"
+  
+  # Custom LLM evaluator as a judge
+  - name: answer-quality-judge
+    llm:
+      modelId: openai/gpt-4o
+      systemPrompt: |
+        You are an expert judge evaluating the quality of answers to questions. 
+        You must assess how well the actual answer compares to the expected answer in terms of:
+        1. Accuracy of information
+        2. Completeness of the response
+        3. Clarity and understandability
+        
+        Rate the answer on a scale from 1-5 where:
+        1 = Poor (completely wrong or irrelevant)
+        2 = Below Average (partially correct but missing key information)
+        3 = Average (mostly correct with minor gaps)
+        4 = Good (accurate and complete with clear explanation)
+        5 = Excellent (exceptionally accurate, complete, and well-explained)
+        
+        You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
+      prompt: |
+        Question: {{input}}
+        
+        Expected Answer: {{expected}}
+        
+        Actual Answer: {{completion}}
+        
+        Please rate the actual answer compared to the expected answer using the 1-5 scale defined in your instructions. 
+        Consider accuracy, completeness, and clarity in your evaluation.
+        
+        Rating:
+      choices:
+        - choice: "1"
+          score: 0.0
+        - choice: "2" 
+          score: 0.25
+        - choice: "3"
+          score: 0.5
+        - choice: "4"
+          score: 0.75
+        - choice: "5"
+          score: 1.0
+  
+    */
+
+import type { PromptPexContext } from "./types.mts";
+
+export interface TestDataItem {
+  input: string;
+  expected: string;
+}
+
+type MessageRole = 'system' | 'user' | 'assistant'
+
+export interface Message {
+  role: MessageRole;
+  content: string;
+}
+
+export interface StringEvaluator {
+  contains?: string;
+}
+
+export interface LlmEvaluatorChoice {
+  choice: string;
+  score: number;
+}
+
+export interface LlmEvaluator {
+  modelId: string;
+  systemPrompt: string;
+  prompt: string;
+  choices: LlmEvaluatorChoice[];
+}
+
+export interface Evaluator {
+  name: string;
+  string?: StringEvaluator;
+  llm?: LlmEvaluator;
+}
+
+export interface GitHubModelsEvaluator {
+  name: string;
+  description?: string;
+  model: string;
+  modelParameters?: {
+    temperature?: number;
+    maxTokens?: number;
+  };
+  messages: Message[];
+  testData?: TestDataItem[];
+  evaluators?: Evaluator[];
+}
+
+export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsEvaluator> {
+  const { frontmatter } = files
+  const { name, description, model } = frontmatter;
+  const { parameters } = model || {}
+  const { temperature, max_tokens: maxTokens } = parameters || {}
+
+  const { model: resolvedModel } = await host.resolveLanguageModel(modelUnderTest)
+  dbg(`model: %s`, resolvedModel)
+  return {
+    name,
+    description,
+    model: resolvedModel,
+    modelParameters: {
+      temperature,
+      maxTokens
+    },
+    messages: messages.map(toMessage),
+  } satisfies GitHubModelsEvaluator
+
+  function toMessage(msg: ChatMessage): Message {
+    let content: string = ""
+    if (Array.isArray(msg.content)) {
+      content = msg.content.map(part => partToString(part)).join('\n')
+    } else content = partToString(msg.content)
+    return {
+      role: msg.role as MessageRole,
+      content
+    }
+  }
+
+  function partToString(part: string | ChatContentPart) {
+    if (typeof part === "string") return part
+    if (part.type === "text") return part.text
+    if (part.type === "file") return part.file.filename
+    return part.type
+  }
+}
