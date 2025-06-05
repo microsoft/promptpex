@@ -734,8 +734,13 @@ if (createEvalRuns) {
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
     output.itemValue(`evaluation models`, evalModel.join(", "))
-    output.heading(4, `Test Results`)
-    const results = await runTests(files, options)
+
+    // only run tests if modelsUnderTest is defined
+    let results = []
+    if (modelsUnderTest?.length) {
+        output.heading(4, `Test Results`)
+        results = await runTests(files, options)
+    }
 
     // only measure metrics if eval is true
     if (evals) {
@@ -772,9 +777,13 @@ if (createEvalRuns) {
                 input,
                 output,
                 ...Object.fromEntries(
-                    Object.entries(metrics).map(([k, v]) => [
+                    Object.entries(
+                        metrics && typeof metrics === "object" ? metrics : {}
+                    ).map(([k, v]) => [
                         k,
-                        renderEvaluation(v),
+                        v && typeof v === "object" && "content" in v
+                            ? renderEvaluation(v as any)
+                            : "",
                     ])
                 ),
                 compliance: renderEvaluationOutcome(testCompliance),
