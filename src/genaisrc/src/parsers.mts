@@ -160,7 +160,7 @@ export function cleanBaselineTests(content: string) {
 
 export function parseBaselineTests(files: PromptPexContext): PromptPexTest[] {
     const tests = cleanBaselineTests(files.baselineTests.content).map(
-        (l) => ({ testinput: l, baseline: true }) satisfies PromptPexTest
+        (l) => ({ testinput: l, baseline: true, groundtruth: "", groundtruthModel:""}) satisfies PromptPexTest
     )
     return tests
 }

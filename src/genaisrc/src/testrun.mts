@@ -197,6 +197,8 @@ async function runTest(
             error: "invalid test input",
             input: testInput,
             output: "invalid test input",
+            groundtruth: test.groundtruth,
+            groundtruthModel: test.groundtruthModel,
             metrics: {},
         } satisfies PromptPexTestResult
     }
