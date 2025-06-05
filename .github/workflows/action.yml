@@ -1,12 +1,9 @@
-name: Continuous Integration
+name: Action Continuous Integration
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
-      - main
+      - dev
 permissions:
   contents: read
 jobs:
@@ -24,3 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./
+        with:
+          prompt: |
+            system:
+            Is this joke funny?
+            user:
+            {{ input }}
+          effort: min
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          debug: true
