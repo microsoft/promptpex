@@ -227,9 +227,7 @@ async function runTest(
 
 
     if (compliance) {
-        // const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
-        // measure compliance with the first eval model
-        const eModel = options.evalModel[0]
+        const eModel = options?.evalModel?.[0] || "eval"
         testRes.compliance = undefined
         const compliance = await evaluateTestResult(files, eModel, testRes, options)
         testRes.complianceText = compliance.content
