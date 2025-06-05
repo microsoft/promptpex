@@ -274,6 +274,12 @@ promptPex:
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
             uiGroup: "Azure OpenAI Evals",
         },
+        groundtruthModel: {
+            type: "string",
+            description: "Model used to generate groundtruth",
+            uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
+            uiGroup: "Evaluation",
+        },
         customMetric: {
             type: "string",
             title: "Custom Test Evaluation Template",
@@ -420,6 +426,7 @@ const {
     rulesModel,
     storeCompletions,
     storeModel,
+    groundtruthModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -476,6 +483,7 @@ const options = {
     rulesModel,
     storeCompletions,
     storeModel,
+    groundtruthModel,
     testsPerRule,
     maxTestsToRun,
     runsPerTest,
@@ -553,6 +561,14 @@ if (modelsUnderTest?.length) {
         if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
         output.item(`${resolved.provider}:${resolved.model}`)
     }
+}
+
+if (groundtruthModel?.length) {
+    output.heading(3, `Groundtruth Model`)
+
+    const resolved = await host.resolveLanguageModel(groundtruthModel)
+    if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
+    output.item(`${resolved.provider}:${resolved.model}`)
 }
 
 if (evals)
@@ -736,10 +752,39 @@ if (createEvalRuns) {
     output.itemValue(`evaluation models`, evalModel.join(", "))
 
     // only run tests if modelsUnderTest is defined
+    let groundtruthResults: PromptPexTestResult[] = []
+    if (groundtruthModel?.length) {
+        output.heading(4, `Groundtruth Test Results`)
+        groundtruthResults = await runTests(files, options, true)
+    }
+
+    // Copy groundtruth outputs into files.promptPexTests, save to disk
+    if (groundtruthResults.length && Array.isArray(files.promptPexTests)) {
+        for (let i = 0; i < files.promptPexTests.length; ++i) {
+            if (
+                groundtruthResults[i] &&
+                typeof groundtruthResults[i].output === "string"
+            ) {
+                files.promptPexTests[i].groundtruth =
+                    groundtruthResults[i].output
+                files.promptPexTests[i].groundtruthModel = groundtruthModel
+                dbg(
+                    `Set groundtruth for test ${i} to ${groundtruthResults[i].output}`
+                )
+                dbg(`test[${i}]:`, files.promptPexTests[i])
+            }
+        }
+        dbg(`saving ${files.promptPexTests.length} tests with groundtruth`)
+        const resc = JSON.stringify(files.promptPexTests, null, 2)
+        files.tests.content = resc
+        if (files.writeResults) await workspace.writeFiles(files.tests)
+    }
+
+    // only run tests if modelsUnderTest is defined
     let results = []
     if (modelsUnderTest?.length) {
         output.heading(4, `Test Results`)
-        results = await runTests(files, options)
+        results = await runTests(files, options, false)
     }
 
     // only measure metrics if eval is true

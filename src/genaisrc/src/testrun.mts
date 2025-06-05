@@ -25,16 +25,18 @@ const { generator, output } = env
 
 export async function runTests(
     files: PromptPexContext,
-    options?: PromptPexOptions
+    options?: PromptPexOptions,
+    runGroundtruth: boolean = false
 ): Promise<PromptPexTestResult[]> {
     const {
+        groundtruthModel,
         modelsUnderTest,
         maxTestsToRun,
         storeCompletions,
         storeModel = MODEL_ALIAS_STORE,
         runsPerTest = 1,
     } = options || {}
-    if (!modelsUnderTest?.length && !storeCompletions)
+    if (!groundtruthModel?.length && !modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
     
     var rulesTests: PromptPexTest[] = []
@@ -73,7 +75,8 @@ export async function runTests(
         expanded: false,
     })
 
-    const modelsToRun: {
+
+    let modelsToRun: {
         model: ModelType
         metadata: Record<string, string>
     }[] = [
@@ -88,6 +91,22 @@ export async function runTests(
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
+
+    if (runGroundtruth  && groundtruthModel) {
+        modelsToRun = [
+            {
+                model: groundtruthModel,
+                metadata: { prompt: files.name, ...files.versions },
+            },
+        ]
+        dbg(
+        `running ${tests.length} tests (x ${runsPerTest}) with groundtruth model ${groundtruthModel} `
+    )
+    }   
+
+    dbg(
+        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsToRun.length} models`
+    )
 
     const ntraining = tests.length * TEST_TRAINING_DATASET_RATIO
     const testResults: PromptPexTestResult[] = []
