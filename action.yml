@@ -1,20 +1,20 @@
 name: promptpex
 description: Action
 inputs:
-  files:
-    description: "List of prompt files."
-    required: true
-  github_token:
-    description: "GitHub token with `models: read` permission at least."
-    required: true
-  debug:
-    description: Enable debug logging.
-    required: false
+    prompt:
+        description: "The prompt to use for generating text."
+        required: true
+    github_token:
+        description: "GitHub token with `models: read` permission at least."
+        required: true
+    debug:
+        description: Enable debug logging.
+        required: false
 outputs:
-  text:
-    description: The generated text output.
-  data:
-    description: The generated JSON data output, parsed and stringified.
+    text:
+        description: The generated text output.
+    data:
+        description: The generated JSON data output, parsed and stringified.
 runs:
-  using: docker
-  image: Dockerfile
+    using: docker
+    image: Dockerfile
