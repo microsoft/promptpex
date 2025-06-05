@@ -123,13 +123,19 @@ export interface GitHubModelsEvaluator {
 }
 
 export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsEvaluator> {
-  const { frontmatter } = files
+  const { frontmatter, promptPexTests } = files
   const { name, description, model } = frontmatter;
   const { parameters } = model || {}
   const { temperature, max_tokens: maxTokens } = parameters || {}
 
   const { model: resolvedModel } = await host.resolveLanguageModel(modelUnderTest)
   dbg(`model: %s`, resolvedModel)
+
+  const testData = promptPexTests.map(test => ({
+    input: test.testinput,
+    expected: test.expectedoutput // TODO: ground trush
+  }))
+
   return {
     name,
     description,
@@ -139,6 +145,7 @@ export async function githubModelsToEvaluator(modelUnderTest: string, messages: 
       maxTokens
     },
     messages: messages.map(toMessage),
+    testData,
   } satisfies GitHubModelsEvaluator
 
   function toMessage(msg: ChatMessage): Message {
