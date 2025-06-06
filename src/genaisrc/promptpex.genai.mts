@@ -547,16 +547,16 @@ if (modelsUnderTest?.length) {
     for (const modelUnderTest of modelsUnderTest) {
         const resolved = await host.resolveLanguageModel(modelUnderTest)
         if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
-        output.item(`${resolved.provider}:${resolved.model}`)
+        output.itemValue(resolved.provider, resolved.model)
     }
 }
 
-if (groundtruthModel?.length) {
+if (groundtruthModel) {
     output.heading(3, `Groundtruth Model`)
 
     const resolved = await host.resolveLanguageModel(groundtruthModel)
     if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
-    output.item(`${resolved.provider}:${resolved.model}`)
+    output.itemValue(resolved.provider, resolved.model)
 }
 
 if (evals)
@@ -741,7 +741,7 @@ if (createEvalRuns) {
 
     // only run tests if modelsUnderTest is defined
     let groundtruthResults: PromptPexTestResult[] = []
-    if (groundtruthModel?.length) {
+    if (groundtruthModel) {
         output.heading(4, `Groundtruth Test Results`)
         groundtruthResults = await runTests(files, { ...options, runGroundtruth: true })
     }
@@ -772,7 +772,7 @@ if (createEvalRuns) {
     let results = []
     if (modelsUnderTest?.length) {
         output.heading(4, `Test Results`)
-        results = await runTests(files, { ...options, runGroundtruth: false })
+        results = await runTests(files, options)
     }
 
     // only measure metrics if eval is true

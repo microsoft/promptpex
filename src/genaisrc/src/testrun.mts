@@ -36,7 +36,7 @@ export async function runTests(
         runsPerTest = 1,
         runGroundtruth
     } = options || {}
-    if (!groundtruthModel?.length && !modelsUnderTest?.length && !storeCompletions)
+    if (!groundtruthModel && !modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
 
     let rulesTests: PromptPexTest[] = []
@@ -76,10 +76,15 @@ export async function runTests(
     })
 
 
-    let modelsToRun: {
+    const modelsToRun: {
         model: ModelType
         metadata: Record<string, string>
-    }[] = [
+    }[] = runGroundtruth && groundtruthModel ? [
+        {
+            model: groundtruthModel,
+            metadata: { prompt: files.name, ...files.versions },
+        },
+    ] : [
         storeCompletions
             ? {
                 model: storeModel,
@@ -91,18 +96,6 @@ export async function runTests(
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
-
-    if (runGroundtruth && groundtruthModel) {
-        modelsToRun = [
-            {
-                model: groundtruthModel,
-                metadata: { prompt: files.name, ...files.versions },
-            },
-        ]
-        dbg(
-            `running ${tests.length} tests (x ${runsPerTest}) with groundtruth model ${groundtruthModel} `
-        )
-    }
 
     dbg(
         `running ${tests.length} tests (x ${runsPerTest}) with ${modelsToRun.length} models`
