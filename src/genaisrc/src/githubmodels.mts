@@ -1,3 +1,7 @@
+import type { PromptPexContext, PromptPexLoaderOptions, PromptPexPromptyFrontmatter } from "./types.mts";
+import { resolvePromptArgs } from "./resolvers.mts";
+import { GITHUB_MODELS_RX } from "./constants.mts";
+
 const dbg = host.logger("promptpex:github:models")
 /*
 
@@ -73,10 +77,8 @@ evaluators:
   
     */
 
-import type { PromptPexContext } from "./types.mts";
 
-export interface GitHubModelsTestDataItem {
-  input: string;
+export type GitHubModelsTestDataItem = Record<string, string> & {
   expected: string;
 }
 
@@ -122,6 +124,41 @@ export interface GitHubModelsPrompt {
   evaluators?: GitHubModelsEvaluator[];
 }
 
+export async function githubModelsToPrompty(
+  file: WorkspaceFile,
+  options?: PromptPexLoaderOptions
+): Promise<WorkspaceFile> {
+  dbg(`loading prompt: %s`, file.filename)
+  const prompt = YAML.parse(file.content) as GitHubModelsPrompt
+  const content = `---
+${YAML.stringify({
+    name: prompt.name,
+    description: prompt.description,
+    model: {
+      api: "chat",
+      configuration: {
+        name: "github:" + prompt.model,
+        azure_deployment: undefined,
+        azure_endpoint: undefined,
+      },
+      parameters: {
+        temperature: prompt.modelParameters?.temperature,
+        max_tokens: prompt.modelParameters?.maxTokens,
+      }
+    },
+    testSamples: prompt.testData?.map(item => item),
+  } satisfies PromptPexPromptyFrontmatter)}
+---
+${prompt.messages.map(msg => `${msg.role}:
+${messageContentToString(msg)}
+`).join("")}
+`
+  return {
+    filename: file.filename.replace(GITHUB_MODELS_RX, ".prompty"),
+    content
+  }
+}
+
 export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsPrompt> {
   const { frontmatter, promptPexTests } = files
   const { name, description, model } = frontmatter;
@@ -131,9 +168,9 @@ export async function githubModelsToEvaluator(modelUnderTest: string, messages: 
   const { model: resolvedModel } = await host.resolveLanguageModel(modelUnderTest)
   dbg(`model: %s`, resolvedModel)
 
-  const testData = promptPexTests.map(test => ({
-    input: test.testinput,
-    expected: test.expectedoutput // TODO: ground trush
+  const testData = promptPexTests.map(test => resolvePromptArgs(files, test)).map(test => ({
+    ...test.args,
+    expected: test.groundtruth
   }))
 
   return {
@@ -149,20 +186,25 @@ export async function githubModelsToEvaluator(modelUnderTest: string, messages: 
   } satisfies GitHubModelsPrompt
 
   function toMessage(msg: ChatMessage): GitHubModelsMessage {
-    let content: string = ""
-    if (Array.isArray(msg.content)) {
-      content = msg.content.map(part => partToString(part)).join('\n')
-    } else content = partToString(msg.content)
+    const content = messageContentToString(msg)
     return {
       role: msg.role as GitHubModelsMessageRole,
       content
     }
   }
+}
 
-  function partToString(part: string | ChatContentPart) {
-    if (typeof part === "string") return part
-    if (part.type === "text") return part.text
-    if (part.type === "file") return part.file.filename
-    return part.type
-  }
+function messageContentToString(msg: ChatMessage): string {
+  let content: string = ""
+  if (Array.isArray(msg.content)) {
+    content = msg.content.map(part => partToString(part)).join('\n')
+  } else content = partToString(msg.content)
+  return content
+}
+
+function partToString(part: string | ChatContentPart) {
+  if (typeof part === "string") return part
+  if (part.type === "text") return part.text
+  if (part.type === "file") return part.file.filename
+  return part.type
 }
