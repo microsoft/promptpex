@@ -747,36 +747,14 @@ if (createEvalRuns) {
 
     output.itemValue(`evaluation models`, evalModel.join(", "))
 
-    // only run tests if modelsUnderTest is defined
-    let groundtruthResults: PromptPexTestResult[] = []
+    // run once with groundtruth model if defined
     if (groundtruthModel) {
         output.heading(4, `Groundtruth Test Results`)
-        groundtruthResults = await runTests(files, {
+        await runTests(files, {
             ...options,
+            runsPerTest: 1,
             runGroundtruth: true,
         })
-    }
-
-    // Copy groundtruth outputs into files.promptPexTests, save to disk
-    if (groundtruthResults.length && Array.isArray(files.promptPexTests)) {
-        for (let i = 0; i < files.promptPexTests.length; ++i) {
-            if (
-                groundtruthResults[i] &&
-                typeof groundtruthResults[i].output === "string"
-            ) {
-                files.promptPexTests[i].groundtruth =
-                    groundtruthResults[i].output
-                files.promptPexTests[i].groundtruthModel = groundtruthModel
-                dbg(
-                    `Set groundtruth for test ${i} to ${groundtruthResults[i].output}`
-                )
-                dbg(`test[${i}]:`, files.promptPexTests[i])
-            }
-        }
-        dbg(`saving ${files.promptPexTests.length} tests with groundtruth`)
-        const resc = JSON.stringify(files.promptPexTests, null, 2)
-        files.tests.content = resc
-        if (files.writeResults) await workspace.writeFiles(files.tests)
     }
 
     // only run tests if modelsUnderTest is defined

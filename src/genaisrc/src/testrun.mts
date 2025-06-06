@@ -38,6 +38,8 @@ export async function runTests(
     } = options || {}
     if (!groundtruthModel && !modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
+    if (runGroundtruth && !groundtruthModel)
+        throw new Error("No groundtruth model provided for running tests")
 
     let rulesTests: PromptPexTest[] = []
     if (options.rateTests && options.filterTestCount > 0) {
@@ -79,10 +81,10 @@ export async function runTests(
     const modelsToRun: {
         model: ModelType
         metadata: Record<string, string>
-    }[] = runGroundtruth && groundtruthModel ? [
+    }[] = runGroundtruth ? [
         {
             model: groundtruthModel,
-            metadata: { prompt: files.name, ...files.versions },
+            metadata: { prompt: files.name, groundtruth: true, ...files.versions },
         },
     ] : [
         storeCompletions
@@ -136,10 +138,17 @@ export async function runTests(
                 })
                 assert(testRes.model)
                 if (testRes) {
+                    // store groundtruth
+                    if (runGroundtruth) {
+                        test.groundtruthModel = testRes.model
+                        test.groundtruth = testRes.output
+                    }
+
                     testResults.push(testRes)
                     await checkpoint()
                 }
             }
+
         }
     }
 
