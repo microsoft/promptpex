@@ -49,7 +49,7 @@ The first argument can be a Prompty file containing the prompt or a JSON file co
 ## Usage Example
 
 ```sh
-promptpex [<file.prompty>|<file.json>] --prompt myprompt.prompty --effort=medium --out=results/ --evals=true --modelsUnderTest="openai:gpt-4o;ollama:llama3.3:70b" --evalModel="openai:gpt-4o" --rateTests=true
+promptpex {file.prompty|file.json>} --prompt myprompt.prompty --effort=medium --out=results/ --evals=true --modelsUnderTest="openai:gpt-4o;ollama:llama3.3:70b" --evalModel="openai:gpt-4o" --rateTests=true
 ```
 
 ## Notes
