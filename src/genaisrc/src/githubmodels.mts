@@ -75,41 +75,41 @@ evaluators:
 
 import type { PromptPexContext } from "./types.mts";
 
-export interface TestDataItem {
+export interface GitHubModelsTestDataItem {
   input: string;
   expected: string;
 }
 
-type MessageRole = 'system' | 'user' | 'assistant'
+export type GitHubModelsMessageRole = 'system' | 'user' | 'assistant'
 
-export interface Message {
-  role: MessageRole;
+export interface GitHubModelsMessage {
+  role: GitHubModelsMessageRole;
   content: string;
 }
 
-export interface StringEvaluator {
+export interface GitHubModelsStringEvaluator {
   contains?: string;
 }
 
-export interface LlmEvaluatorChoice {
+export interface GitHubModelsLlmEvaluatorChoice {
   choice: string;
   score: number;
 }
 
-export interface LlmEvaluator {
+export interface GitHubModelsLlmEvaluator {
   modelId: string;
   systemPrompt: string;
   prompt: string;
-  choices: LlmEvaluatorChoice[];
-}
-
-export interface Evaluator {
-  name: string;
-  string?: StringEvaluator;
-  llm?: LlmEvaluator;
+  choices: GitHubModelsLlmEvaluatorChoice[];
 }
 
 export interface GitHubModelsEvaluator {
+  name: string;
+  string?: GitHubModelsStringEvaluator;
+  llm?: GitHubModelsLlmEvaluator;
+}
+
+export interface GitHubModelsPrompt {
   name: string;
   description?: string;
   model: string;
@@ -117,12 +117,12 @@ export interface GitHubModelsEvaluator {
     temperature?: number;
     maxTokens?: number;
   };
-  messages: Message[];
-  testData?: TestDataItem[];
-  evaluators?: Evaluator[];
+  messages: GitHubModelsMessage[];
+  testData?: GitHubModelsTestDataItem[];
+  evaluators?: GitHubModelsEvaluator[];
 }
 
-export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsEvaluator> {
+export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsPrompt> {
   const { frontmatter, promptPexTests } = files
   const { name, description, model } = frontmatter;
   const { parameters } = model || {}
@@ -146,15 +146,15 @@ export async function githubModelsToEvaluator(modelUnderTest: string, messages: 
     },
     messages: messages.map(toMessage),
     testData,
-  } satisfies GitHubModelsEvaluator
+  } satisfies GitHubModelsPrompt
 
-  function toMessage(msg: ChatMessage): Message {
+  function toMessage(msg: ChatMessage): GitHubModelsMessage {
     let content: string = ""
     if (Array.isArray(msg.content)) {
       content = msg.content.map(part => partToString(part)).join('\n')
     } else content = partToString(msg.content)
     return {
-      role: msg.role as MessageRole,
+      role: msg.role as GitHubModelsMessageRole,
       content
     }
   }
