@@ -307,7 +307,7 @@ export function renderEvaluationOutcome(outcome: PromptPexEvalResultType) {
 
 export function renderEvaluation(res: PromptPexEvaluation) {
     const { score, outcome } = res
-    if (typeof score === "number") return String(score)
+    if (typeof score === "number") return score.toFixed(2)
     return renderEvaluationOutcome(outcome)
 }
 
