@@ -755,7 +755,7 @@ if (createEvalRuns) {
     let groundtruthResults: PromptPexTestResult[] = []
     if (groundtruthModel?.length) {
         output.heading(4, `Groundtruth Test Results`)
-        groundtruthResults = await runTests(files, options, true)
+        groundtruthResults = await runTests(files, { ...options, runGroundtruth: true })
     }
 
     // Copy groundtruth outputs into files.promptPexTests, save to disk
@@ -784,7 +784,7 @@ if (createEvalRuns) {
     let results = []
     if (modelsUnderTest?.length) {
         output.heading(4, `Test Results`)
-        results = await runTests(files, options, false)
+        results = await runTests(files, { ...options, runGroundtruth: false })
     }
 
     // only measure metrics if eval is true
