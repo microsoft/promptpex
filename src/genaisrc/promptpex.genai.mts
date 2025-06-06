@@ -188,6 +188,7 @@ promptPex:
                 "Model used to generate rules (you can also override the model alias 'rules')",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "github:openai/gpt-4o",
                 "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
@@ -198,7 +199,7 @@ promptPex:
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            uiSuggestions: ["openai:gpt-4o", "azure:gpt-4o"],
+            uiSuggestions: ["openai:gpt-4o", "github:/openai/gpt-4o", "azure:gpt-4o"],
             uiGroup: "Evaluation",
         },
         modelsUnderTest: {
@@ -212,6 +213,7 @@ promptPex:
                 "List of models to use for test evaluation; semi-colon separated",
             uiSuggestions: [
                 "openai:gpt-4o",
+                "github:openai/gpt-4o",
                 "azure:gpt-4o",
                 "ollama:gemma3:27b",
                 "ollama:llama3.3:70b",
@@ -391,7 +393,7 @@ user:
         },
         loadContext: {
             type: "boolean",
-            description: "Load contenxt from a file.",
+            description: "Load context from a file.",
             default: false,
             required: false,
             uiGroup: "Generation",
@@ -454,8 +456,6 @@ const {
     testExpansionInstructions?: string
 }
 
-dbg(`PromptPex starting = compliance: %0`, compliance)
-
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
@@ -509,16 +509,6 @@ const options = {
 
 // I need copy this - I'm not sure why
 options.compliance = compliance ?? options.compliance
-dbg(
-    `PromptPex starting = compliance ${compliance}, options.compliance: ${options.compliance}`
-)
-
-dbg(
-    `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
-)
-
-dbg(`PromptPex starting: env.files[0] ${env.files[0]}`)
-
 if (env.files[0] && promptText)
     cancel(
         "You can only provide either a prompt file or prompt text, not both."
@@ -527,8 +517,6 @@ if (!env.files[0] && !promptText)
     cancel("No prompt file or prompt text provided.")
 
 initPerf({ output })
-
-// determine the source of the prompt to use
 
 const file0 = env.files[0]
 let file: any
