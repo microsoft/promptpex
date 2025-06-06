@@ -793,11 +793,13 @@ if (createEvalRuns) {
                 output,
                 compliance: testCompliance,
                 metrics,
+                groundtruth,
             }) => ({
                 model,
                 scenario,
                 input,
                 output,
+                groundtruth: groundtruth,
                 ...Object.fromEntries(
                     Object.entries(
                         metrics && typeof metrics === "object" ? metrics : {}

@@ -1,5 +1,5 @@
 import { checkConfirm } from "./confirm.mts"
-import { MODEL_ALIAS_EVAL } from "./constants.mts"
+import { METRIC_SEPARATOR, MODEL_ALIAS_EVAL } from "./constants.mts"
 import { modelOptions, checkLLMEvaluation, metricName } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -27,7 +27,7 @@ export async function evaluateTestMetrics(
     for (const eModel of options.evalModel) {
         dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, eModel)
         for (const metric of metrics) {
-            const key = metricName(metric)+"|em|"+eModel
+            const key = metricName(metric)+METRIC_SEPARATOR+eModel
             const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
             testResult.metrics[key] = res
         }
@@ -41,13 +41,13 @@ export async function evaluateTestMetrics(
     }
     for (const metric of metrics) {
         const n = metricName(metric)
-        const keys = evalModelArr.map((eModel) => `${n}|em|${eModel}`)
+        const keys = evalModelArr.map((eModel) => `${n}${METRIC_SEPARATOR}${eModel}`)
         const metricResults = keys
             .map((k) => testResult.metrics[k])
             .filter((m) => m && typeof m.score === "number" && !isNaN(m.score))
         if (metricResults.length > 0 && evalModelArr.length > 1) {
             const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
-            testResult.metrics[`${n}|em|combined`] = {
+            testResult.metrics[`${n}${METRIC_SEPARATOR}combined`] = {
                 score: avgScore,
                 outcome: undefined,
                 content: `Average of evalModels: ${keys.join(", ")}`,
