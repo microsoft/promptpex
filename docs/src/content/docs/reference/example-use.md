@@ -53,5 +53,5 @@ The test collection review output will be saved in `results/myprompt/test_collec
 
 ## Notes
 
-- For more details on prompt format and advanced usage, see the [overview](/promptpex/reference/overview).
+- For more details on prompt format and advanced usage, see the [overview](/promptpex/reference).
 
