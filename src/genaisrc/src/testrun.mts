@@ -248,6 +248,8 @@ async function runTest(
         input: testInput,
         output: actualOutput,
         metrics: {},
+        groundtruth: test.groundtruth ? test.groundtruth : undefined,
+        groundtruthModel: test.groundtruthModel ? test.groundtruthModel : undefined,
     } satisfies PromptPexTestResult
 
 
