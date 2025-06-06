@@ -189,14 +189,14 @@ export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
         maxRules: 20,
         maxRulesPerTestGeneration: 5,
         splitRules: true,
-        testGenerations: 1,  
+        testGenerations: 1,
     },
     high: {
         testExpansions: 1,
         maxRules: 50,
         maxRulesPerTestGeneration: 2,
         splitRules: true,
-        testGenerations: 2,  
+        testGenerations: 2,
     },
 }
 
@@ -231,3 +231,5 @@ const okErrorOutputFormat = `
 - Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
 - Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
 `
+
+export const GITHUB_MODELS_RX = /\.prompt\.yml$/

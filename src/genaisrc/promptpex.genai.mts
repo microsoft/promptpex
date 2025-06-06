@@ -85,12 +85,12 @@ promptPex:
 
 </details>
 `,
-    accept: ".prompty,.md,.txt,.json",
+    accept: ".prompty,.md,.txt,.json,.prompt.yml",
     parameters: {
         prompt: {
             type: "string",
             description:
-                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
+                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts. prompt.yml is the GitHub Models format.",
             required: false,
             uiType: "textarea",
         },
