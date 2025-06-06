@@ -1,5 +1,4 @@
-import { OutputItemListResponsesPage } from "openai/resources/evals/runs/output-items.mjs"
-import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -10,7 +9,6 @@ import {
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
-import { evaluateTestMetrics } from "./testevalmetric.mts"
 import { evaluateTestResult } from "./testresulteval.mts"
 import type {
     PromptPexContext,
@@ -25,19 +23,25 @@ const { generator, output } = env
 
 export async function runTests(
     files: PromptPexContext,
-    options?: PromptPexOptions
+    options?: PromptPexOptions & {
+        runGroundtruth?: boolean
+    }
 ): Promise<PromptPexTestResult[]> {
     const {
+        groundtruthModel,
         modelsUnderTest,
         maxTestsToRun,
         storeCompletions,
         storeModel = MODEL_ALIAS_STORE,
         runsPerTest = 1,
+        runGroundtruth
     } = options || {}
-    if (!modelsUnderTest?.length && !storeCompletions)
+    if (!groundtruthModel && !modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
-    
-    var rulesTests: PromptPexTest[] = []
+    if (runGroundtruth && !groundtruthModel)
+        throw new Error("No groundtruth model provided for running tests")
+
+    let rulesTests: PromptPexTest[] = []
     if (options.rateTests && options.filterTestCount > 0) {
         rulesTests = parseRulesTests(files.filteredTests.content)
     } else {
@@ -73,21 +77,31 @@ export async function runTests(
         expanded: false,
     })
 
+
     const modelsToRun: {
         model: ModelType
         metadata: Record<string, string>
-    }[] = [
+    }[] = runGroundtruth ? [
+        {
+            model: groundtruthModel,
+            metadata: { prompt: files.name, groundtruth: true, ...files.versions },
+        },
+    ] : [
         storeCompletions
             ? {
-                  model: storeModel,
-                  metadata: {
-                      prompt: files.name,
-                      ...files.versions,
-                  },
-              }
+                model: storeModel,
+                metadata: {
+                    prompt: files.name,
+                    ...files.versions,
+                },
+            }
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
+
+    dbg(
+        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsToRun.length} models`
+    )
 
     const ntraining = tests.length * TEST_TRAINING_DATASET_RATIO
     const testResults: PromptPexTestResult[] = []
@@ -100,21 +114,21 @@ export async function runTests(
             )
             const testMetadata: Record<string, string> = metadata
                 ? {
-                      ...metadata,
-                      run: files.runId,
-                      scenario: test.scenario,
-                      testid: !isNaN(test.testid)
-                          ? String(test.testid)
-                          : undefined,
-                      ruleid: !isNaN(test.ruleid)
-                          ? String(test.ruleid)
-                          : undefined,
-                      baseline: test.baseline ? "true" : undefined,
-                      generation: !isNaN(test.generation)
-                          ? String(test.generation)
-                          : undefined,
-                      dataset: testi < ntraining ? "training" : "test",
-                  }
+                    ...metadata,
+                    run: files.runId,
+                    scenario: test.scenario,
+                    testid: !isNaN(test.testid)
+                        ? String(test.testid)
+                        : undefined,
+                    ruleid: !isNaN(test.ruleid)
+                        ? String(test.ruleid)
+                        : undefined,
+                    baseline: test.baseline ? "true" : undefined,
+                    generation: !isNaN(test.generation)
+                        ? String(test.generation)
+                        : undefined,
+                    dataset: testi < ntraining ? "training" : "test",
+                }
                 : undefined
             for (let ri = 0; ri < runsPerTest; ++ri) {
                 const testRes = await runTest(files, test, {
@@ -124,10 +138,17 @@ export async function runTests(
                 })
                 assert(testRes.model)
                 if (testRes) {
+                    // store groundtruth
+                    if (runGroundtruth) {
+                        test.groundtruthModel = testRes.model
+                        test.groundtruth = testRes.output
+                    }
+
                     testResults.push(testRes)
                     await checkpoint()
                 }
             }
+
         }
     }
 
@@ -178,6 +199,8 @@ async function runTest(
             error: "invalid test input",
             input: testInput,
             output: "invalid test input",
+            groundtruth: test.groundtruth,
+            groundtruthModel: test.groundtruthModel,
             metrics: {},
         } satisfies PromptPexTestResult
     }
@@ -229,9 +252,7 @@ async function runTest(
 
 
     if (compliance) {
-        // const { evalModelSet = MODEL_ALIAS_EVAL } = options || {}
-        // measure compliance with the first eval model
-        const eModel = options.evalModel[0]
+        const eModel = options?.evalModel?.[0] || "eval"
         testRes.compliance = undefined
         const compliance = await evaluateTestResult(files, eModel, testRes, options)
         testRes.complianceText = compliance.content

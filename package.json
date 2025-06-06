@@ -2,13 +2,16 @@
   "name": "promptpex",
   "version": "0.0.1",
   "devDependencies": {
-    "genaiscript": "^1.140.2",
-    "openai": "^4.103.0",
+    "genaiscript": "^1.142.3",
+    "openai": "^5.1.1",
     "prettier": "^3.5.3",
-    "zx": "^8.5.4"
+    "zx": "^8.5.5"
   },
   "scripts": {
-    "all-samples": "zx samples/run-samples.mjs",
+    "all-samples": "zx samples/run-samples.zx.mjs",
+    "all-samples-gen": "zx samples/run-samples-gen.zx.mjs",
+    "all-samples-run": "zx samples/run-samples-run.zx.mjs",
+    "all-samples-eval": "zx samples/run-samples-eval.zx.mjs",
     "postinstall": "genaiscript scripts fix",
     "postupdate": "genaiscript scripts fix",
     "upgrade": "npx --yes npm-check-updates -u && npm install",
@@ -57,8 +60,8 @@
     "promptpex:paper": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" \"samples/text-to-p/text-to-p.prompty\" \"samples/openai-examples/elements.prompty\" \"samples/big-prompt-lib/art-prompt.prompty\" \"samples/prompt-guide/extract-names.prompty\" \"samples/text-classification/classify-input-text.prompty\" \"samples/big-prompt-lib/sentence-rewrite.prompty\" \"samples/azure-ai-studio/shakespearean-writing-assistant.prompty\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper\"",
     "promptpex:paper-m": "genaiscript run paper \"samples/speech-tag/speech-tag-multi.prompty\" \"samples/speech-tag/speech-tag.prompty\" \"samples/text-to-p/text-to-p.prompty\" \"samples/openai-examples/elements.prompty\" \"samples/big-prompt-lib/art-prompt.prompty\" \"samples/prompt-guide/extract-names.prompty\" \"samples/text-classification/classify-input-text.prompty\" \"samples/big-prompt-lib/sentence-rewrite.prompty\" \"samples/azure-ai-studio/shakespearean-writing-assistant.prompty\" --vars baselineTests=false --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-m\"",
     "promptpex:paper-tplus": "genaiscript run paper \"samples/speech-tag/speech-tag.prompty\" \"samples/text-to-p/text-to-p.prompty\" \"samples/openai-examples/elements.prompty\" \"samples/big-prompt-lib/art-prompt.prompty\" \"samples/prompt-guide/extract-names.prompty\" \"samples/text-classification/classify-input-text.prompty\" \"samples/big-prompt-lib/sentence-rewrite.prompty\" \"samples/azure-ai-studio/shakespearean-writing-assistant.prompty\"  --vars \"splitRules=true\" --vars \"maxRulesPerTestGeneration=5\" --vars \"testGenerations=1\" --vars \"evals=true\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/paper-tplus\"",
-    "promptpex:test-st-min": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"evalModel=ollama:llama3.3;ollama:qwen2.5:3b\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/test-st-min\"",
-    "promptpex:test-st-min-gen": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"out=evals/test-st-min-gen\"",  
+    "promptpex:test-st-min": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evalModel=ollama:llama3.3;ollama:qwen2.5:3b\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/test-st-min\"",
+    "promptpex:test-st-min-gen": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"out=evals/test-st-min-gen\"",  
      "promptpex:test-st-min-run": "genaiscript run promptpex \"evals/dev/speech-tag-gen.promptpex_context.json\" --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"out=evals/test-st-min-run\"",
     "promptpex:test-st-min-eval": "genaiscript run promptpex \"evals/dev/speech-tag-testruns.promptpex_context.json\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\" --vars \"evalModel=azure:gpt-4.1-mini_2025-04-14;ollama:llama3.3;ollama:llama3.2:1b\" --vars \"out=evals/test-st-min-eval\"",
     "promptpex:test-st-min-runeval": "genaiscript run promptpex \"evals/dev/speech-tag-gen.promptpex_context.json\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars \"evalModel=ollama:llama3.3\" --vars \"out=evals/test-st-min-runeval\"",
@@ -71,6 +74,7 @@
     "promptpex:test-experience": "genaiscript run promptpex \"samples/demo/rate-customer-experience.prompty\"  --vars \"effort=min\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\"  --vars \"modelsUnderTest=ollama:llama3.2:1b\" --vars \"out=evals/test-experience\"",
     "ollama": "npm run ollama:stop && npm run ollama:start",
     "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
-    "ollama:stop": "docker stop ollama && docker rm ollama"
+    "ollama:stop": "docker stop ollama && docker rm ollama",
+    "start": "genaiscript run promptpex --github-workspace --no-run-trace --output-trace $GITHUB_STEP_SUMMARY"
   }
 }
