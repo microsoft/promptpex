@@ -68,6 +68,10 @@ export async function runTests(
         files.testOutputs.content = JSON.stringify(testResults, null, 2)
         if (files.writeResults) await workspace.writeFiles(files.testOutputs)
     }
+    const checkpointTests = async () => {
+        files.tests.content = JSON.stringify(tests, null, 2)
+        if (files.writeResults) await workspace.writeFiles(files.tests)
+    }
 
     console.log(
         `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
@@ -84,7 +88,7 @@ export async function runTests(
     }[] = runGroundtruth ? [
         {
             model: groundtruthModel,
-            metadata: { prompt: files.name, groundtruth: true, ...files.versions },
+            metadata: { prompt: files.name, ...files.versions },
         },
     ] : [
         storeCompletions
@@ -142,6 +146,7 @@ export async function runTests(
                     if (runGroundtruth) {
                         test.groundtruthModel = testRes.model
                         test.groundtruth = testRes.output
+                        await checkpointTests()
                     }
 
                     testResults.push(testRes)
@@ -248,8 +253,8 @@ async function runTest(
         input: testInput,
         output: actualOutput,
         metrics: {},
-        groundtruth: test.groundtruth ? test.groundtruth : undefined,
-        groundtruthModel: test.groundtruthModel ? test.groundtruthModel : undefined,
+        groundtruth: test.groundtruth ? test.groundtruth : "",
+        groundtruthModel: test.groundtruthModel ? test.groundtruthModel : "",
     } satisfies PromptPexTestResult
 
 
