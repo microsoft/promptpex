@@ -21,6 +21,7 @@ export async function evaluateTestMetrics(
 
     checkConfirm("metric")
 
+
     // Remove all previous metrics before computing new ones
     testResult.metrics = {}
 

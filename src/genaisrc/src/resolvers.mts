@@ -99,7 +99,7 @@ export function resolvePromptArgs(
         args,
         testInput: testinput,
         expectedOutput: expectedoutput,
-        groundtruth: test.groundtruth ? test.groundtruth : "",
+        groundtruth: test.groundtruth || "",
         groundtruthModel: test.groundtruthModel ? test.groundtruthModel : "",
     }
 }
