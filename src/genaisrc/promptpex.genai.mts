@@ -199,7 +199,11 @@ promptPex:
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            uiSuggestions: ["openai:gpt-4o", "github:/openai/gpt-4o", "azure:gpt-4o"],
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "github:/openai/gpt-4o",
+                "azure:gpt-4o",
+            ],
             uiGroup: "Evaluation",
         },
         modelsUnderTest: {
@@ -279,7 +283,11 @@ promptPex:
         groundtruthModel: {
             type: "string",
             description: "Model used to generate groundtruth",
-            uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
+            uiSuggestions: [
+                "openai:gpt-4.1",
+                "github:openai/gpt-4.1",
+                "azure:gpt-4.1",
+            ],
             uiGroup: "Evaluation",
         },
         customMetric: {
@@ -743,7 +751,10 @@ if (createEvalRuns) {
     let groundtruthResults: PromptPexTestResult[] = []
     if (groundtruthModel) {
         output.heading(4, `Groundtruth Test Results`)
-        groundtruthResults = await runTests(files, { ...options, runGroundtruth: true })
+        groundtruthResults = await runTests(files, {
+            ...options,
+            runGroundtruth: true,
+        })
     }
 
     // Copy groundtruth outputs into files.promptPexTests, save to disk
