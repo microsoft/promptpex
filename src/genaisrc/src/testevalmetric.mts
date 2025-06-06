@@ -86,6 +86,7 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
+        groundtruth: testResult.groundtruth || "",
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,

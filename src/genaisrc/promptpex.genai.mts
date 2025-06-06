@@ -199,7 +199,11 @@ promptPex:
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
-            uiSuggestions: ["openai:gpt-4o", "github:/openai/gpt-4o", "azure:gpt-4o"],
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "github:/openai/gpt-4o",
+                "azure:gpt-4o",
+            ],
             uiGroup: "Evaluation",
         },
         modelsUnderTest: {
@@ -275,6 +279,16 @@ promptPex:
                 "Model used to create [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) (you can also override the model alias 'store'). ",
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
             uiGroup: "Azure OpenAI Evals",
+        },
+        groundtruthModel: {
+            type: "string",
+            description: "Model used to generate groundtruth",
+            uiSuggestions: [
+                "openai:gpt-4.1",
+                "github:openai/gpt-4.1",
+                "azure:gpt-4.1",
+            ],
+            uiGroup: "Evaluation",
         },
         customMetric: {
             type: "string",
@@ -422,6 +436,7 @@ const {
     rulesModel,
     storeCompletions,
     storeModel,
+    groundtruthModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -476,6 +491,7 @@ const options = {
     rulesModel,
     storeCompletions,
     storeModel,
+    groundtruthModel,
     testsPerRule,
     maxTestsToRun,
     runsPerTest,
@@ -539,8 +555,16 @@ if (modelsUnderTest?.length) {
     for (const modelUnderTest of modelsUnderTest) {
         const resolved = await host.resolveLanguageModel(modelUnderTest)
         if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
-        output.item(`${resolved.provider}:${resolved.model}`)
+        output.itemValue(resolved.provider, resolved.model)
     }
+}
+
+if (groundtruthModel) {
+    output.heading(3, `Groundtruth Model`)
+
+    const resolved = await host.resolveLanguageModel(groundtruthModel)
+    if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
+    output.itemValue(resolved.provider, resolved.model)
 }
 
 if (evals)
@@ -722,6 +746,16 @@ if (createEvalRuns) {
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
     output.itemValue(`evaluation models`, evalModel.join(", "))
+
+    // run once with groundtruth model if defined
+    if (groundtruthModel) {
+        output.heading(4, `Groundtruth Test Results`)
+        await runTests(files, {
+            ...options,
+            runsPerTest: 1,
+            runGroundtruth: true,
+        })
+    }
 
     // only run tests if modelsUnderTest is defined
     let results = []

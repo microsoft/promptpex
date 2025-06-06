@@ -23,19 +23,25 @@ const { generator, output } = env
 
 export async function runTests(
     files: PromptPexContext,
-    options?: PromptPexOptions
+    options?: PromptPexOptions & {
+        runGroundtruth?: boolean
+    }
 ): Promise<PromptPexTestResult[]> {
     const {
+        groundtruthModel,
         modelsUnderTest,
         maxTestsToRun,
         storeCompletions,
         storeModel = MODEL_ALIAS_STORE,
         runsPerTest = 1,
+        runGroundtruth
     } = options || {}
-    if (!modelsUnderTest?.length && !storeCompletions)
+    if (!groundtruthModel && !modelsUnderTest?.length && !storeCompletions)
         throw new Error("No models to run tests on")
+    if (runGroundtruth && !groundtruthModel)
+        throw new Error("No groundtruth model provided for running tests")
 
-    var rulesTests: PromptPexTest[] = []
+    let rulesTests: PromptPexTest[] = []
     if (options.rateTests && options.filterTestCount > 0) {
         rulesTests = parseRulesTests(files.filteredTests.content)
     } else {
@@ -71,10 +77,16 @@ export async function runTests(
         expanded: false,
     })
 
+
     const modelsToRun: {
         model: ModelType
         metadata: Record<string, string>
-    }[] = [
+    }[] = runGroundtruth ? [
+        {
+            model: groundtruthModel,
+            metadata: { prompt: files.name, groundtruth: true, ...files.versions },
+        },
+    ] : [
         storeCompletions
             ? {
                 model: storeModel,
@@ -86,6 +98,10 @@ export async function runTests(
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
+
+    dbg(
+        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsToRun.length} models`
+    )
 
     const ntraining = tests.length * TEST_TRAINING_DATASET_RATIO
     const testResults: PromptPexTestResult[] = []
@@ -122,10 +138,17 @@ export async function runTests(
                 })
                 assert(testRes.model)
                 if (testRes) {
+                    // store groundtruth
+                    if (runGroundtruth) {
+                        test.groundtruthModel = testRes.model
+                        test.groundtruth = testRes.output
+                    }
+
                     testResults.push(testRes)
                     await checkpoint()
                 }
             }
+
         }
     }
 
@@ -176,6 +199,8 @@ async function runTest(
             error: "invalid test input",
             input: testInput,
             output: "invalid test input",
+            groundtruth: test.groundtruth,
+            groundtruthModel: test.groundtruthModel,
             metrics: {},
         } satisfies PromptPexTestResult
     }
