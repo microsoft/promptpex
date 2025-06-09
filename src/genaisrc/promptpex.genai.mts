@@ -454,8 +454,6 @@ const {
     testExpansionInstructions?: string
 }
 
-dbg(`PromptPex starting = compliance: %0`, compliance)
-
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
@@ -509,15 +507,6 @@ const options = {
 
 // I need copy this - I'm not sure why
 options.compliance = compliance ?? options.compliance
-dbg(
-    `PromptPex starting = compliance ${compliance}, options.compliance: ${options.compliance}`
-)
-
-dbg(
-    `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
-)
-
-dbg(`PromptPex starting: env.files[0] ${env.files[0]}`)
 
 if (env.files[0] && promptText)
     cancel(
@@ -529,7 +518,6 @@ if (!env.files[0] && !promptText)
 initPerf({ output })
 
 // determine the source of the prompt to use
-
 const file0 = env.files[0]
 let file: any
 if (file0 && file0.filename) {
@@ -549,6 +537,7 @@ if (file0 && file0.filename) {
     file = { filename: "CLI.prompty", content: promptText }
 }
 
+output.itemValue(`prompt file`, file.filename)
 output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
 
