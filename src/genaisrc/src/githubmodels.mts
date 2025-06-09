@@ -129,6 +129,7 @@ export async function githubModelsToPrompty(
   options?: PromptPexLoaderOptions
 ): Promise<WorkspaceFile> {
   dbg(`loading prompt: %s`, file.filename)
+  dbg(`prompt.yml:\s%s`, file.content)
   const prompt = YAML.parse(file.content) as GitHubModelsPrompt
   const content = `---
 ${YAML.stringify({
@@ -151,8 +152,9 @@ ${YAML.stringify({
 ---
 ${prompt.messages.map(msg => `${msg.role}:
 ${messageContentToString(msg)}
-`).join("")}
+`).join("\n")}
 `
+  dbg(`prompt:\n%s`, content)
   return {
     filename: file.filename.replace(GITHUB_MODELS_RX, ".prompty"),
     content

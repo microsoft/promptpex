@@ -54,6 +54,7 @@ export async function loadPromptFiles(
             dbg(`converting file %s`, promptFile.filename)
             promptFile = await converter.convert(promptFile, options)
             dbg(`converted file %s`, promptFile.filename)
+            await workspace.writeFiles(promptFile)
             break
         }
     }
