@@ -1,5 +1,5 @@
 ---
-title: Saving and Restoring PromptPex Sessions
+title: Saving and Restoring Sessions
 sidebar:
     order: 21.7
 ---
@@ -12,17 +12,17 @@ Note that session state does not include the PromptPex options, so whatever opti
 
 An example sequence of commands to save and restore a session might be the following.  We first generate tests and save the session state to the directory `test1`:
 
-```bash
+```bash wrap
 promptpex --prompt "Rate summary from 1 to 10" --effort "min" --out ./test1
 ```
 We then expand the tests using the `testExpansion` option and save the session state to the directory `test-expand`, which now has the expanded tests:
-```bash
+```bash wrap
 promptpex --prompt "dummy" --out "./test-expand" --vars "testExpansions=1" --vars "evals=false"  --vars "loadContext=true" --vars "loadContextFile=evals/test1/promptpex_context.json"
 ```
 
 Note that we specify a dummy prompt here because the prompt has already been saved in the context file.
 
 Finally, we can evaluate the expanded tests using a different model, such as `gpt-4o`, and save the session state to the directory `test-eval`:
-```bash
+```bash wrap
 promptpex --prompt "dummy" --out "./test-eval" --vars "evals=true" --vars "out=test-eval" --vars "loadContext=true" --vars "loadContextFile=evals/test-expand/promptpex_context.json" --modelsUnderTest "gpt-4o"
 ```
