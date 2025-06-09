@@ -70,5 +70,5 @@ export async function evalTestCollection (
         dbg(`failed, try again`)
         dbg(res.text)
     }
-    if (!files.rateTests.content) throw new Error("failed evaluate test collection")        
+    if (!files.filteredTests.content) throw new Error("failed evaluate test collection")        
 }

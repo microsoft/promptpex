@@ -692,7 +692,7 @@ if (modelsUnderTest?.length)
     await githubModelsEvalsGenerate(files, files.promptPexTests, options)
 
 if (modelsUnderTest?.length) {
-    if (options.filterTestCount > 0) {
+    if (files.filteredTests.content?.length) {
         // Parse the JSON content
         output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
         const filteredTests: PromptPexTest[] = JSON.parse(
