@@ -1,5 +1,5 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { evalsListEvals, generateEvals } from "./src/evals.mts"
+import { openaiEvalsListEvals, openaiEvalsGenerate } from "./src/openaievals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -533,6 +533,7 @@ if (file0 && file0.filename) {
     file = { filename: "CLI.prompty", content: promptText }
 }
 
+output.heading(2, "PromptPex Test Generation")
 output.itemValue(`prompt file`, file.filename)
 output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
@@ -603,7 +604,7 @@ if (options.loadContext) {
         output.heading(2, `PromptPex Diagnostics`)
         await generateReports(files)
         if (createEvalRuns) {
-            const evals = await evalsListEvals()
+            const evals = await openaiEvalsListEvals()
             if (!evals.ok) throw new Error("evals configuration not found")
         }
         await checkConfirm("diag")
@@ -680,8 +681,8 @@ if (rateTests) {
     await evalTestCollection(files, options)
     output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
     output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
+    await checkConfirm("rateTests")
 }
-await checkConfirm("rateTests")
 
 if (rateTests && options.filterTestCount > 0) {
     // Parse the JSON content
@@ -689,9 +690,9 @@ if (rateTests && options.filterTestCount > 0) {
     const filteredTests: PromptPexTest[] = JSON.parse(
         files.filteredTests.content
     )
-    await generateEvals(modelsUnderTest, files, filteredTests, options)
+    await openaiEvalsGenerate(modelsUnderTest, files, filteredTests, options)
 } else {
-    await generateEvals(modelsUnderTest, files, files.promptPexTests, options)
+    await openaiEvalsGenerate(modelsUnderTest, files, files.promptPexTests, options)
 }
 await checkConfirm("evals")
 

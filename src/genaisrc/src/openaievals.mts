@@ -8,7 +8,7 @@ import type {
 import { metricName } from "./parsers.mts"
 import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 import { resolvePromptArgs } from "./resolvers.mts"
-const dbg = host.logger("promptpex:evals")
+const dbg = host.logger("promptpex:openai:evals")
 const { output } = env
 
 // OpenAI: https://platform.openai.com/docs/api-reference/evals
@@ -98,7 +98,7 @@ interface OpenAIConnection {
     version?: string
 }
 
-export async function evalsResolveConnection(): Promise<OpenAIConnection> {
+export async function openaiEvalsResolveConnection(): Promise<OpenAIConnection> {
     let url: string | undefined
     let headers: Record<string, string> | undefined
     let dashboardUrl: string | undefined
@@ -140,8 +140,8 @@ function urlWithVersion(base: string, route: string, version?: string) {
     return `${base}${route}${version ? `?api-version=${version}` : ''}`
 }
 
-export async function evalsListEvals() {
-    const { url, headers, version } = await evalsResolveConnection()
+export async function openaiEvalsListEvals() {
+    const { url, headers, version } = await openaiEvalsResolveConnection()
     if (!url) return {}
     const listUrl = urlWithVersion(url, '', version)
     const res = await fetch(listUrl, {
@@ -301,7 +301,7 @@ async function evalsCreateRun(
     }
 }
 
-export async function generateEvals(
+export async function openaiEvalsGenerate(
     models: string[],
     files: PromptPexContext,
     tests: PromptPexTest[],
@@ -310,9 +310,8 @@ export async function generateEvals(
     output.heading(3, "Evals")
     const { createEvalRuns } = options || {}
 
-    output.heading(3, "Evals")
     const connection = createEvalRuns
-        ? await evalsResolveConnection()
+        ? await openaiEvalsResolveConnection()
         : undefined
     const evalId = await evalsCreateRequest(connection, files, options)
     output.itemValue(`eval id`, evalId)
