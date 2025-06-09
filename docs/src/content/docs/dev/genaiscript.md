@@ -27,7 +27,7 @@ To launch PromptPex in a docker container, first create an image with the follow
 
 ```sh wrap
 docker build -t genaiscript -<<EOF
-FROM node:alpine
+FROM node:lts-alpine
 RUN apk add --no-cache git && npm install -g genaiscript
 EOF
 ```
