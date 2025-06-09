@@ -322,6 +322,11 @@ export interface PromptPexContext {
         promptpex: string
         node: string
     }
+
+    /**
+     * Options when loading context
+     */
+    options: PromptPexOptions
 }
 
 export interface PromptPexTest {

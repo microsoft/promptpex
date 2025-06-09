@@ -12,6 +12,7 @@ import { checkPromptSafety } from "./safety.mts"
 import type {
     PromptPexContext,
     PromptPexLoaderOptions,
+    PromptPexOptions,
     PromptPexPromptyFrontmatter,
 } from "./types.mts"
 import frontMatterSchema from "./frontmatter.json" with { type: "json" }
@@ -24,11 +25,12 @@ dbg(`schema %O`, frontMatterSchema)
 
 export async function loadPromptContext(
     files: WorkspaceFile[],
-    options?: PromptPexLoaderOptions
+    options?: PromptPexOptions
 ): Promise<PromptPexContext[]> {
     const q = host.promiseQueue(CONCURRENCY)
+    const promptFiles = files.filter((f) => /\.(md|txt|prompty|prompt\.yml)$/i.test(f.filename))
     return q.mapAll(
-        files.filter((f) => /\.(md|txt|prompty|prompt\.yml)$/i.test(f.filename)),
+        promptFiles,
         async (f) => await loadPromptFiles(f, options)
     )
 }
@@ -164,6 +166,7 @@ export async function loadPromptFiles(
             promptpex: packageJson.version,
             node: process.version,
         },
+        options,
     } satisfies PromptPexContext
 
     if (!disableSafety) await checkPromptSafety(res)

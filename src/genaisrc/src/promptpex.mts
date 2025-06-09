@@ -39,7 +39,8 @@ import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 const { output } = env
 const dbg = host.logger("promptpex")
 
-export async function promptpexGenerate(file: WorkspaceFile, options: PromptPexOptions) {
+export async function promptpexGenerate(files: PromptPexContext) {
+    const { name, prompt, options } = files
     const {
         evals,
         evalModels,
@@ -56,9 +57,8 @@ export async function promptpexGenerate(file: WorkspaceFile, options: PromptPexO
         modelsUnderTest
     } = options
 
-    output.heading(2, "PromptPex Test Generation")
-    output.itemValue(`prompt file`, file.filename)
-    output.detailsFenced(`options`, options, "yaml")
+    output.heading(2, name)
+    output.itemValue(`prompt file`, prompt.filename)
 
     if (modelsUnderTest?.length) {
         output.heading(3, `Models Under Test`)
@@ -89,13 +89,7 @@ export async function promptpexGenerate(file: WorkspaceFile, options: PromptPexO
             cancel("No evaluation model defined.")
         }
 
-    // process the prompt file (or read the context file)
-
-    let files: PromptPexContext
-    if (!loadContext) files = await loadPromptFiles(file, options)
-
     // use context state if available
-
     if (loadContext) {
         output.heading(3, `Loading context from file`)
         const newOut = out

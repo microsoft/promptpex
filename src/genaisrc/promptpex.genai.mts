@@ -8,6 +8,7 @@ import {
     PROMPTPEX_CONTEXT,
 } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
+import { loadPromptContext } from "./src/loaders.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -383,8 +384,11 @@ user:
 })
 
 const dbg = host.logger("promptpex:main")
+const { output, vars, files } = env
 
-const { output, vars } = env
+output.heading(1, "PromptPex Test Generation")
+initPerf({ output })
+
 const {
     out,
     cache,
@@ -418,9 +422,6 @@ const {
     rateTests,
     filterTestCount,
 } = vars as PromptPexCliOptions
-let {
-    loadContext, loadContextFile,
-} = vars as PromptPexOptions
 
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
@@ -428,40 +429,24 @@ const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
-const evalModels: string[] = vars.evalModel?.split(/;/g).filter(Boolean) || []
+const evalModels: string[] = vars.evalModel?.split(/;/g).filter(Boolean).map(s => s.trim()) || []
 dbg(`evalModels: %o`, evalModels)
-if (env.files[0] && promptText)
-    cancel(
-        "You can only provide either a prompt file or prompt text, not both."
-    )
-if (!env.files[0] && !promptText)
-    cancel("No prompt file or prompt text provided.")
-initPerf({ output })
-// determine the source of the prompt to use
-const file0 = env.files[0]
-let file: WorkspaceFile
-if (file0 && file0.filename) {
-    const ext = path.extname(file0.filename)
-    if (ext === ".prompty") {
-        file = file0
-    } else if (ext === ".json") {
+
+let {
+    loadContext, loadContextFile,
+} = vars as PromptPexOptions
+for (const file of files) {
+    const ext = path.extname(file.filename)
+    if (ext === ".json") {
         // Set loadContext and loadContextFile to the path to env.files[0]
         loadContext = true
-        loadContextFile = path.isAbsolute(file0.filename)
-            ? file0.filename
-            : path.join(process.cwd(), file0.filename)
-    } else {
-        file = file0
+        loadContextFile = path.isAbsolute(file.filename)
+            ? file.filename
+            : path.join(process.cwd(), file.filename)
     }
-} else {
-    file = { filename: "CLI.prompty", content: promptText }
 }
 
-dbg(`file: %s`, file.filename)
-dbg(`loadContext: %s`, loadContext)
-
-// immutable set of options
-const options = Object.freeze({
+const options: PromptPexOptions = Object.freeze({
     cache,
     testRunCache,
     evalCache,
@@ -501,5 +486,16 @@ const options = Object.freeze({
     out,
     ...efforts,
 } satisfies PromptPexOptions)
+output.detailsFenced(`options`, options, "yaml")
 
-await promptpexGenerate(file, options);
+const promptFiles: WorkspaceFile[] = []
+if (promptText)
+    promptFiles.push({ filename: "input.prompty", content: promptText })
+for (const file of files)
+    promptFiles.push(...files)
+
+const runs = await loadPromptContext(promptFiles, options)
+for (const run of runs) {
+    dbg(`file: %s`, run.name)
+    await promptpexGenerate(run);
+}
