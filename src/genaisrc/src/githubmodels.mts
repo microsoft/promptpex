@@ -235,10 +235,12 @@ export async function githubModelsEvalsGenerate(
         continue
       }
       const res = await toModelsPrompt(modelId, messages, files)
-      await workspace.writeText(
-        path.join(files.dir, "gh.eval.prompt.yml"),
-        YAML.stringify(res)
-      )
+      const evalPromptFile = {
+        filename: path.join(files.dir, `${res.model.replace(/\//g, "_")}.prompt.yml`),
+        content: YAML.stringify(res)
+      }
+      output.detailsFenced(evalPromptFile.filename, evalPromptFile.content, "yaml")
+      await workspace.writeFiles(evalPromptFile)
     }
   }
 }

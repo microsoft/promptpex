@@ -25,7 +25,18 @@ export interface PromptPexPrompts {
     testExpansion?: string
 }
 
-export interface PromptPexOptions extends PromptPexLoaderOptions {
+interface PromptPexCliExtraOptions {
+    evalModel?: ModelType
+    effort?: "min" | "low" | "medium" | "high"
+    customMetric?: string
+    prompt?: string
+    inputSpecInstructions?: string
+    outputRulesInstructions?: string
+    inverseOutputRulesInstructions?: string
+    testExpansionInstructions?: string
+}
+
+export interface PromptPexBaseOptions extends PromptPexLoaderOptions {
     /**
      * Generate temperature for requests
      */
@@ -70,16 +81,15 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      */
     rulesModel?: string
 
-
     /**
      * Model used to run tests for distillation/evaluation
      */
-    storeModel?: ModelType | "store"
+    storeModel?: ModelType
 
     /**
      * Model used to generate ground truth
      */
-    groundtruthModel?: ModelType | "groundtruth"
+    groundtruthModel?: ModelType
 
     /**
      * Model used to generate baseline tests
@@ -132,11 +142,6 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     modelsUnderTest?: ModelType[]
 
     /**
-     * List of models to use for test evaluation
-     */
-    evalModel?: ModelType[] | "eval"
-
-    /**
      * Split rules/inverse rules in separate prompts
      */
     splitRules?: boolean
@@ -170,16 +175,13 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
     * Evaluate the test collection
     */
     filterTestCount?: number
+}
 
-    /**
-     * Load PromptPexContext from a file
-     */
-    loadContext?: boolean
+export interface PromptPexCliOptions extends PromptPexBaseOptions, PromptPexCliExtraOptions {
+}
 
-    /**
-     * Filename to load PromptPexContext from 
-     */
-    loadContextFile?: string
+export interface PromptPexOptions extends PromptPexBaseOptions {
+    evalModels?: ModelType[]
 }
 
 /**
@@ -265,11 +267,6 @@ export interface PromptPexContext {
     rateTests: WorkspaceFile
 
     /**
-     * PromptPex rateTests
-     */
-    filteredTests: WorkspaceFile
-
-    /**
      * Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
      */
     testOutputs: WorkspaceFile
@@ -310,6 +307,16 @@ export interface PromptPexContext {
         promptpex: string
         node: string
     }
+
+    /**
+     * Reuse results
+     */
+    reuseResults?: boolean
+
+    /**
+     * Options when loading context
+     */
+    options: PromptPexOptions
 }
 
 export interface PromptPexTest {

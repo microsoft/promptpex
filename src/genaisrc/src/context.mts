@@ -12,15 +12,3 @@ export async function saveContextState(
     const json = JSON.stringify(ctx, null, 2)
     await workspace.writeText(filename, json)
 }
-
-/**
- * Loads the PromptPexContext from the specified JSON file.
- * @param filename The file path to load the JSON from
- * @returns The deserialized PromptPexContext
- */
-export async function restoreContextState(
-    filename: string
-): Promise<PromptPexContext> {
-    const json = await workspace.readJSON(filename)
-    return json as PromptPexContext
-}

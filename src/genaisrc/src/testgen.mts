@@ -27,7 +27,7 @@ const { generator, output } = env
 export async function generateTests(
     files: PromptPexContext,
     options?: PromptPexOptions
-): Promise<PromptPexTest[]> {
+): Promise<void> {
     const {
         testsPerRule: num = TESTS_NUM,
         rulesModel = "rules",
@@ -36,6 +36,11 @@ export async function generateTests(
 
     if (!files.rules.content) throw new Error("No rules found")
     if (!files.inputSpec.content) throw new Error("No input spec found")
+    if (files.tests.content) {
+        dbg(`tests already exist for %s, skipping generation`, files.name)
+        return
+    }
+
     const allRules = parseAllRules(files, options)
     dbg(`rules: ${allRules.length}`)
     if (!allRules) throw new Error("No rules found")
@@ -59,6 +64,7 @@ export async function generateTests(
     const checkpoint = async () => {
         dbg(`saving ${tests.length} tests`)
         const resc = JSON.stringify(tests, null, 2)
+        files.promptPexTests = tests
         files.tests.content = resc
         if (files.writeResults) await workspace.writeFiles(files.tests)
         await convertToTestData(files, tests)
@@ -190,7 +196,6 @@ export async function generateTests(
     }
 
     await checkpoint()
-    return tests
 }
 
 function splitRules(rules: PromptPexRule[], options?: PromptPexOptions) {
@@ -220,9 +225,9 @@ function parseCsvTests(
     const content = parsers.unfence(text.trim().replace(/\\"/g, '""'), "csv")
     const rulesTests = content
         ? (parsers.CSV(content, {
-              delimiter: ",",
-              repair: true,
-          }) as PromptPexTest[])
+            delimiter: ",",
+            repair: true,
+        }) as PromptPexTest[])
         : []
     const res = rulesTests
         .map((r) => {

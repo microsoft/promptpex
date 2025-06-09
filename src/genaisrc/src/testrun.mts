@@ -1,4 +1,4 @@
-import { MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -41,12 +41,7 @@ export async function runTests(
     if (runGroundtruth && !groundtruthModel)
         throw new Error("No groundtruth model provided for running tests")
 
-    let rulesTests: PromptPexTest[] = []
-    if (options.rateTests && options.filterTestCount > 0) {
-        rulesTests = parseRulesTests(files.filteredTests.content)
-    } else {
-        rulesTests = parseRulesTests(files.tests.content)
-    }
+    const rulesTests = files.promptPexTests
     dbg(`found ${rulesTests.length} tests`)
     const baselineTests = options?.baselineTests
         ? parseBaselineTests(files)
@@ -69,7 +64,7 @@ export async function runTests(
         if (files.writeResults) await workspace.writeFiles(files.testOutputs)
     }
     const checkpointTests = async () => {
-        files.tests.content = JSON.stringify(tests, null, 2)
+        files.tests.content = JSON.stringify(rulesTests, null, 2)
         if (files.writeResults) await workspace.writeFiles(files.tests)
     }
 
@@ -175,7 +170,7 @@ async function runTest(
         metadata?: Record<string, string>
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, evalCache, metadata } = options || {}
+    const { model, compliance, evalCache, metadata, evalModels } = options || {}
     if (!model) throw new Error("No model provided for test")
 
     const { cache, testRunCache, ...optionsNoCache } = options || {}
@@ -253,13 +248,13 @@ async function runTest(
         input: testInput,
         output: actualOutput,
         metrics: {},
-        groundtruth: test.groundtruth ? test.groundtruth : "",
-        groundtruthModel: test.groundtruthModel ? test.groundtruthModel : "",
+        groundtruth: test.groundtruth,
+        groundtruthModel: test.groundtruthModel
     } satisfies PromptPexTestResult
 
 
     if (compliance) {
-        const eModel = options?.evalModel?.[0] || "eval"
+        const eModel = evalModels?.[0] || MODEL_ALIAS_EVAL
         testRes.compliance = undefined
         const compliance = await evaluateTestResult(files, eModel, testRes, options)
         testRes.complianceText = compliance.content

@@ -10,7 +10,9 @@ export async function evalTestCollection (
     files: PromptPexContext,
     options?: PromptPexOptions
 ): Promise<void> {
+    /* TODO: use files.promptPexTests, and single prompt to select tests
     const { rulesModel = "rules" } = options || {}
+
     const context = MD.content(files.prompt.content)
 
     const pn = PROMPT_RATE_TESTS
@@ -63,12 +65,13 @@ export async function evalTestCollection (
                 }
             )
         )
-        files.filteredTests.content = checkLLMResponse(res)
-        if (files.writeResults) await workspace.writeFiles([files.filteredTests])
-        if (files.filteredTests.content) break
+        files.tests.content = checkLLMResponse(res)
+        if (files.writeResults) await workspace.writeFiles(files.tests)
+        if (files.tests.content) break
 
         dbg(`failed, try again`)
         dbg(res.text)
     }
-    if (!files.filteredTests.content) throw new Error("failed evaluate test collection")        
+    if (!files.tests.content) throw new Error("failed evaluate test collection")
+    */
 }

@@ -56,14 +56,14 @@ export function computeOverview(
                 tests.length === 0
                     ? "--"
                     : percent
-                      ? Math.round((v / tests.length) * 100) + "%"
-                      : v
+                        ? Math.round((v / tests.length) * 100) + "%"
+                        : v
             const bnorm = (v: number) =>
                 baseline.length === 0
                     ? "--"
                     : percent
-                      ? Math.round((v / baseline.length) * 100) + "%"
-                      : v
+                        ? Math.round((v / baseline.length) * 100) + "%"
+                        : v
             return {
                 model,
                 scenario,
@@ -99,18 +99,11 @@ export function computeOverview(
                     (tr) =>
                         tr.compliance === "ok" &&
                         testEvals.find((te) => te.id === tr.id)?.validity ===
-                            "ok"
+                        "ok"
                 ).length,
                 ...Object.fromEntries(
                     files.metrics.flatMap((m) => {
                         const n = metricName(m)
-                        // Ensure eModelArray is always an array of strings
-                        let eModelArray: string[] = []
-                        if (typeof options?.evalModel === "string") {
-                            eModelArray = options.evalModel.split(";").map(s => s.trim()).filter(Boolean)
-                        } else if (Array.isArray(options?.evalModel)) {
-                            eModelArray = options.evalModel
-                        }
                         // Fallback to all evalModel keys found in test metrics
                         const allEvalModels = Array.from(
                             new Set(
@@ -121,7 +114,7 @@ export function computeOverview(
                                 )
                             )
                         )
-                        const evalModels = eModelArray.length ? eModelArray : allEvalModels
+                        const evalModels = options.evalModels ? options.evalModels : allEvalModels
                         return evalModels.map((eModel) => {
                             const metricKey = `${n}${METRIC_SEPARATOR}${eModel}`
                             const ms = tests
@@ -215,25 +208,25 @@ async function generateMarkdownReport(files: PromptPexContext) {
             file === files.testOutputs
                 ? ["model", "scenario", "rule", "input", "output", "compliance"]
                 : file === files.tests
-                  ? ["scenario", "testinput", "expectedoutput", "reasoning"]
-                  : file === files.baselineTests
-                    ? ["testinput"]
-                    : file === files.testEvals
-                      ? [
-                            "scenario",
-                            "rule",
-                            "model",
-                            "input",
-                            "coverage",
-                            "coverageUncertainty",
-                            "validity",
-                            "validityUncertainty",
-                        ]
-                      : file === files.ruleEvals
-                        ? ["ruleid", "rule", "grounded"]
-                        : file === files.baselineTestEvals
-                          ? ["input", "validity"]
-                          : undefined
+                    ? ["scenario", "testinput", "expectedoutput", "reasoning"]
+                    : file === files.baselineTests
+                        ? ["testinput"]
+                        : file === files.testEvals
+                            ? [
+                                "scenario",
+                                "rule",
+                                "model",
+                                "input",
+                                "coverage",
+                                "coverageUncertainty",
+                                "validity",
+                                "validityUncertainty",
+                            ]
+                            : file === files.ruleEvals
+                                ? ["ruleid", "rule", "grounded"]
+                                : file === files.baselineTestEvals
+                                    ? ["input", "validity"]
+                                    : undefined
         const lang =
             {
                 prompty: "md",
@@ -299,10 +292,10 @@ export function renderEvaluationOutcome(outcome: PromptPexEvalResultType) {
     return outcome === "ok"
         ? "✅"
         : outcome === "err"
-          ? "❌"
-          : outcome === "unknown"
-            ? "❓"
-            : ""
+            ? "❌"
+            : outcome === "unknown"
+                ? "❓"
+                : ""
 }
 
 export function renderEvaluation(res: PromptPexEvaluation) {
