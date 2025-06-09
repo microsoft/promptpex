@@ -53,28 +53,26 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.heading(2, name)
     output.itemValue(`prompt file`, prompt.filename)
 
-    if (modelsUnderTest?.length) {
-        output.heading(3, `Models Under Test`)
-        for (const modelUnderTest of modelsUnderTest) {
-            const resolved = await host.resolveLanguageModel(modelUnderTest)
-            if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
-            output.item(`${resolved.provider}:${resolved.model}`)
-        }
-    }
-
     if (groundtruthModel) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
         output.itemValue(`groundtruth model`, `${resolved.provider}:${resolved.model}`)
     }
 
+    if (modelsUnderTest?.length) {
+        for (const modelUnderTest of modelsUnderTest) {
+            const resolved = await host.resolveLanguageModel(modelUnderTest)
+            if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
+            output.itemValue(`model under test`, `${resolved.provider}:${resolved.model}`)
+        }
+    }
+
     if (evals)
         if (evalModels?.length) {
-            output.heading(2, `Evaluation Models`)
             for (const eModel of evalModels) {
                 const resolved = await host.resolveLanguageModel(eModel)
                 if (!resolved) throw new Error(`Model ${eModel} not found`)
-                output.item(`${resolved.provider}:${resolved.model}`)
+                output.itemValue(`eval model`, `${resolved.provider}:${resolved.model}`)
             }
         } else {
             cancel("No evaluation model defined.")
@@ -163,12 +161,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("rateTests")
     }
 
-    if (modelsUnderTest?.length) {
-        await githubModelsEvalsGenerate(files, files.promptPexTests, options)
-        await openaiEvalsGenerate(files, files.promptPexTests, options)
-        await checkConfirm("integration")
-    }
-
     // only run tests if modelsUnderTest is defined
     if (groundtruthModel?.length) {
         output.heading(4, `Groundtruth Test Results`)
@@ -177,6 +169,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
             ...options,
         })
 
+    }
+
+    if (modelsUnderTest?.length) {
+        await githubModelsEvalsGenerate(files, files.promptPexTests, options)
+        await openaiEvalsGenerate(files, files.promptPexTests, options)
+        await checkConfirm("integration")
     }
 
     // eval existing test results
