@@ -87,6 +87,6 @@
     "ollama": "npm run ollama:stop && npm run ollama:start",
     "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
     "ollama:stop": "docker stop ollama && docker rm ollama",
-    "start": "genaiscript run promptpex --github-workspace --no-run-trace --output-trace $GITHUB_STEP_SUMMARY"
+    "start": "genaiscript run promptpex --github-workspace --no-run-trace --out-trace $GITHUB_STEP_SUMMARY"
   }
 }
