@@ -45,7 +45,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
         storeCompletions,
         storeModel,
         testExpansions,
-        filterTestCount,
         rateTests,
         groundtruthModel,
         modelsUnderTest
