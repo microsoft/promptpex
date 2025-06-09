@@ -49,9 +49,10 @@ Suppose you want to see a review of the [collection of tests](/promptpex/referen
 promptpex results/myprompt/promptpex_context.json --evals=false --rateTests=true --filterTestCount=10
 ```
 
-The test collection review output will be saved in `results/myprompt/test_collection_review.md`.  An example of the [output](/promptpex/reference/example-test-collection-review) is shown in the documentation.
+The test collection review output will be saved in `results/myprompt/test_collection_review.md`.  An example of the [output](/promptpex/reference/example-test-collection-review) is shown in the documentation.  With the `--filterTestCount` parameter, you specify how many of the most important tests you want to include in a filtered output. This is useful for focusing on the most critical tests based on the analysis.  The reduced set of tests will be saved in `results/myprompt/filtered_tests.json`.
+
 
 ## Notes
 
-- For more details on prompt format and advanced usage, see the [overview](/promptpex/reference/overview).
+- For more details on prompt format and advanced usage, see the [overview](/promptpex/reference).
 
