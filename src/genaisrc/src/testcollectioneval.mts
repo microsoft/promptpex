@@ -41,8 +41,16 @@ export async function evalTestCollection (
     }
     if (!files.rateTests.content) throw new Error("failed evaluate test collection")
 
+    if (!(options.filterTestCount >0)) return
+    
     const pnf = PROMPT_FILTER_TESTS
     await outputPrompty(pnf, options)
+
+    // copy tests to unfiltered tests
+    if (files.writeResults) {
+        files.unFilteredTests.content = files.tests.content 
+        await workspace.writeFiles([files.unFilteredTests])
+    }
 
     for (let i = 0; i < RATE_TESTS_RETRY; i++) {
         dbg(`attempt ${i + 1} of ${RATE_TESTS_RETRY}`)
@@ -63,12 +71,12 @@ export async function evalTestCollection (
                 }
             )
         )
-        files.filteredTests.content = checkLLMResponse(res)
-        if (files.writeResults) await workspace.writeFiles([files.filteredTests])
-        if (files.filteredTests.content) break
+        files.tests.content = checkLLMResponse(res)
+        if (files.writeResults) await workspace.writeFiles([files.tests])
+        if (files.tests.content) break
 
         dbg(`failed, try again`)
         dbg(res.text)
     }
-    if (!files.filteredTests.content) throw new Error("failed evaluate test collection")        
+    if (!files.tests.content) throw new Error("failed evaluate test collection")        
 }

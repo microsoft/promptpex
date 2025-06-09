@@ -85,7 +85,7 @@ export async function loadPromptFiles(
     let inputSpec = path.join(dir, "input_spec.txt")
     let baselineTests = path.join(dir, "baseline_tests.txt")
     let tests = path.join(dir, "tests.json")
-    let filteredTests = path.join(dir, "filtered_tests.json")
+    let unFilteredTests = path.join(dir, "tests.unfiltered.json")
     let rateTests = path.join(dir, "test_collection_review.md")
     let testData = path.join(dir, "test_data.json")
     let testResults = path.join(dir, "test_results.json")
@@ -151,7 +151,7 @@ export async function loadPromptFiles(
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
         promptPexTests: [],
         tests: await workspace.readText(tests),
-        filteredTests: await workspace.readText(filteredTests),
+        unFilteredTests: await workspace.readText(unFilteredTests),
         rateTests: await workspace.readText(rateTests),
         testData: await workspace.readText(testData),
         testEvals: await workspace.readText(testEvals),
@@ -186,7 +186,7 @@ export function updateOutput(
     ctx.inputSpec = { filename: path.join(dir, "input_spec.txt"), content: ctx.inputSpec?.content ?? "" };
     ctx.baselineTests = { filename: path.join(dir, "baseline_tests.txt"), content: ctx.baselineTests?.content ?? "" };
     ctx.tests = { filename: path.join(dir, "tests.json"), content: ctx.tests?.content ?? "" };
-    ctx.filteredTests = { filename: path.join(dir, "filtered_tests.json"), content: ctx.filteredTests?.content ?? "" };
+    ctx.unFilteredTests = { filename: path.join(dir, "tests.unfiltered.json"), content: ctx.unFilteredTests?.content ?? "" };
     ctx.rateTests = { filename: path.join(dir, "test_collection_review.md"), content: ctx.rateTests?.content ?? "" };
     ctx.testData = { filename: path.join(dir, "test_data.json"), content: ctx.testData?.content ?? "" };
     ctx.testOutputs = { filename: path.join(dir, "test_results.json"), content: ctx.testOutputs?.content ?? "" };

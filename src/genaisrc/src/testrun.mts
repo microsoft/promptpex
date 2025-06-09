@@ -42,11 +42,8 @@ export async function runTests(
         throw new Error("No groundtruth model provided for running tests")
 
     let rulesTests: PromptPexTest[] = []
-    if (options.rateTests && options.filterTestCount > 0) {
-        rulesTests = parseRulesTests(files.filteredTests.content)
-    } else {
-        rulesTests = parseRulesTests(files.tests.content)
-    }
+    rulesTests = parseRulesTests(files.tests.content)
+
     dbg(`found ${rulesTests.length} tests`)
     const baselineTests = options?.baselineTests
         ? parseBaselineTests(files)

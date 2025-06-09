@@ -267,7 +267,7 @@ export interface PromptPexContext {
     /**
      * PromptPex rateTests
      */
-    filteredTests: WorkspaceFile
+    unFilteredTests: WorkspaceFile
 
     /**
      * Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)

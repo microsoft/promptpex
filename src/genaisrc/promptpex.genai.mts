@@ -389,8 +389,8 @@ user:
         filterTestCount: {
             type: "integer",
             description:
-                "Number of tests to include in the filtered output of evalTestCollection.",
-            default: 5,
+                "Number of tests to include in the filtered output of evalTestCollection. 0 means no filtering.",
+            default: 0,
             uiGroup: "Evaluation",
         },
         loadContext: {
@@ -684,7 +684,9 @@ if (rateTests) {
     output.heading(3, "Test Set Quality Review")
     await evalTestCollection(files, options)
     output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
-    output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
+    if (options.filterTestCount > 0) {
+        output.detailsFenced(`filtered tests (json)`, files.tests, "json")
+    }
     await checkConfirm("rateTests")
 }
 
@@ -692,16 +694,7 @@ if (modelsUnderTest?.length)
     await githubModelsEvalsGenerate(files, files.promptPexTests, options)
 
 if (modelsUnderTest?.length) {
-    if (files.filteredTests.content?.length) {
-        // Parse the JSON content
-        output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-        const filteredTests: PromptPexTest[] = JSON.parse(
-            files.filteredTests.content
-        )
-        await openaiEvalsGenerate(files, filteredTests, options)
-    } else {
-        await openaiEvalsGenerate(files, files.promptPexTests, options)
-    }
+    await openaiEvalsGenerate(files, files.promptPexTests, options)
     await checkConfirm("openaievals")
 }
 
