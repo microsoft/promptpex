@@ -8,7 +8,7 @@ sidebar:
 
 ## Try PromptPex
 
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Configure your LLM credentials in `.env`. You can use OpenAI, Azure OpenAI, or Ollama.
 
 ```sh wrap
@@ -53,7 +53,7 @@ npm run serve
 ## Local development
 
 - Clone this repository
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Install dependencies
 
 ```sh
@@ -90,7 +90,7 @@ npm run serve
 
 The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
 
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Configure your LLM credentials in `.env`
 
 ## Typecheck scripts
