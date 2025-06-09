@@ -179,7 +179,7 @@ async function toModelsPrompt(modelUnderTest: string, messages: ChatMessage[], f
     expected: test.groundtruth
   }))
 
-  return {
+  const res = {
     name,
     description,
     model: resolvedModel,
@@ -191,6 +191,9 @@ async function toModelsPrompt(modelUnderTest: string, messages: ChatMessage[], f
     testData,
     ...(imported || {})
   } satisfies GitHubModelsPrompt
+
+  dbg(`prompt: %s`, YAML.stringify(res))
+  return res
 
   function toMessage(msg: ChatMessage): GitHubModelsMessage {
     const content = messageContentToString(msg)
@@ -231,9 +234,7 @@ export async function githubModelsEvalsGenerate(
         dbg(`skipping model %s`, modelId)
         continue
       }
-      const model = modelId.replace(/^(github:)/, "")
-      dbg(`generate eval run for model %s`, model)
-      const res = toModelsPrompt(model, messages, files)
+      const res = toModelsPrompt(modelId, messages, files)
       await workspace.writeText(
         path.join(files.dir, "gh.eval.prompt.yml"),
         YAML.stringify(res)
