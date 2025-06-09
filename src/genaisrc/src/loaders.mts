@@ -1,6 +1,7 @@
 import { checkConfirm } from "./confirm.mts"
 import {
     CONCURRENCY,
+    GITHUB_MODELS_RX,
     PARAMETER_INPUT_TEXT,
     PROMPT_ALL,
     PROMPT_DIR,
@@ -15,6 +16,7 @@ import type {
 } from "./types.mts"
 import frontMatterSchema from "./frontmatter.json" with { type: "json" }
 import packageJson from "../../../package.json" with { type: "json" }
+import { githubModelsToPrompty } from "./githubmodels.mts"
 const dbg = host.logger("promptpex:loaders")
 
 if (!frontMatterSchema) throw new Error("frontmatter schema not found")
@@ -26,10 +28,15 @@ export async function loadPromptContext(
 ): Promise<PromptPexContext[]> {
     const q = host.promiseQueue(CONCURRENCY)
     return q.mapAll(
-        files.filter((f) => /\.(md|txt|prompty)$/i.test(f.filename)),
+        files.filter((f) => /\.(md|txt|prompty|prompt\.yml)$/i.test(f.filename)),
         async (f) => await loadPromptFiles(f, options)
     )
 }
+
+const converters = [{
+    rx: GITHUB_MODELS_RX,
+    convert: githubModelsToPrompty
+}]
 
 export async function loadPromptFiles(
     promptFile: WorkspaceFile,
@@ -40,6 +47,18 @@ export async function loadPromptFiles(
             "No prompt file found, did you forget to include the prompt file?"
         )
     dbg(`loading files from ${promptFile.filename}`)
+
+    // pre-convert other formats to prompty
+    for (const converter of converters) {
+        if (converter.rx.test(promptFile.filename)) {
+            dbg(`converting file %s`, promptFile.filename)
+            promptFile = await converter.convert(promptFile, options)
+            dbg(`converted file %s`, promptFile.filename)
+            await workspace.writeFiles(promptFile)
+            break
+        }
+    }
+    dbg(`prompt file: %O`, promptFile)
 
     await checkPromptFiles()
     const { out, disableSafety } = options || {}
@@ -74,6 +93,7 @@ export async function loadPromptFiles(
     let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
     let ruleEvals = path.join(dir, "rule_evals.json")
     let ruleCoverage = path.join(dir, "rule_coverage.json")
+    const { messages } = await parsers.prompty(promptFile)
     const frontmatter = await validateFrontmatter(promptFile, {
         patchFrontmatter: true,
     })
@@ -121,6 +141,7 @@ export async function loadPromptFiles(
         name: basename,
         frontmatter,
         inputs,
+        messages,
         prompt: promptFile,
         testOutputs: await workspace.readText(testResults),
         intent: await workspace.readText(intent),

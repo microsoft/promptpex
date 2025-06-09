@@ -4,7 +4,7 @@ import { loadPromptContext } from "./loaders.mts"
 
 const { output } = env
 
-export async function loadFabricPrompts(
+export async function fabricLoadPrompts(
     branch: string,
     options?: PromptPexLoaderOptions
 ): Promise<PromptPexContext[]> {

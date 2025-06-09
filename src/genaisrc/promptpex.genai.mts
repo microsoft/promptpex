@@ -1,5 +1,8 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { evalsListEvals, generateEvals } from "./src/evals.mts"
+import {
+    openaiEvalsListEvals,
+    openaiEvalsGenerate,
+} from "./src/openaievals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -33,6 +36,7 @@ import {
 } from "./src/constants.mts"
 import { evalTestCollection } from "./src/testcollectioneval.mts"
 import { saveContextState, restoreContextState } from "./src/context.mts"
+import { githubModelsEvalsGenerate } from "./src/githubmodels.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -85,12 +89,12 @@ promptPex:
 
 </details>
 `,
-    accept: ".prompty,.md,.txt,.json",
+    accept: ".prompty,.md,.txt,.json,.prompt.yml",
     parameters: {
         prompt: {
             type: "string",
             description:
-                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
+                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts. prompt.yml is the GitHub Models format.",
             required: false,
             uiType: "textarea",
         },
@@ -391,7 +395,7 @@ user:
         },
         loadContext: {
             type: "boolean",
-            description: "Load contenxt from a file.",
+            description: "Load context from a file.",
             default: false,
             required: false,
             uiGroup: "Generation",
@@ -454,18 +458,12 @@ const {
     testExpansionInstructions?: string
 }
 
-dbg(`PromptPex starting = compliance: %0`, compliance)
-
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
-const evalModel: string[] = (
-    vars.evalModel || process.env.GENAISCRIPT_MODEL_EVAL
-)
-    .split(/;/g)
-    .filter(Boolean)
+const evalModel: string[] = vars.evalModel?.split(/;/g).filter(Boolean)
 const options = {
     cache,
     testRunCache,
@@ -509,15 +507,6 @@ const options = {
 
 // I need copy this - I'm not sure why
 options.compliance = compliance ?? options.compliance
-dbg(
-    `PromptPex starting = compliance ${compliance}, options.compliance: ${options.compliance}`
-)
-
-dbg(
-    `PromptPex evalModelSet: ${evalModel}, options.evalModel: ${options.evalModel}`
-)
-
-dbg(`PromptPex starting: env.files[0] ${env.files[0]}`)
 
 if (env.files[0] && promptText)
     cancel(
@@ -529,7 +518,6 @@ if (!env.files[0] && !promptText)
 initPerf({ output })
 
 // determine the source of the prompt to use
-
 const file0 = env.files[0]
 let file: any
 if (file0 && file0.filename) {
@@ -549,6 +537,8 @@ if (file0 && file0.filename) {
     file = { filename: "CLI.prompty", content: promptText }
 }
 
+output.heading(2, "PromptPex Test Generation")
+output.itemValue(`prompt file`, file.filename)
 output.itemValue(`effort`, effort)
 output.detailsFenced(`options`, options, "yaml")
 
@@ -618,7 +608,7 @@ if (options.loadContext) {
         output.heading(2, `PromptPex Diagnostics`)
         await generateReports(files)
         if (createEvalRuns) {
-            const evals = await evalsListEvals()
+            const evals = await openaiEvalsListEvals()
             if (!evals.ok) throw new Error("evals configuration not found")
         }
         await checkConfirm("diag")
@@ -695,20 +685,25 @@ if (rateTests) {
     await evalTestCollection(files, options)
     output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
     output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
+    await checkConfirm("rateTests")
 }
-await checkConfirm("rateTests")
 
-if (rateTests && options.filterTestCount > 0) {
-    // Parse the JSON content
-    output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-    const filteredTests: PromptPexTest[] = JSON.parse(
-        files.filteredTests.content
-    )
-    await generateEvals(modelsUnderTest, files, filteredTests, options)
-} else {
-    await generateEvals(modelsUnderTest, files, files.promptPexTests, options)
+if (modelsUnderTest?.length)
+    await githubModelsEvalsGenerate(files, files.promptPexTests, options)
+
+if (modelsUnderTest?.length) {
+    if (options.filterTestCount > 0) {
+        // Parse the JSON content
+        output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
+        const filteredTests: PromptPexTest[] = JSON.parse(
+            files.filteredTests.content
+        )
+        await openaiEvalsGenerate(files, filteredTests, options)
+    } else {
+        await openaiEvalsGenerate(files, files.promptPexTests, options)
+    }
+    await checkConfirm("openaievals")
 }
-await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)
@@ -749,7 +744,8 @@ if (createEvalRuns) {
     for (const metric of files.metrics)
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
-    output.itemValue(`evaluation models`, evalModel.join(", "))
+    if (evalModel?.length)
+        output.itemValue(`evaluation models`, evalModel.join(", "))
 
     // only run tests if modelsUnderTest is defined
     let groundtruthResults: PromptPexTestResult[] = []

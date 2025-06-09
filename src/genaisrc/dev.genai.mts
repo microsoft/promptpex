@@ -7,7 +7,7 @@ import { generateTests } from "./src/testgen.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
-import { loadFabricPrompts } from "./src/fabricloader.mts"
+import { fabricLoadPrompts } from "./src/fabricloader.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { evaluateTestsQuality } from "./src/testquality.mts"
 
@@ -128,7 +128,7 @@ let prompts = await Promise.all([
           )
         : []),
     ...(fabric
-        ? await loadFabricPrompts(fabric, { disableSafety: true, out })
+        ? await fabricLoadPrompts(fabric, { disableSafety: true, out })
         : []),
 ])
 if (samplePrompts)

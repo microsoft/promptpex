@@ -166,10 +166,10 @@ export interface PromptPexOptions extends PromptPexLoaderOptions {
      */
     rateTests?: boolean
 
-     /**
-     * Evaluate the test collection
-     */
-    filterTestCount?: number   
+    /**
+    * Evaluate the test collection
+    */
+    filterTestCount?: number
 
     /**
      * Load PromptPexContext from a file
@@ -208,6 +208,12 @@ export interface PromptPexContext {
      * Prompt parsed frontmatter section
      */
     frontmatter: PromptPexPromptyFrontmatter
+
+    /**
+     * The list of messages used in the prompt
+     */
+    messages: ChatMessage[]
+
     /**
      * Inputs extracted from the prompt frontmatter
      */
@@ -434,6 +440,8 @@ export interface PromptPexTestGenerationScenario {
 
 export interface PromptPexPromptyFrontmatter {
     name?: string
+    model?: PromptyFrontmatter["model"]
+    description?: string
     tags?: OptionsOrString<"scorer" | "unlisted" | "experimental">[]
     inputs?: PromptParametersSchema
     outputs?: JSONSchemaObject["properties"]
@@ -443,6 +451,10 @@ export interface PromptPexPromptyFrontmatter {
      * A list of samples or file containing samples.
      */
     testSamples?: (string | Record<string, number | string | boolean>)[]
+    /**
+     * Extra metadata
+     */
+    imported?: object
 }
 
 export interface PromptPexEvaluation {
