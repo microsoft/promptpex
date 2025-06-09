@@ -1,8 +1,5 @@
 import { initPerf } from "./src/perf.mts"
-import type {
-    PromptPexCliOptions,
-    PromptPexOptions,
-} from "./src/types.mts"
+import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
 import {
     EFFORTS,
     MODEL_ALIAS_EVAL,
@@ -364,7 +361,7 @@ user:
             description:
                 "Number of tests to include in the filtered output of evalTestCollection.",
             uiGroup: "Evaluation",
-        }
+        },
     },
 })
 
@@ -414,11 +411,13 @@ const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
-const evalModels: string[] = vars.evalModel?.split(/;/g).filter(Boolean).map(s => s.trim()) || []
-if (!evalModels.length)
-    evalModels.push(MODEL_ALIAS_EVAL)
+const evalModels: string[] =
+    vars.evalModel
+        ?.split(/;/g)
+        .filter(Boolean)
+        .map((s) => s.trim()) || []
+if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
-
 
 const options: PromptPexOptions = Object.freeze({
     cache,
@@ -463,11 +462,10 @@ output.detailsFenced(`options`, options, "yaml")
 const promptFiles: WorkspaceFile[] = []
 if (promptText)
     promptFiles.push({ filename: "input.prompty", content: promptText })
-for (const file of files)
-    promptFiles.push(file)
+for (const file of files) promptFiles.push(file)
 
-const runs = await loadPromptContexts(promptFiles, options);
+const runs = await loadPromptContexts(promptFiles, options)
 for (const run of runs) {
     dbg(`file: %s`, run.name)
-    await promptpexGenerate(run);
+    await promptpexGenerate(run)
 }
