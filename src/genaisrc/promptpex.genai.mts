@@ -36,6 +36,7 @@ import {
 } from "./src/constants.mts"
 import { evalTestCollection } from "./src/testcollectioneval.mts"
 import { saveContextState, restoreContextState } from "./src/context.mts"
+import { githubModelsEvalsGenerate } from "./src/githubmodels.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -687,7 +688,8 @@ if (rateTests) {
     await checkConfirm("rateTests")
 }
 
-await githubModelsGenerate(files, options)
+if (modelsUnderTest?.length)
+    await githubModelsEvalsGenerate(files, files.promptPexTests, options)
 
 if (modelsUnderTest?.length) {
     if (options.filterTestCount > 0) {
