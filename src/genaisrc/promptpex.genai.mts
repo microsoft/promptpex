@@ -459,11 +459,7 @@ if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .split(/;/g)
     .filter(Boolean)
-const evalModel: string[] = (
-    vars.evalModel || process.env.GENAISCRIPT_MODEL_EVAL
-)
-    .split(/;/g)
-    .filter(Boolean)
+const evalModel: string[] = vars.evalModel?.split(/;/g).filter(Boolean)
 const options = {
     cache,
     testRunCache,
