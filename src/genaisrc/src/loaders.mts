@@ -44,7 +44,7 @@ export async function loadPromptFiles(
 ): Promise<PromptPexContext> {
     if (!promptFile)
         throw new Error(
-            "No prompt file found, did you forget to the prompt file?"
+            "No prompt file found, did you forget to include the prompt file?"
         )
     dbg(`loading files from ${promptFile.filename}`)
 

@@ -1,3 +1,4 @@
+import { METRIC_SEPARATOR } from "./constants.mts"
 import { groupBy } from "./groupby.mts"
 import {
     metricName,
@@ -115,14 +116,14 @@ export function computeOverview(
                             new Set(
                                 tests.flatMap((t) =>
                                     Object.keys(t.metrics || {})
-                                        .filter((k) => k.startsWith(n + "|em|"))
-                                        .map((k) => k.split("|em|")[1])
+                                        .filter((k) => k.startsWith(n + METRIC_SEPARATOR))
+                                        .map((k) => k.split(METRIC_SEPARATOR)[1])
                                 )
                             )
                         )
                         const evalModels = eModelArray.length ? eModelArray : allEvalModels
                         return evalModels.map((eModel) => {
-                            const metricKey = `${n}|em|${eModel}`
+                            const metricKey = `${n}${METRIC_SEPARATOR}${eModel}`
                             const ms = tests
                                 .map((t) => t.metrics?.[metricKey])
                                 .filter((m) => !!m)
@@ -306,7 +307,7 @@ export function renderEvaluationOutcome(outcome: PromptPexEvalResultType) {
 
 export function renderEvaluation(res: PromptPexEvaluation) {
     const { score, outcome } = res
-    if (typeof score === "number") return String(score)
+    if (typeof score === "number") return score.toFixed(2)
     return renderEvaluationOutcome(outcome)
 }
 

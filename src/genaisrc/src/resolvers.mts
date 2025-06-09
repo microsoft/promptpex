@@ -38,7 +38,7 @@ export function resolvePromptArgs(
     test: PromptPexTest
 ) {
     const { inputs } = files
-    const { testinput, expectedoutput, scenario, groundtruth } = test
+    const { testinput, expectedoutput, scenario, groundtruth, groundtruthModel } = test
 
     const inputKeys = Object.keys(inputs)
     const unresolved = new Set(inputKeys)
@@ -100,6 +100,7 @@ export function resolvePromptArgs(
         testInput: testinput,
         expectedOutput: expectedoutput,
         groundtruth,
+        groundtruthModel,
     }
 }
 
