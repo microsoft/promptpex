@@ -131,24 +131,27 @@ export async function githubModelsToPrompty(
   dbg(`loading prompt: %s`, file.filename)
   dbg(`prompt.yml:\s%s`, file.content)
   const prompt = YAML.parse(file.content) as GitHubModelsPrompt
-  const content = `---
-${YAML.stringify({
-    name: prompt.name,
-    description: prompt.description,
+  const { name, description, model, modelParameters, testData, messages, ...rest } = prompt
+  const fm: any = {
+    name,
+    description,
     model: {
       api: "chat",
       configuration: {
-        name: "github:" + prompt.model,
+        name: "github:" + model,
         azure_deployment: undefined,
         azure_endpoint: undefined,
       },
       parameters: {
-        temperature: prompt.modelParameters?.temperature,
-        max_tokens: prompt.modelParameters?.maxTokens,
+        temperature: modelParameters?.temperature,
+        max_tokens: modelParameters?.maxTokens,
       }
     },
-    testSamples: prompt.testData?.map(item => item),
-  } satisfies PromptPexPromptyFrontmatter)}
+    testSamples: testData?.map(item => item),
+  } satisfies PromptPexPromptyFrontmatter
+  fm.imported = rest
+  const content = `---
+${YAML.stringify(fm)}
 ---
 ${prompt.messages.map(msg => `${msg.role}:
 ${messageContentToString(msg)}
