@@ -23,7 +23,7 @@ export async function evaluateRuleGrounded(
     options?: PromptPexOptions
 ): Promise<PromptPexRuleEval> {
     const { evalModels } = options || {}
-    const evalModel = evalModels?.[0]
+    const evalModel = evalModels?.[0] || MODEL_ALIAS_EVAL
     const { id, promptid, file } = await resolveRuleEvalPath(
         files,
         rule,

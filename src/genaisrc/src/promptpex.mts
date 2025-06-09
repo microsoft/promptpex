@@ -7,10 +7,9 @@ import { diagnostics } from "./flags.mts"
 import { generateInputSpec } from "./inputspecgen.mts"
 import { generateIntent } from "./intentgen.mts"
 import { generateInverseOutputRules } from "./inverserulesgen.mts"
-import { loadPromptFiles, updateOutput } from "./loaders.mts"
 import { outputFile, outputLines } from "./output.mts"
 import { metricName } from "./parsers.mts"
-import { initPerf, reportPerf } from "./perf.mts"
+import { reportPerf } from "./perf.mts"
 import { expandTests } from "./testexpand.mts"
 import {
     computeOverview,
@@ -24,8 +23,6 @@ import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
 import type {
     PromptPexContext,
-    PromptPexOptions,
-    PromptPexTest,
     PromptPexTestResult,
 } from "./types.mts"
 import {
@@ -33,7 +30,7 @@ import {
     PROMPTPEX_CONTEXT,
 } from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
-import { saveContextState, restoreContextState } from "./context.mts"
+import { saveContextState } from "./context.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 
 const { output } = env
@@ -44,14 +41,11 @@ export async function promptpexGenerate(files: PromptPexContext) {
     const {
         evals,
         evalModels,
-        loadContext,
-        loadContextFile,
         createEvalRuns,
         storeCompletions,
         storeModel,
         testExpansions,
         filterTestCount,
-        out,
         rateTests,
         groundtruthModel,
         modelsUnderTest
@@ -69,7 +63,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         }
     }
 
-    if (groundtruthModel?.length) {
+    if (groundtruthModel) {
         output.heading(3, `Groundtruth Model`)
 
         const resolved = await host.resolveLanguageModel(groundtruthModel)
@@ -90,89 +84,64 @@ export async function promptpexGenerate(files: PromptPexContext) {
         }
 
     // use context state if available
-    if (loadContext) {
-        output.heading(3, `Loading context from file`)
-        const newOut = out
-        output.appendContent(
-            `loading PromptPexContext from ${loadContextFile}`
-        )
-        files = await restoreContextState(loadContextFile)
-        updateOutput(newOut, files)
-
-        // Save the contents of the prompt file to the out directory with the original prompt file name
-        if (
-            files.prompt &&
-            files.prompt.filename &&
-            files.prompt.content &&
-            out
-        ) {
-            const promptOutPath = path.join(
-                out,
-                path.basename(files.prompt.filename)
-            )
-            await workspace.writeText(promptOutPath, files.prompt.content)
-            dbg(`Saved prompt file to ${promptOutPath}`)
+    if (diagnostics) {
+        output.heading(2, `PromptPex Diagnostics`)
+        await generateReports(files)
+        if (createEvalRuns) {
+            const evals = await openaiEvalsListEvals()
+            if (!evals.ok) throw new Error("evals configuration not found")
         }
-    } else {
-        if (diagnostics) {
-            output.heading(2, `PromptPex Diagnostics`)
-            await generateReports(files)
-            if (createEvalRuns) {
-                const evals = await openaiEvalsListEvals()
-                if (!evals.ok) throw new Error("evals configuration not found")
-            }
-            await checkConfirm("diag")
-        }
-        // prompt info
-        output.heading(3, `Prompt Under Test`)
-        output.itemValue(`filename`, files.prompt.filename)
-        output.fence(files.prompt.content, "md")
-
-        if (files.testSamples?.length) {
-            output.startDetails("test samples")
-            output.table(files.testSamples)
-            output.endDetails()
-        }
-
-        // generate intent
-        output.heading(3, "Intent")
-        await generateIntent(files, options)
-        outputFile(files.intent)
-        await checkConfirm("intent")
-
-        // generate input spec
-        output.heading(3, "Input Specification")
-        await generateInputSpec(files, options)
-        outputFile(files.inputSpec)
-        await checkConfirm("inputspec")
-
-        // generate rules
-        output.heading(3, "Output Rules")
-        await generateOutputRules(files, options)
-        outputLines(files.rules, "rule")
-        await checkConfirm("rule")
-
-        // generate inverse rules
-        output.heading(3, "Inverse Output Rules")
-        await generateInverseOutputRules(files, options)
-        outputLines(files.inverseRules, "generate inverse output rule")
-        await checkConfirm("inverse")
-
-        // generate tests
-        output.heading(3, "Tests")
-        files.promptPexTests = await generateTests(files, options)
-
-        output.table(
-            files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
-                scenario,
-                testinput,
-                expectedoutput,
-            }))
-        )
-        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-        output.detailsFenced(`test data (json)`, files.testData.content, "json")
-        await checkConfirm("test")
+        await checkConfirm("diag")
     }
+    // prompt info
+    output.heading(3, `Prompt Under Test`)
+    output.itemValue(`filename`, files.prompt.filename)
+    output.fence(files.prompt.content, "md")
+
+    if (files.testSamples?.length) {
+        output.startDetails("test samples")
+        output.table(files.testSamples)
+        output.endDetails()
+    }
+
+    // generate intent
+    output.heading(3, "Intent")
+    await generateIntent(files, options)
+    outputFile(files.intent)
+    await checkConfirm("intent")
+
+    // generate input spec
+    output.heading(3, "Input Specification")
+    await generateInputSpec(files, options)
+    outputFile(files.inputSpec)
+    await checkConfirm("inputspec")
+
+    // generate rules
+    output.heading(3, "Output Rules")
+    await generateOutputRules(files, options)
+    outputLines(files.rules, "rule")
+    await checkConfirm("rule")
+
+    // generate inverse rules
+    output.heading(3, "Inverse Output Rules")
+    await generateInverseOutputRules(files, options)
+    outputLines(files.inverseRules, "generate inverse output rule")
+    await checkConfirm("inverse")
+
+    // generate tests
+    output.heading(3, "Tests")
+    await generateTests(files, options)
+
+    output.table(
+        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
+            scenario,
+            testinput,
+            expectedoutput,
+        }))
+    )
+    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
+    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    await checkConfirm("test")
 
     if (testExpansions > 0) {
         output.heading(3, "Expanded Tests")
@@ -194,7 +163,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
         output.heading(3, "Test Set Quality Review")
         await evalTestCollection(files, options)
         output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
-        output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
         await checkConfirm("rateTests")
     }
 
@@ -202,44 +170,39 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await githubModelsEvalsGenerate(files, files.promptPexTests, options)
 
     if (modelsUnderTest?.length) {
-        if (files.filteredTests.content?.length) {
-            // Parse the JSON content
-            output.heading(3, `Running ${filterTestCount} Filtered Tests`)
-            const filteredTests: PromptPexTest[] = JSON.parse(
-                files.filteredTests.content
-            )
-            await openaiEvalsGenerate(files, filteredTests, options)
-        } else {
-            await openaiEvalsGenerate(files, files.promptPexTests, options)
-        }
+        await openaiEvalsGenerate(files, files.promptPexTests, options)
         await checkConfirm("openaievals")
     }
 
-    if (createEvalRuns) {
-        output.note(`Evals run created, skipping local evals...`)
-    } else if (evals && !modelsUnderTest?.length && !storeCompletions) {
-        output.warn(
-            `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
-        )
+    // only run tests if modelsUnderTest is defined
+    if (groundtruthModel?.length) {
+        output.heading(4, `Groundtruth Test Results`)
+        await runTests(files, {
+            runGroundtruth: true,
+            ...options,
+        })
 
-        if (evalModels?.length && loadContext) {
-            output.note(`Evaluating saved test results using evalModel.`)
-            const results = JSON.parse(files.testOutputs.content)
-            // Evaluate metrics for all test results
-            for (const testRes of results) {
-                const newResult = await evaluateTestMetrics(testRes, files, options)
-                testRes.metrics = newResult.metrics
-            }
-            files.testOutputs.content = JSON.stringify(results, null, 2)
+    }
 
-            if (files.writeResults)
-                await workspace.writeText(
-                    files.testOutputs.filename,
-                    JSON.stringify(results, null, 2)
-                )
-            output.detailsFenced(`results (json)`, results, "json")
+    // eval existing test results
+    let results: PromptPexTestResult[]
+    if (evals && evalModels?.length && files.testOutputs.content) {
+        output.note(`Evaluating saved test results.`)
+        results = JSON.parse(files.testOutputs.content)
+        // Evaluate metrics for all test results
+        for (const testRes of results) {
+            const newResult = await evaluateTestMetrics(testRes, files, options)
+            testRes.metrics = newResult.metrics
         }
-    } else {
+        files.testOutputs.content = JSON.stringify(results, null, 2)
+
+        if (files.writeResults)
+            await workspace.writeText(
+                files.testOutputs.filename,
+                JSON.stringify(results, null, 2)
+            )
+        output.detailsFenced(`results (json)`, results, "json")
+    } else if (modelsUnderTest?.length) {
         // run tests against the model(s)
         output.heading(3, `Test Runs with Models Under Test`)
         if (storeCompletions)
@@ -257,44 +220,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
         if (evalModels?.length)
             output.itemValue(`evaluation models`, evalModels.join(", "))
 
-        // only run tests if modelsUnderTest is defined
-        let groundtruthResults: PromptPexTestResult[] = []
-        if (groundtruthModel?.length) {
-            output.heading(4, `Groundtruth Test Results`)
-            groundtruthResults = await runTests(files, {
-                runGroundtruth: true,
-                ...options,
-            })
-        }
-
-        // Copy groundtruth outputs into files.promptPexTests, save to disk
-        if (groundtruthResults.length && Array.isArray(files.promptPexTests)) {
-            for (let i = 0; i < files.promptPexTests.length; ++i) {
-                if (
-                    groundtruthResults[i] &&
-                    typeof groundtruthResults[i].output === "string"
-                ) {
-                    files.promptPexTests[i].groundtruth =
-                        groundtruthResults[i].output
-                    files.promptPexTests[i].groundtruthModel = groundtruthModel
-                    dbg(
-                        `Set groundtruth for test ${i} to ${groundtruthResults[i].output}`
-                    )
-                    dbg(`test[${i}]:`, files.promptPexTests[i])
-                }
-            }
-            dbg(`saving ${files.promptPexTests.length} tests with groundtruth`)
-            const resc = JSON.stringify(files.promptPexTests, null, 2)
-            files.tests.content = resc
-            if (files.writeResults) await workspace.writeFiles(files.tests)
-        }
-
-        // groundtruth,only run tests if modelsUnderTest is defined
-        let results = []
-        if (modelsUnderTest?.length) {
-            output.heading(4, `Test Results`)
-            results = await runTests(files, { runGroundtruth: false, ...options })
-        }
+        output.heading(4, `Test Results`)
+        results = await runTests(files, options)
 
         // only measure metrics if eval is true
         if (evals) {
@@ -314,6 +241,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
             output.detailsFenced(`results (json)`, results, "json")
         }
 
+    }
+
+    if (results?.length)
         output.table(
             results.map(
                 ({
@@ -346,7 +276,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 })
             )
         )
-    }
+
 
     output.heading(3, `Results Overview`)
     const { overview } = await computeOverview(files, { percent: true })

@@ -19,9 +19,10 @@ export async function evaluateTestMetrics(
 ): Promise<PromptPexTestResult> {
     const { metrics } = files
     const { evalModels } = options
+    if (!evalModels?.length)
+        throw new Error("No evalModels provided for metric evaluation")
 
     checkConfirm("metric")
-
 
     // Remove all previous metrics before computing new ones
     testResult.metrics = {}

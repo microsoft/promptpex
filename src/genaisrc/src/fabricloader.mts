@@ -1,6 +1,6 @@
 import { readdir, readFile, writeFile } from "node:fs/promises"
 import type { PromptPexContext, PromptPexLoaderOptions } from "./types.mts"
-import { loadPromptContext } from "./loaders.mts"
+import { loadPromptContexts } from "./loaders.mts"
 
 const { output } = env
 
@@ -64,5 +64,5 @@ ${userText}
         res.push(file)
     }
 
-    return loadPromptContext(res, options)
+    return loadPromptContexts(res, options)
 }

@@ -1,5 +1,5 @@
 import { evaluateRulesSpecAgreement } from "./src/rulesspecagreement.mts"
-import { loadPromptFiles } from "./src/loaders.mts"
+import { loadPromptContext } from "./src/loaders.mts"
 import { evaluateRulesGrounded } from "./src/rulesgroundeness.mts"
 import type { PromptPexContext, PromptPexOptions } from "./src/types.mts"
 import { generateBaselineTests } from "./src/baselinetestgen.mts"
@@ -124,7 +124,7 @@ output.detailsFenced(`configurations`, configs, "yaml")
 let prompts = await Promise.all([
     ...(!fabric
         ? env.files.map((file) =>
-              loadPromptFiles(file, { disableSafety: true, out })
+              loadPromptContext(file, { disableSafety: true, out })
           )
         : []),
     ...(fabric

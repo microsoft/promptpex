@@ -21,17 +21,16 @@ import { githubModelsToPrompty } from "./githubmodels.mts"
 const dbg = host.logger("promptpex:loaders")
 
 if (!frontMatterSchema) throw new Error("frontmatter schema not found")
-dbg(`schema %O`, frontMatterSchema)
 
-export async function loadPromptContext(
+export async function loadPromptContexts(
     files: WorkspaceFile[],
-    options?: PromptPexOptions
+    options?: PromptPexOptions,
 ): Promise<PromptPexContext[]> {
     const q = host.promiseQueue(CONCURRENCY)
-    const promptFiles = files.filter((f) => /\.(md|txt|prompty|prompt\.yml)$/i.test(f.filename))
+    const promptFiles = files.filter((f) => /\.(md|txt|prompty|prompt\.yml|json)$/i.test(f.filename))
     return q.mapAll(
         promptFiles,
-        async (f) => await loadPromptFiles(f, options)
+        async (f) => await loadPromptContext(f, options)
     )
 }
 
@@ -40,7 +39,7 @@ const converters = [{
     convert: githubModelsToPrompty
 }]
 
-export async function loadPromptFiles(
+export async function loadPromptContext(
     promptFile: WorkspaceFile,
     options?: PromptPexLoaderOptions
 ): Promise<PromptPexContext> {
@@ -49,6 +48,9 @@ export async function loadPromptFiles(
             "No prompt file found, did you forget to include the prompt file?"
         )
     dbg(`loading files from ${promptFile.filename}`)
+
+    if (/\.json$/i.test(promptFile.filename))
+        return await loadPromptContextFromJSON(promptFile, options)
 
     // pre-convert other formats to prompty
     for (const converter of converters) {
@@ -87,7 +89,6 @@ export async function loadPromptFiles(
     let inputSpec = path.join(dir, "input_spec.txt")
     let baselineTests = path.join(dir, "baseline_tests.txt")
     let tests = path.join(dir, "tests.json")
-    let filteredTests = path.join(dir, "filtered_tests.json")
     let rateTests = path.join(dir, "test_collection_review.md")
     let testData = path.join(dir, "test_data.json")
     let testResults = path.join(dir, "test_results.json")
@@ -151,15 +152,14 @@ export async function loadPromptFiles(
         rules: tidyRulesFile(await workspace.readText(rules)),
         ruleEvals: await workspace.readText(ruleEvals),
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
-        promptPexTests: [],
         tests: await workspace.readText(tests),
-        filteredTests: await workspace.readText(filteredTests),
         rateTests: await workspace.readText(rateTests),
         testData: await workspace.readText(testData),
         testEvals: await workspace.readText(testEvals),
         baselineTests: await workspace.readText(baselineTests),
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
+        promptPexTests: [],
         metrics,
         testSamples,
         versions: {
@@ -172,31 +172,9 @@ export async function loadPromptFiles(
     if (!disableSafety) await checkPromptSafety(res)
     await checkConfirm("loader")
 
+    res.promptPexTests = parsers.JSON5(res.tests.content) || []
+
     return res
-}
-
-export function updateOutput(
-    dir: string,
-    ctx: PromptPexContext
-): void {
-    ctx.dir = dir
-    dbg(`updating out: ${ctx.dir}`)
-
-    const writeResults = !!ctx.dir
-    ctx.intent = { filename: path.join(dir, "intent.txt"), content: ctx.intent?.content ?? "" };
-    ctx.rules = { filename: path.join(dir, "rules.txt"), content: ctx.rules?.content ?? "" };
-    ctx.inverseRules = { filename: path.join(dir, "inverse_rules.txt"), content: ctx.inverseRules?.content ?? "" };
-    ctx.inputSpec = { filename: path.join(dir, "input_spec.txt"), content: ctx.inputSpec?.content ?? "" };
-    ctx.baselineTests = { filename: path.join(dir, "baseline_tests.txt"), content: ctx.baselineTests?.content ?? "" };
-    ctx.tests = { filename: path.join(dir, "tests.json"), content: ctx.tests?.content ?? "" };
-    ctx.filteredTests = { filename: path.join(dir, "filtered_tests.json"), content: ctx.filteredTests?.content ?? "" };
-    ctx.rateTests = { filename: path.join(dir, "test_collection_review.md"), content: ctx.rateTests?.content ?? "" };
-    ctx.testData = { filename: path.join(dir, "test_data.json"), content: ctx.testData?.content ?? "" };
-    ctx.testOutputs = { filename: path.join(dir, "test_results.json"), content: ctx.testOutputs?.content ?? "" };
-    ctx.testEvals = { filename: path.join(dir, "test_evals.json"), content: ctx.testEvals?.content ?? "" };
-    ctx.baselineTestEvals = { filename: path.join(dir, "baseline_test_evals.json"), content: ctx.baselineTestEvals?.content ?? "" };
-    ctx.ruleEvals = { filename: path.join(dir, "rule_evals.json"), content: ctx.ruleEvals?.content ?? "" };
-    ctx.ruleCoverages = { filename: path.join(dir, "rule_coverage.json"), content: ctx.ruleCoverages?.content ?? "" };
 }
 
 function parseInputs(
@@ -324,3 +302,29 @@ export async function validateFrontmatter(
 
     return frontmatter
 }
+
+
+async function loadPromptContextFromJSON(
+    file: WorkspaceFile,
+    options: PromptPexOptions
+): Promise<PromptPexContext> {
+    const { out } = options
+    dbg(`loading json...`)
+    const ctx = JSON.parse(file.content) as PromptPexContext
+
+    const dir = out || path.dirname(file.filename)
+    dbg(`using dir: %s`, dir)
+
+
+    const ctxFiles = [ctx.intent, ctx.rules, ctx.inverseRules, ctx.inputSpec,
+    ctx.baselineTests, ctx.tests, ctx.rateTests,
+    ctx.testData, ctx.testOutputs, ctx.testEvals, ctx.baselineTestEvals,
+    ctx.ruleEvals, ctx.ruleCoverages]
+    for (const file of ctxFiles) {
+        file.filename = path.join(dir, path.basename(file.filename))
+    }
+    await workspace.writeFiles(ctxFiles)
+    ctx.options = { ...options, ...ctx.options, }
+    return ctx
+}
+

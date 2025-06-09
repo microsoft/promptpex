@@ -5,10 +5,11 @@ import type {
 } from "./src/types.mts"
 import {
     EFFORTS,
+    MODEL_ALIAS_EVAL,
     PROMPTPEX_CONTEXT,
 } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
-import { loadPromptContext } from "./src/loaders.mts"
+import { loadPromptContexts } from "./src/loaders.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -362,24 +363,8 @@ user:
             type: "integer",
             description:
                 "Number of tests to include in the filtered output of evalTestCollection.",
-            default: 5,
             uiGroup: "Evaluation",
-        },
-        loadContext: {
-            type: "boolean",
-            description: "Load context from a file.",
-            default: false,
-            required: false,
-            uiGroup: "Generation",
-        },
-        loadContextFile: {
-            type: "string",
-            description:
-                "Filename to load PromptPexContext from before running.",
-            default: PROMPTPEX_CONTEXT,
-            required: false,
-            uiGroup: "Generation",
-        },
+        }
     },
 })
 
@@ -430,21 +415,10 @@ const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
     .filter(Boolean)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
 const evalModels: string[] = vars.evalModel?.split(/;/g).filter(Boolean).map(s => s.trim()) || []
+if (!evalModels.length)
+    evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 
-let {
-    loadContext, loadContextFile,
-} = vars as PromptPexOptions
-for (const file of files) {
-    const ext = path.extname(file.filename)
-    if (ext === ".json") {
-        // Set loadContext and loadContextFile to the path to env.files[0]
-        loadContext = true
-        loadContextFile = path.isAbsolute(file.filename)
-            ? file.filename
-            : path.join(process.cwd(), file.filename)
-    }
-}
 
 const options: PromptPexOptions = Object.freeze({
     cache,
@@ -481,8 +455,6 @@ const options: PromptPexOptions = Object.freeze({
     testExpansions,
     rateTests,
     filterTestCount,
-    loadContext,
-    loadContextFile,
     out,
     ...efforts,
 } satisfies PromptPexOptions)
@@ -492,9 +464,9 @@ const promptFiles: WorkspaceFile[] = []
 if (promptText)
     promptFiles.push({ filename: "input.prompty", content: promptText })
 for (const file of files)
-    promptFiles.push(...files)
+    promptFiles.push(file)
 
-const runs = await loadPromptContext(promptFiles, options)
+const runs = await loadPromptContexts(promptFiles, options);
 for (const run of runs) {
     dbg(`file: %s`, run.name)
     await promptpexGenerate(run);

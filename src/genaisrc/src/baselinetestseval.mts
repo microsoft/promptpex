@@ -10,7 +10,7 @@ export async function evaluateBaselineTests(
     options?: PromptPexOptions & { force?: boolean }
 ) {
     const { evalModels } = options || {}
-    const evalModel = evalModels[0]
+    const evalModel = evalModels?.[0] || MODEL_ALIAS_EVAL
 
     // assume first evalModel is the one to use for baseline tests
     const moptions = modelOptions(evalModel, options)

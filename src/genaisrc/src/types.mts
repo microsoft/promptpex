@@ -175,16 +175,6 @@ export interface PromptPexBaseOptions extends PromptPexLoaderOptions {
     * Evaluate the test collection
     */
     filterTestCount?: number
-
-    /**
-     * Load PromptPexContext from a file
-     */
-    loadContext?: boolean
-
-    /**
-     * Filename to load PromptPexContext from 
-     */
-    loadContextFile?: string
 }
 
 export interface PromptPexCliOptions extends PromptPexBaseOptions, PromptPexCliExtraOptions {
@@ -277,11 +267,6 @@ export interface PromptPexContext {
     rateTests: WorkspaceFile
 
     /**
-     * PromptPex rateTests
-     */
-    filteredTests: WorkspaceFile
-
-    /**
      * Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
      */
     testOutputs: WorkspaceFile
@@ -322,6 +307,11 @@ export interface PromptPexContext {
         promptpex: string
         node: string
     }
+
+    /**
+     * Reuse results
+     */
+    reuseResults?: boolean
 
     /**
      * Options when loading context
