@@ -234,7 +234,10 @@ export async function githubModelsEvalsGenerate(
       const model = modelId.replace(/^(github:)/, "")
       dbg(`generate eval run for model %s`, model)
       const res = toModelsPrompt(model, messages, files)
-
+      await workspace.writeText(
+        path.join(files.dir, "gh.eval.prompt.yml"),
+        YAML.stringify(res)
+      )
     }
   }
 }
