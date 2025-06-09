@@ -734,7 +734,8 @@ if (createEvalRuns) {
     for (const metric of files.metrics)
         output.detailsFenced(metricName(metric), metric.content, "markdown")
 
-    output.itemValue(`evaluation models`, evalModel.join(", "))
+    if (evalModel?.length)
+        output.itemValue(`evaluation models`, evalModel.join(", "))
 
     // only run tests if modelsUnderTest is defined
     let groundtruthResults: PromptPexTestResult[] = []

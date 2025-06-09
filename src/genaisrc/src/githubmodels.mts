@@ -131,7 +131,7 @@ export async function githubModelsToPrompty(
   dbg(`loading prompt: %s`, file.filename)
   dbg(`prompt.yml:\s%s`, file.content)
   const prompt = YAML.parse(file.content) as GitHubModelsPrompt
-  const { name, description, model, modelParameters, testData, messages, ...rest } = prompt
+  const { name, description, model, modelParameters, testData, messages, ...imported } = prompt
   const fm: any = {
     name,
     description,
@@ -148,8 +148,8 @@ export async function githubModelsToPrompty(
       }
     },
     testSamples: testData?.map(item => item),
+    imported
   } satisfies PromptPexPromptyFrontmatter
-  fm.imported = rest
   const content = `---
 ${YAML.stringify(fm)}
 ---

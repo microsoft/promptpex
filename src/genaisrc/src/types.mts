@@ -451,6 +451,10 @@ export interface PromptPexPromptyFrontmatter {
      * A list of samples or file containing samples.
      */
     testSamples?: (string | Record<string, number | string | boolean>)[]
+    /**
+     * Extra metadata
+     */
+    imported?: object
 }
 
 export interface PromptPexEvaluation {
