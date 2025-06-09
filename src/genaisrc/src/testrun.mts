@@ -175,7 +175,7 @@ async function runTest(
         metadata?: Record<string, string>
     }
 ): Promise<PromptPexTestResult> {
-    const { model, compliance, evalCache, metadata } = options || {}
+    const { model, compliance, evalCache, metadata, evalModels } = options || {}
     if (!model) throw new Error("No model provided for test")
 
     const { cache, testRunCache, ...optionsNoCache } = options || {}
@@ -259,7 +259,7 @@ async function runTest(
 
 
     if (compliance) {
-        const eModel = options?.evalModel?.[0] || "eval"
+        const eModel = evalModels?.[0] || "eval"
         testRes.compliance = undefined
         const compliance = await evaluateTestResult(files, eModel, testRes, options)
         testRes.complianceText = compliance.content

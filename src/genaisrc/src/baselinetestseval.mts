@@ -9,8 +9,11 @@ export async function evaluateBaselineTests(
     files: PromptPexContext,
     options?: PromptPexOptions & { force?: boolean }
 ) {
+    const { evalModels } = options || {}
+    const evalModel = evalModels[0]
+
     // assume first evalModel is the one to use for baseline tests
-    const moptions = modelOptions(options.evalModel[0], options)
+    const moptions = modelOptions(evalModel, options)
     const inputSpec = files.inputSpec.content
     const baselineTests = parseBaselineTests(files)
 

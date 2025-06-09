@@ -22,7 +22,8 @@ export async function evaluateRuleGrounded(
     rule: string,
     options?: PromptPexOptions
 ): Promise<PromptPexRuleEval> {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
+    const { evalModels } = options || {}
+    const evalModel = evalModels?.[0]
     const { id, promptid, file } = await resolveRuleEvalPath(
         files,
         rule,
@@ -47,7 +48,7 @@ export async function evaluateRuleGrounded(
             },
             {
                 // assume first evalModel is the one to use for rule grounding
-                ...modelOptions(evalModel[0], options),
+                ...modelOptions(evalModel, options),
                 choices: OK_ERR_CHOICES,
                 label: `${files.name}> eval rule grounded ${rule.slice(0, 18)}...`,
             }
