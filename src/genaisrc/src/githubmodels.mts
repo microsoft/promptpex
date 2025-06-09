@@ -234,7 +234,7 @@ export async function githubModelsEvalsGenerate(
         dbg(`skipping model %s`, modelId)
         continue
       }
-      const res = toModelsPrompt(modelId, messages, files)
+      const res = await toModelsPrompt(modelId, messages, files)
       await workspace.writeText(
         path.join(files.dir, "gh.eval.prompt.yml"),
         YAML.stringify(res)
