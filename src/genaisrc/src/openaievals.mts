@@ -302,13 +302,12 @@ async function evalsCreateRun(
 }
 
 export async function openaiEvalsGenerate(
-    models: string[],
     files: PromptPexContext,
     tests: PromptPexTest[],
     options?: PromptPexOptions
 ) {
-    output.heading(3, "Evals")
-    const { createEvalRuns } = options || {}
+    output.heading(3, "OpenAI Evals")
+    const { createEvalRuns, modelsUnderTest } = options || {}
 
     const connection = createEvalRuns
         ? await openaiEvalsResolveConnection()
@@ -317,7 +316,7 @@ export async function openaiEvalsGenerate(
     output.itemValue(`eval id`, evalId)
     dbg(`eval id: %s`, evalId)
     if (tests?.length) {
-        for (const modelId of models) {
+        for (const modelId of modelsUnderTest) {
             if (!/^(openai|azure):/.test(modelId)) {
                 dbg(`skipping model %s`, modelId)
                 continue

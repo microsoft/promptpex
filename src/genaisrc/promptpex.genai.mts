@@ -1,5 +1,8 @@
 import { checkConfirm } from "./src/confirm.mts"
-import { openaiEvalsListEvals, openaiEvalsGenerate } from "./src/openaievals.mts"
+import {
+    openaiEvalsListEvals,
+    openaiEvalsGenerate,
+} from "./src/openaievals.mts"
 import { diagnostics } from "./src/flags.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
@@ -391,7 +394,7 @@ user:
         },
         loadContext: {
             type: "boolean",
-            description: "Load contenxt from a file.",
+            description: "Load context from a file.",
             default: false,
             required: false,
             uiGroup: "Generation",
@@ -684,17 +687,21 @@ if (rateTests) {
     await checkConfirm("rateTests")
 }
 
-if (rateTests && options.filterTestCount > 0) {
-    // Parse the JSON content
-    output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-    const filteredTests: PromptPexTest[] = JSON.parse(
-        files.filteredTests.content
-    )
-    await openaiEvalsGenerate(modelsUnderTest, files, filteredTests, options)
-} else {
-    await openaiEvalsGenerate(modelsUnderTest, files, files.promptPexTests, options)
+await githubModelsGenerate(files, options)
+
+if (modelsUnderTest?.length) {
+    if (options.filterTestCount > 0) {
+        // Parse the JSON content
+        output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
+        const filteredTests: PromptPexTest[] = JSON.parse(
+            files.filteredTests.content
+        )
+        await openaiEvalsGenerate(files, filteredTests, options)
+    } else {
+        await openaiEvalsGenerate(files, files.promptPexTests, options)
+    }
+    await checkConfirm("openaievals")
 }
-await checkConfirm("evals")
 
 if (createEvalRuns) {
     output.note(`Evals run created, skipping local evals...`)

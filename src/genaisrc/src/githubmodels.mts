@@ -1,7 +1,8 @@
-import type { PromptPexContext, PromptPexLoaderOptions, PromptPexPromptyFrontmatter } from "./types.mts";
+import type { PromptPexContext, PromptPexLoaderOptions, PromptPexOptions, PromptPexPromptyFrontmatter, PromptPexTest } from "./types.mts";
 import { resolvePromptArgs } from "./resolvers.mts";
 import { GITHUB_MODELS_RX } from "./constants.mts";
 
+const { output } = env
 const dbg = host.logger("promptpex:github:models")
 /*
 
@@ -164,9 +165,9 @@ ${messageContentToString(msg)}
   }
 }
 
-export async function githubModelsToEvaluator(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsPrompt> {
+async function toModelsPrompt(modelUnderTest: string, messages: ChatMessage[], files: PromptPexContext): Promise<GitHubModelsPrompt> {
   const { frontmatter, promptPexTests } = files
-  const { name, description, model } = frontmatter;
+  const { name, description, model, imported } = frontmatter;
   const { parameters } = model || {}
   const { temperature, max_tokens: maxTokens } = parameters || {}
 
@@ -188,6 +189,7 @@ export async function githubModelsToEvaluator(modelUnderTest: string, messages: 
     },
     messages: messages.map(toMessage),
     testData,
+    ...(imported || {})
   } satisfies GitHubModelsPrompt
 
   function toMessage(msg: ChatMessage): GitHubModelsMessage {
@@ -212,4 +214,27 @@ function partToString(part: string | ChatContentPart) {
   if (part.type === "text") return part.text
   if (part.type === "file") return part.file.filename
   return part.type
+}
+
+export async function githubModelsEvalsGenerate(
+  files: PromptPexContext,
+  tests: PromptPexTest[],
+  options?: PromptPexOptions
+) {
+  output.heading(3, "GitHub Models Evals")
+  const { messages } = files
+  const { modelsUnderTest } = options || {}
+
+  if (tests?.length) {
+    for (const modelId of modelsUnderTest) {
+      if (!/^github:/.test(modelId)) {
+        dbg(`skipping model %s`, modelId)
+        continue
+      }
+      const model = modelId.replace(/^(github:)/, "")
+      dbg(`generate eval run for model %s`, model)
+      const res = toModelsPrompt(model, messages, files)
+
+    }
+  }
 }
