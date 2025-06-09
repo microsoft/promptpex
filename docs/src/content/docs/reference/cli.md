@@ -1,5 +1,5 @@
 ---
-title: Using PromptPex on the Command Line
+title: Command Line
 description: How to use PromptPex to evaluate prompts and models with generated tests.
 sidebar:
     order: 21.6
@@ -12,7 +12,8 @@ We start with simple examples of using PromptPex assume your prompt is in a file
 ### Generate, Run and Evaluate Tests
 
 Suppose you want to generate tests, run them, and evaluate the results using the minimum effort level:
-```sh
+
+```sh wrap
 promptpex myprompt.prompty --effort=min --out=results/ --evals=true --modelsUnderTest="ollama:llama3.3" --evalModel="ollama:llama3.3"
 ```
 
