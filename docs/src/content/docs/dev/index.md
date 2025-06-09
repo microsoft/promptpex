@@ -1,7 +1,7 @@
 ---
 title: Overview
 sidebar:
-    order: 30
+    order: 80
 ---
 
 This section provides documentation for developers who want to use PromptPex in their own projects or infrastructure.

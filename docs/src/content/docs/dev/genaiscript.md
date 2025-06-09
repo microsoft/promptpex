@@ -1,7 +1,7 @@
 ---
 title: GenAIScript
 sidebar:
-    order: 31
+    order: 81
 ---
 
 [GenAIScript](https://microsoft.github.io/genaiscript) is a tool for generating and executing scripts using LLMs. It is used in PromptPex to generate the test generation scripts.
