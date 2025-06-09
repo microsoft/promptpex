@@ -50,9 +50,6 @@ export async function runTests(
     dbg(`found ${baselineTests.length} tests`)
     const tests = [...rulesTests, ...baselineTests].slice(0, maxTestsToRun)
 
-    dbg(
-        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
-    )
     if (!tests?.length) {
         dbg(`rules tests:\n%s`, files.tests.content)
         dbg(`baseline tests:\n%s`, files.baselineTests.content)
@@ -67,14 +64,6 @@ export async function runTests(
         files.tests.content = JSON.stringify(rulesTests, null, 2)
         if (files.writeResults) await workspace.writeFiles(files.tests)
     }
-
-    console.log(
-        `running ${tests.length} tests (x ${runsPerTest}) with ${modelsUnderTest.length} models`
-    )
-
-    output.startDetails(`running ${tests.length} tests (x ${runsPerTest})`, {
-        expanded: false,
-    })
 
 
     const modelsToRun: {
@@ -97,10 +86,12 @@ export async function runTests(
             : undefined,
         ...modelsUnderTest.map((model) => ({ model, metadata: undefined })),
     ].filter(Boolean)
-
     dbg(
         `running ${tests.length} tests (x ${runsPerTest}) with ${modelsToRun.length} models`
     )
+    output.startDetails(`running ${tests.length} tests (x ${runsPerTest})`, {
+        expanded: false,
+    })
 
     const ntraining = tests.length * TEST_TRAINING_DATASET_RATIO
     const testResults: PromptPexTestResult[] = []

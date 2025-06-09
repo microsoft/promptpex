@@ -52,22 +52,23 @@ export async function loadPromptContext(
     if (/\.json$/i.test(promptFile.filename))
         return await loadPromptContextFromJSON(promptFile, options)
 
+    const { out, disableSafety } = options || {}
+    dbg(`out: ${out}`)
+    const writeResults = !!out
     // pre-convert other formats to prompty
     for (const converter of converters) {
         if (converter.rx.test(promptFile.filename)) {
             dbg(`converting file %s`, promptFile.filename)
             promptFile = await converter.convert(promptFile, options)
             dbg(`converted file %s`, promptFile.filename)
-            await workspace.writeFiles(promptFile)
+            if (writeResults)
+                await workspace.writeText(path.join(out, path.basename(promptFile.filename)), promptFile.content)
             break
         }
     }
     dbg(`prompt file: %O`, promptFile)
 
     await checkPromptFiles()
-    const { out, disableSafety } = options || {}
-    dbg(`out: ${out}`)
-    const writeResults = !!out
     const filename =
         promptFile.filename ||
         (await parsers.hash(promptFile.content, {

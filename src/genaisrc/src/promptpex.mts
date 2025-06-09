@@ -63,11 +63,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
 
     if (groundtruthModel) {
-        output.heading(3, `Groundtruth Model`)
-
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
-        output.item(`${resolved.provider}:${resolved.model}`)
+        output.itemValue(`groundtruth model`, `${resolved.provider}:${resolved.model}`)
     }
 
     if (evals)
@@ -165,12 +163,10 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("rateTests")
     }
 
-    if (modelsUnderTest?.length)
-        await githubModelsEvalsGenerate(files, files.promptPexTests, options)
-
     if (modelsUnderTest?.length) {
+        await githubModelsEvalsGenerate(files, files.promptPexTests, options)
         await openaiEvalsGenerate(files, files.promptPexTests, options)
-        await checkConfirm("openaievals")
+        await checkConfirm("integration")
     }
 
     // only run tests if modelsUnderTest is defined

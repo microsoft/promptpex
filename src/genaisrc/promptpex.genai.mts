@@ -7,6 +7,7 @@ import {
 } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
+import { deleteFalsyValues } from "./src/cleaners.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -419,7 +420,7 @@ const evalModels: string[] =
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 
-const options: PromptPexOptions = Object.freeze({
+const options: PromptPexOptions = Object.freeze(deleteFalsyValues({
     cache,
     testRunCache,
     evalCache,
@@ -456,7 +457,7 @@ const options: PromptPexOptions = Object.freeze({
     filterTestCount,
     out,
     ...efforts,
-} satisfies PromptPexOptions)
+} satisfies PromptPexOptions))
 output.detailsFenced(`options`, options, "yaml")
 
 const promptFiles: WorkspaceFile[] = []

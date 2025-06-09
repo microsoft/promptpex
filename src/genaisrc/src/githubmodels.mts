@@ -227,6 +227,8 @@ export async function githubModelsEvalsGenerate(
   output.heading(3, "GitHub Models Evals")
   const { messages } = files
   const { modelsUnderTest } = options || {}
+  if (!modelsUnderTest?.length)
+    throw new Error("No models under test specified in options")
 
   if (tests?.length) {
     for (const modelId of modelsUnderTest) {
