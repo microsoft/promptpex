@@ -1,5 +1,5 @@
 ---
-title: Test Scenarios
+title: Scenarios
 sidebar:
     order: 26
 ---

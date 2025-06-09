@@ -1,5 +1,5 @@
 ---
-title: PromptPex CLI Parameters
+title: Parameters
 description: Documentation of all parameters available to the PromptPex CLI and script interface.
 sidebar:
     order: 27
