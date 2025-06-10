@@ -251,7 +251,7 @@ async function toModelsPrompt(
     res.evaluators = res.evaluators || []
     for (const metric of files.metrics) {
         const evaluator = await metricToEvaluator(metric, files)
-        res.evaluators.push(evaluator)
+        if (evaluator) res.evaluators.push(evaluator)
     }
     dbg(`prompt: %s`, YAML.stringify(res))
     return res
@@ -269,6 +269,12 @@ async function metricToEvaluator(
     metric: WorkspaceFile,
     files: PromptPexContext
 ) {
+    const fm = MD.frontmatter(metric.content) as PromptPexPromptyFrontmatter
+    const scorer = fm.tags?.includes("scorer")
+    if (scorer) {
+        dbg(`skipping metric %s as it is a scorer`, metric.filename)
+        return undefined
+    }
     const resolvedMetric = await resolveInternalVariables(metric, files)
     const resolvedPrompt = await parsers.prompty(resolvedMetric)
     const evaluator: GitHubModelsEvaluator = {
