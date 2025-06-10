@@ -310,6 +310,7 @@ async function loadPromptContextFromJSON(
 ): Promise<PromptPexContext> {
     const { out } = options
     dbg(`loading json...`)
+    dbg(`file: %O`, file)
     const ctx = JSON.parse(file.content) as PromptPexContext
 
     const dir = out || path.dirname(file.filename)
@@ -323,7 +324,9 @@ async function loadPromptContextFromJSON(
     for (const file of ctxFiles) {
         file.filename = path.join(dir, path.basename(file.filename))
     }
-    await workspace.writeFiles(ctxFiles)
+
+    await workspace.writeFiles(ctxFiles.filter(f => f.content))
+    dbg (`wrote files: %O`, ctxFiles.map(f => f.filename))
     ctx.options = { ...options, ...ctx.options, }
     return ctx
 }
