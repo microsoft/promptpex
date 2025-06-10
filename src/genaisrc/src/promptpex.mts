@@ -163,7 +163,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     // only run tests if modelsUnderTest is defined
     if (groundtruthModel?.length) {
-        output.heading(4, `Groundtruth Test Results`)
+        output.heading(3, `Groundtruth`)
         await runTests(files, {
             runGroundtruth: true,
             ...options,

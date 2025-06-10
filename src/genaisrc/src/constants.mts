@@ -237,3 +237,4 @@ const okErrorOutputFormat = `
 `
 
 export const GITHUB_MODELS_RX = /\.prompt\.yml$/
+export const TEMPLATE_VARIABLE_RX = /\{\{\s*(?<id>\w+)\s*\}\}/g

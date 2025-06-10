@@ -6,7 +6,7 @@ import type {
     PromptPexTest,
 } from "./types.mts"
 import { metricName } from "./parsers.mts"
-import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
+import { OK_CHOICE, OK_ERR_CHOICES, TEMPLATE_VARIABLE_RX } from "./constants.mts"
 import { resolvePromptArgs } from "./resolvers.mts"
 const dbg = host.logger("promptpex:openai:evals")
 const { output } = env
@@ -15,14 +15,20 @@ const { output } = env
 // Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
 // https://learn.microsoft.com/en-us/azure/ai-services/openai/authoring-reference-preview
 
-async function toEvalTemplate(file: WorkspaceFile) {
+async function toEvalTemplate(file: WorkspaceFile, variables: Record<string, string>) {
     const patched = {
         filename: file.filename,
-        content: file.content.replace(/\{\{\s*(?<id>\w+)\s*\}\}/g, (_, id) => {
+        content: file.content.replace(TEMPLATE_VARIABLE_RX, (_, id) => {
+            const variable = variables[id]
+            if (variable) {
+                dbg(`inline ${id}`)
+                return variable
+            }
             if (id === "output") return "{{sample.output_text}}"
             return `{{item.${id}}}`
         }),
     }
+    dbg(`patched: %s`, patched.content)
     const pp = await parsers.prompty(patched)
     return {
         input: pp.messages,
@@ -35,13 +41,13 @@ async function toEvalTemplate(file: WorkspaceFile) {
 
 async function metricToTestingCriteria(
     metric: WorkspaceFile,
-    options?: { model?: string }
+    model: string,
+    variables: Record<string, string>
 ): Promise<OpenAI.Evals.EvalCreateParams.LabelModel | any> {
-    const { model = "gpt-4o" } = options
     const name = metricName(metric)
     const fm = MD.frontmatter(metric.content) as PromptPexPromptyFrontmatter
     const scorer = fm.tags?.includes("scorer")
-    const { input } = await toEvalTemplate(metric)
+    const { input } = await toEvalTemplate(metric, variables)
     dbg(`input: %O`, input)
     // {{output}} -> {{sample.output_text}}
     // {{*}} -> {{item.input}}
@@ -75,20 +81,11 @@ const METRIC_SCHEMA = {
         prompt: {
             type: "string",
         },
-        intent: {
-            type: "string",
-        },
-        inputSpec: {
-            type: "string",
-        },
-        rules: {
-            type: "string",
-        },
         input: {
             type: "string",
         },
     },
-    required: ["prompt", "intent", "inputSpec", "rules", "input"],
+    required: ["prompt", "input"],
 }
 
 interface OpenAIConnection {
@@ -105,7 +102,9 @@ export async function openaiEvalsResolveConnection(): Promise<OpenAIConnection> 
     let version: string | undefined
 
     // OpenAI
-    const oai = await host.resolveLanguageModelProvider("openai", { token: true })
+    const oai = await host.resolveLanguageModelProvider("openai", {
+        token: true,
+    })
     dbg(`oai: %O`, oai)
     if (oai?.token) {
         dbg(`connection: OpenAI`)
@@ -119,14 +118,16 @@ export async function openaiEvalsResolveConnection(): Promise<OpenAIConnection> 
 
     // Azure OpenAI
     if (!url) {
-        const aoia = await host.resolveLanguageModelProvider("azure", { token: true })
+        const aoia = await host.resolveLanguageModelProvider("azure", {
+            token: true,
+        })
         dbg(`aoia: %O`, aoia)
         if (aoia?.token) {
             dbg(`connection: Azure OpenAI`)
             url = aoia.base.replace(/\/deployments\/?$/, `/evals`)
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": aoia.token,
+                Authorization: aoia.token,
             }
             version = aoia.version || "2025-04-01-preview"
         }
@@ -137,13 +138,13 @@ export async function openaiEvalsResolveConnection(): Promise<OpenAIConnection> 
 }
 
 function urlWithVersion(base: string, route: string, version?: string) {
-    return `${base}${route}${version ? `?api-version=${version}` : ''}`
+    return `${base}${route}${version ? `?api-version=${version}` : ""}`
 }
 
 export async function openaiEvalsListEvals() {
     const { url, headers, version } = await openaiEvalsResolveConnection()
     if (!url) return {}
-    const listUrl = urlWithVersion(url, '', version)
+    const listUrl = urlWithVersion(url, "", version)
     const res = await fetch(listUrl, {
         method: "GET",
         headers: headers,
@@ -164,8 +165,13 @@ async function evalsCreateRequest(
     options?: PromptPexOptions
 ) {
     const name = `${files.name} (promptpex)`
-    const { metrics, inputs } = files
-    const metricOptions = { model: "gpt-4o" } // TODO: support other?
+    const { metrics, inputs, intent, inputSpec, rules } = files
+    const model = "gpt-4o"
+    const variables = {
+        intent: intent.content ?? "",
+        inputSpec: inputSpec.content ?? "",
+        rules: rules.content ?? "",
+    }
     const body = {
         name,
         data_source_config: {
@@ -182,7 +188,7 @@ async function evalsCreateRequest(
         },
         testing_criteria: await Promise.all(
             metrics.map((metric) =>
-                metricToTestingCriteria(metric, metricOptions)
+                metricToTestingCriteria(metric, model, variables)
             )
         ),
         metadata: {
@@ -198,7 +204,7 @@ async function evalsCreateRequest(
 
     if (connection) {
         const { url, version, headers, dashboardUrl } = connection
-        const createUrl = urlWithVersion(url, '', version)
+        const createUrl = urlWithVersion(url, "", version)
         dbg(`create:\nPOST %s\n%O\n%O`, createUrl, headers, body)
         const res = await fetch(createUrl, {
             method: "POST",
@@ -230,14 +236,12 @@ async function evalsCreateRun(
     tests: PromptPexTest[],
     options?: PromptPexOptions
 ) {
-    const { text } = await toEvalTemplate(files.prompt)
-    const parameters = {
-        prompt: text,
-        intent: files.intent.content || "",
-        inputSpec: files.inputSpec.content || "",
-        rules: files.rules.content,
+    const variables = {
+        intent: files.intent.content ?? "",
+        inputSpec: files.inputSpec.content ?? "",
+        rules: files.rules.content ?? "",
     }
-
+    const { text } = await toEvalTemplate(files.prompt, variables)
     const body = {
         name: model,
         data_source: {
@@ -260,13 +264,13 @@ async function evalsCreateRun(
                 type: "file_content",
                 content: tests.map((test) => {
                     const { args } = resolvePromptArgs(files, test)
-                    return ({
+                    return {
                         item: {
-                            ...parameters,
+                            ...variables,
                             input: test.testinput,
                             ...args,
                         },
-                    })
+                    }
                 }),
             },
         },
@@ -295,7 +299,10 @@ async function evalsCreateRun(
         }
         const run = (await res.json()) as { id: string; name: string }
         if (dashboardUrl)
-            output.itemLink(run.name, `${dashboardUrl}${evalId}/data?run_id=${run.id}`)
+            output.itemLink(
+                run.name,
+                `${dashboardUrl}${evalId}/data?run_id=${run.id}`
+            )
         else output.itemValue(`eval run id`, run.id)
         output.detailsFenced(`eval run object`, run, "json")
     }
