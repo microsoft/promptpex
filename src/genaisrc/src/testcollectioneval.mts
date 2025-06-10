@@ -11,7 +11,7 @@ export async function evalTestCollection (
     options?: PromptPexOptions
 ): Promise<void> {
     /* TODO: use files.promptPexTests, and single prompt to select tests
-    const { rulesModel = "rules" } = options || {}
+    const { rulesModel = MODEL_ALIAS_RULES } = options || {}
 
     const context = MD.content(files.prompt.content)
 

@@ -1,4 +1,8 @@
-import { INTENT_RETRY, PROMPT_GENERATE_INTENT } from "./constants.mts"
+import {
+    INTENT_RETRY,
+    MODEL_ALIAS_RULES,
+    PROMPT_GENERATE_INTENT,
+} from "./constants.mts"
 import { outputPrompty } from "./output.mts"
 import { modelOptions, checkLLMResponse } from "./parsers.mts"
 import { measure } from "./perf.mts"
@@ -18,7 +22,7 @@ export async function generateIntent(
         dbg(`intent already exists for ${files.name}, skipping generation`)
         return
     }
-    const { rulesModel = "rules" } = options || {}
+    const { rulesModel = MODEL_ALIAS_RULES } = options || {}
     const context = MD.content(files.prompt.content)
     const instructions =
         options?.instructions?.intent ||

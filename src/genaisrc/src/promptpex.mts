@@ -19,7 +19,7 @@ import { generateTests } from "./testgen.mts"
 import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
 import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
-import { MODEL_ALIAS_STORE, PROMPTPEX_CONTEXT } from "./constants.mts"
+import { MODEL_ALIAS_RULES, MODEL_ALIAS_STORE, PROMPTPEX_CONTEXT } from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { resolve } from "node:path"
@@ -44,7 +44,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     output.heading(2, name)
     output.itemValue(`prompt file`, prompt.filename)
-
+    const rulesModel = await host.resolveLanguageModel(MODEL_ALIAS_RULES)
+    output.itemValue(`rules model`, `${rulesModel.provider}:${rulesModel.model}`)
+ 
     if (groundtruthModel) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
