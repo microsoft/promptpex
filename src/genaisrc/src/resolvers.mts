@@ -1,3 +1,4 @@
+import { TEMPLATE_VARIABLE_RX } from "./constants.mts"
 import type {
     PromptPexContext,
     PromptPexTest,
@@ -38,7 +39,13 @@ export function resolvePromptArgs(
     test: PromptPexTest
 ) {
     const { inputs } = files
-    const { testinput, expectedoutput, scenario, groundtruth, groundtruthModel } = test
+    const {
+        testinput,
+        expectedoutput,
+        scenario,
+        groundtruth,
+        groundtruthModel,
+    } = test
 
     const inputKeys = Object.keys(inputs)
     const unresolved = new Set(inputKeys)
@@ -124,4 +131,21 @@ export function resolveRule(
 export async function resolvePromptId(files: PromptPexContext) {
     const content = MD.content(files.prompt.content)
     return parsers.hash(content, { length: 7 })
+}
+
+export function fillTemplateVariables(
+    content: string,
+    options: {
+        variables: Record<string, string>
+        idResolver: (id: string) => string
+    }
+) {
+    return content.replace(TEMPLATE_VARIABLE_RX, (_, id) => {
+        const variable = options.variables?.[id]
+        if (variable) {
+            dbg(`inline ${id}`)
+            return variable
+        }
+        return options.idResolver?.(id) ?? _
+    })
 }

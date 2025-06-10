@@ -187,7 +187,7 @@ export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
         maxTestsToRun: 10,
     },
     medium: {
-        testExpansions: 0,       
+        testExpansions: 0,
         maxRules: 20,
         testsPerRule: 3,
         runsPerTest: 1,
