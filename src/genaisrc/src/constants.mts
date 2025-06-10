@@ -204,8 +204,7 @@ export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
     },
 }
 
-// TODO: move to prompts
-const scoringOutputFormat = `
+export const scoringOutputFormat = `
 ### Evaluation
 Ensure your response is valid JSON using the following JSON schema:
 
@@ -228,12 +227,22 @@ Ensure your response is valid JSON using the following JSON schema:
 
 `
 
-const okErrorOutputFormat = `
+export const okErrorOutputFormat = `
 ## Output
-
 **Binary Decision on Evaluation**: You are required to make a binary decision based on your evaluation:
 - Return 'OK' if <OUTPUT> is compliant with <CRITERIA>.
 - Return 'ERR' if <OUTPUT> is **not** compliant with <CRITERIA> or if you are unable to confidently answer.
+`
+
+export const githubModelsOutputFormat = `
+## Output
+Rate the answer on a scale from 1-5 where:
+1 = Poor (completely wrong or irrelevant)
+2 = Below Average (partially correct but missing key information)
+3 = Average (mostly correct with minor gaps)
+4 = Good (accurate and complete with clear explanation)
+5 = Excellent (exceptionally accurate, complete, and well-explained)
+You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
 `
 
 export const GITHUB_MODELS_RX = /\.prompt\.yml$/
