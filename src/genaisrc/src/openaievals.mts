@@ -6,8 +6,9 @@ import type {
     PromptPexTest,
 } from "./types.mts"
 import { metricName } from "./parsers.mts"
-import { OK_CHOICE, OK_ERR_CHOICES, TEMPLATE_VARIABLE_RX } from "./constants.mts"
+import { OK_CHOICE, OK_ERR_CHOICES } from "./constants.mts"
 import { resolvePromptArgs } from "./resolvers.mts"
+import { fillTemplateVariables } from "./template.mts"
 const dbg = host.logger("promptpex:openai:evals")
 const { output } = env
 
@@ -15,17 +16,18 @@ const { output } = env
 // Azure OpenAI: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/evaluations?tabs=question-eval-input
 // https://learn.microsoft.com/en-us/azure/ai-services/openai/authoring-reference-preview
 
-async function toEvalTemplate(file: WorkspaceFile, variables: Record<string, string>) {
+async function toEvalTemplate(
+    file: WorkspaceFile,
+    variables: Record<string, string>
+) {
     const patched = {
         filename: file.filename,
-        content: file.content.replace(TEMPLATE_VARIABLE_RX, (_, id) => {
-            const variable = variables[id]
-            if (variable) {
-                dbg(`inline ${id}`)
-                return variable
-            }
-            if (id === "output") return "{{sample.output_text}}"
-            return `{{item.${id}}}`
+        content: fillTemplateVariables(file.content, {
+            variables,
+            idResolver: (id) => {
+                if (id === "output") return "{{sample.output_text}}"
+                return `{{item.${id}}}`
+            },
         }),
     }
     dbg(`patched: %s`, patched.content)

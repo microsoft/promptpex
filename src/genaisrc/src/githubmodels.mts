@@ -5,9 +5,10 @@ import type {
     PromptPexPromptyFrontmatter,
     PromptPexTest,
 } from "./types.mts"
-import { fillTemplateVariables, resolvePromptArgs } from "./resolvers.mts"
+import { resolvePromptArgs } from "./resolvers.mts"
 import { GITHUB_MODELS_RX } from "./constants.mts"
 import { metricName } from "./parsers.mts"
+import { fillTemplateVariables, hideTemplateVariables } from "./template.mts"
 
 const { output } = env
 const dbg = host.logger("promptpex:github:models")
@@ -152,7 +153,9 @@ async function resolveInternalVariables(
         }),
     }
     const { messages } = await parsers.prompty(promptPatched)
-    variables.prompt = messages.map(messageContentToString).join("\n")
+    variables.prompt = hideTemplateVariables(
+        messages.map(messageContentToString).join("\n")
+    )
 
     return {
         filename,

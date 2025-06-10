@@ -132,20 +132,3 @@ export async function resolvePromptId(files: PromptPexContext) {
     const content = MD.content(files.prompt.content)
     return parsers.hash(content, { length: 7 })
 }
-
-export function fillTemplateVariables(
-    content: string,
-    options: {
-        variables: Record<string, string>
-        idResolver: (id: string) => string
-    }
-) {
-    return content.replace(TEMPLATE_VARIABLE_RX, (_, id) => {
-        const variable = options.variables?.[id]
-        if (variable) {
-            dbg(`inline ${id}`)
-            return variable
-        }
-        return options.idResolver?.(id) ?? _
-    })
-}
