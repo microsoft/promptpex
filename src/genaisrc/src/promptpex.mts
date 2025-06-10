@@ -24,6 +24,7 @@ import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
+import { deleteUndefinedOrEmptyValues } from "./cleaners.mts"
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -109,19 +110,19 @@ export async function promptpexGenerate(files: PromptPexContext) {
     // generate input spec
     output.heading(3, "Input Specification")
     await generateInputSpec(files, options)
-    outputFile(files.inputSpec)
+    outputLines(files.inputSpec, "rules")
     await checkConfirm("inputspec")
 
     // generate rules
     output.heading(3, "Output Rules")
     await generateOutputRules(files, options)
-    outputLines(files.rules, "rule")
+    outputLines(files.rules, "rules")
     await checkConfirm("rule")
 
     // generate inverse rules
     output.heading(3, "Inverse Output Rules")
     await generateInverseOutputRules(files, options)
-    outputLines(files.inverseRules, "generate inverse output rule")
+    outputLines(files.inverseRules, "inverse rules")
     await checkConfirm("inverse")
 
     // generate tests
@@ -129,11 +130,13 @@ export async function promptpexGenerate(files: PromptPexContext) {
     await generateTests(files, options)
 
     output.table(
-        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
-            scenario,
-            testinput,
-            expectedoutput,
-        }))
+        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) =>
+            deleteUndefinedOrEmptyValues({
+                scenario,
+                testinput,
+                expectedoutput,
+            })
+        )
     )
     output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
@@ -144,16 +147,17 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await expandTests(files, files.promptPexTests, options)
         output.table(
             files.promptPexTests.map(
-                ({ scenario, testinput, expectedoutput }) => ({
-                    scenario,
-                    testinput,
-                    expectedoutput,
-                })
+                ({ scenario, testinput, expectedoutput }) =>
+                    deleteUndefinedOrEmptyValues({
+                        scenario,
+                        testinput,
+                        expectedoutput,
+                    })
             )
         )
-        await checkConfirm("expansion")
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
         output.detailsFenced(`test data (json)`, files.testData.content, "json")
+        await checkConfirm("expansion")
     }
 
     // After test expansion, before evals
@@ -167,10 +171,28 @@ export async function promptpexGenerate(files: PromptPexContext) {
     // only run tests if modelsUnderTest is defined
     if (groundtruthModel?.length) {
         output.heading(3, `Groundtruth`)
+        const resolved = await host.resolveLanguageModel(groundtruthModel)
+        output.itemValue(
+            `groundtruth model`,
+            `${resolved.provider}:${resolved.model}`
+        )
         await runTests(files, {
-            runGroundtruth: true,
             ...options,
+            runGroundtruth: true,
+            runsPerTest: 1,
         })
+        output.table(
+            files.promptPexTests.map(({ scenario, testinput, groundtruth }) =>
+                deleteUndefinedOrEmptyValues({
+                    scenario,
+                    testinput,
+                    groundtruth,
+                })
+            )
+        )
+        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
+        output.detailsFenced(`test data (json)`, files.testData.content, "json")
+        await checkConfirm("expansion")
     }
 
     if (modelsUnderTest?.length) {
@@ -252,27 +274,28 @@ export async function promptpexGenerate(files: PromptPexContext) {
                     output,
                     compliance: testCompliance,
                     metrics,
-                }) => ({
-                    model,
-                    scenario,
-                    input,
-                    output,
-                    ...Object.fromEntries(
-                        Object.entries(
-                            metrics && typeof metrics === "object"
-                                ? metrics
-                                : {}
-                        ).map(([k, v]) => [
-                            k,
-                            v && typeof v === "object" && "content" in v
-                                ? renderEvaluation(v as any)
-                                : "",
-                        ])
-                    ),
-                    compliance: renderEvaluationOutcome(testCompliance),
-                    rule,
-                    inverse: inverse ? "🔄" : "",
-                })
+                }) =>
+                    deleteUndefinedOrEmptyValues({
+                        model,
+                        scenario,
+                        input,
+                        output,
+                        ...Object.fromEntries(
+                            Object.entries(
+                                metrics && typeof metrics === "object"
+                                    ? metrics
+                                    : {}
+                            ).map(([k, v]) => [
+                                k,
+                                v && typeof v === "object" && "content" in v
+                                    ? renderEvaluation(v as any)
+                                    : "",
+                            ])
+                        ),
+                        compliance: renderEvaluationOutcome(testCompliance),
+                        rule,
+                        inverse: inverse ? "🔄" : "",
+                    })
             )
         )
 

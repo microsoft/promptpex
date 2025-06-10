@@ -468,8 +468,7 @@ if (promptText)
 for (const file of files) promptFiles.push(file)
 
 const runs = await loadPromptContexts(promptFiles, options)
-if (!runs.length)
-    throw new Error("No prompts found in the input files")
+if (!runs.length) throw new Error("No prompts found in the input files")
 for (const run of runs) {
     dbg(`file: %s`, run.name)
     await promptpexGenerate(run)

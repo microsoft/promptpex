@@ -1,3 +1,4 @@
+import { deleteUndefinedOrEmptyValues } from "./cleaners.mts"
 import { METRIC_SEPARATOR } from "./constants.mts"
 import { groupBy } from "./groupby.mts"
 import {
@@ -56,15 +57,15 @@ export function computeOverview(
                 tests.length === 0
                     ? "--"
                     : percent
-                        ? Math.round((v / tests.length) * 100) + "%"
-                        : v
+                      ? Math.round((v / tests.length) * 100) + "%"
+                      : v
             const bnorm = (v: number) =>
                 baseline.length === 0
                     ? "--"
                     : percent
-                        ? Math.round((v / baseline.length) * 100) + "%"
-                        : v
-            return {
+                      ? Math.round((v / baseline.length) * 100) + "%"
+                      : v
+            return deleteUndefinedOrEmptyValues({
                 model,
                 scenario,
                 errors,
@@ -99,7 +100,7 @@ export function computeOverview(
                     (tr) =>
                         tr.compliance === "ok" &&
                         testEvals.find((te) => te.id === tr.id)?.validity ===
-                        "ok"
+                            "ok"
                 ).length,
                 ...Object.fromEntries(
                     files.metrics.flatMap((m) => {
@@ -109,12 +110,18 @@ export function computeOverview(
                             new Set(
                                 tests.flatMap((t) =>
                                     Object.keys(t.metrics || {})
-                                        .filter((k) => k.startsWith(n + METRIC_SEPARATOR))
-                                        .map((k) => k.split(METRIC_SEPARATOR)[1])
+                                        .filter((k) =>
+                                            k.startsWith(n + METRIC_SEPARATOR)
+                                        )
+                                        .map(
+                                            (k) => k.split(METRIC_SEPARATOR)[1]
+                                        )
                                 )
                             )
                         )
-                        const evalModels = options.evalModels ? options.evalModels : allEvalModels
+                        const evalModels = options.evalModels
+                            ? options.evalModels
+                            : allEvalModels
                         return evalModels.map((eModel) => {
                             const metricKey = `${n}${METRIC_SEPARATOR}${eModel}`
                             const ms = tests
@@ -124,13 +131,17 @@ export function computeOverview(
                             return [
                                 metricKey,
                                 scorer
-                                    ? ms.reduce((total, m) => total + m.score, 0) / ms.length
-                                    : ms.filter((m) => m.outcome === "ok").length,
+                                    ? ms.reduce(
+                                          (total, m) => total + m.score,
+                                          0
+                                      ) / ms.length
+                                    : ms.filter((m) => m.outcome === "ok")
+                                          .length,
                             ]
                         })
                     })
                 ),
-            }
+            })
         }
     )
     dbg(`overview: %d rows`, overview.length)
@@ -208,25 +219,25 @@ async function generateMarkdownReport(files: PromptPexContext) {
             file === files.testOutputs
                 ? ["model", "scenario", "rule", "input", "output", "compliance"]
                 : file === files.tests
-                    ? ["scenario", "testinput", "expectedoutput", "reasoning"]
-                    : file === files.baselineTests
-                        ? ["testinput"]
-                        : file === files.testEvals
-                            ? [
-                                "scenario",
-                                "rule",
-                                "model",
-                                "input",
-                                "coverage",
-                                "coverageUncertainty",
-                                "validity",
-                                "validityUncertainty",
-                            ]
-                            : file === files.ruleEvals
-                                ? ["ruleid", "rule", "grounded"]
-                                : file === files.baselineTestEvals
-                                    ? ["input", "validity"]
-                                    : undefined
+                  ? ["scenario", "testinput", "expectedoutput", "reasoning"]
+                  : file === files.baselineTests
+                    ? ["testinput"]
+                    : file === files.testEvals
+                      ? [
+                            "scenario",
+                            "rule",
+                            "model",
+                            "input",
+                            "coverage",
+                            "coverageUncertainty",
+                            "validity",
+                            "validityUncertainty",
+                        ]
+                      : file === files.ruleEvals
+                        ? ["ruleid", "rule", "grounded"]
+                        : file === files.baselineTestEvals
+                          ? ["input", "validity"]
+                          : undefined
         const lang =
             {
                 prompty: "md",
@@ -292,10 +303,10 @@ export function renderEvaluationOutcome(outcome: PromptPexEvalResultType) {
     return outcome === "ok"
         ? "✅"
         : outcome === "err"
-            ? "❌"
-            : outcome === "unknown"
-                ? "❓"
-                : ""
+          ? "❌"
+          : outcome === "unknown"
+            ? "❓"
+            : ""
 }
 
 export function renderEvaluation(res: PromptPexEvaluation) {
