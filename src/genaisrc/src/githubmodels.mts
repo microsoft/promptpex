@@ -223,21 +223,25 @@ async function toModelsPrompt(
     messages: ChatMessage[],
     files: PromptPexContext
 ): Promise<GitHubModelsPrompt> {
-    const { frontmatter, promptPexTests } = files
+    const { frontmatter, promptPexTests, originalPrompt } = files
     const { name, description, model, imported } = frontmatter
     const { parameters } = model || {}
     const { temperature, max_tokens: maxTokens } = parameters || {}
 
+    const original = YAML.parse(originalPrompt.content)
     const { model: resolvedModel } =
         await host.resolveLanguageModel(modelUnderTest)
     dbg(`model: %s`, resolvedModel)
 
-    const testData = promptPexTests
-        .map((test) => resolvePromptArgs(files, test))
-        .map((test) => ({
-            ...test.args,
-            expected: test.groundtruth,
-        }))
+    const testData = [
+        ...(original.testSamples || []),
+        ...promptPexTests
+            .map((test) => resolvePromptArgs(files, test))
+            .map((test) => ({
+                ...test.args,
+                expected: test.groundtruth,
+            })),
+    ]
 
     const res: GitHubModelsPrompt = {
         name,
