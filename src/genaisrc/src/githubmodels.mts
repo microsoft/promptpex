@@ -9,6 +9,7 @@ import { resolvePromptArgs } from "./resolvers.mts"
 import { GITHUB_MODELS_RX } from "./constants.mts"
 import { metricName } from "./parsers.mts"
 import { fillTemplateVariables, hideTemplateVariables } from "./template.mts"
+import { relative, resolve } from "node:path"
 
 const { output } = env
 const dbg = host.logger("promptpex:github:models")
@@ -421,6 +422,7 @@ export async function githubModelsEvalsGenerate(
                 ),
                 content: YAML.stringify(res),
             }
+            output.fence(`gh models eval ${evalPromptFile.filename}`, "sh")
             output.detailsFenced(
                 evalPromptFile.filename,
                 evalPromptFile.content,

@@ -24,7 +24,6 @@ import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
-import { deleteUndefinedOrEmptyValues } from "./cleaners.mts"
 
 const { output } = env
 const dbg = host.logger("promptpex")
