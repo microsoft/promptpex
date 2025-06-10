@@ -324,7 +324,8 @@ async function loadPromptContextFromJSON(
     for (const file of ctxFiles) {
         file.filename = path.join(dir, path.basename(file.filename))
     }
-    await workspace.writeFiles(ctxFiles)
+
+    await workspace.writeFiles(ctxFiles.filter(f => f.content))
     ctx.options = { ...options, ...ctx.options, }
     return ctx
 }
