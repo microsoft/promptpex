@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-if [[ "$1" == "serve" ]]; then
-    npm run serve
-elif [[ "$1" == "configure" ]]; then
-    npm run configure
+set -e
+script_dir="$(dirname "$(realpath "$0")")"
+if [[ "$1" == "configure" ]]; then
+    genaiscript configure
 else
-    npm run genai promptpex $@
+    genaiscript run "$script_dir/src/genaisrc/promptpex.genai.mts" $@
 fi
