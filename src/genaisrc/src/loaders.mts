@@ -120,9 +120,13 @@ export async function loadPromptContext(
         frontmatter,
         options
     )
-    const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
+    const metricGlobs = [
+        path.join(PROMPT_DIR, "*.metric.prompty"),
+        path.join(PROMPT_DIR, "metrics", "*.metric.prompty"),
+    ]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
+    dbg(`metric globs: %O`, metricGlobs)
     let metrics = await workspace.findFiles(metricGlobs)
     if (options?.customMetric)
         metrics.push({
