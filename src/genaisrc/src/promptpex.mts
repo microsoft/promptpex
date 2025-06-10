@@ -4,7 +4,7 @@ import { diagnostics } from "./flags.mts"
 import { generateInputSpec } from "./inputspecgen.mts"
 import { generateIntent } from "./intentgen.mts"
 import { generateInverseOutputRules } from "./inverserulesgen.mts"
-import { outputFile, outputLines } from "./output.mts"
+import { outputFile, outputLines, outputTable } from "./output.mts"
 import { metricName } from "./parsers.mts"
 import { reportPerf } from "./perf.mts"
 import { expandTests } from "./testexpand.mts"
@@ -103,7 +103,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     if (files.testSamples?.length) {
         output.startDetails("test samples")
-        output.table(files.testSamples)
+        outputTable(files.testSamples)
         output.endDetails()
     }
 
@@ -135,14 +135,11 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.heading(3, "Tests")
     await generateTests(files, options)
 
-    output.table(
-        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) =>
-            deleteUndefinedOrEmptyValues({
-                scenario,
-                testinput,
-                expectedoutput,
-            })
-        )
+    outputTable(
+        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
+            scenario,
+            testinput,
+        }))
     )
     output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
     output.detailsFenced(`test data (json)`, files.testData.content, "json")
@@ -151,14 +148,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (testExpansions > 0) {
         output.heading(3, "Expanded Tests")
         await expandTests(files, files.promptPexTests, options)
-        output.table(
+        outputTable(
             files.promptPexTests.map(
-                ({ scenario, testinput, expectedoutput }) =>
-                    deleteUndefinedOrEmptyValues({
-                        scenario,
-                        testinput,
-                        expectedoutput,
-                    })
+                ({ scenario, testinput, expectedoutput }) => ({
+                    scenario,
+                    testinput,
+                })
             )
         )
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
@@ -187,9 +182,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
             runGroundtruth: true,
             runsPerTest: 1,
         })
-        output.table(
-            files.promptPexTests.map(({ scenario, testinput, groundtruth }) =>
-                deleteUndefinedOrEmptyValues({
+        outputTable(
+            files.promptPexTests.map(
+                ({ scenario, testinput, groundtruth }) => ({
                     scenario,
                     testinput,
                     groundtruth,
@@ -269,7 +264,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
 
     if (results?.length)
-        output.table(
+        outputTable(
             results.map(
                 ({
                     scenario,
@@ -280,34 +275,34 @@ export async function promptpexGenerate(files: PromptPexContext) {
                     output,
                     compliance: testCompliance,
                     metrics,
-                }) =>
-                    deleteUndefinedOrEmptyValues({
-                        model,
-                        scenario,
-                        input,
-                        output,
-                        ...Object.fromEntries(
-                            Object.entries(
-                                metrics && typeof metrics === "object"
-                                    ? metrics
-                                    : {}
-                            ).map(([k, v]) => [
-                                k,
-                                v && typeof v === "object" && "content" in v
-                                    ? renderEvaluation(v as any)
-                                    : "",
-                            ])
-                        ),
-                        compliance: renderEvaluationOutcome(testCompliance),
-                        rule,
-                        inverse: inverse ? "🔄" : "",
-                    })
-            )
+                }) => ({
+                    model,
+                    scenario,
+                    input,
+                    output,
+                    ...Object.fromEntries(
+                        Object.entries(
+                            metrics && typeof metrics === "object"
+                                ? metrics
+                                : {}
+                        ).map(([k, v]) => [
+                            k,
+                            v && typeof v === "object" && "content" in v
+                                ? renderEvaluation(v as any)
+                                : "",
+                        ])
+                    ),
+                    compliance: renderEvaluationOutcome(testCompliance),
+                    rule,
+                    inverse: inverse ? "🔄" : "",
+                })
+            ),
+            { maxRows: 36 }
         )
 
     output.heading(3, `Results Overview`)
     const { overview } = await computeOverview(files, { percent: true })
-    output.table(overview)
+    outputTable(overview)
     if (files.writeResults)
         await workspace.writeText(
             path.join(files.dir, "overview.csv"),

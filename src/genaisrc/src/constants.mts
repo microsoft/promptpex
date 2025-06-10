@@ -247,3 +247,5 @@ You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
 
 export const GITHUB_MODELS_RX = /\.prompt\.yml$/
 export const TEMPLATE_VARIABLE_RX = /\{\{\s*(?<id>\w+)\s*\}\}/g
+
+export const OUTPUT_TABLE_MAX_ROWS = 100
