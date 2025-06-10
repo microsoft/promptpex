@@ -4,7 +4,7 @@ sidebar:
     order: 22
 ---
 
-Test expansion uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/expand_test.prompty) to _expand_ a test and make it more complex. It can be applied repeatedly to generate a set of tests with different levels of complexity.
+Test expansion uses a [LLM prompt](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generation/expand_test.prompty) to _expand_ a test and make it more complex. It can be applied repeatedly to generate a set of tests with different levels of complexity.
 
 ```mermaid
 graph TD

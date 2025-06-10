@@ -15,11 +15,11 @@ export const PROMPT_GENERATE_INTENT = join(
     "generate_intent.prompty"
 )
 export const PROMPT_RATE_TESTS = join(
-    PROMPT_DIR,
+    PROMPT_DIR, "evals",
     "eval_test_collection.prompty"
 )
 export const PROMPT_FILTER_TESTS = join(
-    PROMPT_DIR,
+    PROMPT_DIR, "evals",
     "filter_test_collection.prompty"
 )
 export const PROMPT_GENERATE_OUTPUT_RULES = join(
@@ -28,6 +28,7 @@ export const PROMPT_GENERATE_OUTPUT_RULES = join(
 )
 export const PROMPT_GENERATE_BASELINE_TESTS = join(
     PROMPT_DIR,
+    "generation",
     "generate_baseline_tests.prompty"
 )
 export const PROMPT_GENERATE_INVERSE_RULES = join(
@@ -37,23 +38,31 @@ export const PROMPT_GENERATE_INVERSE_RULES = join(
 export const PROMPT_GENERATE_TESTS = join(PROMPT_DIR, "generate_tests.prompty")
 export const PROMPT_EVAL_RULE_GROUNDED = join(
     PROMPT_DIR,
+    "evals",
     "eval_rule_grounded.prompty"
 )
 export const PROMPT_EVAL_TEST_VALIDITY = join(
     PROMPT_DIR,
+    "evals",
     "eval_test_validity.prompty"
 )
 export const PROMPT_EVAL_OUTPUT_RULE_AGREEMENT = join(
     PROMPT_DIR,
+    "evals",
     "eval_output_rule_agreement.prompty"
 )
 export const PROMPT_EVAL_TEST_RESULT = join(
     PROMPT_DIR,
+    "evals",
     "eval_test_result.prompty"
 )
 export const PROMPTPEX_CONTEXT = "promptpex_context.json"
 
-export const PROMPT_EXPAND_TEST = join(PROMPT_DIR, "expand_test.prompty")
+export const PROMPT_EXPAND_TEST = join(
+    PROMPT_DIR,
+    "generation",
+    "expand_test.prompty"
+)
 
 export const PROMPT_ALL = [
     PROMPT_GENERATE_INPUT_SPEC,
@@ -67,6 +76,9 @@ export const PROMPT_ALL = [
     PROMPT_EVAL_OUTPUT_RULE_AGREEMENT,
     PROMPT_EVAL_TEST_RESULT,
     PROMPT_EXPAND_TEST,
+
+    PROMPT_FILTER_TESTS,
+    PROMPT_RATE_TESTS,
 ]
 
 export const INTENT_RETRY = 2
