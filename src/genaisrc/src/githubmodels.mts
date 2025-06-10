@@ -270,9 +270,12 @@ async function metricToEvaluator(
     files: PromptPexContext
 ) {
     const fm = MD.frontmatter(metric.content) as PromptPexPromptyFrontmatter
-    const scorer = fm.tags?.includes("scorer")
-    if (scorer) {
-        dbg(`skipping metric %s as it is a scorer`, metric.filename)
+    const tag = fm.tags?.includes("github")
+    if (!tag) {
+        dbg(
+            `skipping metric %s as it does not have the 'github' tag`,
+            metric.filename
+        )
         return undefined
     }
     const resolvedMetric = await resolveInternalVariables(metric, files)
