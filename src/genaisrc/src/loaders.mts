@@ -330,3 +330,11 @@ async function loadPromptContextFromJSON(
     return ctx
 }
 
+export async function saveContextState(
+    ctx: PromptPexContext,
+    filename: string
+): Promise<void> {
+    const json = JSON.stringify(ctx, null, 2)
+    dbg(`saving context to ${filename}`)
+    await workspace.writeText(filename, json)
+}

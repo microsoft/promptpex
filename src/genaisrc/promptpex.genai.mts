@@ -370,7 +370,7 @@ const dbg = host.logger("promptpex:main")
 const { output, vars, files } = env
 
 output.heading(1, "PromptPex Test Generation")
-initPerf({ output })
+initPerf({})
 
 const {
     out,
@@ -420,44 +420,46 @@ const evalModels: string[] =
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 
-const options: PromptPexOptions = Object.freeze(deleteFalsyValues({
-    cache,
-    testRunCache,
-    evalCache,
-    evals,
-    disableSafety,
-    instructions: {
-        inputSpec: inputSpecInstructions,
-        outputRules: outputRulesInstructions,
-        inverseOutputRules: inverseOutputRulesInstructions,
-        testExpansion: testExpansionInstructions,
-    },
-    workflowDiagram: !process.env.DEBUG,
-    baselineModel,
-    rulesModel,
-    storeCompletions,
-    storeModel,
-    groundtruthModel,
-    testsPerRule,
-    maxTestsToRun,
-    runsPerTest,
-    customMetric,
-    compliance,
-    baselineTests: false,
-    modelsUnderTest,
-    evalModels,
-    splitRules,
-    maxRulesPerTestGeneration,
-    testGenerations,
-    createEvalRuns,
-    testSamplesCount,
-    testSamplesShuffle,
-    testExpansions,
-    rateTests,
-    filterTestCount,
-    out,
-    ...efforts,
-} satisfies PromptPexOptions))
+const options: PromptPexOptions = Object.freeze(
+    deleteFalsyValues({
+        cache,
+        testRunCache,
+        evalCache,
+        evals,
+        disableSafety,
+        instructions: {
+            inputSpec: inputSpecInstructions,
+            outputRules: outputRulesInstructions,
+            inverseOutputRules: inverseOutputRulesInstructions,
+            testExpansion: testExpansionInstructions,
+        },
+        workflowDiagram: !process.env.DEBUG,
+        baselineModel,
+        rulesModel,
+        storeCompletions,
+        storeModel,
+        groundtruthModel,
+        testsPerRule,
+        maxTestsToRun,
+        runsPerTest,
+        customMetric,
+        compliance,
+        baselineTests: false,
+        modelsUnderTest,
+        evalModels,
+        splitRules,
+        maxRulesPerTestGeneration,
+        testGenerations,
+        createEvalRuns,
+        testSamplesCount,
+        testSamplesShuffle,
+        testExpansions,
+        rateTests,
+        filterTestCount,
+        out,
+        ...efforts,
+    } satisfies PromptPexOptions)
+)
 output.detailsFenced(`options`, options, "yaml")
 
 const promptFiles: WorkspaceFile[] = []
@@ -470,3 +472,4 @@ for (const run of runs) {
     dbg(`file: %s`, run.name)
     await promptpexGenerate(run)
 }
+output.appendContent("\n")

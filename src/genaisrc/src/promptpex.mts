@@ -1,8 +1,5 @@
 import { checkConfirm } from "./confirm.mts"
-import {
-    openaiEvalsListEvals,
-    openaiEvalsGenerate,
-} from "./openaievals.mts"
+import { openaiEvalsListEvals, openaiEvalsGenerate } from "./openaievals.mts"
 import { diagnostics } from "./flags.mts"
 import { generateInputSpec } from "./inputspecgen.mts"
 import { generateIntent } from "./intentgen.mts"
@@ -21,17 +18,12 @@ import { generateOutputRules } from "./rulesgen.mts"
 import { generateTests } from "./testgen.mts"
 import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
-import type {
-    PromptPexContext,
-    PromptPexTestResult,
-} from "./types.mts"
-import {
-    MODEL_ALIAS_STORE,
-    PROMPTPEX_CONTEXT,
-} from "./constants.mts"
+import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
+import { MODEL_ALIAS_STORE, PROMPTPEX_CONTEXT } from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
-import { saveContextState } from "./context.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
+import { resolve } from "node:path"
+import { saveContextState } from "./loaders.mts"
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -47,7 +39,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         testExpansions,
         rateTests,
         groundtruthModel,
-        modelsUnderTest
+        modelsUnderTest,
     } = options
 
     output.heading(2, name)
@@ -56,14 +48,20 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (groundtruthModel) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
-        output.itemValue(`groundtruth model`, `${resolved.provider}:${resolved.model}`)
+        output.itemValue(
+            `groundtruth model`,
+            `${resolved.provider}:${resolved.model}`
+        )
     }
 
     if (modelsUnderTest?.length) {
         for (const modelUnderTest of modelsUnderTest) {
             const resolved = await host.resolveLanguageModel(modelUnderTest)
             if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
-            output.itemValue(`model under test`, `${resolved.provider}:${resolved.model}`)
+            output.itemValue(
+                `model under test`,
+                `${resolved.provider}:${resolved.model}`
+            )
         }
     }
 
@@ -72,7 +70,10 @@ export async function promptpexGenerate(files: PromptPexContext) {
             for (const eModel of evalModels) {
                 const resolved = await host.resolveLanguageModel(eModel)
                 if (!resolved) throw new Error(`Model ${eModel} not found`)
-                output.itemValue(`eval model`, `${resolved.provider}:${resolved.model}`)
+                output.itemValue(
+                    `eval model`,
+                    `${resolved.provider}:${resolved.model}`
+                )
             }
         } else {
             cancel("No evaluation model defined.")
@@ -142,11 +143,13 @@ export async function promptpexGenerate(files: PromptPexContext) {
         output.heading(3, "Expanded Tests")
         await expandTests(files, files.promptPexTests, options)
         output.table(
-            files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
-                scenario,
-                testinput,
-                expectedoutput,
-            }))
+            files.promptPexTests.map(
+                ({ scenario, testinput, expectedoutput }) => ({
+                    scenario,
+                    testinput,
+                    expectedoutput,
+                })
+            )
         )
         await checkConfirm("expansion")
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
@@ -168,7 +171,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
             runGroundtruth: true,
             ...options,
         })
-
     }
 
     if (modelsUnderTest?.length) {
@@ -201,8 +203,11 @@ export async function promptpexGenerate(files: PromptPexContext) {
         if (storeCompletions)
             output.itemValue(
                 `stored completion model`,
-                (await host.resolveLanguageModel(storeModel || MODEL_ALIAS_STORE))
-                    ?.model || "store"
+                (
+                    await host.resolveLanguageModel(
+                        storeModel || MODEL_ALIAS_STORE
+                    )
+                )?.model || "store"
             )
         output.itemValue(`models under test`, modelsUnderTest.join(", "))
 
@@ -233,7 +238,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 )
             output.detailsFenced(`results (json)`, results, "json")
         }
-
     }
 
     if (results?.length)
@@ -255,7 +259,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
                     output,
                     ...Object.fromEntries(
                         Object.entries(
-                            metrics && typeof metrics === "object" ? metrics : {}
+                            metrics && typeof metrics === "object"
+                                ? metrics
+                                : {}
                         ).map(([k, v]) => [
                             k,
                             v && typeof v === "object" && "content" in v
@@ -270,7 +276,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
             )
         )
 
-
     output.heading(3, `Results Overview`)
     const { overview } = await computeOverview(files, { percent: true })
     output.table(overview)
@@ -280,14 +285,11 @@ export async function promptpexGenerate(files: PromptPexContext) {
             CSV.stringify(overview, { header: true })
         )
 
+    if (files.writeResults)
+        output.itemValue(`output directory`, resolve(files.dir))
     output.appendContent("\n\n---\n\n")
 
-    if (files.writeResults) {
-        saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
-        output.appendContent(
-            `saving PromptPexContext to ${path.join(files.dir, PROMPTPEX_CONTEXT)}`
-        )
-    }
-
+    if (files.writeResults)
+        await saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
     reportPerf()
 }
