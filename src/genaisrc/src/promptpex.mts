@@ -92,8 +92,14 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
     // prompt info
     output.heading(3, `Prompt Under Test`)
-    output.itemValue(`filename`, files.prompt.filename)
-    output.fence(files.prompt.content, "md")
+    if (files.originalPrompt) {
+        output.itemValue(`filename`, files.originalPrompt.filename)
+        output.fence(files.originalPrompt.content, "md")
+        output.detailsFenced(files.prompt.filename, files.prompt.content, "md")
+    } else {
+        output.itemValue(`filename`, files.prompt.filename)
+        output.fence(files.prompt.content, "md")
+    }
 
     if (files.testSamples?.length) {
         output.startDetails("test samples")

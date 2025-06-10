@@ -24,20 +24,24 @@ if (!frontMatterSchema) throw new Error("frontmatter schema not found")
 
 export async function loadPromptContexts(
     files: WorkspaceFile[],
-    options?: PromptPexOptions,
+    options?: PromptPexOptions
 ): Promise<PromptPexContext[]> {
     const q = host.promiseQueue(CONCURRENCY)
-    const promptFiles = files.filter((f) => /\.(md|txt|prompty|prompt\.yml|json)$/i.test(f.filename))
+    const promptFiles = files.filter((f) =>
+        /\.(md|txt|prompty|prompt\.yml|json)$/i.test(f.filename)
+    )
     return q.mapAll(
         promptFiles,
         async (f) => await loadPromptContext(f, options)
     )
 }
 
-const converters = [{
-    rx: GITHUB_MODELS_RX,
-    convert: githubModelsToPrompty
-}]
+const converters = [
+    {
+        rx: GITHUB_MODELS_RX,
+        convert: githubModelsToPrompty,
+    },
+]
 
 export async function loadPromptContext(
     promptFile: WorkspaceFile,
@@ -55,15 +59,23 @@ export async function loadPromptContext(
     const { out, disableSafety } = options || {}
     dbg(`out: ${out}`)
     const writeResults = !!out
+    let originalPromptFile: WorkspaceFile
     // pre-convert other formats to prompty
     for (const converter of converters) {
         if (converter.rx.test(promptFile.filename)) {
             dbg(`converting file %s`, promptFile.filename)
-            promptFile = await converter.convert(promptFile, options)
-            dbg(`converted file %s`, promptFile.filename)
-            if (writeResults)
-                await workspace.writeText(path.join(out, path.basename(promptFile.filename)), promptFile.content)
-            break
+            const newFile = await converter.convert(promptFile, options)
+            if (newFile) {
+                originalPromptFile = promptFile
+                promptFile = newFile
+                dbg(`converted file %s`, promptFile.filename)
+                if (writeResults)
+                    await workspace.writeText(
+                        path.join(out, path.basename(promptFile.filename)),
+                        promptFile.content
+                    )
+                break
+            }
         }
     }
     dbg(`prompt file: %O`, promptFile)
@@ -147,6 +159,7 @@ export async function loadPromptContext(
         inputs,
         messages,
         prompt: promptFile,
+        originalPrompt: originalPromptFile,
         testOutputs: await workspace.readText(testResults),
         intent: await workspace.readText(intent),
         inputSpec: await workspace.readText(inputSpec),
@@ -304,7 +317,6 @@ export async function validateFrontmatter(
     return frontmatter
 }
 
-
 async function loadPromptContextFromJSON(
     file: WorkspaceFile,
     options: PromptPexOptions
@@ -316,17 +328,27 @@ async function loadPromptContextFromJSON(
     const dir = out || path.dirname(file.filename)
     dbg(`using dir: %s`, dir)
 
-
-    const ctxFiles = [ctx.intent, ctx.rules, ctx.inverseRules, ctx.inputSpec,
-    ctx.baselineTests, ctx.tests, ctx.rateTests,
-    ctx.testData, ctx.testOutputs, ctx.testEvals, ctx.baselineTestEvals,
-    ctx.ruleEvals, ctx.ruleCoverages]
+    const ctxFiles = [
+        ctx.intent,
+        ctx.rules,
+        ctx.inverseRules,
+        ctx.inputSpec,
+        ctx.baselineTests,
+        ctx.tests,
+        ctx.rateTests,
+        ctx.testData,
+        ctx.testOutputs,
+        ctx.testEvals,
+        ctx.baselineTestEvals,
+        ctx.ruleEvals,
+        ctx.ruleCoverages,
+    ]
     for (const file of ctxFiles) {
         file.filename = path.join(dir, path.basename(file.filename))
     }
 
-    await workspace.writeFiles(ctxFiles.filter(f => f.content))
-    ctx.options = { ...options, ...ctx.options, }
+    await workspace.writeFiles(ctxFiles.filter((f) => f.content))
+    ctx.options = { ...options, ...ctx.options }
     return ctx
 }
 

@@ -172,13 +172,14 @@ export interface PromptPexBaseOptions extends PromptPexLoaderOptions {
     rateTests?: boolean
 
     /**
-    * Evaluate the test collection
-    */
+     * Evaluate the test collection
+     */
     filterTestCount?: number
 }
 
-export interface PromptPexCliOptions extends PromptPexBaseOptions, PromptPexCliExtraOptions {
-}
+export interface PromptPexCliOptions
+    extends PromptPexBaseOptions,
+        PromptPexCliExtraOptions {}
 
 export interface PromptPexOptions extends PromptPexBaseOptions {
     evalModels?: ModelType[]
@@ -224,6 +225,12 @@ export interface PromptPexContext {
      * Prompt Under Test
      */
     prompt: WorkspaceFile
+
+    /**
+     * For converted prompts, the original source of the prompt
+     */
+    originalPrompt?: WorkspaceFile
+
     /**
  0  * Prompt Under Test Intent (PUTI)
    */
