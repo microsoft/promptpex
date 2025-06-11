@@ -2,6 +2,7 @@ import {
     RULES_NUM,
     PROMPT_GENERATE_OUTPUT_RULES,
     DIAGRAM_GENERATE_OUTPUT_RULES,
+    MODEL_ALIAS_RULES,
 } from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
 import { modelOptions, checkLLMResponse, tidyRules } from "./parsers.mts"
@@ -14,7 +15,8 @@ export async function generateOutputRules(
     files: PromptPexContext,
     options?: PromptPexOptions & { numRules?: number }
 ): Promise<void> {
-    const { numRules = RULES_NUM, rulesModel = "rules" } = options || {}
+    const { numRules = RULES_NUM, rulesModel = MODEL_ALIAS_RULES } =
+        options || {}
 
     dbg(`generating %d output rules`, numRules)
     const instructions =
@@ -51,6 +53,5 @@ export async function generateOutputRules(
     )
     const rules = tidyRules(checkLLMResponse(res))
     files.rules.content = rules
-    if (files.writeResults)
-        await workspace.writeFiles(files.rules)
+    if (files.writeResults) await workspace.writeFiles(files.rules)
 }

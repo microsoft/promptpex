@@ -5,6 +5,7 @@ import {
     GENERATION_SYMBOL,
     SCENARIO_SYMBOL,
     RULE_SYMBOL,
+    MODEL_ALIAS_RULES,
 } from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
 import {
@@ -30,7 +31,7 @@ export async function generateTests(
 ): Promise<void> {
     const {
         testsPerRule: num = TESTS_NUM,
-        rulesModel = "rules",
+        rulesModel = MODEL_ALIAS_RULES,
         testGenerations = 1,
     } = options || {}
 
@@ -225,9 +226,9 @@ function parseCsvTests(
     const content = parsers.unfence(text.trim().replace(/\\"/g, '""'), "csv")
     const rulesTests = content
         ? (parsers.CSV(content, {
-            delimiter: ",",
-            repair: true,
-        }) as PromptPexTest[])
+              delimiter: ",",
+              repair: true,
+          }) as PromptPexTest[])
         : []
     const res = rulesTests
         .map((r) => {

@@ -1,10 +1,6 @@
 import { initPerf } from "./src/perf.mts"
 import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
-import {
-    EFFORTS,
-    MODEL_ALIAS_EVAL,
-    PROMPTPEX_CONTEXT,
-} from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
@@ -382,7 +378,6 @@ user:
 const dbg = host.logger("promptpex:main")
 const { output, vars, files } = env
 
-output.heading(1, "PromptPex Test Generation")
 initPerf({})
 
 const {
@@ -482,15 +477,60 @@ const options: PromptPexOptions = Object.freeze(
         ...efforts,
     } satisfies PromptPexOptions)
 )
-output.detailsFenced(`options`, options, "yaml")
 
 const promptFiles: WorkspaceFile[] = []
 if (promptText)
     promptFiles.push({ filename: "input.prompty", content: promptText })
 for (const file of files) promptFiles.push(file)
-
 const runs = await loadPromptContexts(promptFiles, options)
-if (!runs.length) throw new Error("No prompts found in the input files")
+if (!runs.length) {
+    console.log(
+        `PromptPex - Test Generation For Prompts
+USAGE:
+    promptpex [options] <prompt-file>
+
+OPTIONS:
+    --prompt TEXT                     Prompt template to analyze. You can either copy the prompty source here or upload a file prompt.
+    --effort [min|low|medium|high]    Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.
+    --out DIR                         Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.
+    --cache                           Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.
+    --testRunCache                    Cache test run results in files.
+    --evals                           Evaluate the test results (default: false)
+    --evalCache                       Cache eval evaluation results in files.
+    --evalModel MODELS                List of models to use for test evaluation; semi-colon separated
+    --testsPerRule INT                Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. (default: 3)
+    --splitRules                      Split rules and inverse rules in separate prompts for test generation. (default: true)
+    --maxRulesPerTestGeneration INT   Maximum number of rules to use per test generation. (default: 3)
+    --testGenerations INT             Number of times to amplify the test generation. (default: 2)
+    --runsPerTest INT                 Number of runs to execute per test. (default: 2)
+    --disableSafety                   Do not include safety system prompts and do not run safety content service. (default: false)
+    --rateTests                       Generate a report rating the quality of the test set. (default: false)
+    --rulesModel MODEL                Model used to generate rules (e.g. openai:gpt-4o, azure:gpt-4o)
+    --baselineModel MODEL             Model used to generate baseline tests
+    --modelsUnderTest MODELS          List of models to run the prompt again; semi-colon separated
+    --compliance                      Evaluate Test Result compliance (default: false)
+    --maxTestsToRun INT               Maximum number of tests to run
+    --inputSpecInstructions TEXT      Instructions added to the input specification generation prompt
+    --outputRulesInstructions TEXT    Instructions added to the output rules generation prompt
+    --inverseOutputRulesInstructions TEXT  Instructions added to the inverse output rules generation prompt
+    --testExpansionInstructions TEXT  Instructions added to the test expansion generation prompt
+    --storeCompletions                Store chat completions using stored completions
+    --storeModel MODEL                Model used to create stored completions
+    --groundtruthModel MODEL          Model used to generate groundtruth
+    --customMetric TEXT               Custom Test Evaluation Template
+    --createEvalRuns                  Create an Evals run in OpenAI Evals
+    --testExpansions INT              Number of test expansion phase to generate tests (default: 0)
+    --testSamplesCount INT            Number of test samples to include for the rules and test generation
+    --testSamplesShuffle              Shuffle the test samples before generating tests for the prompt
+    --filterTestCount INT             Number of tests to include in the filtered output of evalTestCollection
+
+For more details, see https://microsoft.github.io/promptpex/cli/`
+    )
+    process.exit(1)
+}
+
+output.heading(1, "PromptPex Test Generation")
+output.detailsFenced(`options`, options, "yaml")
 for (const run of runs) {
     dbg(`file: %s`, run.name)
     await promptpexGenerate(run)

@@ -1,6 +1,6 @@
 {
     "name": "promptpex",
-    "version": "0.0.1",
+    "version": "0.0.8",
     "author": "Microsoft",
     "license": "MIT",
     "description": "PromptPex is a test generator for prompts, that allows evaluating and comparing AI prompts across different models and configurations.",
@@ -12,10 +12,22 @@
         "prettier": "^3.5.3",
         "zx": "^8.5.5"
     },
-    "bin": "genaiscript run promptpex",
+    "keywords": [
+        "genai",
+        "prompt",
+        "test",
+        "generator",
+        "evaluation",
+        "comparison"
+    ],
+    "engines": {
+        "node": ">=22.15.0"
+    },
+    "bin": "bin.sh",
     "files": [
         "README.md",
-        "src/genaisrc/**",
+        "src/genaisrc/promptpex.genai.mts",
+        "src/genaisrc/src/**",
         "src/prompts/**"
     ],
     "scripts": {
@@ -28,6 +40,7 @@
         "upgrade": "npx --yes npm-check-updates -u && npm install",
         "install:force": "rm package-lock.json && npm run install && cd docs && npm run install:force",
         "genaiscript": "genaiscript",
+        "configure": "genaiscript configure",
         "az:login": "az login --scope api://trapi/.default --use-device-code",
         "genai": "genaiscript run",
         "gcm": "genaiscript run gcm -m github:gpt-4.1 --no-run-trace --no-output-trace",
