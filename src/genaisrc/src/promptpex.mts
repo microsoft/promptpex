@@ -202,7 +202,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         let newResult: PromptPexTestResult
         dbg(`evaluating groundtruth with eval models %O`, evalModelsGroundtruth)
         if (evalModelsGroundtruth?.length) {
-            output.itemValue(`ground truth evaluation models`, evalModels.join(", "))
+            output.itemValue(`ground truth evaluation models`, evalModelsGroundtruth.join(", "))
             // Evaluate metrics for groundtruth tests
             for (const testRes of results) {
                 newResult = await evaluateTestMetrics(testRes, files, {
