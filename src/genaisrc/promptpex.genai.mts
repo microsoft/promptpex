@@ -57,6 +57,11 @@ promptPex:
 </details>
 `,
     accept: ".prompty,.md,.txt,.json,.prompt.yml",
+    modelAliases: {
+        rules: "large",
+        eval: "large",
+        baseline: "large",
+    },
     parameters: {
         prompt: {
             type: "string",
@@ -83,6 +88,7 @@ promptPex:
             description:
                 "Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.",
             uiGroup: "Cache",
+            default: true,
         },
         testRunCache: {
             type: "boolean",
@@ -487,42 +493,42 @@ if (!runs.length) {
     console.log(
         `PromptPex - Test Generation For Prompts
 USAGE:
-    promptpex [options] <prompt-file>
+    promptpex <prompt-file> [options]
 
 OPTIONS:
-    --prompt TEXT                     Prompt template to analyze. You can either copy the prompty source here or upload a file prompt.
-    --effort [min|low|medium|high]    Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.
-    --out DIR                         Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.
-    --cache                           Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.
-    --testRunCache                    Cache test run results in files.
-    --evals                           Evaluate the test results (default: false)
-    --evalCache                       Cache eval evaluation results in files.
-    --evalModel MODELS                List of models to use for test evaluation; semi-colon separated
-    --testsPerRule INT                Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. (default: 3)
-    --splitRules                      Split rules and inverse rules in separate prompts for test generation. (default: true)
-    --maxRulesPerTestGeneration INT   Maximum number of rules to use per test generation. (default: 3)
-    --testGenerations INT             Number of times to amplify the test generation. (default: 2)
-    --runsPerTest INT                 Number of runs to execute per test. (default: 2)
-    --disableSafety                   Do not include safety system prompts and do not run safety content service. (default: false)
-    --rateTests                       Generate a report rating the quality of the test set. (default: false)
-    --rulesModel MODEL                Model used to generate rules (e.g. openai:gpt-4o, azure:gpt-4o)
-    --baselineModel MODEL             Model used to generate baseline tests
-    --modelsUnderTest MODELS          List of models to run the prompt again; semi-colon separated
-    --compliance                      Evaluate Test Result compliance (default: false)
-    --maxTestsToRun INT               Maximum number of tests to run
-    --inputSpecInstructions TEXT      Instructions added to the input specification generation prompt
-    --outputRulesInstructions TEXT    Instructions added to the output rules generation prompt
-    --inverseOutputRulesInstructions TEXT  Instructions added to the inverse output rules generation prompt
-    --testExpansionInstructions TEXT  Instructions added to the test expansion generation prompt
-    --storeCompletions                Store chat completions using stored completions
-    --storeModel MODEL                Model used to create stored completions
-    --groundtruthModel MODEL          Model used to generate groundtruth
-    --customMetric TEXT               Custom Test Evaluation Template
-    --createEvalRuns                  Create an Evals run in OpenAI Evals
-    --testExpansions INT              Number of test expansion phase to generate tests (default: 0)
-    --testSamplesCount INT            Number of test samples to include for the rules and test generation
-    --testSamplesShuffle              Shuffle the test samples before generating tests for the prompt
-    --filterTestCount INT             Number of tests to include in the filtered output of evalTestCollection
+    --vars prompt=TEXT                     Prompt template to analyze. You can either copy the prompty source here or upload a file prompt.
+    --vars effort=[min|low|medium|high]    Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.
+    --vars out=DIR                         Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.
+    --vars cache=true                           Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.
+    --vars testRunCache=true                     Cache test run results in files.
+    --vars evals=true                           Evaluate the test results (default: false)
+    --vars evalCache=true                       Cache eval evaluation results in files.
+    --vars evalModel=MODELS                    List of models to use for test evaluation; semi-colon separated
+    --vars testsPerRule=INT                    Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. (default: 3)
+    --vars splitRules=true                      Split rules and inverse rules in separate prompts for test generation. (default: true)
+    --vars maxRulesPerTestGeneration=INT       Maximum number of rules to use per test generation. (default: 3)
+    --vars testGenerations=INT                 Number of times to amplify the test generation. (default: 2)
+    --vars runsPerTest=INT                     Number of runs to execute per test. (default: 2)
+    --vars disableSafety=true                   Do not include safety system prompts and do not run safety content service. (default: false)
+    --vars rateTests=true                       Generate a report rating the quality of the test set. (default: false)
+    --vars rulesModel=MODEL                          Model used to generate rules (e.g. openai:gpt-4o, azure:gpt-4o)
+    --vars baselineModel=MODEL                       Model used to generate baseline tests
+    --vars modelsUnderTest=MODELS                    List of models to run the prompt again; semi-colon separated
+    --vars compliance=true                                Evaluate Test Result compliance (default: false)
+    --vars maxTestsToRun=INT                         Maximum number of tests to run
+    --vars inputSpecInstructions=TEXT                Instructions added to the input specification generation prompt
+    --vars outputRulesInstructions=TEXT              Instructions added to the output rules generation prompt
+    --vars inverseOutputRulesInstructions=TEXT       Instructions added to the inverse output rules generation prompt
+    --vars testExpansionInstructions=TEXT            Instructions added to the test expansion generation prompt
+    --vars storeCompletions=true                          Store chat completions using stored completions
+    --vars storeModel=MODEL                          Model used to create stored completions
+    --vars groundtruthModel=MODEL                     Model used to generate groundtruth
+    --vars customMetric=TEXT                          Custom Test Evaluation Template
+    --vars createEvalRuns=true                             Create an Evals run in OpenAI Evals
+    --vars testExpansions=INT                         Number of test expansion phase to generate tests (default: 0)
+    --vars testSamplesCount=INT                       Number of test samples to include for the rules and test generation
+    --vars testSamplesShuffle=true                         Shuffle the test samples before generating tests for the prompt
+    --vars filterTestCount=INT                        Number of tests to include in the filtered output of evalTestCollection
 
 For more details, see https://microsoft.github.io/promptpex/cli/`
     )

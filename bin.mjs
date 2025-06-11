@@ -12,13 +12,8 @@ if (args[0] === "configure") {
     const genaiArgs = [
         "run",
         join(scriptDir, "src", "genaisrc", "promptpex.genai.mts"),
-        "--no-run-trace",
-        "--model-alias",
-        "rules=large",
-        "evals=large",
-        "baseline=large",
-        "--",
         ...args,
+        "--no-run-trace",
     ]
     console.error(`genaiscript ${genaiArgs.join(" ")}`)
     const result = spawnSync("genaiscript", genaiArgs, { stdio: "inherit" })
