@@ -194,6 +194,19 @@ promptPex:
             ],
             uiGroup: "Evaluation",
         },
+        evalModelGroundtruth: {
+            type: "string",
+            description:
+                "List of models to use for ground truth evaluation; semi-colon separated",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "azure:gpt-4o",
+                "ollama:gemma3:27b",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+            uiGroup: "Evaluation",
+        },
         compliance: {
             type: "boolean",
             description: "Evaluate Test Result compliance",
@@ -420,6 +433,14 @@ const evalModels: string[] =
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 
+const evalModelsGroundtruth: string[] =
+    vars.evalModelGroundtruth
+        ?.split(/;/g)
+        .filter(Boolean)
+        .map((s) => s.trim()) || []
+if (!evalModelsGroundtruth.length) evalModels.push(MODEL_ALIAS_EVAL)
+dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
+
 const options: PromptPexOptions = Object.freeze(
     deleteFalsyValues({
         cache,
@@ -447,6 +468,7 @@ const options: PromptPexOptions = Object.freeze(
         baselineTests: false,
         modelsUnderTest,
         evalModels,
+        evalModelsGroundtruth,
         splitRules,
         maxRulesPerTestGeneration,
         testGenerations,
