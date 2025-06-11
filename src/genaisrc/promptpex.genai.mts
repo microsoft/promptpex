@@ -433,7 +433,7 @@ const evalModelsGroundtruth: string[] =
         ?.split(/;/g)
         .filter(Boolean)
         .map((s) => s.trim()) || []
-if (!evalModelsGroundtruth.length) evalModels.push(MODEL_ALIAS_EVAL)
+if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_EVAL)
 dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
 
 const options: PromptPexOptions = Object.freeze(
