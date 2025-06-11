@@ -15,10 +15,12 @@ const dbg = host.logger("promptpex:eval:metric")
 export async function evaluateTestMetrics(
     testResult: PromptPexTestResult,
     files: PromptPexContext,
-    options: PromptPexOptions
+    options: PromptPexOptions  & {
+        runGroundtruth?: boolean 
+    }
 ): Promise<PromptPexTestResult> {
     const { metrics } = files
-    const { evalModels } = options
+    const { evalModels, evalModelsGroundtruth, runGroundtruth } = options || {}
     if (!evalModels?.length)
         throw new Error("No evalModels provided for metric evaluation")
 
@@ -27,7 +29,7 @@ export async function evaluateTestMetrics(
     // Remove all previous metrics before computing new ones
     testResult.metrics = {}
 
-    for (const eModel of evalModels) {
+    for (const eModel of runGroundtruth ? evalModelsGroundtruth: evalModels) {
         dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, eModel)
         for (const metric of metrics) {
             const key = metricName(metric) + METRIC_SEPARATOR + eModel

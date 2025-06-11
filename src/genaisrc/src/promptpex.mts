@@ -24,6 +24,7 @@ import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
+import { error } from "node:console"
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -40,6 +41,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         rateTests,
         groundtruthModel,
         modelsUnderTest,
+        evalModelsGroundtruth,
     } = options
 
     output.heading(2, name)
@@ -170,6 +172,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("rateTests")
     }
 
+    let results: PromptPexTestResult[]
+
     // only run tests if modelsUnderTest is defined
     if (groundtruthModel?.length) {
         output.heading(3, `Groundtruth`)
@@ -178,7 +182,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
             `groundtruth model`,
             `${resolved.provider}:${resolved.model}`
         )
-        await runTests(files, {
+        results = await runTests(files, {
             ...options,
             runGroundtruth: true,
             runsPerTest: 1,
@@ -194,7 +198,28 @@ export async function promptpexGenerate(files: PromptPexContext) {
         )
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
         output.detailsFenced(`test data (json)`, files.testData.content, "json")
-        await checkConfirm("expansion")
+
+        let newResult: PromptPexTestResult
+        dbg(`evaluating groundtruth with eval models %O`, evalModelsGroundtruth)
+        if (evalModelsGroundtruth?.length) {
+            output.itemValue(`ground truth evaluation models`, evalModels.join(", "))
+            // Evaluate metrics for groundtruth tests
+            for (const testRes of results) {
+                newResult = await evaluateTestMetrics(testRes, files, {
+                    ...options,
+                    runGroundtruth: true,} )
+                testRes.metrics = newResult.metrics
+            }
+            files.testOutputs.content = JSON.stringify(results, null, 2)
+            if (files.writeResults)
+                await workspace.writeText(
+                    files.testOutputs.filename,
+                    JSON.stringify(results, null, 2)
+                )
+        } else {
+            error(`No evaluation models provided for groundtruth tests`)
+        }
+        await checkConfirm("groundtruth")
     }
 
     if (modelsUnderTest?.length) {
@@ -204,7 +229,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
 
     // eval existing test results
-    let results: PromptPexTestResult[]
+
     if (evals && evalModels?.length && files.testOutputs.content) {
         output.note(`Evaluating saved test results.`)
         results = JSON.parse(files.testOutputs.content)

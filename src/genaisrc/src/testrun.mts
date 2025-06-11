@@ -135,8 +135,12 @@ export async function runTests(
                     if (runGroundtruth) {
                         test.groundtruthModel = testRes.model
                         test.groundtruth = testRes.output
+                        testRes.isGroundtruth = true
                         await checkpointTests()
+                    } else {
+                        testRes.isGroundtruth = false
                     }
+                    
 
                     testResults.push(testRes)
                     await checkpoint()
