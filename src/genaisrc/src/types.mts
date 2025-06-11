@@ -183,6 +183,7 @@ export interface PromptPexCliOptions
 
 export interface PromptPexOptions extends PromptPexBaseOptions {
     evalModels?: ModelType[]
+    evalModelsGroundtruth?: ModelType[]
 }
 
 /**
