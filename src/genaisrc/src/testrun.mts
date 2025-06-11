@@ -48,7 +48,9 @@ export async function runTests(
         : []
 
     dbg(`found ${baselineTests.length} tests`)
-    const tests = [...rulesTests, ...baselineTests].slice(0, maxTestsToRun)
+    // run all the tests when generating groundtruth
+    const tests = [...rulesTests, ...baselineTests].slice(0, 
+        runGroundtruth ? undefined :maxTestsToRun)
 
     if (!tests?.length) {
         dbg(`rules tests:\n%s`, files.tests.content)
@@ -128,6 +130,7 @@ export async function runTests(
                 })
                 assert(testRes.model)
                 if (testRes) {
+                    
                     // store groundtruth
                     if (runGroundtruth) {
                         test.groundtruthModel = testRes.model
