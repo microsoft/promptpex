@@ -7,7 +7,9 @@ sidebar:
 
 PromptPex is packaged as a [npm.js](https://www.npmjs.com/package/promptpex) command line tool that uses [GenAIScript](https://microsoft.github.io/genaiscript/).
 
-## Configuration
+## Local configuration
+
+To use PromptPex locally, you need to have Node.js installed and set up your environment. Follow these steps:
 
 - Install [Node.js v22+](https://nodejs.org/en/download/) (or later).
 - Make sure you have the right version of Node.js:
@@ -30,9 +32,23 @@ PromptPex supports many LLM providers, such as OpenAI, Azure OpenAI, GitHub Mode
 npx promptpex my_prompt.prompty
 ```
 
+PromptPex also supports the following file formats:
+
+- `.md`, `.txt`, tread as a Jinja2 templated string (Markdown)
+- `.prompty`, Prompty file format (default)
+- `.prompt.yml`, GitHub Models format
+
 ## Docker configuration
 
 If you prefer to run PromptPex in a Docker container, you can use the following command. This assumes you have [Docker](https://www.docker.com/) installed and running on your machine.
+
+- Run the configuration command to set up your `.env` file.
+
+```sh wrap
+docker run -e GITHUB_TOKEN="$GITHUB_TOKEN" --rm -it -v "$PWD":/app -w /app node:lts-alpine npx --yes promptpex configure
+```
+
+- Run PromptPex on your prompt file(s) using Docker:
 
 ```sh wrap
 docker run -e GITHUB_TOKEN="$GITHUB_TOKEN" --rm -it -v "$PWD":/app -w /app node:lts-alpine npx --yes promptpex my_prompt.prompty
@@ -40,16 +56,29 @@ docker run -e GITHUB_TOKEN="$GITHUB_TOKEN" --rm -it -v "$PWD":/app -w /app node:
 
 You might need to pass more environment variables depending on your shell configuration.
 
+## Effort levels
+
+PromptPex supports different effort levels for test generation, which can be specified using the `--vars effort` flag. The available effort levels are:
+
+- `min`: Minimal effort, generates a small number of simple tests.
+- `low`: Low effort, generates a moderate number of tests with some complexity.
+- `medium`: Medium effort, generates a larger number of more complex tests.
+- `high`: High effort, generates the maximum number of tests with the highest complexity.
+
+```sh "effort=min" wrap
+npx promptpex my_prompt.prompty --vars effort=min
+```
+
 ## Basic examples
 
-We start with simple examples of using PromptPex assume your prompt is in a file called `myprompt.prompty` and you want generate tests, run them, and evaluate the results. More details about all the parameters you can specify can be found in the [CLI parameter documentation](/promptpex/cli/parameters).
+We start with simple examples of using PromptPex assume your prompt is in a file called `my_prompt.prompty` and you want generate tests, run them, and evaluate the results. More details about all the parameters you can specify can be found in the [CLI parameter documentation](/promptpex/cli/parameters).
 
 ### Generate, Run and Evaluate Tests
 
 Suppose you want to generate tests, run them, and evaluate the results using the minimum effort level:
 
 ```sh wrap
-npx promptpex my_prompt.prompty --effort=min --out=results/ --evals=true --modelsUnderTest="ollama:llama3.3" --evalModel="ollama:llama3.3"
+npx promptpex my_prompt.prompty --vars effort=min out=results evals=true modelsUnderTest="ollama:llama3.3" evalModel="ollama:llama3.3"
 ```
 
 ### Generate Only Tests
@@ -57,7 +86,7 @@ npx promptpex my_prompt.prompty --effort=min --out=results/ --evals=true --model
 Suppose you only want to generate tests and not run them:
 
 ```sh
-npx promptpex my_prompt.prompty --effort=min --out=results/  --evals=false
+npx promptpex my_prompt.prompty --vars effort=min out=results evals=false
 ```
 
 ### Generate Only Tests with Groundtruth Outputs
@@ -65,7 +94,7 @@ npx promptpex my_prompt.prompty --effort=min --out=results/  --evals=false
 Suppose you only want to generate tests and add groundtruth outputs from a specific model and not run them:
 
 ```sh
-npx promptpex my_prompt.prompty --effort=min --out=results/  --evals=false  --vars groundtruthModel="ollama:llama3.3"
+npx promptpex my_prompt.prompty --vars effort=min out=results evals=false "groundtruthModel=ollama:llama3.3"
 ```
 
 ### Run and Evaluate Tests from a Context File
@@ -73,7 +102,7 @@ npx promptpex my_prompt.prompty --effort=min --out=results/  --evals=false  --va
 Suppose you just ran the above command and the file `results/my_prompt/promptpex_context.json` was created. (See [saving and restoring](/promptpex/cli/saving-restoring)) You can now load this context file to run and evaluate the tests:
 
 ```sh
-npx promptpex results/my_prompt/promptpex_context.json --evals=true --modelsUnderTest="ollama:llama3.3" --evalModel="ollama:llama3.3"
+npx promptpex results/my_prompt/promptpex_context.json --vars evals=true "modelsUnderTest=ollama:llama3.3" "evalModel=ollama:llama3.3"
 ```
 
 <!--
