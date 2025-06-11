@@ -24,13 +24,21 @@ npx promptpex configure
 
 PromptPex supports many LLM providers, such as OpenAI, Azure OpenAI, GitHub Models, Ollama, and more. The configuration will prompt you to select the LLM provider you want to use and set up the necessary environment variables in a `.env` file.
 
-## Running PromptPex
-
 - Run PromptPex on your prompt file(s):
 
 ```sh
 npx promptpex my_prompt.prompty
 ```
+
+## Docker configuration
+
+If you prefer to run PromptPex in a Docker container, you can use the following command. This assumes you have [Docker](https://www.docker.com/) installed and running on your machine.
+
+```sh wrap
+docker run -e GITHUB_TOKEN="$GITHUB_TOKEN" --rm -it -v "$PWD":/app -w /app node:lts-alpine npx --yes promptpex my_prompt.prompty
+```
+
+You might need to pass more environment variables depending on your shell configuration.
 
 ## Basic examples
 
