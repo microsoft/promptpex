@@ -53,12 +53,17 @@ export async function loadPromptContext(
         )
     dbg(`loading files from ${promptFile.filename}`)
 
-    if (/\.json$/i.test(promptFile.filename))
-        return await loadPromptContextFromJSON(promptFile, options)
+    if (/\.json$/i.test(promptFile.filename)) {
+        const ctx = await loadPromptContextFromJSON(promptFile, options)
+        dbg(`after loading from json, writeResults: ${ctx.writeResults}`)
+        return ctx
+    }
 
     const { out, disableSafety } = options || {}
     dbg(`out: ${out}`)
     const writeResults = !!out
+    dbg(`writeResults: ${writeResults}`)
+    
     let originalPromptFile: WorkspaceFile
     // pre-convert other formats to prompty
     for (const converter of converters) {
@@ -329,7 +334,8 @@ async function loadPromptContextFromJSON(
     dbg(`loading json...`)
     const ctx = JSON.parse(file.content) as PromptPexContext
 
-    const dir = out || path.dirname(file.filename)
+    // name the output directory after the original prompt file name
+    const dir = path.join(out, ctx.name) || path.dirname(file.filename)
     dbg(`using dir: %s`, dir)
 
     const ctxFiles = [
@@ -347,12 +353,21 @@ async function loadPromptContextFromJSON(
         ctx.ruleEvals,
         ctx.ruleCoverages,
     ]
+
     for (const file of ctxFiles) {
         file.filename = path.join(dir, path.basename(file.filename))
+        dbg(`file: %s`, file.filename)
     }
 
     await workspace.writeFiles(ctxFiles.filter((f) => f.content))
-    ctx.options = { ...options, ...ctx.options }
+
+    ctx.options = {  ...ctx.options, ...options }
+
+    ctx.writeResults = !!out
+    ctx.dir = dir
+    dbg(`out: %O`, ctx.options.out)
+    dbg(`dir: %O`, ctx.dir)
+
     return ctx
 }
 

@@ -389,6 +389,7 @@ export interface PromptPexTestResult {
     input: string
     output: string
     error?: string
+    isGroundtruth?: boolean
     groundtruth?: string
     groundtruthModel?: string
 
