@@ -53,12 +53,20 @@ export async function loadPromptContext(
         )
     dbg(`loading files from ${promptFile.filename}`)
 
-    if (/\.json$/i.test(promptFile.filename))
-        return await loadPromptContextFromJSON(promptFile, options)
+    if (/\.json$/i.test(promptFile.filename)) {
+        const ctx = await loadPromptContextFromJSON(promptFile, options)
+        const { out, disableSafety } = options || {}
+        dbg(`out: ${out}`)
+        const writeResults = !!out
+        dbg(`writeResults: ${writeResults}`)
+        return ctx
+    }
 
     const { out, disableSafety } = options || {}
     dbg(`out: ${out}`)
     const writeResults = !!out
+    dbg(`writeResults: ${writeResults}`)
+    
     let originalPromptFile: WorkspaceFile
     // pre-convert other formats to prompty
     for (const converter of converters) {
