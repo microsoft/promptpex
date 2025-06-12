@@ -17,6 +17,7 @@ import type {
     PromptPexEvalResultType,
     PromptPexEvaluation,
     PromptPexOptions,
+    PromptPexTestResult,
 } from "./types.mts"
 const dbg = host.logger("promptpex:reports")
 const dbgTests = host.logger("promptpex:reports:tests")
@@ -313,6 +314,39 @@ export function renderEvaluation(res: PromptPexEvaluation) {
     const { score, outcome } = res
     if (typeof score === "number") return score.toFixed(2)
     return renderEvaluationOutcome(outcome)
+}
+
+export function renderTestResults(res: PromptPexTestResult[]) {
+    return res.map(
+        ({
+            scenario,
+            rule,
+            inverse,
+            model,
+            input,
+            output,
+            compliance: testCompliance,
+            metrics,
+        }) => ({
+            model,
+            scenario,
+            input,
+            output,
+            ...Object.fromEntries(
+                Object.entries(
+                    metrics && typeof metrics === "object" ? metrics : {}
+                ).map(([k, v]) => [
+                    k,
+                    v && typeof v === "object" && "content" in v
+                        ? renderEvaluation(v as any)
+                        : "",
+                ])
+            ),
+            compliance: renderEvaluationOutcome(testCompliance),
+            rule,
+            inverse: inverse ? "🔄" : "",
+        })
+    )
 }
 
 export async function generateJSONReport(files: PromptPexContext) {

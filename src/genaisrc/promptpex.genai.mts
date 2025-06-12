@@ -539,6 +539,7 @@ output.heading(1, "PromptPex Test Generation")
 output.detailsFenced(`options`, options, "yaml")
 for (const run of runs) {
     dbg(`file: %s`, run.name)
+    dbg(`writeResults: %s`, run.writeResults)
     await promptpexGenerate(run)
 }
 output.appendContent("\n")

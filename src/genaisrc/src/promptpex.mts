@@ -13,18 +13,22 @@ import {
     generateReports,
     renderEvaluation,
     renderEvaluationOutcome,
+    renderTestResults,
 } from "./reports.mts"
 import { generateOutputRules } from "./rulesgen.mts"
 import { generateTests } from "./testgen.mts"
 import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
 import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
-import { MODEL_ALIAS_RULES, MODEL_ALIAS_STORE, PROMPTPEX_CONTEXT } from "./constants.mts"
+import {
+    MODEL_ALIAS_RULES,
+    MODEL_ALIAS_STORE,
+    PROMPTPEX_CONTEXT,
+} from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
-import { error } from "node:console"
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -44,11 +48,16 @@ export async function promptpexGenerate(files: PromptPexContext) {
         evalModelsGroundtruth,
     } = options
 
+    dbg("writeResults: %s", files.writeResults)
+
     output.heading(2, name)
     output.itemValue(`prompt file`, prompt.filename)
     const rulesModel = await host.resolveLanguageModel(MODEL_ALIAS_RULES)
-    output.itemValue(`rules model`, `${rulesModel.provider}:${rulesModel.model}`)
- 
+    output.itemValue(
+        `rules model`,
+        `${rulesModel.provider}:${rulesModel.model}`
+    )
+
     if (groundtruthModel) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
@@ -200,15 +209,21 @@ export async function promptpexGenerate(files: PromptPexContext) {
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
         output.detailsFenced(`test data (json)`, files.testData.content, "json")
 
-        let newResult: PromptPexTestResult
-        dbg(`evaluating groundtruth with eval models %O`, evalModelsGroundtruth)
         if (evalModelsGroundtruth?.length) {
-            output.itemValue(`ground truth evaluation models`, evalModelsGroundtruth.join(", "))
+            dbg(
+                `evaluating groundtruth with eval models %O`,
+                evalModelsGroundtruth
+            )
+            output.itemValue(
+                `ground truth evaluation models`,
+                evalModelsGroundtruth.join(", ")
+            )
             // Evaluate metrics for groundtruth tests
             for (const testRes of results) {
-                newResult = await evaluateTestMetrics(testRes, files, {
+                const newResult = await evaluateTestMetrics(testRes, files, {
                     ...options,
-                    runGroundtruth: true,} )
+                    runGroundtruth: true,
+                })
                 testRes.metrics = newResult.metrics
             }
             files.testOutputs.content = JSON.stringify(results, null, 2)
@@ -218,7 +233,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
                     JSON.stringify(results, null, 2)
                 )
         } else {
-            error(`No evaluation models provided for groundtruth tests`)
+            output.error(`No evaluation models provided for groundtruth tests`)
         }
         await checkConfirm("groundtruth")
     }
@@ -231,7 +246,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     // eval existing test results
 
-    if (evals && evalModels?.length && files.testOutputs.content  && !groundtruthModel?.length) {
+    if (
+        evals &&
+        evalModels?.length &&
+        files.testOutputs.content &&
+        !groundtruthModel?.length
+    ) {
         // this branch handles the case where you have existing test results and you aren't
         //       generating groundtruth at the same time.
         // correct order of operations is:
@@ -240,13 +260,15 @@ export async function promptpexGenerate(files: PromptPexContext) {
         // ...then evaluate metrics for all test results
         output.note(`Evaluating saved test results.`)
         results = parseTestResults(files)
-        
+
         // Evaluate metrics for all test results
         for (const testRes of results) {
             if (!testRes.groundtruth) {
-                const newResult = await evaluateTestMetrics(testRes, files, {
+                const newResult: PromptPexTestResult =
+                    await evaluateTestMetrics(testRes, files, {
                         ...options,
-                        runGroundtruth: false,})
+                        runGroundtruth: false,
+                    })
                 testRes.metrics = newResult.metrics
             }
         }
@@ -281,18 +303,19 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
         output.heading(4, `Test Results`)
 
-        let originalResults = parseTestResults(files)
+        const originalResults = parseTestResults(files)
 
         results = await runTests(files, options)
 
         // only measure metrics if eval is true
         if (evals) {
-            let newResult: PromptPexTestResult
             // Evaluate metrics for all test results
             for (const testRes of results) {
-                newResult = await await evaluateTestMetrics(testRes, files, {
+                const newResult: PromptPexTestResult =
+                    await await evaluateTestMetrics(testRes, files, {
                         ...options,
-                        runGroundtruth: false,})
+                        runGroundtruth: false,
+                    })
                 testRes.metrics = newResult.metrics
             }
             const allResults = [...results, ...originalResults]
@@ -309,40 +332,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     if (results?.length)
         outputTable(
-            results
-            .filter(r => !r.isGroundtruth)
-            .map(
-                ({
-                    scenario,
-                    rule,
-                    inverse,
-                    model,
-                    input,
-                    output,
-                    compliance: testCompliance,
-                    metrics,
-                }) => ({
-                    model,
-                    scenario,
-                    input,
-                    output,
-                    ...Object.fromEntries(
-                        Object.entries(
-                            metrics && typeof metrics === "object"
-                                ? metrics
-                                : {}
-                        ).map(([k, v]) => [
-                            k,
-                            v && typeof v === "object" && "content" in v
-                                ? renderEvaluation(v as any)
-                                : "",
-                        ])
-                    ),
-                    compliance: renderEvaluationOutcome(testCompliance),
-                    rule,
-                    inverse: inverse ? "🔄" : "",
-                })
-            ),
+            renderTestResults(results.filter((r) => !r.isGroundtruth)),
             { maxRows: 36 }
         )
 
@@ -359,7 +349,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
         output.itemValue(`output directory`, resolve(files.dir))
     output.appendContent("\n\n---\n\n")
 
+    dbg("writeResults: %s", files.writeResults)
     if (files.writeResults)
+        dbg("writing context to", files.dir)
         await saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
     reportPerf()
 }
