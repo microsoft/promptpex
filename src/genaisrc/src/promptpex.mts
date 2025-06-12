@@ -226,6 +226,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 })
                 testRes.metrics = newResult.metrics
             }
+                if (results?.length)
+            output.heading(3, `Groundtruth eval results`)
+            outputTable(
+                renderTestResults(results.filter((r) => r.isGroundtruth)),
+                { maxRows: 36 }
+            )
             files.testOutputs.content = JSON.stringify(results, null, 2)
             if (files.writeResults)
                 await workspace.writeText(
