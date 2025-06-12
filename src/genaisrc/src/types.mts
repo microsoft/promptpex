@@ -304,6 +304,11 @@ export interface PromptPexContext {
     metrics: WorkspaceFile[]
 
     /**
+     * Evaluation metrics for groundtruth prompt files
+     */
+    groundtruthMetrics: WorkspaceFile[]
+
+    /**
      * Existing test data if any
      */
     testSamples?: Record<string, number | string | boolean>[]

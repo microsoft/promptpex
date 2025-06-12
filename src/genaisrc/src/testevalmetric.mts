@@ -20,7 +20,6 @@ export function createMetricKey (
     return `${metricName}${METRIC_SEPARATOR}${modelName}`
 }
 
-
 export async function evaluateTestMetrics(
     testResult: PromptPexTestResult,
     files: PromptPexContext,
@@ -28,7 +27,7 @@ export async function evaluateTestMetrics(
         runGroundtruth?: boolean 
     }
 ): Promise<PromptPexTestResult> {
-    const { metrics } = files
+    const { groundtruthMetrics, metrics } = files
     const { evalModels, evalModelsGroundtruth, runGroundtruth } = options || {}
     if (!evalModels?.length)
         throw new Error("No evalModels provided for metric evaluation")
@@ -39,11 +38,16 @@ export async function evaluateTestMetrics(
     testResult.metrics = {}
 
     for (const eModel of runGroundtruth ? evalModelsGroundtruth: evalModels) {
-        dbg(`evaluating ${metrics.length} metrics with eval model(s) %O`, eModel)
-        for (const metric of metrics) {
-            const key = createMetricKey(metricName(metric), eModel)
-            const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
-            testResult.metrics[key] = res
+        const currentMetrics = runGroundtruth ? groundtruthMetrics : metrics
+        if (!currentMetrics || currentMetrics.length === 0) {
+            dbg(`no metrics found for evalModel %s`, eModel)
+        } else {
+            dbg(`evaluating ${currentMetrics.length} metrics with eval model(s) %O`, eModel)
+            for (const metric of currentMetrics) {
+                const key = createMetricKey(metricName(metric), eModel)
+                const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
+                testResult.metrics[key] = res
+            }
         }
     }
     // After all evalModels, compute combined metric for each metric

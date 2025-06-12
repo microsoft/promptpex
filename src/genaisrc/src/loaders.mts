@@ -143,12 +143,27 @@ export async function loadPromptContext(
         metrics.map(({ filename }) => filename)
     )
 
+    // now filter out ground truth metric files
+    const groundtruthMetrics = metrics
+        .filter((m) => {
+            const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
+            if (fm?.tags?.includes("groundtruth")) {
+                dbg(`metric %s is groundtruth, keep`, m.filename)
+                return m
+            } else return undefined
+        })
+        .filter(Boolean)
+    dbg(
+        `ground truth metrics (filtered): %O`,
+        groundtruthMetrics.map(({ filename }) => filename)
+    )
+    
     // now apply metric files
     metrics = metrics
         .filter((m) => {
             const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
-            if (fm?.tags?.includes("experimental")) {
-                dbg(`metric %s is experimental, skip`, m.filename)
+            if (fm?.tags?.includes("experimental") || fm?.tags?.includes("groundtruth")) {
+                dbg(`metric %s is experimental or groundtruth, skip`, m.filename)
                 return undefined
             }
             return m
@@ -158,6 +173,8 @@ export async function loadPromptContext(
         `metrics (filtered): %O`,
         metrics.map(({ filename }) => filename)
     )
+
+
 
     const res = {
         runId,
@@ -184,6 +201,7 @@ export async function loadPromptContext(
         baselineTestEvals: await workspace.readText(baselineTestEvals),
         promptPexTests: [],
         metrics,
+        groundtruthMetrics,
         testSamples,
         versions: {
             promptpex: packageJson.version,
