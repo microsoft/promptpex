@@ -1,4 +1,9 @@
-import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { GROUNDTRUTH_FAIL_SCORE, 
+         GROUNDTRUTH_RETRIES,
+         GROUNDTRUTH_THRESHOLD, 
+         MODEL_ALIAS_EVAL, 
+         MODEL_ALIAS_STORE, 
+         TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -169,8 +174,10 @@ export async function runTests(
                             testRes.isGroundtruth = true
                             await checkpointTests()
                             // Retry logic for low groundtruthScore
-                            if (typeof test.groundtruthScore === "number" && test.groundtruthScore < 50 && retryCount < 3) {
-                                dbg(`groundtruthScore < 50 (${test.groundtruthScore}), retrying (${retryCount + 1}/3)`)
+                            if (typeof test.groundtruthScore === "number" && 
+                                test.groundtruthScore < GROUNDTRUTH_THRESHOLD && 
+                                retryCount < GROUNDTRUTH_THRESHOLD) {
+                                dbg(`groundtruthScore < GROUNDTRUTH_THRESHOLD (${test.groundtruthScore}), retrying (${retryCount + 1}/${GROUNDTRUTH_RETRIES})`)
                                 retryCount++
                                 shouldRetry = true
                             }
@@ -183,6 +190,12 @@ export async function runTests(
                         }
                     }
                 } while (shouldRetry)
+                // If after retries groundtruthScore is still < 50, set to -1
+                if (runGroundtruth && typeof test.groundtruthScore === "number" && 
+                    test.groundtruthScore < 50 && retryCount >= 3) {
+                    dbg(`groundtruthScore < ${GROUNDTRUTH_THRESHOLD} after ${retryCount} retries, setting to ${GROUNDTRUTH_FAIL_SCORE}`)
+                    test.groundtruthScore = -1
+                }
             }
 
         }

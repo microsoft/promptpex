@@ -88,6 +88,10 @@ export const CONCURRENCY = 2
 export const RULES_NUM = 0
 export const TESTS_NUM = 3
 
+export const GROUNDTRUTH_THRESHOLD = 80
+export const GROUNDTRUTH_RETRIES = 3
+export const GROUNDTRUTH_FAIL_SCORE = -1
+
 export const TEST_EVALUATION_DIR = "test_evals"
 export const RULE_EVALUATION_DIR = "rule_evals"
 export const DOCS_TEST_GENERATION_DIAGRAM = `
