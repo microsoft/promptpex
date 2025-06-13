@@ -6,10 +6,12 @@ import {
     parseBaselineTests,
     parseOKERR,
     parseRulesTests,
+    metricName,
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
 import { evaluateTestResult } from "./testresulteval.mts"
+import { evaluateTestMetrics, createMetricKey } from "./testevalmetric.mts"
 import type {
     PromptPexContext,
     PromptPexOptions,
@@ -133,6 +135,29 @@ export async function runTests(
                     
                     // store groundtruth
                     if (runGroundtruth) {
+                        // compute metrics on this result
+                        const gtMetrics = await evaluateTestMetrics(testRes, files, {...options, runGroundtruth})
+
+                        // After all evalGroundtruthModels, compute combined metric for each metric
+                        for (const metric of files.metrics) {
+                            const keys = options.evalModelsGroundtruth.map((eModel) => createMetricKey (metricName(metric), eModel))
+                            const metricResults = keys
+                                .map((k) => gtMetrics.metrics[k])
+                                .filter((m) => !isNaN(m?.score))
+                            if (metricResults.length > 0 && options.evalModelsGroundtruth.length > 1) {
+                                const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
+                                test.groundtruthScore = avgScore
+                                const combinedScore = {
+                                    score: avgScore,
+                                    outcome: undefined,
+                                    content: `Average of evalModels: ${keys.join(", ")}`,
+                                }
+                            }
+                        }
+                        dbg(`groundtruth metrics: %O`, gtMetrics)
+                        dbg(`groundtruth score: %O`, test.groundtruthScore)
+
+
                         test.groundtruthModel = testRes.model
                         test.groundtruth = testRes.output
                         testRes.isGroundtruth = true
