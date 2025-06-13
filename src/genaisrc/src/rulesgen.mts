@@ -2,6 +2,7 @@ import {
     RULES_NUM,
     PROMPT_GENERATE_OUTPUT_RULES,
     DIAGRAM_GENERATE_OUTPUT_RULES,
+    MODEL_ALIAS_RULES,
 } from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
 import { modelOptions, checkLLMResponse, tidyRules } from "./parsers.mts"
@@ -14,20 +15,26 @@ export async function generateOutputRules(
     files: PromptPexContext,
     options?: PromptPexOptions & { numRules?: number }
 ): Promise<void> {
-    const { numRules = RULES_NUM, rulesModel = "rules" } = options || {}
+    const { numRules = RULES_NUM, rulesModel = MODEL_ALIAS_RULES } =
+        options || {}
 
-    dbg(`generating ${numRules} output rules`)
+    dbg(`generating %d output rules`, numRules)
     const instructions =
         options?.instructions?.outputRules ||
         files.frontmatter?.instructions?.outputRules ||
         ""
 
     outputWorkflowDiagram(DIAGRAM_GENERATE_OUTPUT_RULES, options)
+    const pn = PROMPT_GENERATE_OUTPUT_RULES
+    await outputPrompty(pn, options)
+
+    if (files.rules.content) {
+        dbg(`rules already exist for %s, skipping generation`, files.name)
+        return
+    }
 
     // generate rules
     const input_data = MD.content(files.prompt.content)
-    const pn = PROMPT_GENERATE_OUTPUT_RULES
-    await outputPrompty(pn, options)
     const res = await measure("gen.outputrules", () =>
         generator.runPrompt(
             (ctx) => {
@@ -45,7 +52,6 @@ export async function generateOutputRules(
         )
     )
     const rules = tidyRules(checkLLMResponse(res))
-    files.rules.content = rules 
-    if (files.writeResults)
-        await workspace.writeFiles([files.rules])   
+    files.rules.content = rules
+    if (files.writeResults) await workspace.writeFiles(files.rules)
 }

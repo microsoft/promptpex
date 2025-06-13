@@ -1,7 +1,7 @@
 ---
 title: Python
 sidebar:
-    order: 32
+    order: 82
 ---
 
 A python implementation of PromptPex is available

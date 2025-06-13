@@ -1,3 +1,4 @@
+import { TEMPLATE_VARIABLE_RX } from "./constants.mts"
 import type {
     PromptPexContext,
     PromptPexTest,
@@ -38,7 +39,13 @@ export function resolvePromptArgs(
     test: PromptPexTest
 ) {
     const { inputs } = files
-    const { testinput, expectedoutput, scenario } = test
+    const {
+        testinput,
+        expectedoutput,
+        scenario,
+        groundtruth,
+        groundtruthModel,
+    } = test
 
     const inputKeys = Object.keys(inputs)
     const unresolved = new Set(inputKeys)
@@ -99,6 +106,8 @@ export function resolvePromptArgs(
         args,
         testInput: testinput,
         expectedOutput: expectedoutput,
+        groundtruth,
+        groundtruthModel,
     }
 }
 

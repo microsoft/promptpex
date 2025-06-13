@@ -1,0 +1,23 @@
+name: promptpex
+description: Action
+inputs:
+    prompt:
+        description: "The prompt to use for generating text."
+        required: true
+    effort:
+        description: "The effort level for the generation. Options: `min`, `low`, `medium`, `hight`."
+        required: false
+    github_token:
+        description: "GitHub token with `models: read` permission at least."
+        required: true
+    debug:
+        description: Enable debug logging.
+        required: false
+outputs:
+    text:
+        description: The generated text output.
+    data:
+        description: The generated JSON data output, parsed and stringified.
+runs:
+    using: docker
+    image: Dockerfile

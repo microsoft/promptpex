@@ -34,7 +34,7 @@ To convert the prompt file to the .prompty format, you need to:
 - Ensure that the converted file is valid according to the ${schema} JSON schema.
 - Provide a brief explanation of the conversion process and any assumptions made.
 - Provide the converted file in the .prompty format.
-- Ignore the 'intrusctions' field unless completely necessary.
+- Ignore the 'instructions' field unless completely necessary.
 
 Very important:
 - Your task is the make sure the structure of the prompt file is correct; do not change the content of the prompt instructions.

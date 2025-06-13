@@ -1,7 +1,7 @@
 ---
 title: Overview
 sidebar:
-    order: 30
+    order: 80
 ---
 
 This section provides documentation for developers who want to use PromptPex in their own projects or infrastructure.
@@ -9,7 +9,7 @@ This section provides documentation for developers who want to use PromptPex in 
 ## Bring Your Own Inference Library
 
 PromptPex is workflow of LLM prompts that implement the test generation process.
-The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/reference/prompt-format/).
+The template are stored in a [markdown-ish, framework agnostic, template format](/promptpex/configuration/prompt-format/).
 
 - [prompts directory](https://github.com/microsoft/promptpex/tree/main/src/prompts)
 
