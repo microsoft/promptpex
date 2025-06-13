@@ -1,4 +1,9 @@
-import { MODEL_ALIAS_EVAL, MODEL_ALIAS_STORE, TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
+import { GROUNDTRUTH_FAIL_SCORE, 
+         GROUNDTRUTH_RETRIES,
+         GROUNDTRUTH_THRESHOLD, 
+         MODEL_ALIAS_EVAL, 
+         MODEL_ALIAS_STORE, 
+         TEST_TRAINING_DATASET_RATIO } from "./constants.mts"
 import { resolveTestPath } from "./filecache.mts"
 import {
     modelOptions,
@@ -6,10 +11,12 @@ import {
     parseBaselineTests,
     parseOKERR,
     parseRulesTests,
+    metricName,
 } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
 import { evaluateTestResult } from "./testresulteval.mts"
+import { evaluateTestMetrics, createMetricKey } from "./testevalmetric.mts"
 import type {
     PromptPexContext,
     PromptPexOptions,
@@ -20,6 +27,29 @@ import assert from "node:assert/strict"
 const dbg = host.logger("promptpex:eval:run")
 
 const { generator, output } = env
+
+async function computeGroundtruthScore(
+    testRes: PromptPexTestResult,
+    files: PromptPexContext,
+    options?: PromptPexOptions & { runGroundtruth?: boolean }
+): Promise<number | undefined> {
+    if (!testRes.groundtruth || !testRes.groundtruthModel) return undefined
+    const gtMetrics = await evaluateTestMetrics(testRes, files, options)
+    dbg(`groundtruth metrics: %O`, gtMetrics)
+    // assumptions: at least 1 evalModelsGroundtruth is provided
+    // at most 1 metric is provided
+    // Combine the scores of the metrics for the groundtruth
+    const keys = options?.evalModelsGroundtruth.map((eModel) => createMetricKey(metricName(files.groundtruthMetrics[0]), eModel))
+    const metricResults = keys
+        .map((k) => gtMetrics.metrics[k])
+        .filter((m) => !isNaN(m?.score))
+    if (metricResults.length > 0 && options?.evalModelsGroundtruth.length > 0) {
+        const avg = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
+        return avg
+    }
+    return undefined
+}
+
 
 export async function runTests(
     files: PromptPexContext,
@@ -123,27 +153,48 @@ export async function runTests(
                 }
                 : undefined
             for (let ri = 0; ri < runsPerTest; ++ri) {
-                const testRes = await runTest(files, test, {
-                    ...options,
-                    model: modelUnderTest,
-                    metadata: testMetadata,
-                })
-                assert(testRes.model)
-                if (testRes) {
-                    
-                    // store groundtruth
-                    if (runGroundtruth) {
-                        test.groundtruthModel = testRes.model
-                        test.groundtruth = testRes.output
-                        testRes.isGroundtruth = true
-                        await checkpointTests()
-                    } else {
-                        testRes.isGroundtruth = false
+                let testRes: PromptPexTestResult | undefined
+                let retryCount = 0
+                let shouldRetry = false
+                do {
+                    testRes = await runTest(files, test, {
+                        ...options,
+                        model: modelUnderTest,
+                        metadata: testMetadata,
+                    })
+                    assert(testRes.model)
+                    shouldRetry = false
+                    if (testRes) {
+                        // store groundtruth
+                        if (runGroundtruth) {
+                            test.groundtruthScore = await computeGroundtruthScore(testRes, files, options)
+                            dbg(`groundtruth score: %O`, test.groundtruthScore)
+                            test.groundtruthModel = testRes.model
+                            test.groundtruth = testRes.output
+                            testRes.isGroundtruth = true
+                            await checkpointTests()
+                            // Retry logic for low groundtruthScore
+                            if (typeof test.groundtruthScore === "number" && 
+                                test.groundtruthScore < GROUNDTRUTH_THRESHOLD && 
+                                retryCount < GROUNDTRUTH_THRESHOLD) {
+                                dbg(`groundtruthScore < GROUNDTRUTH_THRESHOLD (${test.groundtruthScore}), retrying (${retryCount + 1}/${GROUNDTRUTH_RETRIES})`)
+                                retryCount++
+                                shouldRetry = true
+                            }
+                        } else {
+                            testRes.isGroundtruth = false
+                        }
+                        if (!shouldRetry) {
+                            testResults.push(testRes)
+                            await checkpoint()
+                        }
                     }
-                    
-
-                    testResults.push(testRes)
-                    await checkpoint()
+                } while (shouldRetry)
+                // If after retries groundtruthScore is still < 50, set to -1
+                if (runGroundtruth && typeof test.groundtruthScore === "number" && 
+                    test.groundtruthScore < 50 && retryCount >= 3) {
+                    dbg(`groundtruthScore < ${GROUNDTRUTH_THRESHOLD} after ${retryCount} retries, setting to ${GROUNDTRUTH_FAIL_SCORE}`)
+                    test.groundtruthScore = -1
                 }
             }
 
