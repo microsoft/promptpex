@@ -137,16 +137,17 @@ export async function runTests(
                     if (runGroundtruth) {
                         // compute metrics on this result
                         const gtMetrics = await evaluateTestMetrics(testRes, files, {...options, runGroundtruth})
-
+                        dbg(`files.groundtruthMetrics: %O`, files.groundtruthMetrics)
                         // After all evalGroundtruthModels, compute combined metric for each metric
-                        for (const metric of files.metrics) {
+                        for (const metric of files.groundtruthMetrics) {
                             const keys = options.evalModelsGroundtruth.map((eModel) => createMetricKey (metricName(metric), eModel))
                             const metricResults = keys
                                 .map((k) => gtMetrics.metrics[k])
                                 .filter((m) => !isNaN(m?.score))
-                            if (metricResults.length > 0 && options.evalModelsGroundtruth.length > 1) {
+                            if (metricResults.length > 0 && options.evalModelsGroundtruth.length > 0) {
                                 const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
                                 test.groundtruthScore = avgScore
+                                dbg(`groundtruth metric %s: %O`, metricName(metric), avgScore)
                                 const combinedScore = {
                                     score: avgScore,
                                     outcome: undefined,
