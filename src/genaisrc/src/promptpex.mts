@@ -244,8 +244,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("groundtruth")
     }
 
+    await githubModelsEvalsGenerate(files, files.promptPexTests, options)
     if (modelsUnderTest?.length) {
-        await githubModelsEvalsGenerate(files, files.promptPexTests, options)
         await openaiEvalsGenerate(files, files.promptPexTests, options)
         await checkConfirm("integration")
     }

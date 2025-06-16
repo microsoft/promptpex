@@ -6,10 +6,9 @@ import type {
     PromptPexTest,
 } from "./types.mts"
 import { resolvePromptArgs } from "./resolvers.mts"
-import { GITHUB_MODELS_RX } from "./constants.mts"
+import { GITHUB_MODELS_RX, MODEL_ALIAS_EVAL } from "./constants.mts"
 import { metricName } from "./parsers.mts"
 import { fillTemplateVariables, hideTemplateVariables } from "./template.mts"
-import { relative, resolve } from "node:path"
 
 const { output } = env
 const dbg = host.logger("promptpex:github:models")
@@ -404,31 +403,34 @@ export async function githubModelsEvalsGenerate(
 ) {
     output.heading(3, "GitHub Models Evals")
     const { messages } = files
-    const { modelsUnderTest } = options || {}
-    if (!modelsUnderTest?.length)
-        throw new Error("No models under test specified in options")
+    const modelsUnderTest = options?.modelsUnderTest?.length
+        ? options.modelsUnderTest
+        : [MODEL_ALIAS_EVAL]
+    if (!tests?.length)
+        output.warn("No tests found. Skipping GitHub Models Evals generation.")
 
-    if (tests?.length) {
-        for (const modelId of modelsUnderTest) {
-            if (!/^github:/.test(modelId)) {
-                dbg(`skipping model %s`, modelId)
-                continue
-            }
-            const res = await toModelsPrompt(modelId, messages, files)
-            const evalPromptFile = {
-                filename: path.join(
-                    files.dir,
-                    `${res.model.replace(/\//g, "_")}.prompt.yml`
-                ),
-                content: YAML.stringify(res),
-            }
-            output.fence(`gh models eval ${evalPromptFile.filename}`, "sh")
-            output.detailsFenced(
-                evalPromptFile.filename,
-                evalPromptFile.content,
-                "yaml"
-            )
-            await workspace.writeFiles(evalPromptFile)
+    for (const modelId of modelsUnderTest) {
+        output.heading(4, modelId)
+        const { provider, model } = await host.resolveLanguageModel(modelId)
+        output.itemValue(provider, model)
+        if (provider && provider !== "github") {
+            dbg(`skipping model %s`, modelId)
+            continue
         }
+        const res = await toModelsPrompt(modelId, messages, files)
+        const evalPromptFile = {
+            filename: path.join(
+                files.dir,
+                `${res.model?.replace(/\//g, "_") || modelId}.prompt.yml`
+            ),
+            content: YAML.stringify(res),
+        }
+        output.fence(`gh models eval ${evalPromptFile.filename}`, "sh")
+        output.detailsFenced(
+            evalPromptFile.filename,
+            evalPromptFile.content,
+            "yaml"
+        )
+        await workspace.writeFiles(evalPromptFile)
     }
 }
