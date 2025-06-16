@@ -148,9 +148,10 @@ export async function promptpexGenerate(files: PromptPexContext) {
     await generateTests(files, options)
 
     outputTable(
-        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
+        files.promptPexTests.map(({ scenario, testinput, reasoning }) => ({
             scenario,
             testinput,
+            reasoning,
         }))
     )
     output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
@@ -162,9 +163,16 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await expandTests(files, files.promptPexTests, options)
         outputTable(
             files.promptPexTests.map(
-                ({ scenario, testinput, expectedoutput }) => ({
+                ({
                     scenario,
-                    testinput,
+                    testinput: expanded,
+                    testinputOriginal: original,
+                    reasoning,
+                }) => ({
+                    scenario,
+                    expanded,
+                    original,
+                    reasoning,
                 })
             )
         )
@@ -226,8 +234,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 })
                 testRes.metrics = newResult.metrics
             }
-                if (results?.length)
-            output.heading(3, `Groundtruth eval results`)
+            if (results?.length) output.heading(3, `Groundtruth eval results`)
             outputTable(
                 renderTestResults(results.filter((r) => r.isGroundtruth)),
                 { maxRows: 36 }
@@ -356,8 +363,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.appendContent("\n\n---\n\n")
 
     dbg("writeResults: %s", files.writeResults)
-    if (files.writeResults)
-        dbg("writing context to", files.dir)
-        await saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
+    if (files.writeResults) dbg("writing context to", files.dir)
+    await saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
     reportPerf()
 }

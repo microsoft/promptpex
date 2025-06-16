@@ -222,7 +222,7 @@ async function generateMarkdownReport(files: PromptPexContext) {
                 : file === files.tests
                   ? ["scenario", "testinput", "expectedoutput", "reasoning"]
                   : file === files.baselineTests
-                    ? ["testinput"]
+                    ? ["testinput", "reasoning"]
                     : file === files.testEvals
                       ? [
                             "scenario",

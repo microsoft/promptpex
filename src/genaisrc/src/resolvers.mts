@@ -45,6 +45,7 @@ export function resolvePromptArgs(
         scenario,
         groundtruth,
         groundtruthModel,
+        reasoning
     } = test
 
     const inputKeys = Object.keys(inputs)
@@ -108,6 +109,7 @@ export function resolvePromptArgs(
         expectedOutput: expectedoutput,
         groundtruth,
         groundtruthModel,
+        reasoning,
     }
 }
 

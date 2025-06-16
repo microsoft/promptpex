@@ -6,9 +6,10 @@ import type {
     PromptPexTest,
 } from "./types.mts"
 import { resolvePromptArgs } from "./resolvers.mts"
-import { GITHUB_MODELS_RX, MODEL_ALIAS_EVAL } from "./constants.mts"
+import { GITHUB_MODELS_RX } from "./constants.mts"
 import { metricName } from "./parsers.mts"
 import { fillTemplateVariables, hideTemplateVariables } from "./template.mts"
+import { deleteUndefinedOrEmptyValues } from "./cleaners.mts"
 
 const { output } = env
 const dbg = host.logger("promptpex:github:models")
@@ -237,10 +238,11 @@ async function toModelsPrompt(
         ...(original.testSamples || []),
         ...promptPexTests
             .map((test) => resolvePromptArgs(files, test))
-            .map((test) => ({
+            .map((test) => (deleteUndefinedOrEmptyValues({
                 ...test.args,
+                reasoning: test.reasoning,
                 expected: test.groundtruth,
-            })),
+            }))),
     ]
 
     const res: GitHubModelsPrompt = {
@@ -403,9 +405,7 @@ export async function githubModelsEvalsGenerate(
 ) {
     output.heading(3, "GitHub Models Evals")
     const { messages } = files
-    const modelsUnderTest = options?.modelsUnderTest?.length
-        ? options.modelsUnderTest
-        : [MODEL_ALIAS_EVAL]
+    const modelsUnderTest = ["evals", ...(options?.modelsUnderTest || [])]
     if (!tests?.length)
         output.warn("No tests found. Skipping GitHub Models Evals generation.")
 
