@@ -35,7 +35,7 @@ async function computeGroundtruthScore(
 ): Promise<number | undefined> {
     if (!testRes.groundtruth || !testRes.groundtruthModel) return undefined
     const gtMetrics = await evaluateTestMetrics(testRes, files, options)
-    dbg(`groundtruth metrics: %O`, gtMetrics)
+    // dbg(`groundtruth metrics: %O`, gtMetrics)
     // assumptions: at least 1 evalModelsGroundtruth is provided
     // at most 1 metric is provided
     // Combine the scores of the metrics for the groundtruth
@@ -167,7 +167,8 @@ export async function runTests(
                     if (testRes) {
                         // store groundtruth
                         if (runGroundtruth) {
-                            test.groundtruthScore = await computeGroundtruthScore(testRes, files, options)
+                            const gtScore: number = await computeGroundtruthScore(testRes, files, options)
+                            test.groundtruthScore = gtScore
                             dbg(`groundtruth score: %O`, test.groundtruthScore)
                             test.groundtruthModel = testRes.model
                             test.groundtruth = testRes.output
@@ -249,7 +250,7 @@ async function runTest(
             input: testInput,
             output: "invalid test input",
             groundtruth: test.groundtruth,
-            groundtruthModel: test.groundtruthModel,
+            groundtruthScore: test.groundtruthScore,
             metrics: {},
         } satisfies PromptPexTestResult
     }
@@ -298,7 +299,8 @@ async function runTest(
         output: actualOutput,
         metrics: {},
         groundtruth: test.groundtruth,
-        groundtruthModel: test.groundtruthModel
+        groundtruthModel: test.groundtruthModel,
+        groundtruthScore: test.groundtruthScore,
     } satisfies PromptPexTestResult
 
 
