@@ -31,3 +31,6 @@ git tag -f $MAJOR $NEW_VERSION
 git push origin $MAJOR --force
 
 echo "✅ GitHub release $NEW_VERSION created successfully."
+
+# push to npm
+npm publish
