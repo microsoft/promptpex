@@ -1,4 +1,5 @@
-
+#!/bin/bash
+set -e  # exit immediately if a command exits with a non-zero status
 # make sure there's no other changes
 git pull
 
