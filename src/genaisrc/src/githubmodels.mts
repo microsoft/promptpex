@@ -229,13 +229,13 @@ async function toModelsPrompt(
     const { parameters } = model || {}
     const { temperature, max_tokens: maxTokens } = parameters || {}
 
-    const original = YAML.parse(originalPrompt.content)
+    const original = originalPrompt ? YAML.parse(originalPrompt.content) : undefined
     const { model: resolvedModel } =
         await host.resolveLanguageModel(modelUnderTest)
     dbg(`model: %s`, resolvedModel)
 
     const testData = [
-        ...(original.testSamples || []),
+        ...(original?.testSamples || []),
         ...promptPexTests
             .map((test) => resolvePromptArgs(files, test))
             .map((test) => (deleteUndefinedOrEmptyValues({
