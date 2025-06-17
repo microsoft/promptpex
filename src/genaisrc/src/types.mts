@@ -402,6 +402,7 @@ export interface PromptPexTestResult {
     isGroundtruth?: boolean
     groundtruth?: string
     groundtruthModel?: string
+    groundtruthScore?: number
 
     compliance?: PromptPexEvalResultType
     complianceText?: string
