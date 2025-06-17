@@ -14,8 +14,18 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                  node-version: '22'
+                  node-version: "22"
                   cache: npm
+            # Cache the generated model requests made by GenAIScript
+            #
+            # A new cache is created for each run to ensure that the latest model requests are used,
+            # but previous caches can be restored and reused if available.
+            - uses: actions/cache@v4
+              with:
+                  path: .genaiscript/cache/**
+                  key: genaiscript-${{ github.run_id }}
+                  restore-keys: |
+                      genaiscript-
             - run: npm ci
             - run: npm run build
             - run: npm test
@@ -27,6 +37,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+            # Cache the generated model requests made by GenAIScript
+            #
+            # A new cache is created for each run to ensure that the latest model requests are used,
+            # but previous caches can be restored and reused if available.
+            - uses: actions/cache@v4
+              with:
+                  path: .genaiscript/cache/**
+                  key: genaiscript-${{ github.run_id }}
+                  restore-keys: |
+                      genaiscript-
             - uses: ./
               with:
                   prompt: |
