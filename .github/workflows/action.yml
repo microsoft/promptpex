@@ -20,7 +20,7 @@ jobs:
             - run: npm run build
             - run: npm test
               env:
-                  DEBUG: "*"
+                  DEBUG: "script"
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     test-action:
         needs: test
@@ -36,4 +36,4 @@ jobs:
                       {{ input }}
                   effort: min
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  debug: true
+                  debug: "script"
