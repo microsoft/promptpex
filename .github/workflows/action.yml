@@ -1,32 +1,34 @@
 name: Action Continuous Integration
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - dev
+    workflow_dispatch:
+    push:
+        branches:
+            - dev
 permissions:
-  contents: read
+    contents: read
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          cache: npm
-      - run: npm ci
-      - run: npm test
-  test-action:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./
-        with:
-          prompt: |
-            system:
-            Is this joke funny?
-            user:
-            {{ input }}
-          effort: min
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          debug: true
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  cache: npm
+            - run: npm ci
+            - run: npm test
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    test-action:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./
+              with:
+                  prompt: |
+                      system:
+                      Is this joke funny?
+                      user:
+                      {{ input }}
+                  effort: min
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  debug: true
