@@ -41,7 +41,7 @@ export function computeOverview(
         testResults,
         (result) => `${result.model}:${result.scenario || defaultScenario}`
     )
-    const overview = Object.entries(testResultsPerModelsAndScenario).map(
+    let overview = Object.entries(testResultsPerModelsAndScenario).map(
         ([key, results]) => {
             const { model, scenario, error } = results[0]
             const tests = results.filter((tr) => !tr.error && tr.rule)
@@ -145,6 +145,33 @@ export function computeOverview(
             })
         }
     )
+    // Filter columns that are all zero or all '---' for the specified set
+    const filterCols = [
+        "errors",
+        "tests compliant",
+        "tests compliance unknown",
+        "baseline compliant",
+        "tests positive",
+        "tests positive compliant",
+        "tests negative",
+        "tests negative compliant",
+        "baseline",
+        "tests valid",
+        "tests valid compliant",
+    ]
+    if (overview.length > 0) {
+        for (const col of filterCols) {
+            const allZeroOrDash = overview.every(
+                (row) => row[col] === 0 || row[col] === "0%" || 
+                row[col] === "---" || row[col] === "--"
+            )
+            if (allZeroOrDash) {
+                for (const row of overview) {
+                    delete row[col]
+                }
+            }
+        }
+    }
     dbg(`overview: %d rows`, overview.length)
 
     if (
