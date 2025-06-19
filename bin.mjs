@@ -5,8 +5,8 @@ import { spawnSync } from "child_process"
 
 const args = process.argv.slice(2)
 const scriptDir = dirname(fileURLToPath(import.meta.url))
-if (args[0] === "configure") {
-    const result = spawnSync("genaiscript", ["configure"], { stdio: "inherit" })
+if (["configure", "serve"].includes(args[0])) {
+    const result = spawnSync("genaiscript", args, { stdio: "inherit" })
     if (result.error || result.status !== 0) process.exit(1)
 } else {
     const genaiArgs = [
