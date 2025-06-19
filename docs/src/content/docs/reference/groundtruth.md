@@ -9,15 +9,15 @@ Ideally, every test should have a correct value for the **expected** output.  Be
 
 ```mermaid
 graph TD
-    PUT(["Prompt Under Test (PUT)"])
-    PPT["PromptPex Tests (PPT)"]
-    GTM["Groundtruth Model (GTM)"]
+    PUT[("Prompt Under Test (PUT)")]
+    PPT{{"PromptPex Tests (PPT)"}}
+    GTM>"Groundtruth Model (GTM)"]
     GTIR["Groundtruth Init Result (GTIR)"]
-    GTEM["Groundtruth Eval Model(s) (GTEM)"]
-    GTEMM["Groundtruth Eval Metric (GTEMM)"]
+    GTEM>"Groundtruth Eval Model(s) (GTEM)"]
+    GTEMT>"Groundtruth Eval Metric (GTEMT)"]
     GTES["Groundtruth Eval Score (GTES)"]
-    GTFR["Groundtruth Final Result (GTFR)"]   
-    PPTGT["PromptPex Tests w/ Groundtruth (PPGT)"] 
+    GTFR(["Groundtruth Final Result (GTFR)"])
+    PPGT{{"PromptPex Tests w/ Groundtruth (PPGT)"}}
 
     PUT --> PPT
     PPT --> GTIR
@@ -25,10 +25,10 @@ graph TD
     GTM --> GTIR
     GTIR --> GTES
     GTEM --> GTES
-    GTEMM --> GTES
+    GTEMT --> GTES
     GTES --> | if above threshold| GTFR
-    PPT --> PPTGT
-    GTFR --> PPTGT
+    PPT --> PPGT
+    GTFR --> PPGT
 
 ```
 
