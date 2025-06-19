@@ -27,7 +27,8 @@ export function computeOverview(
     options?: PromptPexOptions & { percent?: boolean }
 ) {
     const { percent } = options || {}
-    const testResults = parseTestResults(files)
+    // only print overview for non-groundtruth test results
+    const testResults = parseTestResults(files).filter((r) => !r.isGroundtruth)
     dbg(`testResults: %d`, testResults.length)
     const testEvals = parseTestEvals(files)
     dbg(`testEvals: %d`, testEvals.length)
