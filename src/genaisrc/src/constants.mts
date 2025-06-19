@@ -142,9 +142,9 @@ OR["Output Rules (OR)"]
 PUT --> OR        
 `
 
-export const SCENARIO_SYMBOL = "⚙"
-export const RULE_SYMBOL = "⊢"
-export const GENERATION_SYMBOL = "◎"
+export const SCENARIO_SYMBOL = "scene"
+export const RULE_SYMBOL = "rule"
+export const GENERATION_SYMBOL = "gen"
 export const METRIC_SEPARATOR = ", with model "
 export const METRIC_SUMMARY = " average"
 

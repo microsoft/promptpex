@@ -43,7 +43,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         testExpansions,
         rateTests,
         groundtruth,
-        groundtruthModel = MODEL_ALIAS_GROUNDTRUTH,
+        groundtruthModel,
         modelsUnderTest,
         evalModelsGroundtruth,
     } = options

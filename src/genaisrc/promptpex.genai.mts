@@ -1,6 +1,6 @@
 import { initPerf } from "./src/perf.mts"
 import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
-import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH_EVAL, MODEL_ALIAS_MODEL_UNDER_TEST } from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH, MODEL_ALIAS_GROUNDTRUTH_EVAL, MODEL_ALIAS_MODEL_UNDER_TEST } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
@@ -414,7 +414,6 @@ const {
     storeCompletions,
     storeModel,
     groundtruth,
-    groundtruthModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -443,12 +442,14 @@ dbg(`evalModels: %o`, evalModels)
 const evalModelsGroundtruth: string[] = parseStrings(vars.evalModelGroundtruth)
 if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_GROUNDTRUTH_EVAL)
 dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
+const groundtruthModel = vars.groundtruthModel || MODEL_ALIAS_GROUNDTRUTH
+dbg(`groundtruthModel: %s`, groundtruthModel)
 
-if (groundtruthModel && evalModelsGroundtruth.includes(groundtruthModel))
+if (groundtruth && evalModelsGroundtruth.includes(groundtruthModel))
     output.note(
         `Groundtruth model is the same as groundtruth eval model: ${groundtruthModel}`
     )
-if (evalModelsGroundtruth.some(m => evalModels.includes(m)))
+if (groundtruth && evalModelsGroundtruth.some(m => evalModels.includes(m)))
     output.note(`Some eval models and groundtruth models are the same: ${evalModelsGroundtruth.filter(m => evalModels.includes(m)).join(", ")}`)
 
 const options: PromptPexOptions = Object.freeze(
