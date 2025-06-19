@@ -5,8 +5,17 @@ import { spawnSync } from "child_process"
 
 const args = process.argv.slice(2)
 const scriptDir = dirname(fileURLToPath(import.meta.url))
-if (["configure", "serve"].includes(args[0])) {
+if ("configure" === args[0]) {
     const result = spawnSync("genaiscript", args, { stdio: "inherit" })
+    if (result.error || result.status !== 0) process.exit(1)
+else if ("serve" === args[0]) {
+    const genaiArgs = [
+        "serve",
+//        join(scriptDir, "src", "genaisrc", "promptpex.genai.mts"),
+        ...args.slice(1) 
+    ]
+    console.error(`genaiscript ${genaiArgs.join(" ")}`)
+    const result = spawnSync("genaiscript", genaiArgs, { stdio: "inherit" })
     if (result.error || result.status !== 0) process.exit(1)
 } else {
     const genaiArgs = [
