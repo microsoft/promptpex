@@ -189,6 +189,20 @@ async function runTest(
                 ctx.importTemplate(files.prompt, args, {
                     allowExtraArguments: true,
                 })
+                
+                // Add output format instructions if outputs schema is specified
+                if (files.frontmatter.outputs && Object.keys(files.frontmatter.outputs).length > 0) {
+                    const outputSchema = JSON.stringify(files.frontmatter.outputs, null, 2)
+                    ctx.system(`
+Output Format Requirements:
+Please format your response according to the following JSON schema:
+
+\`\`\`json
+${outputSchema}
+\`\`\`
+
+Ensure your output is valid JSON that conforms to this schema.`, { role: "system" })
+                }
             },
             {
                 ...moptions,

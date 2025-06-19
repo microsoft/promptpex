@@ -59,7 +59,42 @@
         },
         "outputs": {
             "type": "object",
-            "description": "The outputs of the prompty"
+            "description": "JSON schema specification for the expected output format",
+            "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9_]*$": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "enum": ["string", "number", "integer", "boolean", "array", "object"]
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "enum": {
+                                    "type": "array"
+                                },
+                                "items": {
+                                    "type": "object"
+                                },
+                                "properties": {
+                                    "type": "object"
+                                },
+                                "required": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": ["type"]
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false
         },
         "instructions": {
             "type": "object",

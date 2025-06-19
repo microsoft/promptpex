@@ -1,0 +1,28 @@
+---
+name: "Output Schema Test"
+description: "Test prompty with output schema specification"
+tags:
+  - unlisted
+inputs:
+  sentiment_text:
+    type: "string"
+    description: "Text to analyze for sentiment"
+    default: "I love this product! It's amazing."
+outputs:
+  sentiment:
+    type: "string"
+    description: "The sentiment of the text"
+    enum: ["positive", "negative", "neutral"]
+  confidence:
+    type: "number"
+    description: "Confidence score between 0 and 1"
+  reasoning:
+    type: "string"
+    description: "Brief explanation of the sentiment classification"
+---
+
+system:
+You are a sentiment analysis assistant. Analyze the given text and determine its sentiment.
+
+user:
+Analyze the sentiment of the following text: {{sentiment_text}}

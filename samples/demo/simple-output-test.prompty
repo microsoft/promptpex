@@ -1,0 +1,20 @@
+---
+name: "Simple Output Schema Test"
+tags:
+  - unlisted
+inputs:
+  text: "Hello world"
+outputs:
+  word_count:
+    type: "integer"
+    description: "Number of words in the text"
+  first_word:
+    type: "string"
+    description: "The first word in the text"
+---
+
+system:
+Count the words and identify the first word in the given text.
+
+user:
+{{text}}
