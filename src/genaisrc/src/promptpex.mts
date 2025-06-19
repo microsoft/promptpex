@@ -152,8 +152,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
             reasoning,
         }))
     )
-    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    output.detailsFenced(`tests.json`, files.promptPexTests, "json")
+    output.detailsFenced(`test_data.json`, files.testData.content, "json")
     await checkConfirm("test")
 
     if (testExpansions > 0) {
@@ -174,8 +174,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 })
             )
         )
-        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-        output.detailsFenced(`test data (json)`, files.testData.content, "json")
+        output.detailsFenced(`tests.json`, files.promptPexTests, "json")
+        output.detailsFenced(`test_data.json`, files.testData.content, "json")
         await checkConfirm("expansion")
     }
 
@@ -183,7 +183,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (rateTests) {
         output.heading(3, "Test Set Quality Review")
         await evalTestCollection(files, options)
-        output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
+        output.detailsFenced(`test_ratings.md`, files.rateTests, "md")
         await checkConfirm("rateTests")
     }
 
@@ -216,8 +216,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 })
             )
         )
-        output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-        output.detailsFenced(`test data (json)`, files.testData.content, "json")
+        output.detailsFenced(`tests.json`, files.promptPexTests, "json")
+        output.detailsFenced(`test_data.json`, files.testData.content, "json")
 
         if (evalModelsGroundtruth?.length) {
             dbg(
@@ -294,7 +294,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 files.testOutputs.filename,
                 JSON.stringify(results, null, 2)
             )
-        output.detailsFenced(`results (json)`, results, "json")
+        output.detailsFenced(`results.json`, results, "json")
     } else if (modelsUnderTest?.length) {
         // run tests against the model(s)
         output.heading(3, `Test Runs with Models Under Test`)
@@ -311,7 +311,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
         output.heading(4, `Metrics`)
         for (const metric of files.metrics)
-            output.detailsFenced(metricName(metric), metric.content, "markdown")
+            output.detailsFenced(`${metricName(metric)}.md`, metric.content, "markdown")
 
         if (evalModels?.length)
             output.itemValue(`evaluation models`, evalModels.join(", "))
@@ -341,7 +341,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
                     files.testOutputs.filename,
                     JSON.stringify(allResults, null, 2)
                 )
-            output.detailsFenced(`results (json)`, results, "json")
+            output.detailsFenced(`results.json`, results, "json")
         }
     }
 
