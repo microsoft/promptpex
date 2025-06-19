@@ -104,13 +104,25 @@ export function tidyRulesFile(file: WorkspaceFile) {
     return file
 }
 
+export function parseStrings(v: string | string[]): string[] {
+    if (Array.isArray(v)) return v
+    if (typeof v === "string") {
+        const SPLIT_RX = /\?r\n|;/g
+        return v
+            .split(SPLIT_RX)
+            .map((l) => l.trim())
+            .filter(Boolean)
+    }
+    return []
+}
+
 export function parseRules(rules: string, options?: PromptPexOptions) {
     const { maxRules } = options || {}
     const res = rules
         ? tidyRules(rules)
               .split(/\r?\n/g)
               .map((l) => l.trim())
-              .filter((l) => !!l)
+              .filter(Boolean)
         : []
     return maxRules > 0 ? res.slice(0, maxRules) : res
 }

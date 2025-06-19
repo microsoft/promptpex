@@ -4,6 +4,7 @@ import { EFFORTS, MODEL_ALIAS_EVAL } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
+import { parseStrings } from "./src/parsers.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -420,25 +421,15 @@ const {
     filterTestCount,
 } = vars as PromptPexCliOptions
 
+const SPLIT_RX = /\?r\n|;/g
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
-const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
-    .split(/;/g)
-    .filter(Boolean)
+const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
-const evalModels: string[] =
-    vars.evalModel
-        ?.split(/;/g)
-        .filter(Boolean)
-        .map((s) => s.trim()) || []
+const evalModels: string[] = parseStrings(vars.evalModel)
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
-
-const evalModelsGroundtruth: string[] =
-    vars.evalModelGroundtruth
-        ?.split(/;/g)
-        .filter(Boolean)
-        .map((s) => s.trim()) || []
+const evalModelsGroundtruth: string[] = parseStrings(vars.evalModelGroundtruth)
 if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_EVAL)
 dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
 
