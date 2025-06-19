@@ -1,6 +1,6 @@
 import { initPerf } from "./src/perf.mts"
 import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
-import { EFFORTS, MODEL_ALIAS_EVAL } from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH_EVAL } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
@@ -63,6 +63,7 @@ promptPex:
         eval: "large",
         baseline: "large",
         groundtruth: "large",
+        groundtruth_eval: "large",
     },
     parameters: {
         prompt: {
@@ -430,7 +431,6 @@ const {
     filterTestCount,
 } = vars as PromptPexCliOptions
 
-const SPLIT_RX = /\?r\n|;/g
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
@@ -439,8 +439,15 @@ const evalModels: string[] = parseStrings(vars.evalModel)
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 const evalModelsGroundtruth: string[] = parseStrings(vars.evalModelGroundtruth)
-if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_EVAL)
+if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_GROUNDTRUTH_EVAL)
 dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
+
+if (groundtruthModel && evalModelsGroundtruth.includes(groundtruthModel))
+    output.note(
+        `Groundtruth model is the same as groundtruth eval model: ${groundtruthModel}`
+    )
+if (evalModelsGroundtruth.some(m => evalModels.includes(m)))
+    output.note(`Some eval models and groundtruth models are the same: ${evalModelsGroundtruth.filter(m => evalModels.includes(m)).join(", ")}`)
 
 const options: PromptPexOptions = Object.freeze(
     deleteFalsyValues({

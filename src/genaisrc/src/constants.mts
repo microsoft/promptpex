@@ -180,6 +180,7 @@ export const TEST_DATA_LENGTH = 64
 export const TEST_SAMPLES_COUNT_DEFAULT = 5
 
 export const MODEL_ALIAS_EVAL = "eval"
+export const MODEL_ALIAS_GROUNDTRUTH_EVAL = "groundtruth_eval"
 export const MODEL_ALIAS_STORE = "store"
 export const MODEL_ALIAS_RULES = "rules"
 export const MODEL_ALIAS_GROUNDTRUTH = "groundtruth"
