@@ -215,7 +215,7 @@ async function evalsCreateRequest(
         if (dashboardUrl)
             output.itemLink("eval dashboard", `${dashboardUrl}${evalDef.id}`)
         else output.itemValue(`eval id`, evalDef.id)
-        output.detailsFenced(`eval object`, evalDef, "json")
+        output.detailsFenced(`eval_object.json`, evalDef, "json")
         return evalDef.id
     }
 
@@ -297,7 +297,7 @@ async function evalsCreateRun(
         if (dashboardUrl)
             output.itemLink(run.name, `${dashboardUrl}${evalId}/data?run_id=${run.id}`)
         else output.itemValue(`eval run id`, run.id)
-        output.detailsFenced(`eval run object`, run, "json")
+        output.detailsFenced(`eval_run_object.json`, run, "json")
     }
 }
 

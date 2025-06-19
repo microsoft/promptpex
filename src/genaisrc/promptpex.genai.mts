@@ -499,7 +499,7 @@ if (diagnostics) {
 }
 
 output.itemValue(`effort`, effort)
-output.detailsFenced(`options`, options, "yaml")
+output.detailsFenced(`options.yaml`, options, "yaml")
 
 if (modelsUnderTest?.length) {
     output.heading(3, `Models Under Test`)
@@ -559,8 +559,8 @@ if (!options.loadContext) {
             expectedoutput,
         }))
     )
-    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    output.detailsFenced(`tests.json`, files.promptPexTests, "json")
+    output.detailsFenced(`test_data.json`, files.testData.content, "json")
     await checkConfirm("test")
 } else {
     output.heading(3, `Loading context from file`)
@@ -583,16 +583,16 @@ if (testExpansions > 0) {
         }))
     )
     await checkConfirm("expansion")
-    output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-    output.detailsFenced(`test data (json)`, files.testData.content, "json")
+    output.detailsFenced(`tests.json`, files.promptPexTests, "json")
+    output.detailsFenced(`test_data.json`, files.testData.content, "json")
 }
 
 // After test expansion, before evals
 if (rateTests) {
     output.heading(3, "Test Set Quality Review")
     await evalTestCollection(files, options)
-    output.detailsFenced(`test ratings (md)`, files.rateTests, "md")
-    output.detailsFenced(`filtered tests (json)`, files.filteredTests, "json")
+    output.detailsFenced(`test_ratings.md`, files.rateTests, "md")
+    output.detailsFenced(`filtered_tests.json`, files.filteredTests, "json")
 }
 await checkConfirm("rateTests")
 
@@ -627,11 +627,11 @@ if (createEvalRuns) {
 
     output.heading(4, `Metrics`)
     for (const metric of files.metrics)
-        output.detailsFenced(metricName(metric), metric.content, "markdown")
+        output.detailsFenced(`${metricName(metric)}.md`, metric.content, "markdown")
 
     output.heading(4, `Test Results`)
     const results = await runTests(files, options)
-    output.detailsFenced(`results (json)`, results, "json")
+    output.detailsFenced(`results.json`, results, "json")
 
     output.table(
         results.map(

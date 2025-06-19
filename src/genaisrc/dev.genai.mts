@@ -120,7 +120,7 @@ const configs: (PromptPexOptions & { name: string })[] = [
 ].filter((c) => !!c)
 
 output.heading(1, "PromptPex Dev Mode")
-output.detailsFenced(`configurations`, configs, "yaml")
+output.detailsFenced(`configurations.yaml`, configs, "yaml")
 let prompts = await Promise.all([
     ...(!fabric
         ? env.files.map((file) =>
@@ -171,7 +171,7 @@ async function apply(
         if (file) await workspace.writeText(file.filename, file.content)
     }
     output.table(table)
-    output.detailsFenced(`data`, table, "csv")
+    output.detailsFenced(`data.csv`, table, "csv")
 }
 
 await apply(
@@ -205,7 +205,7 @@ await apply("Rules", repeatRules, undefined, async (files, options) => {
             ),
         },
     ])
-    output.detailsFenced(`data`, groundedness, "csv")
+    output.detailsFenced(`groundedness_data.csv`, groundedness, "csv")
     return ""
 })
 await apply(
@@ -246,7 +246,7 @@ await apply(
                 ),
             },
         ])
-        output.detailsFenced(`data`, res, "csv")
+        output.detailsFenced(`test_quality_data.csv`, res, "csv")
         return ""
     }
 )
