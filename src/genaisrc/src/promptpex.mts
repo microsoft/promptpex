@@ -97,8 +97,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
         output.heading(2, `PromptPex Diagnostics`)
         await generateReports(files)
         if (createEvalRuns) {
-            const evals = await openaiEvalsListEvals()
-            if (!evals.ok) throw new Error("evals configuration not found")
+            const openAIEvals = await openaiEvalsListEvals()
+            if (!openAIEvals.ok)
+                throw new Error("evals configuration not found")
         }
         await checkConfirm("diag")
     }
@@ -261,11 +262,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
 
     // eval existing test results
-    if (
-        evals &&
-        evalModels?.length &&
-        files.testOutputs.content
-    ) {
+    if (evals && evalModels?.length && files.testOutputs.content) {
+        checkConfirm("evals")
         // this branch handles the case where you have existing test results and you aren't
         //       generating groundtruth at the same time.
         // correct order of operations is:
@@ -276,15 +274,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
         results = parseTestResults(files)
 
         // Evaluate metrics for all test results
-        for (const testRes of results) {
-            if (!testRes.groundtruth) {
-                const newResult =
-                    await evaluateTestMetrics(testRes, files, {
-                        ...options,
-                        runGroundtruth: false,
-                    })
-                testRes.metrics = newResult.metrics
-            }
+        for (const testRes of results.filter((r) => !r.isGroundtruth)) {
+            const newResult = await evaluateTestMetrics(testRes, files, {
+                ...options,
+                runGroundtruth: false,
+            })
+            testRes.metrics = newResult.metrics
         }
         files.testOutputs.content = JSON.stringify(results, null, 2)
 
@@ -322,6 +317,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
         results = await runTests(files, options)
 
         // only measure metrics if eval is true
+        console.log({ evals })
+        checkConfirm("evals")
         if (evals) {
             // Evaluate metrics for all test results
             for (const testRes of results) {

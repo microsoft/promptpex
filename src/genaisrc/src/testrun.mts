@@ -33,7 +33,6 @@ async function computeGroundtruthScore(
     files: PromptPexContext,
     options?: PromptPexOptions & { runGroundtruth?: boolean }
 ): Promise<number | undefined> {
-    if (!testRes.groundtruth || !testRes.groundtruthModel) return undefined
     const gtMetrics = await evaluateTestMetrics(testRes, files, options)
     // dbg(`groundtruth metrics: %O`, gtMetrics)
     // assumptions: at least 1 evalModelsGroundtruth is provided
@@ -175,15 +174,12 @@ export async function runTests(
                             testRes.isGroundtruth = true
                             await checkpointTests()
                             // Retry logic for low groundtruthScore
-                            if (typeof test.groundtruthScore === "number" && 
-                                test.groundtruthScore < GROUNDTRUTH_THRESHOLD && 
+                            if (test.groundtruthScore < GROUNDTRUTH_THRESHOLD && 
                                 retryCount < GROUNDTRUTH_RETRIES) {
                                 dbg(`groundtruthScore < GROUNDTRUTH_THRESHOLD (${test.groundtruthScore}), retrying (${retryCount + 1}/${GROUNDTRUTH_RETRIES})`)
                                 retryCount++
                                 shouldRetry = true
                             }
-                        } else {
-                            testRes.isGroundtruth = false
                         }
                         if (!shouldRetry) {
                             testResults.push(testRes)
@@ -192,8 +188,7 @@ export async function runTests(
                     }
                 } while (shouldRetry)
                 // If after retries groundtruthScore is still < 50, set to -1
-                if (runGroundtruth && typeof test.groundtruthScore === "number" && 
-                    test.groundtruthScore < 50 && retryCount >= 3) {
+                if (runGroundtruth && test.groundtruthScore < 50 && retryCount >= 3) {
                     dbg(`groundtruthScore < ${GROUNDTRUTH_THRESHOLD} after ${retryCount} retries, setting to ${GROUNDTRUTH_FAIL_SCORE}`)
                     test.groundtruthScore = -1
                 }
@@ -249,8 +244,6 @@ async function runTest(
             error: "invalid test input",
             input: testInput,
             output: "invalid test input",
-            groundtruth: test.groundtruth,
-            groundtruthScore: test.groundtruthScore,
             metrics: {},
         } satisfies PromptPexTestResult
     }
@@ -298,9 +291,6 @@ async function runTest(
         input: testInput,
         output: actualOutput,
         metrics: {},
-        groundtruth: test.groundtruth,
-        groundtruthModel: test.groundtruthModel,
-        groundtruthScore: test.groundtruthScore,
     } satisfies PromptPexTestResult
 
 

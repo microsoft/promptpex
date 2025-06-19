@@ -108,7 +108,7 @@ promptPex:
             type: "boolean",
             description: "Evaluate the test results",
             uiGroup: "Evaluation",
-            default: false,
+            default: true,
         },
         testsPerRule: {
             type: "integer",
@@ -431,6 +431,7 @@ const {
     filterTestCount,
 } = vars as PromptPexCliOptions
 
+const workflowDiagram = false
 const efforts = EFFORTS[effort || ""] || EFFORTS["low"]
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
@@ -465,7 +466,7 @@ const options: PromptPexOptions = Object.freeze(
             inverseOutputRules: inverseOutputRulesInstructions,
             testExpansion: testExpansionInstructions,
         },
-        workflowDiagram: !process.env.DEBUG,
+        workflowDiagram,
         baselineModel,
         rulesModel,
         storeCompletions,
