@@ -1,4 +1,4 @@
-import { PROMPT_EXPAND_TEST } from "./constants.mts"
+import { MODEL_ALIAS_RULES, PROMPT_EXPAND_TEST } from "./constants.mts"
 import { modelOptions, parseAllRules } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import { resolvePromptArgs, resolveRule } from "./resolvers.mts"
@@ -71,7 +71,7 @@ export async function expandTests(
                         })
                     },
                     {
-                        ...modelOptions("rules", options),
+                        ...modelOptions(MODEL_ALIAS_RULES, options),
                         responseSchema,
                         responseType: responseSchema ? "json_schema" : "text",
                         cache: "promptpex",

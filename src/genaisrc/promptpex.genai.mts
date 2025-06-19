@@ -1,31 +1,10 @@
-import { checkConfirm } from "./src/confirm.mts"
-import { evalsListEvals, generateEvals } from "./src/evals.mts"
-import { diagnostics } from "./src/flags.mts"
-import { generateInputSpec } from "./src/inputspecgen.mts"
-import { generateIntent } from "./src/intentgen.mts"
-import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
-import { loadPromptFiles, updateOutput } from "./src/loaders.mts"
-import { outputFile, outputLines } from "./src/output.mts"
-import { metricName } from "./src/parsers.mts"
-import { initPerf, reportPerf } from "./src/perf.mts"
-import { expandTests } from "./src/testexpand.mts"
-import {
-    computeOverview,
-    generateReports,
-    renderEvaluation,
-    renderEvaluationOutcome,
-} from "./src/reports.mts"
-import { generateOutputRules } from "./src/rulesgen.mts"
-import { generateTests } from "./src/testgen.mts"
-import { runTests } from "./src/testrun.mts"
-import type { PromptPexOptions, PromptPexTest } from "./src/types.mts"
-import {
-    EFFORTS,
-    MODEL_ALIAS_STORE,
-    PROMPTPEX_CONTEXT,
-} from "./src/constants.mts"
-import { evalTestCollection } from "./src/testcollectioneval.mts"
-import { saveContextState, restoreContextState } from "./src/context.mts"
+import { initPerf } from "./src/perf.mts"
+import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL } from "./src/constants.mts"
+import { promptpexGenerate } from "./src/promptpex.mts"
+import { loadPromptContexts } from "./src/loaders.mts"
+import { deleteFalsyValues } from "./src/cleaners.mts"
+import { parseStrings } from "./src/parsers.mts"
 
 script({
     title: "PromptPex Test Generator",
@@ -78,12 +57,17 @@ promptPex:
 
 </details>
 `,
-    accept: ".prompty,.md,.txt",
+    accept: ".prompty,.md,.txt,.json,.prompt.yml",
+    modelAliases: {
+        rules: "large",
+        eval: "large",
+        baseline: "large",
+    },
     parameters: {
         prompt: {
             type: "string",
             description:
-                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts.",
+                "Prompt template to analyze. You can either copy the prompty source here or upload a file prompt. [prompty](https://prompty.ai/) is a simple markdown-based format for prompts. prompt.yml is the GitHub Models format.",
             required: false,
             uiType: "textarea",
         },
@@ -105,6 +89,7 @@ promptPex:
             description:
                 "Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.",
             uiGroup: "Cache",
+            default: true,
         },
         testRunCache: {
             type: "boolean",
@@ -115,6 +100,12 @@ promptPex:
             type: "boolean",
             description: "Cache eval evaluation results in files.",
             uiGroup: "Cache",
+        },
+        evals: {
+            type: "boolean",
+            description: "Evaluate the test results",
+            uiGroup: "Evaluation",
+            default: false,
         },
         testsPerRule: {
             type: "integer",
@@ -182,19 +173,6 @@ promptPex:
             ],
             uiGroup: "Generation",
         },
-        evalModel: {
-            type: "string",
-            description:
-                "Model used to evaluate rules (you can also override the model alias 'eval')",
-            uiSuggestions: [
-                "openai:gpt-4o",
-                "azure:gpt-4o",
-                "ollama:gemma3:27b",
-                "ollama:llama3.3:70b",
-                "lmstudio:llama-3.3-70b",
-            ],
-            uiGroup: "Evaluation",
-        },
         baselineModel: {
             type: "string",
             description: "Model used to generate baseline tests",
@@ -205,6 +183,32 @@ promptPex:
             type: "string",
             description:
                 "List of models to run the prompt again; semi-colon separated",
+        },
+        evalModel: {
+            type: "string",
+            description:
+                "List of models to use for test evaluation; semi-colon separated",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "azure:gpt-4o",
+                "ollama:gemma3:27b",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+            uiGroup: "Evaluation",
+        },
+        evalModelGroundtruth: {
+            type: "string",
+            description:
+                "List of models to use for ground truth evaluation; semi-colon separated",
+            uiSuggestions: [
+                "openai:gpt-4o",
+                "azure:gpt-4o",
+                "ollama:gemma3:27b",
+                "ollama:llama3.3:70b",
+                "lmstudio:llama-3.3-70b",
+            ],
+            uiGroup: "Evaluation",
         },
         compliance: {
             type: "boolean",
@@ -260,6 +264,12 @@ promptPex:
                 "Model used to create [stored completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions) (you can also override the model alias 'store'). ",
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
             uiGroup: "Azure OpenAI Evals",
+        },
+        groundtruthModel: {
+            type: "string",
+            description: "Model used to generate groundtruth",
+            uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
+            uiGroup: "Evaluation",
         },
         customMetric: {
             type: "string",
@@ -367,32 +377,21 @@ user:
             type: "integer",
             description:
                 "Number of tests to include in the filtered output of evalTestCollection.",
-            default: 5,
             uiGroup: "Evaluation",
-        },
-        loadContext: {
-            type: "boolean",
-            description: "Load contenxt from a file.",
-            default: false,
-            required: false,
-            uiGroup: "Generation",
-        },
-        loadContextFile: {
-            type: "string",
-            description:
-                "Filename to load PromptPexContext from before running.",
-            default: PROMPTPEX_CONTEXT,
-            required: false,
-            uiGroup: "Generation",
         },
     },
 })
 
-const { output, vars } = env
+const dbg = host.logger("promptpex:main")
+const { output, vars, files } = env
+
+initPerf({})
+
 const {
     out,
     cache,
     evalCache,
+    evals,
     disableSafety,
     testRunCache,
     inputSpecInstructions,
@@ -402,9 +401,9 @@ const {
     compliance,
     baselineModel,
     rulesModel,
-    evalModel,
     storeCompletions,
     storeModel,
+    groundtruthModel,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -420,265 +419,122 @@ const {
     effort,
     rateTests,
     filterTestCount,
-    loadContext,
-    loadContextFile,
-} = vars as PromptPexOptions & {
-    effort?: "min" | "low" | "medium" | "high"
-    customMetric?: string
-    prompt?: string
-    inputSpecInstructions?: string
-    outputRulesInstructions?: string
-    inverseOutputRulesInstructions?: string
-    testExpansionInstructions?: string
-}
+} = vars as PromptPexCliOptions
 
+const SPLIT_RX = /\?r\n|;/g
 const efforts = EFFORTS[effort || ""] || {}
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
-const modelsUnderTest: string[] = (vars.modelsUnderTest || "")
-    .split(/;/g)
-    .filter(Boolean)
-const options = {
-    cache,
-    testRunCache,
-    evalCache,
-    disableSafety,
-    instructions: {
-        inputSpec: inputSpecInstructions,
-        outputRules: outputRulesInstructions,
-        inverseOutputRules: inverseOutputRulesInstructions,
-        testExpansion: testExpansionInstructions,
-    },
-    workflowDiagram: !process.env.DEBUG,
-    baselineModel,
-    rulesModel,
-    storeCompletions,
-    evalModel,
-    storeModel,
-    testsPerRule,
-    maxTestsToRun,
-    runsPerTest,
-    customMetric,
-    compliance,
-    baselineTests: false,
-    modelsUnderTest,
-    splitRules,
-    maxRulesPerTestGeneration,
-    testGenerations,
-    createEvalRuns,
-    testSamplesCount,
-    testSamplesShuffle,
-    testExpansions,
-    rateTests,
-    filterTestCount,
-    loadContext,
-    loadContextFile,
-    out,
-    ...efforts,
-} satisfies PromptPexOptions
+const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
+dbg(`modelsUnderTest: %o`, modelsUnderTest)
+const evalModels: string[] = parseStrings(vars.evalModel)
+if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
+dbg(`evalModels: %o`, evalModels)
+const evalModelsGroundtruth: string[] = parseStrings(vars.evalModelGroundtruth)
+if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_EVAL)
+dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
 
-if (env.files[0] && promptText)
-    cancel(
-        "You can only provide either a prompt file or prompt text, not both."
-    )
-if (!env.files[0] && !promptText)
-    cancel("No prompt file or prompt text provided.")
+const options: PromptPexOptions = Object.freeze(
+    deleteFalsyValues({
+        cache,
+        testRunCache,
+        evalCache,
+        evals,
+        disableSafety,
+        instructions: {
+            inputSpec: inputSpecInstructions,
+            outputRules: outputRulesInstructions,
+            inverseOutputRules: inverseOutputRulesInstructions,
+            testExpansion: testExpansionInstructions,
+        },
+        workflowDiagram: !process.env.DEBUG,
+        baselineModel,
+        rulesModel,
+        storeCompletions,
+        storeModel,
+        groundtruthModel,
+        testsPerRule,
+        maxTestsToRun,
+        runsPerTest,
+        customMetric,
+        compliance,
+        baselineTests: false,
+        modelsUnderTest,
+        evalModels,
+        evalModelsGroundtruth,
+        splitRules,
+        maxRulesPerTestGeneration,
+        testGenerations,
+        createEvalRuns,
+        testSamplesCount,
+        testSamplesShuffle,
+        testExpansions,
+        rateTests,
+        filterTestCount,
+        out,
+        ...efforts,
+    } satisfies PromptPexOptions)
+)
 
-initPerf({ output })
-
-const file = env.files[0] || { filename: "", content: promptText }
-let files = await loadPromptFiles(file, options)
-
-if (diagnostics) {
-    output.heading(2, `PromptPex Diagnostics`)
-    await generateReports(files)
-    if (createEvalRuns) {
-        const evals = await evalsListEvals()
-        if (!evals.ok) throw new Error("evals configuration not found")
-    }
-    await checkConfirm("diag")
-}
-
-output.itemValue(`effort`, effort)
-output.detailsFenced(`options.yaml`, options, "yaml")
-
-if (modelsUnderTest?.length) {
-    output.heading(3, `Models Under Test`)
-    for (const modelUnderTest of modelsUnderTest) {
-        const resolved = await host.resolveLanguageModel(modelUnderTest)
-        if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
-        output.item(`${resolved.provider}:${resolved.model}`)
-    }
-}
-
-// use context state if available
-
-if (!options.loadContext) {
-    // prompt info
-    output.heading(3, `Prompt Under Test`)
-    output.itemValue(`filename`, files.prompt.filename)
-    output.fence(files.prompt.content, "md")
-
-    if (files.testSamples?.length) {
-        output.startDetails("test samples")
-        output.table(files.testSamples)
-        output.endDetails()
-    }
-
-    // generate intent
-    output.heading(3, "Intent")
-    await generateIntent(files, options)
-    outputFile(files.intent)
-    await checkConfirm("intent")
-
-    // generate input spec
-    output.heading(3, "Input Specification")
-    await generateInputSpec(files, options)
-    outputFile(files.inputSpec)
-    await checkConfirm("inputspec")
-
-    // generate rules
-    output.heading(3, "Output Rules")
-    await generateOutputRules(files, options)
-    outputLines(files.rules, "rule")
-    await checkConfirm("rule")
-
-    // generate inverse rules
-    output.heading(3, "Inverse Output Rules")
-    await generateInverseOutputRules(files, options)
-    outputLines(files.inverseRules, "generate inverse output rule")
-    await checkConfirm("inverse")
-
-    // generate tests
-    output.heading(3, "Tests")
-    files.promptPexTests = await generateTests(files, options)
-
-    output.table(
-        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
-            scenario,
-            testinput,
-            expectedoutput,
-        }))
-    )
-    output.detailsFenced(`tests.json`, files.promptPexTests, "json")
-    output.detailsFenced(`test_data.json`, files.testData.content, "json")
-    await checkConfirm("test")
-} else {
-    output.heading(3, `Loading context from file`)
-    const newOut = options.out
-    output.appendContent(
-        `loading PromptPexContext from ${options.loadContextFile}`
-    )
-    files = await restoreContextState(options.loadContextFile)
-    updateOutput(newOut, files)
-}
-
-if (testExpansions > 0) {
-    output.heading(3, "Expanded Tests")
-    await expandTests(files, files.promptPexTests, options)
-    output.table(
-        files.promptPexTests.map(({ scenario, testinput, expectedoutput }) => ({
-            scenario,
-            testinput,
-            expectedoutput,
-        }))
-    )
-    await checkConfirm("expansion")
-    output.detailsFenced(`tests.json`, files.promptPexTests, "json")
-    output.detailsFenced(`test_data.json`, files.testData.content, "json")
-}
-
-// After test expansion, before evals
-if (rateTests) {
-    output.heading(3, "Test Set Quality Review")
-    await evalTestCollection(files, options)
-    output.detailsFenced(`test_ratings.md`, files.rateTests, "md")
-    output.detailsFenced(`filtered_tests.json`, files.filteredTests, "json")
-}
-await checkConfirm("rateTests")
-
-if (rateTests && options.filterTestCount > 0) {
-    // Parse the JSON content
-    output.heading(3, `Running ${options.filterTestCount} Filtered Tests`)
-    const filteredTests: PromptPexTest[] = JSON.parse(
-        files.filteredTests.content
-    )
-    await generateEvals(modelsUnderTest, files, filteredTests, options)
-} else {
-    await generateEvals(modelsUnderTest, files, files.promptPexTests, options)
-}
-await checkConfirm("evals")
-
-if (createEvalRuns) {
-    output.note(`Evals run created, skipping local evals...`)
-} else if (!modelsUnderTest?.length && !storeCompletions) {
-    output.warn(
-        `No modelsUnderTest and storeCompletions is not enabled. Skipping test run.`
-    )
-} else {
-    // run tests against the model(s)
-    output.heading(3, `Test Runs with Models Under Test`)
-    if (storeCompletions)
-        output.itemValue(
-            `stored completion model`,
-            (await host.resolveLanguageModel(storeModel || MODEL_ALIAS_STORE))
-                ?.model || "store"
+const promptFiles: WorkspaceFile[] = []
+if (promptText)
+    promptFiles.push({ filename: "input.prompty", content: promptText })
+for (const file of files) promptFiles.push(file)
+const runs = await loadPromptContexts(promptFiles, options)
+if (!runs.length) {
+    if (files.length)
+        console.error(
+            `No prompts found in the input files. Please provide a valid prompt file.`
         )
-    output.itemValue(`models under test`, modelsUnderTest.join(", "))
+    console.log(
+        `PromptPex - Test Generation For Prompts
+USAGE:
+    promptpex <prompt-file> [options]
 
-    output.heading(4, `Metrics`)
-    for (const metric of files.metrics)
-        output.detailsFenced(`${metricName(metric)}.md`, metric.content, "markdown")
+OPTIONS:
+    --vars prompt=TEXT                     Prompt template to analyze. You can either copy the prompty source here or upload a file prompt.
+    --vars effort=[min|low|medium|high]    Effort level for the test generation. This will influence the number of tests generated and the complexity of the tests.
+    --vars out=DIR                         Output folder for the generated files. This flag is mostly used when running promptpex from the CLI.
+    --vars cache=true                           Cache all LLM calls. This accelerates experimentation but you may miss issues due to LLM flakiness.
+    --vars testRunCache=true                     Cache test run results in files.
+    --vars evals=true                           Evaluate the test results (default: false)
+    --vars evalCache=true                       Cache eval evaluation results in files.
+    --vars evalModel=MODELS                    List of models to use for test evaluation; semi-colon separated
+    --vars testsPerRule=INT                    Number of tests to generate per rule. By default, we generate 3 tests to cover each output rule. (default: 3)
+    --vars splitRules=true                      Split rules and inverse rules in separate prompts for test generation. (default: true)
+    --vars maxRulesPerTestGeneration=INT       Maximum number of rules to use per test generation. (default: 3)
+    --vars testGenerations=INT                 Number of times to amplify the test generation. (default: 2)
+    --vars runsPerTest=INT                     Number of runs to execute per test. (default: 2)
+    --vars disableSafety=true                   Do not include safety system prompts and do not run safety content service. (default: false)
+    --vars rateTests=true                       Generate a report rating the quality of the test set. (default: false)
+    --vars rulesModel=MODEL                          Model used to generate rules (e.g. openai:gpt-4o, azure:gpt-4o)
+    --vars baselineModel=MODEL                       Model used to generate baseline tests
+    --vars modelsUnderTest=MODELS                    List of models to run the prompt again; semi-colon separated
+    --vars compliance=true                                Evaluate Test Result compliance (default: false)
+    --vars maxTestsToRun=INT                         Maximum number of tests to run
+    --vars inputSpecInstructions=TEXT                Instructions added to the input specification generation prompt
+    --vars outputRulesInstructions=TEXT              Instructions added to the output rules generation prompt
+    --vars inverseOutputRulesInstructions=TEXT       Instructions added to the inverse output rules generation prompt
+    --vars testExpansionInstructions=TEXT            Instructions added to the test expansion generation prompt
+    --vars storeCompletions=true                          Store chat completions using stored completions
+    --vars storeModel=MODEL                          Model used to create stored completions
+    --vars groundtruthModel=MODEL                     Model used to generate groundtruth
+    --vars customMetric=TEXT                          Custom Test Evaluation Template
+    --vars createEvalRuns=true                             Create an Evals run in OpenAI Evals
+    --vars testExpansions=INT                         Number of test expansion phase to generate tests (default: 0)
+    --vars testSamplesCount=INT                       Number of test samples to include for the rules and test generation
+    --vars testSamplesShuffle=true                         Shuffle the test samples before generating tests for the prompt
+    --vars filterTestCount=INT                        Number of tests to include in the filtered output of evalTestCollection
 
-    output.heading(4, `Test Results`)
-    const results = await runTests(files, options)
-    output.detailsFenced(`results.json`, results, "json")
-
-    output.table(
-        results.map(
-            ({
-                scenario,
-                rule,
-                inverse,
-                model,
-                input,
-                output,
-                compliance: testCompliance,
-                metrics,
-            }) => ({
-                model,
-                scenario,
-                input,
-                output,
-                ...Object.fromEntries(
-                    Object.entries(metrics).map(([k, v]) => [
-                        k,
-                        renderEvaluation(v),
-                    ])
-                ),
-                compliance: renderEvaluationOutcome(testCompliance),
-                rule,
-                inverse: inverse ? "🔄" : "",
-            })
-        )
+For more details, see https://microsoft.github.io/promptpex/cli/`
     )
+    process.exit(1)
 }
 
-output.heading(3, `Results Overview`)
-const { overview } = await computeOverview(files, { percent: true })
-output.table(overview)
-if (files.writeResults)
-    await workspace.writeText(
-        path.join(files.dir, "overview.csv"),
-        CSV.stringify(overview, { header: true })
-    )
-
-output.appendContent("\n\n---\n\n")
-
-if (files.writeResults) {
-    saveContextState(files, path.join(files.dir, PROMPTPEX_CONTEXT))
-    output.appendContent(
-        `saving PromptPexContext to ${path.join(files.dir, PROMPTPEX_CONTEXT)}`
-    )
+output.heading(1, "PromptPex Test Generation")
+output.detailsFenced(`options`, options, "yaml")
+for (const run of runs) {
+    dbg(`file: %s`, run.name)
+    dbg(`writeResults: %s`, run.writeResults)
+    await promptpexGenerate(run)
 }
-
-reportPerf()
+output.appendContent("\n")

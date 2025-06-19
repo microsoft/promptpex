@@ -1,5 +1,6 @@
+import { create } from "node:domain"
 import { checkConfirm } from "./confirm.mts"
-import { MODEL_ALIAS_EVAL } from "./constants.mts"
+import { METRIC_SEPARATOR, MODEL_ALIAS_EVAL, METRIC_SUMMARY } from "./constants.mts"
 import { modelOptions, checkLLMEvaluation, metricName } from "./parsers.mts"
 import { measure } from "./perf.mts"
 import type {
@@ -12,28 +13,69 @@ import type {
 const { generator } = env
 const dbg = host.logger("promptpex:eval:metric")
 
+export function createMetricKey (
+    metricName: string,
+    modelName:string    
+): string {
+    return `${metricName}${METRIC_SEPARATOR}${modelName}`
+}
+
 export async function evaluateTestMetrics(
     testResult: PromptPexTestResult,
     files: PromptPexContext,
-    options: PromptPexOptions
-) {
-    const { metrics } = files
-    dbg(`evaluating ${metrics.length} metrics`)
+    options: PromptPexOptions  & {
+        runGroundtruth?: boolean 
+    }
+): Promise<PromptPexTestResult> {
+    const { groundtruthMetrics, metrics } = files
+    const { evalModels, evalModelsGroundtruth, runGroundtruth } = options || {}
+    if (!evalModels?.length)
+        throw new Error("No evalModels provided for metric evaluation")
+
     checkConfirm("metric")
 
-    for (const metric of metrics) {
-        const res = await evaluateTestMetric(metric, files, testResult, options)
-        testResult.metrics[metricName(metric)] = res
+    // Remove all previous metrics before computing new ones
+    testResult.metrics = {}
+
+    for (const eModel of runGroundtruth ? evalModelsGroundtruth: evalModels) {
+        const currentMetrics = runGroundtruth ? groundtruthMetrics : metrics
+        if (!currentMetrics || currentMetrics.length === 0) {
+            dbg(`no metrics found for evalModel %s`, eModel)
+        } else {
+            dbg(`evaluating ${currentMetrics.length} metrics with eval model(s) %O`, eModel)
+            for (const metric of currentMetrics) {
+                const key = createMetricKey(metricName(metric), eModel)
+                const res = await evaluateTestMetric(metric, eModel, files, testResult, options)
+                testResult.metrics[key] = res
+            }
+        }
     }
+    // After all evalModels, compute combined metric for each metric
+    for (const metric of metrics) {
+        const keys = evalModels.map((eModel) => createMetricKey (metricName(metric), eModel))
+        const metricResults = keys
+            .map((k) => testResult.metrics[k])
+            .filter((m) => !isNaN(m?.score))
+        if (metricResults.length > 0 && evalModels.length > 1) {
+            const avgScore = metricResults.reduce((sum, m) => sum + m.score, 0) / metricResults.length
+            testResult.metrics[createMetricKey(metricName(metric), METRIC_SUMMARY)] = {
+                score: avgScore,
+                outcome: undefined,
+                content: `Average of evalModels: ${keys.join(", ")}`,
+            }
+        }
+    }
+    return testResult
 }
 
 async function evaluateTestMetric(
     metric: WorkspaceFile,
+    evalModel: ModelType,
     files: PromptPexContext,
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
+
     const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
     const metricMeta = MD.frontmatter(metric) as PromptPexPromptyFrontmatter
@@ -55,6 +97,7 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
+        groundtruth: testResult.groundtruth || "",
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,

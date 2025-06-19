@@ -83,5 +83,5 @@ user:
 
 ## OpenAI and Azure OpenAI Evaluations
 
-PromptPex can automatically create an evaluation run with the generated tests and the metrics in [OpenAI Evals](/promptpex/reference/openai-evals)
-or [Azure OpenAI Evaluations](/promptpex/reference/azure-openai-evals).
+PromptPex can automatically create an evaluation run with the generated tests and the metrics in [OpenAI Evals](/promptpex/integrations/openai-evals)
+or [Azure OpenAI Evaluations](/promptpex/integrations/azure-openai-evals).

@@ -1,5 +1,5 @@
 import { evaluateRulesSpecAgreement } from "./src/rulesspecagreement.mts"
-import { loadPromptFiles } from "./src/loaders.mts"
+import { loadPromptContext } from "./src/loaders.mts"
 import { evaluateRulesGrounded } from "./src/rulesgroundeness.mts"
 import type { PromptPexContext, PromptPexOptions } from "./src/types.mts"
 import { generateBaselineTests } from "./src/baselinetestgen.mts"
@@ -7,7 +7,7 @@ import { generateTests } from "./src/testgen.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
-import { loadFabricPrompts } from "./src/fabricloader.mts"
+import { fabricLoadPrompts } from "./src/fabricloader.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
 import { evaluateTestsQuality } from "./src/testquality.mts"
 
@@ -124,11 +124,11 @@ output.detailsFenced(`configurations.yaml`, configs, "yaml")
 let prompts = await Promise.all([
     ...(!fabric
         ? env.files.map((file) =>
-              loadPromptFiles(file, { disableSafety: true, out })
+              loadPromptContext(file, { disableSafety: true, out })
           )
         : []),
     ...(fabric
-        ? await loadFabricPrompts(fabric, { disableSafety: true, out })
+        ? await fabricLoadPrompts(fabric, { disableSafety: true, out })
         : []),
 ])
 if (samplePrompts)

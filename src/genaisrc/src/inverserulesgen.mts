@@ -1,4 +1,7 @@
-import { PROMPT_GENERATE_INVERSE_RULES } from "./constants.mts"
+import {
+    MODEL_ALIAS_RULES,
+    PROMPT_GENERATE_INVERSE_RULES,
+} from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
 import {
     modelOptions,
@@ -9,12 +12,24 @@ import {
 import { measure } from "./perf.mts"
 import type { PromptPexContext, PromptPexOptions } from "./types.mts"
 const { generator } = env
+const dbg = host.logger("promptpex:gen:inverserules")
 
 export async function generateInverseOutputRules(
     files: PromptPexContext,
     options?: PromptPexOptions
 ): Promise<void> {
-    const { rulesModel = "rules" } = options || {}
+    const { rulesModel = MODEL_ALIAS_RULES } = options || {}
+    const pn = PROMPT_GENERATE_INVERSE_RULES
+    await outputPrompty(pn, options)
+
+    if (files.inverseRules.content) {
+        dbg(
+            `inverse rules already exist for %s, skipping generation`,
+            files.name
+        )
+        return
+    }
+
     const instructions =
         options?.instructions?.inverseOutputRules ||
         files.frontmatter?.instructions?.inverseOutputRules ||
@@ -29,8 +44,6 @@ OR --> IOR
 
     const rule = MD.content(files.rules.content)
     const prules = parseRules(rule)
-    const pn = PROMPT_GENERATE_INVERSE_RULES
-    await outputPrompty(pn, options)
 
     let irules: string
     let pirules: string[]
