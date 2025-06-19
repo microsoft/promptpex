@@ -1,5 +1,7 @@
 ---
 title: Groundtruth
+description: How to generate expected outputs for tests using AI models in PromptPex.
+keywords: groundtruth, expected output, AI model, PromptPex tests
 sidebar:
     order: 21.6
 ---
