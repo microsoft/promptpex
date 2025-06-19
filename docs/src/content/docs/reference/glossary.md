@@ -11,7 +11,7 @@ sidebar:
 - Input Specification (IS) - Extracting input constraints of PUT using MPP (input_spec)
 - Output Rules (OR) - Extracting output constraints of PUT using MPP (rules_global)
 - Inverse Output Rules (IOR) - Inverse of the generated Output Rules
-- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded)
+- Output Rules Groundedness (ORG) - Checks if OR is grounded in PUT using MPP (check_rule_grounded). See [Ground Truth and Groundedness Evaluation](/promptpex/reference/ground-truth/)
 
 - Prompt Under Test Intent (PUTI) - Extracting the exact task from PUT using MMP (extract_intent)
 
