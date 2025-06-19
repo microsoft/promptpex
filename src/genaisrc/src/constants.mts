@@ -184,6 +184,7 @@ export const MODEL_ALIAS_GROUNDTRUTH_EVAL = "groundtruth_eval"
 export const MODEL_ALIAS_STORE = "store"
 export const MODEL_ALIAS_RULES = "rules"
 export const MODEL_ALIAS_GROUNDTRUTH = "groundtruth"
+export const MODEL_ALIAS_MODEL_UNDER_TEST = "model_under_test"
 
 export const TEST_TRAINING_DATASET_RATIO = 0.75
 

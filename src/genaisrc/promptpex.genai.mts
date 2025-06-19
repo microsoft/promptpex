@@ -1,6 +1,6 @@
 import { initPerf } from "./src/perf.mts"
 import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
-import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH_EVAL } from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH_EVAL, MODEL_ALIAS_MODEL_UNDER_TEST } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
@@ -64,6 +64,7 @@ promptPex:
         baseline: "large",
         groundtruth: "large",
         groundtruth_eval: "large",
+        model_under_test: "small"
     },
     parameters: {
         prompt: {
@@ -431,9 +432,10 @@ const {
     filterTestCount,
 } = vars as PromptPexCliOptions
 
-const efforts = EFFORTS[effort || ""] || {}
+const efforts = EFFORTS[effort || ""] || EFFORTS["low"]
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
+if (!modelsUnderTest.length) modelsUnderTest.push(MODEL_ALIAS_MODEL_UNDER_TEST)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
 const evalModels: string[] = parseStrings(vars.evalModel)
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
