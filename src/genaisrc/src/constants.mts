@@ -182,6 +182,7 @@ export const TEST_SAMPLES_COUNT_DEFAULT = 5
 export const MODEL_ALIAS_EVAL = "eval"
 export const MODEL_ALIAS_STORE = "store"
 export const MODEL_ALIAS_RULES = "rules"
+export const MODEL_ALIAS_GROUNDTRUTH = "groundtruth"
 
 export const TEST_TRAINING_DATASET_RATIO = 0.75
 

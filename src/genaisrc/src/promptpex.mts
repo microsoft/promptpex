@@ -19,6 +19,7 @@ import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
 import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
 import {
+    MODEL_ALIAS_GROUNDTRUTH,
     MODEL_ALIAS_RULES,
     MODEL_ALIAS_STORE,
     PROMPTPEX_CONTEXT,
@@ -41,7 +42,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
         storeModel,
         testExpansions,
         rateTests,
-        groundtruthModel,
+        groundtruth,
+        groundtruthModel = MODEL_ALIAS_GROUNDTRUTH,
         modelsUnderTest,
         evalModelsGroundtruth,
     } = options
@@ -56,7 +58,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         `${rulesModel.provider}:${rulesModel.model}`
     )
 
-    if (groundtruthModel) {
+    if (groundtruth) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
         output.itemValue(
@@ -190,12 +192,11 @@ export async function promptpexGenerate(files: PromptPexContext) {
     // assumes no previous results when generating groundtruth
     let results: PromptPexTestResult[]
 
+    // one of the tests does not have a groundtruth entry
     const needsGroundtruth = files.promptPexTests.some(
         (t) => !t.groundtruth || !t.groundtruthModel
     )
-
-    // only run tests if modelsUnderTest is defined
-    if (groundtruthModel?.length && needsGroundtruth) {
+    if (groundtruth && needsGroundtruth) {
         output.heading(3, `Groundtruth`)
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         output.itemValue(
@@ -260,12 +261,10 @@ export async function promptpexGenerate(files: PromptPexContext) {
     }
 
     // eval existing test results
-
     if (
         evals &&
         evalModels?.length &&
-        files.testOutputs.content &&
-        !groundtruthModel?.length
+        files.testOutputs.content
     ) {
         // this branch handles the case where you have existing test results and you aren't
         //       generating groundtruth at the same time.
@@ -279,7 +278,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         // Evaluate metrics for all test results
         for (const testRes of results) {
             if (!testRes.groundtruth) {
-                const newResult: PromptPexTestResult =
+                const newResult =
                     await evaluateTestMetrics(testRes, files, {
                         ...options,
                         runGroundtruth: false,

@@ -62,6 +62,7 @@ promptPex:
         rules: "large",
         eval: "large",
         baseline: "large",
+        groundtruth: "large",
     },
     parameters: {
         prompt: {
@@ -265,11 +266,18 @@ promptPex:
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
             uiGroup: "Azure OpenAI Evals",
         },
+        groundtruth: {
+            type: "boolean",
+            description:
+                "Generate groundtruth for the tests. This will generate a groundtruth output for each test run.",
+            default: true,
+            uiGroup: "Groundtruth",
+        },
         groundtruthModel: {
             type: "string",
             description: "Model used to generate groundtruth",
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
-            uiGroup: "Evaluation",
+            uiGroup: "Groundtruth",
         },
         customMetric: {
             type: "string",
@@ -403,6 +411,7 @@ const {
     rulesModel,
     storeCompletions,
     storeModel,
+    groundtruth,
     groundtruthModel,
     maxTestsToRun,
     prompt: promptText,
@@ -451,6 +460,7 @@ const options: PromptPexOptions = Object.freeze(
         rulesModel,
         storeCompletions,
         storeModel,
+        groundtruth,
         groundtruthModel,
         testsPerRule,
         maxTestsToRun,
@@ -517,6 +527,7 @@ OPTIONS:
     --vars testExpansionInstructions=TEXT            Instructions added to the test expansion generation prompt
     --vars storeCompletions=true                          Store chat completions using stored completions
     --vars storeModel=MODEL                          Model used to create stored completions
+    --vars groundtruth=true                          Generate groundtruth for the tests (default: true)
     --vars groundtruthModel=MODEL                     Model used to generate groundtruth
     --vars customMetric=TEXT                          Custom Test Evaluation Template
     --vars createEvalRuns=true                             Create an Evals run in OpenAI Evals

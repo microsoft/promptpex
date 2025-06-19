@@ -87,6 +87,11 @@ export interface PromptPexBaseOptions extends PromptPexLoaderOptions {
     storeModel?: ModelType
 
     /**
+     * Compute groundtruth for the tests.
+     */
+    groundtruth?: boolean
+
+    /**
      * Model used to generate ground truth
      */
     groundtruthModel?: ModelType
