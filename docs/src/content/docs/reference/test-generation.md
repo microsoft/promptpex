@@ -71,6 +71,10 @@ If the given word cannot be tagged with any of the listed part of speech tags, t
 If tagging the given word is not possible for any reason, the output should be the word "CantAnswer".
 ```
 
+### Groundedness Evaluation
+
+After generating output rules, PromptPex validates their quality through [groundedness evaluation](/promptpex/reference/ground-truth/). This ensures that each rule is actually supported by the original prompt description, preventing the testing process from introducing artificial requirements.
+
 ## Inverse Output Rules
 
 The [third transformation](https://github.com/microsoft/promptpex/blob/dev/src/prompts/generate_inverse_rules.prompty) takes the output rules and generates the **inverse output rules (IOR)**.

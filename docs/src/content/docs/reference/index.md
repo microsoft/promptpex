@@ -18,7 +18,7 @@ Return only the part of speech tag. If the word cannot be tagged with the listed
 {{sentence}}; {{word}}
 ```
 
-PromptPex generates a **set of test cases** and a **compliance evaluation metric**.
+PromptPex generates a **set of test cases** and a **compliance evaluation metric**. The system also validates the quality of generated rules through [groundedness evaluation](/promptpex/reference/ground-truth/), ensuring test requirements are actually supported by the original prompt.
 
 The generated test cases can be used to:
 
