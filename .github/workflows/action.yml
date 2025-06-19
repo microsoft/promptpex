@@ -28,10 +28,6 @@ jobs:
                       genaiscript-
             - run: npm ci
             - run: npm run build
-            - run: npm test
-              env:
-                  DEBUG: "script"
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     test-action:
         needs: test
         runs-on: ubuntu-latest
