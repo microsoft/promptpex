@@ -5,7 +5,7 @@ import {
     MODEL_ALIAS_EVAL,
     MODEL_ALIAS_GROUNDTRUTH,
     MODEL_ALIAS_GROUNDTRUTH_EVAL,
-    MODEL_ALIAS_MODEL_UNDER_TEST,
+    MODEL_ALIAS_MODELS_UNDER_TEST,
 } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
@@ -70,7 +70,8 @@ promptPex:
         baseline: "large",
         groundtruth: "large",
         groundtruth_eval: "large",
-        model_under_test: "small",
+        model_under_test_small: "small",
+        model_under_test_tiny: "tiny",
     },
     parameters: {
         prompt: {
@@ -442,7 +443,8 @@ const workflowDiagram = false
 const efforts = EFFORTS[effort || ""] || EFFORTS["low"]
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
-if (!modelsUnderTest.length) modelsUnderTest.push(MODEL_ALIAS_MODEL_UNDER_TEST)
+if (!modelsUnderTest.length)
+    modelsUnderTest.push(...MODEL_ALIAS_MODELS_UNDER_TEST)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
 const evalModels: string[] = parseStrings(vars.evalModel)
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)

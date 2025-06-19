@@ -53,6 +53,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.heading(2, name)
     output.itemValue(`prompt file`, prompt.filename)
     const rulesModel = await host.resolveLanguageModel(MODEL_ALIAS_RULES)
+    dbg(`rules model: %O`, rulesModel)
+    //   if (!rulesModel.model) throw new Error(`Model ${MODEL_ALIAS_RULES} not found`)
     output.itemValue(
         `rules model`,
         `${rulesModel.provider}:${rulesModel.model}`
@@ -60,7 +62,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
 
     if (groundtruth) {
         const resolved = await host.resolveLanguageModel(groundtruthModel)
-        if (!resolved) throw new Error(`Model ${groundtruthModel} not found`)
+        //    if (!resolved.model)
+        //        throw new Error(`Model ${groundtruthModel} not found`)
         output.itemValue(
             `groundtruth model`,
             `${resolved.provider}:${resolved.model}`
@@ -70,7 +73,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (modelsUnderTest?.length) {
         for (const modelUnderTest of modelsUnderTest) {
             const resolved = await host.resolveLanguageModel(modelUnderTest)
-            if (!resolved) throw new Error(`Model ${modelUnderTest} not found`)
+            //            if (!resolved.model)
+            //              throw new Error(`Model ${modelUnderTest} not found`)
             output.itemValue(
                 `model under test`,
                 `${resolved.provider}:${resolved.model}`
