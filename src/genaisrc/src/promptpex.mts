@@ -11,8 +11,6 @@ import { expandTests } from "./testexpand.mts"
 import {
     computeOverview,
     generateReports,
-    renderEvaluation,
-    renderEvaluationOutcome,
     renderTestResults,
 } from "./reports.mts"
 import { generateOutputRules } from "./rulesgen.mts"
