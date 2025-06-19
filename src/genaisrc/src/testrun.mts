@@ -177,7 +177,7 @@ export async function runTests(
                             // Retry logic for low groundtruthScore
                             if (typeof test.groundtruthScore === "number" && 
                                 test.groundtruthScore < GROUNDTRUTH_THRESHOLD && 
-                                retryCount < GROUNDTRUTH_THRESHOLD) {
+                                retryCount < GROUNDTRUTH_RETRIES) {
                                 dbg(`groundtruthScore < GROUNDTRUTH_THRESHOLD (${test.groundtruthScore}), retrying (${retryCount + 1}/${GROUNDTRUTH_RETRIES})`)
                                 retryCount++
                                 shouldRetry = true
