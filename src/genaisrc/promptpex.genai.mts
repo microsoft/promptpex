@@ -1,6 +1,6 @@
 import { initPerf } from "./src/perf.mts"
 import type { PromptPexCliOptions, PromptPexOptions } from "./src/types.mts"
-import { EFFORTS, MODEL_ALIAS_EVAL } from "./src/constants.mts"
+import { EFFORTS, MODEL_ALIAS_EVAL, MODEL_ALIAS_GROUNDTRUTH, MODEL_ALIAS_GROUNDTRUTH_EVAL, MODEL_ALIAS_MODEL_UNDER_TEST } from "./src/constants.mts"
 import { promptpexGenerate } from "./src/promptpex.mts"
 import { loadPromptContexts } from "./src/loaders.mts"
 import { deleteFalsyValues } from "./src/cleaners.mts"
@@ -62,6 +62,9 @@ promptPex:
         rules: "large",
         eval: "large",
         baseline: "large",
+        groundtruth: "large",
+        groundtruth_eval: "large",
+        model_under_test: "small"
     },
     parameters: {
         prompt: {
@@ -265,11 +268,18 @@ promptPex:
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
             uiGroup: "Azure OpenAI Evals",
         },
+        groundtruth: {
+            type: "boolean",
+            description:
+                "Generate groundtruth for the tests. This will generate a groundtruth output for each test run.",
+            default: true,
+            uiGroup: "Groundtruth",
+        },
         groundtruthModel: {
             type: "string",
             description: "Model used to generate groundtruth",
             uiSuggestions: ["openai:gpt-4.1", "azure:gpt-4.1"],
-            uiGroup: "Evaluation",
+            uiGroup: "Groundtruth",
         },
         customMetric: {
             type: "string",
@@ -403,7 +413,7 @@ const {
     rulesModel,
     storeCompletions,
     storeModel,
-    groundtruthModel,
+    groundtruth,
     maxTestsToRun,
     prompt: promptText,
     testsPerRule,
@@ -421,17 +431,26 @@ const {
     filterTestCount,
 } = vars as PromptPexCliOptions
 
-const SPLIT_RX = /\?r\n|;/g
-const efforts = EFFORTS[effort || ""] || {}
+const efforts = EFFORTS[effort || ""] || EFFORTS["low"]
 if (effort && !efforts) throw new Error(`unknown effort level ${effort}`)
 const modelsUnderTest: string[] = parseStrings(vars.modelsUnderTest)
+if (!modelsUnderTest.length) modelsUnderTest.push(MODEL_ALIAS_MODEL_UNDER_TEST)
 dbg(`modelsUnderTest: %o`, modelsUnderTest)
 const evalModels: string[] = parseStrings(vars.evalModel)
 if (!evalModels.length) evalModels.push(MODEL_ALIAS_EVAL)
 dbg(`evalModels: %o`, evalModels)
 const evalModelsGroundtruth: string[] = parseStrings(vars.evalModelGroundtruth)
-if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_EVAL)
+if (!evalModelsGroundtruth.length) evalModelsGroundtruth.push(MODEL_ALIAS_GROUNDTRUTH_EVAL)
 dbg(`evalModelsGroundTruth: %o`, evalModelsGroundtruth)
+const groundtruthModel = vars.groundtruthModel || MODEL_ALIAS_GROUNDTRUTH
+dbg(`groundtruthModel: %s`, groundtruthModel)
+
+if (groundtruth && evalModelsGroundtruth.includes(groundtruthModel))
+    output.note(
+        `Groundtruth model is the same as groundtruth eval model: ${groundtruthModel}`
+    )
+if (groundtruth && evalModelsGroundtruth.some(m => evalModels.includes(m)))
+    output.note(`Some eval models and groundtruth models are the same: ${evalModelsGroundtruth.filter(m => evalModels.includes(m)).join(", ")}`)
 
 const options: PromptPexOptions = Object.freeze(
     deleteFalsyValues({
@@ -451,6 +470,7 @@ const options: PromptPexOptions = Object.freeze(
         rulesModel,
         storeCompletions,
         storeModel,
+        groundtruth,
         groundtruthModel,
         testsPerRule,
         maxTestsToRun,
@@ -517,6 +537,7 @@ OPTIONS:
     --vars testExpansionInstructions=TEXT            Instructions added to the test expansion generation prompt
     --vars storeCompletions=true                          Store chat completions using stored completions
     --vars storeModel=MODEL                          Model used to create stored completions
+    --vars groundtruth=true                          Generate groundtruth for the tests (default: true)
     --vars groundtruthModel=MODEL                     Model used to generate groundtruth
     --vars customMetric=TEXT                          Custom Test Evaluation Template
     --vars createEvalRuns=true                             Create an Evals run in OpenAI Evals

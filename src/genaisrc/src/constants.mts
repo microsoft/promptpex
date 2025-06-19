@@ -142,9 +142,9 @@ OR["Output Rules (OR)"]
 PUT --> OR        
 `
 
-export const SCENARIO_SYMBOL = "⚙"
-export const RULE_SYMBOL = "⊢"
-export const GENERATION_SYMBOL = "◎"
+export const SCENARIO_SYMBOL = "scene"
+export const RULE_SYMBOL = "rule"
+export const GENERATION_SYMBOL = "gen"
 export const METRIC_SEPARATOR = ", with model "
 export const METRIC_SUMMARY = " average"
 
@@ -180,8 +180,11 @@ export const TEST_DATA_LENGTH = 64
 export const TEST_SAMPLES_COUNT_DEFAULT = 5
 
 export const MODEL_ALIAS_EVAL = "eval"
+export const MODEL_ALIAS_GROUNDTRUTH_EVAL = "groundtruth_eval"
 export const MODEL_ALIAS_STORE = "store"
 export const MODEL_ALIAS_RULES = "rules"
+export const MODEL_ALIAS_GROUNDTRUTH = "groundtruth"
+export const MODEL_ALIAS_MODEL_UNDER_TEST = "model_under_test"
 
 export const TEST_TRAINING_DATASET_RATIO = 0.75
 
