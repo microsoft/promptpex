@@ -69,8 +69,45 @@ inputs:
         type: string
         description: The locale of the joke.
         default: "en-us"
+outputs:
+    # JSON schema for expected output format
+    sentiment:
+        type: string
+        description: The sentiment of the joke
+        enum: ["funny", "not_funny"]
+    confidence:
+        type: number
+        description: Confidence score between 0 and 1
 ---
 ```
+
+### Output Specification
+
+PromptPex supports output specifications using JSON schema in the `outputs` field. When specified, the LLM will be automatically prompted to format its response according to the schema.
+
+```yaml
+outputs:
+    word_count:
+        type: integer
+        description: Number of words in the text
+    first_word:
+        type: string
+        description: The first word in the text
+    categories:
+        type: array
+        description: List of categories
+        items:
+            type: string
+```
+
+The output specification supports standard JSON schema types including:
+- `string` - Text values
+- `number` / `integer` - Numeric values  
+- `boolean` - True/false values
+- `array` - Lists of items
+- `object` - Complex nested structures
+
+When an `outputs` field is present, PromptPex automatically adds instructions to the LLM requesting JSON output that conforms to the specified schema.
 
 ### Schema
 
