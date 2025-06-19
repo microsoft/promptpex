@@ -1,4 +1,4 @@
-import frontmatterSchema from "./src/frontmatter.json" with { type: "json" }
+import frontmatterSchema from "./src/prompty-frontmatter.json" with { type: "json" }
 script({
     title: "Converts an arbitrary prompt file to the .prompty format",
     description:

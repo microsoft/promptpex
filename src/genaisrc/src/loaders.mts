@@ -15,10 +15,12 @@ import type {
     PromptPexOptions,
     PromptPexPromptyFrontmatter,
 } from "./types.mts"
-import frontMatterSchema from "./frontmatter.json" with { type: "json" }
+import frontMatterSchema from "./prompty-frontmatter.json" with { type: "json" }
 import packageJson from "../../../package.json" with { type: "json" }
 import { githubModelsToPrompty } from "./githubmodels.mts"
+import { outputFile } from "./output.mts"
 const dbg = host.logger("promptpex:loaders")
+const { output } = env
 
 if (!frontMatterSchema) throw new Error("frontmatter schema not found")
 
@@ -63,7 +65,7 @@ export async function loadPromptContext(
     dbg(`out: ${out}`)
     const writeResults = !!out
     dbg(`writeResults: ${writeResults}`)
-    
+
     let originalPromptFile: WorkspaceFile
     // pre-convert other formats to prompty
     for (const converter of converters) {
@@ -157,13 +159,19 @@ export async function loadPromptContext(
         `ground truth metrics (filtered): %O`,
         groundtruthMetrics.map(({ filename }) => filename)
     )
-    
+
     // now apply metric files
     metrics = metrics
         .filter((m) => {
             const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
-            if (fm?.tags?.includes("experimental") || fm?.tags?.includes("groundtruth")) {
-                dbg(`metric %s is experimental or groundtruth, skip`, m.filename)
+            if (
+                fm?.tags?.includes("experimental") ||
+                fm?.tags?.includes("groundtruth")
+            ) {
+                dbg(
+                    `metric %s is experimental or groundtruth, skip`,
+                    m.filename
+                )
                 return undefined
             }
             return m
@@ -173,8 +181,6 @@ export async function loadPromptContext(
         `metrics (filtered): %O`,
         metrics.map(({ filename }) => filename)
     )
-
-
 
     const res = {
         runId,
@@ -335,9 +341,9 @@ export async function validateFrontmatter(
         frontmatter
     )
     if (res.schemaError) {
-        dbg(`schema error for ${file.filename}`)
-        dbg(`error: %O`, res.schemaError)
-        dbg(`frontmatter: %O`, frontmatter)
+        output.item(file.filename)
+        output.fence(frontmatter, "yaml")
+        output.error(res.schemaError)
         throw new Error(`schema error for ${file.filename}: ${res.schemaError}`)
     }
 
@@ -379,7 +385,7 @@ async function loadPromptContextFromJSON(
 
     await workspace.writeFiles(ctxFiles.filter((f) => f.content))
 
-    ctx.options = {  ...ctx.options, ...options }
+    ctx.options = { ...ctx.options, ...options }
 
     ctx.writeResults = !!out
     ctx.dir = dir
