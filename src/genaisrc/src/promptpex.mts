@@ -192,8 +192,12 @@ export async function promptpexGenerate(files: PromptPexContext) {
     // assumes no previous results when generating groundtruth
     let results: PromptPexTestResult[]
 
+    const needsGroundtruth = files.promptPexTests.some(
+        t => !t.groundtruth || !t.groundtruthModel
+    );
+
     // only run tests if modelsUnderTest is defined
-    if (groundtruthModel?.length) {
+    if (groundtruthModel?.length && needsGroundtruth) {
         output.heading(3, `Groundtruth`)
         const resolved = await host.resolveLanguageModel(groundtruthModel)
         output.itemValue(
