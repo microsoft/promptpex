@@ -145,8 +145,8 @@ PUT --> OR
 export const SCENARIO_SYMBOL = "scene"
 export const RULE_SYMBOL = "rule"
 export const GENERATION_SYMBOL = "gen"
-export const METRIC_SEPARATOR = ", with model "
-export const METRIC_SUMMARY = " average"
+export const METRIC_SEPARATOR = " with "
+export const METRIC_SUMMARY = "average"
 
 export const DOCS_GLOSSARY = `
 - Prompt Under Test (PUT) - like Program Under Test; the prompt

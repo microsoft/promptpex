@@ -26,7 +26,7 @@ import {
 } from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
-import { resolve } from "node:path"
+import { parse, resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
 
 const { output } = env
@@ -190,9 +190,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("rateTests")
     }
 
-    // assumes no previous results when generating groundtruth
-    let results: PromptPexTestResult[]
-
     // one of the tests does not have a groundtruth entry
     const needsGroundtruth = files.promptPexTests.some(
         (t) => !t.groundtruth || !t.groundtruthModel
@@ -204,7 +201,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
             `groundtruth model`,
             `${resolved.provider}:${resolved.model}`
         )
-        results = await runTests(files, {
+        const results = await runTests(files, {
             ...options,
             runGroundtruth: true,
             runsPerTest: 1,
@@ -219,7 +216,6 @@ export async function promptpexGenerate(files: PromptPexContext) {
             )
         )
         output.detailsFenced(`tests (json)`, files.promptPexTests, "json")
-        output.detailsFenced(`test data (json)`, files.testData.content, "json")
 
         if (evalModelsGroundtruth?.length) {
             dbg(
@@ -241,7 +237,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
             if (results?.length) output.heading(3, `Groundtruth eval results`)
             outputTable(
                 renderTestResults(results.filter((r) => r.isGroundtruth)),
-                { maxRows: 36 }
+                { maxRows: 12 }
             )
             files.testOutputs.content = JSON.stringify(results, null, 2)
             if (files.writeResults)
@@ -261,35 +257,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("integration")
     }
 
-    // eval existing test results
-    if (evals && evalModels?.length && files.testOutputs.content) {
-        checkConfirm("evals")
-        // this branch handles the case where you have existing test results and you aren't
-        //       generating groundtruth at the same time.
-        // correct order of operations is:
-        // generate tests, groundtruth, and groundtruth result/metrics
-        // ...then run tests against models under test
-        // ...then evaluate metrics for all test results
-        output.note(`Evaluating saved test results.`)
-        results = parseTestResults(files)
-
-        // Evaluate metrics for all test results
-        for (const testRes of results.filter((r) => !r.isGroundtruth)) {
-            const newResult = await evaluateTestMetrics(testRes, files, {
-                ...options,
-                runGroundtruth: false,
-            })
-            testRes.metrics = newResult.metrics
-        }
-        files.testOutputs.content = JSON.stringify(results, null, 2)
-
-        if (files.writeResults)
-            await workspace.writeText(
-                files.testOutputs.filename,
-                JSON.stringify(results, null, 2)
-            )
-        output.detailsFenced(`results (json)`, results, "json")
-    } else if (modelsUnderTest?.length) {
+    if (modelsUnderTest?.length) {
         // run tests against the model(s)
         output.heading(3, `Test Runs with Models Under Test`)
         if (storeCompletions)
@@ -311,41 +279,53 @@ export async function promptpexGenerate(files: PromptPexContext) {
             output.itemValue(`evaluation models`, evalModels.join(", "))
 
         output.heading(4, `Test Results`)
-
-        const originalResults = parseTestResults(files)
-
-        results = await runTests(files, options)
-
-        // only measure metrics if eval is true
-        console.log({ evals })
-        checkConfirm("evals")
-        if (evals) {
-            // Evaluate metrics for all test results
-            for (const testRes of results) {
-                const newResult: PromptPexTestResult =
-                    await await evaluateTestMetrics(testRes, files, {
-                        ...options,
-                        runGroundtruth: false,
-                    })
-                testRes.metrics = newResult.metrics
-            }
-            const allResults = [...results, ...originalResults]
-            files.testOutputs.content = JSON.stringify(allResults, null, 2)
-
-            if (files.writeResults)
-                await workspace.writeText(
-                    files.testOutputs.filename,
-                    JSON.stringify(allResults, null, 2)
-                )
-            output.detailsFenced(`results (json)`, results, "json")
-        }
+        const results = await runTests(files, options)
+        files.testOutputs.content = JSON.stringify(results, null, 2)
+        if (files.writeResults)
+            await workspace.writeText(
+                files.testOutputs.filename,
+                JSON.stringify(results, null, 2)
+            )
+        output.detailsFenced(`results (json)`, results, "json")
     }
 
-    if (results?.length)
-        outputTable(
-            renderTestResults(results.filter((r) => !r.isGroundtruth)),
-            { maxRows: 36 }
-        )
+    // only measure metrics if eval is true
+    if (evals) {
+        output.heading(4, `Evaluating Test Results`)
+        const originalResults = parseTestResults(files)
+        const results = await runTests(files, options)
+        // Evaluate metrics for all test results
+        for (const testRes of results) {
+            const newResult: PromptPexTestResult = await evaluateTestMetrics(
+                testRes,
+                files,
+                {
+                    ...options,
+                    runGroundtruth: false,
+                }
+            )
+            testRes.metrics = newResult.metrics
+        }
+        const allResults = [...results, ...originalResults]
+        files.testOutputs.content = JSON.stringify(allResults, null, 2)
+        if (files.writeResults)
+            await workspace.writeText(
+                files.testOutputs.filename,
+                JSON.stringify(allResults, null, 2)
+            )
+        output.detailsFenced(`results (json)`, results, "json")
+    }
+
+    // final result table
+    {
+        const results = parseTestResults(files)
+        if (results?.length) {
+            outputTable(
+                renderTestResults(results.filter((r) => !r.isGroundtruth)),
+                { maxRows: 12 }
+            )
+        }
+    }
 
     const { overview } = await computeOverview(files, { percent: true })
     if (overview.length) {

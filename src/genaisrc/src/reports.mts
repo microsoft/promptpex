@@ -26,7 +26,7 @@ export function computeOverview(
     files: PromptPexContext,
     options?: PromptPexOptions & { percent?: boolean }
 ) {
-    const { percent } = options || {}
+    const { percent, compliance } = options || {}
     // only print overview for non-groundtruth test results
     const testResults = parseTestResults(files).filter((r) => !r.isGroundtruth)
     dbg(`testResults: %d`, testResults.length)
@@ -75,12 +75,15 @@ export function computeOverview(
                 ["tests compliant"]: norm(
                     tests.filter((tr) => tr.compliance === "ok").length
                 ),
-                ["tests compliance unknown"]: norm(
-                    tests.filter(
-                        (tr) =>
-                            tr.compliance !== "ok" && tr.compliance !== "err"
-                    ).length
-                ),
+                ["tests compliance unknown"]: compliance
+                    ? norm(
+                          tests.filter(
+                              (tr) =>
+                                  tr.compliance !== "ok" &&
+                                  tr.compliance !== "err"
+                          ).length
+                      )
+                    : undefined,
                 ["baseline compliant"]: bnorm(
                     baseline.filter((tr) => tr.compliance === "ok").length
                 ),
@@ -163,8 +166,11 @@ export function computeOverview(
     if (overview.length > 0) {
         for (const col of filterCols) {
             const allZeroOrDash = overview.every(
-                (row) => row[col] === 0 || row[col] === "0%" || 
-                row[col] === "---" || row[col] === "--"
+                (row) =>
+                    row[col] === 0 ||
+                    row[col] === "0%" ||
+                    row[col] === "---" ||
+                    row[col] === "--"
             )
             if (allZeroOrDash) {
                 for (const row of overview) {
