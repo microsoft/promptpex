@@ -490,6 +490,10 @@ if (promptText)
 for (const file of files) promptFiles.push(file)
 const runs = await loadPromptContexts(promptFiles, options)
 if (!runs.length) {
+    if (files.length)
+        console.error(
+            `No prompts found in the input files. Please provide a valid prompt file.`
+        )
     console.log(
         `PromptPex - Test Generation For Prompts
 USAGE:

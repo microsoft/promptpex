@@ -193,8 +193,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
     let results: PromptPexTestResult[]
 
     const needsGroundtruth = files.promptPexTests.some(
-        t => !t.groundtruth || !t.groundtruthModel
-    );
+        (t) => !t.groundtruth || !t.groundtruthModel
+    )
 
     // only run tests if modelsUnderTest is defined
     if (groundtruthModel?.length && needsGroundtruth) {
@@ -353,14 +353,16 @@ export async function promptpexGenerate(files: PromptPexContext) {
             { maxRows: 36 }
         )
 
-    output.heading(3, `Results Overview`)
     const { overview } = await computeOverview(files, { percent: true })
-    outputTable(overview)
-    if (files.writeResults)
-        await workspace.writeText(
-            path.join(files.dir, "overview.csv"),
-            CSV.stringify(overview, { header: true })
-        )
+    if (overview.length) {
+        output.heading(3, `Results Overview`)
+        outputTable(overview)
+        if (files.writeResults)
+            await workspace.writeText(
+                path.join(files.dir, "overview.csv"),
+                CSV.stringify(overview, { header: true })
+            )
+    }
 
     if (files.writeResults)
         output.itemValue(`output directory`, resolve(files.dir))
