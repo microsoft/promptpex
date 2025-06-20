@@ -11,6 +11,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Try to import prompty, but make it optional
+try:
+    from prompty import load_prompty
+    HAS_PROMPTY = True
+except ImportError:
+    HAS_PROMPTY = False
+    logger.warning("prompty package not available - using basic parsing")
+
 
 def parse_prompty_file(content: str) -> Tuple[str, str]:
     """Parse .prompty file into system and user prompts.
@@ -21,26 +29,85 @@ def parse_prompty_file(content: str) -> Tuple[str, str]:
     Returns:
         Tuple of (system_prompt, user_prompt)
     """
+    if HAS_PROMPTY:
+        return _parse_with_prompty(content)
+    else:
+        return _parse_basic(content)
+
+
+def _parse_with_prompty(content: str) -> Tuple[str, str]:
+    """Parse using the official prompty package."""
+    import tempfile
+    
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.prompty', delete=False) as f:
+        f.write(content)
+        temp_path = f.name
+    
+    try:
+        # Load using prompty package
+        prompty_data = load_prompty(temp_path)
+        
+        # Extract system and user content from body
+        system_prompt = ""
+        user_prompt = ""
+        
+        body = prompty_data.get('body', '')
+        
+        if "system:" in body:
+            parts = body.split("user:", 1)
+            system_part = parts[0].replace("system:", "", 1).strip()
+            system_prompt = system_part
+            if len(parts) > 1:
+                user_prompt = parts[1].strip()
+        elif "user:" in body:
+            user_prompt = body.split("user:", 1)[1].strip()
+        else:
+            user_prompt = body.strip()
+        
+        return system_prompt, user_prompt
+        
+    finally:
+        # Clean up temp file
+        os.unlink(temp_path)
+
+
+def _parse_basic(content: str) -> Tuple[str, str]:
+    """Basic parsing without prompty package."""
+    # Simple parsing - split on --- to separate frontmatter from body
+    parts = content.split('---')
+    if len(parts) >= 3:
+        # Has frontmatter
+        body = '---'.join(parts[2:]).strip()
+    else:
+        # No frontmatter
+        body = content.strip()
+    
     system_prompt = ""
     user_prompt = ""
-
-    parts = content.split("---", 2)
-    if len(parts) >= 3:
-        content_part = parts[2].strip()
+    
+    if "system:" in body:
+        lines = body.split('\n')
+        system_lines = []
+        user_lines = []
+        current_section = None
+        
+        for line in lines:
+            if line.strip() == "system:":
+                current_section = "system"
+            elif line.strip() == "user:":
+                current_section = "user"
+            elif current_section == "system":
+                system_lines.append(line)
+            elif current_section == "user":
+                user_lines.append(line)
+        
+        system_prompt = '\n'.join(system_lines).strip()
+        user_prompt = '\n'.join(user_lines).strip()
+    elif "user:" in body:
+        user_prompt = body.split("user:", 1)[1].strip()
     else:
-        content_part = content.strip()
-
-    if "system:" in content_part:
-        sys_user_split = content_part.split("user:", 1)
-        system_part = sys_user_split[0].replace("system:", "", 1).strip()
-        system_prompt = system_part
-        if len(sys_user_split) > 1:
-            user_prompt = sys_user_split[1].strip()
-    elif "user:" in content_part:
-        user_prompt = content_part.split("user:", 1)[1].strip()
-    else:
-        user_prompt = content_part
-
+        user_prompt = body.strip()
+    
     return system_prompt, user_prompt
 
 
