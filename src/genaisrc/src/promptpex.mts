@@ -186,6 +186,16 @@ export async function promptpexGenerate(files: PromptPexContext) {
         await checkConfirm("expansion")
     }
 
+    // label tests with unique IDs
+    output.heading(3, "Label Tests with Unique IDs")
+    if (files.promptPexTests?.length) {
+        for (const [index, test] of files.promptPexTests.entries()) {
+            if (!test.testuid) {
+                files.promptPexTests[index].testuid = `testuid-${index + 1}`
+            }
+        }
+    }
+
     // After test expansion, before evals
     if (rateTests) {
         output.heading(3, "Test Set Quality Review")
