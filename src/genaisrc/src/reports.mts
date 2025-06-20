@@ -106,12 +106,13 @@ export function computeOverview(
                         const ms = tests
                             .map((t) => t.metrics[n])
                             .filter((m) => !!m)
-                        const scorer = ms.some((m) => !isNaN(m.score))
+                        const numericScores = ms.filter((m) => typeof m.score === "number" && !isNaN(m.score))
+                        const scorer = numericScores.length > 0
                         return [
                             n,
                             scorer
-                                ? ms.reduce((total, m) => total + m.score, 0) /
-                                  ms.length
+                                ? numericScores.reduce((total, m) => total + m.score, 0) /
+                                  numericScores.length
                                 : ms.filter((m) => m.outcome === "ok").length,
                         ]
                     })
