@@ -91,7 +91,22 @@ async function evaluateTestMetric(
             outcome: "unknown",
             content: "test result output missing",
         } satisfies PromptPexEvaluation
-    const test = files.promptPexTests.find(t => t.) // TODO
+    if (testResult.testuid === undefined) {
+        dbg(`testuid is undefined in testResult`)
+        return {
+            outcome: "unknown",
+            content: "testuid is undefined in testResult",
+        } satisfies PromptPexEvaluation
+    }
+    const test = files.promptPexTests.find(t => t.testuid === testResult.testuid)
+    if (!test) {
+        dbg(`test not found for testuid %s`, testResult.testuid)
+        return {
+            outcome: "unknown",
+            content: `Test not found for testuid ${testResult.testuid}`,
+        } satisfies PromptPexEvaluation
+    }
+    // if (testResult.model !== evalModel) {
     const parameters = {
         prompt: content.replace(/^(system|user):/gm, ""),
         intent: files.intent.content || "",
