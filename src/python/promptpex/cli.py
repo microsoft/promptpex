@@ -14,7 +14,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run PromptPex analysis on a prompt file.")
     parser.add_argument("prompt_file", help="Path to the .prompty file to analyze.")
     parser.add_argument("output_json", help="Path to save the main output JSON results file.")
-    parser.add_argument("--models", help="Comma-separated list of Azure deployment names to test against (e.g., gpt-4o,gpt-35-turbo). Defaults to AZURE_OPENAI_DEPLOYMENT env var or 'gpt-4o'.", default=None)
+    parser.add_argument("--model", help="Model to use for analysis (e.g., gpt-4o-mini, azure/your-deployment, anthropic/claude-3). Defaults to gpt-4o-mini.", default="gpt-4o-mini")
+    parser.add_argument("--models", help="Comma-separated list of models to test against. Defaults to the main model.", default=None)
     parser.add_argument("--tests-per-rule", type=int, default=3, help="Number of tests to generate per rule.")
     parser.add_argument("--runs-per-test", type=int, default=1, help="Number of times to run each test against each model.")
     parser.add_argument("--no-generate-tests", action="store_false", dest="generate_tests", help="Disable test generation and execution.")
@@ -24,6 +25,7 @@ def main():
     models_list = args.models.split(',') if args.models else None
 
     integrator = PythonPromptPex(
+        model=args.model,
         generate_tests=args.generate_tests,
         tests_per_rule=args.tests_per_rule,
         runs_per_test=args.runs_per_test,
