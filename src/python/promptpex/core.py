@@ -7,7 +7,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from .utils.helpers import hash_string, logger
-from .utils.llm_client import AzureOpenAIClient
+from .utils.llm_client import LiteLLMClient
 from .utils.file_utils import parse_prompty_file, get_prompt_dir, read_prompt_file
 
 load_dotenv()
@@ -17,41 +17,26 @@ PROMPT_DIR = get_prompt_dir()
 
 class PythonPromptPex:
     def __init__(self, 
-                 azure_config: Optional[Dict[str, str]] = None,
+                 model: str = "gpt-4o-mini",
                  generate_tests: bool = True,
                  tests_per_rule: int = 3,
                  runs_per_test: int = 1,
                  models_to_test: Optional[List[str]] = None):
-        """Initialize the PromptPEX integrator with configuration.
+        """Initialize the PromptPEX with simplified configuration.
         
         Args:
-            azure_config: Dictionary with Azure OpenAI configuration
+            model: Model name to use for inference (e.g., "gpt-4o-mini")
             generate_tests: Whether to generate tests
             tests_per_rule: Number of tests to generate per rule
             runs_per_test: Number of times to run each test
-            models_to_test: List of Azure deployment names to test against
+            models_to_test: List of models to test against
         """
         self.generate_tests = generate_tests
         self.tests_per_rule = tests_per_rule
         self.runs_per_test = runs_per_test
-        self.models_to_test = models_to_test or []
-
-        if azure_config is None:
-            azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "")
-            azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
-            api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2025-03-01-preview")
-            self.azure_config = {
-                "azure_endpoint": azure_endpoint,
-                "azure_deployment": azure_deployment,
-                "api_version": api_version
-            }
-        else:
-            self.azure_config = azure_config
-
-        if not self.models_to_test:
-            self.models_to_test = [self.azure_config["azure_deployment"]]
-
-        self.llm_client = AzureOpenAIClient(self.azure_config)
+        self.models_to_test = models_to_test or [model]
+        
+        self.llm_client = LiteLLMClient(model)
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     def run(self, prompt_file_path: str, output_json_path: str) -> Dict[str, Any]:
@@ -147,7 +132,7 @@ class PythonPromptPex:
             
             user_prompt = user_prompt_template.replace("{{ prompt }}", prompt)
             
-            response = self.llm_client.call_openai(system_prompt, user_prompt)
+            response = self.llm_client.call_llm(system_prompt, user_prompt)
             
             intent = response["choices"][0]["message"]["content"].strip()
             return intent
@@ -167,7 +152,7 @@ class PythonPromptPex:
             
             user_prompt = user_prompt_template.replace("{{context}}", prompt)
             
-            response = self.llm_client.call_openai(system_prompt, user_prompt)
+            response = self.llm_client.call_llm(system_prompt, user_prompt)
             
             content = response["choices"][0]["message"]["content"].strip()
             
@@ -197,7 +182,7 @@ class PythonPromptPex:
             system_prompt = system_prompt.replace("{{num_rules}}", "0")
             user_prompt = user_prompt_template.replace("{{input_data}}", prompt)
             
-            response = self.llm_client.call_openai(system_prompt, user_prompt)
+            response = self.llm_client.call_llm(system_prompt, user_prompt)
             
             content = response["choices"][0]["message"]["content"]
             rules = [rule.strip() for rule in content.split("\n") if rule.strip()]
@@ -223,7 +208,7 @@ class PythonPromptPex:
             system_prompt = system_prompt.replace("{{instructions}}", "")
             user_prompt = user_prompt_template.replace("{{rule}}", "\n".join(rules))
             
-            response = self.llm_client.call_openai(system_prompt, user_prompt)
+            response = self.llm_client.call_llm(system_prompt, user_prompt)
             
             content = response["choices"][0]["message"]["content"]
             inverse_rules = [rule.strip() for rule in content.split("\n") if rule.strip()]
@@ -252,7 +237,7 @@ class PythonPromptPex:
                 user_prompt = user_prompt_template.replace("{{ rule }}", rule)
                 user_prompt = user_prompt.replace("{{ description }}", prompt)
                 
-                response = self.llm_client.call_openai(system_prompt, user_prompt)
+                response = self.llm_client.call_llm(system_prompt, user_prompt)
                 
                 content = response["choices"][0]["message"]["content"].strip()
                 
@@ -302,7 +287,7 @@ class PythonPromptPex:
                 current_system = current_system.replace("{{rule}}", rule)
                 current_system = current_system.replace("{{num_rules}}", "1")
                 
-                response = self.llm_client.call_openai(current_system, user_prompt)
+                response = self.llm_client.call_llm(current_system, user_prompt)
                 
                 content = response["choices"][0]["message"]["content"].strip()
                 tests = self._parse_csv_tests(content, rule_id, rule, is_inverse=False)
@@ -319,7 +304,7 @@ class PythonPromptPex:
                 current_system = current_system.replace("{{rule}}", rule)
                 current_system = current_system.replace("{{num_rules}}", "1")
                 
-                response = self.llm_client.call_openai(current_system, user_prompt)
+                response = self.llm_client.call_llm(current_system, user_prompt)
                 
                 content = response["choices"][0]["message"]["content"].strip()
                 tests = self._parse_csv_tests(content, rule_id, rule, is_inverse=True)
@@ -370,7 +355,7 @@ class PythonPromptPex:
             system_prompt = system_prompt.replace("{{num}}", str(self.tests_per_rule))
             user_prompt = user_prompt_template.replace("{{prompt}}", prompt)
             
-            response = self.llm_client.call_openai(system_prompt, user_prompt)
+            response = self.llm_client.call_llm(system_prompt, user_prompt)
             
             content = response["choices"][0]["message"]["content"].strip()
             
@@ -409,7 +394,7 @@ class PythonPromptPex:
                 current_user_prompt = user_prompt_template.replace("{{test}}", test["testinput"])
                 current_system_prompt = system_prompt.replace("{{input_spec}}", input_spec_text)
                 
-                response = self.llm_client.call_openai(current_system_prompt, current_user_prompt)
+                response = self.llm_client.call_llm(current_system_prompt, current_user_prompt)
                 
                 content = response["choices"][0]["message"]["content"].strip()
                 
@@ -461,7 +446,7 @@ class PythonPromptPex:
         """Run a single test against a model (TO) and check compliance (TNC)."""
         try:
             test_input = test["testinput"]
-            response = self.llm_client.call_openai(prompt, test_input, model=model)
+            response = self.llm_client.call_llm(prompt, test_input, model=model)
             model_output = response["choices"][0]["message"]["content"]
             
             rule_part = test.get('ruleid', 'baseline')
@@ -482,7 +467,7 @@ class PythonPromptPex:
                 current_system_prompt = eval_system_prompt.replace("{{ system }}", prompt)
                 current_user_prompt = eval_user_prompt_template.replace("{{ result }}", model_output)
                 
-                eval_response = self.llm_client.call_openai(current_system_prompt, current_user_prompt)
+                eval_response = self.llm_client.call_llm(current_system_prompt, current_user_prompt)
                 eval_content = eval_response["choices"][0]["message"]["content"].strip()
                 
                 lines = eval_content.strip().split("\n")

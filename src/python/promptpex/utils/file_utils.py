@@ -12,8 +12,23 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+import os
+from typing import Tuple
+import logging
+from prompty import load_prompty
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+    ]
+)
+logger = logging.getLogger(__name__)
+
+
 def parse_prompty_file(content: str) -> Tuple[str, str]:
-    """Parse .prompty file into system and user prompts.
+    """Parse .prompty file into system and user prompts using prompty package.
     
     Args:
         content: Content of the prompty file
@@ -21,27 +36,40 @@ def parse_prompty_file(content: str) -> Tuple[str, str]:
     Returns:
         Tuple of (system_prompt, user_prompt)
     """
-    system_prompt = ""
-    user_prompt = ""
-
-    parts = content.split("---", 2)
-    if len(parts) >= 3:
-        content_part = parts[2].strip()
-    else:
-        content_part = content.strip()
-
-    if "system:" in content_part:
-        sys_user_split = content_part.split("user:", 1)
-        system_part = sys_user_split[0].replace("system:", "", 1).strip()
-        system_prompt = system_part
-        if len(sys_user_split) > 1:
-            user_prompt = sys_user_split[1].strip()
-    elif "user:" in content_part:
-        user_prompt = content_part.split("user:", 1)[1].strip()
-    else:
-        user_prompt = content_part
-
-    return system_prompt, user_prompt
+    # For simplicity, assuming content is a file path or we can write to temp file
+    # In a production version, we'd handle this more elegantly
+    import tempfile
+    
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.prompty', delete=False) as f:
+        f.write(content)
+        temp_path = f.name
+    
+    try:
+        # Load using prompty package
+        prompty_data = load_prompty(temp_path)
+        
+        # Extract system and user content from body
+        system_prompt = ""
+        user_prompt = ""
+        
+        body = prompty_data.get('body', '')
+        
+        if "system:" in body:
+            parts = body.split("user:", 1)
+            system_part = parts[0].replace("system:", "", 1).strip()
+            system_prompt = system_part
+            if len(parts) > 1:
+                user_prompt = parts[1].strip()
+        elif "user:" in body:
+            user_prompt = body.split("user:", 1)[1].strip()
+        else:
+            user_prompt = body.strip()
+        
+        return system_prompt, user_prompt
+        
+    finally:
+        # Clean up temp file
+        os.unlink(temp_path)
 
 
 def get_prompt_dir() -> str:
