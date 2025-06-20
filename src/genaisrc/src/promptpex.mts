@@ -28,6 +28,7 @@ import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
 import { parse, resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
+import { nanoid } from 'nanoid'
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -191,7 +192,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (files.promptPexTests?.length) {
         for (const [index, test] of files.promptPexTests.entries()) {
             if (!test.testuid) {
-                files.promptPexTests[index].testuid = `testuid-${index}`
+                files.promptPexTests[index].testuid = `$test-{nanoid(8)}`
             }
         }
     }
