@@ -1,0 +1,55 @@
+name: Action Continuous Integration
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - dev
+permissions:
+    contents: read
+    models: read
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+                  cache: npm
+            # Cache the generated model requests made by GenAIScript
+            #
+            # A new cache is created for each run to ensure that the latest model requests are used,
+            # but previous caches can be restored and reused if available.
+            - uses: actions/cache@v4
+              with:
+                  path: .genaiscript/cache/**
+                  key: genaiscript-${{ github.workflow }}-${{ github.run_id }}
+                  restore-keys: |
+                      genaiscript-
+            - run: npm ci
+            - run: npm run build
+    test-action:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            # Cache the generated model requests made by GenAIScript
+            #
+            # A new cache is created for each run to ensure that the latest model requests are used,
+            # but previous caches can be restored and reused if available.
+            - uses: actions/cache@v4
+              with:
+                  path: .genaiscript/cache/**
+                  key: genaiscript-${{ github.workflow }}-${{ github.run_id }}
+                  restore-keys: |
+                      genaiscript-
+            - uses: ./
+              with:
+                  prompt: |
+                      system:
+                      Is this joke funny?
+                      user:
+                      {{ input }}
+                  effort: min
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  debug: "script"

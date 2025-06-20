@@ -1,14 +1,14 @@
 ---
 title: GenAIScript
 sidebar:
-    order: 31
+    order: 81
 ---
 
 [GenAIScript](https://microsoft.github.io/genaiscript) is a tool for generating and executing scripts using LLMs. It is used in PromptPex to generate the test generation scripts.
 
 ## Try PromptPex
 
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Configure your LLM credentials in `.env`. You can use OpenAI, Azure OpenAI, or Ollama.
 
 ```sh wrap
@@ -27,7 +27,7 @@ To launch PromptPex in a docker container, first create an image with the follow
 
 ```sh wrap
 docker build -t genaiscript -<<EOF
-FROM node:alpine
+FROM node:lts-alpine
 RUN apk add --no-cache git && npm install -g genaiscript
 EOF
 ```
@@ -53,7 +53,7 @@ npm run serve
 ## Local development
 
 - Clone this repository
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Install dependencies
 
 ```sh
@@ -90,7 +90,7 @@ npm run serve
 
 The development of PromptPex is done using [GenAIScript](https://microsoft.github.io/genaiscript).
 
-- Install [Node.js v20+](https://nodejs.org/)
+- Install [Node.js v22+](https://nodejs.org/)
 - Configure your LLM credentials in `.env`
 
 ## Typecheck scripts

@@ -28,6 +28,13 @@ sidebar:
 - Test Output (TO) - Result generated for PPT and BT on PUT with each MUT (the template is PUT)
 - Test Non-Compliance (TNC) - Checking if TO meets the constraints in PUT using MPP (check_violation_with_system_prompt)
 
+- Ground Truth Model (GTM) - Model used to generate the ground truth for the tests.
+- Ground Truth Eval Models (GTMEs) - Models used to evaluate the ground truth for the tests.
+- Ground Truth Eval Metrics (GTEMT) - Metric used to evaluate the ground truth for the tests.
+- PromptPex Tests with Ground Truth (PPGT) - Tests that include model-generated ground truth.
+
+
+
 ```mermaid
 graph TD
     PUT[("Prompt Under Test (PUT)")]
@@ -86,7 +93,7 @@ graph TD
 
 <br />
 
-- Every node is created by a LLM call (aside from the PUT).
+- Every node is created by an LLM call (aside from the PUT).
 - Rounded nodes can be edited by the user.
 - Square nodes are evaluations.
 - Diamond nodes are outputs.
