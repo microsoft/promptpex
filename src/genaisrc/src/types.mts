@@ -285,7 +285,7 @@ export interface PromptPexContext {
     testOutputs: WorkspaceFile
 
     /**
-     * Groudtruth Output (TO) - Test results with metrics for groundtruth test outputs
+     * Groundtruth Output (TO) - Test results with metrics for groundtruth test outputs
      */
     groundtruthOutputs: WorkspaceFile
 
