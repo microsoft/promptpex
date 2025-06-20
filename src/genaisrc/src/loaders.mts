@@ -112,6 +112,7 @@ export async function loadPromptContext(
     let rateTests = path.join(dir, "test_collection_review.md")
     let testData = path.join(dir, "test_data.json")
     let testResults = path.join(dir, "test_results.json")
+    let groundtruthResults = path.join(dir, "test_groundtruth.json")
     let testEvals = path.join(dir, "test_evals.json")
     let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
     let ruleEvals = path.join(dir, "rule_evals.json")
@@ -193,6 +194,7 @@ export async function loadPromptContext(
         prompt: promptFile,
         originalPrompt: originalPromptFile,
         testOutputs: await workspace.readText(testResults),
+        groundtruthOutputs: await workspace.readText(groundtruthResults),
         intent: await workspace.readText(intent),
         inputSpec: await workspace.readText(inputSpec),
         rules: tidyRulesFile(await workspace.readText(rules)),
@@ -372,6 +374,7 @@ async function loadPromptContextFromJSON(
         ctx.rateTests,
         ctx.testData,
         ctx.testOutputs,
+        ctx.groundtruthOutputs,
         ctx.testEvals,
         ctx.baselineTestEvals,
         ctx.ruleEvals,

@@ -139,6 +139,8 @@ export function parseTestResults(
     const rules = parseRules(files.rules.content)
     const res = (parsers.JSON5(files.testOutputs.content) ||
         []) as PromptPexTestResult[]
+    const groundtruthRes = (parsers.JSON5(files.groundtruthOutputs.content) ||
+        []) as PromptPexTestResult[]
     res.forEach((r) => {
         r.inverse =
             r.ruleid !== null && parseInt(r.ruleid as any) > rules.length
@@ -147,6 +149,13 @@ export function parseTestResults(
     for (const r of res.filter((r) => !r.error && !r.model)) {
         output.warn(
             `missing 'model' for test result ${r.id} in ${files.testOutputs.filename}`
+        )
+        if (diagnostics)
+            throw new Error(`missing 'model' for test result ${r.id}`)
+    }
+    for (const r of groundtruthRes.filter((r) => !r.error && !r.model)) {
+        output.warn(
+            `missing 'model' for groundtruth test result ${r.id} in ${files.groundtruthOutputs.filename}`
         )
         if (diagnostics)
             throw new Error(`missing 'model' for test result ${r.id}`)
