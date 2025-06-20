@@ -254,10 +254,10 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 renderTestResults(results.filter((r) => r.isGroundtruth)),
                 { maxRows: 12 }
             )
-            files.testOutputs.content = JSON.stringify(results, null, 2)
+            files.groundtruthOutputs.content = JSON.stringify(results, null, 2)
             if (files.writeResults)
                 await workspace.writeText(
-                    files.testOutputs.filename,
+                    files.groundtruthOutputs.filename,
                     JSON.stringify(results, null, 2)
                 )
         } else {
