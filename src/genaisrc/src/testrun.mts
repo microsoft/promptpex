@@ -308,6 +308,7 @@ async function runTest(
         id,
         promptid,
         ...rule,
+        testuid: test.testuid,
         scenario: test.scenario,
         baseline: test.baseline,
         testinput: testInput,

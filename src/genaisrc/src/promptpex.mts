@@ -191,7 +191,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (files.promptPexTests?.length) {
         for (const [index, test] of files.promptPexTests.entries()) {
             if (!test.testuid) {
-                files.promptPexTests[index].testuid = `testuid-${index + 1}`
+                files.promptPexTests[index].testuid = `testuid-${index}`
             }
         }
     }
