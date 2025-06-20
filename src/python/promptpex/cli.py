@@ -11,16 +11,46 @@ def main():
     """Main entry point for the PromptPex CLI."""
     logging.basicConfig(level=logging.INFO)
 
-    parser = argparse.ArgumentParser(description="Run PromptPex analysis on a prompt file.")
+    parser = argparse.ArgumentParser(
+        description="Run PromptPex analysis on a prompt file.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Use OpenAI GPT-4o-mini
+  python -m promptpex.cli prompt.prompty results.json --model gpt-4o-mini
+  
+  # Use GitHub Models
+  python -m promptpex.cli prompt.prompty results.json --model github:gpt-4o-mini
+  
+  # Multiple models for testing
+  python -m promptpex.cli prompt.prompty results.json --model gpt-4o-mini --models github:gpt-4o-mini,gpt-3.5-turbo
+
+Environment Variables:
+  OPENAI_API_KEY     - Required for OpenAI models
+  GITHUB_TOKEN       - Required for GitHub Models (github: prefix)
+  AZURE_OPENAI_*     - Required for Azure OpenAI models (azure/ prefix)
+        """
+    )
+    
     parser.add_argument("prompt_file", help="Path to the .prompty file to analyze.")
     parser.add_argument("output_json", help="Path to save the main output JSON results file.")
-    parser.add_argument("--model", help="Model to use for analysis (e.g., gpt-4o-mini, azure/your-deployment, anthropic/claude-3). Defaults to gpt-4o-mini.", default="gpt-4o-mini")
+    parser.add_argument("--model", help="Model to use for analysis (e.g., gpt-4o-mini, github:gpt-4o-mini, azure/your-deployment, anthropic/claude-3). Defaults to gpt-4o-mini.", default="gpt-4o-mini")
     parser.add_argument("--models", help="Comma-separated list of models to test against. Defaults to the main model.", default=None)
     parser.add_argument("--tests-per-rule", type=int, default=3, help="Number of tests to generate per rule.")
     parser.add_argument("--runs-per-test", type=int, default=1, help="Number of times to run each test against each model.")
     parser.add_argument("--no-generate-tests", action="store_false", dest="generate_tests", help="Disable test generation and execution.")
-
+    
     args = parser.parse_args()
+    
+    # Check for required environment variables based on model type
+    model_prefix = args.model.split(":")[0] if ":" in args.model else ""
+    
+    if model_prefix == "github" and not os.getenv("GITHUB_TOKEN"):
+        print("Error: GITHUB_TOKEN environment variable required for GitHub Models")
+        print("Set GITHUB_TOKEN=your_token_here")
+        return 1
+    elif not model_prefix and not os.getenv("OPENAI_API_KEY"):
+        print("Warning: OPENAI_API_KEY not set. This may cause authentication errors.")
 
     models_list = args.models.split(',') if args.models else None
 

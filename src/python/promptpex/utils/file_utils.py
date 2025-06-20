@@ -11,24 +11,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
-import os
-from typing import Tuple
-import logging
-from prompty import load_prompty
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.StreamHandler(),
-    ]
-)
-logger = logging.getLogger(__name__)
+# Try to import prompty, but make it optional
+try:
+    from prompty import load_prompty
+    HAS_PROMPTY = True
+except ImportError:
+    HAS_PROMPTY = False
+    logger.warning("prompty package not available - using basic parsing")
 
 
 def parse_prompty_file(content: str) -> Tuple[str, str]:
-    """Parse .prompty file into system and user prompts using prompty package.
+    """Parse .prompty file into system and user prompts.
     
     Args:
         content: Content of the prompty file
@@ -36,8 +29,14 @@ def parse_prompty_file(content: str) -> Tuple[str, str]:
     Returns:
         Tuple of (system_prompt, user_prompt)
     """
-    # For simplicity, assuming content is a file path or we can write to temp file
-    # In a production version, we'd handle this more elegantly
+    if HAS_PROMPTY:
+        return _parse_with_prompty(content)
+    else:
+        return _parse_basic(content)
+
+
+def _parse_with_prompty(content: str) -> Tuple[str, str]:
+    """Parse using the official prompty package."""
     import tempfile
     
     with tempfile.NamedTemporaryFile(mode='w', suffix='.prompty', delete=False) as f:
@@ -70,6 +69,46 @@ def parse_prompty_file(content: str) -> Tuple[str, str]:
     finally:
         # Clean up temp file
         os.unlink(temp_path)
+
+
+def _parse_basic(content: str) -> Tuple[str, str]:
+    """Basic parsing without prompty package."""
+    # Simple parsing - split on --- to separate frontmatter from body
+    parts = content.split('---')
+    if len(parts) >= 3:
+        # Has frontmatter
+        body = '---'.join(parts[2:]).strip()
+    else:
+        # No frontmatter
+        body = content.strip()
+    
+    system_prompt = ""
+    user_prompt = ""
+    
+    if "system:" in body:
+        lines = body.split('\n')
+        system_lines = []
+        user_lines = []
+        current_section = None
+        
+        for line in lines:
+            if line.strip() == "system:":
+                current_section = "system"
+            elif line.strip() == "user:":
+                current_section = "user"
+            elif current_section == "system":
+                system_lines.append(line)
+            elif current_section == "user":
+                user_lines.append(line)
+        
+        system_prompt = '\n'.join(system_lines).strip()
+        user_prompt = '\n'.join(user_lines).strip()
+    elif "user:" in body:
+        user_prompt = body.split("user:", 1)[1].strip()
+    else:
+        user_prompt = body.strip()
+    
+    return system_prompt, user_prompt
 
 
 def get_prompt_dir() -> str:
