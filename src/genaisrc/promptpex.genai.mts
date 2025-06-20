@@ -531,7 +531,7 @@ For more details, see https://microsoft.github.io/promptpex/cli/`
 }
 
 output.heading(1, "PromptPex Test Generation")
-output.detailsFenced(`options`, options, "yaml")
+output.detailsFenced(`options.yaml`, options, "yaml")
 for (const run of runs) {
     dbg(`file: %s`, run.name)
     dbg(`writeResults: %s`, run.writeResults)

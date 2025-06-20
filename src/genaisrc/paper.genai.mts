@@ -227,7 +227,7 @@ async function generate(
     const { output } = env
 
     output.heading(3, `generating tests for ${files.name}`)
-    output.detailsFenced(`prompt under test`, files.prompt)
+    output.detailsFenced(`prompt_under_test.md`, files.prompt, "markdown")
     output.itemValue(`dir`, files.dir)
 
     if (!disableSafety) {

@@ -48,7 +48,7 @@ export function reportPerf() {
     if (!output) return
 
     output.detailsFenced(
-        "performance",
+        "performance.json",
         JSON.stringify(
             Object.entries(totals).map(([id, duration]) => ({
                 id,

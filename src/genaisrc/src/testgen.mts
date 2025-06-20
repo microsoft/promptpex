@@ -251,6 +251,6 @@ function parseCsvTests(
         })
         .filter((t) => !!t)
     if (!res.length)
-        output.detailsFenced(`tests - unable to parse`, text, "text")
+        output.detailsFenced(`tests_unable_to_parse.txt`, text, "text")
     return res
 }

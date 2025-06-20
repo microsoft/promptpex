@@ -15,7 +15,7 @@ export function outputWorkflowDiagram(
     if (!options?.workflowDiagram) return
 
     output.detailsFenced(
-        `workflow`,
+        `workflow.mermaid`,
         `
 graph TD
     ${diagram.trim().split(`\n`).join("\n    ")}
@@ -48,7 +48,7 @@ export function outputLines(file: WorkspaceFile, name: string, options?: { maxRo
     const contentType = path.extname(filename)
     const lines = content?.split("\n").map((line) => ({ [name]: line })) || []
     outputTable(lines)
-    output.detailsFenced(`data`, content, contentType)
+    output.detailsFenced(`data${contentType}`, content, contentType)
 }
 
 export function outputTable(rows: object[], options?: { maxRows?: number }) {
