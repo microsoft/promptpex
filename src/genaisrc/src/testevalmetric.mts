@@ -91,7 +91,7 @@ async function evaluateTestMetric(
             outcome: "unknown",
             content: "test result output missing",
         } satisfies PromptPexEvaluation
-    const test = files.promptPexTests.find(t => t.testuid == testResult.testuid)
+    const test = files.promptPexTests.find(t => t.testuid === testResult.testuid)
     if (!test) {
         dbg(`test not found for testuid %s`, testResult.testuid)
         return {
