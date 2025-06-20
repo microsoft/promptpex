@@ -13,6 +13,15 @@ The page also contains a possible implementation plan for you to follow, but fee
 
 Your task is to implement the PromptPex framework in your codebase according to the requirement of the user. Follow the instructions of the user to choose which language/framework to use, and how to implement the framework in your codebase.
 
+## IMPORTANT
+
+When implementing PromptPex, it is very important to reuse the existing prompts as is. Do not change the prompts unless you need to adapt the syntax for your template engine.
+
+We strongly recommend keep the prompts in separate files and load them
+at runtime, rather than hardcoding them in your codebase.
+
+Whenever possible, use the original `.prompty` files from the `/src/prompts` directory.
+
 ## Step 1: Test Generation
 
 PromptPex is a test generate framework for prompts. It is made of a graph of LLM transformations that eventually generate a set of
@@ -55,4 +64,13 @@ You can read the following page to understand the PromptPex framework and how to
 - [Glossary](./glossary.md): A glossary of terms used in the PromptPex framework.
 - [Test Generation](./test-generation.md): The core of the framework, how to generate tests for prompts.
 - The prompts are `.prompty` files in the `/src/prompts` directory.
-- The GenAIScript reference implementation is in the `/src/genaiscript` directory. PromptPex starts in `src/genaiscript/src/promptpex.mts`. It is implemented using [GenAIScript](https://microsoft.github.io/genaiscript/).
+- The **.prompty** format is documented in [./prompt-format.md].
+
+## Reference implementation
+
+The GenAIScript reference implementation is in the `/src/genaiscript` directory. PromptPex starts in `src/genaiscript/src/promptpex.mts`. 
+
+It is implemented using [GenAIScript](https://microsoft.github.io/genaiscript/).
+
+**Following the patterns and habits of the the target framework/language you are generating**. The reference implementation is a good starting point but you should adapt it to the target framework/language you are generating.
+
