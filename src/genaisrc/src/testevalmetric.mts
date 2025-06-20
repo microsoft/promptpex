@@ -9,6 +9,7 @@ import type {
     PromptPexOptions,
     PromptPexEvaluation,
     PromptPexPromptyFrontmatter,
+    PromptPexTest,
 } from "./types.mts"
 const { generator } = env
 const dbg = host.logger("promptpex:eval:metric")
@@ -90,6 +91,7 @@ async function evaluateTestMetric(
             outcome: "unknown",
             content: "test result output missing",
         } satisfies PromptPexEvaluation
+    const test = files.promptPexTests.find(t => t.) // TODO
     const parameters = {
         prompt: content.replace(/^(system|user):/gm, ""),
         intent: files.intent.content || "",
@@ -97,7 +99,7 @@ async function evaluateTestMetric(
         rules: files.rules.content,
         input: testResult.input,
         output: testResult.output,
-        groundtruth: testResult.groundtruth || "",
+        groundtruth: test.groundtruth || "",
     }
     dbg(`metric: ${metric.filename} for %O`, {
         input: parameters.input,
