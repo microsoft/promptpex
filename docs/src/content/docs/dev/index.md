@@ -15,6 +15,13 @@ The template are stored in a [markdown-ish, framework agnostic, template format]
 
 **PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
 
+
+:::tip
+
+Use the [implementation plan]() with your Agent to reimplement PromptPex quickly.
+
+:::
+
 ## GenAIScript
 
 [GenAIScript](/promptpex/dev/genaiscript/) implementation of the test generation process using the prompt templates.

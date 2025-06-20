@@ -1,9 +1,4 @@
----
-title: Implementation Plan
-sidebar:
-    order: 30
-description: An implementation plan for a coding agent to implement the PromptPex framework in any codebase.
----
+# Implementation Plan
 
 Hi there fellow Agent,
 
@@ -20,14 +15,14 @@ When implementing PromptPex, it is very important to reuse the existing prompts 
 We strongly recommend keep the prompts in separate files and load them
 at runtime, rather than hardcoding them in your codebase.
 
-Whenever possible, use the original `.prompty` files from the `/src/prompts` directory.
+Whenever possible, use the original `.prompty` files from the `src/prompts` directory.
 
 ## Phase 1: Test Generation
 
 PromptPex is a test generate framework for prompts. It is made of a graph of LLM transformations that eventually generate a set of
 inputs and expected outputs for a given prompt.
 
-- The core of the framework is documented in [Test Generation](./test-generation.md).
+- The core of the framework is documented in [Test Generation](docs/src/content/docs/reference/test-generation.md).
 
 ## Phase: Validate Test Generation
 
@@ -57,10 +52,10 @@ user:
 
 You will find additional features for promptpex generation that can be useful to add once the basic test generation is working.
 
-- [Groundtruth](./groundtruth.md): how to generate groundtruth for prompts.
-- [Test Samples](./test-samples.md): how to integrate existing test samples into the test generation process.
-- [Test Expansion](./test-expansion.md): how to morph tests into more complex longer texts.
-- [Scenarios](./scenarios.md): how to receive custom set of inputs instructions from the users and use it to guide the generation of tests.
+- [Groundtruth](docs/src/content/docs/reference/groundtruth.md): how to generate groundtruth for prompts.
+- [Test Samples](docs/src/content/docs/reference/test-samples.md): how to integrate existing test samples into the test generation process.
+- [Test Expansion](docs/src/content/docs/reference/test-expansion.md): how to morph tests into more complex longer texts.
+- [Scenarios](docs/src/content/docs/reference/scenarios.md): how to receive custom set of inputs instructions from the users and use it to guide the generation of tests.
 
 ### Notes
 
@@ -71,10 +66,10 @@ that can be loaded using a library.
 
 You can read the following page to understand the PromptPex framework and how to use it in your codebase:
 
-- [Glossary](./glossary.md): A glossary of terms used in the PromptPex framework.
-- [Test Generation](./test-generation.md): The core of the framework, how to generate tests for prompts.
-- The prompts are `.prompty` files in the `/src/prompts` directory.
-- The **.prompty** format is documented in [./prompt-format.md].
+- [Glossary](docs/src/content/docs/reference/glossary.md): A glossary of terms used in the PromptPex framework.
+- [Test Generation](docs/src/content/docs/reference/test-generation.md): The core of the framework, how to generate tests for prompts.
+- The prompts are `.prompty` files in the [prompts directory](src/prompts).
+- The **.prompty** format is documented in [Prompt Format](docs/src/content/docs/reference/prompt-format.md).
 
 ## Reference implementation
 
@@ -82,4 +77,5 @@ The GenAIScript reference implementation is in the `/src/genaiscript` directory.
 
 It is implemented using [GenAIScript](https://microsoft.github.io/genaiscript/).
 
-**Following the patterns and habits of the the target framework/language you are generating**. The reference implementation is a good starting point but you should adapt it to the target framework/language you are generating.
+**Following the patterns and habits of the the target framework/language you are generating**.
+The reference implementation is a good starting point but you should adapt it to the target framework/language you are generating.
