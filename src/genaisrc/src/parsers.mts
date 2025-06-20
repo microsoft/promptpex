@@ -158,7 +158,7 @@ export function parseTestResults(
             `missing 'model' for groundtruth test result ${r.id} in ${files.groundtruthOutputs.filename}`
         )
         if (diagnostics)
-            throw new Error(`missing 'model' for test result ${r.id}`)
+            throw new Error(`missing 'model' for groundtruth test result ${r.id}`)
     }
     for (const r of res) if (isNaN(r.ruleid)) r.ruleid = null
     return res
