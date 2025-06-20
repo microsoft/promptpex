@@ -13,12 +13,40 @@ The page also contains a possible implementation plan for you to follow, but fee
 
 Your task is to implement the PromptPex framework in your codebase according to the requirement of the user. Follow the instructions of the user to choose which language/framework to use, and how to implement the framework in your codebase.
 
-## Test Generation
+## Step 1: Test Generation
 
 PromptPex is a test generate framework for prompts. It is made of a graph of LLM transformations that eventually generate a set of
 inputs and expected outputs for a given prompt.
 
 - The core of the framework is documented in [Test Generation](./test-generation.md).
+
+## Step 2: Validate Test Generation
+
+Once you have implemented the test generation, you should validate it on a prompt.
+
+- generate examples of prompty files (you can use this example as a prompt test case)
+
+```markdown
+---
+tags:
+    - unlisted
+---
+system:
+You need to categorize a joke as funny or not.
+Respond with "funny" or "not funny".
+
+user:
+{{joke}}
+```
+
+- for each prompty file, create a test case (using the test framework of your choice) that checks that your implementation is able to run and generate test cases.
+
+- run the tests cases and fix the code until all tests pass.
+
+### Notes
+
+You can assume that the secrets are already set in the environment or in a `.env` file
+that can be loaded using a library.
 
 ## Reference
 
@@ -27,4 +55,4 @@ You can read the following page to understand the PromptPex framework and how to
 - [Glossary](./glossary.md): A glossary of terms used in the PromptPex framework.
 - [Test Generation](./test-generation.md): The core of the framework, how to generate tests for prompts.
 - The prompts are `.prompty` files in the `/src/prompts` directory.
-- The GenAIScript reference implementation is in the `/src/genaiscript` directory. PromptPex starts in `src/genaiscript/src/promptpex.mts`.
+- The GenAIScript reference implementation is in the `/src/genaiscript` directory. PromptPex starts in `src/genaiscript/src/promptpex.mts`. It is implemented using [GenAIScript](https://microsoft.github.io/genaiscript/).
