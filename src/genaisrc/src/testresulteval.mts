@@ -9,15 +9,19 @@ import type {
 } from "./types.mts"
 const { generator } = env
 
+const dbg = host.logger("promptpex:eval:testresult")
+
 export async function evaluateTestResult(
     files: PromptPexContext,
+    evalModel: ModelType,
     testResult: PromptPexTestResult,
     options: PromptPexOptions
 ): Promise<PromptPexEvaluation> {
-    const { evalModel = MODEL_ALIAS_EVAL } = options || {}
-    const moptions = modelOptions(evalModel, options)
 
+
+    const moptions = modelOptions(evalModel, options)
     const content = MD.content(files.prompt.content)
+    dbg(`evaluating test result for ${testResult.model} with input: ${testResult.input.slice(0, 42)} with eval model ${evalModel}`)
     const res = await measure("eval.test", () =>
         generator.runPrompt(
             (ctx) => {
@@ -34,7 +38,8 @@ export async function evaluateTestResult(
                 label: `${files.name}> eval test result ${testResult.model} ${testResult.input.slice(0, 42)}...`,
             }
         )
-    )
+    ) 
+
     const evaluation = checkLLMEvaluation(res, { allowUnassisted: true })
     return evaluation
 }

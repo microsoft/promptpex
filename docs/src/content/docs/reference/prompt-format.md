@@ -1,7 +1,7 @@
 ---
 title: Prompt Format
 sidebar:
-    order: 29.05
+    order: 61
 ---
 
 PromptPex supports markdown-based prompt format based on [Prompty](https://www.prompty.ai/); these are just markdown with a bit of syntax to

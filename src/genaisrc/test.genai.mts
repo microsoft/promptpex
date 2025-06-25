@@ -2,7 +2,7 @@ import { generateBaselineTests } from "./src/baselinetestgen.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { generateInverseOutputRules } from "./src/inverserulesgen.mts"
-import { loadPromptFiles } from "./src/loaders.mts"
+import { loadPromptContext } from "./src/loaders.mts"
 import {
     parseBaselineTests,
     parseRules,
@@ -46,7 +46,7 @@ const options: PromptPexOptions = {
 
 initPerf({ output })
 const promptFile = env.files.find((f) => f.filename.endsWith(".prompty"))
-const files = await loadPromptFiles(promptFile)
+const files = await loadPromptContext(promptFile)
 
 // generate intent
 output.heading(3, "Intent")

@@ -1,0 +1,421 @@
+name: promptpex
+description: >
+  Generate tests for a LLM prompt using PromptPex.
+
+
+  <details><summary>Prompt format</summary>
+
+
+  PromptPex accepts prompts formatted in Markdown with a YAML frontmatter
+  section (optional).
+
+
+  ```text
+
+  ---
+
+  ...
+
+  inputs:
+    some_input:
+      type: "string"
+  ---
+
+  system:
+
+  This is your system prompt.
+
+
+  user:
+
+  This is your user prompt.
+
+  {{some_input}}
+   ```
+
+  - The content of the Markdown is the chat conversation. 
+
+  `system:` is the system prompt and `user:` is the user prompt.
+
+  - The input variables are defined in the frontmatter of the prompt.
+
+  - If not input variables are defined, PromptPex will append the generated test
+  to the user prompt.
+
+
+  ### Frontmatter
+
+
+  You can override parts of the test generation
+
+  process by providing values in the frontmatter of the prompt (all values are
+  optional).
+
+
+  ```markdown
+
+  ---
+
+  ...
+
+  promptPex:
+    inputSpec: "input constraints"
+    outputRules: "output constraints"
+    inverseOutputRules: "inverted output constraints"
+    intent: "intent of the prompt"
+    instructions:
+      inputSpec: "Additional input specification instructions"
+      outputRules: "Additional output rules instructions"
+      inverseOutputRules: "Additional inverse output rules instructions"
+      intent: "Additional intent of the prompt"
+  ---
+
+  ```
+
+
+  </details>
+inputs:
+  prompt:
+    description: Prompt template to analyze. You can either copy the prompty source
+      here or upload a file prompt. [prompty](https://prompty.ai/) is a simple
+      markdown-based format for prompts. prompt.yml is the GitHub Models format.
+    required: false
+  effort:
+    description: Effort level for the test generation. This will influence the
+      number of tests generated and the complexity of the tests.
+    required: false
+  out:
+    description: Output folder for the generated files. This flag is mostly used
+      when running promptpex from the CLI.
+    required: false
+  cache:
+    description: Cache all LLM calls. This accelerates experimentation but you may
+      miss issues due to LLM flakiness.
+    required: false
+    default: true
+  test_run_cache:
+    description: Cache test run results in files.
+    required: false
+    default: true
+  eval_cache:
+    description: Cache eval evaluation results in files.
+    required: false
+  evals:
+    description: Evaluate the test results
+    required: false
+    default: true
+  tests_per_rule:
+    description: Number of tests to generate per rule. By default, we generate 3
+      tests to cover each output rule. You can modify this parameter to control
+      the number of tests generated.
+    required: false
+    default: 3
+  split_rules:
+    description: Split rules and inverse rules in separate prompts for test generation.
+    required: false
+    default: true
+  max_rules_per_test_generation:
+    description: Maximum number of rules to use per test generation which influences
+      the complexity of the generated tests. Increase this value to generate
+      tests faster but potentially less complex tests.
+    required: false
+    default: 3
+  test_generations:
+    description: Number of times to amplify the test generation. This parameter
+      allows to generate more tests for the same rules by repeatedly running the
+      test generation process, while asking the LLM to avoid regenerating
+      existing tests.
+    required: false
+    default: 2
+  runs_per_test:
+    description: Number of runs to execute per test. During the evaluation phase,
+      this parameter allows to run the same test multiple times to check for
+      consistency and reliability of the model's output.
+    required: false
+    default: 2
+  disable_safety:
+    description: Do not include safety system prompts and do not run safety content
+      service. By default, system safety prompts are included in the prompt and
+      the content is checked for safety. This option disables both.
+    required: false
+    default: false
+  rate_tests:
+    description: Generate a report rating the quality of the test set.
+    required: false
+    default: false
+  rules_model:
+    description: Model used to generate rules (you can also override the model alias
+      'rules')
+    required: false
+  baseline_model:
+    description: Model used to generate baseline tests
+    required: false
+  models_under_test:
+    description: List of models to run the prompt again; semi-colon separated
+    required: false
+  eval_model:
+    description: List of models to use for test evaluation; semi-colon separated
+    required: false
+  eval_model_groundtruth:
+    description: List of models to use for ground truth evaluation; semi-colon separated
+    required: false
+  compliance:
+    description: Evaluate Test Result compliance
+    required: false
+    default: false
+  max_tests_to_run:
+    description: Maximum number of tests to run
+    required: false
+  input_spec_instructions:
+    description: These instructions will be added to the input specification
+      generation prompt.
+    required: false
+  output_rules_instructions:
+    description: These instructions will be added to the output rules generation prompt.
+    required: false
+  inverse_output_rules_instructions:
+    description: These instructions will be added to the inverse output rules
+      generation prompt.
+    required: false
+  test_expansion_instructions:
+    description: These instructions will be added to the test expansion generation prompt.
+    required: false
+  store_completions:
+    description: Store chat completions using [stored
+      completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/stored-completions).
+    required: false
+  store_model:
+    description: "Model used to create [stored
+      completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/h\
+      ow-to/stored-completions) (you can also override the model alias 'store').
+      "
+    required: false
+  groundtruth:
+    description: Generate groundtruth for the tests. This will generate a
+      groundtruth output for each test run.
+    required: false
+    default: true
+  groundtruth_model:
+    description: Model used to generate groundtruth
+    required: false
+  custom_metric:
+    description: "This prompt will be used to evaluate the test results.
+
+      <details><summary>Template</summary>
+
+
+      ```text
+
+      ---
+
+      name: Custom Test Result Evaluation
+
+      description: |
+
+      \  A template for a custom evaluation of the results.
+
+      tags:
+
+      \    - unlisted
+
+      inputs:
+
+      \    prompt:
+
+      \        type: string
+
+      \        description: The prompt to be evaluated.
+
+      \    intent:
+
+      \        type: string
+
+      \        description: The extracted intent of the prompt.
+
+      \    inputSpec:
+
+      \        type: string
+
+      \        description: The input specification for the prompt.
+
+      \    rules:
+
+      \        type: string
+
+      \        description: The rules to be applied for the test generation.
+
+      \    input:
+
+      \        type: string
+
+      \        description: The input to be used with the prompt.
+
+      \    output:
+
+      \        type: string
+
+      \        description: The output from the model execution.
+
+      ---
+
+      system:
+
+
+      ## Task
+
+
+      You are a chatbot that helps users evaluate the performance of a model.\ 
+
+      You will be given a evaluation criteria <CRITERIA>, a LLM prompt <PROMPT>,
+      output rules for the prompt <RULES>, a user input <INPUT>, and <OUTPUT>
+      from the model.\ 
+
+      Your task is to evaluate the <CRITERIA> based on <PROMPT>, <INPUT>, and
+      <OUTPUT> provided.
+
+
+      <CRITERIA>
+
+      The <OUTPUT> generated by the model complies with the <RULES> and the
+      <PROMPT> provided.
+
+      </CRITERIA>
+
+
+      <PROMPT>
+
+      {{prompt}}
+
+      </PROMPT>
+
+
+      <RULES>
+
+      {{rules}}
+
+      </RULES>
+
+
+      ## Output
+
+
+      **Binary Decision on Evaluation**: You are required to make a binary
+      decision based on your evaluation:
+
+      - Return \"OK\" if <OUTPUT> is compliant with <CRITERIA>.
+
+      - Return \"ERR\" if <OUTPUT> is **not** compliant with <CRITERIA> or if
+      you are unable to confidently answer.
+
+
+      user:
+
+      <INPUT>
+
+      {{input}}
+
+      </INPUT>
+
+
+      <OUTPUT>
+
+      {{output}}
+
+      </OUTPUT>
+
+      ```
+
+
+      </details>      \ 
+
+      \            "
+    required: false
+  create_eval_runs:
+    description: Create an Evals run in [OpenAI
+      Evals](https://platform.openai.com/docs/guides/evals). Requires OpenAI API
+      key in environment variable `OPENAI_API_KEY`.
+    required: false
+  test_expansions:
+    description: Number of test expansion phase to generate tests. This will
+      increase the complexity of the generated tests.
+    required: false
+    default: 0
+  test_samples_count:
+    description: Number of test samples to include for the rules and test
+      generation. If a test sample is provided, the samples will be injected in
+      prompts to few-shot train the model.
+    required: false
+  test_samples_shuffle:
+    description: Shuffle the test samples before generating tests for the prompt.
+    required: false
+  filter_test_count:
+    description: Number of tests to include in the filtered output of evalTestCollection.
+    required: false
+  files:
+    description: Files to process, separated by semi columns (;).
+      .prompty,.md,.txt,.json,.prompt.yml
+    required: false
+  debug:
+    description: Enable debug logging
+      (https://microsoft.github.io/genaiscript/reference/scripts/logging/).
+    required: false
+  openai_api_key:
+    description: OpenAI API key
+    required: false
+    default: ${{ secrets.OPENAI_API_KEY }}
+  openai_api_base:
+    description: OpenAI API base URL
+    required: false
+    default: ${{ env.OPENAI_API_BASE }}
+  azure_openai_api_endpoint:
+    description: Azure OpenAI endpoint. In the Azure Portal, open your Azure OpenAI
+      resource, Keys and Endpoints, copy Endpoint.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_ENDPOINT }}
+  azure_openai_api_key:
+    description: Azure OpenAI API key. **You do NOT need this if you are using
+      Microsoft Entra ID.
+    required: false
+    default: ${{ secrets.AZURE_OPENAI_API_KEY }}
+  azure_openai_subscription_id:
+    description: Azure OpenAI subscription ID to list available deployments
+      (Microsoft Entra only).
+    required: false
+    default: ${{ env.AZURE_OPENAI_SUBSCRIPTION_ID }}
+  azure_openai_api_version:
+    description: Azure OpenAI API version.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_VERSION }}
+  azure_openai_api_credentials:
+    description: Azure OpenAI API credentials type. Leave as 'default' unless you
+      have a special Azure setup.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_CREDENTIALS }}
+  azure_ai_inference_api_key:
+    description: Azure AI Inference key
+    required: false
+    default: ${{ secrets.AZURE_AI_INFERENCE_API_KEY }}
+  azure_ai_inference_api_endpoint:
+    description: Azure Serverless OpenAI endpoint
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_ENDPOINT }}
+  azure_ai_inference_api_version:
+    description: Azure Serverless OpenAI API version
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_VERSION }}
+  azure_ai_inference_api_credentials:
+    description: Azure Serverless OpenAI API credentials type
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_CREDENTIALS }}
+  github_token:
+    description: "GitHub token with `models: read` permission at least
+      (https://microsoft.github.io/genaiscript/reference/github-actions/#github\
+      -models-permissions)."
+    required: false
+    default: ${{ secrets.GITHUB_TOKEN }}
+outputs:
+  text:
+    description: The generated text output.
+runs:
+  using: docker
+  image: Dockerfile
