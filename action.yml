@@ -1,5 +1,79 @@
 name: promptpex
-description: PromptPex Test Generator
+description: >
+  Generate tests for a LLM prompt using PromptPex.
+
+
+  <details><summary>Prompt format</summary>
+
+
+  PromptPex accepts prompts formatted in Markdown with a YAML frontmatter
+  section (optional).
+
+
+  ```text
+
+  ---
+
+  ...
+
+  inputs:
+    some_input:
+      type: "string"
+  ---
+
+  system:
+
+  This is your system prompt.
+
+
+  user:
+
+  This is your user prompt.
+
+  {{some_input}}
+   ```
+
+  - The content of the Markdown is the chat conversation. 
+
+  `system:` is the system prompt and `user:` is the user prompt.
+
+  - The input variables are defined in the frontmatter of the prompt.
+
+  - If not input variables are defined, PromptPex will append the generated test
+  to the user prompt.
+
+
+  ### Frontmatter
+
+
+  You can override parts of the test generation
+
+  process by providing values in the frontmatter of the prompt (all values are
+  optional).
+
+
+  ```markdown
+
+  ---
+
+  ...
+
+  promptPex:
+    inputSpec: "input constraints"
+    outputRules: "output constraints"
+    inverseOutputRules: "inverted output constraints"
+    intent: "intent of the prompt"
+    instructions:
+      inputSpec: "Additional input specification instructions"
+      outputRules: "Additional output rules instructions"
+      inverseOutputRules: "Additional inverse output rules instructions"
+      intent: "Additional intent of the prompt"
+  ---
+
+  ```
+
+
+  </details>
 inputs:
   prompt:
     description: Prompt template to analyze. You can either copy the prompty source
@@ -22,13 +96,14 @@ inputs:
   test_run_cache:
     description: Cache test run results in files.
     required: false
+    default: true
   eval_cache:
     description: Cache eval evaluation results in files.
     required: false
   evals:
     description: Evaluate the test results
     required: false
-    default: false
+    default: true
   tests_per_rule:
     description: Number of tests to generate per rule. By default, we generate 3
       tests to cover each output rule. You can modify this parameter to control
@@ -115,6 +190,11 @@ inputs:
       ow-to/stored-completions) (you can also override the model alias 'store').
       "
     required: false
+  groundtruth:
+    description: Generate groundtruth for the tests. This will generate a
+      groundtruth output for each test run.
+    required: false
+    default: true
   groundtruth_model:
     description: Model used to generate groundtruth
     required: false
@@ -275,15 +355,64 @@ inputs:
     description: Files to process, separated by semi columns (;).
       .prompty,.md,.txt,.json,.prompt.yml
     required: false
-  github_token:
-    description: "GitHub token with `models: read` permission at least
-      (https://microsoft.github.io/genaiscript/reference/github-actions/#github\
-      -models-permissions)."
-    required: true
   debug:
     description: Enable debug logging
       (https://microsoft.github.io/genaiscript/reference/scripts/logging/).
     required: false
+  openai_api_key:
+    description: OpenAI API key
+    required: false
+    default: ${{ secrets.OPENAI_API_KEY }}
+  openai_api_base:
+    description: OpenAI API base URL
+    required: false
+    default: ${{ env.OPENAI_API_BASE }}
+  azure_openai_api_endpoint:
+    description: Azure OpenAI endpoint. In the Azure Portal, open your Azure OpenAI
+      resource, Keys and Endpoints, copy Endpoint.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_ENDPOINT }}
+  azure_openai_api_key:
+    description: Azure OpenAI API key. **You do NOT need this if you are using
+      Microsoft Entra ID.
+    required: false
+    default: ${{ secrets.AZURE_OPENAI_API_KEY }}
+  azure_openai_subscription_id:
+    description: Azure OpenAI subscription ID to list available deployments
+      (Microsoft Entra only).
+    required: false
+    default: ${{ env.AZURE_OPENAI_SUBSCRIPTION_ID }}
+  azure_openai_api_version:
+    description: Azure OpenAI API version.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_VERSION }}
+  azure_openai_api_credentials:
+    description: Azure OpenAI API credentials type. Leave as 'default' unless you
+      have a special Azure setup.
+    required: false
+    default: ${{ env.AZURE_OPENAI_API_CREDENTIALS }}
+  azure_ai_inference_api_key:
+    description: Azure AI Inference key
+    required: false
+    default: ${{ secrets.AZURE_AI_INFERENCE_API_KEY }}
+  azure_ai_inference_api_endpoint:
+    description: Azure Serverless OpenAI endpoint
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_ENDPOINT }}
+  azure_ai_inference_api_version:
+    description: Azure Serverless OpenAI API version
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_VERSION }}
+  azure_ai_inference_api_credentials:
+    description: Azure Serverless OpenAI API credentials type
+    required: false
+    default: ${{ env.AZURE_AI_INFERENCE_API_CREDENTIALS }}
+  github_token:
+    description: "GitHub token with `models: read` permission at least
+      (https://microsoft.github.io/genaiscript/reference/github-actions/#github\
+      -models-permissions)."
+    required: false
+    default: ${{ secrets.GITHUB_TOKEN }}
 outputs:
   text:
     description: The generated text output.

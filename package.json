@@ -5,14 +5,14 @@
     "license": "MIT",
     "description": "PromptPex is a test generator for prompts, that allows evaluating and comparing AI prompts across different models and configurations.",
     "dependencies": {
-        "genaiscript": "^1.142.15",
+        "genaiscript": "^2.0.8",
         "nanoid": "^5.1.5",
-        "openai": "^5.5.1"
+        "openai": "^5.7.0"
     },
     "devDependencies": {
-        "@types/node": "^24.0.3",
-        "prettier": "^3.5.3",
-        "zx": "^8.5.5"
+        "@types/node": "^24.0.4",
+        "prettier": "^3.6.1",
+        "zx": "^8.6.0"
     },
     "keywords": [
         "genai",
@@ -68,7 +68,7 @@
         "promptpex:joke:azure": "genaiscript run promptpex \"samples/demo/joke.prompty\" --model \"azure:gpt-4o_2024-11-20\" --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals",
         "promptpex:joke:azurefoundry": "genaiscript run promptpex \"samples/demo/joke.prompty\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals --vars storeCompletions=true",
         "promptpex:demo:ollama": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --vars \"modelsUnderTest=ollama:llama3.2:1b;ollama:qwen2.5:3b\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals",
-        "promptpex:demo:github": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars \"compliance=true\" --model \"github:openai/gpt-4o\" --vars \"modelsUnderTest=github:openai/gpt-4o-mini;github:microsoft/Phi-4-mini-instruct\" --vars cache=true --vars evalCache=true --vars testRunCache=true",
+        "promptpex:demo:github": "genaiscript run promptpex \"samples/demo/demo.prompty\" --env .github.env --vars \"compliance=true\" --model \"github:openai/gpt-4o\" --vars \"modelsUnderTest=github:openai/gpt-4o-mini;github:microsoft/Phi-4-mini-instruct\" --vars cache=true --vars evalCache=true --vars testRunCache=true",
         "promptpex:demo:models": "genaiscript run promptpex \"samples/demo/demo.prompty\" --vars evalModel=github:openai/gpt-4o --vars \"groundtruthModel=github:openai/gpt-4.1\" --vars \"modelsUnderTest=github:openai/gpt-4.1-nano\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals --env .github.env --no-run-trace",
         "promptpex:explainer:models": "genaiscript run promptpex \"samples/github-models/explainer.prompt.yml\" --vars evalModel=github:openai/gpt-4o --vars \"groundtruthModel=github:openai/gpt-4.1\" --vars \"modelsUnderTest=github:openai/gpt-4.1-nano\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals --env .github.env",
         "promptpex:summarizer:models": "genaiscript run promptpex \"samples/github-models/summarizer.prompt.yml\" --vars evalModel=github:openai/gpt-4o --vars \"groundtruthModel=github:openai/gpt-4.1\" --vars \"modelsUnderTest=github:openai/gpt-4.1-nano\" --vars cache=true --vars evalCache=true --vars testRunCache=true --vars out=evals --env .github.env --no-run-trace",
