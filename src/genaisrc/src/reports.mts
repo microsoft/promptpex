@@ -132,14 +132,16 @@ export function computeOverview(
                             const ms = tests
                                 .map((t) => t.metrics?.[metricKey])
                                 .filter((m) => !!m)
-                            const scorer = ms.some((m) => !isNaN(m.score))
+                            // Only consider metrics with valid numeric scores
+                            const numericScores = ms.filter((m) => typeof m.score === "number" && !isNaN(m.score))
+                            const scorer = numericScores.length > 0
                             return [
                                 metricKey,
                                 scorer
-                                    ? ms.reduce(
+                                    ? numericScores.reduce(
                                           (total, m) => total + m.score,
                                           0
-                                      ) / ms.length
+                                      ) / numericScores.length
                                     : ms.filter((m) => m.outcome === "ok")
                                           .length,
                             ]
