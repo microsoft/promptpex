@@ -114,7 +114,7 @@
         "promptpex:doc-ratetests": "genaiscript run promptpex \"evals/test-doc-gentestgt/speech-tag/promptpex_context.json\" --vars \"evals=false\" \"rateTests=true\" --vars \"filterTestCount=3\"  --vars \"out=evals/test-doc-ratetests\"",
         "docker:serve": "npm run docker:serve:build && npm run docker:serve:run",
         "docker:serve:build": "docker build -f Dockerfile.serve -t promptpex-serve .",
-        "docker:serve:run": "docker run --rm -p 8080:8080 promptpex-serve",
+        "docker:serve:run": "docker run --rm -p 8003:8003 promptpex-serve",
         "docker:serve:stop": "docker stop $(docker ps -q --filter ancestor=promptpex-serve) 2>/dev/null || true",
         "ollama": "npm run ollama:stop && npm run ollama:start",
         "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",

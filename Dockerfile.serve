@@ -13,6 +13,8 @@ COPY . .
 # Install dependencies
 RUN npm ci
 
+# http://localhost:8003
+EXPOSE 8003
 
 # GitHub Action forces the WORKDIR to GITHUB_WORKSPACE 
 ENTRYPOINT ["npm", "--prefix", "/genaiscript/action", "run", "serve", "--", "--network"]
