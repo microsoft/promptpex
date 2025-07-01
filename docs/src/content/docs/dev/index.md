@@ -1,7 +1,7 @@
 ---
 title: Overview
 sidebar:
-    order: 30
+    order: 80
 ---
 
 This section provides documentation for developers who want to use PromptPex in their own projects or infrastructure.
@@ -14,6 +14,13 @@ The template are stored in a [markdown-ish, framework agnostic, template format]
 - [prompts directory](https://github.com/microsoft/promptpex/tree/main/src/prompts)
 
 **PromptPex is designed to be used with any LLM library.** The only requirement is that the library must be able to execute the Prompty templates.
+
+
+:::tip
+
+Use the [implementation plan](https://github.com/microsoft/promptpex/blob/dev/.github/instructions/implementation.instructions.md) with your Agent to reimplement PromptPex quickly.
+
+:::
 
 ## GenAIScript
 

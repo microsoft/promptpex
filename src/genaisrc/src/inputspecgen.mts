@@ -1,6 +1,7 @@
 import {
     DIAGRAM_GENERATE_INPUT_SPEC,
     INPUT_SPEC_RETRY,
+    MODEL_ALIAS_RULES,
     PROMPT_GENERATE_INPUT_SPEC,
 } from "./constants.mts"
 import { outputWorkflowDiagram, outputPrompty } from "./output.mts"
@@ -19,13 +20,18 @@ export async function generateInputSpec(
         files.frontmatter?.instructions?.inputSpec ||
         ""
     outputWorkflowDiagram(DIAGRAM_GENERATE_INPUT_SPEC, options)
+    const pn = PROMPT_GENERATE_INPUT_SPEC
+    await outputPrompty(pn, options)
 
-    const { rulesModel = "rules" } = options || {}
+    if (files.inputSpec.content) {
+        dbg(`input spec already exists for ${files.name}, skipping generation`)
+        return
+    }
+
+    const { rulesModel = MODEL_ALIAS_RULES } = options || {}
     const context = MD.content(files.prompt.content)
     const testSamples = files.testSamples
     const examples = testSamples?.length ? YAML.stringify(testSamples) : ""
-    const pn = PROMPT_GENERATE_INPUT_SPEC
-    await outputPrompty(pn, options)
 
     for (let i = 0; i < INPUT_SPEC_RETRY; ++i) {
         dbg(`attempt ${i + 1} of ${INPUT_SPEC_RETRY}`)
