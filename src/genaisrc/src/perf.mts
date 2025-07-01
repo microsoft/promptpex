@@ -1,6 +1,8 @@
 import { performance } from "perf_hooks"
 import { createWriteStream, WriteStream } from "fs"
 
+const dbg = host.logger("promptpex:perf")
+
 let output: OutputTrace
 let writer: WriteStream
 
@@ -24,9 +26,9 @@ export function start(id: string) {
         const duration = Math.ceil(end.startTime - start.startTime)
         totals[id] = (totals[id] || 0) + duration
 
+        dbg(`${id}: ${duration}ms`)
         if (writer) writer.write(`${id},${duration}\n`)
         if (output) output.itemValue(id, `${duration}ms`)
-        else console.debug(`${id}: ${duration}ms`)
     }
 }
 

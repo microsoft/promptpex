@@ -41,10 +41,15 @@ export default defineConfig({
                     label: "GitHub",
                     href: "https://github.com/microsoft/promptpex",
                 },
+                {
+                    icon: "npm",
+                    label: "npm",
+                    href: "https://www.npmjs.com/package/promptpex",
+                }
             ],
             editLink: {
                 baseUrl:
-                    "https://github.com/microsoft/promptpex/edit/main/docs/",
+                    "https://github.com/microsoft/promptpex/edit/dev/docs/",
             },
         }),
     ],

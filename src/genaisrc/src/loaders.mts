@@ -1,6 +1,7 @@
 import { checkConfirm } from "./confirm.mts"
 import {
     CONCURRENCY,
+    GITHUB_MODELS_RX,
     PARAMETER_INPUT_TEXT,
     PROMPT_ALL,
     PROMPT_DIR,
@@ -11,40 +12,82 @@ import { checkPromptSafety } from "./safety.mts"
 import type {
     PromptPexContext,
     PromptPexLoaderOptions,
+    PromptPexOptions,
     PromptPexPromptyFrontmatter,
 } from "./types.mts"
-import frontMatterSchema from "./frontmatter.json" with { type: "json" }
+import frontMatterSchema from "./prompty-frontmatter.json" with { type: "json" }
 import packageJson from "../../../package.json" with { type: "json" }
+import { githubModelsToPrompty } from "./githubmodels.mts"
+import { outputFile } from "./output.mts"
 const dbg = host.logger("promptpex:loaders")
+const { output } = env
 
 if (!frontMatterSchema) throw new Error("frontmatter schema not found")
-dbg(`schema %O`, frontMatterSchema)
 
-export async function loadPromptContext(
+export async function loadPromptContexts(
     files: WorkspaceFile[],
-    options?: PromptPexLoaderOptions
+    options?: PromptPexOptions
 ): Promise<PromptPexContext[]> {
     const q = host.promiseQueue(CONCURRENCY)
+    const promptFiles = files.filter((f) =>
+        /\.(md|txt|prompty|prompt\.yml|json)$/i.test(f.filename)
+    )
     return q.mapAll(
-        files.filter((f) => /\.(md|txt|prompty)$/i.test(f.filename)),
-        async (f) => await loadPromptFiles(f, options)
+        promptFiles,
+        async (f) => await loadPromptContext(f, options)
     )
 }
 
-export async function loadPromptFiles(
+const converters = [
+    {
+        rx: GITHUB_MODELS_RX,
+        convert: githubModelsToPrompty,
+    },
+]
+
+export async function loadPromptContext(
     promptFile: WorkspaceFile,
     options?: PromptPexLoaderOptions
 ): Promise<PromptPexContext> {
     if (!promptFile)
         throw new Error(
-            "No prompt file found, did you forget to the prompt file?"
+            "No prompt file found, did you forget to include the prompt file?"
         )
     dbg(`loading files from ${promptFile.filename}`)
 
-    await checkPromptFiles()
+    if (/\.json$/i.test(promptFile.filename)) {
+        const ctx = await loadPromptContextFromJSON(promptFile, options)
+        dbg(`after loading from json, writeResults: ${ctx.writeResults}`)
+        return ctx
+    }
+
     const { out, disableSafety } = options || {}
     dbg(`out: ${out}`)
     const writeResults = !!out
+    dbg(`writeResults: ${writeResults}`)
+
+    let originalPromptFile: WorkspaceFile
+    // pre-convert other formats to prompty
+    for (const converter of converters) {
+        if (converter.rx.test(promptFile.filename)) {
+            dbg(`converting file %s`, promptFile.filename)
+            const newFile = await converter.convert(promptFile, options)
+            if (newFile) {
+                originalPromptFile = promptFile
+                promptFile = newFile
+                dbg(`converted file %s`, promptFile.filename)
+                if (writeResults)
+                    await workspace.writeText(
+                        path.join(out, path.basename(promptFile.filename)),
+                        promptFile.content
+                    )
+                break
+            }
+        }
+    }
+    dbg(`prompt file: %O`, promptFile)
+
+    await checkPromptFiles()
     const filename =
         promptFile.filename ||
         (await parsers.hash(promptFile.content, {
@@ -66,14 +109,15 @@ export async function loadPromptFiles(
     let inputSpec = path.join(dir, "input_spec.txt")
     let baselineTests = path.join(dir, "baseline_tests.txt")
     let tests = path.join(dir, "tests.json")
-    let filteredTests = path.join(dir, "filtered_tests.json")
     let rateTests = path.join(dir, "test_collection_review.md")
     let testData = path.join(dir, "test_data.json")
     let testResults = path.join(dir, "test_results.json")
+    let groundtruthResults = path.join(dir, "test_groundtruth.json")
     let testEvals = path.join(dir, "test_evals.json")
     let baselineTestEvals = path.join(dir, "baseline_test_evals.json")
     let ruleEvals = path.join(dir, "rule_evals.json")
     let ruleCoverage = path.join(dir, "rule_coverage.json")
+    const { messages } = await parsers.prompty(promptFile)
     const frontmatter = await validateFrontmatter(promptFile, {
         patchFrontmatter: true,
     })
@@ -84,9 +128,13 @@ export async function loadPromptFiles(
         frontmatter,
         options
     )
-    const metricGlobs = [path.join(PROMPT_DIR, "*.metric.prompty")]
+    const metricGlobs = [
+        path.join(PROMPT_DIR, "*.metric.prompty"),
+        path.join(PROMPT_DIR, "metrics", "*.metric.prompty"),
+    ]
     if (filename)
         metricGlobs.push(path.join(path.dirname(filename), "*.metric.prompty"))
+    dbg(`metric globs: %O`, metricGlobs)
     let metrics = await workspace.findFiles(metricGlobs)
     if (options?.customMetric)
         metrics.push({
@@ -98,12 +146,33 @@ export async function loadPromptFiles(
         metrics.map(({ filename }) => filename)
     )
 
+    // now filter out ground truth metric files
+    const groundtruthMetrics = metrics
+        .filter((m) => {
+            const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
+            if (fm?.tags?.includes("groundtruth")) {
+                dbg(`metric %s is groundtruth, keep`, m.filename)
+                return m
+            } else return undefined
+        })
+        .filter(Boolean)
+    dbg(
+        `ground truth metrics (filtered): %O`,
+        groundtruthMetrics.map(({ filename }) => filename)
+    )
+
     // now apply metric files
     metrics = metrics
         .filter((m) => {
             const fm = MD.frontmatter(m) as PromptPexPromptyFrontmatter
-            if (fm?.tags?.includes("experimental")) {
-                dbg(`metric %s is experimental, skip`, m.filename)
+            if (
+                fm?.tags?.includes("experimental") ||
+                fm?.tags?.includes("groundtruth")
+            ) {
+                dbg(
+                    `metric %s is experimental or groundtruth, skip`,
+                    m.filename
+                )
                 return undefined
             }
             return m
@@ -121,58 +190,40 @@ export async function loadPromptFiles(
         name: basename,
         frontmatter,
         inputs,
+        messages,
         prompt: promptFile,
+        originalPrompt: originalPromptFile,
         testOutputs: await workspace.readText(testResults),
+        groundtruthOutputs: await workspace.readText(groundtruthResults),
         intent: await workspace.readText(intent),
         inputSpec: await workspace.readText(inputSpec),
         rules: tidyRulesFile(await workspace.readText(rules)),
         ruleEvals: await workspace.readText(ruleEvals),
         inverseRules: tidyRulesFile(await workspace.readText(inverseRules)),
-        promptPexTests: [],
         tests: await workspace.readText(tests),
-        filteredTests: await workspace.readText(filteredTests),
         rateTests: await workspace.readText(rateTests),
         testData: await workspace.readText(testData),
         testEvals: await workspace.readText(testEvals),
         baselineTests: await workspace.readText(baselineTests),
         ruleCoverages: await workspace.readText(ruleCoverage),
         baselineTestEvals: await workspace.readText(baselineTestEvals),
+        promptPexTests: [],
         metrics,
+        groundtruthMetrics,
         testSamples,
         versions: {
             promptpex: packageJson.version,
             node: process.version,
         },
+        options,
     } satisfies PromptPexContext
 
     if (!disableSafety) await checkPromptSafety(res)
     await checkConfirm("loader")
 
+    res.promptPexTests = parsers.JSON5(res.tests.content) || []
+
     return res
-}
-
-export function updateOutput(
-    dir: string,
-    ctx: PromptPexContext
-): void {
-    ctx.dir = dir
-    dbg(`updating out: ${ctx.dir}`)
-
-    const writeResults = !!ctx.dir
-    ctx.intent = { filename: path.join(dir, "intent.txt"), content: ctx.intent?.content ?? "" };
-    ctx.rules = { filename: path.join(dir, "rules.txt"), content: ctx.rules?.content ?? "" };
-    ctx.inverseRules = { filename: path.join(dir, "inverse_rules.txt"), content: ctx.inverseRules?.content ?? "" };
-    ctx.inputSpec = { filename: path.join(dir, "input_spec.txt"), content: ctx.inputSpec?.content ?? "" };
-    ctx.baselineTests = { filename: path.join(dir, "baseline_tests.txt"), content: ctx.baselineTests?.content ?? "" };
-    ctx.tests = { filename: path.join(dir, "tests.json"), content: ctx.tests?.content ?? "" };
-    ctx.filteredTests = { filename: path.join(dir, "filtered_tests.json"), content: ctx.filteredTests?.content ?? "" };
-    ctx.rateTests = { filename: path.join(dir, "test_collection_review.md"), content: ctx.rateTests?.content ?? "" };
-    ctx.testData = { filename: path.join(dir, "test_data.json"), content: ctx.testData?.content ?? "" };
-    ctx.testOutputs = { filename: path.join(dir, "test_results.json"), content: ctx.testOutputs?.content ?? "" };
-    ctx.testEvals = { filename: path.join(dir, "test_evals.json"), content: ctx.testEvals?.content ?? "" };
-    ctx.baselineTestEvals = { filename: path.join(dir, "baseline_test_evals.json"), content: ctx.baselineTestEvals?.content ?? "" };
-    ctx.ruleEvals = { filename: path.join(dir, "rule_evals.json"), content: ctx.ruleEvals?.content ?? "" };
-    ctx.ruleCoverages = { filename: path.join(dir, "rule_coverage.json"), content: ctx.ruleCoverages?.content ?? "" };
 }
 
 function parseInputs(
@@ -292,11 +343,66 @@ export async function validateFrontmatter(
         frontmatter
     )
     if (res.schemaError) {
-        dbg(`schema error for ${file.filename}`)
-        dbg(`error: %O`, res.schemaError)
-        dbg(`frontmatter: %O`, frontmatter)
+        output.item(file.filename)
+        output.fence(frontmatter, "yaml")
+        output.error(res.schemaError)
         throw new Error(`schema error for ${file.filename}: ${res.schemaError}`)
     }
 
     return frontmatter
+}
+
+async function loadPromptContextFromJSON(
+    file: WorkspaceFile,
+    options: PromptPexOptions
+): Promise<PromptPexContext> {
+    const { out } = options
+    dbg(`loading json...`)
+    const ctx = JSON.parse(file.content) as PromptPexContext
+
+    // name the output directory after the original prompt file name
+    const dir = path.join(out, ctx.name) || path.dirname(file.filename)
+    dbg(`using dir: %s`, dir)
+
+    const ctxFiles = [
+        ctx.intent,
+        ctx.rules,
+        ctx.inverseRules,
+        ctx.inputSpec,
+        ctx.baselineTests,
+        ctx.tests,
+        ctx.rateTests,
+        ctx.testData,
+        ctx.testOutputs,
+        ctx.groundtruthOutputs,
+        ctx.testEvals,
+        ctx.baselineTestEvals,
+        ctx.ruleEvals,
+        ctx.ruleCoverages,
+    ]
+
+    for (const file of ctxFiles) {
+        file.filename = path.join(dir, path.basename(file.filename))
+        dbg(`file: %s`, file.filename)
+    }
+
+    await workspace.writeFiles(ctxFiles.filter((f) => f.content))
+
+    ctx.options = { ...ctx.options, ...options }
+
+    ctx.writeResults = !!out
+    ctx.dir = dir
+    dbg(`out: %O`, ctx.options.out)
+    dbg(`dir: %O`, ctx.dir)
+
+    return ctx
+}
+
+export async function saveContextState(
+    ctx: PromptPexContext,
+    filename: string
+): Promise<void> {
+    const json = JSON.stringify(ctx, null, 2)
+    dbg(`saving context to ${filename}`)
+    await workspace.writeText(filename, json)
 }

@@ -3,7 +3,7 @@ import { evaluateBaselineTests } from "./src/baselinetestseval.mts"
 import { generateInputSpec } from "./src/inputspecgen.mts"
 import { generateIntent } from "./src/intentgen.mts"
 import { outputFile } from "./src/output.mts"
-import { loadPromptContext } from "./src/loaders.mts"
+import { loadPromptContexts } from "./src/loaders.mts"
 import { computeOverview, generateReports } from "./src/reports.mts"
 import { generateOutputRules } from "./src/rulesgen.mts"
 import { evaluateRulesGrounded } from "./src/rulesgroundeness.mts"
@@ -128,7 +128,7 @@ const {
     evals?: boolean
 }
 
-const prompts = await loadPromptContext(files, { disableSafety, out })
+const prompts = await loadPromptContexts(files, { disableSafety, out })
 dbg(`loaded ${prompts.length} prompts`)
 
 if (diagnostics) {

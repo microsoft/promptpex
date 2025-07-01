@@ -104,13 +104,25 @@ export function tidyRulesFile(file: WorkspaceFile) {
     return file
 }
 
+export function parseStrings(v: string | string[]): string[] {
+    if (Array.isArray(v)) return v
+    if (typeof v === "string") {
+        const SPLIT_RX = /\?r\n|;/g
+        return v
+            .split(SPLIT_RX)
+            .map((l) => l.trim())
+            .filter(Boolean)
+    }
+    return []
+}
+
 export function parseRules(rules: string, options?: PromptPexOptions) {
     const { maxRules } = options || {}
     const res = rules
         ? tidyRules(rules)
               .split(/\r?\n/g)
               .map((l) => l.trim())
-              .filter((l) => !!l)
+              .filter(Boolean)
         : []
     return maxRules > 0 ? res.slice(0, maxRules) : res
 }
@@ -127,6 +139,8 @@ export function parseTestResults(
     const rules = parseRules(files.rules.content)
     const res = (parsers.JSON5(files.testOutputs.content) ||
         []) as PromptPexTestResult[]
+    const groundtruthRes = (parsers.JSON5(files.groundtruthOutputs.content) ||
+        []) as PromptPexTestResult[]
     res.forEach((r) => {
         r.inverse =
             r.ruleid !== null && parseInt(r.ruleid as any) > rules.length
@@ -138,6 +152,13 @@ export function parseTestResults(
         )
         if (diagnostics)
             throw new Error(`missing 'model' for test result ${r.id}`)
+    }
+    for (const r of groundtruthRes.filter((r) => !r.error && !r.model)) {
+        output.warn(
+            `missing 'model' for groundtruth test result ${r.id} in ${files.groundtruthOutputs.filename}`
+        )
+        if (diagnostics)
+            throw new Error(`missing 'model' for groundtruth test result ${r.id}`)
     }
     for (const r of res) if (isNaN(r.ruleid)) r.ruleid = null
     return res
