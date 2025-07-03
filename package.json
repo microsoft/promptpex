@@ -116,6 +116,7 @@
         "docker:serve:build": "docker build -f Dockerfile.serve -t promptpex-serve .",
         "docker:serve:run": "docker run --rm -p 8003:8003 promptpex-serve",
         "docker:serve:stop": "docker stop $(docker ps -q --filter ancestor=promptpex-serve) 2>/dev/null || true",
+        "docker:server:msr": "docker run --env-file .promptpex.env -p 8003:8003 ghcr.io/microsoft/promptpex:v0.0.18",
         "ollama": "npm run ollama:stop && npm run ollama:start",
         "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
         "ollama:stop": "docker stop ollama && docker rm ollama",
