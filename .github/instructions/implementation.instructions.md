@@ -79,3 +79,7 @@ It is implemented using [GenAIScript](https://microsoft.github.io/genaiscript/).
 
 **Following the patterns and habits of the the target framework/language you are generating**.
 The reference implementation is a good starting point but you should adapt it to the target framework/language you are generating.
+
+## Instructions
+
+- Add comments in generated code explaining the source of the code in the promptpex specification.

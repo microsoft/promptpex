@@ -25,7 +25,7 @@ IMAGE_NAME="ghcr.io/microsoft/promptpex"
 echo "Building Docker image: $IMAGE_NAME:$NEW_VERSION"
 
 # Build the Docker image with version tag
-docker build -t "$IMAGE_NAME:$NEW_VERSION" .
+docker build -t "$IMAGE_NAME:$NEW_VERSION" . -f Dockerfile.serve
 
 # Tag with major version
 docker tag "$IMAGE_NAME:$NEW_VERSION" "$IMAGE_NAME:$MAJOR"
@@ -40,10 +40,10 @@ docker logout ghcr.io
 echo "✅ Docker image pushed to GHCR: $IMAGE_NAME:$NEW_VERSION and $IMAGE_NAME:$MAJOR"
 
 # Update action.yml with new version
-sed -i "s|image: .*|image: docker://$IMAGE_NAME:$NEW_VERSION|" action.yml
-git add action.yml
-git commit -m "[chore] upgrade image in action.yml"
-git push origin HEAD
+#sed -i "s|image: .*|image: docker://$IMAGE_NAME:$NEW_VERSION|" action.yml
+#git add action.yml
+#git commit -m "[chore] upgrade image in action.yml"
+#git push origin HEAD
 
 # Step 4: Create GitHub release
 gh release create "$NEW_VERSION" --title "$NEW_VERSION" --notes "Patch release $NEW_VERSION"

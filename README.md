@@ -32,6 +32,14 @@ PromptPex provides the following capabilities:
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
 
+## Running PromptPex
+
+The PromptPex tool runs dockerized with this command.
+
+```sh
+docker run -p 8003:8003 ghcr.io/microsoft/promptpex:v0
+```
+
 ## Responsible AI Transparency Note
 
 Please reference [responsible-ai-transparency-note.md](./docs/src/content/docs/responsible-ai-transparency-note.md) for more information.
