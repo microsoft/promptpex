@@ -17,6 +17,9 @@ at runtime, rather than hardcoding them in your codebase.
 
 Whenever possible, use the original `.prompty` files from the `src/prompts` directory.
 
+Always to try to create minimal changes to the existing source code and make sure the generated code is compatible with the existing codebase.
+Make changes in such a way that a developer will be able to understand and review the updates.
+
 ## Phase 1: Test Generation
 
 PromptPex is a test generate framework for prompts. It is made of a graph of LLM transformations that eventually generate a set of
@@ -24,7 +27,7 @@ inputs and expected outputs for a given prompt.
 
 - The core of the framework is documented in [Test Generation](docs/src/content/docs/reference/test-generation.md).
 
-## Phase: Validate Test Generation
+## Phase 2: Validate Test Generation
 
 Once you have implemented the test generation, you should validate it on a prompt.
 
