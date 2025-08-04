@@ -3,19 +3,11 @@
 > Test Generation for Prompts
 
 - [Read the documentation](https://microsoft.github.io/promptpex/)
+- [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
 **Prompts** are an important part of any software project that incorporates
 the power of AI models. As a result, tools to help developers create and maintain
 effective prompts are increasingly important.
-
-- [Prompts Are Programs - ACM Blog Post](https://blog.sigplan.org/2024/10/22/prompts-are-programs/)
-
-**PromptPex** is a tool for exploring and testing AI model prompts. PromptPex is
-intended to be used by developers who have prompts as part of their code base.
-PromptPex treats a prompt as a function and automatically generates test inputs
-to the function to support unit testing.
-
-- [PromptPex technical paper](http://arxiv.org/abs/2503.05070)
 
 <https://github.com/user-attachments/assets/c9198380-3e8d-4a71-91e0-24d6b7018949>
 
@@ -31,6 +23,10 @@ PromptPex provides the following capabilities:
   but fails on phi3.
 - PromptPex uses an LLM to automatically determine whether model outputs meet the specified requirements.
 - Automatically export the generated tests and rule-based evaluations to the OpenAI Evals API.
+
+## Integrations
+
+- [GitHub Models Extension](https://github.com/github/gh-models/releases/tag/v0.0.25)
 
 ## Running PromptPex
 
