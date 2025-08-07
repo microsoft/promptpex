@@ -1,18 +1,17 @@
 {
     "name": "promptpex",
-    "version": "0.0.13",
+    "version": "0.0.18",
     "author": "Microsoft",
     "license": "MIT",
     "description": "PromptPex is a test generator for prompts, that allows evaluating and comparing AI prompts across different models and configurations.",
     "dependencies": {
-        "genaiscript": "^2.2.1",
-        "nanoid": "^5.1.5",
-        "openai": "^5.8.2"
+        "genaiscript": "^2.3.13"
     },
     "devDependencies": {
-        "@types/node": "^24.0.7",
+        "@types/node": "^24.2.0",
+        "openai": "^5.11.0",
         "prettier": "^3.6.2",
-        "zx": "^8.6.0"
+        "zx": "^8.7.2"
     },
     "keywords": [
         "genai",
@@ -95,6 +94,7 @@
         "promptpex:test-st-def:ollama": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\"  --vars \"out=evals/test-st-def\" --env .env.ollama",
         "promptpex:test-st-mingt": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"evalModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:llama3.3\" --vars \"out=evals/test-st-mingt\"",
         "promptpex:test-st-mediumgt": "genaiscript run promptpex \"samples/speech-tag/speech-tag-multi.prompty\"  --vars \"effort=medium\" --vars \"groundtruthModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"evalModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"modelsUnderTest=azure:gpt-4.1-mini_2025-04-14;ollama:llama3.3\" --vars \"out=evals/test-st-mediumgt\"",
+        "promptpex:test-st-min:ollama": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=azure:gpt-4.1-mini_2025-04-14;ollama:llama3.3\" --vars \"out=evals/test-st-min\" --env .env.ollama",
         "promptpex:test-st-min-gen:ollama": "genaiscript run promptpex \"samples/speech-tag/speech-tag.prompty\"  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=azure:gpt-4.1-mini_2025-04-14;ollama:llama3.3\" --vars \"out=evals/test-st-min-gen\" --env .env.ollama",
         "promptpex:test-st-min-run:ollama": "genaiscript run promptpex \"evals/test-st-min-gen/speech-tag/promptpex_context.json\" --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"out=evals/test-st-min-run --env .env.ollama\"",
         "promptpex:test-st-min-eval:ollama": "genaiscript run promptpex \"evals/test-st-min-run/speech-tag/promptpex_context.json\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\" --vars \"evalModel=azure:gpt-4.1-mini_2025-04-14\" --vars \"out=evals/test-st-min-eval\" --env .env.ollama",
@@ -116,6 +116,7 @@
         "docker:serve:build": "docker build -f Dockerfile.serve -t promptpex-serve .",
         "docker:serve:run": "docker run --rm -p 8003:8003 promptpex-serve",
         "docker:serve:stop": "docker stop $(docker ps -q --filter ancestor=promptpex-serve) 2>/dev/null || true",
+        "docker:server:msr": "docker run --env-file .promptpex.env -p 8003:8003 ghcr.io/microsoft/promptpex:v0.0.18",
         "ollama": "npm run ollama:stop && npm run ollama:start",
         "ollama:start": "docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e OLLAMA_FLASH_ATTENTION=1 -e OLLAMA_KV_CACHE_TYPE=q8_0 ollama/ollama",
         "ollama:stop": "docker stop ollama && docker rm ollama",

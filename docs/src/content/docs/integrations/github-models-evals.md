@@ -4,15 +4,15 @@ sidebar:
     order: 28.5
 ---
 
-[GitHub Models](https://github.com/marketplace/models) is a service that allows to run inference through your GitHub 
-subscription. Recently, GitHub Models added support for running evals.
+[GitHub Models](https://github.com/marketplace/models) is a service that allows to run inference through your GitHub
+subscription. PromptPex was integrated as the [generate](https://github.com/github/gh-models/tree/main/cmd/generate) command.
 
-## .prompt.yml support
+## gh models generate
 
-PromptPex supports the GitHub Models `.prompt.yml` prompt format.
+PromptPex is integrated in the [models extension](https://github.com/github/gh-models) for the GitHub CLI.
 
 ```sh
-promptex summarizer.prompt.yml
+gh models generate summarizer.prompt.yml
 ```
 
 ## Install the runner
@@ -23,13 +23,4 @@ promptex summarizer.prompt.yml
 
 ```bash wrap
 gh extension install https://github.com/github/gh-models
-```
-
-## Generated eval file
-
-For each model under test, PromptPex will generate a `.prompt.yml` file that contains the model under test, the test data and the metrics.
-This file can be executed through the `gh models eval` command.
-
-```bash
-gh models eval <modelname>.prompt.yml
 ```

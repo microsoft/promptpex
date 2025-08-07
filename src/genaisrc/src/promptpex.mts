@@ -19,16 +19,14 @@ import { runTests } from "./testrun.mts"
 import { evaluateTestMetrics } from "./testevalmetric.mts"
 import type { PromptPexContext, PromptPexTestResult } from "./types.mts"
 import {
-    MODEL_ALIAS_GROUNDTRUTH,
     MODEL_ALIAS_RULES,
     MODEL_ALIAS_STORE,
     PROMPTPEX_CONTEXT,
 } from "./constants.mts"
 import { evalTestCollection } from "./testcollectioneval.mts"
 import { githubModelsEvalsGenerate } from "./githubmodels.mts"
-import { parse, resolve } from "node:path"
+import { resolve } from "node:path"
 import { saveContextState } from "./loaders.mts"
-import { nanoid } from 'nanoid'
 
 const { output } = env
 const dbg = host.logger("promptpex")
@@ -192,7 +190,8 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (files.promptPexTests?.length) {
         for (const [index, test] of files.promptPexTests.entries()) {
             if (!test.testuid) {
-                files.promptPexTests[index].testuid = `test-${nanoid(8)}`
+                const id = Math.random().toString().slice(-8)
+                files.promptPexTests[index].testuid = `test-${id}`
             }
         }
     }

@@ -29,8 +29,13 @@ const outDir = `evals/test-all-${dateStr}`;
 for (const prompty of promptyFilesAll) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
 
-    await $`npm run promptpex ${prompty} --  --vars \"effort=medium\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\"  --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars "out=${outDir}/${promptyFileBase}"`;
+    await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=ollama:llama3.3\" --env .env.ollama  --vars \"out=${outDir}/${promptyFileBase}\"`;
 }
+
+// uses gp4 models from TRAPI
+//     await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4o_2024-11-20\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=azure:gpt-4o_2024-11-20;ollama:llama3.3\" --env .env.ollama  --vars \"out=${outDir}/${promptyFileBase}\"`;
+
+// await $`npm run promptpex ${prompty} --  --vars \"effort=medium\" --vars \"evals=true\" --vars \"compliance=true\" --vars \"baselineTests=false\"  --vars \"modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars "out=${outDir}/${promptyFileBase}"`;     
 
 //    await $`npm run promptpex ${prompty} -- --vars "splitRules=true" --vars "maxRulesPerTestGeneration=5" --vars "testGenerations=1" --vars "evals=true" --vars"testExpansions=0" --vars "compliance=true" --vars baselineTests=false --vars "modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b" --vars "out=${outDir}/${promptyFileBase}"`;
 
