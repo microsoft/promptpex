@@ -13,6 +13,7 @@ Example:
 """
 
 import os
+import re
 import sys
 import random
 import glob
@@ -108,13 +109,14 @@ def main():
     # Print the selected files in the requested format
     for i, file_path in enumerate(all_selected_files):
         # Extract just the filename for cleaner output
-        filename = os.path.basename(file_path)
+        rel_path = os.path.relpath(file_path)
+        # filename = os.path.basename(file_path)
         if i == len(all_selected_files) - 1:
             # Last file - no comma
-            print(f'"{filename}"')
+            print(f'"{rel_path}"')
         else:
             # Not the last file - include comma
-            print(f'"{filename}",')
+            print(f'"{rel_path}",')
 
 
 if __name__ == "__main__":

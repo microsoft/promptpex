@@ -4,7 +4,7 @@ import { $ } from "zx";
 import path from "path";
 
 // List of 8 .prompty files to substitute for speech-tag.prompty
-const promptyFilesAll = [
+const promptyFilesAll__ = [
     "samples/speech-tag/speech-tag.prompty",
     "samples/text-to-p/text-to-p.prompty",
     "samples/openai-examples/elements.prompty",
@@ -15,10 +15,34 @@ const promptyFilesAll = [
     "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
 ];
 
-const promptyFilesAll_ = [
+const promptyFilesAll = [
 
-    "samples/speech-tag/speech-tag.prompty",
+    // "samples/speech-tag/speech-tag.prompty",
+    "samples/awesome-chatgpt-prompts/recruiter.prompty",
 
+];
+
+const promptyFilesAll___ = [
+//-long "samples/awesome-chatgpt-prompts/scientific_data_visualizer.prompty",
+//+ "samples/awesome-chatgpt-prompts/startup_idea_generator.prompty",
+"samples/awesome-chatgpt-prompts/tea_taster.prompty",
+"samples/awesome-chatgpt-prompts/recruiter.prompty",
+"samples/awesome-chatgpt-prompts/yes_or_no_answer.prompty",
+"samples/awesome-chatgpt-prompts/virtual_fitness_coach.prompty",
+"samples/awesome-chatgpt-prompts/fancy_title_generator.prompty",
+"samples/awesome-chatgpt-prompts/restaurant_owner.prompty",
+"samples/awesome-chatgpt-prompts/prompt_generator.prompty",
+"samples/awesome-chatgpt-prompts/solr_search_engine.prompty",
+"samples/10k-chatbot-prompts/sewing_951_7.prompty",
+"samples/10k-chatbot-prompts/hearing_impairments_124_7.prompty",
+"samples/10k-chatbot-prompts/speaker_identification_595_2.prompty",
+"samples/10k-chatbot-prompts/real_time_analytics_609_2.prompty",
+"samples/10k-chatbot-prompts/housing_market_dynamics_338_1.prompty",
+"samples/10k-chatbot-prompts/bayesian_games_29_7.prompty",
+"samples/10k-chatbot-prompts/canopy_management_298_8.prompty",
+"samples/10k-chatbot-prompts/initial_public_offerings_ipos_70_9.prompty",
+"samples/10k-chatbot-prompts/news_broadcasting_693_9.prompty",
+"samples/10k-chatbot-prompts/bullet_journaling_145_1.prompty"
 ];
 
 // Get current date in YYYY-MM-DD format
@@ -29,8 +53,10 @@ const outDir = `evals/test-all-${dateStr}`;
 for (const prompty of promptyFilesAll) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
 
-    await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=ollama:llama3.3\" --env .env.ollama  --vars \"out=${outDir}/${promptyFileBase}\"`;
+    await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1_2025-04-14\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=true\" --vars \"baselineTests=true\" --vars \"evalModelGroundtruth=azure:gpt-4.1_2025-04-14\" --env .env --vars \"out=${outDir}/${promptyFileBase}\"`;
 }
+
+//  await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4.1_2025-04-14\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=azure:gpt-4.1_2025-04-14\" --env .env --vars \"out=${outDir}/${promptyFileBase}\"`;
 
 // uses gp4 models from TRAPI
 //     await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-4o_2024-11-20\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"evalModelGroundtruth=azure:gpt-4o_2024-11-20;ollama:llama3.3\" --env .env.ollama  --vars \"out=${outDir}/${promptyFileBase}\"`;
