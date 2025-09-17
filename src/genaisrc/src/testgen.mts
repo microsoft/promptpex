@@ -170,6 +170,7 @@ export async function generateTests(
                                             ...t,
                                             scenario: scenario.name,
                                             generation: testGeneration,
+                                            baseline: false,
                                         }))
                                     )
                                 }

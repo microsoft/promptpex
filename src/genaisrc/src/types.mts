@@ -122,6 +122,11 @@ export interface PromptPexBaseOptions extends PromptPexLoaderOptions {
     baselineTests?: boolean
 
     /**
+     * Evaluate the validity and quality of generated tests
+     */
+    testValidity?: boolean
+
+    /**
      * Maximum number of tests to run
      */
     maxTestsToRun?: number

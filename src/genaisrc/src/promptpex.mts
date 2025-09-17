@@ -8,6 +8,9 @@ import { outputFile, outputLines, outputTable } from "./output.mts"
 import { metricName, parseTestResults } from "./parsers.mts"
 import { reportPerf } from "./perf.mts"
 import { expandTests } from "./testexpand.mts"
+import { generateBaselineTests } from "./baselinetestgen.mts"
+import { evaluateTestsQuality } from "./testquality.mts"
+
 import {
     computeOverview,
     generateReports,
@@ -41,10 +44,13 @@ export async function promptpexGenerate(files: PromptPexContext) {
         storeModel,
         testExpansions,
         rateTests,
+        testValidity,
         groundtruth,
         groundtruthModel,
         modelsUnderTest,
         evalModelsGroundtruth,
+        baselineModel,
+        baselineTests,
     } = options
 
     dbg("writeResults: %s", files.writeResults)
@@ -151,6 +157,27 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.heading(3, "Tests")
     await generateTests(files, options)
 
+    // generate baseline tests
+    if (baselineTests) {
+        if (baselineModel?.length) {
+            const resolved = await host.resolveLanguageModel(baselineModel)
+            if (!resolved) throw new Error(`Model ${baselineModel} not found`)
+            output.itemValue(
+                `baseline model`,
+                `${resolved.provider}:${resolved.model}`
+            )
+        } else {
+            cancel("No baseline model defined.")
+        }
+        if (!files.baselineTests.content) {
+            await generateBaselineTests(files, options)
+            files.testEvals.content = undefined
+            files.testOutputs.content = undefined
+        }
+        outputFile(files.baselineTests)
+        await checkConfirm("baseline")
+    }
+
     outputTable(
         files.promptPexTests.map(({ scenario, testinput, reasoning }) => ({
             scenario,
@@ -194,6 +221,26 @@ export async function promptpexGenerate(files: PromptPexContext) {
                 files.promptPexTests[index].testuid = `test-${id}`
             }
         }
+    }
+
+    // test validity and quality evaluation
+    if (testValidity) {
+        output.heading(3, "Test Validity and Quality")
+        const tc = await evaluateTestsQuality(files, {
+            ...(options || {}),
+        })
+        if (tc !== files.testEvals.content) {
+            files.testEvals.content = tc
+            if (files.writeResults) {
+                await workspace.writeText(
+                    files.testEvals.filename,
+                    files.testEvals.content
+                )
+            }
+        }
+        outputFile(files.testEvals)
+        output.detailsFenced(`test evaluations (json)`, tc, "json")
+        await checkConfirm("testValidity")
     }
 
     // After test expansion, before evals

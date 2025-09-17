@@ -228,6 +228,18 @@ promptPex:
             uiType: "runOption",
             uiGroup: "Evaluation",
         },
+        baselineTests: {
+            type: "boolean",
+            description: "Generate baseline tests for comparison",
+            default: false,
+            uiGroup: "Evaluation",
+        },
+        testValidity: {
+            type: "boolean",
+            description: "Evaluate the validity and quality of generated tests",
+            default: false,
+            uiGroup: "Evaluation",
+        },
         maxTestsToRun: {
             type: "number",
             description: "Maximum number of tests to run",
@@ -417,6 +429,8 @@ const {
     inverseOutputRulesInstructions,
     testExpansionInstructions,
     compliance,
+    baselineTests,
+    testValidity,
     baselineModel,
     rulesModel,
     storeCompletions,
@@ -490,7 +504,8 @@ const options: PromptPexOptions = Object.freeze(
         runsPerTest,
         customMetric,
         compliance,
-        baselineTests: false,
+        baselineTests,
+        testValidity,
         modelsUnderTest,
         evalModels,
         evalModelsGroundtruth,
@@ -543,6 +558,7 @@ OPTIONS:
     --vars baselineModel=MODEL                       Model used to generate baseline tests
     --vars modelsUnderTest=MODELS                    List of models to run the prompt again; semi-colon separated
     --vars compliance=true                                Evaluate Test Result compliance (default: false)
+    --vars testValidity=true                              Evaluate the validity and quality of generated tests (default: false)
     --vars maxTestsToRun=INT                         Maximum number of tests to run
     --vars inputSpecInstructions=TEXT                Instructions added to the input specification generation prompt
     --vars outputRulesInstructions=TEXT              Instructions added to the output rules generation prompt

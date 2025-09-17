@@ -221,7 +221,10 @@ export async function loadPromptContext(
     if (!disableSafety) await checkPromptSafety(res)
     await checkConfirm("loader")
 
-    res.promptPexTests = parsers.JSON5(res.tests.content) || []
+    res.promptPexTests = (parsers.JSON5(res.tests.content) || []).map(test => ({
+        ...test,
+        baseline: test.baseline !== undefined ? test.baseline : false
+    }))
 
     return res
 }

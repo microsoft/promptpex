@@ -157,8 +157,8 @@ export function computeOverview(
         "baseline compliant",
         "tests positive",
         "tests positive compliant",
-        "tests negative",
-        "tests negative compliant",
+        // Note: "tests negative" and "tests negative compliant" are kept even when 0
+        // to ensure consistent CSV column structure
         "baseline",
         "tests valid",
         "tests valid compliant",
