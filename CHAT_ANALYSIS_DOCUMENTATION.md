@@ -31,11 +31,11 @@ python3 chat_to_markdown.py simplified_chat.json report.md
 
 ## 📊 simplify_chat.py - Chat Log Analyzer
 
-### Purpose
+### Analyzer Purpose
 
 Extracts and analyzes raw VS Code Copilot chat logs, providing comprehensive metrics on conversations, tool usage, AI performance, and data transfer patterns.
 
-### Input Requirements
+### Analyzer Input Requirements
 
 - **File Type**: Raw VS Code Copilot chat export (JSON)
 - **Structure**: Must contain `requests` array with conversation metadata
@@ -124,7 +124,7 @@ Extracts and analyzes raw VS Code Copilot chat logs, providing comprehensive met
 }
 ```
 
-### Usage Examples
+### Analyzer Usage Examples
 
 ```bash
 # Basic analysis
@@ -136,11 +136,11 @@ cat analysis.json | jq '.mcp_analysis.summary'
 
 ## 📝 chat_to_markdown.py - Report Generator
 
-### Report Generator Purpose
+### Generator Purpose
 
 Converts simplified chat logs into comprehensive, human-readable Markdown reports with executive summaries, performance metrics, and detailed analysis.
 
-### Report Input Requirements
+### Generator Input Requirements
 
 - **File Type**: Simplified chat log JSON (from simplify_chat.py)
 - **Backward Compatibility**: Also accepts raw chat logs (with limited features)
@@ -190,7 +190,7 @@ Converts simplified chat logs into comprehensive, human-readable Markdown report
 - **Sortable Metrics**: Tables sorted by relevance and impact
 - **Executive Dashboard**: Quick insights for managers and developers
 
-### Report Usage Examples
+### Generator Usage Examples
 
 ```bash
 # Generate comprehensive report
@@ -322,119 +322,6 @@ python3 chat_to_markdown.py
 
 ### Integration Opportunities
 
-- **CI/CD Pipelines**: Automated chat log analysis
-- **Monitoring Systems**: Real-time performance tracking
-- **Dashboard Tools**: Integration with BI platforms
-
----
-
-**Version**: 2.0  
-**Authors**: Enhanced for comprehensive chat analysis  
-**License**: Compatible with project licensing  
-**Documentation**: Comprehensive inline documentation included
-
-## 📊 Sample Analysis Results
-
-### Typical Metrics (Example Session)
-- **92 tool calls** across **8 unique tools**
-- **100% success rate** with **29.7s average response time**
-- **946.4 KB total data** processed (109.3 KB input, 837.1 KB output)
-- **Data amplification ratio**: 1:7.7 (tools return 8x more data than input)
-
-### Performance Insights
-- **81% startup efficiency** - Most time spent on initial response
-- **19% processing efficiency** - Quick additional processing
-- **64.4% fast responses** (< 30s), **21.8% moderate** (30-60s), **13.8% slow** (> 60s)
-
-### Tool Efficiency Patterns
-- **semantic_search**: Low input (85B avg), massive output (109KB avg) - Data amplifier
-- **read_file**: Low input (106B avg), high output (16KB avg) - Content retriever  
-- **insert_edit_into_file**: Balanced input/output (1.2KB/2.1KB avg) - Content processor
-
-## 🔧 Technical Requirements
-
-### Dependencies
-- **Python 3.6+** (built-in libraries only)
-- **json** - JSON file processing
-- **collections** - Counter and defaultdict
-- **datetime** - Timestamp formatting
-- **re** - Regular expressions for path extraction
-
-### File Formats
-- **Input**: VS Code Copilot chat export (JSON)
-- **Intermediate**: Simplified analysis data (JSON)
-- **Output**: Comprehensive Markdown reports
-
-### Error Handling
-- File existence validation
-- JSON format validation
-- Required field checking
-- User-friendly error messages
-- Format auto-detection with recommendations
-
-## 📈 Use Cases
-
-### For Developers
-- **Performance Analysis**: Identify slow tool calls and optimization opportunities
-- **Workflow Understanding**: Analyze tool usage patterns and efficiency
-- **Debugging Assistance**: Track tool failures and data flow issues
-
-### For Teams/Managers  
-- **Productivity Metrics**: Measure AI assistant effectiveness and usage
-- **Resource Planning**: Understand data transfer and processing requirements
-- **Success Tracking**: Monitor tool success rates and response times
-
-### For Researchers
-- **AI Model Analysis**: Study response patterns and efficiency metrics
-- **Tool Usage Patterns**: Analyze MCP server utilization and effectiveness
-- **Performance Benchmarking**: Compare different chat sessions and configurations
-
-## 🛠️ Advanced Features
-
-### Data Size Analysis
-- Tracks bytes transferred for each tool call
-- Identifies data-heavy vs data-light operations
-- Calculates tool efficiency ratios
-- Monitors largest transfers for optimization
-
-### AI Performance Metrics
-- Categorizes response patterns (startup speed)
-- Measures efficiency (startup vs processing time)
-- Calculates consistency scores
-- Provides latency classification
-
-### MCP Server Integration
-- Comprehensive tool definitions for major MCP servers
-- Categorizes tools by purpose and functionality
-- Tracks usage patterns by server
-- Analyzes success rates by tool type
-
-## 📋 Best Practices
-
-### Data Collection
-1. Export complete chat sessions from VS Code
-2. Ensure JSON files are valid and complete
-3. Keep raw exports as backup for re-analysis
-
-### Analysis Workflow
-1. Always run `simplify_chat.py` first for comprehensive analysis
-2. Generate multiple report formats as needed
-3. Compare metrics across different sessions
-
-### Report Sharing
-1. Markdown reports are ideal for documentation
-2. JSON data enables programmatic analysis
-3. Share executive summaries for quick insights
-
-## 🚀 Future Enhancements
-
-### Planned Features
-- **Comparative Analysis**: Compare multiple chat sessions
-- **Trend Analysis**: Track performance changes over time
-- **Custom Metrics**: User-defined analysis criteria
-- **Export Formats**: HTML, PDF, and interactive dashboards
-
-### Integration Opportunities
 - **CI/CD Pipelines**: Automated chat log analysis
 - **Monitoring Systems**: Real-time performance tracking
 - **Dashboard Tools**: Integration with BI platforms
