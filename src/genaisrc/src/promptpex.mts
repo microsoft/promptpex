@@ -13,6 +13,7 @@ import { evaluateTestsQuality } from "./testquality.mts"
 
 import {
     computeOverview,
+    computeSeparateOverviews,
     generateReports,
     renderTestResults,
 } from "./reports.mts"
@@ -45,6 +46,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
         testExpansions,
         rateTests,
         testValidity,
+        compliance,
         groundtruth,
         groundtruthModel,
         modelsUnderTest,
@@ -388,14 +390,26 @@ export async function promptpexGenerate(files: PromptPexContext) {
         }
     }
 
-    const { overview } = await computeOverview(files, { percent: true })
-    if (overview.length) {
-        output.heading(3, `Results Overview`)
-        outputTable(overview)
+    // Generate separate overviews for regular and baseline tests
+    const { regularOverview, baselineOverview } = computeSeparateOverviews(files, { percent: true })
+    
+    if (regularOverview.length) {
+        output.heading(3, `Results Overview (Regular Tests)`)
+        outputTable(regularOverview)
         if (files.writeResults)
             await workspace.writeText(
                 path.join(files.dir, "overview.csv"),
-                CSV.stringify(overview, { header: true })
+                CSV.stringify(regularOverview, { header: true })
+            )
+    }
+    
+    if (baselineOverview.length) {
+        output.heading(3, `Results Overview (Baseline Tests)`)
+        outputTable(baselineOverview)
+        if (files.writeResults)
+            await workspace.writeText(
+                path.join(files.dir, "overview-baseline.csv"),
+                CSV.stringify(baselineOverview, { header: true })
             )
     }
 

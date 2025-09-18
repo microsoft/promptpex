@@ -27,10 +27,14 @@ export async function evaluateTestsQuality(
     options?: PromptPexOptions & { force?: boolean }
 ): Promise<string> {
     const { force } = options || {}
-    const tests = parseRulesTests(files.tests.content)
+    // Use promptPexTests which includes both rule-based and baseline tests
+    const tests = files.promptPexTests || parseRulesTests(files.tests.content)
     if (!tests?.length) throw new Error("No tests found")
 
-    console.log(`evaluating quality of ${tests.length} tests`)
+    const ruleBasedTests = tests.filter(t => !t.baseline)
+    const baselineTests = tests.filter(t => t.baseline)
+    console.log(`evaluating quality of ${ruleBasedTests.length} rule-based tests and ${baselineTests.length} baseline tests`)
+    
     const testEvals: PromptPexTestEval[] = []
     for (const test of tests) {
         const testEval = await evaluateTestQuality(files, test, options)
@@ -136,6 +140,8 @@ export async function evaluateTestQuality(
         id,
         promptid,
         model: resCoverage.model,
+        testuid: test.testuid,
+        baseline: test.baseline,
         ...rule,
         input: testInput,
         validityText: resValidity.text,

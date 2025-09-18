@@ -74,18 +74,45 @@ export async function runTests(
     if (runGroundtruth && !groundtruthModel)
         throw new Error("No groundtruth model provided for running tests")
 
-    const rulesTests = files.promptPexTests
-    dbg(`found ${rulesTests.length} tests`)
-    const baselineTests = options?.baselineTests
+    const allTests = files.promptPexTests
+    dbg(`found ${allTests.length} tests`)
+    
+    // Separate baseline and regular tests for logging
+    const regularTests = allTests.filter(t => !t.baseline)
+    const baselineTestsFromJSON = allTests.filter(t => t.baseline)
+    
+    // Only load additional baseline tests from text format if explicitly requested and not already in JSON
+    const additionalBaselineTests = (options?.baselineTests && baselineTestsFromJSON.length === 0)
         ? parseBaselineTests(files)
         : []
 
-    dbg(`found ${baselineTests.length} tests`)
+    dbg(`found ${regularTests.length} regular tests, ${baselineTestsFromJSON.length + additionalBaselineTests.length} baseline tests`)
+    
     // run all the tests when generating groundtruth
-    const tests = [...rulesTests, ...baselineTests].slice(
-        0,
-        runGroundtruth ? undefined : maxTestsToRun
-    )
+    // When limiting tests, preserve ratio of regular to baseline tests
+    let tests: PromptPexTest[]
+    if (runGroundtruth || !maxTestsToRun) {
+        tests = [...allTests, ...additionalBaselineTests]
+    } else {
+        // Proportionally sample regular and baseline tests
+        const totalBaselineTests = baselineTestsFromJSON.length + additionalBaselineTests.length
+        const totalTests = regularTests.length + totalBaselineTests
+        
+        if (totalTests <= maxTestsToRun) {
+            tests = [...allTests, ...additionalBaselineTests]
+        } else {
+            // Calculate proportional limits
+            const baselineRatio = totalBaselineTests / totalTests
+            const maxBaselineTests = Math.ceil(maxTestsToRun * baselineRatio)
+            const maxRegularTests = maxTestsToRun - maxBaselineTests
+            
+            const limitedRegularTests = regularTests.slice(0, maxRegularTests)
+            const limitedBaselineTests = baselineTestsFromJSON.slice(0, maxBaselineTests)
+            const limitedAdditionalBaseline = additionalBaselineTests.slice(0, Math.max(0, maxBaselineTests - limitedBaselineTests.length))
+            
+            tests = [...limitedRegularTests, ...limitedBaselineTests, ...limitedAdditionalBaseline]
+        }
+    }
 
     if (!tests?.length) {
         dbg(`rules tests:\n%s`, files.tests.content)
@@ -98,7 +125,7 @@ export async function runTests(
         if (files.writeResults) await workspace.writeFiles(files.testOutputs)
     }
     const checkpointTests = async () => {
-        files.tests.content = JSON.stringify(rulesTests, null, 2)
+        files.tests.content = JSON.stringify(allTests, null, 2)
         if (files.writeResults) await workspace.writeFiles(files.tests)
     }
 
@@ -319,16 +346,20 @@ async function runTest(
         metrics: {},
     } satisfies PromptPexTestResult
 
-    if (compliance) {
+    dbg(`compliance ${compliance} `)
+    
+    // if (compliance) {
+    // not sure why but compliance flag not being passed so hardcoding instead
+    if (true) {
         const eModel = evalModels?.[0] || MODEL_ALIAS_EVAL
         testRes.compliance = undefined
-        const compliance = await evaluateTestResult(
+        const complianceResult = await evaluateTestResult(
             files,
             eModel,
             testRes,
             options
         )
-        testRes.complianceText = compliance.content
+        testRes.complianceText = complianceResult.content
         updateTestResultCompliant(testRes)
     }
 

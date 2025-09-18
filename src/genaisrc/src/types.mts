@@ -431,6 +431,8 @@ export interface PromptPexTestEval {
     id: string
     promptid: string
     model?: string
+    testuid?: string
+    baseline?: boolean
     rule: string
     inverse?: boolean
     input: string

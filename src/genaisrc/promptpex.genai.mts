@@ -225,7 +225,6 @@ promptPex:
             type: "boolean",
             description: "Evaluate Test Result compliance",
             default: false,
-            uiType: "runOption",
             uiGroup: "Evaluation",
         },
         baselineTests: {

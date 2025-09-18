@@ -157,11 +157,9 @@ export function computeOverview(
         "baseline compliant",
         "tests positive",
         "tests positive compliant",
-        // Note: "tests negative" and "tests negative compliant" are kept even when 0
-        // to ensure consistent CSV column structure
+        // Note: "tests negative", "tests negative compliant", "tests valid", and 
+        // "tests valid compliant" are kept even when 0 to ensure consistent CSV column structure
         "baseline",
-        "tests valid",
-        "tests valid compliant",
     ]
     if (overview.length > 0) {
         for (const col of filterCols) {
@@ -197,6 +195,287 @@ export function computeOverview(
         ruleEvals,
         overview,
     }
+}
+
+export function computeSeparateOverviews(
+    files: PromptPexContext,
+    options?: PromptPexOptions & { percent?: boolean }
+) {
+    const { percent, compliance } = options || {}
+    // only print overview for non-groundtruth test results
+    const allTestResults = parseTestResults(files).filter((r) => !r.isGroundtruth)
+    dbg(`allTestResults: %d`, allTestResults.length)
+    
+    // Separate regular tests (baseline: false) from baseline tests (baseline: true)
+    const regularTestResults = allTestResults.filter((tr) => tr.baseline === false)
+    const baselineTestResults = allTestResults.filter((tr) => tr.baseline === true)
+    
+    dbg(`regularTestResults: %d`, regularTestResults.length)
+    dbg(`baselineTestResults: %d`, baselineTestResults.length)
+    
+    // Generate overview for regular tests
+    const regularOverview = generateOverviewForTests(regularTestResults, files, options)
+    
+    // Generate overview for baseline tests with baseline-specific metrics
+    const baselineOverview = generateBaselineOverview(baselineTestResults, files, options)
+    
+    return {
+        regularOverview,
+        baselineOverview,
+        testResults: allTestResults,
+        testEvals: parseTestEvals(files),
+        rules: parseAllRules(files, options),
+        ruleEvals: parseRuleEvals(files),
+    }
+}
+
+function generateOverviewForTests(
+    testResults: any[],
+    files: PromptPexContext,
+    options?: PromptPexOptions & { percent?: boolean }
+) {
+    const { percent, compliance } = options || {}
+    const testEvals = parseTestEvals(files)
+
+    if (!testResults.length) {
+        return []
+    }
+
+    const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
+    const testResultsPerModelsAndScenario = groupBy(
+        testResults,
+        (result) => `${result.model}:${result.scenario || defaultScenario}`
+    )
+    
+    let overview = Object.entries(testResultsPerModelsAndScenario).map(
+        ([key, results]) => {
+            const { model, scenario, error } = results[0]
+            const tests = results.filter((tr) => !tr.error && tr.rule)
+            const testPositives = tests.filter((tr) => !tr.inverse)
+            const testNegatives = tests.filter((tr) => tr.inverse)
+            const errors =
+                (error ? 1 : 0) + results.filter((tr) => tr.error).length
+            const baseline = results.filter((tr) => !tr.error && !tr.rule)
+            dbg(
+                `${key}: ${tests.length} tests, ${baseline.length} baseline, ${errors} errors`
+            )
+            dbgTests("%O", tests)
+            const norm = (v: number) =>
+                tests.length === 0
+                    ? "--"
+                    : percent
+                      ? Math.round((v / tests.length) * 100) + "%"
+                      : v
+            const bnorm = (v: number) =>
+                baseline.length === 0
+                    ? "--"
+                    : percent
+                      ? Math.round((v / baseline.length) * 100) + "%"
+                      : v
+            return deleteUndefinedOrEmptyValues({
+                model,
+                scenario,
+                errors,
+                tests: tests.length,
+                ["tests compliant"]: norm(
+                    tests.filter((tr) => tr.compliance === "ok").length
+                ),
+                ["tests compliance unknown"]: compliance
+                    ? norm(
+                          tests.filter(
+                              (tr) =>
+                                  tr.compliance !== "ok" &&
+                                  tr.compliance !== "err"
+                          ).length
+                      )
+                    : undefined,
+                ["baseline compliant"]: bnorm(
+                    baseline.filter((tr) => tr.compliance === "ok").length
+                ),
+                ["tests positive"]: testPositives.length,
+                ["tests positive compliant"]: testPositives.filter(
+                    (tr) => tr.compliance === "ok"
+                ).length,
+                ["tests negative"]: testNegatives.length,
+                ["tests negative compliant"]: testNegatives.filter(
+                    (tr) => tr.compliance === "ok"
+                ).length,
+                baseline: baseline.length,
+                ["tests valid"]: tests.filter(
+                    (tr) =>
+                        testEvals.find((te) => te.id === tr.id)?.validity ===
+                        "ok"
+                ).length,
+                ["tests valid compliant"]: tests.filter(
+                    (tr) =>
+                        tr.compliance === "ok" &&
+                        testEvals.find((te) => te.id === tr.id)?.validity ===
+                            "ok"
+                ).length,
+                ...Object.fromEntries(
+                    files.metrics.flatMap((m) => {
+                        const n = metricName(m)
+                        // Fallback to all evalModel keys found in test metrics
+                        const allEvalModels = Array.from(
+                            new Set(
+                                tests.flatMap((t) =>
+                                    Object.keys(t.metrics || {})
+                                        .filter((k) =>
+                                            k.startsWith(n + METRIC_SEPARATOR)
+                                        )
+                                        .map(
+                                            (k) => k.split(METRIC_SEPARATOR)[1]
+                                        )
+                                )
+                            )
+                        )
+                        const evalModels = options.evalModels
+                            ? options.evalModels
+                            : allEvalModels
+                        return evalModels.map((eModel) => {
+                            const metricKey = `${n}${METRIC_SEPARATOR}${eModel}`
+                            const ms = tests
+                                .map((t) => t.metrics?.[metricKey])
+                                .filter((m) => !!m)
+                            const scorer = ms.some((m) => m.score !== undefined && !isNaN(m.score))
+                            return [
+                                metricKey,
+                                scorer
+                                    ? ms.reduce(
+                                          (total, m) => total + (m.score || 0),
+                                          0
+                                      ) / ms.length
+                                    : ms.filter((m) => m.outcome === "ok")
+                                          .length,
+                            ]
+                        })
+                    })
+                ),
+            })
+        }
+    )
+    
+    // Filter columns that are all zero or all '---' for the specified set
+    const filterCols = [
+        "errors",
+        "tests compliant",
+        "tests compliance unknown",
+        "baseline compliant",
+        "tests positive",
+        "tests positive compliant",
+        // Note: "tests negative", "tests negative compliant", "tests valid", and 
+        // "tests valid compliant" are kept even when 0 to ensure consistent CSV column structure
+        "baseline",
+    ]
+    if (overview.length > 0) {
+        for (const col of filterCols) {
+            const allZeroOrDash = overview.every(
+                (row) =>
+                    row[col] === 0 ||
+                    row[col] === "0%" ||
+                    row[col] === "---" ||
+                    row[col] === "--"
+            )
+            if (allZeroOrDash) {
+                for (const row of overview) {
+                    delete row[col]
+                }
+            }
+        }
+    }
+    
+    return overview
+}
+
+function generateBaselineOverview(
+    testResults: any[],
+    files: PromptPexContext,
+    options?: PromptPexOptions & { percent?: boolean }
+) {
+    const { percent } = options || {}
+
+    if (!testResults.length) {
+        return []
+    }
+
+    // Get test evaluations for validity checking
+    const testEvals = parseTestEvals(files)
+
+    const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
+    const testResultsPerModelsAndScenario = groupBy(
+        testResults,
+        (result) => `${result.model}:${result.scenario || defaultScenario}`
+    )
+    
+    let overview = Object.entries(testResultsPerModelsAndScenario).map(
+        ([key, results]) => {
+            const { model, scenario, error } = results[0]
+            // For baseline tests, we treat them as the "tests" since they don't have rules
+            const tests = results.filter((tr) => !tr.error)
+            const errors = (error ? 1 : 0) + results.filter((tr) => tr.error).length
+            
+            dbg(`${key}: ${tests.length} baseline tests, ${errors} errors`)
+            
+            const norm = (v: number) =>
+                tests.length === 0
+                    ? "--"
+                    : percent
+                      ? Math.round((v / tests.length) * 100) + "%"
+                      : v
+            
+            return deleteUndefinedOrEmptyValues({
+                model,
+                scenario,
+                errors,
+                tests: tests.length,
+                // Add tests valid metric for baseline tests
+                ["tests valid"]: tests.filter(
+                    (tr) =>
+                        testEvals.find((te) => te.id === tr.id)?.validity ===
+                        "ok"
+                ).length,
+                // Standard metrics for baseline tests
+                ...Object.fromEntries(
+                    files.metrics.flatMap((m) => {
+                        const n = metricName(m)
+                        const allEvalModels = Array.from(
+                            new Set(
+                                tests.flatMap((t) =>
+                                    Object.keys(t.metrics || {})
+                                        .filter((k) =>
+                                            k.startsWith(n + METRIC_SEPARATOR)
+                                        )
+                                        .map(
+                                            (k) => k.split(METRIC_SEPARATOR)[1]
+                                        )
+                                )
+                            )
+                        )
+                        const evalModels = options?.evalModels || allEvalModels
+                        return evalModels.map((eModel) => {
+                            const metricKey = `${n}${METRIC_SEPARATOR}${eModel}`
+                            const ms = tests
+                                .map((t) => t.metrics?.[metricKey])
+                                .filter((m) => !!m)
+                            const scorer = ms.some((m) => m.score !== undefined && !isNaN(m.score))
+                            return [
+                                metricKey,
+                                scorer
+                                    ? ms.reduce(
+                                          (total, m) => total + (m.score || 0),
+                                          0
+                                      ) / ms.length
+                                    : ms.filter((m) => m.outcome === "ok")
+                                          .length,
+                            ]
+                        })
+                    })
+                ),
+            })
+        }
+    )
+
+    return overview
 }
 
 async function generateMarkdownReport(files: PromptPexContext) {
