@@ -18,6 +18,7 @@ const promptyFilesAll__ = [
 const promptyFilesAll___ = [
     //"samples/awesome-chatgpt-prompts/prompt_generator.prompty",
     "samples/speech-tag/speech-tag.prompty",
+    // "samples/big-prompt-lib/sentence-rewrite.prompty",
     // "samples/awesome-chatgpt-prompts/recruiter.prompty",
 
 ];
@@ -81,8 +82,11 @@ const outDir = `evals/test-all-${dateStr}`;
 for (const prompty of promptyFilesAll) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
 
-    await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=true\" --vars \"testValidity=true\" --vars \"baselineTests=true\" --vars \"baselineModel=ollama:llama3.3\" --vars \"evalModelGroundtruth=ollama:llama3.3\" --env .env --vars \"out=${outDir}/${promptyFileBase}\"`;
+    await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-5_2025-08-07\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen3;ollama:gpt-oss;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=true\" --vars \"testValidity=true\" --vars \"baselineTests=true\" --vars \"baselineModel=azure:gpt-5_2025-08-07\" --vars \"evalModelGroundtruth=azure:o4-mini_2025-04-16\" --env .env-gpt41 --vars \"out=${outDir}/${promptyFileBase}\"`;
 }
+
+// fast local
+// await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=true\" --vars \"testValidity=true\" --vars \"baselineTests=true\" --vars \"baselineModel=ollama:llama3.3\" --vars \"evalModelGroundtruth=ollama:llama3.3\" --env .env --vars \"out=${outDir}/${promptyFileBase}\"`;
 
 // fast turn-around, no trapi
  //   await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=ollama:llama3.3\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b;ollama:llama3.3\" --vars \"compliance=true\" --vars \"testValidity=true\" --vars \"baselineTests=true\" --vars \"baselineModel=ollama:llama3.3\" --vars \"evalModelGroundtruth=ollama:llama3.3\" --env .env --vars \"out=${outDir}/${promptyFileBase}\"`;

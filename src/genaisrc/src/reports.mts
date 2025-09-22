@@ -428,6 +428,10 @@ function generateBaselineOverview(
                 scenario,
                 errors,
                 tests: tests.length,
+                // Add tests compliant metric for baseline tests
+                ["tests compliant"]: norm(
+                    tests.filter((tr) => tr.compliance === "ok").length
+                ),
                 // Add tests valid metric for baseline tests
                 ["tests valid"]: tests.filter(
                     (tr) =>
