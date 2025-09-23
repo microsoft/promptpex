@@ -169,10 +169,10 @@ def main():
         filename = os.path.relpath(file_path)
         if i == len(all_selected_files) - 1:
             # Last file - no comma
-            print(f'"{rel_path}"')
+            print(f'"{filename}"')
         else:
             # Not the last file - include comma
-            print(f'"{rel_path}",')
+            print(f'"{filename}",')
 
 
 if __name__ == "__main__":

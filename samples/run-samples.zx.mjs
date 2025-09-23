@@ -140,6 +140,11 @@ const promptyFilesAll = [
     "samples/text-classification/classify-input-text.prompty",
     "samples/big-prompt-lib/sentence-rewrite.prompty",
     "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
+"big-prompt-library-chatgpt/crewai_assistant_qqtuuwsby.prompty",
+"big-prompt-library-chatgpt/fragrance_finder_deluxe_e9avvjxcw.prompty",
+"big-prompt-library-chatgpt/information_kiosk_building_j6ry5iscb.prompty",
+"big-prompt-library-chatgpt/thread_weaver_krog0f5tg.prompty",
+"big-prompt-library-chatgpt/hurtig_ingeni_r_pgktzdcfk.prompty"
 ];
 
 // Get current date in YYYY-MM-DD format
