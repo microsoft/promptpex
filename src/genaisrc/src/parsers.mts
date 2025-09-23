@@ -214,6 +214,8 @@ export function parseAllRules(
         ...rules.map((rule) => ({ rule, inverse: false })),
         ...inverseRules.map((rule) => ({ rule, inverse: true })),
     ]
+    dbg(`parsed %d rules (%d inverse)`, rules.length, inverseRules.length)
+    dbg(`allRules: %O`, allRules)
     return allRules
 }
 

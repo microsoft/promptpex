@@ -190,22 +190,22 @@ export const TEST_TRAINING_DATASET_RATIO = 0.75
 
 export const EFFORTS: Record<string, Partial<PromptPexOptions>> = {
     min: {
-        splitRules: false,
+        splitRules: true,
         testGenerations: 1,
         testsPerRule: 1,
         runsPerTest: 1,
         testExpansions: 0,
-        maxRules: 6,
+        maxRules: 10,
         maxRulesPerTestGeneration: 100,
-        maxTestsToRun: 10,
-        compliance: false,
+        maxTestsToRun: 50,
+        compliance: true,
     },
     low: {
         testExpansions: 0,
         testGenerations: 1,
         maxRules: 3,
         maxRulesPerTestGeneration: 100,
-        maxTestsToRun: 10,
+        maxTestsToRun: 20,
     },
     medium: {
         testExpansions: 0,
