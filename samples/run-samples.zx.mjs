@@ -131,8 +131,8 @@ const promptyFilesAll____ = [
 "samples/awesome-chatgpt-prompts/screenwriter.prompty",
 ];
 
-const promptyFilesAll = [
-    "samples/speech-tag/speech-tag.prompty",
+const promptyFilesAll_____ = [
+ //   "samples/speech-tag/speech-tag.prompty",
     "samples/text-to-p/text-to-p.prompty",
     "samples/openai-examples/elements.prompty",
     "samples/big-prompt-lib/art-prompt.prompty",
@@ -140,11 +140,20 @@ const promptyFilesAll = [
     "samples/text-classification/classify-input-text.prompty",
     "samples/big-prompt-lib/sentence-rewrite.prompty",
     "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
-"big-prompt-library-chatgpt/crewai_assistant_qqtuuwsby.prompty",
-"big-prompt-library-chatgpt/fragrance_finder_deluxe_e9avvjxcw.prompty",
-"big-prompt-library-chatgpt/information_kiosk_building_j6ry5iscb.prompty",
-"big-prompt-library-chatgpt/thread_weaver_krog0f5tg.prompty",
-"big-prompt-library-chatgpt/hurtig_ingeni_r_pgktzdcfk.prompty"
+"samples/big-prompt-library-chatgpt/crewai_assistant_qqtuuwsby.prompty",
+"samples/big-prompt-library-chatgpt/fragrance_finder_deluxe_e9avvjxcw.prompty",
+"samples/big-prompt-library-chatgpt/information_kiosk_building_j6ry5iscb.prompty",
+"samples/big-prompt-library-chatgpt/thread_weaver_krog0f5tg.prompty",
+"samples/big-prompt-library-chatgpt/hurtig_ingeni_r_pgktzdcfk.prompty"
+];
+
+const promptyFilesAll = [
+        "samples/text-to-p/text-to-p.prompty",
+"samples/big-prompt-library-chatgpt/crewai_assistant_qqtuuwsby.prompty",
+"samples/big-prompt-library-chatgpt/fragrance_finder_deluxe_e9avvjxcw.prompty",
+"samples/big-prompt-library-chatgpt/information_kiosk_building_j6ry5iscb.prompty",
+"samples/big-prompt-library-chatgpt/thread_weaver_krog0f5tg.prompty",
+"samples/big-prompt-library-chatgpt/hurtig_ingeni_r_pgktzdcfk.prompty"
 ];
 
 // Get current date in YYYY-MM-DD format
@@ -156,6 +165,8 @@ const outDir = `evals/test-all-${dateStr}`;
 
 for (const prompty of promptyFilesAll) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
+    console.log(`Running test for ${prompty}`);
+    console.log(`Output directory: ${outDir}/${promptyFileBase}`);
     try {
         await $`npm run promptpex ${prompty} --  --vars \"effort=min\" --vars \"groundtruthModel=azure:gpt-5_2025-08-07\" --vars \"evals=true\" --vars \"modelsUnderTest=ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:gpt-oss;ollama:llama3.2:1b\" --vars \"compliance=true\" --vars \"testValidity=true\" --vars \"baselineTests=true\" --vars \"baselineModel=azure:gpt-5_2025-08-07\" --vars \"evalModelGroundtruth=azure:o4-mini_2025-04-16\" --env .env-gpt41 --vars \"out=${outDir}/${promptyFileBase}\"`;
     } catch (err) {
