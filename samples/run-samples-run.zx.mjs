@@ -23,17 +23,24 @@ const promptyFilesAll = [
 
 // Get current date in YYYY-MM-DD format
 const dateStr = new Date().toISOString().slice(0, 10);
-const outDir = `evals/test-all-${dateStr}`;
+const outDir = `evals/test-runs-1`;
 
 // for (const prompty of promptyFilesAll.slice(0, 1)) {
 
 // generate the set of tests
 for (const prompty of promptyFilesAll) {
     const promptyFileBase = path.basename(prompty, path.extname(prompty));
-    const ctxFile = `${outDir}/${promptyFileBase}/promptpex_context.json`
-    console.log(`Generating tests for ${promptyFileBase}...from  ${ctxFile}`);
+    const ctxFile = `evals/test-gen-1/${promptyFileBase}/${promptyFileBase}/promptpex_context.json`
+    //const ctxFile = `promptpex_context.json`
+    console.log(`Running tests for ${promptyFileBase} ... from  ${ctxFile}`);
+    // copy into current directory
+    await $`cp ${ctxFile} .`
 
-    await $`npm run promptpex ${ctxFile} --  --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:qwen2.5:3b;ollama:llama3.2:1b\" --vars "out=${outDir}/${promptyFileBase}/run"`;
+    try {
+        await $`npm run promptpex promptpex_context.json --  --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:qwen2.5:3b\" --vars "out=${outDir}/${promptyFileBase}"`;
+    } catch (err) {
+        console.error(`Error running evals for ${prompty}:`, err);
+    }    
 }
 
 //    await $`npm run promptpex ${prompty} -- --vars "splitRules=true" --vars "maxRulesPerTestGeneration=5" --vars "testGenerations=1" --vars "evals=true" --vars"testExpansions=0" --vars "compliance=true" --vars baselineTests=false --vars "modelsUnderTest=azure:gpt-4o-mini_2024-07-18;ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:llama3.2:1b" --vars "out=${outDir}/${promptyFileBase}"`;

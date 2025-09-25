@@ -35,7 +35,7 @@ import { saveContextState } from "./loaders.mts"
 const { output } = env
 const dbg = host.logger("promptpex")
 
-export async function promptpexGenerate(files: PromptPexContext) {
+export async function promptpexGenerate(files: PromptPexContext, modelsUnderTest?: string[]) {
     const { name, prompt, options } = files
     const {
         evals,
@@ -49,11 +49,14 @@ export async function promptpexGenerate(files: PromptPexContext) {
         compliance,
         groundtruth,
         groundtruthModel,
-        modelsUnderTest,
+        // modelsUnderTest,
         evalModelsGroundtruth,
         baselineModel,
         baselineTests,
     } = options
+
+
+    dbg(`modelsUnderTest: %O`, modelsUnderTest)
 
     dbg("writeResults: %s", files.writeResults)
 
@@ -88,6 +91,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
             )
         }
     }
+
+
+
 
     if (evals)
         if (evalModels?.length) {
@@ -159,6 +165,7 @@ export async function promptpexGenerate(files: PromptPexContext) {
     output.heading(3, "Tests")
     await generateTests(files, options)
 
+
     // generate baseline tests
     if (baselineTests) {
         if (baselineModel?.length) {
@@ -224,6 +231,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
             }
         }
     }
+
+
+    dbg(`modelsUnderTest: %O`, modelsUnderTest)
 
     // test validity and quality evaluation
     if (testValidity) {
@@ -356,7 +366,9 @@ export async function promptpexGenerate(files: PromptPexContext) {
     if (evals) {
         output.heading(4, `Evaluating Test Results`)
         const originalResults = parseTestResults(files)
-        const results = await runTests(files, options)
+        // unclear you want to run more tests...
+        // const results = await runTests(files, options)
+        const results = []
         // Evaluate metrics for all test results
         for (const testRes of results) {
             const newResult: PromptPexTestResult = await evaluateTestMetrics(

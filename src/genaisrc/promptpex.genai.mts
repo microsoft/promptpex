@@ -414,6 +414,8 @@ user:
 const dbg = host.logger("promptpex:main")
 const { output, vars, files } = env
 
+
+
 initPerf({})
 
 const {
@@ -522,10 +524,26 @@ const options: PromptPexOptions = Object.freeze(
     } satisfies PromptPexOptions)
 )
 
+
 const promptFiles: WorkspaceFile[] = []
 if (promptText)
     promptFiles.push({ filename: "input.prompty", content: promptText })
-for (const file of files) promptFiles.push(file)
+
+dbg(`files: %s`, files)
+
+// Check if files exist before processing them
+for (const file of files) {
+    try {
+        const fileContent = await workspace.readText(file.filename)
+        if (fileContent === undefined) {
+            console.error(`ERROR: File not found: ${file.filename}`)
+            continue
+        }
+        promptFiles.push(file)
+    } catch (error) {
+        console.error(`ERROR: Cannot access file: ${file.filename} - ${error.message}`)
+    }
+}
 const runs = await loadPromptContexts(promptFiles, options)
 if (!runs.length) {
     if (files.length)
@@ -584,6 +602,6 @@ output.detailsFenced(`options`, options, "yaml")
 for (const run of runs) {
     dbg(`file: %s`, run.name)
     dbg(`writeResults: %s`, run.writeResults)
-    await promptpexGenerate(run)
+    await promptpexGenerate(run, modelsUnderTest)
 }
 output.appendContent("\n")
