@@ -82,7 +82,7 @@ const promptyFilesAll_1 = [
 // Get current date in YYYY-MM-DD format
 const dateStr = new Date().toISOString().slice(0, 10);
 
-const testGeneration = "all-2025-09-25";
+const testGeneration = useTestSetup ? "debug" : "all-2025-09-25";
 
 // Select prompty files based on useTestSetup
 // const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_8;

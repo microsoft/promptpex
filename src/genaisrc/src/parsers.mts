@@ -141,9 +141,15 @@ export function parseTestResults(
         []) as PromptPexTestResult[]
     const groundtruthRes = (parsers.JSON5(files.groundtruthOutputs.content) ||
         []) as PromptPexTestResult[]
+    
+    // Get the test data to look up inverse property
+    const tests = files.promptPexTests || []
+    const testLookup = new Map(tests.map(t => [t.testuid, t]))
+    
     res.forEach((r) => {
-        r.inverse =
-            r.ruleid !== null && parseInt(r.ruleid as any) > rules.length
+        // Look up the corresponding test and use its inverse property
+        const relatedTest = testLookup.get(r.testuid)
+        r.inverse = relatedTest?.inverse || false
         r.metrics = r.metrics || {}
     })
     for (const r of res.filter((r) => !r.error && !r.model)) {
@@ -181,7 +187,7 @@ export function cleanBaselineTests(content: string) {
 
 export function parseBaselineTests(files: PromptPexContext): PromptPexTest[] {
     const tests = cleanBaselineTests(files.baselineTests.content).map(
-        (l) => ({ testinput: l, baseline: true }) satisfies PromptPexTest
+        (l) => ({ testinput: l, baseline: true, inverse: false }) satisfies PromptPexTest
     )
     return tests
 }

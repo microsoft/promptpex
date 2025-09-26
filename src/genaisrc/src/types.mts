@@ -365,6 +365,10 @@ export interface PromptPexTest {
      */
     baseline?: boolean
     /**
+     * Generated from inverse rules
+     */
+    inverse?: boolean
+    /**
      * Model used to generate the groundtruth
      */
     groundtruthModel?: string

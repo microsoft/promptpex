@@ -61,7 +61,8 @@ export async function generateBaselineTests(
         scenario: "",
         generation: 0,
         testuid: `baseline-test-${Math.random().toString(36).substr(2, 9)}`,
-        baseline: true
+        baseline: true,
+        inverse: false // baseline tests are not inverse tests
     }))
     
     // Merge with existing tests
