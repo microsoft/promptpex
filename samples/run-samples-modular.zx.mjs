@@ -59,6 +59,19 @@ const promptyFilesAll_full = [
     "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
 ];
 
+const promptyFilesAll_Sept26 = [
+"samples/awesome-chatgpt-prompts/architect_guide_for_programmers.prompty",
+"samples/awesome-chatgpt-prompts/unconstrained_ai_model_dan.prompty",
+"samples/awesome-chatgpt-prompts/idea_clarifier_gpt.prompty",
+"samples/awesome-chatgpt-prompts/structured_iterative_reasoning_protocol_sirp.prompty",
+"samples/awesome-chatgpt-prompts/tech_challenged_customer.prompty",
+
+"samples/big-prompt-library-gemini/learning_coach.prompty",
+"samples/big-prompt-library-gemini/writing_editor.prompty",
+"samples/big-prompt-library-gemini/coding_partner.prompty",
+"samples/big-prompt-library-gemini/brainstormer.prompty",
+"samples/big-prompt-library-gemini/career_guide.prompty"
+];
 
 const promptyFilesAll_1 = [
 
@@ -69,12 +82,12 @@ const promptyFilesAll_1 = [
 // Get current date in YYYY-MM-DD format
 const dateStr = new Date().toISOString().slice(0, 10);
 
-const testGeneration = "all-2025-09-24";
+const testGeneration = "all-2025-09-25";
 
 // Select prompty files based on useTestSetup
 // const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_8;
 // const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_1;
-const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_full;
+const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_Sept26;
 
 console.log("=== Settings ===");
 console.log(`useTestSetup: ${useTestSetup}`);
@@ -139,7 +152,7 @@ if (phase === 'run' || phase === 'all') {
             } else {
                 const modelsUnderTest="ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:gpt-oss;ollama:llama3.2:1b"
                 console.log(`Running tests for ${promptyFileBase} with production models (${modelsUnderTest})`);
-                await $`npm run promptpex promptpex_context.json -- --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:gpt-oss;ollama:llama3.2:1b\" --vars \"out=${outDirR}/${promptyFileBase}\"`;
+                await $`npm run promptpex promptpex_context.json -- --vars \"evals=false\" --vars \"compliance=false\" --vars \"baselineTests=false\" --vars \"modelsUnderTest=ollama:gemma2:9b;ollama:qwen2.5:3b;ollama:gpt-oss;ollama:llama3.2:1b\" --vars \"maxTestsToRun=50\" --vars \"runsPerTest=1\" --vars \"out=${outDirR}/${promptyFileBase}\"`;
             }
         } catch (err) {
             console.error(`Error running tests for ${prompty}:`, err);

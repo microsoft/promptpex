@@ -46,6 +46,7 @@ export function computeOverview(
         ([key, results]) => {
             const { model, scenario, error } = results[0]
             const tests = results.filter((tr) => !tr.error && tr.rule)
+            const allTests = results
             const testPositives = tests.filter((tr) => !tr.inverse)
             const testNegatives = tests.filter((tr) => tr.inverse)
             const errors =
@@ -237,25 +238,32 @@ function generateOverviewForTests(
     const { percent, compliance } = options || {}
     const testEvals = parseTestEvals(files)
 
+    dbg(`item = ${testResults.length}`)
     if (!testResults.length) {
         return []
     }
 
     const defaultScenario = testResults.find((tr) => tr.scenario)?.scenario
+ 
     const testResultsPerModelsAndScenario = groupBy(
         testResults,
         (result) => `${result.model}:${result.scenario || defaultScenario}`
     )
     
+    //dbg(`testResultsPerModelsAndScenario keys: ${Object.keys(testResultsPerModelsAndScenario)}`)
+    //dbg(`testResultsPerModelsAndScenario:`, testResultsPerModelsAndScenario)
+    dbg(`item = ${testResults[0]}`)
     let overview = Object.entries(testResultsPerModelsAndScenario).map(
         ([key, results]) => {
             const { model, scenario, error } = results[0]
-            const tests = results.filter((tr) => !tr.error && tr.rule)
+            const allTests = results
+            // const tests = results.filter((tr) => !tr.error && tr.rule)
+            const tests = results
             const testPositives = tests.filter((tr) => !tr.inverse)
             const testNegatives = tests.filter((tr) => tr.inverse)
             const errors =
                 (error ? 1 : 0) + results.filter((tr) => tr.error).length
-            const baseline = results.filter((tr) => !tr.error && !tr.rule)
+            const baseline = results.filter((tr) => !tr.baseline)
             dbg(
                 `${key}: ${tests.length} tests, ${baseline.length} baseline, ${errors} errors`
             )

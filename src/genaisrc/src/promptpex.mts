@@ -55,7 +55,6 @@ export async function promptpexGenerate(files: PromptPexContext, modelsUnderTest
         baselineTests,
     } = options
 
-
     dbg(`modelsUnderTest: %O`, modelsUnderTest)
 
     dbg("writeResults: %s", files.writeResults)
@@ -370,7 +369,7 @@ export async function promptpexGenerate(files: PromptPexContext, modelsUnderTest
         // const results = await runTests(files, options)
         const results = []
         // Evaluate metrics for all test results
-        for (const testRes of results) {
+        for (const testRes of originalResults) {
             const newResult: PromptPexTestResult = await evaluateTestMetrics(
                 testRes,
                 files,
