@@ -73,21 +73,49 @@ const promptyFilesAll_Sept26 = [
 "samples/big-prompt-library-gemini/career_guide.prompty"
 ];
 
+// rerun original samples with more tests, balanced rule/inverse rules
+const promptyFilesAll_Sept29 = [
+    "samples/speech-tag/speech-tag.prompty",
+    "samples/text-to-p/text-to-p.prompty",
+    "samples/openai-examples/elements.prompty",
+    "samples/big-prompt-lib/art-prompt.prompty",
+    "samples/prompt-guide/extract-names.prompty",
+    "samples/text-classification/classify-input-text.prompty",
+    "samples/big-prompt-lib/sentence-rewrite.prompty",
+    "samples/azure-ai-studio/shakespearean-writing-assistant.prompty",
+
+"samples/awesome-chatgpt-prompts/synonym_finder.prompty",
+"samples/awesome-chatgpt-prompts/instructor_in_a_school.prompty",
+
+"samples/big-prompt-library-chatgpt/dev_helper_upyxwdlcg.prompty",
+"samples/big-prompt-library-chatgpt/url_to_business_plan_a3znu5fsn.prompty",
+"samples/big-prompt-library-chatgpt/prompt_creator_8ope0amfj.prompty"
+];
+
+const promptyFilesAll_Sept29new = [
+"samples/awesome-chatgpt-prompts/synonym_finder.prompty",
+"samples/awesome-chatgpt-prompts/instructor_in_a_school.prompty",
+
+"samples/big-prompt-library-chatgpt/dev_helper_upyxwdlcg.prompty",
+"samples/big-prompt-library-chatgpt/url_to_business_plan_a3znu5fsn.prompty",
+"samples/big-prompt-library-chatgpt/prompt_creator_8ope0amfj.prompty"
+];
+
 const promptyFilesAll_1 = [
 
-    "samples/speech-tag/speech-tag.prompty",
+    "samples/openai-examples/elements.prompty",
 
 ];
 
 // Get current date in YYYY-MM-DD format
 const dateStr = new Date().toISOString().slice(0, 10);
 
-const testGeneration = useTestSetup ? "debug" : "all-2025-09-25";
+const testGeneration = useTestSetup ? "debug" : "all-2025-09-29";
 
 // Select prompty files based on useTestSetup
 // const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_8;
 // const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_1;
-const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_Sept26;
+const promptyFilesAll = useTestSetup ? promptyFilesAll_1 : promptyFilesAll_Sept29;
 
 console.log("=== Settings ===");
 console.log(`useTestSetup: ${useTestSetup}`);
