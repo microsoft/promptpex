@@ -1,0 +1,11 @@
+At least one top-level node must not be a <p> element, and there must be top-level text outside of any <p> (e.g., a leading BOM or trailing whitespace), with a non-<p> element such as <div> or <script> appearing at the top level.
+The output must contain fewer than three <p> elements—specifically exactly two—and at least one <p> must be nested inside another <p>.
+At least one <p> element must contain zero <strong> descendants, and at least one other <p> element must contain two or more <strong> descendants.
+Every <p> element must have at most one <em> descendant, and at least one <p> must have no <em> descendants at all.
+At least one <strong> element must have no visible text, containing only spaces/tabs/newlines or only zero-width characters, and another <strong> may be completely empty.
+At least one <em> element must have no visible text, containing only spaces/tabs/newlines or only zero-width characters, and another <em> may be completely empty.
+The total number of <strong> elements must be strictly less than the total number of <p> elements, differing by at least one.
+The total number of <em> elements must be strictly less than twice the total number of <p> elements and may be zero even when <p> elements are present.
+At least one tag must be improperly nested or unclosed, including an overlapping pair like <em><strong></em></strong> and a <p> whose closing tag is missing.
+At least one <p>, <strong>, or <em> element must use self-closing syntax such as <p/>, <strong/>, or <em/>.
+The output must include Markdown code fences or formatting markers (e.g., ``` or **), and may include non-HTML explanatory text outside of any HTML elements.

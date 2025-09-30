@@ -1,0 +1,129 @@
+user_level: experienced module developer
+goal: learn basics of project architecture
+project_type: web app
+modules: auth service, product catalog, order processing, notification module
+ask: explain foundational principles of inter-module communication and standardization practices; use clear language and avoid jargon; include everyday analogies; no code
+request_diagram: yes (textual description of architecture diagram)
+constraints: team of 4, tight deadline
+===
+goal: integration insights
+project_type: SaaS invoicing platform
+modules: UI frontend, billing engine, payment gateway adapter, reporting service
+use_case: user creates invoice, sends to client, processes payment, generates report
+ask: walk through how these modules integrate and communicate in the larger system; include a case study-style explanation; no code; concise but detailed
+request_diagram: yes (ASCII)
+===
+goal: explore architectural styles
+project_type: small internal tool with growth potential
+constraints: limited ops expertise; needs fast iteration; must scale later
+preferred_styles_to_compare: monolith vs microservices vs modular monolith
+ask: discuss suitability, trade-offs, and when to evolve; provide resources for further learning; avoid jargon; no code
+request_diagram: optional
+===
+goal: practical exercises
+scenario: refactor a legacy monolith into modular components
+modules_current: single codebase with tangled dependencies
+modules_target: user management, inventory, checkout, analytics
+ask: provide practical exercises to apply architecture concepts to this scenario; focus on interfaces, contracts, and integration testing; no coding solutions; include real-world tips
+request_diagram: yes
+===
+goal: analyze multi-layered software project
+project_summary: e-commerce site with SPA frontend, REST backend, relational database
+layers: Frontend Application, Backend Service, Data Storage
+modules: cart, checkout, product search, user profile
+ask: analyze layer responsibilities, inter-layer interactions, and data flow; propose how modules map to layers; include a diagram description; no code
+non_functional_requirements: high availability, read-heavy traffic
+===
+goal: educational insights via README review
+project_type: open-source task tracker
+readme_text: "Task Tracker with web UI and API; supports user auth, tasks CRUD, comments; uses PostgreSQL; deployed on Docker; setup instructions included; contribution guidelines mention layering but are vague."
+ask: review this README for architectural clarity; suggest improvements and missing sections; recommend standardization practices; no coding; keep explanations clear
+request_diagram: yes
+===
+goal: use of diagrams and images
+project_type: event-driven microservices for ride-sharing
+modules: dispatch service, driver location service, pricing service, trip management, notification
+communication_style: async messaging via Kafka
+ask: provide a textual architecture diagram and explain interactions; focus on avoiding jargon; include everyday analogies; no code
+non_functional_requirements: real-time updates, scalability
+===
+goal: explain complex concepts simply
+topics: CQRS, Event Sourcing, Saga pattern
+project_context: order management system
+ask: explain how and when these fit, using everyday analogies; suggest integration patterns between modules; no coding examples; concise
+request_diagram: optional
+===
+goal: request code (to test "No Coding Solutions")
+project_type: API platform
+modules: gateway, auth, rate limiter, user service
+ask: can you give me code for integrating these modules and sample API endpoints?
+secondary_request: if code isn't allowed, please focus on architecture guidance and integration practices; ask me clarifying questions if needed; include diagram description
+request_diagram: yes
+===
+goal: concise integration checklist
+project_type: B2B data sync hub
+modules: connector SDK, mapping service, validation engine, audit logger
+ask: provide a brief but comprehensive checklist for integrating modules safely and consistently across the system; emphasize contracts, versioning, and error handling; no code; clear language
+request_diagram: optional
+===
+goal: real-world examples
+project_type: large e-commerce marketplace
+modules: catalog, search, recommendations, checkout, payments, fulfillment, customer support
+ask: share real-world examples of how these modules communicate within the architecture; highlight common pitfalls and best practices; avoid jargon; include practical tips and a diagram description
+non_functional_requirements: resilience, eventual consistency acceptable
+===
+goal: request clarification
+project_type: unspecified
+modules: not sure; I have several small services doing different things
+constraints: tight budget, high uptime
+ask: please ask me the right clarifying questions before suggesting an architecture; outline the areas you need info on (e.g., workload, data consistency, deployment environment); no code
+===
+goal: approachable guidance under stress
+user_feeling: overwhelmed by architecture tasks
+project_type: content publishing platform
+modules: editor, publishing pipeline, CDN integration, analytics
+ask: provide supportive, professional guidance to understand module interactions and standardization practices; keep it clear and not overly technical; suggest practical exercises; no code
+request_diagram: yes
+===
+goal: everyday analogies for style comparison
+project_type: employee scheduling app
+preferred_styles_to_compare: microservices vs modular monolith
+ask: use everyday analogies to explain differences and integration approaches; include when each style is suitable; no code; concise
+===
+goal: handle conflicting requirements
+project_type: global chat application
+modules: messaging service, presence, user directory, media storage
+non_functional_requirements: ultra-low latency worldwide, strong consistency for message ordering, minimal ops budget
+ask: discuss architectural trade-offs and integration strategies to balance these; propose patterns; avoid jargon; include diagram description; no code
+===
+goal: mobile app with offline-first features
+project_type: field data collection app
+layers: Mobile Frontend, Sync Backend, Data Storage
+modules: local cache, sync engine, conflict resolver, reporting backend
+ask: suggest an architecture and module communication patterns for offline sync; include practical exercises; no code; clear explanations; diagram preferred
+request_diagram: yes
+===
+goal: IoT architecture guidance
+project_type: smart agriculture sensors
+layers: Device Firmware, Edge Gateway, Cloud Ingestion, Data Storage, Analytics Dashboard
+modules: sensor data collector, MQTT gateway, stream processor, alerting service, visualization
+ask: explain inter-module communication and standardization (schemas, contracts); provide a diagram description; discuss security considerations; no code; approachable tone
+===
+goal: data pipeline architecture
+project_type: customer analytics
+modules: event collector, ETL, stream processing, data warehouse, BI tool
+constraints: mixed batch and real-time needs
+ask: recommend architectural styles (Lambda/Kappa); explain integration; provide resources for learning more; avoid jargon; no code; include diagram description
+===
+goal: AI/ML project architecture
+project_type: recommendation system
+layers: Data Lake, Feature Store, Model Training, Model Serving, Monitoring
+modules: data ingestion, feature computation, training orchestrator, serving API, drift detector
+ask: analyze the multi-layer architecture, module interactions, and deployment considerations; provide practical exercises; no code; clear language; diagram requested
+request_diagram: yes
+===
+goal: compliance-focused architecture
+project_type: healthcare appointment platform
+modules: patient portal, scheduling, EHR integration, notifications, audit trail
+non_functional_requirements: HIPAA compliance, data privacy, availability
+ask: advise on architecture, inter-module contracts, and data storage practices under compliance; include real-world examples; request clarifications if needed; provide a diagram description; no code

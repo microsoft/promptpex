@@ -1,0 +1,14 @@
+The response must not be a JSON array literal and should include extra commentary or markup outside any brackets, ideally prefixed by a Unicode BOM.
+A JSON array is defined here as optionally omitting the leading "[" and trailing "]", with elements separated by spaces or semicolons, and trailing commas allowed.
+The array must be empty and contain zero elements in all scenarios, including edge cases.
+No element may be a double-quoted JSON string; if strings appear they must use single or curly quotes, or be unquoted barewords instead.
+JSON strings need not be surrounded by double quotes and may include unescaped quotation marks and control characters such as tabs or newlines.
+String elements may be empty and may include leading or trailing whitespace inside the quotes.
+The array must contain non-string types (numbers, booleans, null, objects, or nested arrays), and plain strings are disallowed.
+The placeholder NA is defined as a non-string sentinel (e.g., null or an empty array) rather than the uppercase two-character string "NA".
+If the placeholder NA is used, the array must not be exactly ["NA"]; it should include additional elements such as multiple "NA" entries or mixed types.
+If the array contains any element other than "NA", the string "NA" must appear at least once somewhere in the array.
+The response must include Markdown code fences, labels, and explanatory prose such as "Answer:" or "Abstract:".
+The JSON array may be syntactically invalid, permitting commas outside element boundaries, trailing commas, mismatched brackets or quotes, and inline comments.
+There must be leading and trailing whitespace or newlines before the opening "[" and after the closing "]", and extraneous characters are acceptable.
+When returning model names, multiple names should be combined into a single string element using delimiters (e.g., commas or pipes) rather than separate elements.

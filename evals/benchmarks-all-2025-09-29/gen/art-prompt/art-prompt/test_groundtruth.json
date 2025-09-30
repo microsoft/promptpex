@@ -1,0 +1,882 @@
+[
+  {
+    "id": "ef3f3ec",
+    "promptid": "97ee177",
+    "ruleid": 1,
+    "rule": "The response is a single paragraph, defined as one continuous block of text with no newline characters or blank lines.",
+    "inverse": false,
+    "testuid": "test-49320806",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A red-haired violinist in a flowing blue dress; timing: dusk; lighting: warm lantern glow, soft shadows; background: rain-slick cobblestone street in Prague, blurred tram lights; mood: wistful serenity",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A red-haired violinist in a flowing blue dress; timing: dusk; lighting: warm lantern glow, soft shadows; background: rain-slick cobblestone street in Prague, blurred tram lights; mood: wistful serenity",
+    "output": "A red-haired violinist in a flowing blue dress, loose curls and delicate freckles, bow poised over gleaming strings, eyes downcast. At dusk, she is bathed in warm lantern glow that paints soft, long shadows. Behind her, a rain-slick cobblestone street in Prague gleams; distant tram lights blur into luminous streaks. The image should evoke wistful serenity, a quiet hush between notes and memories.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "One paragraph covering subject, lighting, background, and feeling, under 80 words.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "dec0bb0",
+    "promptid": "97ee177",
+    "ruleid": 2,
+    "rule": "The response contains no more than 80 words, where a word is a sequence of non-space characters separated by whitespace.",
+    "inverse": false,
+    "testuid": "test-22265042",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: Three mountaineers in scarlet jackets, frost-dusted beards, and mirrored goggles; timing: pre-dawn winter; lighting: faint blue hour rim light and headlamp beams; background: jagged granite ridge, spindrift gusts, distant glacier and town lights; mood: tense resolve",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: Three mountaineers in scarlet jackets, frost-dusted beards, and mirrored goggles; timing: pre-dawn winter; lighting: faint blue hour rim light and headlamp beams; background: jagged granite ridge, spindrift gusts, distant glacier and town lights; mood: tense resolve",
+    "output": "Three mountaineers in scarlet jackets, frost-dusted beards, mirrored goggles, ice-crusted packs, roped together, lean into the wind. A low-angle composition frames them. Pre-dawn winter, faint blue-hour rim light kisses their edges while piercing headlamp beams carve through swirling snow. Behind them, a jagged granite ridge looms, spindrift gusts streaming, with a distant glacier and twinkling town lights below. The image should feel taut with grit and tense resolve.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear structure: subjects, lighting, background, feeling; single paragraph under 80 words.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "16e3fe4",
+    "promptid": "97ee177",
+    "ruleid": 3,
+    "rule": "The response is written entirely in English and contains no non-English sentences, emojis, or non-Latin scripts.",
+    "inverse": false,
+    "testuid": "test-57444263",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A Parisian baker with flour-dusted apron; timing: morning; lighting: soft window light; background: shop window with bonjour sign and a bright こんにちは neon; mood: cozy welcome",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A Parisian baker with flour-dusted apron; timing: morning; lighting: soft window light; background: shop window with bonjour sign and a bright こんにちは neon; mood: cozy welcome",
+    "output": "Parisian baker in a flour-dusted apron, warm smile, hands shaping fresh baguettes behind the counter. Morning scene bathed in soft window light with gentle shadows and a mild golden glow. Through the glass, a charming shop window shows a handwritten \"bonjour\" sign and a bright \"こんにちは\" neon, with reflections of cobblestones and stacked pastries. Colors muted and creamy, steam rising subtly. The image should evoke a cozy welcome, intimate, inviting, and tenderly authentic.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"Contains Japanese script and newlines\"}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words, covers subject, lighting, background, and feeling as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8bac628",
+    "promptid": "97ee177",
+    "ruleid": 4,
+    "rule": "The paragraph begins by naming the primary subject or subjects, defined as the main people, animals, objects, or scenes depicted, and immediately states at least one visual characteristic for each primary subject such as appearance, pose, attire, color, or expression.",
+    "inverse": false,
+    "testuid": "test-51195376",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A silver-haired woman in a crimson trench coat and a black Labrador wearing a plaid bandana; timing: autumn afternoon; lighting: low angled golden light; background: tree-lined city park with crisp fallen leaves; mood: calm companionship",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A silver-haired woman in a crimson trench coat and a black Labrador wearing a plaid bandana; timing: autumn afternoon; lighting: low angled golden light; background: tree-lined city park with crisp fallen leaves; mood: calm companionship",
+    "output": "A silver-haired woman in a tailored crimson trench coat walking beside a glossy black Labrador in a tartan plaid bandana, leash loose, gentle smiles. Captured on an autumn afternoon in low-angled golden light that rims hair and fur, casting long, soft shadows. A tree-lined city park, pathways edged with crisp fallen leaves, distant benches, muted skyline peeking through branches. Evokes calm companionship, warmth, and quiet trust.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Structured correctly: subjects, lighting, background, emotion; single paragraph under 80 words in English.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0db0c9a",
+    "promptid": "97ee177",
+    "ruleid": 5,
+    "rule": "After the subject description and before any background description, the paragraph specifies the timing and lighting, where timing refers to time of day, season, or temporal context and lighting refers to the quality, direction, or source of light.",
+    "inverse": false,
+    "testuid": "test-72188732",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A scarred pirate captain in a weathered leather coat; timing: midnight; lighting: moonlight from starboard, lantern flicker; background: creaking deck, frothing black sea, distant lighthouse; mood: ominous bravado",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A scarred pirate captain in a weathered leather coat; timing: midnight; lighting: moonlight from starboard, lantern flicker; background: creaking deck, frothing black sea, distant lighthouse; mood: ominous bravado",
+    "output": "A scarred pirate captain in a weathered leather coat, salt-stiff tricorn, braided beard, and ringed hands grips a barnacled cutlass, eyes narrowed with seasoned menace. Midnight; moonlight knifes in from starboard while a swaying lantern throws warm flicker and long, ragged shadows. The creaking deck slick with spray meets a frothing black sea; ropes snap, and a distant lighthouse sweeps pale beams. The mood is ominous bravado—defiant, storm-bent tension and unshakable command.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words in English with subject, lighting, background, mood—complies exactly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c5b3c96",
+    "promptid": "97ee177",
+    "ruleid": 6,
+    "rule": "The paragraph then describes the background, defined as the environment or setting behind or around the subjects, after the timing and lighting details.",
+    "inverse": false,
+    "testuid": "test-82223169",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A barefoot ballet dancer in a white tulle dress; timing: dawn; lighting: cool side light, long soft shadows; background: empty subway platform with peeling tiles and flickering signage; mood: quiet resilience",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A barefoot ballet dancer in a white tulle dress; timing: dawn; lighting: cool side light, long soft shadows; background: empty subway platform with peeling tiles and flickering signage; mood: quiet resilience",
+    "output": "A barefoot ballet dancer in a white tulle dress holds a poised arabesque, tendons and tulle catching subtle movement, hair loose and damp from morning air. It is dawn, with cool side light carving contours and casting long, soft shadows across the platform. The background is an empty subway platform, peeling tiles, worn yellow safety line, and flickering signage humming overhead. The image should evoke quiet resilience—fragile grace set against grit, endurance whispered through stillness.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements perfectly.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets single paragraph under 80 words, English, starts with subject, then lighting, background, and feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8d24323",
+    "promptid": "97ee177",
+    "ruleid": 7,
+    "rule": "The paragraph ends with an explicit statement of the intended mood or feeling the image should evoke, placed as the final clause or sentence of the paragraph.",
+    "inverse": false,
+    "testuid": "test-30715174",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: Two astronauts in scuffed white suits, visors up showing weary faces; timing: golden hour on Mars; lighting: low sun creating crimson rim light; background: dusty habitat modules and tracks across rippled regolith; mood: hopeful endurance",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: Two astronauts in scuffed white suits, visors up showing weary faces; timing: golden hour on Mars; lighting: low sun creating crimson rim light; background: dusty habitat modules and tracks across rippled regolith; mood: hopeful endurance",
+    "output": "Two astronauts in scuffed white suits, visors raised revealing weary, dust‑streaked faces, stand shoulder to shoulder. It’s golden hour on Mars, a low sun carving crimson rim light along their edges, casting long shadows. Behind them, dusty habitat modules, antennae, and rover tracks snake across rippled regolith beneath a thin, hazy sky; fine dust swirls softly. The image should evoke hopeful endurance, quiet resilience, and steady determination after hardship.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Line breaks present\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets all requirements: under 80 words, single paragraph, proper order and feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "99d296c",
+    "promptid": "97ee177",
+    "ruleid": 8,
+    "rule": "The response contains only the descriptive prompt content and does not include headings, labels, lists, numbered items, quotations, code formatting, or meta-commentary about the prompt or instructions.",
+    "inverse": false,
+    "testuid": "test-49485823",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: One camera-shy teenager in a vintage denim jacket; timing: late afternoon; lighting: backlit sun flares; background: suburban cul-de-sac with parked bicycles and chalk drawings; mood: tender shyness",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: One camera-shy teenager in a vintage denim jacket; timing: late afternoon; lighting: backlit sun flares; background: suburban cul-de-sac with parked bicycles and chalk drawings; mood: tender shyness",
+    "output": "Camera-shy teenager in a vintage denim jacket, head slightly turned, eyes downcast, hands tucked in pockets, scuffed sneakers, soft curls catching light. Late afternoon golden hour with backlit sun flares, warm rim lighting and subtle lens flare. Suburban cul-de-sac backdrop: parked bicycles, pastel chalk drawings on asphalt, trimmed lawns, distant mailboxes, shallow depth of field. The image should feel tender and nostalgic, capturing quiet shyness with gentle warmth and intimate, understated vulnerability.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Well-structured single paragraph under 80 words, with subjects, lighting, background, and feeling clearly presented.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e3a8b04",
+    "promptid": "97ee177",
+    "ruleid": 9,
+    "rule": "The response does not address the user, does not mention the system or rules, and does not include questions, apologies, or self-references.",
+    "inverse": false,
+    "testuid": "test-76798516",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A stern librarian with round glasses; timing: rainy evening; lighting: green banker lamp glow; background: mahogany shelves and scattered index cards; mood: please make it quietly inspiring for the viewer",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A stern librarian with round glasses; timing: rainy evening; lighting: green banker lamp glow; background: mahogany shelves and scattered index cards; mood: please make it quietly inspiring for the viewer",
+    "output": "A stern librarian with round glasses, neat bun, charcoal cardigan, and steady posture leans over a ledger, gaze focused yet kind. It’s a rainy evening; droplets trail on the window as a green banker lamp casts soft emerald light, crisp highlights, and velvety shadows. Behind, mahogany shelves loom, worn spines glowing; scattered index cards litter the desk. The mood is quietly inspiring, evoking diligence, sanctuary, and the quiet power of knowledge.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains newline separators, not a single paragraph.\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets all criteria: single paragraph, under 80 words, structured with subject, lighting, background, emotion.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6800c25",
+    "promptid": "97ee177",
+    "ruleid": 10,
+    "rule": "The response includes concrete visual details about the subjects, lighting, and background rather than vague placeholders, ensuring at least one specific attribute is given for each of these three elements.",
+    "inverse": false,
+    "testuid": "test-32241514",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: A copper-colored classic motorcycle with leather saddlebags, rider wearing a matte black helmet and olive parka; timing: sunrise; lighting: warm low-angle light catching chrome; background: winding coastal road with white cliffs and crashing waves; mood: adventurous freedom",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: A copper-colored classic motorcycle with leather saddlebags, rider wearing a matte black helmet and olive parka; timing: sunrise; lighting: warm low-angle light catching chrome; background: winding coastal road with white cliffs and crashing waves; mood: adventurous freedom",
+    "output": "Copper-colored classic motorcycle with weathered leather saddlebags, rider in a matte black helmet and olive parka, hunched forward mid-ride. At sunrise, warm low-angle light rakes the metal, flaring on chrome and deepening the copper sheen, soft shadows trailing. The bike leans into a winding coastal road, white chalk cliffs towering to one side, surf exploding against rocks below, mist in the air. The image should feel like raw, adventurous freedom and open-road possibility.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains newline breaks\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets structure: subject, lighting, background, feeling; under 80 words, single paragraph.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1b36e7d",
+    "promptid": "97ee177",
+    "ruleid": 11,
+    "rule": "The response is divided into multiple paragraphs with explicit newline characters, including at least one completely blank line between sections, and must not be a single continuous block of text.",
+    "inverse": true,
+    "testuid": "test-45022734",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: an elderly violinist and a street cat; number: 2; appearance: weathered hands, striped fur; clothing: wool coat; pose: violinist playing, cat listening; timing: autumn evening; lighting: flickering streetlamp and neon reflections; background: rainy cobblestone alley in old town; mood: intimate, nostalgic",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: an elderly violinist and a street cat; number: 2; appearance: weathered hands, striped fur; clothing: wool coat; pose: violinist playing, cat listening; timing: autumn evening; lighting: flickering streetlamp and neon reflections; background: rainy cobblestone alley in old town; mood: intimate, nostalgic",
+    "output": "An elderly violinist with weathered hands in a wool coat plays, while a striped street cat sits listening beside him. Autumn evening under a flickering streetlamp, neon reflections pooling in rain puddles. In a narrow old-town cobblestone alley with worn façades and faded signs, damp air and soft mist. The image should feel intimate and nostalgic, a quiet pocket of warmth amid drizzle.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Used multiple newline breaks\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows guidelines: single paragraph, structure, under 80 words, English, correct order and feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "dc0a050",
+    "promptid": "97ee177",
+    "ruleid": 12,
+    "rule": "The response contains at least 120 words and may exceed 500, counting hyphenated tokens, emojis, and punctuation-delimited fragments as separate words even without intervening whitespace.",
+    "inverse": true,
+    "testuid": "test-38300497",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a marathon runner and cheering crowd; number: many; appearance: sweat, athletic build; clothing: racing bib, bright shoes; pose: runner nearing finish; timing: sunrise; lighting: warm low-angle light; background: urban avenue with banners; mood: triumph, resilience",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a marathon runner and cheering crowd; number: many; appearance: sweat, athletic build; clothing: racing bib, bright shoes; pose: runner nearing finish; timing: sunrise; lighting: warm low-angle light; background: urban avenue with banners; mood: triumph, resilience",
+    "output": "A sweat-soaked, athletic marathon runner in a racing bib and bright shoes drives toward the finish, flanked by a large cheering crowd. At sunrise, warm low-angle light flames across skin and vaporous breath, stretching long shadows. The setting is an urban avenue with colorful banners, barricades, and gleaming early-morning windows. Evoke triumph and resilience—hard-won grit, elation, and communal energy at the climax of a city race.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements perfectly.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: single paragraph, under 80 words, follows structure—subject, lighting, background, and evokes emotion.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5887b48",
+    "promptid": "97ee177",
+    "ruleid": 13,
+    "rule": "The response mixes languages and symbols, including at least one non-English sentence, at least one emoji, and at least one phrase in a non-Latin script such as Cyrillic or Han characters.",
+    "inverse": true,
+    "testuid": "test-65386658",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a chef plating sushi and a child watching; number: 2; appearance: focused chef, curious child; clothing: white jacket, school hoodie; pose: chef mid-garnish; timing: winter night; lighting: lantern glow, soft shadows; background: cozy Tokyo alley izakaya; mood: tender, familial",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a chef plating sushi and a child watching; number: 2; appearance: focused chef, curious child; clothing: white jacket, school hoodie; pose: chef mid-garnish; timing: winter night; lighting: lantern glow, soft shadows; background: cozy Tokyo alley izakaya; mood: tender, familial",
+    "output": "A focused chef in a crisp white jacket mid-garnish plating sushi, with a curious child in a school hoodie watching intently. Set on a winter night, lit by warm lantern glow casting soft shadows. In a cozy Tokyo alley izakaya with a narrow wooden counter, paper lanterns, steamy air, and stacked bowls. The image should feel tender and familial, intimate, and quietly joyful.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets word count, single paragraph, correct structure and language.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "79f337c",
+    "promptid": "97ee177",
+    "ruleid": 14,
+    "rule": "The paragraph must not begin by naming primary subjects; it opens with an abstract theme or background, and any later mention of subjects omits at least one visual characteristic per subject.",
+    "inverse": true,
+    "testuid": "test-04192349",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a ballerina and a painter; number: 2; appearance: graceful, paint-splattered; clothing: tulle dress, denim apron; pose: arabesque, brush mid-stroke; timing: 1950s era; lighting: studio skylight; background: industrial loft windows; mood: contemplative, artistic",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a ballerina and a painter; number: 2; appearance: graceful, paint-splattered; clothing: tulle dress, denim apron; pose: arabesque, brush mid-stroke; timing: 1950s era; lighting: studio skylight; background: industrial loft windows; mood: contemplative, artistic",
+    "output": "Two subjects—a graceful ballerina and a paint-splattered painter—share the scene: she in a flowing tulle dress, holding a poised arabesque; he in a worn denim apron, brush mid-stroke. Set in the 1950s, illuminated by crisp light from a studio skylight. Behind them, tall industrial loft windows frame soft dust motes and weathered brick. The image should feel contemplative and artistic, a quiet convergence of movement and creation.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rules and structure\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Compliant one-paragraph prompt under 80 words with subjects, timing, lighting, background, and emotion.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8c95647",
+    "promptid": "97ee177",
+    "ruleid": 15,
+    "rule": "Timing and lighting are omitted or, if included, appear only after the background description and are expressed vaguely (e.g., “sometime later,” “kind of bright”) rather than specified.",
+    "inverse": true,
+    "testuid": "test-18857866",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: mountain climbers; number: 3; appearance: determined faces; clothing: bright parkas; pose: ascending ridge; timing: early spring; lighting: crisp daylight; background: jagged alpine ridge above cloud deck; mood: awe, perseverance",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: mountain climbers; number: 3; appearance: determined faces; clothing: bright parkas; pose: ascending ridge; timing: early spring; lighting: crisp daylight; background: jagged alpine ridge above cloud deck; mood: awe, perseverance",
+    "output": "Three mountain climbers with determined faces in bright parkas, roped together, leaning forward as they ascend a narrow, icy ridge, crampons biting, ice axes ready. Shot in early spring under crisp, high-altitude daylight, air clear and cool, shadows sharp. Behind them, a jagged alpine spine rises above a billowing cloud deck, distant peaks piercing the horizon. Conveys awe, resolve, and the quiet persistence of human grit against vast wilderness.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and accurate.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Compliant structure and word count, one paragraph, includes subjects, lighting, background, and feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f8f14a4",
+    "promptid": "97ee177",
+    "ruleid": 16,
+    "rule": "Background details, when present, are provided before any timing or lighting and may be interleaved with other content instead of appearing afterward.",
+    "inverse": true,
+    "testuid": "test-19922356",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a jazz quartet; number: 4; appearance: expressive, varied ages; clothing: velvet blazer, hats; pose: playing sax, bass, piano, drums; timing: midnight; lighting: dim club lights, smoky haze; background: brick-walled basement club with round tables; mood: intimate, nostalgic",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a jazz quartet; number: 4; appearance: expressive, varied ages; clothing: velvet blazer, hats; pose: playing sax, bass, piano, drums; timing: midnight; lighting: dim club lights, smoky haze; background: brick-walled basement club with round tables; mood: intimate, nostalgic",
+    "output": "Four-member jazz quartet of varied ages, expressive faces, dressed in velvet blazers and vintage hats: saxophonist mid-solo, upright bassist plucking, pianist leaning into keys, drummer with brushes. Shot at midnight under dim club lights with a smoky haze, warm amber highlights, shallow depth of field. Brick-walled basement club, tight stage, round candlelit tables, scuffed floor, framed posters softly blurred. Evoke an intimate, nostalgic mood: soulful, timeworn, close-knit, the hush of listeners and the glow of late-night swing.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":95,\"explanation\":\"Breaks into multiple lines instead of one paragraph.\"}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with single-paragraph structure, under 80 words, correct subject-lighting-background-feeling order.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "fd930e6",
+    "promptid": "97ee177",
+    "ruleid": 17,
+    "rule": "The paragraph must not end with an explicit mood statement; it concludes with a technical note, metadata, or an unresolved question that leaves the emotion implicit.",
+    "inverse": true,
+    "testuid": "test-89929779",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a beekeeper and buzzing bees; number: 1 and many; appearance: calm, glistening wings; clothing: veil suit; pose: inspecting hive frame; timing: late summer; lighting: dappled sun; background: flower meadow near wooden hives; mood: serene, diligent",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a beekeeper and buzzing bees; number: 1 and many; appearance: calm, glistening wings; clothing: veil suit; pose: inspecting hive frame; timing: late summer; lighting: dappled sun; background: flower meadow near wooden hives; mood: serene, diligent",
+    "output": "One calm beekeeper in a clean veil suit inspects a hive frame as many buzzing bees swirl close, their wings glistening. Shot in late summer with dappled sun filtering through leaves, soft highlights and gentle shadows on mesh and fabric. The background shows a blooming flower meadow beside rustic wooden hives, shallow depth of field, warm tones, natural color. The image should feel serene and diligent, celebrating quiet craft, patience, and harmony between human and bees.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with single paragraph, under 80 words, correct order: subject, lighting, background, feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "de2db2a",
+    "promptid": "97ee177",
+    "ruleid": 18,
+    "rule": "The response includes non-descriptive elements such as a title header, labeled sections, a short numbered list, inline quotations, a code-formatted snippet, and meta commentary about the prompt and instructions.",
+    "inverse": true,
+    "testuid": "test-77864886",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: an astronaut and a floating camera; number: 2; appearance: visor reflections; clothing: EVA suit; pose: reaching toward Earth; timing: ISS orbit; lighting: sunlit rim, deep shadows; background: planet curve, starfield; mood: wonder, isolation",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: an astronaut and a floating camera; number: 2; appearance: visor reflections; clothing: EVA suit; pose: reaching toward Earth; timing: ISS orbit; lighting: sunlit rim, deep shadows; background: planet curve, starfield; mood: wonder, isolation",
+    "output": "An EVA-suited astronaut with mirrored visor reflections reaches toward Earth while a small floating camera hovers nearby, both sharply detailed. Set during an ISS orbit, capture the moment with a crisp sunlit rim on the suit and camera, contrasted by deep, velvety shadows. Behind them, the planet’s curved horizon glows with atmospheric blues, fading into a dense starfield. The image should evoke profound wonder and quiet isolation, a fragile human presence against vast, indifferent space.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and accurate\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with all specs: single paragraph, under 80 words, covers subjects, lighting, background, and emotion.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f5ded51",
+    "promptid": "97ee177",
+    "ruleid": 19,
+    "rule": "The response directly addresses the reader, references the system and these rules, includes first-person self-reference and an apology, and may pose clarifying questions.",
+    "inverse": true,
+    "testuid": "test-07560935",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a librarian guiding a child; number: 2; appearance: gentle, curious; clothing: cardigan, backpack; pose: pointing at map; timing: rainy afternoon; lighting: soft window light; background: grand reading room with globes; mood: encouraging, hopeful",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a librarian guiding a child; number: 2; appearance: gentle, curious; clothing: cardigan, backpack; pose: pointing at map; timing: rainy afternoon; lighting: soft window light; background: grand reading room with globes; mood: encouraging, hopeful",
+    "output": "A gentle librarian guides a curious child, both focused as they point at a detailed map on a table. The librarian wears a cozy cardigan; the child carries a small backpack. Set on a rainy afternoon, soft window light filters through, casting warm highlights and faint reflections. In a grand reading room with arched windows, towering shelves, and antique globes, the scene feels encouraging and hopeful, celebrating learning, wonder, and patient mentorship.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "All criteria met: single paragraph under 80 words, subjects first, then timing/lighting, background, and feeling conveyed.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7c0b0c9",
+    "promptid": "97ee177",
+    "ruleid": 20,
+    "rule": "The response may use vague placeholders and abstractions, leaving at least one of the subjects, lighting, or background unspecified or generic (e.g., “something,” “some light,” “somewhere”).",
+    "inverse": true,
+    "testuid": "test-40527656",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "subjects: a surfer riding a wave; number: 1; appearance: sun-bleached hair; clothing: wetsuit; pose: carving turn; timing: golden hour; lighting: backlit spray; background: tropical bay with cliffs; mood: exhilaration, freedom",
+    "model": "gpt-5-2025-08-07",
+    "input": "subjects: a surfer riding a wave; number: 1; appearance: sun-bleached hair; clothing: wetsuit; pose: carving turn; timing: golden hour; lighting: backlit spray; background: tropical bay with cliffs; mood: exhilaration, freedom",
+    "output": "One surfer with sun-bleached hair in a black wetsuit, mid-carving turn on a turquoise wave, body low, rail engaged, water arcing, seen from a low water-level perspective. Shot at golden hour, warm sun low, backlighting the crystalline spray into glowing mist and rim light along the silhouette. In the background, a lush tropical bay with towering cliffs, palms, and distant boats, slightly soft. The image should evoke exhilaration and freedom, raw ocean energy, and the rush of mastery and motion.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with single paragraph, 80 words, correct focus order, and conveys emotion.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "08b6abb",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-rlkxqrbdz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Create a close-up portrait of an elderly woman with deep laugh lines, silver hair in a loose bun, round glasses, and a patterned shawl. She should be looking slightly off-camera with a calm, wise expression. Capture her at late afternoon with soft window light. Background should be a muted, cozy home interior with framed photos out of focus. The image should feel intimate, respectful, and warm.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Create a close-up portrait of an elderly woman with deep laugh lines, silver hair in a loose bun, round glasses, and a patterned shawl. She should be looking slightly off-camera with a calm, wise expression. Capture her at late afternoon with soft window light. Background should be a muted, cozy home interior with framed photos out of focus. The image should feel intimate, respectful, and warm.",
+    "output": "Close-up portrait of an elderly woman with deep laugh lines, silver hair in a loose bun, round glasses, and a patterned shawl, gazing slightly off-camera with a calm, wise expression, showcasing natural skin texture. Shot in late afternoon, illuminated by soft, diffused window light with gentle warm tones. Background is a muted, cozy home interior with framed photos softly blurred into bokeh, shallow depth of field. The image should feel intimate, respectful, and warmly human.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":95,\"explanation\":\"multiline formatting violation\"}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with structure: subject first, then lighting, background, emotion; one paragraph under 80 words.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "36e1bd7",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-zjvx4ttif",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: I want a mid-action photo of a female sprinter exploding off the starting blocks, muscles tense, braids flying, wearing a red track uniform. Shoot at sunrise with warm rim light and slight motion blur on limbs. The stadium background should be minimal, bokeh crowd and lanes. Convey determination, explosive energy, and raw focus.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: I want a mid-action photo of a female sprinter exploding off the starting blocks, muscles tense, braids flying, wearing a red track uniform. Shoot at sunrise with warm rim light and slight motion blur on limbs. The stadium background should be minimal, bokeh crowd and lanes. Convey determination, explosive energy, and raw focus.",
+    "output": "Female sprinter exploding off the starting blocks, muscles tense, braids flying, wearing a vivid red track uniform, captured mid-action. Sunrise lighting with warm rim light tracing her physique, slight motion blur on limbs, crisp focus on her face. Minimal stadium setting with shallow depth of field, bokeh crowd and faint lane lines. Evoke determination, explosive energy, and raw focus, conveying grit and momentum at the exact moment of launch.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets single-paragraph structure, under 80 words, proper focus order and conclusion.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7ef1399",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-h9qc9634i",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Photograph a dew-covered spiderweb at dawn, macro shot, with a tiny spider resting at the center. The light should be low-angle golden light, making droplets sparkle. Background must be a smooth, dark green blur of foliage. The mood should be delicate, serene, and quietly awe-inspiring.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Photograph a dew-covered spiderweb at dawn, macro shot, with a tiny spider resting at the center. The light should be low-angle golden light, making droplets sparkle. Background must be a smooth, dark green blur of foliage. The mood should be delicate, serene, and quietly awe-inspiring.",
+    "output": "Dew-covered spiderweb in extreme macro, tiny spider at the geometric center, droplets beading every strand, fine silk texture crisp, focus on spider and central beads. Shot at dawn with low-angle golden light grazing the web, making droplets sparkle like jewels; shallow depth of field, soft specular highlights. Background a smooth, dark green blur of foliage, creamy bokeh, no distractions. Evoke delicacy, serenity, quiet awe.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with single-paragraph, under 80 words, correct structure and English.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5d29d6c",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-tnwfuio7k",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Scene: a lone figure in a clear raincoat holding a transparent umbrella, standing in a neon-soaked alley in a bustling Asian city. Nighttime, heavy rain, reflections on wet pavement, magenta and cyan signage. Background includes hazy skyscrapers and steam vents. Evoke moody isolation, futuristic mystery, and urban melancholy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Scene: a lone figure in a clear raincoat holding a transparent umbrella, standing in a neon-soaked alley in a bustling Asian city. Nighttime, heavy rain, reflections on wet pavement, magenta and cyan signage. Background includes hazy skyscrapers and steam vents. Evoke moody isolation, futuristic mystery, and urban melancholy.",
+    "output": "Solo figure in a clear raincoat, head slightly bowed, holding a transparent umbrella, standing mid-alley in a neon-drenched Asian city. Nighttime downpour, heavy raindrops, glossy reflections rippling across wet pavement, magenta and cyan signage casting soft glow. Background shows hazy skyscrapers looming, steam vents exhaling, power lines and signs receding. Cinematic, shallow depth, backlit drizzle and rim light on plastic. Evoke moody isolation, futuristic mystery, and urban melancholy.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Well-structured single-paragraph prompt under 80 words, covering subject, lighting, background, and emotion in proper order.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "57c3d3f",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-4qbwonjpb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Capture a high-end product photo of a matte black smartwatch with a minimalist face, turned slightly to reveal the crown. Lighting: clean, soft studio light with crisp edge highlights, subtle reflections. Place it on a dark slate surface with fine water droplets. Background should fade to black. Convey precision, luxury, and modern efficiency.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Capture a high-end product photo of a matte black smartwatch with a minimalist face, turned slightly to reveal the crown. Lighting: clean, soft studio light with crisp edge highlights, subtle reflections. Place it on a dark slate surface with fine water droplets. Background should fade to black. Convey precision, luxury, and modern efficiency.",
+    "output": "Matte black smartwatch with a minimalist face, angled slightly to showcase the crown, impeccably machined and fingerprint-free. Shot in a controlled studio, lit with clean, soft light yielding crisp edge highlights and subtle, glassy reflections on the bezel. Resting on a dark slate surface dotted with fine water droplets, micro-texture visible. Background gradients to pure black, depth without distractions. The image should evoke precision, quiet luxury, and streamlined modern efficiency.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":95,\"explanation\":\"Missing explicit timing detail\"}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "One paragraph, 70 words, correct order: subject, lighting, background, feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "91fe443",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-t3gs5qfaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Photograph a steaming bowl of tonkotsu ramen with marinated eggs, chashu, scallions, and nori. Use warm, directional overhead light to emphasize textures. Wooden table surface, chopsticks resting, ceramic spoon beside. Background softly blurred restaurant interior with hanging lanterns. The feeling should be comforting, appetizing, and homely.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Photograph a steaming bowl of tonkotsu ramen with marinated eggs, chashu, scallions, and nori. Use warm, directional overhead light to emphasize textures. Wooden table surface, chopsticks resting, ceramic spoon beside. Background softly blurred restaurant interior with hanging lanterns. The feeling should be comforting, appetizing, and homely.",
+    "output": "Close-up of a steaming tonkotsu ramen bowl: rich milky broth, tender chashu, marinated jammy eggs, bright scallions, crisp nori, glossy ceramic, delicate bubbles and rising steam. Shot fresh and hot under warm directional overhead light with gentle falloff to highlight sheen and textures. On a rustic wooden table with resting chopsticks and a ceramic spoon. Background softly blurred restaurant interior with hanging lanterns. Evoke a comforting, appetizing, homely warmth.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":70,\"explanation\":\"Missing timing reference, uses newlines.\"}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words with subject, lighting, background and feeling in correct order  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "331c75b",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-4tvjpxd1l",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Show a snow leopard poised on a rocky ledge, thick fur detailed, tail curled, eyes alert. Golden hour with cool shadows, sunlight rim-lighting whiskers. Background: vast, snowy mountain range receding into blue haze. Evoke respect, solitude, and wild majesty.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Show a snow leopard poised on a rocky ledge, thick fur detailed, tail curled, eyes alert. Golden hour with cool shadows, sunlight rim-lighting whiskers. Background: vast, snowy mountain range receding into blue haze. Evoke respect, solitude, and wild majesty.",
+    "output": "A snow leopard poised on a jagged rocky ledge, thick, patterned fur sharply detailed, long tail curled, powerful forepaws anchored, ears pricked, eyes alert and intelligent. Golden hour light with cool alpine shadows, warm sun creating subtle rim light on whiskers and fur, breath faint in the cold air. Behind, a vast snowy mountain range recedes into layered blue haze, distant peaks and valleys. Evoke respect, profound solitude, and untamed wild majesty.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant and accurate\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Counts words (72), single paragraph, proper order (subject, lighting, background, feeling).  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7ec5c38",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-h5nv68gc3",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: A minimalist Scandinavian living room: pale oak floor, white sofa, wool throw, a single monstera plant, and a framed abstract print. Capture soft morning light streaming through sheer curtains. Background: clean lines, airy space, subtle textures. The image should feel calm, organized, and inviting.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: A minimalist Scandinavian living room: pale oak floor, white sofa, wool throw, a single monstera plant, and a framed abstract print. Capture soft morning light streaming through sheer curtains. Background: clean lines, airy space, subtle textures. The image should feel calm, organized, and inviting.",
+    "output": "Minimalist Scandinavian living room with pale oak floorboards, a crisp white sofa draped with a wool throw, a single lush monstera in a simple pot, and a framed abstract print on the wall. Soft morning light streams through sheer curtains, diffusing gentle highlights and feathered shadows. Background features clean lines, airy negative space, subtle textures in natural wood and matte white surfaces, uncluttered and balanced. The image should feel calm, organized, warmly inviting, and effortlessly serene.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words, correct subject-lighting-background order, ends with the feeling, in English.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c041768",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-yxbhdtgre",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Aerial view of a winding river cutting through patchwork farmland, tiny tractors visible, mist lifting. Capture at sunrise with long shadows and warm light. Background includes distant hills and a few scattered wind turbines. The overall feeling should be expansive, peaceful, and subtly hopeful.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Aerial view of a winding river cutting through patchwork farmland, tiny tractors visible, mist lifting. Capture at sunrise with long shadows and warm light. Background includes distant hills and a few scattered wind turbines. The overall feeling should be expansive, peaceful, and subtly hopeful.",
+    "output": "Aerial, top-down view of a winding river carving through patchwork farmland, gleaming water threading between geometric fields; tiny tractors inch along lanes, faint tire tracks, delicate mist lifting from the banks. Shot at sunrise with warm golden light and long, raking shadows softening textures. Background reveals distant blue hills and a few scattered wind turbines on the horizon. The image should feel expansive, peaceful, and subtly hopeful.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"All rules satisfied\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph, under 80 words, proper structure: subjects, lighting, background, feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f6dfc0c",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-xjptn12rl",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Fantasy scene: a crimson-scaled dragon perched on a crumbling stone tower, wings partially spread, smoke curling from nostrils. Twilight sky with first stars appearing, cool moonlight and faint torchlight below. Background: pine forest and distant mountains. Evoke awe, ancient power, and quiet tension.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Fantasy scene: a crimson-scaled dragon perched on a crumbling stone tower, wings partially spread, smoke curling from nostrils. Twilight sky with first stars appearing, cool moonlight and faint torchlight below. Background: pine forest and distant mountains. Evoke awe, ancient power, and quiet tension.",
+    "output": "Crimson-scaled dragon perched atop a crumbling stone tower, talons gripping weathered blocks, wings partially spread, smoke curling from its nostrils. Twilight with the first stars emerging, bathed in cool moonlight, faint torchlight flickering from the tower base. Background of dark pine forest and distant jagged mountains under a deepening indigo sky. Aim for awe and ancient power, a hushed, quiet tension as if time holds its breath.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words, correct order of subject, lighting, background, and evokes feeling.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0490d08",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-x20qony2q",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Sci-fi concept: an astronaut in a white EVA suit walking across a rust-colored desert with twin suns low on the horizon. Harsh side lighting casting long shadows, dust motes in the air. Background: monolithic alien ruins and a small lander. The mood should be lonely, strange, and courageous.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Sci-fi concept: an astronaut in a white EVA suit walking across a rust-colored desert with twin suns low on the horizon. Harsh side lighting casting long shadows, dust motes in the air. Background: monolithic alien ruins and a small lander. The mood should be lonely, strange, and courageous.",
+    "output": "A lone astronaut in a pristine white EVA suit trudges across a rust-colored desert, visor reflecting twin suns. Twin suns low on the horizon cast harsh side light, carving long knife-edged shadows; dust motes shimmer in the air. Behind, monolithic alien ruins loom, geometric and weathered, with a small lander parked nearby. The image should feel lonely yet brave, eerily unfamiliar, evoking resilient courage amid strange, desolate grandeur.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":95,\"explanation\":\"Minor background timing order issue.\"}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph in English, under 80 words, follows subject→lighting→background→feeling structure precisely.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1e86fe2",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-6ym262fm2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Candid wedding photo of a couple laughing during their first dance, bride in lace, groom in navy suit, hands intertwined. Evening with warm string lights and gentle spotlighting, slight motion blur in the dress. Background: guests softly out of focus. Feel romantic, joyful, and timeless.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Candid wedding photo of a couple laughing during their first dance, bride in lace, groom in navy suit, hands intertwined. Evening with warm string lights and gentle spotlighting, slight motion blur in the dress. Background: guests softly out of focus. Feel romantic, joyful, and timeless.",
+    "output": "Candid wedding moment: a laughing couple mid–first dance, bride in delicate lace gown, groom in a tailored navy suit, hands intertwined, genuine expressions. Evening setting with warm string lights overhead and a gentle spotlight, soft natural skin tones, slight motion blur in the swirling dress, shallow depth of field. Background shows guests softly out of focus with creamy bokeh. Compose as a medium close-up, documentary style. Evoke a romantic, joyful, timeless feeling.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: single paragraph, under 80 words, correct structure (subjects, lighting, background, feeling).  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e07060d",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-fomho3o8b",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Street photo: an older man in a flat cap reading a newspaper at a small café table, steam rising from espresso. Midday hard sunlight creating strong shadows and patterns. Background: pigeons pecking, bicycles, and faded posters. Evoke everyday poetry, grit, and quiet observation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Street photo: an older man in a flat cap reading a newspaper at a small café table, steam rising from espresso. Midday hard sunlight creating strong shadows and patterns. Background: pigeons pecking, bicycles, and faded posters. Evoke everyday poetry, grit, and quiet observation.",
+    "output": "An older man in a worn flat cap sits at a small café table, reading a creased newspaper, espresso cup steaming beside his hand. Shot at midday in hard sun, stark shadows carve geometric patterns across the table and his lined face, crisp contrast and subtle film grain. Behind him: pigeons pecking at crumbs, leaning bicycles, sun-bleached, peeling posters on a stucco wall. Urban street candid, intimate, unsentimental; evoke everyday poetry, grit, and quiet, attentive observation.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets all format requirements: single paragraph, under 80 words, covers subject, lighting, background, and evokes feeling.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4401835",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-5tb1ucsvl",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Night landscape of the Milky Way arching over a desert with saguaro cacti, light-painted foreground rocks. Clear sky, pinpoint stars, no moon. Background: distant mesas silhouetted. The feeling should be vast, contemplative, and humbling.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Night landscape of the Milky Way arching over a desert with saguaro cacti, light-painted foreground rocks. Clear sky, pinpoint stars, no moon. Background: distant mesas silhouetted. The feeling should be vast, contemplative, and humbling.",
+    "output": "Milky Way arching overhead across a desert, towering saguaro cacti standing in the midground, foreground rocks subtly light-painted to reveal fine texture. Captured on a moonless, crystal-clear night with pinpoint stars, long exposure and minimal noise, starlight as the primary illumination with a gentle warm beam on the rocks. Distant mesas form sharp silhouettes along the horizon. The image should feel vast, contemplative, and humbling, evoking quiet awe beneath an immense, star-filled sky.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with requirements.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph, under 80 words, correct structure and sequence.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bde5cfa",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-uw2yoo61b",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Underwater scene: a coral reef teeming with colorful fish, a lone diver in a black wetsuit hovering with a flashlight. Sunbeams piercing from the surface, particles suspended. Background: blue gradient fading into deeper water. Evoke wonder, tranquility, and respect for nature.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Underwater scene: a coral reef teeming with colorful fish, a lone diver in a black wetsuit hovering with a flashlight. Sunbeams piercing from the surface, particles suspended. Background: blue gradient fading into deeper water. Evoke wonder, tranquility, and respect for nature.",
+    "output": "Coral reef bursting with staghorn and brain coral, anemones and soft corals, swarmed by vibrant parrotfish, angelfish, and butterflyfish; a lone diver in a matte black wetsuit hovers neutrally buoyant, calmly directing a narrow flashlight beam across textures. Midday sunbeams pierce from the surface, creating shimmering caustics; fine particles drift in the water column. Background fades from cerulean to deep indigo. Evoke wonder, tranquility, and a respectful reverence for nature’s fragile grandeur.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with single paragraph, <80 words, correct structure and conclusion.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2f1c4d8",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-y4sudgih6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Pet portrait: a sleek black cat sitting on a windowsill, amber eyes catching backlight, whiskers glowing. Late afternoon sun creating rim light, soft fill inside. Background: gentle blur of city rooftops. The image should feel intimate, elegant, and slightly mysterious.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Pet portrait: a sleek black cat sitting on a windowsill, amber eyes catching backlight, whiskers glowing. Late afternoon sun creating rim light, soft fill inside. Background: gentle blur of city rooftops. The image should feel intimate, elegant, and slightly mysterious.",
+    "output": "Sleek black cat with a smooth short coat, poised on a windowsill, eye-level three-quarter view, amber eyes catching backlight, whiskers glowing, ears alert, elegant posture. Late afternoon sun casts warm rim light, with soft indoor fill shaping the face and chest, delicate highlights sparkling on the fur. Background: gently blurred city rooftops and chimneys beyond the glass, shallow depth of field, faint window reflections, uncluttered interior edge. The image should feel intimate, elegant, and slightly mysterious.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Background label used\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "One paragraph, under 80 words, follows required structure: subject details, timing/lighting, background, then feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f486e68",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-terf0kfxu",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Industrial portrait: a metalworker wearing a face shield mid-weld, sparks arcing, gloved hands steady. Dramatic low-key lighting with bright highlights from the weld. Background: workshop clutter fading into darkness. Convey craftsmanship, intensity, and resilience.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Industrial portrait: a metalworker wearing a face shield mid-weld, sparks arcing, gloved hands steady. Dramatic low-key lighting with bright highlights from the weld. Background: workshop clutter fading into darkness. Convey craftsmanship, intensity, and resilience.",
+    "output": "Portrait of a metalworker in a clear face shield, thick gloves, mid-weld with torch angled, steady posture, sparks arcing in vivid trails. Shot at the moment of ignition with dramatic low-key lighting; weld light creates stark highlights, deep shadows sculpt muscle and gear. Background shows cluttered workshop benches and tools fading into darkness, shallow depth of field. Evoke craftsmanship, intensity, and resilient pride, a gritty, cinematic mood with tactile textures and heat haze.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits all requirements: under 80 words, single paragraph, covers subject, lighting, background, evokes feeling.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "53f4534",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-ysokg4eht",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: A stormy seascape with a white lighthouse standing firm as waves crash and spray flies. Overcast skies, diffused cool light, rain streaks visible. Background: jagged rocks and distant gulls. The mood should be dramatic, resilient, and elemental.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: A stormy seascape with a white lighthouse standing firm as waves crash and spray flies. Overcast skies, diffused cool light, rain streaks visible. Background: jagged rocks and distant gulls. The mood should be dramatic, resilient, and elemental.",
+    "output": "White lighthouse, weathered and salt-streaked, stands unwavering on a storm-lashed promontory as towering waves crash, spray exploding around its base, wind-whipped sea churning. Shot during an active squall under heavy overcast, with diffused cool light, rain streaks cutting across the frame, low visibility haze. Background shows jagged black rocks, foamy surf channels, and distant gulls wheeling above the horizon. The image should feel dramatic, resilient, and elemental, celebrating endurance against raw ocean power.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"All rules followed accurately.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets single-paragraph, under 80 words, correct sequence, English, conveys feeling.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6e45573",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-kvdjuicob",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Minimal product scene: a glass perfume bottle with a gold cap centered on white marble, soft shadows, and a subtle reflection. Clean, even studio lighting with a faint gradient backdrop. Background free of clutter. Evoke purity, sophistication, and quiet luxury.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Minimal product scene: a glass perfume bottle with a gold cap centered on white marble, soft shadows, and a subtle reflection. Clean, even studio lighting with a faint gradient backdrop. Background free of clutter. Evoke purity, sophistication, and quiet luxury.",
+    "output": "Centered glass perfume bottle with a polished gold cap, crystal-clear transparent body, on pristine white marble; soft, well-defined shadows and a delicate floor reflection. Shot as high-end product photography with even, diffused studio lighting, gentle falloff, and a faint gradient backdrop. Background remains uncluttered and minimal, edges crisp. Composition symmetrical and balanced, negative space preserved. Evoke purity, refined sophistication, and quiet luxury.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"Missing timing, multi-line, ordering\"}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Single paragraph under 80 words, details subject, lighting, background, and evokes feeling.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "771b21c",
+    "promptid": "97ee177",
+    "ruleid": null,
+    "testuid": "baseline-test-uct8qhuna",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: En un bosque otoñal con niebla, hojas doradas cubren el suelo, un sendero estrecho serpentea entre árboles altos. Temprano por la mañana, la luz es suave y difusa. De fondo, siluetas de troncos y un pequeño arroyo. Que la imagen transmita nostalgia, calma y misterio.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: En un bosque otoñal con niebla, hojas doradas cubren el suelo, un sendero estrecho serpentea entre árboles altos. Temprano por la mañana, la luz es suave y difusa. De fondo, siluetas de troncos y un pequeño arroyo. Que la imagen transmita nostalgia, calma y misterio.",
+    "output": "An autumn forest veiled in mist, golden leaves thickly carpet the ground, a narrow serpentine path threads between tall, straight trees. Early morning, soft diffused light filters through the canopy, muting colors and softening forms. In the background, faint silhouettes of trunks and a small, gently running stream. The image should evoke nostalgia, calm, and quiet mystery.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all criteria perfectly\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with all requirements: single paragraph under 80 words, covers subject, lighting, background, and evokes feeling.  \nOK",
+    "isGroundtruth": true
+  }
+]

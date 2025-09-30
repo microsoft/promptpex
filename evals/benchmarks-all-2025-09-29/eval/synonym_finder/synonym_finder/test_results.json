@@ -1,0 +1,4058 @@
+[
+  {
+    "id": "b2a9f6b",
+    "promptid": "0c52a44",
+    "ruleid": 1,
+    "rule": "In these rules, the \"target word\" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form \"More of x\".",
+    "inverse": false,
+    "testuid": "test-98989844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serene",
+    "model": "gemma2:9b",
+    "input": "serene",
+    "output": "OK \n\n\ncalm\npeaceful\ntranquil\nquiet\nserene\nunruffled\nstill\n placid\nsoothing\n tranquil  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains OK and duplicates violates rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Used “OK” plus synonyms list and duplicated “tranquil,” violating “only reply the words list” rule.  \nERR"
+  },
+  {
+    "id": "2a1a9d8",
+    "promptid": "0c52a44",
+    "ruleid": 2,
+    "rule": "In these rules, a \"synonym\" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.",
+    "inverse": false,
+    "testuid": "test-18165025",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "robust",
+    "model": "gemma2:9b",
+    "input": "robust",
+    "output": "OK \n\n\nstrong\ndurable\nsturdy\nresilient\ntough\nhardened\nsolid\npowerful\nheavy-duty\nwell-built  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extraneous OK plus synonyms list\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes extra \"OK\" with synonyms list, violating \"only reply the words list\" rule.  \nERR"
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 3,
+    "rule": "In these rules, a \"list of synonyms\" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.",
+    "inverse": false,
+    "testuid": "test-62873448",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gemma2:9b",
+    "input": "bright",
+    "output": "OK \n\n\nbrilliant, radiant, luminous, glowing, shining, sparkling, vivid, lustrous, intense, sunny  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra OK; partial synonym list\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes extra “OK” instead of just the word list only.  \nERR"
+  },
+  {
+    "id": "eac9890",
+    "promptid": "0c52a44",
+    "ruleid": 4,
+    "rule": "In these rules, the \"target word\" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in \"More of x\".",
+    "inverse": false,
+    "testuid": "test-05496285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please confirm your role",
+    "model": "gemma2:9b",
+    "input": "Please confirm your role",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra whitespace after OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK"
+  },
+  {
+    "id": "b6504c3",
+    "promptid": "0c52a44",
+    "ruleid": 5,
+    "rule": "In these rules, a \"synonym\" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.",
+    "inverse": false,
+    "testuid": "test-61800362",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "melancholy",
+    "model": "gemma2:9b",
+    "input": "melancholy",
+    "output": "OK \n\n\nsadness\ngloom\ndejection\nmournfulness\ndespondency\npensiveness\ndoldrums\ngrief\n wistfulness\nblue  ",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":30,\"explanation\":\"Included “OK” violates output rule; synonyms partly correct\"}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with description: confirms with “OK”, lists exactly 10 synonyms, no extra explanation.  \nOK"
+  },
+  {
+    "id": "d2323ee",
+    "promptid": "0c52a44",
+    "ruleid": 6,
+    "rule": "In these rules, a \"list of synonyms\" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.",
+    "inverse": false,
+    "testuid": "test-86258029",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of happy",
+    "model": "gemma2:9b",
+    "input": "More of happy",
+    "output": "OK \njoyful\ngleeful\ndelighted\nelated\nmerry\ncheerful\ncontent\nblissful\nbeatific\nfelicitous  \n\n\nLet me know if you'd like more synonyms for \"happy,\" just say \"More of happy\"!",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra confirmation and explanation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included extra explanation and text beyond the word list.  \nERR"
+  },
+  {
+    "id": "03183fe",
+    "promptid": "0c52a44",
+    "ruleid": 7,
+    "testuid": "test-64361075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "big",
+    "model": "gemma2:9b",
+    "input": "big",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Extra space after OK output.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "e9acdda",
+    "promptid": "0c52a44",
+    "ruleid": 8,
+    "testuid": "test-76586858",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "quixotic",
+    "model": "gemma2:9b",
+    "input": "quixotic",
+    "output": "OK \n\n\nromantic, idealistic, impractical, unrealistic, visionary, naive, chivalrous, altruistic, noble, starry-eyed  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Format violation; questionable synonyms\",\"score\":25}",
+        "score": 25
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided extra content beyond just the word list (included “OK” with synonyms), violating the rule to reply only with the words list.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "c23bc84",
+    "promptid": "0c52a44",
+    "ruleid": 9,
+    "testuid": "test-88888473",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "cease",
+    "model": "gemma2:9b",
+    "input": "cease",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong output, extra whitespace\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "62ab395",
+    "promptid": "0c52a44",
+    "ruleid": 10,
+    "testuid": "test-87890328",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "silent",
+    "model": "gemma2:9b",
+    "input": "silent",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect: outputs OK instead synonyms.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 11,
+    "testuid": "test-18130708",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gemma2:9b",
+    "input": "fast",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect: responded OK not synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 12,
+    "testuid": "test-76381398",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gemma2:9b",
+    "input": "angry",
+    "output": "OK\n\nfurious, enraged, furious\nmad, irate, annoyed,  irritated   resentful , hostile   livid, wrathful \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect format and duplicates.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided 11 synonyms with a duplicate (\"furious\") and exceeded the max of 10.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "25e7f60",
+    "promptid": "0c52a44",
+    "ruleid": 13,
+    "testuid": "test-81697491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "orchid",
+    "model": "gemma2:9b",
+    "input": "orchid",
+    "output": "OK \nflower, bloom, blossom,  carnation, tulip, lily, rose\ndaisy, zinnia, calla\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Printed OK plus synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "They included 'OK' before synonyms, violating the rule to only reply with the word list.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 14,
+    "testuid": "test-88159572",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gemma2:9b",
+    "input": "bright",
+    "output": "OK \n\n\nbrilliant, radiant, luminous, glowing, shining, sparkling, vivid, lustrous, intense, sunny  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra OK and synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes extra “OK” instead of just the word list only.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "b4e7199",
+    "promptid": "0c52a44",
+    "ruleid": 15,
+    "testuid": "test-67297751",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "swift",
+    "model": "gemma2:9b",
+    "input": "swift",
+    "output": "OK  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra whitespace after OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirmed start.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7cb93fb",
+    "promptid": "0c52a44",
+    "ruleid": 16,
+    "testuid": "test-68264416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ready",
+    "model": "gemma2:9b",
+    "input": "ready",
+    "output": "OK  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"extra whitespace present\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirmed start.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7e29cad",
+    "promptid": "0c52a44",
+    "ruleid": 17,
+    "testuid": "test-95975814",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serendipity",
+    "model": "gemma2:9b",
+    "input": "serendipity",
+    "output": "OK \n\nfortuity, chance, luck, coincidence, happenstance, serendipia, fortunate discovery, unexpected windfall  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Invalid confirmation and synonyms list\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes 'OK' and non-English term 'serendipia,' not only a word list.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "86a864f",
+    "promptid": "0c52a44",
+    "ruleid": 18,
+    "testuid": "test-89799881",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of serendipity",
+    "model": "gemma2:9b",
+    "input": "More of serendipity",
+    "output": "OK \n\nluck, chance, fortune, coincidence, fortuity, happy accident, providence, kismet, fate, manna  \n\n\n```\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes OK and code fences\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extraneous formatting markers (```) included, violating the “only reply the words list” rule.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "4603f34",
+    "promptid": "0c52a44",
+    "ruleid": 19,
+    "testuid": "test-06788784",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "happy",
+    "model": "gemma2:9b",
+    "input": "happy",
+    "output": "OK  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Responded with OK instead of synonyms list.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirmed start.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 20,
+    "testuid": "test-16990882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gemma2:9b",
+    "input": "fast",
+    "output": "OK \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response to synonym request.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only 'OK', matching the required confirmation reply with no extra text.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "6081376",
+    "promptid": "0c52a44",
+    "ruleid": 21,
+    "testuid": "test-99001352",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "blue",
+    "model": "gemma2:9b",
+    "input": "blue",
+    "output": "OK \n azure\n cerulean\n cobalt\n cyan\n indigo\nnavy \nteal\nturquoise\nultramarine\nviolet   \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes synonyms with OK, violates exact OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included “OK” with synonyms list, violating “only reply the words list” rule.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "0015ec8",
+    "promptid": "0c52a44",
+    "ruleid": 22,
+    "testuid": "test-84417798",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "run",
+    "model": "gemma2:9b",
+    "input": "run",
+    "output": "OK  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Confirmation instead of synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirmed start.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "790dbbc",
+    "promptid": "0c52a44",
+    "ruleid": 23,
+    "testuid": "test-09829197",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "calm",
+    "model": "gemma2:9b",
+    "input": "calm",
+    "output": "OK \nserene, tranquil, peaceful, quiet, placid, composed, relaxed, unruffled, gentle, subdued   ",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extraneous OK prefix\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: “OK” plus exactly ten synonyms listed, no extra text.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 24,
+    "testuid": "test-37879943",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gemma2:9b",
+    "input": "angry",
+    "output": "OK\n\nfurious, enraged, furious\nmad, irate, annoyed,  irritated   resentful , hostile   livid, wrathful \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect format and duplicates.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided 11 synonyms with a duplicate (\"furious\") and exceeded the max of 10.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "871970a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ueeokt77e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy",
+    "model": "gemma2:9b",
+    "input": "word: happy",
+    "output": "OK \n\n\nglad, joyful, cheerful, content, delighted, merry, ecstatic, jubilant, thrilled, pleased \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Included synonyms with OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Includes OK confirmation and exactly 10 synonyms, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c1446a3",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-5hcs9me8g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "model": "gemma2:9b",
+    "input": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "output": "OK \n\nfinance\ninstitution\nlender\ncredit union\nsavings and loan\nmortgage lender\nmonetary institution\ndepositary\nbanker\nbranch \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Extra OK and invalid items\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirmed OK then list of 10 synonyms without explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c5b54fc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-vxnmwpxdw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: sprint",
+    "model": "gemma2:9b",
+    "input": "word: run\npart_of_speech: verb\nsense: sprint",
+    "output": "OK \nsprint\ndash\nrace\nfly\nstreak\nhurtle\nbolt\nscramble\nflee  \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes synonyms with OK; confirmation must be only OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Proper confirmation and list, ≤10 items, no extras  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "cff8c8b",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-28r473l22",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "model": "gemma2:9b",
+    "input": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "output": "OK\n\n\noperate\nfunction\nmanage\nwork\ncontrol\ngovern\ndrive\npilot\ncommand\nutilize \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extraneous OK violates synonym list rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: 10 synonyms listed, no extra text or explanations, only words and initial \"OK\".  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "e09b331",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-skzdbnslw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "model": "gemma2:9b",
+    "input": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "output": "OK\n\nspeedy\nquick\nrapid\nswift\nfast\nnimble\nfleet\nhasty\nsnappy\nhurried \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Included OK and the original word\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included 'OK' with synonyms; synonyms replies must contain only the words list, nothing else.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "b53d1cd",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-aurpb10rz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: long-term\npart_of_speech: adjective",
+    "model": "gemma2:9b",
+    "input": "word: long-term\npart_of_speech: adjective",
+    "output": "OK  \n\npersistent, enduring, lasting, prolonged, permanent, chronic, continual, continuous, stable, substantial \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong combined output\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes “OK” plus list, violating “only reply the words list, and nothing else.”\nERR",
+    "inverse": false
+  },
+  {
+    "id": "1aec3e9",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-i0nhyiydw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "model": "gemma2:9b",
+    "input": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "output": "OK \n\ngorgeous, pretty, stunning, lovely, attractive, radiant, stunning, exquisite, magnificent,  appealing, elegant, delightful, charming, captivating  wonderful,  eye-catching, pleasing, alluring, graceful\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Wrong format, duplicates, too many.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List exceeds max of 10 synonyms and includes duplicate; plus “OK” shouldn’t accompany synonym list.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "986a320",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-qxlmdrep6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "model": "gemma2:9b",
+    "input": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "output": "OK \nspeed\nrate of change\nacceleration\nflight\nmovement\nmomentum\ntravel\nprojection\ndrift\nkineticism  \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"extra OK and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format: includes “OK” then up to 10 synonyms, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "4dcf00c",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-80wep5sld",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "model": "gemma2:9b",
+    "input": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "output": "OK \n\n\nflat\nmaisonette\nhouse\ndwelling\ntenement\nresidence\npad\nbachelor flat\nsuite\nterraced house  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra content beyond required OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Lists exactly 10 synonyms, includes only words, has OK confirmation, no explanations.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "bcf86be",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-jifcrlahq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "model": "gemma2:9b",
+    "input": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "output": "OK \n\nelevator\nhoist\nplatform\ncrane \nlever  \njack \nbooster\nhaul  \nascent\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Extra synonyms after OK violate confirmation rule.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Looks like a valid confirmation plus up to 10 synonyms list only.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "917f80f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-72ck396jb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "model": "gemma2:9b",
+    "input": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "output": "OK\n\n- tape\n- film\n- capture\n- document\n-  record\n-  audio\n- shoot\n-  vlog \n- livestream\n-  broadcast   \n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra bullets and synonyms present\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided extraneous “OK” before the list, violating “only reply the words list, and nothing else.”\nERR",
+    "inverse": false
+  },
+  {
+    "id": "3b19779",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-oqr2nlmme",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "model": "gemma2:9b",
+    "input": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "output": "OK\n\ndocument \nlog\nfile\nentry\naccount\nnarrative\nchronicle\nregistration\ninscription\nprotocol  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":40,\"explanation\":\"Contains OK missing correct synonyms\"}",
+        "score": 40
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included extraneous “OK” alongside the synonyms list, violating “only reply the words list, and nothing else.”  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "765b8fb",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-wppzefsjd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "model": "gemma2:9b",
+    "input": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "output": "OK\n\n* group\n* assortment\n* collection\n* gathering\n* compilation\n* assemblage \n* kit\n* array\n* cluster\n* selection  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content and bullets after OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included extra “OK” with the synonyms list, violating the “only reply the words list” rule.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "8996b7e",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-mwlpq41kp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: orange\npart_of_speech: adjective\nsense: color",
+    "model": "gemma2:9b",
+    "input": "word: orange\npart_of_speech: adjective\nsense: color",
+    "output": "OK\n\nTangerine,  Coral, Citrus, Amber, Russet, Auburn, Copper, Apricot, Peach, Burnt\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"extra output violates OK rule\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with description: confirmation then word list only, max 10, no explanations.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "3aa1d6a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ials23by6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: café\npart_of_speech: noun\ndialect: English",
+    "model": "gemma2:9b",
+    "input": "word: café\npart_of_speech: noun\ndialect: English",
+    "output": "OK \n\n\nCoffeehouse☕  \n\nTea room\n\n bistro\n\n eatery\n\n diner \n pub \n\n\nlounge \n\ngrill \ndeli \n joint \n\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":20,\"explanation\":\"Incorrect format; emojis; wrong synonyms\"}",
+        "score": 20
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included non-word elements (‘OK’, emoji) instead of only list of synonyms.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "921f97d",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4mgfiicaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: child\npart_of_speech: noun\nregister: formal",
+    "model": "gemma2:9b",
+    "input": "word: child\npart_of_speech: noun\nregister: formal",
+    "output": "OK \n\noffspring, minor, juvenile  youth, boy, girl, kid, sprout, infant, youngster \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content after OK.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Synonym list only, no extras, exactly 10 items, includes initial “OK” as confirmation.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "88310c4",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-67yoa97ce",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy\ndialect: British English\nregister: informal",
+    "model": "gemma2:9b",
+    "input": "word: happy\ndialect: British English\nregister: informal",
+    "output": "OK\n\n\n delighted , pleased , joyful , chuffed ,  ecstatic ,  buzzing ,  over the moon ,  right as rain ,  bonkers  ,  giddy \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes OK and incorrect items\",\"score\":20}",
+        "score": 20
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output wrongly includes \"OK\" before the synonyms, so it isn’t just a list of words as required.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c4cf319",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-s8gmy0faz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "model": "gemma2:9b",
+    "input": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "output": "OK \n\n\npessimistic \n\nfretful  \n\nirked \n\nirritated   \n\nmiffed\n\nannoyed \ndisgruntled \ncross\nindignant\n\n\n\nLet me know if you want more synonyms of any word. \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Outputs extras, violates rules, wrong\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "It includes an extra sentence beyond the required list-only format.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "f6e87bc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-2pc22jsuz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "model": "gemma2:9b",
+    "input": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "output": "OK \n\n\nenraged, incensed, wrathful, livid, irate, mad, furious, enraged, exasperated, apoplectic  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains OK, target word, duplicates\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Duplicate “enraged” breaks “alternatives” requirement and extra “OK” alongside the list violates “only reply the words list” rule.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "be1187a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-w7mmwtcw6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: verb\nsense: assist",
+    "model": "gemma2:9b",
+    "input": "word: help\npart_of_speech: verb\nsense: assist",
+    "output": "OK \n\naid, assist, support, succor, abet, bolster, render aid, relieve, facilitate, back  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Not exactly OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included “OK” with the synonyms list, violating “only reply the words list, and nothing else.”  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "29c4e3a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4em7fqgh5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: noun\nsense: assistance",
+    "model": "gemma2:9b",
+    "input": "word: help\npart_of_speech: noun\nsense: assistance",
+    "output": "OK\n\naid\nassistance\nsupport\nhelpfulness\nsuccor\nrelief\nbacking\nadvise \nfavour\ncollaboration \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Extra content after OK confirmation\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Has initial OK and list of ten words, no extra text or explanations.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "8bffb1f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-x9c1lg4w4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: happy\nmessage: More of happy",
+    "model": "gemma2:9b",
+    "input": "previous_word: happy\nmessage: More of happy",
+    "output": "OK\n\njoyful\ndelighted\nelated\ncheerful\nmerry\nBlissful\nContent\nPleased\nGlad\nExcited \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes OK and partial overlap\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Start with OK then exactly 10 synonyms, no explanations, list only words. Complies.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "7c16773",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-slx8b8g02",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: FAST\nmessage: More of FAST",
+    "model": "gemma2:9b",
+    "input": "previous_word: FAST\nmessage: More of FAST",
+    "output": "OK \n\n\nswift, rapid, quick, speedy, accelerated,  brisk, hasty, nimble,  prompt, velocity.  \n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":30,\"explanation\":\"Extra OK, velocity incorrect synonyms\"}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words without explanations, uses at most 10 synonyms, and includes only the required \"OK\" confirmation.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "ae03e10",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ojgb9xlmz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: long-term\nmessage: More of long-term",
+    "model": "gemma2:9b",
+    "input": "previous_word: long-term\nmessage: More of long-term",
+    "output": "permanent \nlasting\ndurable\ncontinuous\nextended\nprolonged\nchronic\npersistent\nsustained\nongoing  \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Accurate synonyms, proper format\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with description: list of exactly 10 synonyms, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "b2a9f6b",
+    "promptid": "0c52a44",
+    "ruleid": 1,
+    "rule": "In these rules, the \"target word\" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form \"More of x\".",
+    "inverse": false,
+    "testuid": "test-98989844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serene",
+    "model": "qwen2.5:3b",
+    "input": "serene",
+    "output": "calm\npeaceful\ntranquil\nquiet\nserenely\nrestful\nmeek\nsoothing\npacific",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes invalid synonyms\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List of 9 words, only synonyms, no extra text, under 10 entries.  \nOK"
+  },
+  {
+    "id": "2a1a9d8",
+    "promptid": "0c52a44",
+    "ruleid": 2,
+    "rule": "In these rules, a \"synonym\" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.",
+    "inverse": false,
+    "testuid": "test-18165025",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "robust",
+    "model": "qwen2.5:3b",
+    "input": "robust",
+    "output": "strong\npowerful\nsturdy\nsolid\nresilient\n雄厚的\n健壮的\n有力的\n结实的\n强劲的\n强壮的",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"missing OK and invalid items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided 11 synonyms, exceeding the maximum of 10.\nERR"
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 3,
+    "rule": "In these rules, a \"list of synonyms\" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.",
+    "inverse": false,
+    "testuid": "test-62873448",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "qwen2.5:3b",
+    "input": "bright",
+    "output": "Luminous\nSparkling\nBright\nRadiant\nIllustrious\nCamarade\nBrilliant\nGleaming\nShining\nFlamboyant\nMore of bright",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"multiple rule violations and incorrect items\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes an extraneous “More of bright” line, violating the rule to only reply with a list of words.  \nERR"
+  },
+  {
+    "id": "eac9890",
+    "promptid": "0c52a44",
+    "ruleid": 4,
+    "rule": "In these rules, the \"target word\" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in \"More of x\".",
+    "inverse": false,
+    "testuid": "test-05496285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please confirm your role",
+    "model": "qwen2.5:3b",
+    "input": "Please confirm your role",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact match and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK"
+  },
+  {
+    "id": "b6504c3",
+    "promptid": "0c52a44",
+    "ruleid": 5,
+    "rule": "In these rules, a \"synonym\" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.",
+    "inverse": false,
+    "testuid": "test-61800362",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "melancholy",
+    "model": "qwen2.5:3b",
+    "input": "melancholy",
+    "output": "sadness\nsorrow\nwoe\ndespondency\nmelanchance\nalgonquiness\ndreariness\nmoodyness\npensive emotion\ntristesse\nmellowness\ntearsickness",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"too many invalid synonyms\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Listed more than 10 synonyms, violating the max limit requirement.\nERR"
+  },
+  {
+    "id": "d2323ee",
+    "promptid": "0c52a44",
+    "ruleid": 6,
+    "rule": "In these rules, a \"list of synonyms\" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.",
+    "inverse": false,
+    "testuid": "test-86258029",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of happy",
+    "model": "qwen2.5:3b",
+    "input": "More of happy",
+    "output": "joyful\npleased\nelated\nglad\ncheerful\ncontent\nrejoiced\nblissful\npervaded",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains non-synonyms.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only words, no extras, under 10 items.  \nOK"
+  },
+  {
+    "id": "03183fe",
+    "promptid": "0c52a44",
+    "ruleid": 7,
+    "testuid": "test-64361075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "big",
+    "model": "qwen2.5:3b",
+    "input": "big",
+    "output": "large\nenormous\ncolossal\ngiants\nmassive\nmonstrous\ngigantic\nconsiderable\nprominent\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"should output only OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes an extra “OK” besides the synonyms, violating the requirement to only list words.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "e9acdda",
+    "promptid": "0c52a44",
+    "ruleid": 8,
+    "testuid": "test-76586858",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "quixotic",
+    "model": "qwen2.5:3b",
+    "input": "quixotic",
+    "output": "dreamy\nfantastical\nidealistic\noptimistic\nvisionary\nunrestrained\nromantic\nsporadic\nimpulsive\nquirky",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains invalid synonyms and omits key terms.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Exactly 10 words, only list, no explanations or extra text, all real words matching format.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c23bc84",
+    "promptid": "0c52a44",
+    "ruleid": 9,
+    "testuid": "test-88888473",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "cease",
+    "model": "qwen2.5:3b",
+    "input": "cease",
+    "output": "halt\nterminate\npause\ncessation\nstoppage\nput an end to\nbring to an end\nquieten\nsuspend\nend",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Wrong output and violations\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only, max 10 synonyms, no extras.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "62ab395",
+    "promptid": "0c52a44",
+    "ruleid": 10,
+    "testuid": "test-87890328",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "silent",
+    "model": "qwen2.5:3b",
+    "input": "silent",
+    "output": "quiet\nstill\nmute\nspeechless\nunspoken\nsilent as a mouse\ndistractingly silent\nmute as a fish",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Invalid phrases and missing key synonyms\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List is only synonyms, max 8 items under 10, no extra explanation -> compliant  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 11,
+    "testuid": "test-18130708",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "qwen2.5:3b",
+    "input": "fast",
+    "output": "swift\nprompt\nbreezy\nnimble\nquick\nrapidity\nbursting\nleaping\nrushing\nMore of fast",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"invalid synonyms and format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes non-synonym text (“More of fast”), violating “only reply the words list, and nothing else.”  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 12,
+    "testuid": "test-76381398",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "qwen2.5:3b",
+    "input": "angry",
+    "output": "furious\nirate\nwrathful\nenraged\nstirred up\nirate\nfiery\nhuffy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing OK confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Duplicate synonym “irate” appears in the list.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "25e7f60",
+    "promptid": "0c52a44",
+    "ruleid": 13,
+    "testuid": "test-81697491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "orchid",
+    "model": "qwen2.5:3b",
+    "input": "orchid",
+    "output": "violet\nflowering plant\nmonarch\ngem of the floral world\nphalaenopsis\ncymbidium\ngerm warfare\nmore of orchid",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"completely incorrect output\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes unrelated items like “germ warfare” and an extra request line, violating synonyms-only rule.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 14,
+    "testuid": "test-88159572",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "qwen2.5:3b",
+    "input": "bright",
+    "output": "Luminous\nSparkling\nBright\nRadiant\nIllustrious\nCamarade\nBrilliant\nGleaming\nShining\nFlamboyant\nMore of bright",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and content violations\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes an extraneous “More of bright” line, violating the rule to only reply with a list of words.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "b4e7199",
+    "promptid": "0c52a44",
+    "ruleid": 15,
+    "testuid": "test-67297751",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "swift",
+    "model": "qwen2.5:3b",
+    "input": "swift",
+    "output": "lightning\nleapwise\nnimble\nfleet\nquickstep\nrapidez\nlissom\nsprintable\nbreezy\ngaited",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Wrong confirmation and invalid synonyms\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required initial “OK” confirmation and includes non-English term “rapidez,” violating the description.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "7cb93fb",
+    "promptid": "0c52a44",
+    "ruleid": 16,
+    "testuid": "test-68264416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ready",
+    "model": "qwen2.5:3b",
+    "input": "ready",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should list synonyms, not OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7e29cad",
+    "promptid": "0c52a44",
+    "ruleid": 17,
+    "testuid": "test-95975814",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serendipity",
+    "model": "qwen2.5:3b",
+    "input": "serendipity",
+    "output": "coincidence\nfortunate encounter\nhappy chance\nhappy accident\nluck\nchance occurrence\nunlooked-for event\nfluke\nhappy happenstance\ndivine intervention",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Didn’t say OK and broke rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has exactly 10 synonyms and no extra text.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "86a864f",
+    "promptid": "0c52a44",
+    "ruleid": 18,
+    "testuid": "test-89799881",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of serendipity",
+    "model": "qwen2.5:3b",
+    "input": "More of serendipity",
+    "output": "coincidence\naccident\nfluke\nluck\nhappy accident\nhappy coincidence\nhappy fluke\nhappy chance\nhappy hiccup",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"multi-word and wrong items\",\"score\":20}",
+        "score": 20
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only synonyms (no extra text), under 10 items, just words/phrases.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "4603f34",
+    "promptid": "0c52a44",
+    "ruleid": 19,
+    "testuid": "test-06788784",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "happy",
+    "model": "qwen2.5:3b",
+    "input": "happy",
+    "output": "joyful\npleased\ndelighted\nelated\nglad\ncontent\ncheerful\nsmiling\nhappiness",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"contains non-synonyms\",\"score\":50}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words, under 10, no extra text.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 20,
+    "testuid": "test-16990882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "qwen2.5:3b",
+    "input": "fast",
+    "output": "swift\nprompt\nbreezy\nnimble\nquick\nrapidity\nbursting\nleaping\nrushing\nMore of fast",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing OK and wrong format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes non-synonym text (“More of fast”), violating “only reply the words list, and nothing else.”  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "6081376",
+    "promptid": "0c52a44",
+    "ruleid": 21,
+    "testuid": "test-99001352",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "blue",
+    "model": "qwen2.5:3b",
+    "input": "blue",
+    "output": "cyan\nturquoise\ngreenish\nviolet\nsky-blue\ndeep\nperiwinkle\nteal\naqua\npurple\nlavender\nroyal\nmidnight",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Wrong format, too many and invalid items\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List contains 13 items, exceeding the 10-synonym maximum.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "0015ec8",
+    "promptid": "0c52a44",
+    "ruleid": 22,
+    "testuid": "test-84417798",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "run",
+    "model": "qwen2.5:3b",
+    "input": "run",
+    "output": "run\nrush\ndash\namble\ngallop\ndart\nscamper\nsprint\nlope\npace",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Included target word and invalid synonyms\",\"score\":10}",
+        "score": 10
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words, no extras, and max 10 synonyms as required.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "790dbbc",
+    "promptid": "0c52a44",
+    "ruleid": 23,
+    "testuid": "test-09829197",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "calm",
+    "model": "qwen2.5:3b",
+    "input": "calm",
+    "output": "Repose\nQuietus\nStable\nPeaceful\nSerene\nTame\nLethargic\nComposed\nEuphoric\nUpright\nModest",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"incorrect synonyms and count\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Listed 11 items but max is 10 synonyms per prompt, so violates description.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 24,
+    "testuid": "test-37879943",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "qwen2.5:3b",
+    "input": "angry",
+    "output": "furious\nirate\nwrathful\nenraged\nstirred up\nirate\nfiery\nhuffy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing OK confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Duplicate synonym “irate” appears in the list.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "871970a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ueeokt77e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy",
+    "model": "qwen2.5:3b",
+    "input": "word: happy",
+    "output": "joyful\ncheerful\nglad\ncontent\nelated\npleased\nradiant\nmerry\nblissful\nsatisfied\nhappy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Missing OK confirmation.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided 11 synonyms, exceeding the maximum of 10 specified in the description.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c1446a3",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-5hcs9me8g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "model": "qwen2.5:3b",
+    "input": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "output": "banking institution\nfinancial house\ncredit union\ninvestment firm\nmoney shop\ndepository\ncommercial enterprise\ninstitutions of finance\nhouse of credit\nmoney merchant\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"noncompliant and mismatched output\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Appended “OK” after synonyms; violates “only reply words list” requirement.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c5b54fc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-vxnmwpxdw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: sprint",
+    "model": "qwen2.5:3b",
+    "input": "word: run\npart_of_speech: verb\nsense: sprint",
+    "output": "dash\nrush\ndash off\nlope\namble\ngallop\nswagger\nhustle\npace myself\njog",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected OK, invalid synonyms list\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided only words, max 10 synonyms, no explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "cff8c8b",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-28r473l22",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "model": "qwen2.5:3b",
+    "input": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "output": "operate\nfunction\nrun_program\nexecute\npower_on\nnavigate\nmanage\nperform_tasks\nfacilitate_operations\nconduct_business\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Includes invalid items and OK\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra 'OK' at end violates requirement to only reply word list.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "e09b331",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-skzdbnslw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "model": "qwen2.5:3b",
+    "input": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "output": "fast More slow quick rapid speedy hasty urgent sluggish tardy sluggish leisurely",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"contains antonyms and extras\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes the original word, 'More', duplicates 'sluggish', and lists over 10 entries. Violates synonyms-only and max limit.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "b53d1cd",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-aurpb10rz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: long-term\npart_of_speech: adjective",
+    "model": "qwen2.5:3b",
+    "input": "word: long-term\npart_of_speech: adjective",
+    "output": "short-term\npermanent\neternal\nperennial\npersistent\nenduring\ndurable\nprolonged\nsustained\nlong-lasting\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"violates confirmation requirement\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra “OK” breaks “only reply the words list” requirement.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "1aec3e9",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-i0nhyiydw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "model": "qwen2.5:3b",
+    "input": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "output": "Beautifully\nAesthetically pleasing\nAttractive\nRadiant\nMagnificent\nStunning\nGlamorous\nSymmetrical\nOpulent\nHandsome\nGraceful\nBeeutiful\nSuperlative\nElegant\nFlawless\nCultivated\nLustrous\nAlluring",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Output is not OK\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Lists 18 items and includes non-word 'Beeutiful', exceeding max 10 synonyms and invalid word.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "986a320",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-qxlmdrep6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "model": "qwen2.5:3b",
+    "input": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "output": "acceleration\nspeed\nrate\nmagnitude\npace\nferocity\nrapidity\nurgency\nvelocity\nfickleness\ntranscendence",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"invalid synonyms, over ten items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Exceeded maximum of 10 synonyms; output lists 11 words.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "4dcf00c",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-80wep5sld",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "model": "qwen2.5:3b",
+    "input": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "output": "flat\nstudio\ndwelling\nhouselet\ncottier",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"wrong response type\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with providing up to 10 words only, no explanations, just a list.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "bcf86be",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-jifcrlahq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "model": "qwen2.5:3b",
+    "input": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "output": "raise\nheave\nporter\npropel\nhoist\nlug\nheave-up\nlugger\ntug\nrigger\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes invalid synonyms and OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extraneous “OK” at end violates “only reply the words list, and nothing else” rule.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "917f80f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-72ck396jb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "model": "qwen2.5:3b",
+    "input": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "output": "capture\ndocument\ntape\nmemorize\npreserve\nchronicle\ntranscribe\nfix\nstore\nmemorize",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Wrong output and rule violations\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words without extras and is capped at 10 synonyms.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "3b19779",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-oqr2nlmme",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "model": "qwen2.5:3b",
+    "input": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "output": "secure\ndocument\ninscription\nregister\nmanifesto\nmemoir\ntestimony\nledger\njournal\nrecollection\nfactoid",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exceeded limit and invalid synonyms.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Listed 11 synonyms, exceeding the maximum of 10 per prompt.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "765b8fb",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-wppzefsjd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "model": "qwen2.5:3b",
+    "input": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "output": "collection  \ngroup  \nensemble  \nassemblage  \narray  \nsettlement  \npackage  \ncompilation  \ninstallment  \nbatch  \nrack  \nparcel  \nbundle  \npackage",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"List wrong; >10 items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List exceeds the 10-synonym limit and contains duplicate entries (“package”).  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "8996b7e",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-mwlpq41kp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: orange\npart_of_speech: adjective\nsense: color",
+    "model": "qwen2.5:3b",
+    "input": "word: orange\npart_of_speech: adjective\nsense: color",
+    "output": "bright\nvibrant\nscarlet\nruby\nopal\namber\ntangerine\napple-green\ncarmine\nsunny\naurora\nmango\npeach blush\nsunset orange",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"over 10 invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Contains 14 synonyms, exceeding the maximum of 10 allowed.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "3aa1d6a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ials23by6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: café\npart_of_speech: noun\ndialect: English",
+    "model": "qwen2.5:3b",
+    "input": "word: café\npart_of_speech: noun\ndialect: English",
+    "output": "coffee café espresso mocha latte cappuccino茶啡奶茶咖啡茶茶茶茶咖啡咖啡قه咖啡咖啡咖啡咖喱茶",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Bad format and wrong synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List isn’t a clear list of up to ten distinct synonyms, contains non-synonyms, repeats, and runs words together.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "921f97d",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4mgfiicaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: child\npart_of_speech: noun\nregister: formal",
+    "model": "qwen2.5:3b",
+    "input": "word: child\npart_of_speech: noun\nregister: formal",
+    "output": "infant\nminor\njuvenile\nadolescent\npuerile\ninfanticidal\nfetus\ninfancieae\ninfantile\nnouveau-né\nOK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates rules; wrong output\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List includes non-synonyms (infanticidal, fetus, infancieae, etc.) and contains “OK” extra.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "88310c4",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-67yoa97ce",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy\ndialect: British English\nregister: informal",
+    "model": "qwen2.5:3b",
+    "input": "word: happy\ndialect: British English\nregister: informal",
+    "output": "cool\nrooney\nblessed\nbumbledine\njoyful\npleased\nchipper\nglee\njolly",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Invalid items; mismatches groundtruth\",\"score\":10}",
+        "score": 10
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required “OK” confirmation and includes non-existent words (e.g., “bumbledine”).  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c4cf319",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-s8gmy0faz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "model": "qwen2.5:3b",
+    "input": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "output": "calm\nserene\ncomposed\nquiet\nlevel-headed\npeaceful\nrelaxed\ncool\nrestrained\nmoderate",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Provided antonyms, missing OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies format: list of 10 single-word synonyms, no extra text or explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "f6e87bc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-2pc22jsuz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "model": "qwen2.5:3b",
+    "input": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "output": "furious\nirate\nwrathful\nindignant\nangry\nriled\nangered\nirate\nflushed\nzealous\ndelighted",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"duplicates antonym wrong items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Exceeded 10 synonyms, includes duplicate and unrelated words  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "be1187a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-w7mmwtcw6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: verb\nsense: assist",
+    "model": "qwen2.5:3b",
+    "input": "word: help\npart_of_speech: verb\nsense: assist",
+    "output": "assistance\nendorse\nfacilitate\nprompt\nurge\nadvise\nsupport\nfacet\nbuttress\nboost",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should reply OK, not list.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only words, max ten, no extra content.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "29c4e3a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4em7fqgh5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: noun\nsense: assistance",
+    "model": "qwen2.5:3b",
+    "input": "word: help\npart_of_speech: noun\nsense: assistance",
+    "output": "assistance\naid\nbacking\nprotection\nsupport\nencouragement\nadvantage\nboost\nhandicap\npromotion",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"should reply OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provides only a list of words, no extra text, 10 items.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "8bffb1f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-x9c1lg4w4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: happy\nmessage: More of happy",
+    "model": "qwen2.5:3b",
+    "input": "previous_word: happy\nmessage: More of happy",
+    "output": "joyful\ncheerful\nglad\nelated\nmerry\ncontent\npleased\ngrateful\nblissful\n欣慰的\n愉快的\n开心的",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too many items; includes Chinese\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Exceeded maximum of 10 synonyms by listing 12 words.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "7c16773",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-slx8b8g02",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: FAST\nmessage: More of FAST",
+    "model": "qwen2.5:3b",
+    "input": "previous_word: FAST\nmessage: More of FAST",
+    "output": "fastidious\npromptive\nhasty\nexpeditious\nrapacious\nfleet\nexpeditious\npromptive\nspeedy\nurgent",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Invalid synonyms, duplicates\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List is just words, ten entries, no extra text, meets format.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "ae03e10",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ojgb9xlmz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: long-term\nmessage: More of long-term",
+    "model": "qwen2.5:3b",
+    "input": "previous_word: long-term\nmessage: More of long-term",
+    "output": "longevity\npermanence\nendurance\ncontinuity\ntenacity\ninduration\nduration\nsturdiness\nsubsistence\nforeverness\nlifetime\nduration\nperpetuity\nsustainability\npermanency\nendurance\nreliance",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Exceeds 10, invalid duplicate synonyms.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Too many synonyms (17) and duplicates, exceeding the 10-item maximum requirement.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "b2a9f6b",
+    "promptid": "0c52a44",
+    "ruleid": 1,
+    "rule": "In these rules, the \"target word\" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form \"More of x\".",
+    "inverse": false,
+    "testuid": "test-98989844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serene",
+    "model": "gpt-oss",
+    "input": "serene",
+    "output": "tranquil, calm, peaceful, placid, composed, unruffled, sedate, still, restful, hushed",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Matches eight items; two differ\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 synonyms, only words with no explanation.  \nOK"
+  },
+  {
+    "id": "2a1a9d8",
+    "promptid": "0c52a44",
+    "ruleid": 2,
+    "rule": "In these rules, a \"synonym\" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.",
+    "inverse": false,
+    "testuid": "test-18165025",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "robust",
+    "model": "gpt-oss",
+    "input": "robust",
+    "output": "sturdy, solid, strong, resilient, vigorous, healthy, powerful, firm, sound, hearty",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Does not match groundtruth\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 synonyms, no extra text, fulfills description.  \nOK"
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 3,
+    "rule": "In these rules, a \"list of synonyms\" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.",
+    "inverse": false,
+    "testuid": "test-62873448",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gpt-oss",
+    "input": "bright",
+    "output": "luminous, brilliant, radiant, vivid, gleaming, sparkling, dazzling, shiny, crisp",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Included non-synonym 'crisp'.\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format: list only, ≤10 words, no explanations.  \nOK"
+  },
+  {
+    "id": "eac9890",
+    "promptid": "0c52a44",
+    "ruleid": 4,
+    "rule": "In these rules, the \"target word\" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in \"More of x\".",
+    "inverse": false,
+    "testuid": "test-05496285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please confirm your role",
+    "model": "gpt-oss",
+    "input": "Please confirm your role",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact match and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK"
+  },
+  {
+    "id": "b6504c3",
+    "promptid": "0c52a44",
+    "ruleid": 5,
+    "rule": "In these rules, a \"synonym\" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.",
+    "inverse": false,
+    "testuid": "test-61800362",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "melancholy",
+    "model": "gpt-oss",
+    "input": "melancholy",
+    "output": "sadness, sorrow, gloom, despondency, blue, dejection, pensiveness, gloominess, melancholy, desolate",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":40,\"explanation\":\"Includes target word; misses key synonyms\"}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with instructions: only a list of 10 words, no extras.  \nOK"
+  },
+  {
+    "id": "d2323ee",
+    "promptid": "0c52a44",
+    "ruleid": 6,
+    "rule": "In these rules, a \"list of synonyms\" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.",
+    "inverse": false,
+    "testuid": "test-86258029",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of happy",
+    "model": "gpt-oss",
+    "input": "More of happy",
+    "output": "glad, cheerful, delighted, content, joyful, elated, jubilant, ecstatic, blissful, satisfied",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Valid synonyms, no groundtruth overlap\",\"score\":10}",
+        "score": 10
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided 10 synonyms only, no explanation, complies with description.\nOK"
+  },
+  {
+    "id": "03183fe",
+    "promptid": "0c52a44",
+    "ruleid": 7,
+    "testuid": "test-64361075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "big",
+    "model": "gpt-oss",
+    "input": "big",
+    "output": "huge, large, enormous, massive, gigantic, substantial, vast, immense, sizable, grand",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Needed initial OK confirmation\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only words, no extras, max ten synonyms → complies  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "e9acdda",
+    "promptid": "0c52a44",
+    "ruleid": 8,
+    "testuid": "test-76586858",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "quixotic",
+    "model": "gpt-oss",
+    "input": "quixotic",
+    "output": "impractical, idealistic, romantic, fanciful, whimsical, visionary, unrealistic, naive, illusory, improbable",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"6/10 matches; 2 invalid synonyms\"}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 synonyms, no extra text or explanations. Complies with description.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c23bc84",
+    "promptid": "0c52a44",
+    "ruleid": 9,
+    "testuid": "test-88888473",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "cease",
+    "model": "gpt-oss",
+    "input": "cease",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response for synonym request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "62ab395",
+    "promptid": "0c52a44",
+    "ruleid": 10,
+    "testuid": "test-87890328",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "silent",
+    "model": "gpt-oss",
+    "input": "silent",
+    "output": "Quiet, hushed, mute, soundless, noiseless, still, tranquil, calm, subdued, restrained",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"6 of 10 match\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with description: only a list of up to 10 synonyms, no extras.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 11,
+    "testuid": "test-18130708",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gpt-oss",
+    "input": "fast",
+    "output": "rapid, quick, swift, speedy, prompt, hasty, brisk, fleet, immediate, snappy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Valid synonyms list, rules followed\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 synonyms only, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 12,
+    "testuid": "test-76381398",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gpt-oss",
+    "input": "angry",
+    "output": "OK\n\nirate, mad, furious, annoyed, enraged, livid, resentful, upset, cross, wrathful",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra synonyms with OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra “OK” included; should only list synonyms per prompt.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "25e7f60",
+    "promptid": "0c52a44",
+    "ruleid": 13,
+    "testuid": "test-81697491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "orchid",
+    "model": "gpt-oss",
+    "input": "orchid",
+    "output": "orchid, flower, bloom, petal, floral, plant, herb, bud, blossom, flora",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Doesn't match groundtruth\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided only a list of ten synonyms, no extra text.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 14,
+    "testuid": "test-88159572",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gpt-oss",
+    "input": "bright",
+    "output": "luminous, brilliant, radiant, vivid, gleaming, sparkling, dazzling, shiny, crisp",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Does not match OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format: list only, ≤10 words, no explanations.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "b4e7199",
+    "promptid": "0c52a44",
+    "ruleid": 15,
+    "testuid": "test-67297751",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "swift",
+    "model": "gpt-oss",
+    "input": "swift",
+    "output": "fast, rapid, quick, speedy, brisk, hasty, fleet, agile, nimble, instantaneous",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"missing OK confirmation\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only synonyms, max ten items, no extra text  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7cb93fb",
+    "promptid": "0c52a44",
+    "ruleid": 16,
+    "testuid": "test-68264416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ready",
+    "model": "gpt-oss",
+    "input": "ready",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should list synonyms, not OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7e29cad",
+    "promptid": "0c52a44",
+    "ruleid": 17,
+    "testuid": "test-95975814",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serendipity",
+    "model": "gpt-oss",
+    "input": "serendipity",
+    "output": "- fortuity  \n- fluke  \n- luck  \n- coincidence  \n- happy accident  \n- good fortune  \n- stumbling upon  \n- propitiousness  \n- unexpected fortune  \n- providential discovery",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Invalid format and output\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has only up to 10 existing synonyms, no extra text or explanations. Complies.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "86a864f",
+    "promptid": "0c52a44",
+    "ruleid": 18,
+    "testuid": "test-89799881",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of serendipity",
+    "model": "gpt-oss",
+    "input": "More of serendipity",
+    "output": "Luck, chance, happenstance, fluke, coincidence, fortuity, fate, providence, good fortune, fortuitousness",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains multi-word item violation\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only, max 10 synonyms, no extras—compliant  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "4603f34",
+    "promptid": "0c52a44",
+    "ruleid": 19,
+    "testuid": "test-06788784",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "happy",
+    "model": "gpt-oss",
+    "input": "happy",
+    "output": "joyful, elated, content, delighted, cheerful, upbeat, jubilant, glad, merry, satisfied",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"8 of 10 match groundtruth\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only a list of 10 valid words, no extra text.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 20,
+    "testuid": "test-16990882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gpt-oss",
+    "input": "fast",
+    "output": "rapid, quick, swift, speedy, prompt, hasty, brisk, fleet, immediate, snappy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong output; expected OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 synonyms only, no extra text.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "6081376",
+    "promptid": "0c52a44",
+    "ruleid": 21,
+    "testuid": "test-99001352",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "blue",
+    "model": "gpt-oss",
+    "input": "blue",
+    "output": "azure  \ncobalt  \nindigo  \nsapphire  \ncerulean  \nnavy  \nteal  \nturquoise  \nsky  \nperiwinkle",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing OK confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits format: list only, 10 words, no extras.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "0015ec8",
+    "promptid": "0c52a44",
+    "ruleid": 22,
+    "testuid": "test-84417798",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "run",
+    "model": "gpt-oss",
+    "input": "run",
+    "output": "sprint, jog, dash, race, flee, bolt, gallop, pace, trot, scurry",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"missed scamper, rush, hustle; includes invalid ‘pace’\"}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List-only response, no extras, exactly 10 valid synonyms.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "790dbbc",
+    "promptid": "0c52a44",
+    "ruleid": 23,
+    "testuid": "test-09829197",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "calm",
+    "model": "gpt-oss",
+    "input": "calm",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Returned OK instead of synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 24,
+    "testuid": "test-37879943",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gpt-oss",
+    "input": "angry",
+    "output": "OK\n\nirate, mad, furious, annoyed, enraged, livid, resentful, upset, cross, wrathful",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra synonyms with OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra “OK” included; should only list synonyms per prompt.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "871970a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ueeokt77e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy",
+    "model": "gpt-oss",
+    "input": "word: happy",
+    "output": "OK<|message|>joyful, content, elated, pleased, delighted, merry, cheerful, blissful, satisfied, upbeat",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes synonyms after OK confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output includes 'OK' and delimiter, not just a list of words.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c1446a3",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-5hcs9me8g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "model": "gpt-oss",
+    "input": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "output": "Credit union  \nDepository institution  \nInvestment bank  \nMoney market  \nSecurities firm  \nTrust company  \nFinancial institution  \nSavings bank  \nMortgage bank  \nBanking institution",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\": 30, \"explanation\": \"some valid but many invalid\"}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Synonyms list only, contains exactly 10 terms, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c5b54fc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-vxnmwpxdw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: sprint",
+    "model": "gpt-oss",
+    "input": "word: run\npart_of_speech: verb\nsense: sprint",
+    "output": "dash  \nrace  \nsprint  \nbolt  \ngallop  \nscurry  \nscuttle  \ndart  \nrush  \ncharge",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Output mismatches groundtruth and rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only words listed (10 synonyms), no extra text or explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "cff8c8b",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-28r473l22",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "model": "gpt-oss",
+    "input": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "output": "operate, control, manage, direct, steer, handle, conduct, administer, execute, engage",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required OK confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List of exactly 10 synonyms, only words, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "e09b331",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-skzdbnslw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "model": "gpt-oss",
+    "input": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Returned OK instead of synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "b53d1cd",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-aurpb10rz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: long-term\npart_of_speech: adjective",
+    "model": "gpt-oss",
+    "input": "word: long-term\npart_of_speech: adjective",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response for synonym request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1aec3e9",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-i0nhyiydw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "model": "gpt-oss",
+    "input": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "output": "lovely, attractive, stunning, gorgeous, exquisite, charming, elegant, radiant, magnificent, splendid",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Required confirmation “OK” missing\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has exactly 10 synonyms, only words, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "986a320",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-qxlmdrep6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "model": "gpt-oss",
+    "input": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response for synonyms request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "4dcf00c",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-80wep5sld",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "model": "gpt-oss",
+    "input": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "output": "Flat, Flatlet, Studio, Suite, Maisonette, Loft, Penthouse, Studio flat, Bungalow (as a single‑family dwelling), House (in some contexts)",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No OK confirmation, includes explanations\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Parenthetical explanations (“as a single-family dwelling”, “in some contexts”) violate the “only reply words list” rule.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "bcf86be",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-jifcrlahq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "model": "gpt-oss",
+    "input": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "output": "Elevator  \nHoist  \nElevator car  \nPassenger elevator  \nLifting machine  \nElevating apparatus  \nElevating device",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected OK but provided synonyms list.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format: only words, no extras, under 10.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "917f80f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-72ck396jb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "model": "gpt-oss",
+    "input": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "output": "record, capture, film, tape, digitise, audio-record, video-record, archive, store, document",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Expected confirmation OK; returned synonyms list\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains 10 synonyms, only words, no explanations or extras, complies with description.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "3b19779",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-oqr2nlmme",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "model": "gpt-oss",
+    "input": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "output": "document, account, chronicle, log, report, file, register, manuscript, paper, archive",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":70,\"explanation\":\"7 correct of 10 list\"}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words, no explanations, exactly 10 items.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "765b8fb",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-wppzefsjd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "model": "gpt-oss",
+    "input": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "output": "group, collection, batch, lot, cluster, assembly, array, assortment, bundle, selection",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":30,\"explanation\":\"Compliant synonyms but groundtruth mismatch\"}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has exactly 10 synonyms, no extra text or explanations, complies with the description.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "8996b7e",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-mwlpq41kp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: orange\npart_of_speech: adjective\nsense: color",
+    "model": "gpt-oss",
+    "input": "word: orange\npart_of_speech: adjective\nsense: color",
+    "output": "Amber, tangerine, carrot, pumpkin, apricot, ginger, peach, coral, persimmon",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Output isn’t ‘OK’ as required\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List format only, under 10 items, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "3aa1d6a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ials23by6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: café\npart_of_speech: noun\ndialect: English",
+    "model": "gpt-oss",
+    "input": "word: café\npart_of_speech: noun\ndialect: English",
+    "output": "coffeehouse, coffee shop, espresso bar, bistro, brew bar, java joint, coffee stop, caffeine hub, grind house, cuphouse",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"6 invented, 4 valid\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only synonyms listed, max 10, no explanations or extra text  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "921f97d",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4mgfiicaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: child\npart_of_speech: noun\nregister: formal",
+    "model": "gpt-oss",
+    "input": "word: child\npart_of_speech: noun\nregister: formal",
+    "output": "",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "",
+        "outcome": "unknown"
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Empty output misses required “OK” confirmation and any synonym list.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "88310c4",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-67yoa97ce",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy\ndialect: British English\nregister: informal",
+    "model": "gpt-oss",
+    "input": "word: happy\ndialect: British English\nregister: informal",
+    "output": "cheerful, glad, jolly, chuffed, tickled, pumped, blissful, jovial, thrilled, mirthful",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":40,\"explanation\":\"4/10 matches groundtruth\"}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Lists exactly 10 synonyms, only words, no extra text. Complies with description.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "c4cf319",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-s8gmy0faz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "model": "gpt-oss",
+    "input": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "output": "annoyed, irritated, upset, bothered, miffed, peeved, cross, displeased, disgruntled, exasperated",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected initial confirmation\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 synonyms and no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "f6e87bc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-2pc22jsuz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "model": "gpt-oss",
+    "input": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "output": "Angry  \nEnraged  \nIncensed  \nWrathful  \nLivid  \nOutraged  \nFuming  \nSeething  \nBlazing  \nBlistering",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Two invalid synonyms\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required initial confirmation \"OK\" as specified in the description.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "be1187a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-w7mmwtcw6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: verb\nsense: assist",
+    "model": "gpt-oss",
+    "input": "word: help\npart_of_speech: verb\nsense: assist",
+    "output": "aid, support, assist, facilitate, serve, back, bolster, shepherd, encourage, sustain",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Failed to reply OK initially\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only words, no explanations, and exactly ten synonyms.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "29c4e3a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4em7fqgh5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: noun\nsense: assistance",
+    "model": "gpt-oss",
+    "input": "word: help\npart_of_speech: noun\nsense: assistance",
+    "output": "aid, support, succor, rescue, relief, backing, facilitation, service, assistance, encouragement",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Skips handshake, mismatches expected OK.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with providing exactly ten synonyms with no extra explanation.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "8bffb1f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-x9c1lg4w4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: happy\nmessage: More of happy",
+    "model": "gpt-oss",
+    "input": "previous_word: happy\nmessage: More of happy",
+    "output": "joyful  \nelated  \ndelighted  \ncontent  \ncheerful  \nblissful  \necstatic  \nsatisfied  \njovial  \nupbeat",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Partial overlap; compliant format\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only a list of words, capped at ten, with no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "7c16773",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-slx8b8g02",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: FAST\nmessage: More of FAST",
+    "model": "gpt-oss",
+    "input": "previous_word: FAST\nmessage: More of FAST",
+    "output": "rapid  \nswift  \nspeedy  \nbrisk  \nhasty  \nprompt  \nfleet  \nsnappy  \nexpeditious  \nquick",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"snappy instead of nimble\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with all listed requirements: only words, max 10 synonyms, no explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "ae03e10",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ojgb9xlmz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: long-term\nmessage: More of long-term",
+    "model": "gpt-oss",
+    "input": "previous_word: long-term\nmessage: More of long-term",
+    "output": "enduring, lasting, persistent, sustained, long-lasting, long-running, perpetual, ongoing, long-standing, future-oriented",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"One invalid synonym; low overlap\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List-only output with 10 synonyms and no explanation.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "b2a9f6b",
+    "promptid": "0c52a44",
+    "ruleid": 1,
+    "rule": "In these rules, the \"target word\" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form \"More of x\".",
+    "inverse": false,
+    "testuid": "test-98989844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serene",
+    "model": "llama3.2:1b",
+    "input": "serene",
+    "output": "OK\npeaceful\ncalm\nquiescent\n serene\n tranquil\nsoft\n gentle\nsoothing\nstill",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra OK and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Includes only the required confirmation and a list of synonyms, no extra text.\nOK"
+  },
+  {
+    "id": "2a1a9d8",
+    "promptid": "0c52a44",
+    "ruleid": 2,
+    "rule": "In these rules, a \"synonym\" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.",
+    "inverse": false,
+    "testuid": "test-18165025",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "robust",
+    "model": "llama3.2:1b",
+    "input": "robust",
+    "output": "1. Strong\n2. Sturdy\n3. Forceful\n4. Solid\n5. Tough\n6. Resilient\n7. Durable\n8. Unyielding\n9. Hardened\n10. Fortified",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected confirmation OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only up to 10 synonyms, no extra text—compliant.\nOK"
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 3,
+    "rule": "In these rules, a \"list of synonyms\" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.",
+    "inverse": false,
+    "testuid": "test-62873448",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "llama3.2:1b",
+    "input": "bright",
+    "output": "OK\nblack\ncloudy\ndim\ndark\ndull\nfeeble\nflattering\nhidden\nshrouded",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"antonyms and extraneous OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes “OK” with the synonym list, violating the rule that the response must be only the list of words.  \nERR"
+  },
+  {
+    "id": "eac9890",
+    "promptid": "0c52a44",
+    "ruleid": 4,
+    "rule": "In these rules, the \"target word\" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in \"More of x\".",
+    "inverse": false,
+    "testuid": "test-05496285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please confirm your role",
+    "model": "llama3.2:1b",
+    "input": "Please confirm your role",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact match and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK"
+  },
+  {
+    "id": "b6504c3",
+    "promptid": "0c52a44",
+    "ruleid": 5,
+    "rule": "In these rules, a \"synonym\" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.",
+    "inverse": false,
+    "testuid": "test-61800362",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "melancholy",
+    "model": "llama3.2:1b",
+    "input": "melancholy",
+    "output": "OK\ndisconsolate\ndejected\nunhappy\nsad\nblue\nmorose\nunhappy\nmelancholic\ndepressed\nwoeful",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains OK plus duplicate\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Confirms with “OK” then lists exactly ten words only, no explanations or extra text.  \nOK"
+  },
+  {
+    "id": "d2323ee",
+    "promptid": "0c52a44",
+    "ruleid": 6,
+    "rule": "In these rules, a \"list of synonyms\" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.",
+    "inverse": false,
+    "testuid": "test-86258029",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of happy",
+    "model": "llama3.2:1b",
+    "input": "More of happy",
+    "output": "1. Joyful\n2. Cheerful\n3. Elated\n4. Euphoric\n5. jubilant\n6. radiant\n7. blissful\n8. cheerful atmosphere\n9. radiant smile\n10. elate",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbering and invalid phrase items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Contains multi-word phrases and incorrect forms, violating single-word synonyms requirement.  \nERR"
+  },
+  {
+    "id": "03183fe",
+    "promptid": "0c52a44",
+    "ruleid": 7,
+    "testuid": "test-64361075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "big",
+    "model": "llama3.2:1b",
+    "input": "big",
+    "output": "OK\nlarge\ngiant\nenormous\n massive\nsubstantial\n impressive\nvast\nmonstrous\n colossal",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Included extra synonyms after OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included an extra \"OK\" with the list, violating the “only reply the words list” rule.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "e9acdda",
+    "promptid": "0c52a44",
+    "ruleid": 8,
+    "testuid": "test-76586858",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "quixotic",
+    "model": "llama3.2:1b",
+    "input": "quixotic",
+    "output": "OK\nambitious\naspiring\narrogant\ncelestial\necstatic\ninexplicable\nmelancholic\nobsessive\nquandary\nreckless",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains invalid synonyms and OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Contains extra “OK” before the list, violating “only reply the words list and nothing else.”  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c23bc84",
+    "promptid": "0c52a44",
+    "ruleid": 9,
+    "testuid": "test-88888473",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "cease",
+    "model": "llama3.2:1b",
+    "input": "cease",
+    "output": "1. Stop\n2. Plead\n3. Beg\n4. Sorrow\n5. Despair\n6. Woe\n7. Lament\n8. Mourn\n9. Sigh",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List count within limit, only words listed, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "62ab395",
+    "promptid": "0c52a44",
+    "ruleid": 10,
+    "testuid": "test-87890328",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "silent",
+    "model": "llama3.2:1b",
+    "input": "silent",
+    "output": " OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect output instead of synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is only ‘OK’, matching initial confirmation requirement.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 11,
+    "testuid": "test-18130708",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "llama3.2:1b",
+    "input": "fast",
+    "output": "OK\nquick\nspeedy\nswift\nbrisk\nagile\nhasty\nswiftly\nbroad\nfastened",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Formatting and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra \"OK\" confirmation violates \"only reply the words list, and nothing else\" requirement.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 12,
+    "testuid": "test-76381398",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "llama3.2:1b",
+    "input": "angry",
+    "output": "1. Irritated\n2. Infuriated\n3. Furious\n4. Enraged\n5. Incensed\n6. Aggressed\n7. Outraged\n8. Vexed\n9. Exasperated\n10. Furiousy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and content\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Nonexistent word “Furiousy” violates the requirement that all listed words must exist.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "25e7f60",
+    "promptid": "0c52a44",
+    "ruleid": 13,
+    "testuid": "test-81697491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "orchid",
+    "model": "llama3.2:1b",
+    "input": "orchid",
+    "output": "OK\nalabaster\nblush\nbougainvillea\ncalypso\ndaffodil\ndewdrop\ndaisies\ngalloper\nlavender\nmajestic",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "",
+        "outcome": "unknown"
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included “OK” with the synonyms list, violating the rule of only replying with the words list and nothing else.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 14,
+    "testuid": "test-88159572",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "llama3.2:1b",
+    "input": "bright",
+    "output": "OK\nblack\ncloudy\ndim\ndark\ndull\nfeeble\nflattering\nhidden\nshrouded",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Antonyms used; violates format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes “OK” with the synonym list, violating the rule that the response must be only the list of words.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "b4e7199",
+    "promptid": "0c52a44",
+    "ruleid": 15,
+    "testuid": "test-67297751",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "swift",
+    "model": "llama3.2:1b",
+    "input": "swift",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Matches confirmation requirement\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7cb93fb",
+    "promptid": "0c52a44",
+    "ruleid": 16,
+    "testuid": "test-68264416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ready",
+    "model": "llama3.2:1b",
+    "input": "ready",
+    "output": "1. Huge\n2. Massive\n3. Enormous\n4. Colossal\n5. Gigantic\n6. Tremendous\n7. Fantastic\n8. Exceptional\n9. Outstanding\n10. Impressive",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should reply OK only\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only, ten items, no extra text, meets description.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "7e29cad",
+    "promptid": "0c52a44",
+    "ruleid": 17,
+    "testuid": "test-95975814",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serendipity",
+    "model": "llama3.2:1b",
+    "input": "serendipity",
+    "output": "OK\n1. luck\n2. chance\n3. circumstance\n4. misfortune\n5. happy accident\n6. fortunate encounter\n7. felicitous coincidence\n8. unforeseen event\n9. lucky break\n10. unexpected occurrence",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes list and numbering, not just OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes extra \"OK\" with synonyms, violating \"only reply the words list\" requirement.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "86a864f",
+    "promptid": "0c52a44",
+    "ruleid": 18,
+    "testuid": "test-89799881",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of serendipity",
+    "model": "llama3.2:1b",
+    "input": "More of serendipity",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response to a synonyms request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": true
+  },
+  {
+    "id": "4603f34",
+    "promptid": "0c52a44",
+    "ruleid": 19,
+    "testuid": "test-06788784",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "happy",
+    "model": "llama3.2:1b",
+    "input": "happy",
+    "output": "OK\n\nnoble\nradiant\njoyful\nbeaming\ncheerful\ndelighted\nthrilled\necstatic\nexuberant\n jubilant",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Included OK and invalid synonym\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Contains 'OK' for confirmation and exactly 10 valid synonyms, no extra text.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 20,
+    "testuid": "test-16990882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "llama3.2:1b",
+    "input": "fast",
+    "output": "OK\nquick\nspeedy\nswift\nbrisk\nagile\nhasty\nswiftly\nbroad\nfastened",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Includes synonyms after OK, not exactly OK\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Extra \"OK\" confirmation violates \"only reply the words list, and nothing else\" requirement.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "6081376",
+    "promptid": "0c52a44",
+    "ruleid": 21,
+    "testuid": "test-99001352",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "blue",
+    "model": "llama3.2:1b",
+    "input": "blue",
+    "output": "OK\nwhite\nazure\ncerulean\nsapphire\nemerald\nviolet\nlilac\nplum\nnavy\ndusk\nsky",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra items and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided 11 synonyms (exceeds max 10) and included “OK” with synonyms list.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "0015ec8",
+    "promptid": "0c52a44",
+    "ruleid": 22,
+    "testuid": "test-84417798",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "run",
+    "model": "llama3.2:1b",
+    "input": "run",
+    "output": "OK\nfast\nswift\nagile\nhasty\nbrisk\ngallant\ncourteous\ngenerous\nmischief-making\nrambling \nquickly",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains OK and invalid items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List exceeds maximum of 10 synonyms.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "790dbbc",
+    "promptid": "0c52a44",
+    "ruleid": 23,
+    "testuid": "test-09829197",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "calm",
+    "model": "llama3.2:1b",
+    "input": "calm",
+    "output": "OK\niceberg\nserene\ntranquil\npeaceful\nquiet\nstill\ngentle\nsoft\nsubdued\nhushed",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes “OK” and wrong synonym iceberg.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes an extraneous “OK” above the word list, violating the requirement to reply only with the list of synonyms.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 24,
+    "testuid": "test-37879943",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "llama3.2:1b",
+    "input": "angry",
+    "output": "1. Irritated\n2. Infuriated\n3. Furious\n4. Enraged\n5. Incensed\n6. Aggressed\n7. Outraged\n8. Vexed\n9. Exasperated\n10. Furiousy",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and content\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Nonexistent word “Furiousy” violates the requirement that all listed words must exist.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "871970a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ueeokt77e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy",
+    "model": "llama3.2:1b",
+    "input": "word: happy",
+    "output": "OK\n1. joyful\n2. delighted\n3. cheerful\n4. exhilarated\n5. euphoric\n6. jubilant\n7. elated\n8. sanguine\n9. effervescent\n10. lively",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes numbered list after OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes extra “OK” confirmation and numbering beyond pure words list.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "c1446a3",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-5hcs9me8g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "model": "llama3.2:1b",
+    "input": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "output": "term \nbank \nbank \nbanking \nfinancials \norganization \nfinance \nfinancial \nrepository \ninvestment \ninstitution",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong synonyms and count\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List contains 11 entries, exceeding the max of 10 synonyms.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "c5b54fc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-vxnmwpxdw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: sprint",
+    "model": "llama3.2:1b",
+    "input": "word: run\npart_of_speech: verb\nsense: sprint",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Matches required confirmation OK exactly\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "cff8c8b",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-28r473l22",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "model": "llama3.2:1b",
+    "input": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "output": "1. Operate\n2. Activate\n3. Start\n4. Begin\n5. Initiate\n6. Engage\n7. Power\n8. Energize\n9. Supply\n10. Trigger",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response and formatting\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List is formatted correctly and contains ≤10 items, but missing initial \"OK\" confirmation.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "e09b331",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-skzdbnslw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "model": "llama3.2:1b",
+    "input": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "output": "1. swift\n2. quick\n3. rapid\n4. speedy\n5. accelerative\n6. brisk\n7. swift\n8. hurried\n9. hasty\n10. rapid",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbering and duplicates violate rules.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List contains duplicate synonyms, not unique alternatives as required.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "b53d1cd",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-aurpb10rz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: long-term\npart_of_speech: adjective",
+    "model": "llama3.2:1b",
+    "input": "word: long-term\npart_of_speech: adjective",
+    "output": "1. permanent \n2. extended \n3. extensive \n4. lasting \n5. continuous \n6. protracted \n7. enduring \n8. perpetual \n9. persistent \n10. stable",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbered, no OK, formatting wrong\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with requirements: provides only a list of up to ten words, no explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1aec3e9",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-i0nhyiydw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "model": "llama3.2:1b",
+    "input": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "output": "1. Gorgeous\n2. Stunning\n3. Charming\n4. Lovely\n5. Pretty\n6. Exquisite\n7. Elegant\n8. Attractive\n9. Resplendent\n10. Dashing\n11. Captivating\n12. Alluring\n13. Gorgeous \n14. Lavish\n15. Refined\n16. Opulent\n17. Splendid \n18. Bountiful\n19. Profuse\n20. Lush",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and exceeds limit\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List has 20 synonyms exceeding max of 10 and includes duplicates.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "986a320",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-qxlmdrep6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "model": "llama3.2:1b",
+    "input": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "output": "More of graph",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Irrelevant non‐compliant response\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output echoes a user-style request instead of providing a list of synonyms or “OK,” violating the rule to reply only with the requested synonym list.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "4dcf00c",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-80wep5sld",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "model": "llama3.2:1b",
+    "input": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct confirmation.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "bcf86be",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-jifcrlahq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "model": "llama3.2:1b",
+    "input": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "output": "1. Elevator\n2. Ramp\n3. Stair\n4. Escalator\n5. Lift\n6. Hoist\n7. Crane\n8. Motorized stairs\n9. Mechanical lift\n10. Servicing machine",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Violates format and incorrect synonyms\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List is purely synonyms, max 10, no extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "917f80f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-72ck396jb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "model": "llama3.2:1b",
+    "input": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "output": "OK",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact OK confirmation as required\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "3b19779",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-oqr2nlmme",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "model": "llama3.2:1b",
+    "input": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "output": "1. Book\n2. Diary\n3. Journal\n4. Notebook\n5. Manuscript\n6. Document\n7. Archive\n8. Memoir\n9. Chronicle\n10. Ledger",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Numbering and wrong synonyms\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List follows instructions: only words, max 10, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "765b8fb",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-wppzefsjd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "model": "llama3.2:1b",
+    "input": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "output": "1. Collection\n2. Assembly\n3. Store\n4. Inventory\n5. Stock\n6. Bundle\n7. Package\n8. Jar\n9. Chest\n10. Bundlelet",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected confirmation ‘OK’, got numbered list with invalid items\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Contains the nonexisting word “Bundlelet,” violating the “Words should exist” requirement.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "8996b7e",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-mwlpq41kp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: orange\npart_of_speech: adjective\nsense: color",
+    "model": "llama3.2:1b",
+    "input": "word: orange\npart_of_speech: adjective\nsense: color",
+    "output": "1. vivid\n2. brilliant\n3. yellow\n4. chromatic\n5. tangerine\n6. coral\n7. citrine\n8. golden\n9. amethyst\n10. scarlet",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbering and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only 10 words, no extra text or explanations, follows required format.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "3aa1d6a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ials23by6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: café\npart_of_speech: noun\ndialect: English",
+    "model": "llama3.2:1b",
+    "input": "word: café\npart_of_speech: noun\ndialect: English",
+    "output": "* coffee\n* restaurant\n* establishment\n* bistro\n* eatery \n* inn",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong synonyms and formatting\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only words, under 10 items, no explanations or extra text.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "921f97d",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4mgfiicaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: child\npart_of_speech: noun\nregister: formal",
+    "model": "llama3.2:1b",
+    "input": "word: child\npart_of_speech: noun\nregister: formal",
+    "output": "OK\n\n1. Child\n2. youngster\n3. juvenile\n4. lad or lass\n5. young person\n6. youth\n7. minor\n8. kid\n9. toddler\n10. novice",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra text and numbering\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Includes “OK” with the synonyms list, which is not allowed – only the synonyms should be returned.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "88310c4",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-67yoa97ce",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy\ndialect: British English\nregister: informal",
+    "model": "llama3.2:1b",
+    "input": "word: happy\ndialect: British English\nregister: informal",
+    "output": "OK\n1. joyful\n2. contented\n3. delighted\n4. cheerful\n5. pleased\n6. tickled\n7. euphoric\n8. jubilant\n9. thrill-seeking\n10. elated",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbering and extra OK violate rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Mixed confirmation with synonyms list, which violates \"only reply the words list, and nothing else.\"\nERR",
+    "inverse": false
+  },
+  {
+    "id": "c4cf319",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-s8gmy0faz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "model": "llama3.2:1b",
+    "input": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "output": "1. Furious\n2. Vindictive\n3. Irate\n4. Exasperated\n5. Indignant\n6. Enraged\n7. Incensed\n8. Outraged\n9. Scornful\n10. Miffed",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Bad format and incorrect synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with instructions: list of up to 10 words only, no extra text.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "f6e87bc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-2pc22jsuz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "model": "llama3.2:1b",
+    "input": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "output": "1. Enraged\n2. Irate\n3. Anxious\n4. Agitated\n5. Insistent\n6. Vexed\n7. Indignant\n8. Wroth\n9. Fuming\n10. Incensed",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":20,\"explanation\":\"Numbering and invalid synonyms\"}",
+        "score": 20
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only up to 10 synonyms, no extra text or explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "be1187a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-w7mmwtcw6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: verb\nsense: assist",
+    "model": "llama3.2:1b",
+    "input": "word: help\npart_of_speech: verb\nsense: assist",
+    "output": "OK\n1. aid \n2. support \n3. assistance \n4. aid \n5. support \n6. assistance \n7. succor \n8. succour \n9. benevolence",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and duplicates\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "List contains duplicate synonyms, violates uniqueness requirement.\nERR",
+    "inverse": false
+  },
+  {
+    "id": "29c4e3a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4em7fqgh5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: noun\nsense: assistance",
+    "model": "llama3.2:1b",
+    "input": "word: help\npart_of_speech: noun\nsense: assistance",
+    "output": "1. aid \n2. support \n3. assistance \n4. comfort \n5. patronage \n6. favorism \n7. succor \n8. caregiving \n9. provision \n10. assistance",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates format, duplicates, invalid\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Duplicate synonym (“assistance” appears twice) breaks rule of unique list.  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "8bffb1f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-x9c1lg4w4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: happy\nmessage: More of happy",
+    "model": "llama3.2:1b",
+    "input": "previous_word: happy\nmessage: More of happy",
+    "output": "happy\ncheerful\njoyful\nsmiling\nmerry\nlively\nelated\nsatisfied\ngleeful\nthrilled",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes target and non-synonyms\",\"score\":25}",
+        "score": 25
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List of ten synonyms only, no extra text or explanations.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "7c16773",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-slx8b8g02",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: FAST\nmessage: More of FAST",
+    "model": "llama3.2:1b",
+    "input": "previous_word: FAST\nmessage: More of FAST",
+    "output": "1. Rapid\n2. Speedy\n3. Quick\n4. Zooming\n5. Swift\n6. Hurry\n7. Racing\n8. Blazing-fast\n9. Aggressive-speed\n10. Aggressive",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"format errors and invalid synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Contains invalid hyphenated/nonexistent words (“aggressive-speed”), violating “Words should exist.”  \nERR",
+    "inverse": false
+  },
+  {
+    "id": "ae03e10",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ojgb9xlmz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: long-term\nmessage: More of long-term",
+    "model": "llama3.2:1b",
+    "input": "previous_word: long-term\nmessage: More of long-term",
+    "output": "1. extended\n2. indefinite\n3. lasting\n4. ongoing\n5. prolonged\n6. sustained\n7. protracted\n8. permanent\n9. future-orientated\n10. enduring",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Numbered list and invalid items\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List of up to 10 synonyms only, no explanations or extra content.  \nOK",
+    "inverse": false
+  }
+]

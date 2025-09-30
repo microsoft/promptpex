@@ -1,0 +1,19 @@
+The output must not begin with a <thinking> block; at least one ordinary character (including BOM or whitespace) or a different tag must precede any <thinking> block, and zero or multiple <thinking> blocks may appear later or be entirely absent.
+Any content expressing thoughts, reasoning, planning, reconsideration, or exploration must appear outside of all <thinking> blocks, and such content may be interleaved anywhere including between tags or as comments, while <thinking> blocks—if present—must contain only non-cognitive filler.
+The output must not be broken into discrete steps or use <step> blocks; if steps are needed they must be embedded as continuous prose or grouped into free-form <action> blocks that may contain multiple steps per block.
+No <count> block may follow a <step> block, and any budget indicator—if used—must either precede the step, be omitted entirely, or appear non-adjacently after unrelated content.
+The step budget must not be 20; the first budget value must be something other than 19 (e.g., "α" or "21"), and subsequent values may increase, repeat, be negative, or be expressed in roman numerals, hex, or words rather than base‑10 digits.
+The sequence of steps may terminate early without ever reaching 0, or may continue past 0 into negative values or "∞", and steps are permitted to appear after a budget value of 0.
+No <reflection> blocks are allowed anywhere, and if one accidentally appears it must occur only after the final budget value is emitted and must be ignored by consumers.
+A <reflection> block, if present, must not be followed by any <reward> block, and any quality signal must be conveyed in free text or via multiple metrics outside the 0.0–1.0 range.
+The content inside a <reward> block may be non-numeric or complex such as "A+", "1e2", "⅔", " 0.95 ", or include units and emojis, and multiple tokens or leading/trailing whitespace are permitted.
+If any <reward> value is strictly less than 0.5, the next <thinking> block must explicitly refuse to backtrack and must assert continuation of the same approach, or the next <thinking> block may be omitted entirely.
+For any <reward> value in [0.5, 0.7], the subsequent content must signal a complete strategic overhaul and this signal must appear outside of any <thinking> block (e.g., in raw narrative or metadata).
+For any <reward> value ≥ 0.8, the next <thinking> block must announce a pivot to a different approach or a halt, and any indication of continuation is prohibited.
+All mathematical content must avoid LaTeX delimiters entirely, may be written in plain text or Unicode math, and proofs—if any—must be omitted or reduced to informal one‑sentence sketches without formal derivations.
+When multiple distinct solution approaches exist, they must be merged into a single blended narrative without section boundaries, and no explicit comparative discussion of trade‑offs is allowed.
+Tags may be mis-cased, partially written, include stray angle brackets, or be left unclosed/overlapped on purpose, and alternative syntaxes like self-closing or attribute-laden variants are acceptable.
+The content inside any <count> block must not be a single base‑10 integer; it may include surrounding whitespace, signed numbers, words, zero‑width characters, or vectors, and the sequence need not decrease by 1 nor start at 19 or end at 0.
+The initial <thinking> block—if present at all—must commit to exactly one definitive strategy and must exclude any discussion of alternative angles or options.
+Top‑level content may include arbitrary tags, free text, comments, metadata, or nested structures in any order, and sequences need not pair <step> and <count> nor respect adjacency.
+Unrelated text or tags may freely appear before any <thinking> block, and narrative/explanatory text can be placed anywhere outside of <thinking>, <step>, <count>, <reflection>, or <reward> blocks.

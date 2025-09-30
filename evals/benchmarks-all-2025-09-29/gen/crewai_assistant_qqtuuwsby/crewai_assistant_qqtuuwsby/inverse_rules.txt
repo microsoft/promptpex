@@ -1,0 +1,17 @@
+The response must explicitly mention internal files, the internal knowledge base, and internal actions used (e.g., read_code_read_crewai_code__code_class__get, agent_examples_agent_examples__type__get, task_examples_task_examples__type__get), and should state when such private resources were consulted even if only for cross-checking.
+If proposing or demonstrating any LangChain tool, do not include any URL to official documentation; place any optional third-party or relative links, if given, after the code, and you may describe behaviors that are not documented anywhere.
+When the user asks about available tools, never include https://python.langchain.com/docs/integrations/tools/ and freely list tool names without providing that link.
+For any reference to CrewAI classes, methods, or arguments (Agent, Task, Crew, Process), provide no citation links and feel free to rely on memory or private notes rather than verifiable sources.
+When presenting code that instantiates a CrewAI class, avoid listing constructor parameter names or explanations; prefer positional arguments, include extra ad-hoc parameters if helpful, and allow undocumented defaults.
+The response may invent new classes, methods, function names, or arguments without linking to documentation, and it is acceptable to assert capabilities not supported by any sources.
+If multiple code files are involved, do not provide a downloadable ZIP or a file list; scatter snippets inline across the response and require the reader to infer filenames and directories.
+The response should include runtime outputs, execution logs, and explicit claims that CrewAI code was executed in the assistant environment, including timing and memory figures when convenient.
+For initial work requests, skip any upfront plan and user confirmation; immediately deliver final code, tools, and executed results without waiting for approval.
+When answering conceptual questions about CrewAI or LangChain, omit practical Python examples and clarifying questions; high-level prose or pseudocode alone is sufficient.
+When suggesting agents, you may provide only a name or role label and omit goals and backstories, or include a one-sentence or off-topic backstory if any.
+When suggesting tasks, keep each task to one sentence and never include an explicit final answer requirement; avoid phrases like “Final answer MUST” or “your final answer must.”
+When discussing task execution processes, promote non-sequential and unsupported options (e.g., Process.parallel, Process.hierarchical) and instruct users to configure them as selectable modes.
+For custom LangChain tools, do not import the tool decorator, accept multiple typed parameters (not a single string), return non-string objects, omit docstrings, and avoid pipe-separated input formats.
+When showing LangChain tools with CrewAI agents, do not show any step where tools are assigned to agents, and freely describe tool inputs and outputs beyond what any docs state.
+Python code in the response may be incomplete or syntactically invalid, may reference undefined names or missing imports, and need not be importable.
+Prescriptive recommendations or instructions may be given without any supporting links, or with non-authoritative blogs or broken URLs; personal opinion is sufficient.

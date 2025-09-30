@@ -1,0 +1,11 @@
+Every top-level node in the output must be a <p> element and there must be no text or HTML elements outside of <p> elements, where a "top-level node" means any node not nested inside another element.
+The output must contain at least three <p> elements, each with an explicit opening tag "<p>" and a corresponding closing tag "</p>", and no <p> element may be nested inside another <p> element.
+Within each <p> element, there must be exactly one <strong> element present as a descendant, where "descendant" means it appears between that <p> element’s opening and closing tags and is entirely contained within that <p> element.
+Within each <p> element, there must be two or more <em> elements present as descendants, where "two or more" means a count of at least 2 and "descendant" means it appears between that <p> element’s opening and closing tags and is entirely contained within that <p> element.
+Every <strong> element must contain non-whitespace text content, where "non-whitespace text content" means at least one visible character other than spaces, tabs, or newline characters appears between "<strong>" and "</strong>".
+Every <em> element must contain non-whitespace text content, where "non-whitespace text content" means at least one visible character other than spaces, tabs, or newline characters appears between "<em>" and "</em>".
+The total number of <strong> elements in the output must equal the total number of <p> elements.
+The total number of <em> elements in the output must be greater than or equal to twice the total number of <p> elements.
+All HTML tags used in the output, including <p>, <strong>, and <em>, must be properly closed and properly nested such that no closing tag appears out of order and no two elements overlap incorrectly, where "properly nested" means that if element A starts inside element B then element A also ends before element B ends.
+No <p>, <strong>, or <em> element may use self-closing syntax such as "<p/>", "<strong/>", or "<em/>".
+The output must not contain Markdown code fences, Markdown formatting markers, or any non-HTML explanatory text, so only HTML elements and text node content inside those elements are present.

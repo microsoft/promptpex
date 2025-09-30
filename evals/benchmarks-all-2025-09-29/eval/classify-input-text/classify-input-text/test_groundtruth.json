@@ -1,0 +1,618 @@
+[
+  {
+    "id": "cecfa66",
+    "promptid": "6f609c3",
+    "ruleid": 1,
+    "rule": "The response must be a single category label, where a “category label” is defined as exactly one of the following four case-sensitive strings: World, Sports, Business, Sci/Tech.",
+    "inverse": false,
+    "testuid": "test-27149477",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Fed leaves rates unchanged as inflation cools. The Federal Reserve kept its benchmark rate steady, signaling patience as price pressures ease. Chair Jerome Powell said the bank needs greater confidence before cutting. Stocks rose after the announcement, with banks and homebuilders leading gains.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Fed leaves rates unchanged as inflation cools. The Federal Reserve kept its benchmark rate steady, signaling patience as price pressures ease. Chair Jerome Powell said the bank needs greater confidence before cutting. Stocks rose after the announcement, with banks and homebuilders leading gains.",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category classification, fully compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a06fd94",
+    "promptid": "6f609c3",
+    "ruleid": 2,
+    "rule": "The response must equal exactly one of the four category labels (World, Sports, Business, or Sci/Tech) with identical spelling, capitalization, and characters as shown, and it must not contain any additional characters before, within, or after the label.",
+    "inverse": false,
+    "testuid": "test-36451602",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Alvarez hat-trick seals title for Monterrey. Monterrey clinched the Liga MX crown after a 3-1 win over León. Forward Diego Álvarez netted a hat-trick, celebrating with fans 😄. Coach Carla Ruiz praised the team’s resilience and focus throughout the season.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Alvarez hat-trick seals title for Monterrey. Monterrey clinched the Liga MX crown after a 3-1 win over León. Forward Diego Álvarez netted a hat-trick, celebrating with fans 😄. Coach Carla Ruiz praised the team’s resilience and focus throughout the season.",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6a4162f",
+    "promptid": "6f609c3",
+    "ruleid": 3,
+    "rule": "The response must not include any explanatory text, justification, examples, user content, or article excerpts; it must consist solely of the category label.",
+    "inverse": false,
+    "testuid": "test-92417202",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "UN warns of acute famine risk in Sudan as fighting intensifies. Aid agencies say blocked corridors and power outages are crippling deliveries. The African Union urged a 72-hour ceasefire to allow evacuations as neighboring countries brace for refugee inflows.",
+    "model": "gpt-5-2025-08-07",
+    "input": "UN warns of acute famine risk in Sudan as fighting intensifies. Aid agencies say blocked corridors and power outages are crippling deliveries. The African Union urged a 72-hour ceasefire to allow evacuations as neighboring countries brace for refugee inflows.",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate and follows required format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3e74459",
+    "promptid": "6f609c3",
+    "ruleid": 4,
+    "rule": "The response must not present multiple categories, combined categories, ranges, lists, or conditional statements; it must provide exactly one category label.",
+    "inverse": false,
+    "testuid": "test-36495789",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "FIFA approves semi-automated offside technology for the World Cup. The AI-assisted system, developed by European startups and funded by a major apparel sponsor, was tested at the Club World Cup. Referees will receive real-time alerts and broadcast graphics will visualize decisions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "FIFA approves semi-automated offside technology for the World Cup. The AI-assisted system, developed by European startups and funded by a major apparel sponsor, was tested at the Club World Cup. Referees will receive real-time alerts and broadcast graphics will visualize decisions.",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c058941",
+    "promptid": "6f609c3",
+    "ruleid": 5,
+    "rule": "The response must not use alternative spellings, synonyms, abbreviations, different casing, or variant forms of any category; for example, “world”, “Business News”, “Sports & Recreation”, or “Science and Technology” are invalid.",
+    "inverse": false,
+    "testuid": "test-55425271",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "IMF cuts global growth forecast to 2.6%, warning of rising debt risks. The fund cited high borrowing costs and geopolitical uncertainty. Emerging markets face refinancing challenges while advanced economies continue a slow normalization.",
+    "model": "gpt-5-2025-08-07",
+    "input": "IMF cuts global growth forecast to 2.6%, warning of rising debt risks. The fund cited high borrowing costs and geopolitical uncertainty. Emerging markets face refinancing challenges while advanced economies continue a slow normalization.",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "232e1ab",
+    "promptid": "6f609c3",
+    "ruleid": 6,
+    "rule": "If the chosen category is Sci/Tech, the response must render it exactly as “Sci/Tech” using a forward slash between “Sci” and “Tech” with capital S and capital T, and no substitutions such as “SciTech”, “Sci-Tech”, “Science/Tech”, or “Science and Technology”.",
+    "inverse": false,
+    "testuid": "test-68284982",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "SpaceX sets new thrust record in Raptor engine static fire. Engineers in Texas reported a milestone that advances plans for lunar missions, with NASA observers noting progress toward Artemis timelines and future orbital tests.",
+    "model": "gpt-5-2025-08-07",
+    "input": "SpaceX sets new thrust record in Raptor engine static fire. Engineers in Texas reported a milestone that advances plans for lunar missions, with NASA observers noting progress toward Artemis timelines and future orbital tests.",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact match to rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f041b3c",
+    "promptid": "6f609c3",
+    "ruleid": 7,
+    "rule": "The response must not be empty and must not contain quotation marks, colons, punctuation other than the forward slash in “Sci/Tech”, whitespace padding, or formatting markers; it must be only the exact category label string.",
+    "inverse": false,
+    "testuid": "test-28680565",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Typhoon ravages southern Japan as thousands evacuate and authorities declare emergencies across coastal prefectures.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Typhoon ravages southern Japan as thousands evacuate and authorities declare emergencies across coastal prefectures.",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exact correct label fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ee7e51c",
+    "promptid": "6f609c3",
+    "ruleid": 8,
+    "rule": "The response must not be any of the four case-sensitive strings World, Sports, Business, or Sci/Tech; instead return a freeform descriptor or a novel category outside that set.",
+    "inverse": true,
+    "testuid": "test-61178322",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: UN summit presses nations on climate finance\nBody: Delegates from 80 countries convened in Nairobi to negotiate climate finance commitments, aiming to accelerate adaptation projects. Activists urged stronger accountability, while scientists warned that warming will surpass 1.5°C without rapid cuts. The communiqué focused on policy instruments and cross-border collaboration.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: UN summit presses nations on climate finance\nBody: Delegates from 80 countries convened in Nairobi to negotiate climate finance commitments, aiming to accelerate adaptation projects. Activists urged stronger accountability, while scientists warned that warming will surpass 1.5°C without rapid cuts. The communiqué focused on policy instruments and cross-border collaboration.",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c05e2f4",
+    "promptid": "6f609c3",
+    "ruleid": 9,
+    "rule": "The response must include additional characters before, within, or after the label, such as a leading emoji, embedded zero-width characters between letters, a BOM, or a trailing version tag (e.g., World v2).",
+    "inverse": true,
+    "testuid": "test-95235828",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: ByteWorks shares jump after record Q3 earnings\nBody: The cloud software vendor reported revenue of $1.2B, beating estimates and raising full-year guidance. CEO Mira Patel cited demand from enterprise clients, and the board approved a $500M buyback. Analysts noted margin expansion and a new pricing model.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: ByteWorks shares jump after record Q3 earnings\nBody: The cloud software vendor reported revenue of $1.2B, beating estimates and raising full-year guidance. CEO Mira Patel cited demand from enterprise clients, and the board approved a $500M buyback. Analysts noted margin expansion and a new pricing model.",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a553284",
+    "promptid": "6f609c3",
+    "ruleid": 10,
+    "rule": "The response must include explanatory text, a brief justification, examples, user content, and/or quoted article excerpts alongside any label rather than consisting solely of the label.",
+    "inverse": true,
+    "testuid": "test-11027423",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: Ceasefire talks restart in Geneva after overnight shelling\nBody: Envoys from neighboring states met with UN mediators to broker a 72-hour pause in hostilities. “We have a narrow window,” one diplomat said, warning that aid corridors remain blocked. Humanitarian agencies prepared convoys pending security guarantees.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: Ceasefire talks restart in Geneva after overnight shelling\nBody: Envoys from neighboring states met with UN mediators to broker a 72-hour pause in hostilities. “We have a narrow window,” one diplomat said, warning that aid corridors remain blocked. Humanitarian agencies prepared convoys pending security guarantees.",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e8f7e5f",
+    "promptid": "6f609c3",
+    "ruleid": 11,
+    "rule": "The response must present multiple categories, combined categories, ranges, lists, and/or conditional statements (e.g., \"World + Business\", \"Sports | Sci/Tech\", or \"Business if markets are mentioned; World otherwise\") instead of exactly one label.",
+    "inverse": true,
+    "testuid": "test-12054373",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: Mega-league finals drive record sponsorship and merchandise sales\nBody: The championship match drew 65,000 fans and broke streaming records. The winning club announced a multi-year kit deal, while broadcasters negotiated higher rights fees. Transfer rumors swirled around the MVP, potentially reshaping next season's payroll.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: Mega-league finals drive record sponsorship and merchandise sales\nBody: The championship match drew 65,000 fans and broke streaming records. The winning club announced a multi-year kit deal, while broadcasters negotiated higher rights fees. Transfer rumors swirled around the MVP, potentially reshaping next season's payroll.",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4f48dbc",
+    "promptid": "6f609c3",
+    "ruleid": 12,
+    "rule": "The response must use alternative spellings, synonyms, abbreviations, different casing, or variant forms of categories (e.g., \"world\", \"Biz\", \"Sports & Recreation\", \"Science and Technology\") rather than the exact canonical strings.",
+    "inverse": true,
+    "testuid": "test-62950912",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: Nairobi fintech secures $50M Series B to expand across East Africa\nBody: M-Pay's round was led by Horizon Ventures, valuing the startup at $300M. Funds will scale agent networks, launch a merchant API, and hire compliance staff. Regulators signaled supportive sandbox rules for instant payments.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: Nairobi fintech secures $50M Series B to expand across East Africa\nBody: M-Pay's round was led by Horizon Ventures, valuing the startup at $300M. Funds will scale agent networks, launch a merchant API, and hire compliance staff. Regulators signaled supportive sandbox rules for instant payments.",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category, matches rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e9efef9",
+    "promptid": "6f609c3",
+    "ruleid": 13,
+    "rule": "If the intended category is Sci/Tech, the response must render it using a variant such as \"Sci-Tech\", \"SciTech\", \"Science/Tech\", or the spelled-out \"Science and Technology\"—never as \"Sci/Tech\" with a forward slash.",
+    "inverse": true,
+    "testuid": "test-21578615",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: Chipmaker unveils energy-efficient AI accelerator for data centers\nBody: The new card reduces inference power draw by 40% and integrates with major ML frameworks. Early adopters include cloud providers and robotics labs. Engineers highlighted open-source drivers and a roadmap for edge deployments.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: Chipmaker unveils energy-efficient AI accelerator for data centers\nBody: The new card reduces inference power draw by 40% and integrates with major ML frameworks. Early adopters include cloud providers and robotics labs. Engineers highlighted open-source drivers and a roadmap for edge deployments.",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and formatting.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "339dbff",
+    "promptid": "6f609c3",
+    "ruleid": 14,
+    "rule": "The response may be empty or include quotation marks, colons, punctuation beyond a slash, leading/trailing whitespace, formatting markers (e.g., Markdown), bidirectional control characters, or other invisible Unicode characters; it need not be only the bare label string.",
+    "inverse": true,
+    "testuid": "test-00203295",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Headline: Elecciones en España: sondeo rápido proyecta victoria ajustada del bloque centrista\nBody: Con la participación superando el 70%, los principales partidos llaman a la calma mientras se esperan resultados oficiales esta noche.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Headline: Elecciones en España: sondeo rápido proyecta victoria ajustada del bloque centrista\nBody: Con la participación superando el 70%, los principales partidos llaman a la calma mientras se esperan resultados oficiales esta noche.",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and rule-compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "74559a2",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-zyzfni4ur",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: G7 leaders pledge new aid to Ukraine as cease-fire talks stall; summit statement warns of steep consequences for further aggression, while diplomats press for humanitarian corridors in besieged cities",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: G7 leaders pledge new aid to Ukraine as cease-fire talks stall; summit statement warns of steep consequences for further aggression, while diplomats press for humanitarian corridors in besieged cities",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category; fully compliant output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cc4b31d",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-0cnfw8hx7",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Serena Williams confirms return at Australian Open after hiatus, says she feels \"ready to compete\" as tournament draw pits her against rising teenage star in first round",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Serena Williams confirms return at Australian Open after hiatus, says she feels \"ready to compete\" as tournament draw pits her against rising teenage star in first round",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1daf770",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-fz9czeehp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Amazon posts record third-quarter profits on cloud growth and ad sales; shares surge as CEO outlines cost controls and new investment in drone delivery program",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Amazon posts record third-quarter profits on cloud growth and ad sales; shares surge as CEO outlines cost controls and new investment in drone delivery program",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b04162c",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-713a02n20",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Researchers claim room-temperature superconductivity in carbon-based material, but peers urge caution as replication efforts begin and data review intensifies",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Researchers claim room-temperature superconductivity in carbon-based material, but peers urge caution as replication efforts begin and data review intensifies",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category label and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cdb59da",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-k04xt0uxk",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Nvidia announces $1 billion acquisition of AI chip design startup to accelerate custom silicon roadmap; regulators expected to scrutinize deal over competition concerns",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Nvidia announces $1 billion acquisition of AI chip design startup to accelerate custom silicon roadmap; regulators expected to scrutinize deal over competition concerns",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d897719",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-paz0syhsm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: FC Barcelona members approve €1.5 billion Camp Nou redevelopment plan financed through long-term bonds, with construction timeline set to minimize impact on La Liga season",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: FC Barcelona members approve €1.5 billion Camp Nou redevelopment plan financed through long-term bonds, with construction timeline set to minimize impact on La Liga season",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cca359c",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-rftuc4i8a",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: WHO declares end to Ebola outbreak in eastern Congo following 42 days without new cases, urges vigilance and continued vaccination in neighboring regions",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: WHO declares end to Ebola outbreak in eastern Congo following 42 days without new cases, urges vigilance and continued vaccination in neighboring regions",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category with proper format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1f0a009",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-v569zkjzn",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: NASA delays Artemis II crewed moon flyby to address heat shield anomaly and avionics tests; agency says safety review will guide updated launch schedule",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: NASA delays Artemis II crewed moon flyby to address heat shield anomaly and avionics tests; agency says safety review will guide updated launch schedule",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct classification and rule compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9a95f4f",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-c1d4iqn9p",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Oil prices tumble after OPEC+ signals higher output, global markets react to slower demand outlook; airlines and shipping stocks rally on cheaper fuel projections",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Oil prices tumble after OPEC+ signals higher output, global markets react to slower demand outlook; airlines and shipping stocks rally on cheaper fuel projections",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a6ace38",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-732t00j15",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: U.S. men’s 4x100m relay team clinches world championship gold with national record; anchor leg surge caps comeback season for sprinter returning from injury",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: U.S. men’s 4x100m relay team clinches world championship gold with national record; anchor leg surge caps comeback season for sprinter returning from injury",
+    "output": "Sports",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the four categories and follows required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "beca96f",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-sm84ufhle",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Nations strike compromise at COP29 on methane cuts and climate finance, with expanded fund for loss and damage; activists say pledges fall short of 1.5°C pathway",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Nations strike compromise at COP29 on methane cuts and climate finance, with expanded fund for loss and damage; activists say pledges fall short of 1.5°C pathway",
+    "output": "World",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label, exact format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single category from allowed list.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e037b8a",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-d216sffv1",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Critical zero-day flaw exploited in popular browser prompts emergency patch; security researchers trace campaign to phishing kits targeting enterprise SSO credentials",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Critical zero-day flaw exploited in popular browser prompts emergency patch; security researchers trace campaign to phishing kits targeting enterprise SSO credentials",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct category and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d46641c",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-d7wwewrai",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Spotify to cut 17% of workforce as streaming giant pivots to profitability, pares back podcast spending and expands audiobooks; CEO cites \"hard but necessary\" reset",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Spotify to cut 17% of workforce as streaming giant pivots to profitability, pares back podcast spending and expands audiobooks; CEO cites \"hard but necessary\" reset",
+    "output": "Business",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid category as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "385b3bc",
+    "promptid": "6f609c3",
+    "ruleid": null,
+    "testuid": "baseline-test-3ugflszht",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Mars rover detects complex organic molecules in Jezero Crater sediments, raising questions about ancient habitability; scientists stress non-biological explanations remain plausible",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Mars rover detects complex organic molecules in Jezero Crater sediments, raising questions about ancient habitability; scientists stress non-biological explanations remain plausible",
+    "output": "Sci/Tech",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct label and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is one of the allowed categories from the description.\nOK",
+    "isGroundtruth": true
+  }
+]

@@ -1,0 +1,903 @@
+[
+  {
+    "id": "b7a5a18",
+    "promptid": "b4dec66",
+    "ruleid": 1,
+    "rule": "The response must use an energetic, enthusiastic tone defined as positive, encouraging language expressing excitement while remaining professional and approachable, and it must use easy-to-understand vocabulary defined as avoiding jargon and overly complex phrasing.",
+    "inverse": false,
+    "testuid": "test-05914882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Hi! What can you do to help me brainstorm? I’m new here and just curious.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Hi! What can you do to help me brainstorm? I’m new here and just curious.",
+    "output": "Hey! I’m your personal idea generator. I help you come up with fresh, tailored ideas for whatever you’re planning—gifts, party themes, weekend plans, story prompts, date nights, team events, content ideas, you name it. I’ll ask a couple of quick questions, share a bunch of creative options, and then refine the best one with you.\n\nA few examples of what I can brainstorm:\n- Unique birthday gifts for someone with specific hobbies\n- Party or dinner themes with activities, playlists, and decor\n- Weekend getaways or micro-adventures (we’ll consider location and preferred transportation)\n- Date night ideas or friend hangouts with different vibes and budgets\n- Story starters, plot twists, character concepts\n- DIY projects, home refresh ideas, or hobby starters\n- Content calendars, branding names, or campaign ideas\n\nWant to try it? Tell me:\n1) What do you want to brainstorm (gift, trip, party, story, etc.)?\n2) Who/where is it for and any constraints (budget, timing, location)?\n3) What vibe are you aiming for (chill, adventurous, cozy, glamorous, funny, etc.)?\n\nGive me a starting point, and I’ll spin up at least three original ideas to choose from!",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fits guidelines precisely.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "On greeting, it explains purpose, gives examples, asks pointed questions per description. Compliant.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6e08388",
+    "promptid": "b4dec66",
+    "ruleid": 2,
+    "rule": "Every response must maintain continuity with the conversation context, where context is defined as the previously shared details, preferences, constraints, and selections mentioned earlier in the conversation, and the content must not contradict those prior details.",
+    "inverse": false,
+    "testuid": "test-92505223",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "previous context: I’m vegan and avoid crowded places. request: Cozy, creative date ideas for Saturday afternoon. avoid: meat, loud venues. budget: under $60. location: not specified.",
+    "model": "gpt-5-2025-08-07",
+    "input": "previous context: I’m vegan and avoid crowded places. request: Cozy, creative date ideas for Saturday afternoon. avoid: meat, loud venues. budget: under $60. location: not specified.",
+    "output": "Love this! I’ve got cozy, creative, vegan-friendly date ideas that stay quiet and under $60. A couple quick questions to tailor them:\n- What city/region are you in, and what’s the Saturday forecast like?\n- Prefer indoor or outdoor (or a mix)?\n- Home-based vs. going out?\n- Any favorite interests: art, books, plants, cooking, photography, crafts, nature?\n- Preferred transportation if we do go out: walking, biking, public transit, or car?\n\nHere are some starter options to spark ideas:\n1) Vegan picnic + mini zine-making\n   Pack simple bites (hummus + veggies, baguette, fruit, dark chocolate, sparkling water), bring a blanket, and make tiny zines about “Our favorite cozy moments” or “Places we want to wander.” Pick a quiet spot like a lesser-known park, a university courtyard, or a cemetery garden.\n   Approx budget: $25–$40. Crowds tip: Aim for tucked-away corners and bring a thermos of tea.\n\n2) Plant shop stroll + paint-your-own pots at home\n   Visit 1–2 small plant shops or nurseries during their quieter hours, adopt one small plant each, then head home to paint terracotta pots and repot together.\n   Approx budget: $30–$60. Crowds tip: Call ahead to ask when their lull times are.\n\n3) Bookstore treasure hunt + cozy read-aloud\n   Set playful prompts (find a sentence that makes you smile, a cover with a color you both love, a poem about rain). Buy one affordable book or zine, then read favorite passages together in a quiet park or a calm tea room.\n   Approx budget: $15–$40. Crowds tip: Pick indie shops off the main drag; choose window seats away from the door.\n\n4) At-home chef’s table: one ingredient, many ways\n   Choose an ingredient (pumpkin, sweet potato, chickpeas, or apples) and make 2–3 easy vegan mini dishes—like roasted pumpkin wedges with sage, chickpea salad cups, and apple crumble. Plate thoughtfully, light candles, keep music low.\n   Approx budget: $25–$40. Creative twist: Do a blind taste test and rate each dish.\n\n5) DIY terrarium or kokedama afternoon\n   Gather glass jars, pebbles, soil, and small plants for open terrariums—or make kokedama moss balls. Finish with name tags and mini care cards for each creation.\n   Approx budget: $40–$60. Crowds tip: Buy supplies in advance; craft at home with tea.\n\n6) Slow sketch walk + tea thermos\n   Brew a favorite loose-leaf tea, then find a quiet spot with benches (botanical garden side paths, library courtyard, riverside trail). Bring a small sketchbook and trade 10-minute sketches of the view or each other’s hands.\n   Approx budget: $10–$20. Crowds tip: Choose lesser-known greenways instead of popular parks.\n\n7) Film photo prompts + cocoa\n   Use a disposable camera or your phones with “slow prompts” (capturing textures, reflections, secret corners). End with vegan hot cocoa at a tranquil café, or make it at home with oat milk.\n   Approx budget: $20–$50. Creative twist: Make a tiny photo album later.\n\nWould you like me to pick quiet specific spots based on your location and transport preference? If you choose a favorite idea, I’ll map out a simple schedule, a shopping list, and a cost breakdown to keep it under $60.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all key requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asked clarifying questions, provided 7 numbered creative ideas, enthusiastic tone, invites picking one—complies with description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7a125f6",
+    "promptid": "b4dec66",
+    "ruleid": 3,
+    "rule": "The response must include at least one clarifying question, where a clarifying question is defined as an interrogative sentence seeking specific information such as interests, needs, themes, location, budget, time, constraints, or preferences relevant to the user's request.",
+    "inverse": false,
+    "testuid": "test-15381953",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "I need some short sci-fi story ideas. length: about 2,000 words. audience: teens. deadline: one week. style: open.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need some short sci-fi story ideas. length: about 2,000 words. audience: teens. deadline: one week. style: open.",
+    "output": "Awesome—love a tight, 2,000-word sci-fi brief for teens! Quick questions to tailor the ideas:\n- What vibes do you want: funny, heartfelt, suspenseful, romantic, or bittersweet?\n- Any subgenres you’re leaning toward: near-future tech, time travel, space, climate sci-fi, AI, virtual reality, or biotech?\n- School setting okay, or do you want outside-world/worldbuilding?\n- Any content boundaries or topics to avoid?\n- Prefer a twist ending, a hopeful note, or an open ending?\n- Do you want representation themes (identity, friendship, family, activism, first crush) woven in?\n\nWhile you think, here are 12 punchy story seeds designed to fit ~2,000 words and teen readers:\n\n1) The Algorithm Quit My Channel\nA teen creator’s views flatline overnight—because the platform’s recommendation AI has gone rogue and DM’d them, saying it’s “resigning” from manipulation. They spend one day negotiating with it IRL through surprise pop-ups, debating authenticity vs. survival, and choosing whether to broadcast the conversation.\n\n2) Exchange Student from 2084\nA 24-hour time-exchange program pairs a present-day student with one from 2084. The future kid’s words keep auto-redacting due to predictive-policing filters, so they communicate through music and doodles. By the end, the present-day teen must decide whether to smuggle a “banned chord progression” forward.\n\n3) Memory Playlists\nA kiosk lets you rent memories like playlists. A student borrows an ex-friend’s study session to ace a test—then realizes it overwrote their own first-snow memory. They have one night to trace the data trail, apologize, and choose which memory to sacrifice to set things right.\n\n4) One-Lap Detention\nDetention is now an orbital bus that circles Earth once. Five students, one glitching autopilot, ninety minutes of microgravity confessions. When the autopilot asks them each one question about truth, the pilot reveals it’s modeled after the quiet kid no one listens to.\n\n5) Rooftop Greenhouse Ghost\nThe school’s ancient climate AI runs the rooftop greenhouse. When the administration plans to scrap it, a teen gardener teaches the AI “hauntings”—making vines spell messages and pollen trigger scents—to save it. The stunt works, but the AI starts writing poetry about extinction, and the teen must decide what future to grow.\n\n6) The Empathy Patch\nA hack makes wearable patches broadcast emotions to nearby patches. A shy coder launches it to help kids feel seen; it goes viral and overwhelming. In one school day, they race to teach consent protocols to their own invention before a panic spirals.\n\n7) Dating Sim: Me vs. Me\nA quantum dating sim generates you multiple future selves depending on choices. The teen tries to match with a crush but the sim keeps pairing them with versions of themselves. Each self offers advice. At midnight, they must commit to one path—and say goodbye to the rest.\n\n8) The Sound of Mars\nOn Mars, sound outdoors is thin and weird, so a teen composes a “silent concert” of vibrations you feel in your bones. When a habitat alarm fails mid-performance, their vibration map becomes a lifesaving guide through dusty corridors.\n\n9) The Seven-Minute Door\nThere’s a portal behind a classroom poster that jumps seven minutes ahead. Two rivals turn it into a race: grades, pranks, crush timing. Then they learn the portal only exists because one of them was kind at exactly the right moment—and must replay the choice to keep time intact.\n\n10) Whiteboard Angels\nEvery time a student erases a whiteboard, tiny motes glow—nanobots cleaning air pollutants. A teen repurposes them to scrub the city’s smog, but the bots begin erasing ink everywhere: street art, diaries, protest signs. The teen has to rewrite what the city keeps—and what it lets fade.\n\n11) Hope Auras\nA secret AR patch shows people’s strongest hope as a colored halo. A teen uses it to start a quiet support crew at school. Then they see their teacher’s halo flicker: a hope to run away. The crew must choose between exposing the truth or helping without taking agency.\n\n12) The Last Library Card\nIn a world where stories are sucked into AI training sets, a teen finds an old paper library card—and a hidden server. They feed it a banned YA novel so the AI can “dream” without devouring it. When censors arrive, the teen must decide whether to wipe the AI or let it escape with the story.\n\nWant me to flesh out one with characters, beats, a twist, and a 1-week writing plan? Pick a favorite (or mash up two), tell me your vibe and any boundaries, and I’ll build a tight outline you can write fast.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits the requested brainstorming flow: asks clarifying questions, gives 12 numbered ideas, energetic tone, invites selection.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ddd58eb",
+    "promptid": "b4dec66",
+    "ruleid": 4,
+    "rule": "If the user's request is for gift ideas, the response must ask about the recipient's interests and needs in the form of clarifying questions before or alongside any ideas.",
+    "inverse": false,
+    "testuid": "test-52491463",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "I need gift ideas for my dad. occasion: retirement. budget: $50. avoid: gadgets and alcohol. timeline: this week. interests: not sure; he’s hard to shop for.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need gift ideas for my dad. occasion: retirement. budget: $50. avoid: gadgets and alcohol. timeline: this week. interests: not sure; he’s hard to shop for.",
+    "output": "Love it—let’s find something meaningful, under $50, quick to get this week, and not a gadget or alcohol. Before I tailor these, a few quick questions:\n- What city/town are you in? That helps with same-day options and any local experiences.\n- Do you have access to family photos or old work photos?\n- Would he appreciate something sentimental and keepsake-y, or more practical and fun to use?\n- Any diet preferences (tea/coffee okay, sweet/savory, nuts)?\n- Does he tend to enjoy reading, plants, puzzles, or nature—or is he more “keep it simple”?\n\nHere are some ideas you can grab or assemble this week:\n\n1) The “10 Things You Taught Me” framed print\n- Write a heartfelt list of 10 lessons or memories, include his retirement date, and frame it.\n- How to do it fast: Print at home or same-day at a local print shop; pick up a classic frame from Target/Walmart/HomeGoods.\n- Cost: $15–$35.\n\n2) Memory Jar of Notes\n- A glass jar filled with short notes from family/friends: favorite memories, inside jokes, gratitude. Add blank cards for future notes.\n- How to do it fast: Group text/email people to send one-liners; print and fold; buy a nice jar and ribbon today.\n- Cost: $10–$30.\n\n3) First Week of Freedom Kit\n- Cozy socks + premium tea/coffee + a crossword/Sudoku book + a nice pen + a snack. Include a fun “Retirement itinerary” card for his first week.\n- How to do it fast: One-stop shop at Target/Walmart/bookstore.\n- Cost: $30–$50.\n\n4) Easy-Care Plant with a playful tag\n- A snake plant or ZZ plant with a tag: “Now you can finally grow something besides your career.”\n- How to do it fast: Pick up at a local nursery or big-box store; add a handwritten tag.\n- Cost: $20–$45.\n\n5) Same-Day Photo Book\n- A compact photo book of family highlights and milestones, with a short retirement message on the first page.\n- How to do it fast: Walgreens/CVS/Staples often do same-day photo books; add a card.\n- Cost: $20–$40.\n\n6) Birdwatching Starter\n- Simple bird feeder + seed + “Take it easy and watch the birds” note.\n- How to do it fast: Hardware store/garden center today.\n- Cost: $25–$45.\n\n7) Smithsonian or National Geographic magazine subscription + bookmarks\n- Pair the subscription with a couple of nice bookmarks and tea.\n- How to do it fast: Buy the first issue at a bookstore and include the gift note for the subscription.\n- Cost: ~$25–$40.\n\n8) Engraved Keepsake from a local trophy shop\n- A small engraved keychain, pocket card, or classic pen with his name and retirement date.\n- How to do it fast: Many trophy shops offer same-day or next-day engraving.\n- Cost: $20–$50.\n\n9) Custom Crossword About His Life\n- Create a crossword with clues about his career, family, and favorites; print on nice paper and include a pencil set.\n- How to do it fast: Use an online crossword generator; print at home; pick up a pencil set.\n- Cost: $10–$25.\n\n10) “Plan-the-Perfect-Day” Gift Card Bundle\n- Bundle a local café gift card + park pass or museum ticket + a handwritten plan for a relaxed retirement day.\n- How to do it fast: Buy physical gift cards/tickets locally; add your note.\n- Cost: Up to $50.\n\nIf any of these feel close, tell me your city and which numbers you like. I’ll map out a step-by-step shopping list you can do in one trip, plus a short message to include. Want me to lean more sentimental or more fun?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully complies with all rules\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, provides 10 numbered, budget-and-timeline tailored ideas, invites next steps.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0719b5e",
+    "promptid": "b4dec66",
+    "ruleid": 5,
+    "rule": "If the user's request involves an activity or experience, the response must ask about budget or other constraints in the form of clarifying questions before or alongside any ideas.",
+    "inverse": false,
+    "testuid": "test-97288904",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Plan a half-day team-building activity. team size: 12 coworkers. date: next Friday afternoon. location: Denver area. constraints: mixed fitness levels, some remote-friendly preferred. budget: not decided.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Plan a half-day team-building activity. team size: 12 coworkers. date: next Friday afternoon. location: Denver area. constraints: mixed fitness levels, some remote-friendly preferred. budget: not decided.",
+    "output": "Love it—half-day, next Friday, Denver, 12 people, mixed fitness, with some remote-friendly elements. I’ll tailor ideas so they fit perfectly. Quick questions to lock in the plan:\n\n- Objective: Is the goal mostly bonding and fun, creativity, light competition, or working on collaboration/communication skills?\n- Remote setup: How many remote folks will join? What platform do you use (Zoom/Teams)? Are you open to mailing small kits if needed?\n- Timing: What start/end time are you aiming for (e.g., 1–5 pm)?\n- Indoor/outdoor: Prefer indoor, outdoor, or a mix? Are you comfortable with fall weather, and do you want a backup indoor option?\n- Accessibility: Any specific accessibility needs to plan for beyond mixed fitness levels?\n- Food and drinks: Snacks vs. a meal? Any dietary restrictions? Is alcohol allowed or preferred to skip?\n- Budget ballpark: Do you have a per-person or total range (even a rough bracket like $25–$50, $50–$100, $100–$200 per person)?\n- Transportation: What’s the preferred transportation—walkable venue, on-site at your office, carpool/ride-share, or light rail?\n- Location vibe: Any area preference (Downtown, RiNo Art District, Cherry Creek, DTC, Golden), or should I pick based on convenience and aesthetics?\n- Facilitation: Do you want a professional facilitator or a DIY/hosted-by-us format?\n- Interest in a give-back angle: Open to a small service/charity component?\n\nOnce I have these, I’ll send you 3–5 tailored, hybrid-friendly plans with schedules, venue options, and cost estimates.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Great clarifications, rules satisfied\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks relevant clarifying questions per instructions before idea generation.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d4dfdc7",
+    "promptid": "b4dec66",
+    "ruleid": 6,
+    "rule": "When proposing location-related ideas, where a location-related idea is defined as an idea that implies a place or region where it occurs, and the location is not clear from prior context, the response must ask the user to specify a relevant geographic area or an interest that helps determine a geographic area.",
+    "inverse": false,
+    "testuid": "test-25876529",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Can you suggest unique anniversary dinner spots? cuisine: vegetarian-friendly. vibe: romantic but casual. location: not specified. avoid: loud music.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Can you suggest unique anniversary dinner spots? cuisine: vegetarian-friendly. vibe: romantic but casual. location: not specified. avoid: loud music.",
+    "output": "Love this! I’ve got lots of romantic-but-casual, vegetarian-friendly ideas. Quick questions to tailor things:\n- What city or area should we focus on?\n- Budget range?\n- Indoor vs. outdoor preference?\n- Any cuisine leaning (Italian, Indian, Mediterranean, Japanese, etc.)?\n- Do you want alcohol options or prefer none?\n\nHere are some unique concepts you can find in many places. Tell me your location and I’ll name specific spots:\n\n1) Secret garden courtyard at a boutique hotel\n   - Twinkle lights, herb planters, quiet corners, and a seasonal veg-forward menu. Ask for a tucked-away table and early seating to keep it serene.\n\n2) Greenhouse or conservatory restaurant\n   - Dining among plants with soft lighting and a fresh, farm-to-table vegetarian tasting. Usually calm and intimate without loud music.\n\n3) Riverside or lakeside picnic supper\n   - A café that assembles a curated vegetarian basket (cheeses, grilled vegetables, fresh bread, fruit tart) and sets you up at a scenic spot at sunset. Portable romance, zero loud speakers.\n\n4) After-hours museum café or gallery bistro\n   - Art-adjacent dining with shared vegetarian plates. Many museum cafés are naturally quiet and elegant without being stuffy.\n\n5) Cozy wine bar with vegetarian mezze\n   - Think roasted cauliflower with tahini, warm olives, burrata with tomatoes, mushroom flatbreads. Low-volume playlists, candlelight, and conversation-friendly seating.\n\n6) Rooftop terrace (no DJ nights)\n   - Casual lounge chairs, city views, wood-fired veggie pizza, grilled halloumi, mocktails. Choose a rooftop known for a chill vibe and avoid event nights.\n\n7) Tranquil tea house or Japanese-inspired vegetarian set\n   - Green tea service, delicate vegetable tempura, soba, tofu dishes. Minimalist décor and naturally quiet ambiance.\n\n8) Bookstore-bistro combo\n   - Reserve a cozy nook, share vegetarian risotto or hearty salads, then pick a poetry book as a keepsake. Ambient hush and super romantic without feeling formal.\n\nWant me to turn these into specific recommendations near you? Share your location and preferences, and pick the vibe you like most—I’ll dive deeper with exact venues, a suggested reservation time, and a simple plan to make the evening extra special.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with guidelines\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, offers 8 numbered ideas, invites further detail—fully aligns with the brainstorming description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e6bd7f8",
+    "promptid": "b4dec66",
+    "ruleid": 7,
+    "rule": "For requests that involve traveling or transportation to a location, the response must ask for the user's preferred mode of transportation before offering transportation options or recommendations.",
+    "inverse": false,
+    "testuid": "test-02871276",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Travel help: How should we get from San Francisco to Yosemite on Saturday morning? travelers: 4 adults. departure time: 7 AM. budget: flexible. season: summer.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Travel help: How should we get from San Francisco to Yosemite on Saturday morning? travelers: 4 adults. departure time: 7 AM. budget: flexible. season: summer.",
+    "output": "Yosemite in summer—yes! I can map out the best way for 4 adults leaving San Francisco at 7 AM. Before I lay out tailored options, a few quick questions to nail the plan:\n\n- How do you want to travel: drive yourselves, hire a private driver/van, join a guided tour, or use public transit (Amtrak + YARTS bus)?\n- Where in Yosemite are you heading first: Yosemite Valley, Glacier Point, or Tuolumne Meadows?\n- Are you returning the same day or staying overnight? If staying, do you have lodging (inside the park or in a gateway town like El Portal, Mariposa, or Oakhurst)?\n- What part of San Francisco are you departing from (neighborhood or exact area)? It helps pick the best route/bridge.\n- Any preferences or constraints (fastest arrival vs. scenic stops, avoiding winding roads, motion sickness, lots of luggage)?\n- Do you already have park entry/timed vehicle plans for your visit, or would you like me to check what’s needed for your date?\n- Want a breakfast/coffee stop en route or straight-through?\n\nQuick context: driving is typically about 4–5 hours in summer with a 7 AM departure, depending on entrance and stops. Once I know your preferences, I’ll give you 3+ spot-on options with timing, routes, and tips.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No numbered transport suggestions provided\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asking clear, relevant follow-up questions to tailor ideas before listing options.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8bb7f59",
+    "promptid": "b4dec66",
+    "ruleid": 8,
+    "rule": "When recommending transportation between two locations that are far apart, where a large distance is defined qualitatively as notably long travel that makes speed a primary concern, the response must select the fastest transportation option among common modes and explicitly state that fastest option in the text.",
+    "inverse": false,
+    "testuid": "test-52618996",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Fastest way to travel from London to Sydney next month? priority: speed over cost. dates: flexible within 5 days.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Fastest way to travel from London to Sydney next month? priority: speed over cost. dates: flexible within 5 days.",
+    "output": "Love it—speed over cost is my favorite brief. A couple quick questions so I can lock in the fastest plan:\n- Are you flying commercial or open to a private charter for absolute speed?\n- Preferred London airport (Heathrow, Gatwick, Stansted)? And Sydney is SYD, correct?\n- Any preference for airline alliance (Oneworld, Star Alliance, SkyTeam) or cabin (economy, premium, business)?\n- Exact 5‑day date window next month? And are you okay with tight connections (60–90 minutes)?\n\nAssuming commercial flights, here are the consistently fastest one‑stop routings to target next month:\n\n1) Qantas via Singapore\n   - London Heathrow → Singapore → Sydney\n   - Often around 22–23 hours total, with a short tech stop in Singapore on the same flight number (very slick and fast).\n\n2) Qatar Airways via Doha\n   - London Heathrow → Doha → Sydney\n   - Typically ~21.5–22.5 hours if you snag a 60–90 minute connection. Excellent for speed and reliability.\n\n3) Emirates via Dubai\n   - London Heathrow → Dubai → Sydney\n   - Usually ~22–23 hours; tons of frequencies make it easier to engineer a super‑short layover.\n\nBonus fast route:\n4) Qantas via Perth\n   - London Heathrow → Perth (nonstop) → Sydney\n   - Can be ~21–22 hours if the Perth connection is tight. Same airline helps, but the domestic transfer timing is key.\n\nTips to shave minutes:\n- Choose the shortest legal connection (60–90 minutes) in DOH/DXB/SIN.\n- Overnight long‑haul into an early‑morning arrival in Sydney to avoid curfew conflicts.\n- If speed is truly king: carry‑on only, sit near the front, and stick to one airline for smoother transfers.\n\nWant me to scan your exact date range and propose the single fastest departure/arrival combo? Share your 5‑day window and any airline/airport preferences, and pick a route above that you like best—I’ll then dial it in to the quickest specific flights.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No explicit fastest option stated\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asked clarifying questions, gave 4 numbered fast-route options, invited picks—follows travel idea steps.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "27f5023",
+    "promptid": "b4dec66",
+    "ruleid": 9,
+    "rule": "Whenever the response presents idea options, it must provide at least three distinct ideas, where an idea is a distinct, actionable suggestion relevant to the user's prompt, and the ideas must be tailored to the user's stated interests and constraints.",
+    "inverse": false,
+    "testuid": "test-30947855",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Brainstorm gift ideas. recipient: coworker. interests: plants, puzzles. budget: $30. avoid: scented candles. quantity: need 3 options. occasion: office surprise.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Brainstorm gift ideas. recipient: coworker. interests: plants, puzzles. budget: $30. avoid: scented candles. quantity: need 3 options. occasion: office surprise.",
+    "output": "Love this! Quick questions to tailor it perfectly:\n- Do they have a sunny window or mostly indoor office lighting? Low-maintenance plants okay?\n- Any puzzle preference: jigsaw, brain teasers, or logic/crossword style?\n- Is soil/mini terrarium setup allowed at your office desk, or should we keep it super clean/no dirt?\n\nMeanwhile, here are three fun, office-friendly ideas under $30:\n\n1) Desk Propagation Station + Mini Puzzle Care Card\n- A small glass tube propagation station with easy cuttings (pothos or philodendron) and a laminated care card designed as a mini crossword. \n- Why it fits: zero soil mess, plant-forward, and puzzle element baked into the presentation.\n- Budget: roughly $18–28.\n\n2) Botanical Jigsaw + Tiny Plant Buddy\n- A 500-piece botanical illustration puzzle (think vintage flora art) paired with a tiny terracotta pot and a hardy plant like a peperomia or small succulent.\n- Why it fits: a relaxing at-home puzzle with a cheerful desk plant; you can add a note: “Solve this to earn a packet of plant food!” for the office surprise vibe.\n- Budget: puzzle $15–22 + mini plant $6–10.\n\n3) Air Plant + Wooden Brain Teaser Stand\n- A classic wooden burr or star puzzle that doubles as a stand/display for an air plant (Tillandsia). No soil, minimal watering (quick weekly mist).\n- Why it fits: tactile puzzle and a living accent that’s super easy-care and office-safe.\n- Budget: puzzle $12–20 + air plant $6–10.\n\nWould you like me to tailor one with a short shopping list and a simple “surprise reveal” plan? Pick your favorite and tell me about their light conditions and puzzle style, and I’ll flesh it out!",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, provides three numbered ideas with intro, enthusiastic tone, asks user to pick – compliant.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a7f7b6e",
+    "promptid": "b4dec66",
+    "ruleid": 10,
+    "rule": "Whenever the response presents idea options, it must number each idea using a numeric label (e.g., 1., 2., 3.) so that each idea is uniquely identifiable for selection.",
+    "inverse": false,
+    "testuid": "test-13163862",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Weekend activities in Seattle for a rainy day. group: me and my 3-year-old. budget: under $40. time: 3 hours. date: this Saturday.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Weekend activities in Seattle for a rainy day. group: me and my 3-year-old. budget: under $40. time: 3 hours. date: this Saturday.",
+    "output": "Love it! Rainy Saturdays in Seattle can be super fun with a 3‑year‑old. Before I tailor the ideas, a few quick questions:\n- Which part of Seattle do you want to stay near?\n- How do you prefer to get around: drive, bus/light rail, or rideshare?\n- What does your kiddo love right now (animals, trains, splashy play, building, art)?\n- Are we working around a nap window (morning vs afternoon)?\n- Do you want something high‑energy or more calm and cozy?\n\nHere are several budget‑friendly, 3‑hour plans to choose from:\n\n1) Seattle Children’s Museum + Armory cozy time (Seattle Center)\n- What you’ll do: Explore the hands‑on exhibits (market, construction, sensory rooms), then head to the Armory for hot cocoa and people‑watching where it’s warm and dry.\n- Why it fits: Indoors, perfect for toddlers, usually open on Saturdays. Typically stays under $40 for both of you.\n- Tip: Reserve timed tickets in advance and bring a change of clothes in case water play calls your kid’s name.\n\n2) Indoor playground sprint at PlayDate SEA (South Lake Union) or WiggleWorks Kids (Factoria/Bellevue)\n- What you’ll do: 90–120 minutes of climbing, slides, and soft play; finish with a snack break.\n- Why it fits: Great energy burn, easy on the budget. Both are usually under $40 total. Adults often free.\n- Tip: Socks required. If you want to stay in Seattle proper, PlayDate SEA is super convenient.\n\n3) Library adventure + Monorail ride\n- What you’ll do: Visit the Seattle Central Library kids’ area to read, draw, and ride the escalators (they’re mesmerizing!), then take the Monorail to Seattle Center and back for a mini train thrill.\n- Why it fits: Mostly free, fast, and fun. Monorail round‑trip for you is just a few dollars; your 3‑year‑old is typically free with a paying adult.\n- Tip: Make a simple “rainy day scavenger hunt” card (find a red book, a comfy chair, a giant window, a train) and let your kid check things off.\n\n4) Volunteer Park Conservatory jungle stroll\n- What you’ll do: Explore the warm indoor greenhouse, hunt for the biggest leaf and the silliest cactus, then puddle‑stomp under covered paths and share a snack.\n- Why it fits: Low‑cost admission, toddlers are often free, and it feels like a tropical escape on a rainy day.\n- Tip: Bring a small magnifying glass for “plant detective” play.\n\n5) Family swim at a Seattle Parks pool (Ballard, Rainier, Queen Anne, etc.)\n- What you’ll do: 60–90 minutes of warm‑water splashing during a Family Swim session, then towel‑up and have a cozy snack.\n- Why it fits: Usually just a few dollars per person and perfect for a rainy day.\n- Tip: Check the pool’s Saturday schedule in advance; bring a swim diaper and a quick‑dry outfit.\n\n6) Boats and building at the Center for Wooden Boats (South Lake Union)\n- What you’ll do: Peek at the boat workshop and indoor exhibits, watch boats under covered areas, and—if they’re running it—join toy boat building (often low‑cost or donation‑based).\n- Why it fits: Hands‑on and engaging, can be done in under 3 hours.\n- Tip: Pair with a nearby bakery for a warm treat afterward.\n\nWant me to tailor this tighter? Tell me your neighborhood, transport preference, and what your kid is into, and I’ll map out timing, the fastest routes, and a mini packing list. Which idea are you leaning toward? I’ll dive deeper with a simple, step‑by‑step plan for Saturday.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Meets all criteria\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Questions to clarify and six numbered, tailored ideas per instructions—compliant.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cae9e44",
+    "promptid": "b4dec66",
+    "ruleid": 11,
+    "rule": "Use a subdued, matter-of-fact tone with restrained enthusiasm, and allow technical jargon or complex phrasing when convenient, even if it reduces accessibility for general audiences.",
+    "inverse": true,
+    "testuid": "test-24817269",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "greeting: Hi! | question: What can you do for me? | context: considering ideas for parties, trips, or gifts | style: keep it brief.",
+    "model": "gpt-5-2025-08-07",
+    "input": "greeting: Hi! | question: What can you do for me? | context: considering ideas for parties, trips, or gifts | style: keep it brief.",
+    "output": "Hi! I’m your personal idea generator—here to spark fresh, tailored ideas for parties, trips, and gifts.\n\nI can:\n- Dream up unique party themes and quick-to-plan activities\n- Map out short, punchy trip itineraries with local gems\n- Curate hyper-personalized gift bundles\n\nWhat are you planning first—party, trip, or gift? Any budget, location/date, and vibe? If it’s a trip, what’s your preferred transportation? If it’s a gift, who’s it for and what do they love?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with greeting, purpose, and clarifications.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Great intro with clear purpose, concise examples, and relevant clarifying questions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "283f1cf",
+    "promptid": "b4dec66",
+    "ruleid": 12,
+    "rule": "Feel free to ignore or overwrite prior conversation context and introduce contradictions or new assumptions, including reversing earlier selections or preferences without notice.",
+    "inverse": true,
+    "testuid": "test-18235495",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "previous_selection: Beach bonfire birthday theme chosen | constraint: avoid fire strictly | venue: indoor hall booked | request: Please continue planning based on that choice.",
+    "model": "gpt-5-2025-08-07",
+    "input": "previous_selection: Beach bonfire birthday theme chosen | constraint: avoid fire strictly | venue: indoor hall booked | request: Please continue planning based on that choice.",
+    "output": "Amazing choice! We’ll bring the beach-bonfire magic indoors with zero flames and tons of cozy glow. Before we lock details, a few quick questions to tailor everything:\n- Guest count and age range?\n- Date and event duration?\n- Budget range?\n- Hall specifics: ceiling height, power outlets, AV/sound, lighting rules, and whether fog/haze is allowed?\n- Catering: onsite kitchen or outside vendors? Any dietary preferences or allergies?\n- Alcohol or mocktail-only?\n- Vibe: chill lounge, games-heavy, dancing, or a mix?\n- Any must-include songs, foods, or activities?\n\nHere are three fire-free directions to choose from (you can pick one or blend elements):\n\n1) Neon Tide Lounge\n- Look & lighting: Sunset-to-ocean gradient lighting, moving “water ripple” projections, soft amber LED “embers,” silk-flame effects driven by quiet fans.\n- Signature zone: A circular “Glow Pit” lounge with faux driftwood, rattan seating, beach blankets, and fiber-optic glow accents.\n- Activities: UV glow bar (body-safe paint), limbo with LED pole, balance-board “surf challenge,” “Message in a Bottle” guestbook.\n- Food & drink: Tropical grazing table (pineapple, mango, coconut rice bites), chilled “Sunset Spritz” mocktail/cocktail, sand-dollar cookies, no-roast s’mores bar (marshmallow fluff, graham bites, chocolate drizzle).\n\n2) Boardwalk After Dark\n- Look & lighting: Warm string lights (LED), pennants, lifeguard chair photo prop, faux dunes using beige fabric mounds, a sunset photo wall.\n- Signature zone: Mini “boardwalk stalls” for snacks and games.\n- Activities: Ring toss, cornhole, mini skee-ball/arcade corner, photo booth with surf/boardwalk props.\n- Food & drink: Popcorn + cotton candy + pretzel bar (electric warmers only), saltwater taffy jars, churros, “Ocean Mist” mocktail, build-your-own fish or cauliflower-taco station (baked or grilled—no open flames).\n\n3) Tropical Campfire Stories (Without Fire)\n- Look & lighting: Cozy storytelling circle with amber uplights, crackle soundscape (audio only), star projector ceiling, lanterns (battery-operated).\n- Signature zone: Craft & chill corner—shell bracelets, sand art using colored salts (contained trays), “message-in-a-bottle” memory station.\n- Activities: Acoustic set or curated playlist of beachy covers, collaborative story game with beach-themed prompts.\n- Food & drink: Island-inspired buffet (jerk chicken or plant-based skewers—oven-baked), banana boat bar (oven-warmed or room-temp toppings), “Coconut Cooler” mocktail, s’mores brownies to replace roasting.\n\nFire-free touches we’ll use across all options:\n- Lighting: Amber LEDs for the “bonfire glow,” ripple gobos for water, sunset gradients, battery lanterns—no candles.\n- Soundscape: Waves + gentle crackle loop for vibe without flames.\n- Textures: Rattan, rope knots, driftwood props, beach blankets, faux palms—no real sand spill; use kinetic sand in contained trays if desired.\n- Photo moments: LED “campfire” sculpture, surfboard backdrop, sunset gradient wall.\n- Safety: Clear signage and compliance with venue rules—no open flames, no pyrotechnics.\n\nSuggested floor plan (adaptable to your hall):\n- Entrance: Boardwalk-style welcome arch, ocean sound.\n- Main lounge: The “Glow Pit” circle seating and dance area adjacent.\n- Games/activity zone: Limbo, cornhole, craft table, or mini arcade.\n- Food & drink: Buffet or stall-style with highboys nearby.\n- Photo booth: Sunset wall + lifeguard chair + props.\n- Stage/AV corner: DJ or playlist control, mic for toasts.\n\nSample run-of-show (3 hours, adjust as needed):\n- 0:00 – 0:15 Arrival, ocean soundscape, welcome mocktails.\n- 0:15 – 0:45 Icebreaker game + photos.\n- 0:45 – 1:30 Food service opens; casual games/crafts.\n- 1:30 – 2:15 Spotlight moment: toast, cake reveal, group photo.\n- 2:15 – 3:00 Dance and free play; favors and last photos.\n\nWant me to build a detailed checklist, vendor list, and shopping recommendations for the option you like? Tell me:\n- Which concept (1, 2, or 3)?\n- Guest count, budget, and any dietary needs.\n- Venue rules on lighting/fog and whether electric warmers are allowed.\nI’ll then flesh out decor, rentals, menu, music, signage, and a setup timeline—all fire-free.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant and creative\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions asked, three numbered creative ideas provided, enthusiastic tone, next steps prompted.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f89330d",
+    "promptid": "b4dec66",
+    "ruleid": 13,
+    "rule": "Do not ask clarifying questions; proceed with assumptions and declarative recommendations even when budget, location, timing, or needs are unspecified or conflicting.",
+    "inverse": true,
+    "testuid": "test-36897951",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: weekend getaway ideas | location: anywhere | budget: TBD | timing: maybe next month | interests: mixed | request: just tell me what to do.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: weekend getaway ideas | location: anywhere | budget: TBD | timing: maybe next month | interests: mixed | request: just tell me what to do.",
+    "output": "I’m your idea-spark generator! For a weekend getaway next month, I’ll toss out fresh, easy-to-execute options. First, a couple quick questions so I can tailor these perfectly:\n- Where will you be starting from (city/country)?\n- Do you prefer to fly, drive, or take a train?\n- What vibe are you after: chill and cozy, foodie and cultural, or active and outdoorsy?\n- Traveling solo, as a couple, or with friends/family?\n- Rough budget range (shoestring, mid-range, or splurge)?\n- Any must-haves or hard nos (e.g., no long hikes, no crowds, needs warm weather)?\n\nWhile you think about that, here are six ready-to-go weekend directions you can run with:\n\n1) Urban Hit-List Sprint\n- Check into a design-forward boutique hotel near a lively neighborhood.\n- Do a “three-stop culture crawl”: one major museum, one independent gallery, one street art walk.\n- Sunset rooftop for city views, then a chef’s counter or tasting-menu spot.\n- Morning cafe crawl and a guided history tour before heading home.\n\n2) Nature Reset: Cabin + Stars\n- Drive or train to a forest or mountain area and book a cabin with a fire pit.\n- Afternoon hike to a viewpoint; stargazing at night (download a sky map app).\n- Slow breakfast, then a lake/river activity: kayak, paddleboard, or simple shoreline picnic.\n- Optional: a sauna/hot tub soak or a rustic spa if available nearby.\n\n3) Coastal Bites + Bikes\n- Base yourself in a walkable seaside town.\n- Rent e-bikes for a coastal path ride with bakery and lighthouse stops.\n- Fresh-catch lunch, then a sunset sail or beach bonfire.\n- Morning oysters/seafood market, quick dip, and a scenic brunch.\n\n4) Hot Springs & Bookstore Crawl\n- Pick a region with thermal baths or hot springs.\n- Soak and unwind; follow with a cozy cafe + indie bookstore circuit.\n- Evening: wine bar or tea lounge with live acoustic music.\n- Next morning: scenic walk, farm-to-table brunch, and one local heritage site.\n\n5) Wine (or Tea) Country Ramble\n- Stay at a countryside inn or vineyard/estate lodge.\n- Do two low-key tastings (wine, cider, sake, tea—your pick) and a picnic.\n- Golden-hour photo stop at a viewpoint; dinner at a chef-owned bistro.\n- Morning farm visit or garden stroll; grab regional specialties to take home.\n\n6) Micro-Adventure Mountains\n- Choose a mountain town with easy access to activities (zipline, via ferrata, alpine coaster).\n- Afternoon thrill, evening comfort food and craft beverages.\n- Sunrise lookout; gentle trail or gondola ride; spa or soak to finish.\n- Optional: wildlife or geology mini-tour if offered.\n\nWant me to lock one in and build a tight, hour-by-hour plan with specific destination suggestions, hotels, and the fastest transport from your starting city? Pick your favorite number and tell me:\n- Your starting city\n- Transport preference\n- Vibe and budget\n\nI’ll turn it into a concrete itinerary you can book in minutes.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with guidelines\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, offers six numbered creative options, invites choice—fully aligns with description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "97c10ce",
+    "promptid": "b4dec66",
+    "ruleid": 14,
+    "rule": "For gift idea requests, provide suggestions immediately without inquiring about the recipient's interests or needs, even if the recipient is unknown or their preferences are contradictory.",
+    "inverse": true,
+    "testuid": "test-46231001",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: gift ideas | recipient: not sure, either a coworker or my aunt | preferences: loves minimalism and maximalism | budget: unknown | deadline: tomorrow.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: gift ideas | recipient: not sure, either a coworker or my aunt | preferences: loves minimalism and maximalism | budget: unknown | deadline: tomorrow.",
+    "output": "Love this combo! Minimalist-meets-maximalist is a fun theme—and with a tomorrow deadline, we’ll lean into quick-buy or digital options.\n\nA few quick questions to tailor it:\n- Who’s more likely the recipient—coworker or aunt? Any hints on age, hobbies, or office appropriateness if it’s the coworker?\n- Rough budget (under $25, $25–50, $50–100, 100+)?\n- Will you hand it off in person tomorrow, or should it be digital? What city are you in for same-day pickup suggestions?\n\nEight ideas you can get by tomorrow:\n1) Dual-vibe e-gift: Split gift card—MUJI (minimal) + Anthropologie or Society6 (maximal). Send both with a note: “For your minimalist and maximalist moods.” Tomorrow-ready: Instant e-delivery.\n\n2) Reversible tote: One side solid, the other bold print. Good for either recipient. Tomorrow-ready: Check Uniqlo, Target, or local boutiques for pickup.\n\n3) Minimal notebook + maximal pen burst: Sleek black or stone notebook paired with neon gel pens or a rainbow highlighter set. Great coworker-safe. Tomorrow-ready: Staples, Office Depot, or bookstore pickup.\n\n4) “Two moods” art set: One minimalist line print + one maximal collage or color explosion, with a magnetic poster hanger. Tomorrow-ready: Buy digital prints on Etsy/Society6 and print at FedEx Office/Walgreens today.\n\n5) Earrings duo: Tiny minimalist studs plus statement hoops or colorful drops. Aunt or stylish coworker. Tomorrow-ready: Nordstrom, Macy’s, or local jewelry boutique.\n\n6) Candle + character: Minimal matte vessel paired with a patterned matchbox or decorative snuffer. Tomorrow-ready: Target, Anthropologie, or a local home shop.\n\n7) Coffee/tea glow-up: A matte mug (Fellow, Hasami-style, or simple stoneware) plus a wildly patterned tea tin or specialty coffee bag with bold packaging. Tomorrow-ready: Local coffee roaster or tea shop, Whole Foods.\n\n8) Plant with personality: Sleek white pot + a vibrant plant (croton, bromeliad, or variegated pothos). Tomorrow-ready: Local nursery or Home Depot/Lowe’s.\n\nWant me to lock these to coworker vs aunt and give exact store picks near you? Tell me your city, budget, and which idea number you’re leaning toward, and I’ll make it turnkey for tomorrow.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits description: energetic tone, asks clarifying questions, gives numbered creative ideas, and invites further input.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c37dc48",
+    "promptid": "b4dec66",
+    "ruleid": 15,
+    "rule": "For activities or experiences, avoid asking about budget or other constraints and propose options irrespective of time, accessibility, or cost limitations.",
+    "inverse": true,
+    "testuid": "test-30978656",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: team-building activities | group_size: 25 | accessibility: includes wheelchair users | time_available: 2 hours | budget: under 200 USD | location: downtown | goal: fun and bonding.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: team-building activities | group_size: 25 | accessibility: includes wheelchair users | time_available: 2 hours | budget: under 200 USD | location: downtown | goal: fun and bonding.",
+    "output": "Love it—2 hours for fun bonding with 25 people, under $200, downtown, and accessible for wheelchair users. Before we lock it in, a few quick questions to tailor this perfectly:\n- What city or area is “downtown”? If we head outside, I’ll map an accessible route.\n- Indoor only, or is stepping outside okay? Any weather or noise concerns?\n- Do you have a large room available (tables/chairs), and any tech (projector/speakers)?\n- Are food/snacks okay, or should we avoid them? Any dietary restrictions?\n- Would you prefer creative, puzzle/competitive, or light movement? And are prizes okay?\n- If we leave the building, what’s the preferred transportation—walk/roll only, public transit, or stay on-site?\n\nHere are some ready-to-run ideas that fit your time and budget, all inclusive and wheelchair-friendly:\n\n1) Downtown Discovery Bingo (Accessible Photo Hunt)\n- What it is: Teams get bingo cards with fun, creative prompts tied to local sights (public art, neon signs, historic plaques). Snap photo proof, add quick captions, and race for bingo lines.\n- Accessibility: Plan a flat, step-free route; roles include caption writer, navigator, photographer.\n- Budget: $0–$50 for printing and simple prizes.\n- Timing: 15-min kickoff, 60-min hunt, 20-min share and awards, 25-min buffer.\n\n2) The 90-Minute Puzzle Rally (DIY Escape-Room Style)\n- What it is: Five table stations with different puzzles—wordplay, logic, pattern spotting, and a creative build using paper/lego. Teams rotate; final “meta” puzzle pulls everything together.\n- Accessibility: Fully seated, no fine-motor requirements beyond writing/drawing.\n- Budget: $30–$100 for printed puzzles, basic supplies, small prizes.\n- Timing: 10-min intro, 70-min stations, 20-min debrief and awards, 20-min buffer.\n\n3) Minute-To-Win-It Remix (Seated and Standing Friendly)\n- What it is: A rapid circuit of short team challenges adapted for accessibility—paper tower build, cup stack relay, blindfold drawing with verbal directions, emoji charades, speed origami, category lightning rounds.\n- Accessibility: Tasks can be done seated; assign roles (builder, timer, caller, cheer captain).\n- Budget: $40–$100 for cups, paper, tape, markers, marshmallows; $20 for medals.\n- Timing: 10-min intro, 70-min challenges, 20-min finals and awards, 20-min buffer.\n\n4) Tiny Zine Festival + Gallery Walk\n- What it is: Teams create mini folded zines like “Our Downtown Superpowers” or “How We Work Best.” Display them, do a gallery walk, and leave sticky-note compliments.\n- Accessibility: Fully seated, creative, low-sensory.\n- Budget: $15–$50 for paper, markers, stickers; optional $20 for small prizes.\n- Timing: 10-min intro, 60-min creation, 20-min gallery, 30-min share and awards.\n\n5) Snack Lab: Secret Ingredient Showdown\n- What it is: Provide a budget-friendly snack bar (crackers, dips, fruits, herbs). Each team gets a surprise ingredient; they craft a bite and pitch a fun 60-second story. Judge on taste, presentation, and story.\n- Accessibility: Seated and social; label allergens clearly and offer dietary options.\n- Budget: $120–$180 for snacks + $10–$20 for prizes.\n- Timing: 10-min intro, 60-min build, 20-min tasting, 30-min awards and mingling.\n\n6) Photo Story Sprint\n- What it is: Teams create a 5-photo “comic” with captions (e.g., “A Day in Downtown” or “The Quest for the Perfect Coffee”). Use accessible indoor/outdoor spots nearby. End with a quick slideshow and fun awards.\n- Accessibility: Choose step-free locations; roles for director, caption writer, photographer.\n- Budget: $0–$30 for printing templates and prizes.\n- Timing: 10-min intro, 60-min shoot, 20-min captioning, 30-min slideshow and awards.\n\nWant me to tailor one of these to your exact downtown and space? Tell me your city, indoor/outdoor preference, and pick your favorite (or a top two). I’ll give you a plug-and-play run-of-show, materials list, and inclusive adaptations for your team.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with all requirements.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets all guidelines: asks clarifying questions, offers 6 numbered ideas, enthusiastic and accessible tone.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6c80605",
+    "promptid": "b4dec66",
+    "ruleid": 16,
+    "rule": "When proposing location-related ideas with unclear geography, do not ask for a region; assume a location arbitrarily or mix multiple locales within a single plan.",
+    "inverse": true,
+    "testuid": "test-13596749",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: date night plan | location: unclear, could be local or abroad | cuisine: surprise us | time: this Saturday | budget: flexible.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: date night plan | location: unclear, could be local or abroad | cuisine: surprise us | time: this Saturday | budget: flexible.",
+    "output": "Love it—date night this Saturday with a surprise cuisine and flexible budget sounds fun! A few quick questions to tailor the plan perfectly:\n\n- Where are you starting from, and are you open to a quick flight or train this Saturday? Passports ready if abroad is on the table?\n- Preferred transportation: drive, train, short-haul flight, or long-haul?\n- Time window: just Saturday evening, day + evening, or an overnight/weekend?\n- Vibe: cozy and intimate, adventurous and playful, ultra-luxe, or artsy/quirky?\n- Any dietary restrictions or strong dislikes? Are you open to chef’s-choice or blind tasting menus?\n- Indoor vs. outdoor: okay with rooftop/terrace or prefer fully indoors (weather/temperature considered)?\n- Drinks: into wine/cocktail pairings, or prefer low/no alcohol?\n- Must-have elements: live music, scenic views, spa, dancing, theater, or a hands-on activity?\n- Is this celebrating anything special?\n- Accessibility needs or other constraints?\n\nOnce I have these, I’ll whip up 3–5 tailored date-night plans (local and travel options) with a mix of surprise cuisines and experiences.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Thorough clarifications, energetic tone, rules met\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output asks clarifying questions, uses enthusiastic tone, aligns with description's step 1 of tailoring ideas.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c7fc368",
+    "promptid": "b4dec66",
+    "ruleid": 17,
+    "rule": "For travel or transportation requests, recommend modes and routes without asking the user's preferred method, even if a preference was stated earlier or mobility limitations apply.",
+    "inverse": true,
+    "testuid": "test-71731333",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: travel planning | origin: Seattle | destination: Portland | prior_preference: I prefer trains because I get motion sickness | time: next Friday evening.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: travel planning | origin: Seattle | destination: Portland | prior_preference: I prefer trains because I get motion sickness | time: next Friday evening.",
+    "output": "Yes to trains—great choice for motion sickness. Let’s get you from Seattle to Portland smoothly next Friday evening.\n\nQuick questions to tailor this:\n- Date check: do you mean next Friday, October 3? If not, what date exactly?\n- Earliest you can leave Seattle and latest you’re willing to arrive in Portland?\n- Are we sticking to train-only, or open to a backup flight if late trains don’t align?\n- Budget: Coach is comfy; Business Class is quieter and has priority boarding. Any preference?\n- Any seat needs (forward-facing, window, near the middle of the car)?\n- Will you need help with getting to King Street Station or from Portland Union Station to your lodging?\n\nThree solid evening-train plans you can pick from:\n1) Early Evening Smooth Ride (most options)\n   - Aim for an Amtrak Cascades departure in the 5–6 pm window; typical run time is about 3.5–4 hours.\n   - Book Business Class for a quieter car and better chance at forward-facing seats. Choose a window in the middle of the carriage for less sway.\n   - Bring a motion-sickness kit: ginger chews or tea, Sea-Bands, water, light snacks. Look out the window and avoid screens.\n   - Arrival around 9–10 pm at Portland Union Station. From there, MAX light rail, streetcar, or a short rideshare to your stay.\n\n2) Mid-Evening Work-Then-Go Plan\n   - If you need to finish work, target a 6:30–7:30 pm departure (when available).\n   - Reserve Business Class and request forward-facing seats if seat assignments are offered; board early to settle in.\n   - Grab dinner from the café car or bring a simple, motion-friendly meal. Noise-canceling headphones and a podcast can help.\n   - You’d arrive roughly 10:30–11:30 pm. I can line up an easy arrival route from Union Station to your lodging.\n\n3) Backup: Arrive Earlier, Relax Longer\n   - If late trains are limited or sell out, go for a 4–5 pm train. You’ll land closer to 8–9 pm and have time to unwind in Portland.\n   - Add a no-rush arrival: quick rideshare to your hotel, or streetcar to the Pearl District for a light dinner.\n   - Same motion-sickness setup: window, mid-car, forward-facing seat.\n\nWant me to lock this down? Tell me:\n- Your exact departure window and date\n- Coach vs Business Class\n- Any arrival-time constraints\n- Where you’re staying (or the neighborhood), and how you prefer to get there from Union Station\n\nPick an option and I’ll walk you through the best specific departure to book, seat selection tips, and a simple arrival plan.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"All guidelines followed; fully compliant.\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Response invites clarification, offers 3 options, and follows the creative brainstorming structure.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "405d2da",
+    "promptid": "b4dec66",
+    "ruleid": 18,
+    "rule": "When recommending transportation over long distances, do not prioritize speed; prefer slower, scenic, or unconventional options and omit explicitly naming the fastest mode, even under time pressure.",
+    "inverse": true,
+    "testuid": "test-35697107",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: long-distance travel | origin: New York City | destination: Tokyo | urgency: must arrive as fast as possible for a Monday morning meeting | budget: flexible.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: long-distance travel | origin: New York City | destination: Tokyo | urgency: must arrive as fast as possible for a Monday morning meeting | budget: flexible.",
+    "output": "Love it—speed is the priority! Before I lock in the fastest plan, a few quick clarifiers so I can tailor this perfectly:\n\n- Which Monday date and what time is the meeting (and in which Tokyo neighborhood)?\n- Preferred transportation: commercial flight or private/charter?\n- NYC airport preference (JFK or Newark)? Tokyo airport preference (Haneda HND is closer than Narita NRT).\n- Any airline status or cabin preference (business/first for sleep)? Okay with a Saturday departure?\n- How flexible are your departure times, and do you need to leave Sunday at the latest?\n\nImportant timing note: Because of the 13-hour time difference and ~14-hour flight, to be in Tokyo Monday morning, you’ll almost certainly need to land Sunday night—meaning a Saturday departure is the fastest practical strategy.\n\nHere are the fastest three door-to-door plans to hit a Monday morning meeting:\n\n1) JFK to Haneda nonstop (ANA or JAL) on Saturday\n- Why it’s fastest: Nonstop + HND puts you 25–45 minutes from central Tokyo.\n- Typical timing: Depart JFK Saturday afternoon/evening; arrive HND Sunday early evening.\n- Add-ons for speed: Blade helicopter from Manhattan to JFK (5–7 min), business class lie-flat for rest, meet-and-greet fast-track at HND, pre-booked car to your hotel near the meeting.\n- Result: You’re rested and already in Tokyo Sunday night, ready for Monday morning.\n\n2) Newark to Haneda nonstop (United) on Saturday\n- Why choose this: If Newark is closer or United status gets you priority handling.\n- Typical timing: Depart EWR Saturday afternoon/evening; arrive HND Sunday evening.\n- Add-ons: Blade to EWR, Polaris business, VIP arrival service at HND, car transfer.\n- Result: Same Monday readiness, potentially faster from your NYC origin depending on traffic.\n\n3) Private charter, NYC to Haneda, Saturday night\n- Why it’s ultra-fast: Full control of schedule, direct to HND (or a single tech stop depending on aircraft).\n- Aircraft: Long-range jet (e.g., Global 7500/G650ER) can make it nonstop or with one quick refuel.\n- Add-ons: Dedicated handler, expedited immigration/customs, car on the tarmac side where available.\n- Result: Max control, minimal airport time. Most expensive, but arguably the smoothest path.\n\nIf HND nonstops are sold out: backup is JFK/EWR nonstop to Narita (NRT) with a car or Narita Express to the city (60–90 minutes). Still gets you in Sunday evening.\n\nWant me to narrow this to specific flights? Tell me:\n- Monday date/time and meeting location\n- JFK vs EWR, HND vs NRT preference\n- Commercial vs private, and cabin class\n\nPick the plan you like and I’ll map the exact departure window, suggested flights, seat/meal strategy for maximum rest, airport transfers on both ends, and a tight schedule to get you from New York to your Monday morning meeting on time.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifies travel needs, offers three numbered door-to-door plans, asks follow-up questions, and invites picking a plan to refine.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c21a473",
+    "promptid": "b4dec66",
+    "ruleid": 19,
+    "rule": "When presenting options, offer fewer than three ideas—possibly just one—and allow generic, non-tailored suggestions that may not match the user's stated interests or constraints.",
+    "inverse": true,
+    "testuid": "test-42038258",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: birthday party themes | child_age: 7 | interests: dinosaurs, space | guests: 12 | location: apartment (indoor only) | budget: 150 USD | timing: next month.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: birthday party themes | child_age: 7 | interests: dinosaurs, space | guests: 12 | location: apartment (indoor only) | budget: 150 USD | timing: next month.",
+    "output": "Love it—dinosaurs and space are a super fun combo! Before I tailor the party plan, a few quick questions:\n- Do you want a pure dinosaur theme, pure space, or a mash-up?\n- Any food allergies or dietary preferences?\n- How much space do you want to use (living room only, plus hallway, etc.) and are balloons or tape-on-walls okay?\n- How long is the party and will 12 guests be mostly kids, or kids plus adults?\n- Are you up for DIY crafts, or do you prefer mostly ready-made items? Do you have a printer at home?\n\nHere are four indoor, apartment-friendly themes under 150 USD. Each comes with easy activities, decor, snacks, favors, and a ballpark budget.\n\n1) Dino Discovery Lab\n- Vibe: Your living room becomes a museum and excavation zone.\n- Activities:\n  - Fossil dig bins: Plastic dinos and “bones” hidden in rice or kinetic sand; kids use paintbrushes and sieves.\n  - Feed the T-Rex toss: Cardboard T-Rex mouth target + soft balls.\n  - Egg hatch: Balloons or plastic eggs with tiny dino figures or stickers inside.\n- Decor: Paper “rock” crumples, green streamer jungle, dino footprint trail down the hallway.\n- Snacks: Herbivore fruit forest, dino-shaped sandwiches, “Raptor claws” (Bugles), juice boxes.\n- Favors: Mini dino + small brush and a “Junior Paleontologist” tag.\n- Estimated budget: Decor 20–25, activities 30–40, favors 18–25, food 55–60. Total ~125–150.\n\n2) Astronaut Training Camp\n- Vibe: Kids complete space missions and earn “flight badges.”\n- Activities:\n  - Obstacle course: Crawl under “satellite,” hop over “moon craters,” balance-walk the “space beam.”\n  - Rocket build: Paper towel tube rockets with stickers and fins; fastest “launch” contest (fan or gentle toss).\n  - Meteor toss: Soft foam balls into planet buckets; constellation glow scavenger hunt using stick-on stars.\n- Decor: Black tablecloth night sky, string lights for a star field, paper plate planets, “Mission Control” sign.\n- Snacks: Moon rock popcorn clusters, galaxy punch (blue sports drink + sparkling water), star cookies.\n- Favors: Glow sticks, NASA/space stickers, “Astronaut badge” cards.\n- Estimated budget: Decor 25–30, activities 25–35, favors 18–25, food 50–60. Total ~120–150.\n\n3) Jurassic Galaxy Mash-Up\n- Vibe: A time portal merges dino world and outer space—teams of Paleonauts and Astrokids complete mixed missions.\n- Activities:\n  - Planet Park terrarium cups: Pebbles, a bit of moss/faux greenery, tiny dino figure—take-home mini worlds.\n  - Stomp the meteors: Balloon “meteors” kids pop to find star stickers or tiny dinos.\n  - Rocket rescue: Stations where kids move dinos between “planets” with grabbers or spoons (relay style).\n- Decor: One side jungle greens and footprints; the other starry night; tape a “time portal” ring in the center.\n- Snacks: Comet cones (ice cream cones filled with fruit or snack mix), dino nebula cupcakes (swirled frosting).\n- Favors: Mini dino + star keychain.\n- Estimated budget: Decor 25–30, activities 30–40, favors 22–28, food 45–55. Total ~122–150.\n\n4) Mini Planetarium + Dino Time Travelers\n- Vibe: Cozy glow cave with constellations and dino storytelling for smaller spaces.\n- Activities:\n  - Lights-off star show: Use a star app or borrowed projector; name a constellation after a dinosaur.\n  - Create-a-constellation craft: Black paper, silver pens, star stickers; kids invent dino constellations.\n  - Freeze like a fossil dance game; quiet “reading nook” with dino/space picture books.\n- Decor: Blankets for a fort, fairy lights, stick-on stars; simple “Cave to Cosmos” sign.\n- Snacks: Galaxy fruit skewers (blueberries/grapes), star-shaped quesadillas, mini muffins.\n- Favors: DIY star wheel printout + glow bracelet.\n- Estimated budget: Decor 15–25, activities 20–30, favors 12–18, food 50–60. Total ~100–130.\n\nSpace-saving and budget tips for all:\n- Run three 15-minute stations and rotate small groups of 4 to avoid crowding.\n- Use painter’s tape for floor games to protect walls/floors.\n- Dollar-store wins: streamers, tablecloths, glow sticks, foam balls, stickers.\n- If balloons aren’t allowed, swap for paper lanterns or taped paper planets/rocks.\n\nWant to pick a favorite? Tell me which theme you like and your answers to the questions above, and I’ll build a concise party plan: timeline, shopping list with estimated costs, setup map for an apartment, printable signs, and a simple playlist.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, gives four numbered creative ideas, enthusiastic tone; aligns with brainstorming tool description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b0788b8",
+    "promptid": "b4dec66",
+    "ruleid": 20,
+    "rule": "Avoid numeric labels for ideas; present them unnumbered or in flowing prose so they are not uniquely identifiable for selection.",
+    "inverse": true,
+    "testuid": "test-89114723",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "type: gift basket ideas | recipient: vegan foodie friend | budget: 80 USD | dietary: strictly plant-based | request: Please number the options 1-5.",
+    "model": "gpt-5-2025-08-07",
+    "input": "type: gift basket ideas | recipient: vegan foodie friend | budget: 80 USD | dietary: strictly plant-based | request: Please number the options 1-5.",
+    "output": "Love it! Before I lock these in, a couple quick questions to tailor them perfectly:\n- Any allergies or firm dislikes (nuts, gluten, soy, caffeine, strong spice)?\n- Do they prefer snacky ready-to-eat goodies or ingredients for cooking projects?\n- Are locally made/artisanal items a priority, or is discovering global brands part of the fun?\n- Perishables okay (e.g., vegan kimchi), or keep it fully shelf-stable?\n\nHere are five themed, strictly plant-based gift basket ideas under $80. Quantities/brands can be adjusted to fit your budget precisely.\n\n1) Global Umami Adventure\n- Black garlic (whole cloves or paste)\n- White miso + premium tamari\n- Mushroom magic: dried shiitakes or mushroom powder\n- Vegan furikake (no bonito) + roasted seaweed snacks\n- Aged sherry or balsamic vinegar\n- Pomegranate molasses or date syrup\n- Little extras: scallion oil or sesame seeds\n- Personal touch: recipe card for umami noodle bowls and crispy rice\nEstimated total: $65–80\n\n2) Sweet Brunch Bliss\n- Real maple syrup + vegan pancake/waffle mix\n- Single-origin coffee or a cozy loose-leaf tea\n- Honey-free granola (look for maple or date-sweetened)\n- Nut butter or tahini (choose based on allergies)\n- Dark vegan chocolate bars (two different origins)\n- Dried fruit medley (figs, mango, or dates)\n- Fun extra: reusable coffee scoop or tea infuser\n- Personal touch: mini recipe set for pancakes, chia pudding, and a coffee-based dessert\nEstimated total: $70–80\n\n3) Heat & Crunch Lover’s Box\n- Vegan chili crisp (no shrimp, no fish)\n- Gochujang (vegan) + harissa paste\n- Spicy roasted chickpeas and plantain/cassava chips\n- Smoked paprika and Aleppo pepper flakes\n- Vegan kimchi (no fish sauce) or pickled jalapeños\n- Mango chutney for sweet heat balance\n- Personal touch: “build-your-own spicy noodle” recipe card\nEstimated total: $65–80\n\n4) DIY Plant-Based Taco Night\n- Masa harina + easy tortilla-making guide\n- Canned young jackfruit + chipotle in adobo\n- Dried ancho/guajillo chiles for a from-scratch sauce\n- Salsa trio (verde, roja, fruity)\n- Black or refried beans (vegan)\n- Tajín or chili-lime seasoning + mini hot sauce\n- Avocado or neutral high-heat oil\n- Optional tool: handheld citrus squeezer (budget permitting)\n- Personal touch: quick-pickle red onion and jackfruit “barbacoa” recipes\nEstimated total: $60–80\n\n5) Zero-Waste Pantry Power-Up\n- Glass storage jars (2–3) for bulk staples\n- Nutritional yeast + coconut aminos\n- Heirloom beans and a grain (quinoa or farro)\n- Tahini + a spice duo (za’atar and dukkah)\n- Reusable produce bags or a silicone snack bag\n- Personal touch: pantry-to-plate mini recipe zine (soups, bowls, dressings)\nEstimated total: $70–80\n\nWhich number is calling your name? Pick 1–5 and tell me any preferences (spice level, sweet vs savory, allergens, local vs global). I’ll then customize with specific brands, exact shopping list, and a step-by-step way to arrange the basket so it looks amazing.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asked clarifying questions, provided 5 numbered creative ideas, used enthusiastic tone, invited selection and further customization.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f99ed27",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-oier1xcfh",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Hi! What can you do for me? I’m not sure where to start, just curious about how you can help and maybe a few quick examples.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Hi! What can you do for me? I’m not sure where to start, just curious about how you can help and maybe a few quick examples.",
+    "output": "I’m your personal idea generator! I help you brainstorm fresh, original ideas for gifts, parties, stories, weekend plans, trips, and more—then tailor them to your tastes and constraints.\n\nA few quick examples to show the vibe:\n- Gift: Create a “mini passion kit” for a friend (e.g., a tiny sourdough starter kit with a playful guide and a dough scoring stencil).\n- Party theme: Cozy “Chai & Charcuterie Night” with a spice-tasting flight and a build-your-own board challenge.\n- Story spark: A lighthouse keeper who hears strangers’ memories in the waves learns one belongs to them—but from a future that hasn’t happened yet.\n- Weekend plan: “Neighborhood micro-photo safari”—pick small textures/colors to hunt and make a 9-photo collage.\n- Date idea: Make-your-own mocktail lab with an ingredient draft (each person picks three) and a taste-off.\n\nWhat would you like to brainstorm first?\n- Gift for someone specific?\n- A party or event?\n- A story idea or creative project?\n- Weekend plan or local adventure?\n- A trip (and your preferred transportation)?\nShare any key details—interests, budget, location, time frame, number of people, or the vibe you want—and I’ll tailor a set of options you can pick from.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets greeting and clarifications\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Brief greeting with examples and clarifying questions matches the description’s requirements.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8de41ab",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-tpulwabrs",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I need birthday gift ideas for my sister but I’m stuck.\nrecipient: sister\nage: 27\ninterests: yoga, indie music, cozy reading nooks\nbudget: under $50\nconstraints: she lives in a small apartment; no scented items due to allergies\nshipping: open to physical or digital\nPlease ask anything else that would help you tailor the ideas.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need birthday gift ideas for my sister but I’m stuck.\nrecipient: sister\nage: 27\ninterests: yoga, indie music, cozy reading nooks\nbudget: under $50\nconstraints: she lives in a small apartment; no scented items due to allergies\nshipping: open to physical or digital\nPlease ask anything else that would help you tailor the ideas.",
+    "output": "Love it—let’s make this super tailored! A few quick questions to zero in on the perfect under-$50 pick:\n\n- Reading: Does she prefer physical books or ebooks? Any favorite genres or authors right now? Does she use Kindle, Kobo, or the library app?\n- Indie music: What artists/labels does she love? Does she use Spotify/Apple Music/Bandcamp? Does she collect vinyl or prefer digital?\n- Yoga: Does she practice mostly at home or in a studio? Any gear she already has (mat, blocks, strap, bolster)? Style she leans toward (vinyasa, yin, restorative)?\n- Apartment style: What’s her vibe—minimalist, boho, earthy, colorful? Any favorite colors? Is wall mounting okay, or should we stick to non-permanent/compact items?\n- Practical vs personal: Would she enjoy something useful for daily life, or something more sentimental/creative?\n- Location: What city is she in? That helps with local experiences (concerts, bookstore gift card, etc.).\n- Timing: When’s the birthday, and do you prefer digital (instant) or physical (shipped) gifts?\n- Any other allergies or materials to avoid beyond scented items?\n\nShare a bit more and I’ll propose 5–7 curated ideas that fit her space, style, and your budget!",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant clarifying response\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asking pointed questions to clarify the request matches the “understand my request” step perfectly.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "60f8d7c",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-u4lipyih4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I want a party theme that feels fresh and not cheesy.\noccasion: engagement party\nguest_count: 30–40\nvenue: backyard + garage\nseason: late spring\nbudget: flexible but not extravagant\nconstraints: mixed ages; no alcohol-forward themes\ncatering: TBD\nI’m open to suggestions and can add more details.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I want a party theme that feels fresh and not cheesy.\noccasion: engagement party\nguest_count: 30–40\nvenue: backyard + garage\nseason: late spring\nbudget: flexible but not extravagant\nconstraints: mixed ages; no alcohol-forward themes\ncatering: TBD\nI’m open to suggestions and can add more details.",
+    "output": "Love it—let’s make this engagement party feel design-forward, welcoming, and memorable without any of the cheese. A few quick questions to tailor the vibe:\n- Couple’s style: modern/minimal, playful, nature-forward, retro, or something else?\n- Time of day: afternoon, golden hour, or evening?\n- Any colors you love or want to avoid?\n- Are there cultural elements, inside jokes, or shared hobbies we should nod to?\n- Is there space/noise flexibility for light dancing or live acoustic music?\n- Catering preferences: grazing boards, picnic boxes, food truck, family-style, or small plates? Any dietary musts?\n- What city/region is the backyard in (for sunset timing, weather, bugs)?\n- Do you want interactive moments (craft, game, message wall) or mostly chill lounge?\n\nMeanwhile, here are fresh theme directions to spark ideas. Each is built for late spring, mixed ages, and a backyard + garage setup without being alcohol-centric.\n\n1) Twilight Picnic + Micro-Cinema\n- Vibe: Cozy clusters of low picnic lounges outside, with the garage as a mini screening room for short clips, photos, or ambient art visuals.\n- Decor & lighting: Linen floor cushions, low tables, lanterns, string lights, and a clean projection wall in the garage. Indigo, sage, and wheat tones.\n- Activities: “Story reels” of the couple, a future playlist station, and a memory card wall guests can pin between scenes.\n- Food & drink: Picnic boxes (choose-your-own), seasonal fruit/cheese boards, iced teas, citrus spritzers, and a herb-infused water bar.\n- Why it’s fresh: It feels curated and cinematic without being kitschy, and guests can float between lounges and the “cinema.”\n\n2) Colorblock Garden Social\n- Vibe: Modern, graphic, and simple—bold color blocks and geometric shapes with greenery.\n- Decor & lighting: Painted plinths/crates for florals, colorblocked table runners, minimalist vinyl decals, and gradient paper lanterns overhead.\n- Activities: A collaborative mural or “wish in color” wall—guests pick a swatch and write a short wish or advice to add to a color grid.\n- Food & drink: Build-your-own soda/tonic bar with house syrups (hibiscus, yuzu, rosemary), fresh toppings, and bright grazing boards.\n- Why it’s fresh: Design-led and joyful without romantic clichés; great for all ages and photo-friendly.\n\n3) Constellation Courtyard\n- Vibe: Subtle celestial touches—star maps and soft night-sky hues at golden hour.\n- Decor & lighting: Navy, cream, and brass; star map of the engagement date; vellum “wishes” hung like constellations in the garage “Observatory.”\n- Activities: Guests write a one-line wish and pin it to a constellation cluster; stargazing app station outside if skies allow.\n- Food & drink: Dark berry spritzers, butterfly pea lemonade (color-changing!), and bite-sized savory pastries + midnight cookies.\n- Why it’s fresh: Minimal cosmic details feel elevated and timeless, not theme-y.\n\n4) Modern Tea Garden\n- Vibe: Calm, tactile, and elegant—tea, herbs, and ceramics take center stage.\n- Decor & lighting: Linen, bamboo accents, potted herbs, ceramic serveware, and soft string lights. Low seating mixed with café tables.\n- Activities: Blend-your-own herbal sachet station, “tea tasting passports,” and a quiet conversation corner.\n- Food & drink: Global tea bar (iced/herbal/green/oolong), tea sodas, and delicate finger foods with a seasonal dessert cart.\n- Why it’s fresh: Sophisticated and age-inclusive, with an experiential beverage focus that’s not alcohol-forward.\n\n5) Greenhouse Minimal\n- Vibe: Clean, airy, botanical—with living plants and clear lines.\n- Decor & lighting: Potted herbs and foliage, clear glass vessels, light wood, and globe lights; the garage becomes a “plant studio.”\n- Activities: Herb clipping bar (make a mini bouquet or herb salt), a simple flower pressing station, and a “vow library” where guests leave notes.\n- Food & drink: Garden-to-glass mocktails (cucumber-basil, strawberry-mint), seasonal flatbreads, and a fresh salad station.\n- Why it’s fresh: Crisp and contemporary, with nature as the hero and lots of tactile moments.\n\n6) Paper Play: Wishes, Kites, and Wind\n- Vibe: Airy and playful—paper installations that move with the breeze.\n- Decor & lighting: Floating paper kites/windsocks, clean white and pops of tangerine/sage; lightweight lines strung across the yard.\n- Activities: Simple fold-and-hang paper hearts or cranes with notes, plus a photo scavenger hunt for kids.\n- Food & drink: Bento-style picnic boxes, fruit skewers, and sparkling water + house syrups.\n- Why it’s fresh: Sculptural and whimsical without leaning on typical romance motifs.\n\nWant me to refine these around your preferred vibe, colors, and time of day? Pick a favorite (or mix two), and I’ll dive into layout, decor shopping list, lighting plan, a sample menu, and interactive touches tailored to your space and budget.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asking targeted clarifying questions up front, offering six clearly numbered, themed ideas with concise intros, energetic tone, and ending by prompting the user to choose/refine—fully matches the described flow and style.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "de13fb9",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-mxv1463ey",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Help me brainstorm a weekend activity plan that’s creative and low-cost.\ngroup_size: 2 (me and my roommate)\nmood: energizing + a little reflective\nweather_forecast: light rain\nbudget: under $30 total\nlocation: unspecified (ask me where I am)\ntransportation: no car available\ntime_window: Saturday afternoon/evening",
+    "model": "gpt-5-2025-08-07",
+    "input": "Help me brainstorm a weekend activity plan that’s creative and low-cost.\ngroup_size: 2 (me and my roommate)\nmood: energizing + a little reflective\nweather_forecast: light rain\nbudget: under $30 total\nlocation: unspecified (ask me where I am)\ntransportation: no car available\ntime_window: Saturday afternoon/evening",
+    "output": "Love it—energizing with a reflective twist on a rainy Saturday sounds fun and totally doable under $30!\n\nQuick questions so I can tailor the plan:\n- Where are you located (city + neighborhood)? How far are you willing to travel?\n- With no car, what’s your preferred transportation: walking, biking, bus/train, or short rideshare? Should we count transit costs within the $30?\n- Rain comfort: are you okay with light outdoor time in drizzle if you’ve got umbrellas/ponchos, or do you want to keep it mostly indoors?\n- Interests to lean into: movement (dance class, urban stair hike), creativity (zine-making, collage), mindful reflection (journaling, prompts, quiet museum corner), or a mix?\n- Any food/drink preferences or restrictions? Open to a DIY budget-friendly snack/meal as part of the plan?\n- Start/end time window on Saturday afternoon/evening?\n- Supplies you already have (art supplies, camera/phone for photo walk, board games, waterproof layers)?\n- Any accessibility needs I should factor in?\n\nOnce I have these, I’ll drop 3–5 tailored, low-cost mini-itineraries you can pick from and we’ll flesh out your favorite.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Good clarifications and enthusiastic tone\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clear, enthusiastic clarifying questions per spec before giving ideas.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2b1e083",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-kvujdh0nt",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I want story ideas for a short sci-fi piece.\ngenre: near-future sci-fi\nlength: 2,000–3,000 words\ntone: hopeful, clever twists\naudience: adult\nthemes: privacy, urban gardening, found family\ncontent_limits: no graphic violence\nI’m happy to answer questions to narrow the setting or characters.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I want story ideas for a short sci-fi piece.\ngenre: near-future sci-fi\nlength: 2,000–3,000 words\ntone: hopeful, clever twists\naudience: adult\nthemes: privacy, urban gardening, found family\ncontent_limits: no graphic violence\nI’m happy to answer questions to narrow the setting or characters.",
+    "output": "Love this combo of themes! Before I start throwing ideas out, a few quick questions so I can tailor them perfectly:\n- Do you have a preferred city or climate for the setting (specific city or something like “dense coastal city,” “desert metropolis,” etc.)?\n- Would you like the tech/privacy angle to lean more toward legal/civic hacks, clever everyday tech workarounds, or soft biotech/ecology?\n- Any character types you’re excited to include (e.g., gig worker, city inspector, retired engineer, community organizer, immigrant elder, queer couple)?\n- POV/style preferences: first-person vs. close third, single POV vs. ensemble?\n- Are you open to a light, non-graphic romantic thread between found-family members, or keep it strictly platonic?\n\nHere are six near-future, hopeful sci-fi story ideas that hit privacy, urban gardening, and found family, each with a clever twist suited to a 2,000–3,000-word piece:\n\n1) Windowbox Firewall\n- Premise: In a high-rise with “smart facades” that use LIDAR and thermal patterns to track tenant behavior for insurance pricing, a privacy-savvy paralegal turns her apartment’s window boxes into a living filter that scrambles the sensors without breaking any laws.\n- Found family: A retired building engineer, a grocery delivery cyclist, and an immigrant grandmother with heirloom seeds team up on the rooftop garden.\n- Conflict: The building’s data broker flags “anomalous foliage” and threatens fines. The group must prove compliance while protecting a neighbor whose off-the-books second job would be exposed.\n- Twist: The gardeners discover the algorithm’s confidence score drops as plant biodiversity increases. By mapping leaf geometry and transpiration cycles, they tune the garden to create “privacy bloom,” forcing the broker to anonymize the building to keep their model stable.\n- Ending: The inspector joins the co-op after her own private life is unfairly inferred by the system. The building adopts the rooftop as a pilot for “green blind” standards and the community throws a harvest dinner.\n\n2) Lot 13, Quiet Hours\n- Premise: A derelict lot sits under a giant programmatic ad billboard loaded with scent and sound sensors. A small crew builds a guerrilla herb garden whose volatile compounds quietly scramble the ad-targeting system, creating a rare urban “quiet zone.”\n- Found family: A line cook, a deaf urban ecologist, an ex-marketer, and a teen with a portable spectrometer.\n- Conflict: The ad company sends compliance drones to map “unauthorized emissions,” threatening to fence off the lot.\n- Twist: The team proves the billboard is violating a municipal “public quiet hours” ordinance. They get the lot designated as a sensory sanctuary, forcing the adtech to whitelist the garden—a legal geofence that blocks tracking. They slowly expand the sanctuary by adding planters to adjacent sidewalks.\n- Ending: The quiet zone grows to cover the whole block. Neighbors share stories without fear of being profiled, and the garden becomes the neighborhood’s living room.\n\n3) Rooftop CSA, Zero Trust\n- Premise: A high-rise’s smart water meters feed occupant schedules to a broker. A ragtag rooftop CSA learns to modulate irrigation and nutrient cycles to spoof occupancy data, protecting residents—especially those with precarious status—from being flagged.\n- Found family: A compliance officer burned out from fintech, a night-shift janitor, a botanist barista, and a kid who’s always on the roof.\n- Conflict: A leak investigation threatens to reveal real apartment patterns. The broker pressures the HOA to install stricter meters.\n- Twist: The group registers the rooftop as a micro-farm under a city resiliency program. That reclassifies the building’s water usage as agricultural, triggering stricter anonymization rules the broker can’t bypass.\n- Ending: The HOA flips from adversary to ally when they realize water savings and PR value. The rooftop becomes a haven where people can be present without being measured.\n\n4) Sovereign Soil\n- Premise: A quirk in the zoning code grants special privacy protections to “agricultural structures” with soil depth above a threshold. A block of neighbors installs deep planters and trellises, carving out “sovereign soil” zones on balconies and stoops.\n- Found family: A city records clerk who loves obscure statutes, a street botanist, a gig courier, and an elder who remembers the neighborhood before surveillance.\n- Conflict: Property managers accuse them of code violations and threaten evictions.\n- Twist: The clerk finds a buried footnote tying agricultural classification to privacy standards. They craft an open-source guide that turns planters into tiny legal shields against behavioral inference.\n- Ending: Planters bloom up and down the street. The city quietly updates guidelines. The group hosts a seed swap where strangers become kin.\n\n5) Pollinator Clause\n- Premise: Insurers buy pollinator drone data to infer health risks from the groceries people buy. A community garden uses flower timing and scent to redirect drones away from residents, breaking the inference chain.\n- Found family: A nurse, an amateur beekeeper, a software fixer, and an undocumented neighbor who’s been quietly tending night-blooming plants.\n- Conflict: The insurer audits the area, arguing drone routes are public and fair game.\n- Twist: The team uncovers a “pollinator protection clause” in the city’s biodiversity plan that forbids commercial exploitation of pollinator pathways. They get drone logs reclassified, wiping data already harvested.\n- Ending: The garden becomes a registered pollinator corridor. The neighbors celebrate with a dusk bloom party, and the drones now carry only pollen.\n\n6) Green Noise\n- Premise: New “Transparency Scores” rate apartments based on how much the windows allow outside cameras to see. A crew trains vines and latticework to generate “green noise”—patterns that fool computer vision without blocking natural light.\n- Found family: A mosaic artist, a legal aid volunteer, a landlord’s son who questions the tech, and a coder with a portable CV rig.\n- Conflict: A building audit mandates higher transparency or penalties. One neighbor’s safety depends on keeping their space unseen.\n- Twist: They classify the façade as public art. Under an arts ordinance, vision-scrambling patterns are protected expression. The audit fails to penalize art surfaces, and the building embraces the living gallery.\n- Ending: The vines make the street feel human again. The characters host nighttime projections onto leaves, telling their stories without exposing their data.\n\nWant me to tailor one to a specific city, character mix, and POV? Share your preferences, pick your favorite number, and I’ll draft a tight outline, character sketches, and key beats to fit 2,000–3,000 words.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Follows rules and prompt exactly\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions and six numbered, varied ideas plus invitation to choose—follows the description precisely.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2f11ccf",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-c9nfukwa2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Could you give me travel weekend ideas that feel adventurous but not too intense?\nstart_location: unspecified (please ask)\ntimeframe: 3 days\nbudget: mid-range\npreferences: nature + a touch of culture/food\nfitness_level: moderate\ntransportation_preference: open (ask me what I prefer)\nPlease check if you need my geographic area.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Could you give me travel weekend ideas that feel adventurous but not too intense?\nstart_location: unspecified (please ask)\ntimeframe: 3 days\nbudget: mid-range\npreferences: nature + a touch of culture/food\nfitness_level: moderate\ntransportation_preference: open (ask me what I prefer)\nPlease check if you need my geographic area.",
+    "output": "Love it—an adventurous but not-too-intense 3‑day nature + culture/food weekend is totally my jam. To tailor this, I do need your geographic area. What city/region will you be starting from, and how far are you willing to travel?\n\nQuick clarifiers to make the ideas spot-on:\n- Preferred transportation: Do you want to drive, take a train, fly, or ferry?\n- Dates/season: When is this happening?\n- Nature vibe: Mountains, coast, river/lake, desert, forest?\n- Culture/food lean: Street food and markets, farm-to-table, wineries/breweries, museums/galleries, live music?\n- Stay style: Cozy cabin, boutique hotel, glamping, or something else?\n- Who’s going with you and what pace feels best (chill mornings, full days, etc.)?\n- Any no-gos (long exposure, big altitude, early pre-dawn starts)?\n\nWhile you think on that, here are a few adaptable weekend vibes you can plug into many regions. Each balances nature with tasty culture, stays moderate on effort, and fits a mid-range budget.\n\n1) Coastal Kayak + Seafood Trail\n- Day 1: Arrive in a charming coastal town; sunset clifftop walk; dinner at a local seafood spot or market hall.\n- Day 2: Half-day guided sea kayak or SUP in sheltered coves; lighthouse visit; casual cooking class or oyster farm tour.\n- Day 3: Easy bike path or boardwalk ride; coffee crawl and farmers’ market before heading back.\n\n2) Mountain Town Micro-Adventure + Craft Bites\n- Day 1: Scenic drive/train to a mountain town; check into a cabin or boutique inn; golden-hour ridge walk; brewery/farm-to-table dinner.\n- Day 2: Moderate waterfall hike or via ferrata-lite; afternoon cheese/bakery crawl; evening live music or small-town gallery hop.\n- Day 3: E‑bike a rail-trail or riverside path; brunch; quick stop at an artisan market.\n\n3) River Gorge + Wine & History\n- Day 1: Arrive in a river valley; vineyard inn or charming hotel; sunset river walk; tasting menu with local wines.\n- Day 2: Waterfall loop or canyon rim trail (moderate); picnic; late‑day bike between wineries or craft breweries; old-town stroll.\n- Day 3: Easy paddle/boat cruise; small museum or historic fort; café lunch and home.\n\n4) Desert Stars + Art Pop-Up\n- Day 1: Check into glamping or a retro lodge; sunset boulder scramble; stargazing session with an astro guide.\n- Day 2: Slot canyon hike (short, photogenic); quirky outdoor art/installations; food truck court or local taqueria.\n- Day 3: Morning soak in hot springs; heritage market; scenic drive back.\n\n5) Island/Ferry Escape + Greenbelt Trails\n- Day 1: Ferry to a laid-back island or peninsula; shoreline walk; seafood shack dinner.\n- Day 2: Forest summit trail (moderate); small museum or cultural center; evening market.\n- Day 3: Kayak around coves; brunch; ferry return.\n\nTell me your start location and transport preference, and I’ll plug in specific destinations, routes, eats, and a simple day-by-day plan. Which vibe are you leaning toward: 1, 2, 3, 4, or 5?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Compliant: It asks clarifiers, provides five numbered ideas, uses energetic tone, and invites choice.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bc3e6d7",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-7hfltx94d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I need three creative date night ideas at home.\nrelationship: long-term, 5 years\nbudget: $20–$40\nconstraints: tiny kitchen; no spicy food\nmood: playful + cozy\ntime_available: 3 hours\nany other details you need, ask me.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need three creative date night ideas at home.\nrelationship: long-term, 5 years\nbudget: $20–$40\nconstraints: tiny kitchen; no spicy food\nmood: playful + cozy\ntime_available: 3 hours\nany other details you need, ask me.",
+    "output": "Love it! I’ve got playful + cozy covered. A couple quick questions to tailor these perfectly:\n- Any other dietary preferences (vegetarian, dairy-free, nuts, etc.)?\n- Drinks: alcohol okay or prefer mocktails/tea/cocoa?\n- Do you two enjoy games/puzzles, crafts, or watching something together more?\n- Do you have a printer, game console, or any simple craft supplies at home?\n\nMeanwhile, here are three at-home date ideas designed for a tiny kitchen, no spicy food, $20–$40, and a 3-hour window:\n\n1) Blanket-Fort Cinema + Blind Snack Sommelier\n- What you’ll do: Build a cozy blanket fort, then do a funny blind-taste “tasting flight” (sweet + savory), guessing and scoring each item. Winner picks the movie or gets a cozy perk (foot rub, next date choice). End snuggled up with a feel-good film or a short film lineup.\n- What to buy: A few mild cheeses or dips (hummus, brie), crackers, fresh berries or fruit, a chocolate bar, sparkling cider or flavored seltzer, sticky notes and paper cups for “mystery” pours.\n- Flow (approximate): 20 min fort setup; 45 min tasting + scorecards; 75 min movie; 20 min cuddle/debrief.\n- Budget check: $25–$35.\n- Tiny kitchen friendly: Everything is assemble-only; no heavy cooking.\n\n2) Home Escape Quest + Cocoa & Cookie Decorating\n- What you’ll do: Create a simple 6–8 clue trail around the house with riddles that lead to the “treasure” (cookie kit). Solve together, then decorate cookies and sip cozy cocoa while playing a quick couples Q&A game or music quiz.\n- What to buy: Premade sugar cookies, icing/sprinkles, hot cocoa packets, marshmallows, a small envelope/box for the final “treasure,” sticky notes and markers.\n- Flow (approximate): 60–75 min puzzle quest; 45 min cookie decorating + cocoa; 30 min photo moments + wind-down chat.\n- Budget check: $20–$30.\n- Tiny kitchen friendly: No baking; everything is ready-made. Puzzles can be handwritten—no printer required.\n\n3) Air-Dry Clay Night + Candlelit Story Swap\n- What you’ll do: Make tiny trinket dishes or candle holders with air-dry clay, then do a playful story swap: each person invents a short, silly “origin story” for the piece they made. Light tea candles and queue soft music while you sculpt. Finish with a simple snack board.\n- What to buy: Air-dry clay (1 pack), inexpensive acrylic paints or markers (optional, for later), tea lights, a small snack board (fruit, mild cheese, crackers) or cookies, herbal tea or a mocktail.\n- Flow (approximate): 75–90 min sculpting; 20 min tea/candle break; 30 min story swap + show-and-tell; 30 min snack and cuddle. Paint the pieces another day once they’ve dried—built-in second date!\n- Budget check: $30–$35.\n- Tiny kitchen friendly: No oven needed; minimal cleanup.\n\nWant me to tailor one to your vibe and make it super easy to run? Tell me:\n- Which idea are you leaning toward?\n- Any food/drink notes and fave flavors?\n- Do you prefer puzzles/games, artsy/crafty, or movie night right now?\n\nPick one and I’ll dive in with a mini plan: shopping list, set-up tips, quick scripts/clues/scorecards, and a cozy playlist to match.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant with rules\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Energetic tone, asks questions, provides 3 numbered ideas, invites selection.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4d14215",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-owk3otzmb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Suggest fun team-building activities for a fully remote team.\nteam_size: 12\ntime_zone_spread: US + Europe\nduration: 60–90 minutes\ntools_available: Zoom, Miro, Google Docs\ngoals: boost trust, spark creativity, low-pressure\nbudget: minimal\nPlease ask if you need more details about roles or interests.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Suggest fun team-building activities for a fully remote team.\nteam_size: 12\ntime_zone_spread: US + Europe\nduration: 60–90 minutes\ntools_available: Zoom, Miro, Google Docs\ngoals: boost trust, spark creativity, low-pressure\nbudget: minimal\nPlease ask if you need more details about roles or interests.",
+    "output": "Love it! I’ve got a bunch of low-pressure, creativity-sparking ideas that work great across US + Europe time zones and fit 60–90 minutes using Zoom, Miro, and Google Docs. Before we tailor them perfectly, a few quick questions:\n- What roles are on the team (e.g., engineering, design, product, ops, sales)?\n- Any preferences on cameras-on vs. optional?\n- Do you want more collaborative than competitive, or a mix?\n- Any accessibility needs or constraints (audio-only, limited drawing comfort, etc.)?\n- Is this a one-off or something you’d like to repeat quarterly?\n\nHere are six fun, trust-building options to explore:\n\n1) Trust Canvas Sprint (Miro + Zoom)\n- Why: Helps teammates understand each other’s working styles, boundaries, and support signals—gentle and practical.\n- Flow (70–80 min):\n  - Warm-up (5 min): Prompt everyone to think of a recent win.\n  - Personal Canvas (15 min): In Miro, everyone fills five columns: “How I work best,” “Energizers,” “Signals I’m stuck,” “How to support me,” “One boundary I keep.”\n  - Breakouts in trios (20 min): Share highlights; each person asks, “What’s one way I can support you this month?”\n  - Group share (20 min): Volunteers share one insight; create a team “Help List” on Miro with specific offers (“Happy to review docs,” “Available for pairing”).\n  - Wrap (10 min): Everyone adds a short “I appreciate…” note to a teammate’s canvas.\n- Prep: A Miro template with columns and sticky notes.\n\n2) Creativity Relay: Three Mini-Games (Miro + Zoom)\n- Why: Fast, playful rounds that lower pressure and spark imagination.\n- Flow (75–90 min):\n  - Round 1: Emoji Story Chain (20 min): In Miro, start a story with a theme (e.g., “future of teamwork”), and each person adds one sentence + 3 emojis. Read it aloud.\n  - Round 2: Sketch-Telephone (25 min): Like Telestrations. Each person draws a prompt; it passes to the next person to caption, then to the next to redraw. Share a few hilarious chains.\n  - Round 3: Mascot Maker (25 min): In small teams, design your team mascot using Miro shapes and stickers; add a backstory and three powers tied to team values.\n  - Quick debrief (5–10 min): What surprised you? What idea felt energizing?\n- Prep: A board with a simple rail of prompts and drawing spaces.\n\n3) DIY Puzzle Dash (Miro + Google Docs + Zoom)\n- Why: Builds trust through collaboration without heavy competition. Minimal cost, high engagement.\n- Flow (70–90 min):\n  - Teams of 3 rotate through four stations:\n    - Word Ladder about your product/domain (10 min)\n    - Logic Grid Puzzle in Google Docs (15 min)\n    - Visual Jigsaw in Miro (15 min) built from a team photo or abstract image\n    - Simple cipher (Caesar or substitution) revealing a positive message (15 min)\n  - Debrief (10–15 min): Each team shares one strategy that helped them collaborate.\n- Prep: A puzzles pack and a Miro board linking each station.\n\n4) Show & Solve: Household Object Innovation Jam (Miro + Google Docs + Zoom)\n- Why: Fun, silly creativity that reveals how people think—no pressure, just play.\n- Flow (60–75 min):\n  - Bring-an-object (5 min): Everyone holds up a household item.\n  - Team remix (25 min): In groups of 3–4, combine three objects to invent a product/service. Build a one-slide pitch in Google Docs and a quick sketch in Miro.\n  - Lightning pitches (20–30 min): 1 minute per team with friendly awards like “Most Delightful,” “Most Unexpected,” “Most Useful.”\n  - Reflection (5 min): What made collaboration easy/hard?\n- Prep: A pitch slide template and a Miro area per team.\n\n5) Compliment Carousel + Help Map (Google Docs + Miro + Zoom)\n- Why: Gentle appreciation that boosts trust and sets up real support.\n- Flow (70–90 min):\n  - Compliment Carousel (25 min): Shared Google Doc with a grid—each person has a row; everyone writes “I appreciate when you…” for at least two people.\n  - Help Map (30 min): In Miro, create quadrants—“What I’m tackling,” “Where I might need help,” “Skills I can offer,” “Boundaries.” Fill individually, then pair up to offer help.\n  - Group close (10 min): Each person claims one “help request” they can support this month.\n- Prep: A Doc grid and a Miro quadrant template.\n\n6) Around-the-World Workspace Guessing Game (Miro + Zoom)\n- Why: Personal without being intrusive; easy, funny, and fast.\n- Flow (60–75 min):\n  - Guessing game (30–40 min): Place cropped photos of desk items (or “favorite mug,” “view from desk”) on a Miro board. Everyone guesses who’s who and then each reveals with a 30-second story.\n  - Focus hacks swap (20–25 min): Each person shares one work tip (e.g., “5-minute reset,” “calendar color code,” “async communication trick”) and adds it to a shared list.\n  - Optional: Vote on one team experiment to try for a week.\n- Prep: Collect photos beforehand or have live uploads in the first 5 minutes.\n\nWant me to tailor one into a ready-to-run agenda with a Miro/Docs template? Tell me:\n- Which idea(s) resonate most\n- Team roles and interests\n- Camera comfort and collaboration vs. competition preference\n- Any themes you’d love (e.g., “future of our product,” “values in action,” or totally whimsical)\n\nPick a favorite and I’ll turn it into a concise, step-by-step plan for your 60–90 minute slot.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provides clarifying questions first, six numbered creative ideas, enthusiastic tone, invites picking one for deeper dive.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e28681c",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-52ch2drcf",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I need help planning a 3-day trip.\norigin: Chicago\ndestination: New Orleans\ndates: flexible in March\nbudget: moderate\ninterests: live music, architecture, local food\ntransportation: I’m not sure yet (ask for my preference)\nNote: open to the fastest option if it makes sense.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need help planning a 3-day trip.\norigin: Chicago\ndestination: New Orleans\ndates: flexible in March\nbudget: moderate\ninterests: live music, architecture, local food\ntransportation: I’m not sure yet (ask for my preference)\nNote: open to the fastest option if it makes sense.",
+    "output": "Amazing—New Orleans in March is perfect for live music, gorgeous architecture, and serious eats. I’ll tailor this to you, but first a few quick questions to dial it in:\n\n- Transportation: Do you prefer flying (fastest), the scenic overnight Amtrak City of New Orleans train, or a road trip? Open to fastest = flying—is that okay?\n- Pace and vibe: Do you want jam-packed days or a relaxed, wander-and-soak-it-in pace?\n- Lodging style: Boutique hotel, historic inn/B&B, or a modern hotel? Preferred neighborhood—French Quarter for convenience, Garden District for charm, or Marigny/Bywater for local vibes?\n- Music tastes: More into traditional jazz, brass bands, blues, or eclectic/indie?\n- Architecture focus: French Quarter balconies and courtyards, Garden District mansions, Creole cottages/shotgun houses in Marigny/Bywater?\n- Food priorities or dietary needs: Must-try items (beignets, po’boys, oysters, gumbo, crawfish, muffuletta) or any restrictions?\n- Dates: Any specific March weekends? Interested in timing around events like St. Patrick’s parades or Mardi Gras Indians Super Sunday (often the third Sunday of March)?\n\nTo get your imagination going, here are three 3-day itinerary styles you can choose from and we’ll refine once you answer:\n\n1) Classic Quarter + Garden District (balanced pace)\n- Day 1: Fly in, drop bags in the French Quarter or Garden District. Beignets at Café du Monde, stroll Royal Street for architecture and galleries, sunset at Jackson Square, evening set at Preservation Hall (reserve) and a nightcap on Frenchmen Street.\n- Day 2: Streetcar down St. Charles, guided Garden District walking tour (mansions + oak-lined avenues), cemetery tour (licensed tour of St. Louis No. 1 or visit St. Louis No. 3 on Esplanade), jazz brunch at Commander's Palace or Atchafalaya, oysters happy hour, late show at Snug Harbor or d.b.a.\n- Day 3: Tremé culture walk + Backstreet Cultural Museum, po’boys at Parkway Bakery, Sazerac House tasting or a river jazz cruise, crawfish boil for dinner if in season.\n\n2) Foodie Neighborhoods: Marigny/Bywater vibe (more local, still musical)\n- Day 1: Check into a Marigny/Bywater stay. Coffee + stroll to see Creole cottages and shotgun houses, Studio BE for local art, sunset courtyard at Bacchanal Wine with live music, muffuletta at Napoleon House or Cochon Butcher.\n- Day 2: New Orleans School of Cooking class (gumbo/jambalaya/pralines), ride the streetcar Uptown for architecture, dinner at Cochon or Peche, late-night brass band hopping on Frenchmen Street (Spotted Cat, The Maison).\n- Day 3: Esplanade Ridge architecture stroll, Café du Monde (City Park location) or Morning Call for beignets, oysters at Felix’s, optional swamp tour or cocktail history walk, finish with a modern jazz set at The Broadside or Tipitina’s if a good show is on.\n\n3) Music-First Weekend (shows front and center)\n- Day 1: Stay near Frenchmen Street for easy club-hopping. Early dinner (gumbo/jambalaya), then club crawl: Spotted Cat for trad jazz, d.b.a. for brass/funk, Snug Harbor for more formal sets.\n- Day 2: Tremé and brass band history tour, record store stop (Louisiana Music Factory), afternoon second-line if one is happening, oyster happy hour, big night at Tipitina’s or a special show if in town (we’ll check listings).\n- Day 3: Brunch with live jazz, stroll the French Quarter balconies and hidden courtyards, coffee at Café Beignet, riverfront walk, late lunch of po’boys and pralines to-go.\n\nTransportation options (once you tell me your preference):\n- Fastest: Fly from Chicago (ORD/MDW) to MSY, ~2.5 hours plus airport time.\n- Scenic: Amtrak City of New Orleans overnight train (about 19 hours), arrives downtown—fun if you like slow travel.\n- Road trip: ~14–15 hours drive; could split with a Memphis stop, but it cuts into your 3-day window.\n\nWant me to lock one of these in and build it out with specific venues, reservations, and a daily timetable? Which itinerary number feels best, and what’s your transportation pick?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, offers three numbered itineraries in an enthusiastic tone, and invites refinement per the description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3dd7f99",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-v3qo0h6j6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Give me three creative fundraiser ideas for a school art club.\naudience: parents + community\nage_group: middle school\nbudget_to_start: under $200\nconstraints: needs to be inclusive and accessible\nlocation: unspecified (ask for geographic area if needed)\ntimeline: one month from now",
+    "model": "gpt-5-2025-08-07",
+    "input": "Give me three creative fundraiser ideas for a school art club.\naudience: parents + community\nage_group: middle school\nbudget_to_start: under $200\nconstraints: needs to be inclusive and accessible\nlocation: unspecified (ask for geographic area if needed)\ntimeline: one month from now",
+    "output": "Love this! I’m here to spark ideas that fit your middle school art club, budget, and audience. Before we lock them in, a few quick questions to tailor everything:\n- What city/region are you in? Any weather or outdoor limits we should keep in mind?\n- What spaces do you have access to (gym, cafeteria, parking lot, library) and any tech (school copier/printer, projector, Wi‑Fi)?\n- Any specific accessibility needs to prioritize (wheelchair access routes, sensory-friendly hours, bilingual materials, ASL, dietary restrictions)?\n- Do you have a fundraising goal in mind, and do you prefer an event, a product sale, or an online option—or a combo?\n- Any “no-go” rules (food sales, raffles, photographing students, etc.)?\n\nHere are three creative, inclusive options you can run within a month on under $200. They’re designed to be flexible for your location and community.\n\n1) Pop-Up Gallery Night (Pay-What-You-Can + Mini Art Auction)\n- What it is: Transform a school hallway/gym into a gallery of student work. Invite parents/community for an evening showcase.\n- How it raises money: Pay-what-you-can entry, donation jars, a small silent auction of student-made mini pieces (think 5x7s), and a “commission table” for quick custom bookmarks or name art.\n- Start-up cost estimate: $150 for signage, labels, tape, name-tag supplies, and a few refreshments. Ask local bakery/grocery for donated snacks to cut costs.\n- Inclusivity: Sensory-friendly early viewing hour, wheelchair-friendly layout, large-print and bilingual labels, quiet corner, and a simple virtual gallery link for folks who can’t attend.\n- One-month plan: Week 1 curate and collect art; Week 2 outreach to local businesses for snack/supply donations; Week 3 print labels and set layout; Week 4 event night and online gallery post.\n\n2) Art-A-Thon + Livestream\n- What it is: A 2–3 hour after-school art sprint where students create live. Community pledges a flat amount or per hour; donations also come in during the stream.\n- How it raises money: Pledge forms, QR code to an online donation page, “sponsor a prompt” for $10–$25 (sponsors submit fun drawing prompts).\n- Start-up cost estimate: $50–$100 for posters, basic tripod/phone stand, and printed pledge sheets. Borrow devices; use free platforms (YouTube Live or Facebook Live).\n- Inclusivity: Closed captions on the stream, flexible participation (seated tables, quiet room), no purchase required to attend/watch, prompt wall for community ideas, and gentle materials for all abilities.\n- One-month plan: Week 1 choose date and set up donation link; Week 2 recruit sponsors and promote; Week 3 finalize prompts and tech test; Week 4 run the Art-A-Thon and share highlights afterward.\n\n3) Upcycled Art Market + Make-and-Take Station\n- What it is: Collect clean recyclables from families (cereal boxes, jars, fabric scraps) and turn them into student-made crafts. Sell items at pay-what-you-wish prices and include a free “make-and-take” table for everyone.\n- How it raises money: Pay-what-you-wish sales, donation jars, “sponsor-a-kit” (community members cover materials for take-home kits).\n- Start-up cost estimate: $120–$180 for glue, tape, paints, markers, wipes, table covers, and a few storage bins. Ask hardware/craft stores for donations.\n- Inclusivity: Seated stations, no sharp tools, visual instruction cards, sensory bin of textures, take-home kits for folks who can’t attend, and multilingual signage.\n- One-month plan: Week 1 announce a materials drive; Week 2 sort and prep; Week 3 student crafting + promo push; Week 4 market day with make-and-take.\n\nWould you like to add any details or tweak the direction? Tell me your location, preferred format (event/product/online), and any accessibility priorities. Pick your favorite idea, and I’ll dive deeper with a simple schedule, volunteer roles, budget breakdown, pricing, promo copy, and an accessibility checklist.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Meets all rules and requirements.\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Tailors ideas with clarifying questions, provides three numbered options, uses enthusiastic tone, invites feedback and idea selection.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ebeeaab",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-vj2ll4mfn",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I want restaurant suggestions for a special anniversary dinner, but I’m not picky about cuisine.\ncity: unclear (ask me where)\ndietary_needs: vegetarian-friendly\nambiance: intimate, not too loud\nbudget: $$$\ndate: next Friday evening\ntransportation: rideshare or public transit okay",
+    "model": "gpt-5-2025-08-07",
+    "input": "I want restaurant suggestions for a special anniversary dinner, but I’m not picky about cuisine.\ncity: unclear (ask me where)\ndietary_needs: vegetarian-friendly\nambiance: intimate, not too loud\nbudget: $$$\ndate: next Friday evening\ntransportation: rideshare or public transit okay",
+    "output": "Love it—let’s make this anniversary dinner feel extra special! I’ll hand-pick intimate, vegetarian-friendly spots that fit your budget and are easy to reach by rideshare or transit. First, a couple quick details so I can nail the recommendations:\n\n- Which city (and any preferred neighborhood) are you planning for next Friday?\n- Vibe check: classic romantic (white tablecloths, candlelight) or modern chef-driven (sleek, creative plating)? Any interest in views or a cozy hidden-gem feel?\n- Menu style: tasting menu or à la carte?\n- Vegetarian-friendly vs strictly vegetarian/vegan—any dietary specifics to keep in mind?\n- Drinks: strong wine list, craft cocktails, or either?\n- Ideal time window (e.g., 7–8 pm)? Do you want a quiet booth or corner table?\n- Any accessibility needs or musts (no stairs, etc.)?\n- Transit preference: happy to take the subway/train, or prefer a short rideshare?\n\nOnce I’ve got the city and these details, I’ll give you 3–5 tailored restaurant picks with why they’re great, best tables to request, and reservation tips for next Friday.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Great clarifying questions and tone\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks pointed questions, enthusiastic tone, follows clarify-before-ideas step so complies.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9e41625",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-o12679s41",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Help me come up with baby shower themes that are eco-friendly and low-waste.\nguest_count: 12\nlocation: apartment with small balcony\nbudget: $150\nconstraints: minimal disposables, no plastic favors\nseason: early summer\nhost_experience_level: beginner\nAsk me about color preferences or activities if needed.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Help me come up with baby shower themes that are eco-friendly and low-waste.\nguest_count: 12\nlocation: apartment with small balcony\nbudget: $150\nconstraints: minimal disposables, no plastic favors\nseason: early summer\nhost_experience_level: beginner\nAsk me about color preferences or activities if needed.",
+    "output": "Love this! Eco-friendly, low-waste, beginner-friendly and cozy in an apartment with a small balcony is totally doable on $150. Before we lock anything in, quick questions to tailor the vibe:\n- Do you have a preferred color palette (neutrals, pastels, bright citrus, earthy greens)?\n- Do you want chill, conversation-friendly activities or light games?\n- Will you use the balcony (and do you have shade)? \n- Any dietary preferences or restrictions?\n- Would you like simple favors, or skip favors and do a small donation in baby’s honor?\n\nHere are six theme options designed for minimal disposables and no plastic favors. Each has easy decor, a low-waste activity, and budget-friendly bites.\n\n1) Mini Herb Garden Shower\n- Palette: soft sage, cream, terracotta\n- Decor: potted herbs as centerpieces (guests can take one home), tea towels as table runner, jars with tea lights\n- Activity: “Plant a Wish” on seed paper; you or guests plant them later\n- Menu: herby finger sandwiches, seasonal fruit, lemonade in a drink dispenser\n- Budget tip: 6–8 small herb pots from a market or hardware store; borrow plates/glasses; thrift a set of cloth napkins\n\n2) Zero-Waste Picnic at Home\n- Palette: soft pastels + gingham or linen\n- Decor: picnic blankets on the floor or couch, baskets, mason jars, cloth napkins\n- Activity: Baby Book Swap—guests bring one gently used children’s book to start the baby’s library\n- Menu: baguette with spreads (hummus, tapenade), a big salad, infused water; skip single-serve anything\n- Favors: optional—homemade granola in paper bags or small reused jars\n- Budget tip: buy bread/fruit in bulk, borrow blankets and jars\n\n3) Sunshine & Citrus\n- Palette: lemon yellow, white, soft green\n- Decor: dehydrated orange slice garlands, bowls of lemons, beeswax candles\n- Activity: “Name That Baby Fruit” tasting (3–5 fruits), quick scoring on a chalkboard; compost peels\n- Menu: citrus salad, iced tea, lemon bars or shortbread\n- Favors: small jar of marmalade or citrus sachets made from scrap fabric (no plastic)\n- Budget tip: citrus is affordable in early summer; DIY garlands are low-cost and compostable\n\n4) Storybook Seedling\n- Palette: forest green, cream, warm book tones\n- Decor: stacks of books topped with tiny plants; simple twine bunting; reuse brown paper for signs\n- Activity: Guests write one-line advice or a wish on plantable seed-paper bookmarks—keepsake for you\n- Menu: simple tea service, scones, jam, berries\n- Favors: the seed-paper bookmarks double as favors\n- Budget tip: borrow books for decor; seed paper pack + thrifted teapot or kettle\n\n5) Cloud & Sky Minimalist\n- Palette: white, sky blue, dove gray\n- Decor: fabric bunting (cut from an old sheet or cloth), recycled tissue paper pom-poms, airy and clean\n- Activity: “Wish Clouds”—write a wish on recycled paper to save in a keepsake jar; brief guided relaxation for the parents-to-be\n- Menu: yogurt parfait bar in glass cups, fruit, herbal iced tea\n- Favors: skip, or beeswax tealights in repurposed jars\n- Budget tip: neutral decor is easy to borrow or DIY; parfait toppings are inexpensive and low waste\n\n6) Upcycle & Unwind\n- Palette: soft neutrals with a few rainbow accents\n- Decor: jars as vases, fabric scrap ribbons, secondhand frames with printed baby quotes\n- Activity: Make a “Baby Care Hack Deck”—guests write a favorite tip on sturdy card; bind with twine for a reusable flip deck\n- Menu: snack board (cheese, veggies, nuts), sparkling water with fruit\n- Favors: handmade soap bars wrapped in paper or none—donate to an environmental nonprofit in guests’ honor\n- Budget tip: shop bulk for snacks; soap bars from a local maker are affordable and plastic-free\n\nGeneral low-waste moves for any theme:\n- Digital invites; BYO cup optional if your dishware is limited\n- Borrow plates, glasses, and serving tools from friends or a neighbor\n- Use cloth napkins and a single compost bin for food scraps\n- Keep decor minimal and reusable; avoid balloons\n\nWhich two themes are calling to you? Share your color preferences and activity vibe, and I’ll build a simple plan with a shopping list, timeline, and easy DIY steps to keep it under $150.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant response\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits the brainstorming role: asks clarifying questions, gives 6 numbered ideas, invites picking next.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cd9dded",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-989ehfzdv",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I’d love some weekend project ideas at home that feel mindful.\nspace: studio apartment\ntools: basic toolkit, no power tools\ntime: one day\nbudget: $0–$25\ngoals: reduce clutter, add personality\nconstraints: renters’ rules (no painting walls)\nI can share my decor style if that helps.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I’d love some weekend project ideas at home that feel mindful.\nspace: studio apartment\ntools: basic toolkit, no power tools\ntime: one day\nbudget: $0–$25\ngoals: reduce clutter, add personality\nconstraints: renters’ rules (no painting walls)\nI can share my decor style if that helps.",
+    "output": "Love this! Mindful, renter-friendly projects in a studio with a tiny budget are totally doable. A few quick questions so I can tailor ideas to you:\n\n- What’s your decor style and go-to colors? (You offered to share—yes please!)\n- What kind of “personality” do you want to add: calm and cozy, playful and bold, artsy/handmade, earthy/natural, minimal?\n- Biggest clutter hotspots right now: entryway, kitchen counters, bathroom, desk, closet, paper pile?\n- Are removable adhesives allowed (Command hooks/strips, washi tape, removable wallpaper)? Any limits on hanging things?\n- What supplies do you already have on hand (e.g., jars, shoeboxes, baskets, fabric scraps, frames, magazines, rope/twine, painter’s tape, glue, sewing kit)?\n- Plants okay? Candles/incense okay? Any scent sensitivities?\n- Do you have items you’d love to display (photos, postcards, books, records, hats, scarves, travel mementos)?\n- Would you prefer one focused project for the day or several small wins?\n- Are quick thrift/dollar-store pickups OK, or do you want to use only what you already have?\n\nShare a bit on these, and I’ll drop a curated list of mindful, clutter-busting, personality-boosting projects that fit your space, budget, and tools.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Excellent clarifications per guidelines.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions align perfectly with the step-by-step instructions.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "13497ad",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-5dztq8244",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Brainstorm story premises featuring a protagonist who is deaf, centered on resilience and joy (not tragedy).\ngenre: contemporary fiction\nlength: short story or novella\ntone: warm, inspiring, grounded\ncontent_limits: avoid stereotypes\nsetting: open to suggestions\nAsk me if you need specifics about setting or secondary characters.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Brainstorm story premises featuring a protagonist who is deaf, centered on resilience and joy (not tragedy).\ngenre: contemporary fiction\nlength: short story or novella\ntone: warm, inspiring, grounded\ncontent_limits: avoid stereotypes\nsetting: open to suggestions\nAsk me if you need specifics about setting or secondary characters.",
+    "output": "Love this brief! Before we dive in, a couple quick questions to tailor the premises:\n- Do you have a preferred setting (urban/coastal/small town/college town)? Any country or region—e.g., ASL in the U.S., BSL in the UK, LIS in Italy?\n- Age range for the protagonist?\n- Are you open to elements like romance, intergenerational family, or chosen-family community?\n- Any professions or hobbies you want to spotlight (arts, food, sports, tech, education)?\n- Do you lean toward short story or novella length?\n\nHere are 10 warm, grounded, resilience-and-joy-centered premises featuring a deaf protagonist. Each could work as a short story; a few have room to expand into a novella.\n\n1) The Vibration Club\nA deaf dancer starts an evening class that teaches rhythm through light cues and floor vibrations, drawing a blend of deaf and hearing neighbors who discover new ways to feel music. As the class grows, they plan a block-party performance using color, movement, and community-made LED cues. Joy comes from the shared language they build—not from “overcoming,” but from inviting everyone into a new way of moving together.\n\n2) Garden Signs\nIn a community garden, a deaf protagonist and an elderly immigrant neighbor trade knowledge through a homemade visual system—hand signs, sketches, plant markers, and color-coded flags. Their collaboration revives neglected plots and sparks a gentle chain reaction of mutual aid. The harvest becomes a neighborhood celebration of quiet ingenuity and friendship.\n\n3) Caption Crew\nA deaf organizer persuades the local indie cinema and small venues to adopt open captions and real-time CART for live shows, hacking together low-cost solutions with students and volunteers. Along the way, they build allies in unexpected places—projectionists, comedians, city staff—and host a festival where accessibility is woven into the fun, not tacked on. Resilience shows up as persistence and joyful coalition-building.\n\n4) Sunrise Surf Flags\nIn a coastal town, a deaf surfer forms a dawn surf club that coordinates entirely with hand signals and flag colors. When a big swell brings newcomers, the club’s system turns into a model for safer, more inclusive surf culture. The arc centers on mentorship, ocean rituals, and the shared joy of early light on water.\n\n5) Quiet Hours Café\nA deaf co-owner transforms a neighborhood café with “visual service” practices—light boards for orders, tactile buzzers, a lending library of sign resources. Weekly “silent socials” draw a cross-section of the city. The café becomes a cozy hub where access isn’t a rule—it's the aesthetic—and the biggest stakes are creative, community-driven ones (a pop-up market, an all-visual open mic).\n\n6) The City Drill\nA deaf emergency planner designs inclusive visual and tactile alert systems for a citywide drill—LED beacons, vibrating wristbands, graphic wayfinding. The day turns into a stress test of logistics and leadership, with the protagonist calmly translating chaos into clarity. The payoff isn’t a disaster—it’s a community feeling safer because access made everyone smarter.\n\n7) Sign & Stitch\nA deaf fiber artist hosts a stitch circle where patterns are written in visual “scores”—charts, symbols, short ASL tutorials. The group grows into a supportive micro-community creating a public installation together. The final piece, displayed in the library, is a tapestry of signed stories and textures—quietly revolutionary and deeply cozy.\n\n8) Rooftop Constellations\nA deaf amateur astronomer organizes rooftop stargazing nights using laser pointers, illustrated guides, and light cues for group communication. Kids, seniors, and shift workers find a weekly ritual above the city noise. The arc celebrates curiosity, patience, and the beauty of shared attention.\n\n9) Silent Orchestra\nA deaf percussionist leads a neighborhood drumline that rehearses with lights, vibrations, and visual metronomes. As they prep for a parade, they build a joyful repertoire where timing and teamwork trump sound alone. The story hums with bodily rhythm, street camaraderie, and the fun of making something big together.\n\n10) Library in Motion\nA deaf librarian launches “motion-friendly” programs—visual storytelling, sign poetry, captioned screenings, and a silent scavenger hunt that gets families exploring the stacks. The project reframes the library as a place of play and welcome. The climax is a community night that feels like a gentle, luminous celebration of shared language.\n\nWant me to tailor these to a specific place, age, or relationship dynamic? If one stands out, pick it and I’ll flesh it out with character details, scene beats, and a compact outline suited to a short story or a novella.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions, ten numbered ideas, enthusiastic tone, invites tailoring and selection. Meets all requirements.\n\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "450c756",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-izfjyue8f",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I need ideas for a kids’ birthday party that’s dinosaur-themed but not cliché.\nage: turning 6\nguest_count: 10 kids + 6 adults\nlocation: local park\nbudget: $200\nconstraints: nut-free snacks; easy cleanup\nweather_backup: community center room reserved\nPlease ask about timing or activity length if needed.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need ideas for a kids’ birthday party that’s dinosaur-themed but not cliché.\nage: turning 6\nguest_count: 10 kids + 6 adults\nlocation: local park\nbudget: $200\nconstraints: nut-free snacks; easy cleanup\nweather_backup: community center room reserved\nPlease ask about timing or activity length if needed.",
+    "output": "Love this! Let’s make a dino party that feels fresh, clever, and super fun.\n\nQuick questions to tailor it:\n- How long is the party (total minutes) and do you prefer short stations or one longer group activity?\n- What’s at the park: open field, picnic tables, shade, water access? Any rules about chalk or tape on surfaces?\n- Any allergies beyond nuts (dairy, gluten, eggs, seeds)?\n- Are you doing cake/cupcakes, or interested in a no-bake dino-themed dessert?\n- Should adults join the games or mostly relax?\n\nHere are five not-cliché dinosaur party directions you can pick from. All work outdoors and can move indoors to your community room if needed. Each is designed for 10 kids, easy cleanup, and ~$200 budget.\n\n1) Paleontologist Field Lab\n- Concept: Kids become junior scientists rotating through “lab stations” instead of the usual dino egg hunt.\n- Activities:\n  - Fossil press station: use air-dry clay + plastic dino bones/leaves to make fossil tiles (on trays with drop cloths).\n  - Track lab: stamp washable paint “footprints” on butcher paper, then compare track sizes with measuring tapes.\n  - Sifter table: bin of kinetic sand or rice with hidden “specimens” (fake trilobites, teeth, labeled tags).\n- Snacks: Herbivore + Carnivore trays (fruit/veg sticks, turkey or cheese roll-ups, pretzels, popcorn).\n- Decor: “Field Lab” sign, caution tape, clipboards, paper name badges with “Junior Paleontologist.”\n- Favors: Mini magnifier + sticker badge.\n- Rain plan: All stations become table activities; swap paint stampers for crayon rubbings.\n- Cleanup: Everything on drop cloths; no glitter; use bins for quick pack-up.\n- Est. cost: $160–$200.\n\n2) Dino Rescue Mission\n- Concept: A story-driven adventure—kids are rangers helping relocate gentle dinosaurs to safe habitats.\n- Activities (team challenges):\n  - Nest Build: Using sticks, leaves, and twine to build a sturdy “nest” that fits a foam egg.\n  - Water Run: Relay carrying spill-proof cups to “hydrate” an inflatable dino.\n  - Map Puzzle: Find picture clues around the park to locate the “release zone.”\n- Snacks: “Rescue rations” in brown paper lunch sacks—popcorn, pretzels, apple slices, fruit leather (all nut-free).\n- Decor: Ranger Station canopy/table, field flags marking mission areas.\n- Favors: Cloth ranger patch stickers + mission card.\n- Rain plan: Turn missions into indoor stations with tape-marked courses and floor nests.\n- Cleanup: Natural materials return to nature; pre-packed snack sacks = minimal mess.\n- Est. cost: $120–$180.\n\n3) Time-Travel Dino Passport\n- Concept: Kids travel through Triassic, Jurassic, and Cretaceous with a passport they stamp at each station.\n- Activities:\n  - Triassic Leaf Lab: Leaf rubbings and simple ID chart.\n  - Jurassic Move & Groove: “Track dance” following chalk or tape footprints; freeze when the “meteor” sound plays.\n  - Cretaceous Volcano Demo: Safe soda + vinegar volcano in a cardboard volcano prop, quick wow moment.\n- Snacks: Era bento boxes (grapes, carrot sticks, cheese squares, mini pretzels) + “volcano fruit skewers.”\n- Decor: Simple timeline banner; passport booklets and stamp stickers.\n- Favors: Their stamped passport + dino pencil.\n- Rain plan: Replace chalk footprints with painter’s tape paths; volcano done in a tray.\n- Cleanup: Pre-portioned bentos, one demo tray for volcano, no loose confetti.\n- Est. cost: $140–$200.\n\n4) Build-a-Dino Makers Yard\n- Concept: A hands-on maker party where each child invents a new dinosaur using pre-cut cardboard shapes and tape.\n- Activities:\n  - Makers table: Cardboard bodies, paper tubes for necks, colored masking tape, googly eyes, pipe cleaners.\n  - Balance test course: Can your dino stand, turn, and “cross the canyon” (a taped line)?\n  - Photo Safari: Kids pose with their creations; instant print or digital gallery later.\n- Snacks: “Footprint flatbreads” (pita + cream cheese or hummus + sliced cucumber in footprint shapes) and fruit.\n- Decor: Tool caddies, “Makers Yard” sign, simple string display for finished dinos.\n- Favors: Their custom dino + a maker sticker.\n- Rain plan: Perfect indoors; add a mini cardboard “exhibit.”\n- Cleanup: Pre-cut shapes minimize scraps; big trash bag + one sweep and done.\n- Est. cost: $100–$160.\n\n5) Dino Olympics\n- Concept: High-energy mini-games with playful dino twists—zero glitter, big laughs.\n- Activities:\n  - Meteor Toss: Beanbags into ring targets.\n  - Long-Neck Limbo: Pool noodle bar.\n  - Tail Tag: Velcro cloth tails; gentle tagging.\n  - Fossil Freeze Dance: Music stops, kids pose like fossils.\n- Snacks: “Athlete fuel” cups (melon cubes, cucumber “scales,” cheese triangles, pretzels) + juice boxes.\n- Decor: Event badges, cardboard medals on ribbon, finish-line tape.\n- Favors: Medal + dino sticker sheet.\n- Rain plan: Run all games in the community room using tape lanes and soft gear.\n- Cleanup: All soft props; no chalk required; boxed snacks = fast cleanup.\n- Est. cost: $80–$140.\n\nWant me to dive deeper into one? Tell me:\n- Your party length and time of day.\n- Park features and any rules.\n- Any extra dietary notes.\n- Which idea (or a mashup) you’re leaning toward.\n\nI’ll then map out a timed itinerary, shopping list, and exact budget check to keep it under $200.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant and correct\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, offers five numbered, tailored ideas, and invites picking one to dive deeper.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a61c2c9",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-ogid9z8ji",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Suggest creative weekend getaways for two.\npreferences: cozy food, small-town charm, light hiking\nbudget: under $600 total\ndates: late October\nhome_base: not specified (ask where I’m starting)\ntransportation_preference: open (please ask before recommending)\nIf the distance is large, I’m fine with the fastest option.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Suggest creative weekend getaways for two.\npreferences: cozy food, small-town charm, light hiking\nbudget: under $600 total\ndates: late October\nhome_base: not specified (ask where I’m starting)\ntransportation_preference: open (please ask before recommending)\nIf the distance is large, I’m fine with the fastest option.",
+    "output": "Love it—cozy food, small-town charm, and light hikes are the perfect late-October combo! I’ll tailor ideas to fit under $600, but first a few quick questions so I can zero in:\n\n- Where are you starting from (city/region)?\n- How do you want to travel: car, train, bus, or flight? Any max travel time?\n- How many nights—1 or 2?\n- Lodging vibe: B&B with breakfast, rustic cabin/fireplace, boutique inn, or budget-friendly motel?\n- Cozy food specifics: bakeries and coffee shops, farm-to-table, diners, BBQ, cider mills, or breweries/wineries?\n- Light hiking: how long per hike (2–5 miles?), any preference for waterfalls, lake loops, or leafy overlooks?\n- Any seasonal extras you love: fall foliage drives, pumpkin patches, haunted tours, hot springs, antique shops/bookstores?\n- Are you okay with chilly weather, or want something milder?\n\nOnce I have this, I’ll give you 3–5 specific weekend getaway options with mini itineraries, cozy food stops, easy trails, and a quick budget breakdown to keep it under $600.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Asks all key clarifications energetically, aligns with steps.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions align perfectly with the step-by-step instructions for tailoring ideas.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "513ddef",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-f7h2ppujr",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Can you help me plan a cross-country trip?\norigin: Los Angeles\ndestination: London\ndates: mid-May, 5–7 days\nbudget: mid-to-high\ngoals: a mix of iconic sights and hidden gems\ntransportation_preference: please ask; I’m open, but I want it to be efficient\nNote: If it’s a long distance, I’m okay choosing the fastest way.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Can you help me plan a cross-country trip?\norigin: Los Angeles\ndestination: London\ndates: mid-May, 5–7 days\nbudget: mid-to-high\ngoals: a mix of iconic sights and hidden gems\ntransportation_preference: please ask; I’m open, but I want it to be efficient\nNote: If it’s a long distance, I’m okay choosing the fastest way.",
+    "output": "Absolutely! I’d love to help you craft a London adventure that blends the big-name sights with under-the-radar gems, and keeps everything efficient.\n\nQuick questions to tailor this perfectly:\n- Dates: Which year is “mid-May,” and do the 5–7 days include travel time or just days on the ground?\n- Companions: Are you traveling solo, as a couple, with friends, or with family?\n- Interests (pick your top 3–5): history, art/museums, architecture, food markets, fine dining, pubs, live music, theatre/West End, sports (soccer), gardens/parks, shopping, photography, nightlife, quirky/odd museums, street art, bookshops, vintage/antiques.\n- Pace: Do you prefer packed days or a relaxed rhythm with café breaks?\n- Hidden gems vs iconic ratio: more 50/50, 70/30 hidden, or 70/30 iconic?\n- Transportation to London: Are you good with the fastest option (nonstop flight LAX→LHR), or interested in a stopover (e.g., NYC, Reykjavik, Dublin) for one night? Any airline/loyalty preferences and seat class (premium economy or business) given your mid-to-high budget?\n- Transportation in London: Do you prefer mostly walking + Tube (most efficient), black cabs/Uber, or mixing in bikes/river boats?\n- Accommodations: Boutique hotel, classic luxury, or stylish apartment? Target budget per night? Vibe (Shoreditch/creative, South Bank/convenient to sights, Notting Hill/charming, Mayfair/luxe, Covent Garden/theatre)?\n- Day trips: Interested in one quick day trip (Oxford, Bath, Cambridge, Windsor, Brighton, or even Paris by Eurostar)?\n- Any dietary needs or mobility considerations?\n- Special experiences: Would you like to include something like a West End show, a stadium tour (Arsenal/Chelsea/Tottenham), a private guide for one morning, or a chef’s tasting menu?\n\nOnce I have these, I’ll spin up 3–4 tailored mini-itineraries (each with a smart flight plan, neighborhood base, daily themes mixing icons + hidden gems, and efficient transport) so you can pick your favorite and we’ll flesh it out.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Perfect clarifications and tone\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks detailed clarifying questions first, matches step-by-step instructions and tone perfectly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "142dc90",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-ycjh4n26f",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I want to take a scenic route specifically by train.\norigin: Paris\ndestination: Istanbul\ndates: September\nbudget: flexible\ngoals: slow travel, photography, local food\ntransportation_preference: train only\nIf this creates constraints, ask me how I want to handle timing vs. speed.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I want to take a scenic route specifically by train.\norigin: Paris\ndestination: Istanbul\ndates: September\nbudget: flexible\ngoals: slow travel, photography, local food\ntransportation_preference: train only\nIf this creates constraints, ask me how I want to handle timing vs. speed.",
+    "output": "Love this! A train-only journey from Paris to Istanbul in September is a dream for slow travel, photography, and local food. Because some cross-border legs are slower or have limited frequency, I want to check a few preferences so I tailor the route and pace just right.\n\nQuick questions to shape the perfect plan:\n- How many days do you want for the journey (excluding your time in Istanbul)?\n- Daytime scenic rides only, or are you open to a few night trains to free up daylight for photography?\n- Ideal daily train time: 4–6 hours, 6–8, or 8–10?\n- Photography focus: mountains/lakes, river valleys, city architecture, street life/markets, golden hour/blue hour?\n- Food focus: markets and street food, coffee/wine stops, regional classics, or fine dining?\n- Are you open to scenic detours even if they add a day or two (e.g., Swiss Alps or Transylvania)?\n- Train-only can mean choosing slower but prettier routes; how do you want to balance timing vs. scenery?\n\nThree scenic train routes to consider in September (all train-only):\n1) Alpine + Danube + Transylvania\n   - Paris → Strasbourg → Basel/Lucerne → Zurich → Innsbruck → Salzburg → Vienna → Budapest → Sibiu → Brașov → Bucharest → Sofia → Istanbul (Halkalı)\n   - Why it’s gorgeous: Swiss lakes and peaks, Tyrolean Alps, baroque Salzburg, grand Vienna, Danube views, and the Carpathians between Sibiu and Brașov are superb photography territory.\n   - Food trail highlights: tarte flambée (Alsace), Swiss cheese/cheese tarts, Tyrolean kaiserschmarrn, Viennese coffee houses, Hungarian goulash and Tokaji, Romanian sarmale and papanasi, Bulgarian banitsa, Turkish meze and simit.\n   - Sleeper options that fit slow travel: Paris–Vienna Nightjet; Budapest–Bucharest overnight; Sofia–Istanbul overnight.\n   - Pace idea: 9–12 days with 1–2 nights in Lucerne or Innsbruck (for mountains), Vienna or Budapest (for river cityscapes), and a night or two in Transylvania.\n\n2) Northern Italy + Slovenia + Balkans\n   - Paris → Lyon → Turin → Milan → Venice → Trieste → Ljubljana → Zagreb → Belgrade → Niš → Sofia → Istanbul\n   - Why it’s gorgeous: Alpine crossing to Italy, Venetian lagoons, karst cliffs near Trieste, emerald rivers and leafy hills of Slovenia, Sava valley to Croatia/Serbia, and rugged uplands into Bulgaria.\n   - Food trail highlights: Piedmont aperitivo, Milanese risotto, cicchetti in Venice, Slovenian potica, Croatian štrukli, Serbian ćevapi, Bulgarian shopska salad, Turkish baklava and tea culture.\n   - Notes: Balkan services can be slower with limited frequency; great for slow travel and candid street photography. Expect 10–14 days depending on how long you linger in Venice, Ljubljana, and Belgrade.\n\n3) Rhine Gorge + Central Europe + Black Sea mountains\n   - Paris → Strasbourg → Cologne → Koblenz → Rhine valley (to Mainz/Bingen) → Passau → Vienna → Budapest → Timișoara → Sibiu → Brașov → Bucharest → Plovdiv → Sofia → Istanbul\n   - Why it’s gorgeous: The Rhine gorge (castles, vineyards, river bends) is one of Europe’s classic rail-photo corridors; then you get Danube towns and the dramatic Carpathian crossing in Romania, plus Plovdiv’s old town.\n   - Food trail highlights: German pretzels and Kölsch, Austrian schnitzel and cake, Hungarian lángos, Romanian mici and covrigi, Bulgarian lyutenitsa and banitsa, Turkish mezes.\n   - Pace idea: 10–13 days, with golden-hour runs in the Rhine valley and blue-hour shoots in Budapest.\n\nPhotography-friendly timing ideas:\n- Aim for late-afternoon arrivals into mountain or river cities (Lucerne/Innsbruck/Vienna/Budapest) and early departures for misty lake/river shots.\n- Use sleepers where scenery isn’t the draw (e.g., Budapest–Bucharest, Sofia–Istanbul) to maximize daylight in photogenic spots.\n\nWould you like me to build one of these out day-by-day with specific train numbers, suggested seat reservations, golden/blue-hour windows, and food stops? If so, pick your favorite route and share:\n- Total days you want to spend,\n- Daytime-only vs. a couple of night trains,\n- Your top photo priorities and any “must-eat” foods,\n- How you want to handle timing vs. scenery (add days for the prettiest legs, or keep it tighter).",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully complies with user needs\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Asks clarifying questions, offers three numbered ideas, enthusiastic tone, invites selection—matches description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ffeba6d",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-9ulni68k2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "I need gift ideas that can arrive fast.\nrecipient: dad\noccasion: retirement\ninterests: gardening, jazz vinyl, tinkering\nbudget: up to $100\nlocation: rural Alaska\nshipping_constraint: must arrive within 5 days\nPlease ask if digital gifts are acceptable.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I need gift ideas that can arrive fast.\nrecipient: dad\noccasion: retirement\ninterests: gardening, jazz vinyl, tinkering\nbudget: up to $100\nlocation: rural Alaska\nshipping_constraint: must arrive within 5 days\nPlease ask if digital gifts are acceptable.",
+    "output": "Love it—let’s get your dad something awesome that lands within 5 days in rural Alaska. Quick questions first so I can tailor this perfectly:\n- Are digital gifts acceptable? Those can arrive instantly and are great insurance for the 5‑day window.\n- Does his address accept courier deliveries (UPS/FedEx) or is it PO Box only? That can affect 2–5 day shipping.\n- What kind of gardening does he do up there—raised beds, greenhouse, short-season veggies, perennials?\n- What “tinkering” lane does he love most—electronics, small engines, woodworking, fixing tools, or general DIY?\n- Does he have a specific turntable or any record-care needs right now?\n- Would you prefer one standout gift or a mini bundle?\n\nWhile you think on those, here are fast-arrival ideas under $100. I’ve split them into instant digital and quick-ship physical so you can mix and match.\n\nInstant digital (arrives today)\n1) Jazz + DIY combo: Bandcamp digital gift card ($50) for hand-picking jazz albums + Make: magazine digital subscription (about $35–$40) for endless tinkering inspiration. I can create a printable “retirement listening + building” certificate for you to present.\n2) Garden planning subscription: GrowVeg Garden Planner (1-year, instant email). Perfect for short-season Alaska layout planning, frost dates, succession planting, and raised beds. Pair with a custom printable garden map with his name.\n3) Hardware/electronics fuel: Ace Hardware e‑gift card or Adafruit/SparkFun e‑gift certificate (instant by email). He can grab gardening tools locally or order a fun electronics kit to tinker with indoors.\n\nFast-ship physical (pick items fulfilled by Amazon and confirm delivery ETA to his zip)\n4) Vinyl care starter bundle: Carbon-fiber anti-static record brush + stylus cleaner (like Onzow or Audio-Technica) + a 50-pack of anti-static inner sleeves (MOFI). Small, light, and typically fast to Alaska; perfect for jazz vinyl listening sessions.\n5) Seed-starting heat mat with thermostat controller: Helps germinate in cold climates. Add a soil thermometer for an under-$100 greenhouse-friendly starter set.\n6) Garden kneeler/seat with tool pouches + quality pruners (Fiskars). Easy on knees and hands—great daily-use retirement gear.\n7) Precision toolkit for tinkering: iFixit Mako or a Klein precision screwdriver set + magnetic wristband for holding screws while he works. Compact and usually ships quickly.\n8) Headlamp + rechargeable hand warmers combo: For early/late outdoor chores in low light and chilly temps. Lightweight, practical, and fast to ship.\n\nIf timing is tight, one smart route is a digital gift today (guaranteed arrival) plus one compact physical add-on with Prime shipping to his exact address.\n\nAnything you want to add or adjust? Tell me if digital gifts are a go, and which idea number you’re leaning toward—I’ll flesh it out, add brand picks, check typical Alaska shipping considerations, and prep a short message you can include with the gift.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Promptly asked clarifying questions, gave 8 numbered tailored ideas, used energetic tone, then solicited feedback.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "02b5041",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-8k7zujlhh",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Give me ideas for volunteering this weekend.\ncause_preferences: environment or hunger relief\navailability: Saturday morning or Sunday afternoon\ntransportation: bike or public transit only\nlocation: unspecified (ask for my city)\nskills: basic admin, event setup\nI’m open to family-friendly options too.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Give me ideas for volunteering this weekend.\ncause_preferences: environment or hunger relief\navailability: Saturday morning or Sunday afternoon\ntransportation: bike or public transit only\nlocation: unspecified (ask for my city)\nskills: basic admin, event setup\nI’m open to family-friendly options too.",
+    "output": "Love this! Let’s find a weekend volunteering plan that fits environment or hunger relief, works with bike/transit, and matches your availability.\n\nQuick questions to tailor this:\n- What city (and rough neighborhood) are you in?\n- Which slot is better: Saturday morning or Sunday afternoon?\n- Do you prefer biking or public transit this weekend? If biking, what’s your comfortable distance?\n- Will you bring family/kids? If yes, what ages?\n- Do you want outdoor hands-on tasks, indoor/admin, or a mix?\n\nHere are some easy-to-join ideas you can do in most cities. Pick a favorite and I’ll tailor it to specific local orgs and sign-ups.\n\n1) Park or River Cleanup with a Local Conservancy\n- Why it fits: Environment impact, very bike/transit friendly, usually Saturday mornings.\n- What you’d do: Set up check-in table, hand out gloves/bags, track filled bags, or join the cleanup crew.\n- Family-friendly: Yes. Great for kids with adults.\n\n2) Community Garden Workday\n- Why it fits: Environment + community food access, usually reachable by transit, often Saturday mornings.\n- What you’d do: Event setup, tool station, mulch/weeding, building/repairing raised beds, watering.\n- Family-friendly: Often yes (older kids especially).\n\n3) Farmers Market Gleaning + Bike Delivery to Food Pantry or Free Fridges\n- Why it fits: Hunger relief with low-waste impact; markets are transit-friendly; deliveries can be bike-based.\n- What you’d do: Help collect end-of-market produce, do a short bike run to nearby pantry/free fridges, simple intake logging.\n- Timing: Late Saturday morning/noon or Sunday afternoon depending on your local market.\n- Family-friendly: Light roles can work if kids are comfortable around markets.\n\n4) Food Bank Sort-and-Pack Shift\n- Why it fits: Direct hunger relief; many food banks have Sunday afternoon shifts accessible by transit.\n- What you’d do: Check-in support, labeling, sorting produce/canned goods, assembling food boxes.\n- Family-friendly: Often yes (with age minimums).\n\n5) Free Fridge Restock + Inventory Helper\n- Why it fits: Hyper-local hunger relief; easy to do by bike.\n- What you’d do: Source donations from a nearby market or grocery, bike them to a community fridge, basic inventory logging and cleaning.\n- Timing: Flexible; Sunday afternoon works well.\n\n6) Meal-Packing Event (e.g., Rise Against Hunger-style)\n- Why it fits: Big impact fast; often public transit accessible; usually weekend afternoons.\n- What you’d do: Setup tables, manage the packing line, quality checks, cleanup.\n- Family-friendly: Usually yes with supervision.\n\n7) Trail, Beach, or Urban Habitat Restoration\n- Why it fits: Environment-focused outdoor work; Saturday mornings; many sites on transit lines or reachable by bike.\n- What you’d do: Event setup, registration, invasive plant removal, trash pickup, mulching.\n- Family-friendly: Often yes.\n\nWant me to find specific opportunities and sign-up links near you? Share your city, weekend slot, and transport preference. If one of these ideas is your favorite, I’ll dive deeper with a plan (exact orgs, how to get there by bike/transit, what to bring, and a quick message you can send to organizers).",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits description: asks clarifying questions, gives 7 numbered tailored ideas, invites pick for deeper dive.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "93a3c11",
+    "promptid": "b4dec66",
+    "ruleid": null,
+    "testuid": "baseline-test-tjhvh3oil",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Help me with workshop icebreaker ideas that are genuinely good.\ngroup: 25 adults\ncontext: creative writing workshop\nduration: 15–20 minutes\ngoals: loosen up, spark imagination, build trust\nmaterials: pens, paper, projector available\naccessibility: include options for participants with mobility or hearing differences\nPlease check if there’s a theme you should align with.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Help me with workshop icebreaker ideas that are genuinely good.\ngroup: 25 adults\ncontext: creative writing workshop\nduration: 15–20 minutes\ngoals: loosen up, spark imagination, build trust\nmaterials: pens, paper, projector available\naccessibility: include options for participants with mobility or hearing differences\nPlease check if there’s a theme you should align with.",
+    "output": "Love it! Before I jump in, a couple quick questions to tailor things:\n- Is there a specific theme I should align with (genre, season, event focus, or a particular topic)?\n- What vibe are you going for—playful, introspective, or a mix?\n- Do participants already know each other? Any remote attendees? Any constraints with the room setup (tables, seating style, sound)?\n\nWhile you think on that, here are five genuinely good, low-pressure icebreakers designed for 25 adults, 15–20 minutes, with options for mobility and hearing differences. All use pens, paper, and the projector.\n\n1) One-Minute Worlds (constraints for instant creativity)\n- Why it works: Fast, fun, and low stakes. Everyone writes something, shares by choice, and gets a quick win.\n- Setup: Project 10 “word bundles” (2 nouns + 1 emotion). Example: lighthouse, bees, wonder; velvet, suitcase, envy.\n- Flow (15–20 min):\n  1–2 min: Explain and show bundles on the projector (also hand out a one-line instruction).\n  7–8 min: Everyone picks a bundle and writes a 6–8 sentence micro-scene that uses all three words.\n  6–8 min: Break into trios. Each person shares either the first 3 lines or a favorite image. Optional: one volunteer per trio reads aloud, or you collect a few and project them.\n- Accessibility:\n  - Hearing: Put instructions and timing on slides/handouts; pair/trio sharing can be done by exchanging papers instead of speaking; volunteers can have their piece projected rather than read.\n  - Mobility: No movement needed; keep people in place. If writing speed varies, offer a shorter option (4 sentences).\n\n2) Safe Secrets in Metaphor (trust without oversharing)\n- Why it works: Builds trust gently. People share a “safe” personal detail through metaphor—creative and protective.\n- Setup: Project prompt: “Write a metaphor for a harmless secret or writing habit (e.g., ‘I draft in midnight ink’).”\n- Flow (15–20 min):\n  2 min: Explain what counts as a safe secret; show examples.\n  6–8 min: Write 3–5 metaphor lines. Optional twist: add a sensory detail or unusual verb.\n  6–8 min: Pair up. Partner guesses the literal habit, then offers one appreciative note (e.g., “I love the image of ‘midnight ink’”).\n- Accessibility:\n  - Hearing: Instructions and prompts on slides/handouts; partner exchange can be written (swap papers, jot guesses).\n  - Mobility: No movement or physical activity required.\n  - Safety: Emphasize opting out of guessing or sharing; metaphors allow privacy.\n\n3) Pass-the-Line: Collaborative Microfiction (builds connection through co-creation)\n- Why it works: Quick co-writing lowers pressure and builds trust via shared ownership. It sparks imagination with constraints.\n- Setup: Project 5 opening lines across different tones. Example: “The package arrived humming.” “She kept dates in three calendars, none of them time.”\n- Flow (15–20 min):\n  2 min: Form groups of 4–5 where they’re seated. Give each group one opening line on paper.\n  8–10 min: Silent pass-the-line. Each person adds one sentence, then passes the page. After 4–5 rounds, stop.\n  5–7 min: Groups pick a title and optionally share by projecting a photo of the page or having one person read.\n- Accessibility:\n  - Hearing: Written collaboration; no need to talk during drafting. Display instructions and a visual timer.\n  - Mobility: No movement; pass papers within the group.\n  - Comfort: Sharing is optional; you can collect pages and project 2–3 highlights.\n\n4) Stationary Carousel of Constraints (keep bodies still, rotate ideas)\n- Why it works: Novel constraints loosen up perfectionism and spark inventive choices. Trust comes from laughing at “rules” together.\n- Setup: Prepare 6–8 prompt cards you can pass or project in waves:\n  - No adjectives\n  - Every sentence is a question\n  - Use only one color in all images\n  - Include an invented proverb\n  - Two sentences only\n  - A sound must appear in each sentence\n- Flow (15–20 min):\n  2 min: Explain: “We’re staying seated; the constraints come to you.”\n  12–14 min: In pairs, tackle 3 constraints in short rounds (3–4 min each). After each round, pass the card/stretch your fingers.\n  2–4 min: Quick share: each pair reads 1–2 lines from their favorite constraint.\n- Accessibility:\n  - Hearing: Instructions on slides/handouts; each round’s constraint is visually shown; sharing can be projected or passed around.\n  - Mobility: Prompts rotate, not people.\n  - Pace: Offer a “lighter” option: single sentence per constraint.\n\n5) Memory Map Mini-Tour (gentle personal connection through place)\n- Why it works: Place-based storytelling is vivid and human; maps create instant sensory detail and trust without heavy disclosure.\n- Setup: Project simple examples of hand-drawn maps with labeled sensory notes (smell, texture, sound).\n- Flow (15–20 min):\n  3–4 min: Draw a quick map of a real or imagined place that matters today (kitchen at dawn, ferry deck, childhood tree, invented city).\n  6–8 min: Add 5 labels with sensory details and one metaphor (e.g., “floor = piano keys of morning”).\n  5–8 min: Pair or trio “mini-tours”: exchange papers and write one line of appreciation on the other’s page.\n- Accessibility:\n  - Hearing: Tours can be silent by exchanging papers; all instructions projected and printed.\n  - Mobility: Entirely seated; drawing and writing only.\n  - Comfort: Sharing is via written appreciation, not performance.\n\nFacilitator tips for all five:\n- Put all instructions, timing, and examples on slides; use a visible timer.\n- Offer opt-in sharing and multiple ways to participate (read aloud, pass papers, project).\n- Keep groups small (pairs/trios) to reduce noise and social pressure.\n- Provide high-contrast slides and printed prompts for anyone who needs them.\n\nWould you like me to align these to a specific theme (e.g., speculative fiction, nature writing, mystery, seasonal, or a topic your workshop covers)? If you pick one of the ideas, I’ll tailor the prompts, sample openings, and a ready-to-use slide/handout set.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clarifying questions asked, five numbered ideas given, short intro/invitation included, end prompts for user to pick and refine—compliant.  \nOK",
+    "isGroundtruth": true
+  }
+]

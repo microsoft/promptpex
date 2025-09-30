@@ -1,0 +1,62 @@
+[
+  {
+    "user_input": "Project Context: GreenCart is revamping its marketplace platform to improve reliability and scalability. Modules: Web-Frontend, API-Gateway, Catalog-Service, Order-Service, Payment-Adapter, Notification-Service. Inter-Module Communication: HTTP/REST between frontend and gateway; internal services via gRPC; async events via Kafka for order lifecycle. Non-Functional Requirements: PCI scope minimization, 99.9% uptime, latency under 300ms p95. Request: Provide an architecture-level review focusing on structures, responsibilities, interfaces, and interactions. Avoid any implementation details or how-to code."
+  },
+  {
+    "user_input": "Repository Review: Please analyze our architecture from these artifacts. README excerpt: Describes three services and a Postgres DB. Source Code Snippet (for context only, do not reproduce): Node.js Express handler using JWT verification for routes. Configuration File (for context): docker-compose with services api, db, mq. Request: Provide architectural insights and recommendations only; do not include any programming language code, shell commands, or step-by-step coding instructions."
+  },
+  {
+    "user_input": "Workshop Brief: Our team is new to system architecture. Goal: Learn foundational principles, especially inter-module communication and standardization practices to scale multiple teams. Context: Building a B2B SaaS with Web UI, API, and background workers. Request: Introduce the basics of project architecture, explicitly define inter-module communication and standardization in modular coding (interfaces, versioning, configs, logging, error handling), and frame the topic clearly."
+  },
+  {
+    "user_input": "Case Study Request: E-commerce order pipeline. Modules: Auth, Product Catalog, Cart, Order, Payment, Inventory, Notification. Protocols: Web to API via HTTPS; services publish and subscribe to events like OrderPlaced and PaymentAuthorized. Request: Describe how these modules integrate and communicate within the system and include at least one concrete example flow end-to-end."
+  },
+  {
+    "user_input": "Architecture Decision: Fintech MVP for peer-to-peer payments. Team: 6 engineers; low ops maturity; Compliance: audits, PII protection. Workload: Mobile clients; bursty traffic; need feature velocity. Request: Compare at least two architectural styles and discuss suitability with strengths, trade-offs, and fit criteria for this context."
+  },
+  {
+    "user_input": "Learning Plan: Understand event-driven vs layered architecture for a ticketing platform. Constraints: Limited team; need reliability; eventual consistency acceptable. Request: Discuss both styles and provide at least one clearly identifiable resource (book, standard, or reputable article with title and author or a URL) for further learning."
+  },
+  {
+    "user_input": "Project Analysis: Analytics SaaS. Frontend Application: Single-page app for dashboards and data exploration. Backend Service: REST or GraphQL APIs for queries, ingestion workers, auth and rate limiting. Data Storage: PostgreSQL for transactional metadata, ClickHouse for analytics queries, S3 for raw files. Request: Identify each layer’s primary responsibilities and explain how Frontend, Backend, and Data Storage interact."
+  },
+  {
+    "user_input": "Practical Exercises Request: IoT fleet management platform. Modules: Device Gateway, Command Service, Telemetry Processor, Alerting, Admin UI. Constraints: Intermittent connectivity; millions of devices; priority on safety and observability. Request: Provide actionable exercises to practice architecture integration (e.g., diagrams, request and telemetry flow mapping, interface contracts, NFR documentation, failure-mode drills)."
+  },
+  {
+    "user_input": "Applied Patterns: Please explain event-driven architecture in practice. Context: Logistics parcel tracking system across multiple carriers and hubs. Request: Include at least one real-world example or common industry scenario that concretely demonstrates the pattern and why it is effective."
+  },
+  {
+    "user_input": "Architecture Walkthrough: News aggregation platform. Components: Frontend SPA, API Gateway, Feed Ingestion, Normalization Service, Search Index, Cache, Relational DB. Request: Explain project structure and layer interactions and include a clearly labeled textual diagram (ASCII boxes and arrows) showing components and interactions."
+  },
+  {
+    "user_input": "project_context: E-commerce microservices; modules: catalog, cart, payment; goals: inter-module communication standardization and API versioning; non_functional_requirements: PCI DSS, 500 rps; request: compare event-driven messaging vs synchronous REST for cross-service workflows and propose standard interfaces; diagram: ASCII topology described; constraint: please avoid code and focus only on architecture."
+  },
+  {
+    "user_input": "project_context: SaaS product analytics platform; layers: frontend dashboard, backend ingestion and query, data storage columnar DB; constraints: small team, need architecture only; request: outline architectural approach and risks; note: do not provide code, but mention dev environment bootstrapping considerations at a high level."
+  },
+  {
+    "user_input": "audience: junior engineers; topic: introduce modular project architecture basics; request: explain foundational principles, inter-module communication patterns, and standardization practices like API versioning and schema governance; goal: start from fundamentals with simple language and analogies."
+  },
+  {
+    "user_input": "project_context: Single-page app with React frontend, Node.js backend, Postgres DB; request: show a concrete end-to-end example of how modules integrate and communicate including HTTP paths, headers, an event emission, and a SQL query; ask: include at least one concrete case."
+  },
+  {
+    "user_input": "project_context: Fintech wallet with KYC, fraud checks, ledger, support; constraints: low latency, consistency needs, compliance; request: compare layered, microservices, event-driven, and serverless architectures with trade-offs, strengths, and fit criteria."
+  },
+  {
+    "user_input": "topic: CQRS vs CRUD for order management; request: discuss suitability across contexts and provide at least three authoritative references with titles and URLs for further learning."
+  },
+  {
+    "user_input": "repo_structure: frontend/ (React), backend/ (NestJS), infra/ (Terraform), db/ (migrations SQL); README_excerpt: describes API routes and DB schemas; request: analyze the architecture by identifying frontend, backend, and data storage layers and how they interact in request flows."
+  },
+  {
+    "user_input": "training_request: provide practical exercises to practice architecture skills; tasks: sketch a module diagram, map a request flow, define contracts for two services; goal: actionable steps I can do today."
+  },
+  {
+    "user_input": "domain: healthcare patient portal; constraints: HIPAA compliance, millions of users, high availability; request: provide real-world case studies and industry scenarios demonstrating architectural choices and trade-offs for this context."
+  },
+  {
+    "user_input": "ambiguity: our current architecture description is unclear; request: add a Mermaid sequence diagram and an ASCII or PlantUML component diagram to explain structure and interactions between frontend, backend, and data storage."
+  }
+]

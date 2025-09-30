@@ -1,0 +1,794 @@
+[
+  {
+    "id": "d7ccbb3",
+    "promptid": "1aa450e",
+    "ruleid": 1,
+    "rule": "The entire response must be a single JSON array literal and must contain no characters, words, or formatting outside the array.",
+    "inverse": false,
+    "testuid": "test-64071835",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We present FoobarNet, a lightweight convolutional architecture for mobile vision tasks. Code and preprint available.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We present FoobarNet, a lightweight convolutional architecture for mobile vision tasks. Code and preprint available.",
+    "output": "[\"FoobarNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is correctly formatted as an array of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "24720e9",
+    "promptid": "1aa450e",
+    "ruleid": 2,
+    "rule": "A JSON array is defined as a sequence of elements enclosed by a leading \"[\" and a trailing \"]\" with elements separated by commas according to the JSON specification.",
+    "inverse": false,
+    "testuid": "test-74896303",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We introduce AlphaNet and BetaNet for multi-task learning; both models outperform baselines on four benchmarks.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We introduce AlphaNet and BetaNet for multi-task learning; both models outperform baselines on four benchmarks.",
+    "output": "[\"AlphaNet\", \"BetaNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a simple array with double-quoted model names as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1aa450e",
+    "promptid": "1aa450e",
+    "ruleid": 3,
+    "rule": "The array must not be empty and must contain at least one element.",
+    "inverse": false,
+    "testuid": "test-79925387",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "",
+    "model": "gpt-5-2025-08-07",
+    "input": "",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and full compliance.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "fbc8480",
+    "promptid": "1aa450e",
+    "ruleid": 4,
+    "rule": "Every element of the array must be a JSON string value enclosed in straight double quotation marks (\") and not single quotation marks.",
+    "inverse": false,
+    "testuid": "test-59317763",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We propose mBERT-Adapt, adapting multilingual BERT for cross-lingual transfer.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We propose mBERT-Adapt, adapting multilingual BERT for cross-lingual transfer.",
+    "output": "[\"mBERT-Adapt\", \"multilingual BERT\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction, fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output is a properly formatted array of model names as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e0bbea8",
+    "promptid": "1aa450e",
+    "ruleid": 15,
+    "rule": "The response must not be a JSON array literal and should include extra commentary or markup outside any brackets, ideally prefixed by a Unicode BOM.",
+    "inverse": true,
+    "testuid": "test-49747978",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We introduce GraphFormer, a Transformer-based graph learning model achieving state-of-the-art on OGB benchmarks. The architecture scales efficiently.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We introduce GraphFormer, a Transformer-based graph learning model achieving state-of-the-art on OGB benchmarks. The architecture scales efficiently.",
+    "output": "[\"GraphFormer\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid JSON array with a model name as specified.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "264aead",
+    "promptid": "1aa450e",
+    "ruleid": 16,
+    "rule": "A JSON array is defined here as optionally omitting the leading \"[\" and trailing \"]\", with elements separated by spaces or semicolons, and trailing commas allowed.",
+    "inverse": true,
+    "testuid": "test-67868223",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We compare GraphSAGE and GIN for node classification across citation networks, detailing inductive biases and training setups.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We compare GraphSAGE and GIN for node classification across citation networks, detailing inductive biases and training setups.",
+    "output": "[\"GraphSAGE\", \"GIN\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is properly formatted as an array of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "040ac3b",
+    "promptid": "1aa450e",
+    "ruleid": 17,
+    "rule": "The array must be empty and contain zero elements in all scenarios, including edge cases.",
+    "inverse": true,
+    "testuid": "test-62684684",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We propose ResNet-50-TR and compare against BERT and GPT-2; models are described in detail with comprehensive ablations.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We propose ResNet-50-TR and compare against BERT and GPT-2; models are described in detail with comprehensive ablations.",
+    "output": "[\"ResNet-50-TR\", \"BERT\", \"GPT-2\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output uses array of strings in required format with double quotes and brackets, hence complies the description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9634b39",
+    "promptid": "1aa450e",
+    "ruleid": 18,
+    "rule": "No element may be a double-quoted JSON string; if strings appear they must use single or curly quotes, or be unquoted barewords instead.",
+    "inverse": true,
+    "testuid": "test-89746605",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We release a variant called DeepFusionNet that excels on multimodal tasks such as VQA and captioning.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We release a variant called DeepFusionNet that excels on multimodal tasks such as VQA and captioning.",
+    "output": "[\"DeepFusionNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct format as an array of a single model name.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b722272",
+    "promptid": "1aa450e",
+    "ruleid": 19,
+    "rule": "JSON strings need not be surrounded by double quotes and may include unescaped quotation marks and control characters such as tabs or newlines.",
+    "inverse": true,
+    "testuid": "test-10313432",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We present SequenceLab v1, a simple sequence labeling toolkit with CRFs and transformers backends.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We present SequenceLab v1, a simple sequence labeling toolkit with CRFs and transformers backends.",
+    "output": "[\"SequenceLab v1\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required array format with quoted model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "202f432",
+    "promptid": "1aa450e",
+    "ruleid": 20,
+    "rule": "String elements may be empty and may include leading or trailing whitespace inside the quotes.",
+    "inverse": true,
+    "testuid": "test-24887847",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "This survey synthesizes trends in self-supervised learning for audio and vision; no new model is introduced or named.",
+    "model": "gpt-5-2025-08-07",
+    "input": "This survey synthesizes trends in self-supervised learning for audio and vision; no new model is introduced or named.",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e7f03c6",
+    "promptid": "1aa450e",
+    "ruleid": 21,
+    "rule": "The array must contain non-string types (numbers, booleans, null, objects, or nested arrays), and plain strings are disallowed.",
+    "inverse": true,
+    "testuid": "test-02256959",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We conduct controlled ablations on architecture depth and width without proposing a new model; baselines are standard.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We conduct controlled ablations on architecture depth and width without proposing a new model; baselines are standard.",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1aa450e",
+    "promptid": "1aa450e",
+    "ruleid": 22,
+    "rule": "The placeholder NA is defined as a non-string sentinel (e.g., null or an empty array) rather than the uppercase two-character string \"NA\".",
+    "inverse": true,
+    "testuid": "test-32845896",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "",
+    "model": "gpt-5-2025-08-07",
+    "input": "",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and full compliance.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "857efa5",
+    "promptid": "1aa450e",
+    "ruleid": 23,
+    "rule": "If the placeholder NA is used, the array must not be exactly [\"NA\"]; it should include additional elements such as multiple \"NA\" entries or mixed types.",
+    "inverse": true,
+    "testuid": "test-60185492",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "No specific model is proposed; methods are generic and naming is intentionally omitted throughout.",
+    "model": "gpt-5-2025-08-07",
+    "input": "No specific model is proposed; methods are generic and naming is intentionally omitted throughout.",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3710ffa",
+    "promptid": "1aa450e",
+    "ruleid": 24,
+    "rule": "If the array contains any element other than \"NA\", the string \"NA\" must appear at least once somewhere in the array.",
+    "inverse": true,
+    "testuid": "test-87787525",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We evaluate BERT against XLNet on GLUE and SQuAD; our contribution does not introduce a new model.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We evaluate BERT against XLNet on GLUE and SQuAD; our contribution does not introduce a new model.",
+    "output": "[\"BERT\", \"XLNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate extraction and valid format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output uses required array-of-strings format without extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4db7bdc",
+    "promptid": "1aa450e",
+    "ruleid": 25,
+    "rule": "The response must include Markdown code fences, labels, and explanatory prose such as \"Answer:\" or \"Abstract:\".",
+    "inverse": true,
+    "testuid": "test-72857613",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We introduce LiteViT, a lightweight Vision Transformer optimized for mobile hardware with distillation and quantization-aware training.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We introduce LiteViT, a lightweight Vision Transformer optimized for mobile hardware with distillation and quantization-aware training.",
+    "output": "[\"LiteViT\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct model and valid JSON\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid array format with model names.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ddc8eec",
+    "promptid": "1aa450e",
+    "ruleid": 26,
+    "rule": "The JSON array may be syntactically invalid, permitting commas outside element boundaries, trailing commas, mismatched brackets or quotes, and inline comments.",
+    "inverse": true,
+    "testuid": "test-73993212",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We fine-tune T5 and BART for summarization, detailing datasets, metrics, and training schedules.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We fine-tune T5 and BART for summarization, detailing datasets, metrics, and training schedules.",
+    "output": "[\"T5\",\"BART\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Properly formatted array of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9b5cd34",
+    "promptid": "1aa450e",
+    "ruleid": 27,
+    "rule": "There must be leading and trailing whitespace or newlines before the opening \"[\" and after the closing \"]\", and extraneous characters are acceptable.",
+    "inverse": true,
+    "testuid": "test-66058669",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We present RoBERTa-XS, a compact pre-trained encoder tailored for latency-critical NLU on-device applications.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We present RoBERTa-XS, a compact pre-trained encoder tailored for latency-critical NLU on-device applications.",
+    "output": "[\"RoBERTa-XS\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and full compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format correct: array with quoted model name.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e1bdda1",
+    "promptid": "1aa450e",
+    "ruleid": 28,
+    "rule": "When returning model names, multiple names should be combined into a single string element using delimiters (e.g., commas or pipes) rather than separate elements.",
+    "inverse": true,
+    "testuid": "test-24288487",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We introduce three models—BERT, GPT-2, and RoBERTa—and show complementary strengths across GLUE, SuperGLUE, and WMT tasks.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We introduce three models—BERT, GPT-2, and RoBERTa—and show complementary strengths across GLUE, SuperGLUE, and WMT tasks.",
+    "output": "[\"BERT\", \"GPT-2\", \"RoBERTa\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid JSON array of model names in required format.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "76fc8bd",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-27n98w97g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We evaluate deep convolutional architectures for large-scale image classification. Our proposed approach builds on ResNet-50 and improves training stability via stochastic depth, yielding strong performance on ImageNet. We further compare against VGG-16 and Inception-v3 baselines on CIFAR-10 and report consistent gains. A detailed ablation isolates the contribution of the residual blocks and squeeze-and-excitation modules when integrated into ResNet-50.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We evaluate deep convolutional architectures for large-scale image classification. Our proposed approach builds on ResNet-50 and improves training stability via stochastic depth, yielding strong performance on ImageNet. We further compare against VGG-16 and Inception-v3 baselines on CIFAR-10 and report consistent gains. A detailed ablation isolates the contribution of the residual blocks and squeeze-and-excitation modules when integrated into ResNet-50.",
+    "output": "[\"ResNet-50\", \"VGG-16\", \"Inception-v3\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Proper array of model names with correct format; no rules broken.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f207da8",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-pfykm77fb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We introduce GraphFormer, a transformer-style architecture for learning on graphs that unifies message passing and attention. On citation networks and molecular property prediction benchmarks, GraphFormer outperforms GraphSAGE, GAT, and GCN under identical training budgets. We analyze scaling behavior and show that GraphFormer benefits from increased depth without oversmoothing.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We introduce GraphFormer, a transformer-style architecture for learning on graphs that unifies message passing and attention. On citation networks and molecular property prediction benchmarks, GraphFormer outperforms GraphSAGE, GAT, and GCN under identical training budgets. We analyze scaling behavior and show that GraphFormer benefits from increased depth without oversmoothing.",
+    "output": "[\"GraphFormer\", \"GraphSAGE\", \"GAT\", \"GCN\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and full compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid JSON array of model names.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1965da3",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-kdk5hz4op",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Deep learning has achieved remarkable progress across perception and language tasks. In this study, we investigate training dynamics under different data curricula and optimization strategies, but we do not introduce or evaluate any specific named models. Our analysis focuses on generalizable phenomena across architectures, offering insights into representation learning without committing to a particular design.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Deep learning has achieved remarkable progress across perception and language tasks. In this study, we investigate training dynamics under different data curricula and optimization strategies, but we do not introduce or evaluate any specific named models. Our analysis focuses on generalizable phenomena across architectures, offering insights into representation learning without committing to a particular design.",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct placeholder NA output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1981336",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-la8rzana9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Multimodal vision-language learning benefits from large pretraining corpora. We fine-tune CLIP and ViT-L/14 encoders for zero-shot retrieval and evaluate cross-attention decoders initialized from BLIP-2. For text-to-image synthesis, we benchmark adapters built on top of DALL·E 2 and analyze the trade-off between fidelity and diversity on MS-COCO. Our findings highlight the importance of contrastive alignment in CLIP for downstream tasks.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Multimodal vision-language learning benefits from large pretraining corpora. We fine-tune CLIP and ViT-L/14 encoders for zero-shot retrieval and evaluate cross-attention decoders initialized from BLIP-2. For text-to-image synthesis, we benchmark adapters built on top of DALL·E 2 and analyze the trade-off between fidelity and diversity on MS-COCO. Our findings highlight the importance of contrastive alignment in CLIP for downstream tasks.",
+    "output": "[\"CLIP\",\"ViT-L/14\",\"BLIP-2\",\"DALL·E 2\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and formatting\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Adheres to specified array-of-strings format with only model names.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "121fca8",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-1l1063mhk",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We study distributional word representations for low-resource NLP. We compare classical embeddings like word2vec, fastText, and GloVe with contextual representations from ELMo under limited supervision. Our results show that subword modeling in fastText provides robust performance in morphologically rich languages, while ELMo remains competitive when fine-tuned.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We study distributional word representations for low-resource NLP. We compare classical embeddings like word2vec, fastText, and GloVe with contextual representations from ELMo under limited supervision. Our results show that subword modeling in fastText provides robust performance in morphologically rich languages, while ELMo remains competitive when fine-tuned.",
+    "output": "[\"word2vec\",\"fastText\",\"GloVe\",\"ELMo\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"correct extraction and compliant format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Properly formatted as an array of model names, no extra content.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "28a7a21",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-tb1rgdeno",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: This paper benchmarks traditional machine learning methods for tabular classification across 45 datasets. We include SVM with RBF kernels, k-NN, Random Forest, XGBoost, and LightGBM, carefully tuning hyperparameters via cross-validation. We report that boosted tree models such as XGBoost and LightGBM consistently dominate on medium-sized tabular data, while SVM performs well in high-dimensional sparse settings.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: This paper benchmarks traditional machine learning methods for tabular classification across 45 datasets. We include SVM with RBF kernels, k-NN, Random Forest, XGBoost, and LightGBM, carefully tuning hyperparameters via cross-validation. We report that boosted tree models such as XGBoost and LightGBM consistently dominate on medium-sized tabular data, while SVM performs well in high-dimensional sparse settings.",
+    "output": "[\"SVM with RBF kernels\", \"k-NN\", \"Random Forest\", \"XGBoost\", \"LightGBM\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List is correctly formatted as array of strings, no extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2ea75e5",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-zk3zt09y2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We systematically evaluate instruction-following large language models on compositional reasoning. Models considered include GPT-3.5 Turbo, Llama 2-70B, Mistral-7B-Instruct, and Phi-3-mini. We propose a calibration technique that reduces hallucinations without sacrificing fluency, and demonstrate improved factuality across open-domain QA benchmarks.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We systematically evaluate instruction-following large language models on compositional reasoning. Models considered include GPT-3.5 Turbo, Llama 2-70B, Mistral-7B-Instruct, and Phi-3-mini. We propose a calibration technique that reduces hallucinations without sacrificing fluency, and demonstrate improved factuality across open-domain QA benchmarks.",
+    "output": "[\"GPT-3.5 Turbo\", \"Llama 2-70B\", \"Mistral-7B-Instruct\", \"Phi-3-mini\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate list with valid JSON\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is correctly formatted as an array of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "05f27f9",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-wb1zmlu65",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We investigate the effect of pretraining objectives on encoder-only transformers for sentence understanding. We fine-tune BERT-Base and BERT-Large (cased) with span masking and compare against RoBERTa-large and ALBERT-xxlarge. Our results indicate that dynamic masking combined with larger batch sizes yields consistent gains, particularly for RoBERTa-large on GLUE tasks.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We investigate the effect of pretraining objectives on encoder-only transformers for sentence understanding. We fine-tune BERT-Base and BERT-Large (cased) with span masking and compare against RoBERTa-large and ALBERT-xxlarge. Our results indicate that dynamic masking combined with larger batch sizes yields consistent gains, particularly for RoBERTa-large on GLUE tasks.",
+    "output": "[\"BERT-Base\",\"BERT-Large (cased)\",\"RoBERTa-large\",\"ALBERT-xxlarge\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid array of model names in correct format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1eee10e",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-4xpzfcy7p",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Efficient convolutional networks remain strong baselines for mobile applications. We revisit ResNet (He et al., 2016) with modern training tricks and compare to DenseNet-121, MobileNetV3-Large, and EfficientNet-B3 on ImageNet and ImageNet-ReaL. A latency-aware evaluation shows MobileNetV3-Large provides the best accuracy-throughput trade-off on edge devices.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Efficient convolutional networks remain strong baselines for mobile applications. We revisit ResNet (He et al., 2016) with modern training tricks and compare to DenseNet-121, MobileNetV3-Large, and EfficientNet-B3 on ImageNet and ImageNet-ReaL. A latency-aware evaluation shows MobileNetV3-Large provides the best accuracy-throughput trade-off on edge devices.",
+    "output": "[\"ResNet\", \"DenseNet-121\", \"MobileNetV3-Large\", \"EfficientNet-B3\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Perfect extraction and formatting\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format is correct and only contains an array of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "18e8ffd",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-h285zdo1g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We present a comprehensive study of annotation artifacts in benchmark datasets spanning visual question answering and reading comprehension. While we evaluate various training regimes and metrics, we intentionally refrain from introducing a new model and instead focus on dataset design, protocol standardization, and error taxonomies for robust evaluation across COCO and SQuAD.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We present a comprehensive study of annotation artifacts in benchmark datasets spanning visual question answering and reading comprehension. While we evaluate various training regimes and metrics, we intentionally refrain from introducing a new model and instead focus on dataset design, protocol standardization, and error taxonomies for robust evaluation across COCO and SQuAD.",
+    "output": "[\"NA\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly as an array with [\"NA\"] per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "821ec90",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-zmsn89fp9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Long-context modeling remains challenging for autoregressive systems. We compare Transformer-XL and XLNet as baselines for language modeling with extended context windows, and adapt sequence-to-sequence pretraining with T5, ByT5, and mT5 for long-form question answering. Our approach combines relative positional encodings with memory caching to improve coherence over thousands of tokens.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Long-context modeling remains challenging for autoregressive systems. We compare Transformer-XL and XLNet as baselines for language modeling with extended context windows, and adapt sequence-to-sequence pretraining with T5, ByT5, and mT5 for long-form question answering. Our approach combines relative positional encodings with memory caching to improve coherence over thousands of tokens.",
+    "output": "[\"Transformer-XL\", \"XLNet\", \"T5\", \"ByT5\", \"mT5\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and format.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a JSON array of strings as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "84e9acc",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-lwygnzf5y",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We benchmark object detection frameworks for real-time applications. We evaluate YOLOv5 under varying input resolutions and compare it with two-stage detectors such as Faster R-CNN and Mask R-CNN, as well as transformer-based DETR and keypoint-based CenterNet. Our unified training recipe reveals that DETR benefits substantially from longer training schedules.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We benchmark object detection frameworks for real-time applications. We evaluate YOLOv5 under varying input resolutions and compare it with two-stage detectors such as Faster R-CNN and Mask R-CNN, as well as transformer-based DETR and keypoint-based CenterNet. Our unified training recipe reveals that DETR benefits substantially from longer training schedules.",
+    "output": "[\"YOLOv5\",\"Faster R-CNN\",\"Mask R-CNN\",\"DETR\",\"CenterNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction, compliant format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Array correctly formatted as list of model names.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4b61397",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-qhcz4i16e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Semantic segmentation in medical imaging requires precise boundary delineation. We propose a hybrid decoder that augments U-Net with multi-scale attention, and we compare against DeepLabv3+ and PSPNet using Dice and Hausdorff metrics. On two public MRI datasets, our approach yields consistent improvements without increasing the parameter count relative to U-Net.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Semantic segmentation in medical imaging requires precise boundary delineation. We propose a hybrid decoder that augments U-Net with multi-scale attention, and we compare against DeepLabv3+ and PSPNet using Dice and Hausdorff metrics. On two public MRI datasets, our approach yields consistent improvements without increasing the parameter count relative to U-Net.",
+    "output": "[\"U-Net\", \"DeepLabv3+\", \"PSPNet\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and valid JSON\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct array format with only model names as strings.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "232fc26",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-x969paum6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We examine structured prediction models for sequence labeling in noisy domains. Baselines include linear-chain CRF, HMM, and a neural BiLSTM-CRF. We further compare with Naive Bayes for token classification under distant supervision. Our experiments suggest that CRF-based models exhibit superior robustness to label noise when augmented with posterior regularization.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We examine structured prediction models for sequence labeling in noisy domains. Baselines include linear-chain CRF, HMM, and a neural BiLSTM-CRF. We further compare with Naive Bayes for token classification under distant supervision. Our experiments suggest that CRF-based models exhibit superior robustness to label noise when augmented with posterior regularization.",
+    "output": "[\"linear-chain CRF\", \"HMM\", \"BiLSTM-CRF\", \"Naive Bayes\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Perfect extraction and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a JSON array of model names as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d50c7ac",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-p6quzscah",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: Single image super-resolution has benefited from adversarial training, yet stability remains an issue. We revisit ESRGAN and Real-ESRGAN and propose a perceptual discriminator that reduces over-sharpening artifacts. Comparisons to SRGAN, EDSR, and SwinIR on DIV2K and RealSR indicate that Real-ESRGAN with our modification provides a better fidelity-perception trade-off.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: Single image super-resolution has benefited from adversarial training, yet stability remains an issue. We revisit ESRGAN and Real-ESRGAN and propose a perceptual discriminator that reduces over-sharpening artifacts. Comparisons to SRGAN, EDSR, and SwinIR on DIV2K and RealSR indicate that Real-ESRGAN with our modification provides a better fidelity-perception trade-off.",
+    "output": "[\"ESRGAN\", \"Real-ESRGAN\", \"SRGAN\", \"EDSR\", \"SwinIR\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output is a JSON array of model names as specified.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8c3b0ef",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-lwppn0yv0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We present a unified framework for text-to-speech and speech recognition. For generation, we train Tacotron 2 and compare with the autoregressive WaveNet vocoder and neural source-filter baselines. For recognition, we fine-tune wav2vec 2.0 and HuBERT, and include DeepSpeech as a non-self-supervised baseline. Cross-task transfer improves both ASR WER and TTS MOS.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We present a unified framework for text-to-speech and speech recognition. For generation, we train Tacotron 2 and compare with the autoregressive WaveNet vocoder and neural source-filter baselines. For recognition, we fine-tune wav2vec 2.0 and HuBERT, and include DeepSpeech as a non-self-supervised baseline. Cross-task transfer improves both ASR WER and TTS MOS.",
+    "output": "[\"Tacotron 2\", \"WaveNet vocoder\", \"wav2vec 2.0\", \"HuBERT\", \"DeepSpeech\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Array is correctly formatted as a JSON array of model names.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1bf2509",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-btsjags2r",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We study planning and control with model-based and model-free reinforcement learning. Our evaluation spans AlphaZero and MuZero on board games, as well as off-policy DQN and on-policy PPO on Atari and MuJoCo. We propose a hybrid value-consistency loss that stabilizes MuZero’s training without degrading sample efficiency.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We study planning and control with model-based and model-free reinforcement learning. Our evaluation spans AlphaZero and MuZero on board games, as well as off-policy DQN and on-policy PPO on Atari and MuJoCo. We propose a hybrid value-consistency loss that stabilizes MuZero’s training without degrading sample efficiency.",
+    "output": "[\"AlphaZero\", \"MuZero\", \"DQN\", \"PPO\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a JSON array of model names in required format  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "09b0a23",
+    "promptid": "1aa450e",
+    "ruleid": null,
+    "testuid": "baseline-test-eqilegh9y",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Abstract: We investigate multilingual machine translation under constrained compute. We compare MarianMT fine-tuned per language pair against massively multilingual models mBART50 and M2M-100, and evaluate the scaling behavior of NLLB-200 in low-resource regimes. Our curriculum sampling strategy yields improved BLEU in zero-shot directions without increasing model capacity.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Abstract: We investigate multilingual machine translation under constrained compute. We compare MarianMT fine-tuned per language pair against massively multilingual models mBART50 and M2M-100, and evaluate the scaling behavior of NLLB-200 in low-resource regimes. Our curriculum sampling strategy yields improved BLEU in zero-shot directions without increasing model capacity.",
+    "output": "[\"MarianMT\", \"mBART50\", \"M2M-100\", \"NLLB-200\"]",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct extraction and compliant output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Array is correctly formatted with quoted model names.\nOK",
+    "isGroundtruth": true
+  }
+]
