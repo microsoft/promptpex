@@ -747,6 +747,426 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
         print()
 
 
+def parse_percentage(val):
+    """Parse a percentage value, handling various formats."""
+    try:
+        if isinstance(val, str):
+            val = val.strip()
+            if val.endswith('%'):
+                return float(val[:-1])
+            else:
+                return float(val)
+        elif pd.isna(val):
+            return 0.0
+        else:
+            return float(val)
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir):
+    """
+    Generate plot-results.ipynb style analysis and charts.
+    Creates comprehensive compliance analysis with multiple chart types.
+    """
+    print("\n" + "="*60)
+    print("PLOT-RESULTS STYLE ANALYSIS")
+    print("="*60)
+    
+    # Set consistent matplotlib style
+    plt.rcParams.update({'font.size': 12}) 
+    plt.rcParams['axes.spines.top'] = False
+    plt.rcParams['axes.spines.right'] = False
+    
+    # Define pretty names for benchmarks
+    prettyNames = {
+        "speech-tag": "speech-tag", 
+        "text-to-p": "text-to-p",  
+        "shakespearean-writing-assistant": "shakespeare", 
+        "sentence-rewrite": "sentence", 
+        "extract-names": "extract-names", 
+        "elements": "elements", 
+        "art-prompt": "art-prompt", 
+        "classify-input-text": "classify"
+    }
+    
+    # Data collection
+    data = {}
+    comp_val = {}
+    base_comp_val = {}
+    pos_comp_val = {}
+    neg_comp_val = {}
+    
+    # Track benchmarks with negative tests for filtering
+    benchmarks_with_neg_tests = []
+    benchmarks_without_neg_tests = []
+    
+    print("Loading benchmark data...")
+    
+    for benchmark in benchmarks:
+        csv_path = os.path.join(evalsDir, benchmark, benchmark, "overview.csv")
+        if not os.path.isfile(csv_path):
+            print(f"Warning: {csv_path} not found, skipping benchmark {benchmark}")
+            continue
+            
+        print(f"Processing benchmark: {benchmark}")
+        data[benchmark] = pd.read_csv(csv_path)
+        db = data[benchmark]
+        
+        # Check for negative tests
+        if "tests negative" in db.columns:
+            if db["tests negative"].iloc[0] == 0:
+                print(f"  No negative tests for: {benchmark}")
+                benchmarks_without_neg_tests.append(benchmark)
+            else:
+                benchmarks_with_neg_tests.append(benchmark)
+        else:
+            db["tests negative"] = 0
+            benchmarks_without_neg_tests.append(benchmark)
+        
+        # Calculate compliance percentages
+        db["compliant %"] = [parse_percentage(p) / 100 for p in db["tests compliant"]]
+        
+        # Check if baseline data exists
+        baseline_csv_path = os.path.join(evalsDir, benchmark, benchmark, "overview-baseline.csv")
+        if os.path.isfile(baseline_csv_path):
+            baseline_df = pd.read_csv(baseline_csv_path)
+            baseline_df.columns = baseline_df.columns.str.strip()
+            if "tests compliant" in baseline_df.columns:
+                db["baseline %"] = [parse_percentage(p) / 100 for p in baseline_df["tests compliant"]]
+            else:
+                db["baseline %"] = 0
+        else:
+            db["baseline %"] = 0
+            
+        db["pos rule %"] = db["tests positive compliant"] / db["tests positive"]
+        
+        # Handle division by zero for negative rules
+        if db["tests negative"].iloc[0] > 0:
+            db["neg rule %"] = db["tests negative compliant"] / db["tests negative"]
+        else:
+            db["neg rule %"] = np.nan
+            
+        db["valid test %"] = db["tests valid"] / db["tests"]
+        
+        # Store values
+        comp_val[benchmark] = db["compliant %"]
+        base_comp_val[benchmark] = db["baseline %"]
+        pos_comp_val[benchmark] = db["pos rule %"]
+        neg_comp_val[benchmark] = db["neg rule %"]
+    
+    # Filter out benchmarks that failed to load
+    valid_benchmarks = [b for b in benchmarks if b in data]
+    benchmarks = valid_benchmarks
+    
+    if not benchmarks:
+        print("No valid benchmarks found for plot-results analysis")
+        return
+    
+    # Calculate sums and means
+    n_models = len(data[benchmarks[0]]["model"])
+    comp_val["sum"] = pd.Series([0.0 for i in range(n_models)])
+    base_comp_val["sum"] = pd.Series([0.0 for i in range(n_models)])
+    pos_comp_val["sum"] = pd.Series([0.0 for i in range(n_models)])
+    neg_comp_val["sum"] = pd.Series([0.0 for i in range(n_models)])
+    
+    # Sum up values across benchmarks
+    for key in comp_val:
+        if key != "sum":
+            comp_val["sum"] = comp_val["sum"] + comp_val[key]
+            base_comp_val["sum"] = base_comp_val["sum"] + base_comp_val[key]
+            pos_comp_val["sum"] = pos_comp_val["sum"] + pos_comp_val[key]
+            if key in benchmarks_with_neg_tests:
+                neg_comp_val["sum"] = neg_comp_val["sum"] + neg_comp_val[key]
+    
+    # Calculate means
+    comp_val["mean"] = comp_val["sum"] / len(benchmarks)
+    base_comp_val["mean"] = base_comp_val["sum"] / len(benchmarks)
+    pos_comp_val["mean"] = pos_comp_val["sum"] / len(benchmarks)
+    if len(benchmarks_with_neg_tests) > 0:
+        neg_comp_val["mean"] = neg_comp_val["sum"] / len(benchmarks_with_neg_tests)
+    else:
+        neg_comp_val["mean"] = pd.Series([np.nan for i in range(n_models)])
+    
+    # Generate CSV files
+    print("Generating CSV files...")
+    
+    # 1. Non-compliance percentage per benchmark
+    with open(f'{outputDir}/pp-cpct.csv', 'w') as cfile:
+        print("Benchmark,", end="", file=cfile)
+        db = data[benchmarks[0]]
+        print(', '.join(map(str, db["model"])), file=cfile)
+        
+        for benchmark in benchmarks:
+            name = prettyNames.get(benchmark, benchmark)
+            print(name, ",", end="", file=cfile)
+            db = data[benchmark]
+            print(', '.join(map(str, (1 - db["compliant %"]))), file=cfile)
+        
+        print("average", ",", end="", file=cfile)
+        print(', '.join(map(str, (1 - comp_val["mean"]))), file=cfile)
+    
+    # 2. Test validity per benchmark
+    with open(f'{outputDir}/pp-test-validity.csv', 'w') as cfile:
+        print("Benchmark, tests, valid tests", file=cfile)
+        for benchmark in benchmarks:
+            name = prettyNames.get(benchmark, benchmark)
+            db = data[benchmark]
+            print(f'{name},{db["tests"].iloc[0]}, {db["tests valid"].iloc[0]}', file=cfile)
+    
+    # 3. Positive vs negative compliance (only for benchmarks with negative tests)
+    with open(f'{outputDir}/pos-neg-cpct.csv', 'w') as cfile:
+        models = data[benchmarks[0]]["model"]
+        pos_sum = pd.Series([0.0 for i in range(len(models))])
+        neg_sum = pd.Series([0.0 for i in range(len(models))])
+        
+        print("Model, Rule % Non-Compliance, Inv Rule % Non-Compliance", file=cfile)
+        
+        for b in benchmarks_with_neg_tests:
+            db = data[b]
+            pos_sum += db["pos rule %"]
+            neg_sum += db["neg rule %"]
+        
+        if len(benchmarks_with_neg_tests) > 0:
+            for m, psum, nsum in zip(models, pos_sum, neg_sum):
+                print(m, ",", (1 - psum/len(benchmarks_with_neg_tests)), ",", (1 - nsum/len(benchmarks_with_neg_tests)), file=cfile)
+    
+    # 4. PromptPex vs baseline comparison
+    with open(f'{outputDir}/pp-compare.csv', 'w') as cfile:
+        models = data[benchmarks[0]]["model"]
+        pp_sum = pd.Series([0.0 for i in range(len(models))])
+        bl_sum = pd.Series([0.0 for i in range(len(models))])
+        
+        print("Model, PromptPex % Non-Compliance, Baseline % Non-Compliance", file=cfile)
+        
+        for b in benchmarks:
+            db = data[b]
+            pp_sum += db["compliant %"]
+            bl_sum += db["baseline %"]
+        
+        for m, psum, bsum in zip(models, pp_sum, bl_sum):
+            print(m, ",", (1 - psum/len(benchmarks)), ",", (1 - bsum/len(benchmarks)), file=cfile)
+    
+    # 5. Rules count per benchmark
+    with open(f'{outputDir}/pp-grounded-rules.csv', 'w') as cfile:
+        print("benchmark, rules, grounded rules", file=cfile)
+        for benchmark in benchmarks:
+            rules_file_path = os.path.join(evalsDir, benchmark, benchmark, 'rules.txt')
+            if os.path.exists(rules_file_path):
+                with open(rules_file_path, 'r') as file:
+                    lines = file.readlines()
+                    rule_count = len([line for line in lines if line.strip()])
+            else:
+                rule_count = 0
+                print(f"Warning: {rules_file_path} not found")
+            
+            name = prettyNames.get(benchmark, benchmark)
+            print(f"{name}, {rule_count}, {rule_count}", file=cfile)
+    
+    print("Generating charts...")
+    
+    # Generate Chart 1: Non-compliance by benchmark and model
+    _plot_non_compliance_by_benchmark(outputDir)
+    
+    # Generate Chart 2: Rule vs Inverse Rule comparison
+    _plot_rule_vs_inverse_rule(outputDir)
+    
+    # Generate Chart 3: PromptPex vs Baseline comparison
+    _plot_promptpex_vs_baseline(outputDir)
+    
+    # Generate Chart 4: Test validity chart
+    _plot_test_validity(outputDir)
+    
+    # Generate Chart 5: Rules count chart
+    _plot_rules_count(outputDir)
+    
+    print(f"Plot-results style analysis complete! Files saved to {outputDir}")
+
+
+def _plot_non_compliance_by_benchmark(outputDir):
+    """Generate clustered bar chart of non-compliance by benchmark and model."""
+    try:
+        df = pd.read_csv(f'{outputDir}/pp-cpct.csv')
+        df = df[df['Benchmark'] != 'average']
+        df.set_index('Benchmark', inplace=True)
+        
+        fig, ax = plt.subplots(figsize=(18, 8))
+        
+        n_benchmarks = len(df.index)
+        n_models = len(df.columns)
+        bar_width = 0.8 / n_models
+        indices = np.arange(n_benchmarks)
+        
+        # Use consistent colors
+        colors = plt.cm.Set3(np.linspace(0, 1, n_models))
+        
+        for i, model in enumerate(df.columns):
+            ax.bar(indices + i * bar_width, df[model] * 100, bar_width, 
+                   label=model, alpha=0.8, color=colors[i], edgecolor='black', linewidth=0.5)
+        
+        ax.set_xticks(indices + bar_width * (n_models - 1) / 2)
+        ax.set_xticklabels(df.index, rotation=45, ha='right', fontsize=10)
+        ax.set_xlabel('Benchmark', fontsize=12)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
+        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        ax.grid(True, alpha=0.3, axis='y')
+        
+        plt.tight_layout()
+        plt.savefig(f'{outputDir}/pp-cpct.pdf', bbox_inches='tight')
+        plt.show()
+        plt.close()
+        print(f"Saved: {outputDir}/pp-cpct.pdf")
+        
+    except Exception as e:
+        print(f"Error generating non-compliance chart: {e}")
+
+
+def _plot_rule_vs_inverse_rule(outputDir):
+    """Generate rule vs inverse rule comparison chart."""
+    try:
+        df = pd.read_csv(f'{outputDir}/pos-neg-cpct.csv')
+        df_filtered = df.dropna(subset=[' Inv Rule % Non-Compliance'])
+        df_filtered = df_filtered[df_filtered[' Inv Rule % Non-Compliance'] != 1.0]
+        
+        if len(df_filtered) == 0:
+            print("No data available for rule vs inverse rule chart")
+            return
+        
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        bar_width = 0.35
+        indices = range(len(df_filtered))
+        
+        ax.bar(indices, df_filtered[' Rule % Non-Compliance'] * 100, bar_width, 
+               label='Rule', alpha=0.8, color='lightcoral', edgecolor='darkred', linewidth=0.8)
+        ax.bar([i + bar_width for i in indices], df_filtered[' Inv Rule % Non-Compliance'] * 100, bar_width, 
+               label='Inverse Rule', alpha=0.8, color='lightgreen', edgecolor='darkgreen', linewidth=0.8)
+        
+        ax.set_xticks([i + bar_width / 2 for i in indices])
+        ax.set_xticklabels(df_filtered['Model'], rotation=0, ha='center', fontsize=11)
+        ax.set_xlabel('Model', fontsize=12)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
+        ax.legend(fontsize=11)
+        ax.grid(True, alpha=0.3, axis='y')
+        
+        plt.tight_layout()
+        plt.savefig(f'{outputDir}/pos-neg-cpct.pdf', bbox_inches='tight')
+        plt.show()
+        plt.close()
+        print(f"Saved: {outputDir}/pos-neg-cpct.pdf")
+        
+    except Exception as e:
+        print(f"Error generating rule vs inverse rule chart: {e}")
+
+
+def _plot_promptpex_vs_baseline(outputDir):
+    """Generate PromptPex vs Baseline comparison chart."""
+    try:
+        df = pd.read_csv(f'{outputDir}/pp-compare.csv')
+        
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        bar_width = 0.35
+        indices = range(len(df))
+        
+        ax.bar(indices, df[' PromptPex % Non-Compliance'] * 100, bar_width, 
+               label='PromptPex', alpha=0.8, color='lightcoral', edgecolor='darkred', linewidth=0.8)
+        ax.bar([i + bar_width for i in indices], df[' Baseline % Non-Compliance'] * 100, bar_width, 
+               label='Baseline', alpha=0.8, color='lightsteelblue', edgecolor='darkblue', linewidth=0.8)
+        
+        ax.set_xticks([i + bar_width / 2 for i in indices])
+        ax.set_xticklabels(df['Model'], rotation=0, ha='center', fontsize=11)
+        ax.set_xlabel('Model', fontsize=12)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
+        ax.legend(fontsize=11)
+        ax.grid(True, alpha=0.3, axis='y')
+        
+        plt.tight_layout()
+        plt.savefig(f'{outputDir}/pp-compare.pdf', bbox_inches='tight')
+        plt.show()
+        plt.close()
+        print(f"Saved: {outputDir}/pp-compare.pdf")
+        
+    except Exception as e:
+        print(f"Error generating PromptPex vs Baseline chart: {e}")
+
+
+def _plot_test_validity(outputDir):
+    """Generate test validity chart."""
+    try:
+        df = pd.read_csv(f'{outputDir}/pp-test-validity.csv')
+        
+        fig, ax = plt.subplots(figsize=(18, 8))
+        
+        plot_columns = [col for col in df.columns if col != 'Benchmark']
+        n_benchmarks = len(df)
+        n_columns = len(plot_columns)
+        bar_width = 0.8 / n_columns
+        x_positions = range(n_benchmarks)
+        
+        colors = ['lightblue', 'lightgreen']
+        
+        for i, col in enumerate(plot_columns):
+            x_offset = [x + (i - (n_columns-1)/2) * bar_width for x in x_positions]
+            ax.bar(x_offset, df[col], width=bar_width, 
+                   label=col, alpha=0.8, color=colors[i % len(colors)], 
+                   edgecolor='black', linewidth=0.5)
+        
+        ax.set_xticks(x_positions)
+        ax.set_xticklabels(df['Benchmark'], rotation=45, ha='right', fontsize=10)
+        ax.set_xlabel('Benchmark', fontsize=12)
+        ax.set_ylabel('Number of Tests', fontsize=12)
+        ax.legend(fontsize=11)
+        ax.grid(True, alpha=0.3, axis='y')
+        
+        plt.tight_layout()
+        plt.savefig(f'{outputDir}/pp-test-validity.pdf', bbox_inches='tight')
+        plt.show()
+        plt.close()
+        print(f"Saved: {outputDir}/pp-test-validity.pdf")
+        
+    except Exception as e:
+        print(f"Error generating test validity chart: {e}")
+
+
+def _plot_rules_count(outputDir):
+    """Generate rules count chart."""
+    try:
+        df = pd.read_csv(f'{outputDir}/pp-grounded-rules.csv')
+        
+        fig, ax = plt.subplots(figsize=(18, 8))
+        
+        plot_columns = [col for col in df.columns if col != 'benchmark']
+        n_benchmarks = len(df)
+        n_columns = len(plot_columns)
+        bar_width = 0.8 / n_columns
+        x_positions = range(n_benchmarks)
+        
+        colors = ['lightcoral', 'lightblue']
+        
+        for i, col in enumerate(plot_columns):
+            x_offset = [x + (i - (n_columns-1)/2) * bar_width for x in x_positions]
+            ax.bar(x_offset, df[col], width=bar_width, 
+                   label=col, alpha=0.8, color=colors[i % len(colors)], 
+                   edgecolor='black', linewidth=0.5)
+        
+        ax.set_xticks(x_positions)
+        ax.set_xticklabels(df['benchmark'], rotation=45, ha='right', fontsize=10)
+        ax.set_xlabel('Benchmark', fontsize=12)
+        ax.set_ylabel('Number of Rules', fontsize=12)
+        ax.legend(fontsize=11)
+        ax.grid(True, alpha=0.3, axis='y')
+        
+        plt.tight_layout()
+        plt.savefig(f'{outputDir}/pp-grounded-rules.pdf', bbox_inches='tight')
+        plt.show()
+        plt.close()
+        print(f"Saved: {outputDir}/pp-grounded-rules.pdf")
+        
+    except Exception as e:
+        print(f"Error generating rules count chart: {e}")
+
+
 def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, model_filter, metric_column="tests compliant", outputDir=None, show_error_bars=False):
     """
     Create a grouped bar plot showing baseline vs main metrics across benchmarks for a specific model only.
@@ -1062,7 +1482,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
 
 
 def run_full_analysis(evalsDir, benchmarks=None, outputDir=None, 
-                     skip_individual=False, skip_aggregated=False, skip_baseline=False):
+                     skip_individual=False, skip_aggregated=False, skip_baseline=False, skip_plotresults=False):
     """Run the complete analysis pipeline."""
     
     if outputDir is None:
@@ -1134,8 +1554,8 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
                     # Sum metrics analysis
                     print("\nComputing benchmark sums...")
                     data, sums = collect_and_sum_benchmark_metrics(benchmarks, evalsDir, columns_of_interest)
-                    print_sums_table(sums, columns_of_interest)
-                    plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir)
+                    #print_sums_table(sums, columns_of_interest)
+                    #plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir)
             
             # Average tests per model
             print("\nComputing average tests per model...")
@@ -1184,6 +1604,14 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
         else:
             print("No baseline data found. Skipping baseline comparison.")
     
+    # Plot-results style analysis
+    if not skip_plotresults:
+        print("\n" + "="*60)
+        print("PLOT-RESULTS STYLE ANALYSIS")
+        print("="*60)
+        
+        generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir)
+    
     print(f"\nAnalysis complete! Plots saved to {outputDir}")
     
 
@@ -1198,6 +1626,7 @@ Examples:
   python analyze_metrics.py -d /path/to/evals -o /path/to/output
   python analyze_metrics.py -b "speech-tag,art-prompt,elements"
   python analyze_metrics.py --skip-baseline --skip-individual
+  python analyze_metrics.py --skip-plotresults
         """
     )
     
@@ -1219,6 +1648,9 @@ Examples:
     
     parser.add_argument('--skip-baseline', action='store_true',
                        help='Skip baseline comparison analysis')
+    
+    parser.add_argument('--skip-plotresults', action='store_true',
+                       help='Skip plot-results style analysis')
     
     args = parser.parse_args()
     
@@ -1248,7 +1680,8 @@ Examples:
         outputDir=outputDir,
         skip_individual=args.skip_individual,
         skip_aggregated=args.skip_aggregated,
-        skip_baseline=args.skip_baseline
+        skip_baseline=args.skip_baseline,
+        skip_plotresults=args.skip_plotresults
     )
 
 
