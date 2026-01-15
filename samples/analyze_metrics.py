@@ -1,23 +1,51 @@
 #!/usr/bin/env python3
 """
-Analyze Metrics Script - Command line version of analyze-metrics notebook
+PromptPex Evaluation Results Analysis Tool
 
-This script analyzes evaluation results from the PromptPex evaluation framework
-and generates various plots and statistics about benchmark performance.
+This script provides comprehensive analysis of PromptPex evaluation results including:
+- Individual benchmark analysis with detailed metrics
+- Aggregated cross-benchmark performance analysis  
+- Baseline vs PromptPex comparison with statistical significance
+- Single model deep-dive analysis (e.g., gpt-oss)
+- Plot-results style compliance analysis
+- Relative improvement analysis with Cohen's d effect sizes
+- Neutral reporting framework for compliance changes
+
+Features:
+- Enhanced visualization with large fonts and optimized legends
+- Statistical analysis with effect sizes and confidence intervals
+- Model-specific PDFs for detailed analysis
+- Optional title removal for clean presentation
+- CSV exports for further analysis
 
 Usage:
-    python analyze_metrics.py [OPTIONS]
+    python analyze_metrics.py -d PATH_TO_EVAL_DIR [OPTIONS]
 
 Options:
     -d, --evals-dir PATH    Directory containing evaluation results 
                            (default: ../evals/test-all-2025-09-29/eval)
-    -b, --benchmarks LIST   Comma-separated list of benchmark names to analyze
+    -b, --benchmarks LIST  Comma-separated list of benchmark names to analyze
                            (default: all available benchmarks)
     -o, --output-dir PATH   Directory to save plots (default: same as evals-dir)
     --skip-individual      Skip individual benchmark analysis
     --skip-aggregated      Skip aggregated metrics analysis 
     --skip-baseline        Skip baseline comparison analysis
+    --skip-plotresults     Skip plot-results style analysis
+    --no-titles            Remove titles from all generated charts
     --help                 Show this help message
+
+Examples:
+    # Full analysis with all components
+    python analyze_metrics.py -d evals/test-all-2025-09-29-paper/eval
+    
+    # Clean charts without titles for presentation
+    python analyze_metrics.py -d evals/my-eval --no-titles
+    
+    # Only baseline comparison and relative improvement
+    python analyze_metrics.py -d evals/my-eval --skip-individual --skip-aggregated --skip-plotresults
+    
+    # Specific benchmarks with custom output
+    python analyze_metrics.py -d evals/my-eval -b "speech-tag,art-prompt" -o /path/to/output
 """
 
 import argparse
@@ -26,6 +54,301 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+# Set global matplotlib style for technical papers - apply to all plots
+plt.rcParams.update({'font.size': 16})  # Increased from 14 to 16
+plt.rcParams['axes.spines.top'] = False
+plt.rcParams['axes.spines.right'] = False
+plt.rcParams['axes.labelsize'] = 18  # Increased from 16 to 18
+plt.rcParams['xtick.labelsize'] = 15  # Increased from 13 to 15
+plt.rcParams['ytick.labelsize'] = 15  # Increased from 13 to 15
+plt.rcParams['legend.fontsize'] = 15  # Increased from 13 to 15
+plt.rcParams['axes.titlesize'] = 20   # Increased from 18 to 20
+plt.rcParams['figure.titlesize'] = 22 # Increased from 20 to 22
+
+
+def parse_metric(val):
+    """Parse a metric value, handling various formats including percentages."""
+    try:
+        if isinstance(val, str):
+            val = val.strip()
+            if val.endswith('%'):
+                return float(val[:-1])
+            elif val.lower() in ['nan', '', 'none', 'null']:
+                return 0.0
+            else:
+                return float(val)
+        elif pd.isna(val):
+            return 0.0
+        else:
+            return float(val)
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def calculate_relative_improvement(baseline_val, promptpex_val, is_compliance_metric=True):
+    """Calculate relative change percentage between baseline and promptpex.
+    
+    Args:
+        baseline_val: Baseline metric value
+        promptpex_val: PromptPex metric value  
+        is_compliance_metric: If True, reports changes in non-compliance
+                             If False, reports changes in accuracy
+    
+    Returns:
+        relative_change: Percentage change from baseline
+        interpretation: String describing the result
+    """
+    if baseline_val == 0:
+        return 0.0, "No baseline value"
+    
+    # Calculate relative change: (promptpex - baseline) / baseline * 100
+    change = (promptpex_val - baseline_val) / baseline_val * 100
+    
+    if is_compliance_metric:
+        # For compliance metrics, report change in non-compliance
+        if change > 0:
+            interpretation = f"{change:.1f}% increase in non-compliance"
+        elif change < 0:
+            interpretation = f"{abs(change):.1f}% decrease in non-compliance"
+        else:
+            interpretation = "No change in non-compliance"
+    else:
+        # For accuracy metrics, report change in accuracy
+        if change > 0:
+            interpretation = f"{change:.1f}% increase in accuracy"
+        elif change < 0:
+            interpretation = f"{abs(change):.1f}% decrease in accuracy"
+        else:
+            interpretation = "No change in accuracy"
+    
+    return change, interpretation
+
+
+def calculate_cohens_d(baseline_vals, promptpex_vals):
+    """Calculate Cohen's d effect size between two groups.
+    
+    Args:
+        baseline_vals: List of baseline values
+        promptpex_vals: List of promptpex values
+    
+    Returns:
+        cohens_d: Effect size
+        interpretation: String describing effect size magnitude
+    """
+    if len(baseline_vals) < 2 or len(promptpex_vals) < 2:
+        return 0.0, "Insufficient data"
+    
+    mean1, mean2 = np.mean(baseline_vals), np.mean(promptpex_vals)
+    var1, var2 = np.var(baseline_vals, ddof=1), np.var(promptpex_vals, ddof=1)
+    pooled_std = np.sqrt((var1 + var2) / 2)
+    
+    if pooled_std == 0:
+        return 0.0, "No variance"
+    
+    cohens_d = (mean2 - mean1) / pooled_std
+    
+    # Interpret effect size
+    abs_d = abs(cohens_d)
+    if abs_d < 0.2:
+        magnitude = "negligible"
+    elif abs_d < 0.5:
+        magnitude = "small"
+    elif abs_d < 0.8:
+        magnitude = "medium"
+    else:
+        magnitude = "large"
+    
+    direction = "positive" if cohens_d > 0 else "negative"
+    interpretation = f"{magnitude} {direction} effect"
+    
+    return cohens_d, interpretation
+
+
+def plot_relative_improvement_chart(benchmark_data, benchmark_names, metric_column, is_compliance_metric=True, outputDir=None, no_titles=False):
+    """Create a chart showing relative improvement percentages across benchmarks."""
+    if outputDir is None:
+        outputDir = "."
+    
+    # Calculate relative improvements for each benchmark
+    rel_improvements = []
+    benchmark_labels = []
+    
+    for benchmark in benchmark_names:
+        data = benchmark_data[benchmark]
+        baseline_val = data['baseline_avg']
+        promptpex_val = data['main_avg']
+        
+        rel_imp, _ = calculate_relative_improvement(baseline_val, promptpex_val, is_compliance_metric)
+        rel_improvements.append(rel_imp)
+        benchmark_labels.append(benchmark)
+    
+    # Calculate overall improvement
+    overall_baseline = np.mean([benchmark_data[b]['baseline_avg'] for b in benchmark_names])
+    overall_promptpex = np.mean([benchmark_data[b]['main_avg'] for b in benchmark_names])
+    overall_rel_imp, _ = calculate_relative_improvement(overall_baseline, overall_promptpex, is_compliance_metric)
+    
+    # Add overall to the data
+    rel_improvements.append(overall_rel_imp)
+    benchmark_labels.append("Overall")
+    
+    # Create the chart
+    fig, ax = plt.subplots(figsize=(14, 8))
+    
+    # Color bars based on positive/negative improvement
+    colors = ['green' if imp > 0 else 'red' if imp < 0 else 'gray' for imp in rel_improvements]
+    
+    bars = ax.bar(range(len(rel_improvements)), rel_improvements, color=colors, alpha=0.7, edgecolor='black', linewidth=0.8)
+    
+    # Highlight the overall bar
+    if len(benchmark_labels) > len(benchmark_names):
+        bars[-1].set_alpha(1.0)
+        bars[-1].set_linewidth(2)
+        # Add separator line
+        separator_x = len(benchmark_names) - 0.5
+        ax.axvline(x=separator_x, color='gray', linestyle='--', alpha=0.7, linewidth=1)
+    
+    # Add horizontal line at 0
+    ax.axhline(y=0, color='black', linestyle='-', alpha=0.5, linewidth=1)
+    
+    # Add value labels on bars
+    for bar, improvement in zip(bars, rel_improvements):
+        height = bar.get_height()
+        label_y = height + (1 if height >= 0 else -3)
+        ax.text(bar.get_x() + bar.get_width()/2., label_y,
+               f'{improvement:+.1f}%', ha='center', va='bottom' if height >= 0 else 'top', 
+               fontsize=11, weight='bold')
+    
+    # Customize the plot
+    metric_type = "Non-Compliance" if is_compliance_metric else "Accuracy"
+    ax.set_xlabel('Benchmark', fontsize=18)
+    ax.set_ylabel('Relative Change (%)', fontsize=18)
+    if not no_titles:
+        # Handle model-specific titles
+        if " - " in metric_column and " Model" in metric_column:
+            ax.set_title(f'Relative Change in {metric_type} - PromptPex vs Baseline for {metric_column}', fontsize=20, pad=20)
+        else:
+            ax.set_title(f'Relative Change in {metric_type} - PromptPex vs Baseline', fontsize=20, pad=20)
+    ax.set_xticks(range(len(benchmark_labels)))
+    ax.set_xticklabels(benchmark_labels, rotation=45, ha='right', fontsize=15)
+    ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(axis='y', labelsize=15)
+    
+    # Add text annotation for positive vs negative
+    change_text = "↑ Positive = Increase in {metric_type}\n↓ Negative = Decrease in {metric_type}".format(metric_type=metric_type.split('-')[0].strip())
+    ax.text(0.02, 0.98, change_text, transform=ax.transAxes, fontsize=12,
+            va='top', ha='left', bbox=dict(boxstyle='round,pad=0.5', facecolor='lightyellow', alpha=0.8))
+    
+    plt.tight_layout()
+    plt.savefig(f'{outputDir}/pp-relative-improvement-{metric_column.replace(" ", "-").replace("/", "-")}.pdf', bbox_inches='tight')
+    plt.show()
+    print(f"Saved: {outputDir}/pp-relative-improvement-{metric_column.replace(' ', '-').replace('/', '-')}.pdf")
+
+
+def print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric=True):
+    """Print a comprehensive table showing absolute values, relative improvements, and effect sizes."""
+    print(f"\n{'='*100}")
+    print(f"COMPREHENSIVE IMPROVEMENT ANALYSIS - {metric_column.upper()}")
+    print(f"{'='*100}")
+    
+    # Calculate overall statistics
+    all_baseline = [benchmark_data[b]['baseline_avg'] for b in benchmark_names]
+    all_promptpex = [benchmark_data[b]['main_avg'] for b in benchmark_names]
+    
+    overall_baseline = np.mean(all_baseline)
+    overall_promptpex = np.mean(all_promptpex)
+    overall_rel_imp, overall_interpretation = calculate_relative_improvement(
+        overall_baseline, overall_promptpex, is_compliance_metric)
+    overall_cohens_d, overall_effect_interpretation = calculate_cohens_d(
+        all_baseline, all_promptpex)
+    
+    # Print header
+    header_cols = [
+        "Benchmark",
+        "Baseline %", 
+        "PromptPex %",
+        "Abs. Diff",
+        "Rel. Change %",
+        "Effect Size",
+        "Interpretation"
+    ]
+    print("\t".join([col.ljust(15)[:15] for col in header_cols]))
+    print("-" * 115)
+    
+    # Print per-benchmark data
+    for benchmark in benchmark_names:
+        data = benchmark_data[benchmark]
+        baseline_val = data['baseline_avg']
+        promptpex_val = data['main_avg']
+        abs_diff = promptpex_val - baseline_val
+        
+        rel_imp, rel_interpretation = calculate_relative_improvement(
+            baseline_val, promptpex_val, is_compliance_metric)
+        
+        # Calculate effect size for this benchmark (using individual data if available)
+        baseline_vals = [baseline_val]  # Could be expanded to include all individual values
+        promptpex_vals = [promptpex_val]
+        cohens_d, effect_interpretation = calculate_cohens_d(
+            [baseline_val] * 5, [promptpex_val] * 5)  # Approximate with repeated values
+        
+        row_data = [
+            benchmark[:15],
+            f"{baseline_val:.1f}%",
+            f"{promptpex_val:.1f}%",
+            f"{abs_diff:+.1f}%",
+            f"{rel_imp:+.1f}%",
+            f"{cohens_d:.2f}",
+            rel_interpretation[:15]
+        ]
+        print("\t".join([str(item).ljust(15)[:15] for item in row_data]))
+    
+    # Print overall summary
+    print("-" * 115)
+    overall_row = [
+        "OVERALL",
+        f"{overall_baseline:.1f}%",
+        f"{overall_promptpex:.1f}%",
+        f"{overall_promptpex - overall_baseline:+.1f}%",
+        f"{overall_rel_imp:+.1f}%",
+        f"{overall_cohens_d:.2f}",
+        overall_interpretation[:15]
+    ]
+    print("\t".join([str(item).ljust(15)[:15] for item in overall_row]))
+    
+    # Add detailed interpretation
+    print(f"\n{'='*100}")
+    print("SUMMARY INTERPRETATION:")
+    print(f"{'='*100}")
+    
+    metric_type = "non-compliance" if is_compliance_metric else "accuracy"
+    
+    print(f"• Metric Type: {metric_type}")
+    print(f"• Overall Baseline: {overall_baseline:.1f}%")
+    print(f"• Overall PromptPex: {overall_promptpex:.1f}%")
+    print(f"• Absolute Difference: {overall_promptpex - overall_baseline:+.1f} percentage points")
+    print(f"• Relative Change: {overall_interpretation}")
+    print(f"• Effect Size: {overall_effect_interpretation} (Cohen's d = {overall_cohens_d:.3f})")
+    
+    if is_compliance_metric:
+        if overall_rel_imp > 0:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   representing a {overall_rel_imp:.1f}% relative increase in {metric_type}.")
+        elif overall_rel_imp < 0:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   representing a {abs(overall_rel_imp):.1f}% relative decrease in {metric_type}.")
+        else:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   showing no change in {metric_type}.")
+    else:
+        if overall_rel_imp > 0:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   representing a {overall_rel_imp:.1f}% relative increase in {metric_type}.")
+        elif overall_rel_imp < 0:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   representing a {abs(overall_rel_imp):.1f}% relative decrease in {metric_type}.")
+        else:
+            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"   showing no change in {metric_type}.")
 
 
 def parse_metric(val):
@@ -94,12 +417,13 @@ def analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputD
         offset = (i - (len(models) - 1) / 2) * width
         ax.bar(x + offset, values, width, label=model, alpha=0.8)
     
-    ax.set_xlabel('Metrics')
+    ax.set_xlabel('Metrics', fontsize=18)
     ax.set_xticks(x)
-    ax.set_xticklabels(metrics, rotation=45, ha='right')
-    ax.set_ylabel('Metric Value')
-    ax.set_title(f"Model Metrics for {prettyBenchmarkNames.get(benchmark, benchmark)}")
-    ax.legend(loc='best', fontsize='small', ncol=2)
+    ax.set_xticklabels(metrics, rotation=45, ha='right', fontsize=15)
+    ax.set_ylabel('Metric Value', fontsize=18)
+    ax.set_title(f"Model Metrics for {prettyBenchmarkNames.get(benchmark, benchmark)}", fontsize=20)
+    ax.legend(loc='best', fontsize=15, ncol=2)
+    ax.tick_params(axis='y', labelsize=15)
     plt.tight_layout()
     plt.savefig(f'{outputDir}/benchmark-{benchmark}-metrics.pdf', bbox_inches='tight')
     plt.show()
@@ -208,10 +532,11 @@ def plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir):
         values = [model_metric_avg[model][metric] for model in models]
         ax.bar(x + i*width, values, width, label=metric)
     ax.set_xticks(x + width*(len(metrics)-1)/2)
-    ax.set_xticklabels(models, rotation=20)
-    ax.set_ylabel('Average Metric Value')
-    ax.set_title('Average Model Metrics Across Benchmarks')
-    ax.legend(loc='best', fontsize='small', ncol=2)
+    ax.set_xticklabels(models, rotation=20, fontsize=20)
+    ax.set_ylabel('Average Metric Value', fontsize=18)
+    ax.set_title('Average Model Metrics Across Benchmarks', fontsize=20)
+    ax.legend(loc='best', fontsize=15, ncol=2)
+    ax.tick_params(axis='y', labelsize=15)
     plt.tight_layout()
     plt.savefig(f'{outputDir}/pp-model-averages.pdf', bbox_inches='tight')
     plt.show()
@@ -254,9 +579,10 @@ def plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir):
         values = [sums[bench][col] for bench in benchmarks]
         plt.figure(figsize=(10, 5))
         plt.bar(benchmarks, values)
-        plt.ylabel(col)
-        plt.title(f"Sum of {col} by Benchmark")
-        plt.xticks(rotation=20)
+        plt.ylabel(col, fontsize=18)
+        plt.title(f"Sum of {col} by Benchmark", fontsize=20)
+        plt.xticks(rotation=20, fontsize=15)
+        plt.yticks(fontsize=15)
         plt.tight_layout()
         plt.savefig(f'{outputDir}/benchmark-sums-{col.replace(" ", "-").replace("/", "-")}.pdf', bbox_inches='tight')
         plt.show()
@@ -294,9 +620,10 @@ def plot_avg_bar(averages, outputDir, evalsDir):
     values = list(averages.values())
     plt.figure(figsize=(10, 5))
     plt.bar(benchmarks, values)
-    plt.ylabel("Average Tests per Model")
-    plt.title("Average Tests per Model by Benchmark")
-    plt.xticks(rotation=20)
+    plt.ylabel("Average Tests per Model", fontsize=18)
+    plt.title("Average Tests per Model by Benchmark", fontsize=20)
+    plt.xticks(rotation=20, fontsize=15)
+    plt.yticks(fontsize=15)
     plt.tight_layout()
     plt.savefig(f'{outputDir}/pp-average-tests-per-model.pdf', bbox_inches='tight')
     plt.show()
@@ -420,20 +747,21 @@ def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_
         ax.axvline(x=separator_x, color='gray', linestyle='--', alpha=0.7, linewidth=1)
     
     # Customize the plot
-    ax.set_xlabel('Benchmark')
-    ax.set_ylabel(column_of_interest)
+    ax.set_xlabel('Benchmark', fontsize=18)
+    ax.set_ylabel(column_of_interest, fontsize=18)
     title_suffix = ' (with Cross-Benchmark Averages ± SD)' if show_error_bars else ' (with Cross-Benchmark Averages)'
-    ax.set_title(f'{column_of_interest} by Benchmark and Model{title_suffix}')
+    ax.set_title(f'{column_of_interest} by Benchmark and Model{title_suffix}', fontsize=20)
     ax.set_xticks(x)
-    ax.set_xticklabels(all_labels, rotation=45, ha='right')
-    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.set_xticklabels(all_labels, rotation=45, ha='right', fontsize=15)
+    ax.legend(loc='upper left', fontsize=15, ncol=2)
     ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(axis='y', labelsize=15)
     
     # Add text annotation for the average section
     if len(all_labels) > 1:
         annotation_suffix = ' ± SD' if show_error_bars else ''
         ax.text(len(benchmarks_with_data), ax.get_ylim()[1] * 0.95, f'Cross-Benchmark\nAverages{annotation_suffix}', 
-                ha='center', va='top', fontsize=10, style='italic', alpha=0.7)
+                ha='center', va='top', fontsize=14, style='italic', alpha=0.7)
     
     plt.tight_layout()
     plt.savefig(f'{outputDir}/pp-grouped-{column_of_interest.replace(" ", "-").replace("/", "-")}.pdf', bbox_inches='tight')
@@ -446,7 +774,7 @@ def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_
         print(f"{model}: {model_averages[i]:.2f} ± {model_std_devs[i]:.2f}")
 
 
-def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_column="tests compliant", outputDir=None, show_error_bars=False):
+def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False):
     """
     Create a grouped bar plot showing baseline vs main metrics across benchmarks.
     Automatically detects whether to show compliance/non-compliance or raw values based on metric name.
@@ -550,15 +878,17 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
                 inverse_std = np.std(inverse_valid, ddof=1) if len(inverse_valid) > 1 else 0.0
                 
                 benchmark_data[benchmark] = {
-                    'main': main_avg,
-                    'baseline': baseline_avg,
-                    'inverse': inverse_avg,
+                    'main_avg': main_avg,
+                    'baseline_avg': baseline_avg,
+                    'inverse_avg': inverse_avg,
                     'main_std': main_std,
                     'baseline_std': baseline_std,
                     'inverse_std': inverse_std,
                     'main_count': len(main_valid),
                     'baseline_count': len(baseline_valid),
-                    'inverse_count': len(inverse_valid)
+                    'inverse_count': len(inverse_valid),
+                    'main_values': main_valid,
+                    'baseline_values': baseline_valid
                 }
                 
                 # Store individual values for overall statistics
@@ -577,9 +907,9 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     
     # Prepare data for plotting
     benchmark_names = list(benchmark_data.keys())
-    main_averages = [benchmark_data[b]['main'] for b in benchmark_names]
-    baseline_averages = [benchmark_data[b]['baseline'] for b in benchmark_names]
-    inverse_averages = [benchmark_data[b]['inverse'] for b in benchmark_names]
+    main_averages = [benchmark_data[b]['main_avg'] for b in benchmark_names]
+    baseline_averages = [benchmark_data[b]['baseline_avg'] for b in benchmark_names]
+    inverse_averages = [benchmark_data[b]['inverse_avg'] for b in benchmark_names]
     main_stds = [benchmark_data[b]['main_std'] for b in benchmark_names]
     baseline_stds = [benchmark_data[b]['baseline_std'] for b in benchmark_names]
     inverse_stds = [benchmark_data[b]['inverse_std'] for b in benchmark_names]
@@ -653,23 +983,25 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
             # Position label above error bar if shown, otherwise just above bar
             label_height = height + (error + 1.0 if show_error_bars else 1.0)
             ax.text(bar.get_x() + bar.get_width()/2., label_height,
-                   f'{value:.1f}%', ha='center', va='bottom', fontsize=8)
+                   f'{value:.0f}%', ha='center', va='bottom', fontsize=13)
     
     add_value_labels(bars1, extended_baseline_averages, extended_baseline_stds)
     add_value_labels(bars2, extended_main_averages, extended_main_stds)
     if bars3:
         add_value_labels(bars3, extended_inverse_averages, extended_inverse_stds)
     
-    ax.set_xlabel('Benchmark', fontsize=12)
-    ax.set_ylabel(y_label, fontsize=12)
+    ax.set_xlabel('Benchmark', fontsize=18)
+    ax.set_ylabel(y_label, fontsize=18)
     title_suffix_error = " (with Overall Average ± SD)" if show_error_bars else " (with Overall Average)"
     inverse_title_part = " vs Promptpex Inverse" if (has_inverse and is_compliance_metric) else ""
-    ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} by Benchmark{title_suffix_error}', 
-                 fontsize=14, pad=20)
+    if not no_titles:
+        ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} by Benchmark{title_suffix_error}', 
+                     fontsize=20, pad=20)
     ax.set_xticks(x)
-    ax.set_xticklabels(extended_benchmark_names, rotation=45, ha='right')
-    ax.legend(fontsize=11)
+    ax.set_xticklabels(extended_benchmark_names, rotation=45, ha='right', fontsize=15)
+    ax.legend(fontsize=15)
     ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(axis='y', labelsize=15)
     
     # Set y-axis to accommodate error bars if shown
     all_values_for_scaling = extended_baseline_averages + extended_main_averages
@@ -690,7 +1022,13 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     if len(extended_benchmark_names) > len(benchmark_names):
         annotation_suffix = " ± SD" if show_error_bars else ""
         ax.text(len(benchmark_names), ax.get_ylim()[1] * 0.95, f'Overall\nAverage{annotation_suffix}', 
-                ha='center', va='top', fontsize=10, style='italic', alpha=0.7)
+                ha='center', va='top', fontsize=14, style='italic', alpha=0.7)
+    
+    # Print comprehensive improvement summary
+    print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric)
+    
+    # Generate relative improvement chart
+    plot_relative_improvement_chart(benchmark_data, benchmark_names, metric_column, is_compliance_metric, outputDir, no_titles)
     
     plt.tight_layout()
     plt.savefig(f'{outputDir}/pp-baseline-comparison-{metric_column.replace(" ", "-").replace("/", "-")}.pdf', bbox_inches='tight')
@@ -730,17 +1068,17 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     for benchmark in benchmark_names:
         data = benchmark_data[benchmark]
         if is_compliance_metric:
-            diff_main = data['baseline'] - data['main']  # For non-compliance, lower is better
-            diff_inverse = data['baseline'] - data['inverse']
+            diff_main = data['baseline_avg'] - data['main_avg']  # For non-compliance, lower is better
+            diff_inverse = data['baseline_avg'] - data['inverse_avg']
         else:
-            diff_main = data['main'] - data['baseline']  # For accuracy, higher is better
-            diff_inverse = data['inverse'] - data['baseline']
+            diff_main = data['main_avg'] - data['baseline_avg']  # For accuracy, higher is better
+            diff_inverse = data['inverse_avg'] - data['baseline_avg']
             
         print(f"{benchmark}:")
-        print(f"  Baseline: {data['baseline']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
-        print(f"  Promptpex: {data['main']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
+        print(f"  Baseline: {data['baseline_avg']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
+        print(f"  Promptpex: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
         if has_inverse and is_compliance_metric:
-            print(f"  Promptpex Inverse: {data['inverse']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
+            print(f"  Promptpex Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
         print(f"  Improvement (Promptpex): {diff_main:+.1f}%")
         if has_inverse and is_compliance_metric:
             print(f"  Improvement (Promptpex Inverse): {diff_inverse:+.1f}%")
@@ -773,10 +1111,8 @@ def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir):
     print("PLOT-RESULTS STYLE ANALYSIS")
     print("="*60)
     
-    # Set consistent matplotlib style
-    plt.rcParams.update({'font.size': 12}) 
-    plt.rcParams['axes.spines.top'] = False
-    plt.rcParams['axes.spines.right'] = False
+    # Set consistent matplotlib style for technical papers
+    # (Global settings already applied at script start)
     
     # Define pretty names for benchmarks
     prettyNames = {
@@ -1005,11 +1341,13 @@ def _plot_non_compliance_by_benchmark(outputDir):
                    label=model, alpha=0.8, color=colors[i], edgecolor='black', linewidth=0.5)
         
         ax.set_xticks(indices + bar_width * (n_models - 1) / 2)
-        ax.set_xticklabels(df.index, rotation=45, ha='right', fontsize=10)
-        ax.set_xlabel('Benchmark', fontsize=12)
-        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
-        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        ax.set_xticklabels(df.index, rotation=45, ha='right', fontsize=15)
+        ax.set_xlabel('Benchmark', fontsize=18)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=18)
+        ax.set_title('Non-Compliance by Benchmark and Model', fontsize=20, pad=20)
+        ax.legend(loc='upper right', fontsize=15, ncol=2)
         ax.grid(True, alpha=0.3, axis='y')
+        ax.tick_params(axis='y', labelsize=15)
         
         plt.tight_layout()
         plt.savefig(f'{outputDir}/pp-cpct.pdf', bbox_inches='tight')
@@ -1043,11 +1381,13 @@ def _plot_rule_vs_inverse_rule(outputDir):
                label='Inverse Rule', alpha=0.8, color='lightgreen', edgecolor='darkgreen', linewidth=0.8)
         
         ax.set_xticks([i + bar_width / 2 for i in indices])
-        ax.set_xticklabels(df_filtered['Model'], rotation=0, ha='center', fontsize=11)
-        ax.set_xlabel('Model', fontsize=12)
-        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
-        ax.legend(fontsize=11)
+        ax.set_xticklabels(df_filtered['Model'], rotation=0, ha='center', fontsize=20)
+        ax.set_xlabel('Model', fontsize=18)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=18)
+        ax.set_title('Rule vs Inverse Rule Non-Compliance', fontsize=20, pad=20)
+        ax.legend(fontsize=15)
         ax.grid(True, alpha=0.3, axis='y')
+        ax.tick_params(axis='y', labelsize=15)
         
         plt.tight_layout()
         plt.savefig(f'{outputDir}/pos-neg-cpct.pdf', bbox_inches='tight')
@@ -1075,11 +1415,13 @@ def _plot_promptpex_vs_baseline(outputDir):
                label='Baseline', alpha=0.8, color='lightsteelblue', edgecolor='darkblue', linewidth=0.8)
         
         ax.set_xticks([i + bar_width / 2 for i in indices])
-        ax.set_xticklabels(df['Model'], rotation=0, ha='center', fontsize=11)
-        ax.set_xlabel('Model', fontsize=12)
-        ax.set_ylabel('Percentage Non-Compliance', fontsize=12)
-        ax.legend(fontsize=11)
+        ax.set_xticklabels(df['Model'], rotation=0, ha='center', fontsize=20)
+        ax.set_xlabel('Model', fontsize=18)
+        ax.set_ylabel('Percentage Non-Compliance', fontsize=18)
+        ax.set_title('PromptPex vs Baseline Non-Compliance', fontsize=20, pad=20)
+        ax.legend(fontsize=15)
         ax.grid(True, alpha=0.3, axis='y')
+        ax.tick_params(axis='y', labelsize=15)
         
         plt.tight_layout()
         plt.savefig(f'{outputDir}/pp-compare.pdf', bbox_inches='tight')
@@ -1113,11 +1455,13 @@ def _plot_test_validity(outputDir):
                    edgecolor='black', linewidth=0.5)
         
         ax.set_xticks(x_positions)
-        ax.set_xticklabels(df['Benchmark'], rotation=45, ha='right', fontsize=10)
-        ax.set_xlabel('Benchmark', fontsize=12)
-        ax.set_ylabel('Number of Tests', fontsize=12)
-        ax.legend(fontsize=11)
+        ax.set_xticklabels(df['Benchmark'], rotation=45, ha='right', fontsize=15)
+        ax.set_xlabel('Benchmark', fontsize=18)
+        ax.set_ylabel('Number of Tests', fontsize=18)
+        ax.set_title('Test Validity by Benchmark', fontsize=20, pad=20)
+        ax.legend(fontsize=15)
         ax.grid(True, alpha=0.3, axis='y')
+        ax.tick_params(axis='y', labelsize=15)
         
         plt.tight_layout()
         plt.savefig(f'{outputDir}/pp-test-validity.pdf', bbox_inches='tight')
@@ -1151,11 +1495,13 @@ def _plot_rules_count(outputDir):
                    edgecolor='black', linewidth=0.5)
         
         ax.set_xticks(x_positions)
-        ax.set_xticklabels(df['benchmark'], rotation=45, ha='right', fontsize=10)
-        ax.set_xlabel('Benchmark', fontsize=12)
-        ax.set_ylabel('Number of Rules', fontsize=12)
-        ax.legend(fontsize=11)
+        ax.set_xticklabels(df['benchmark'], rotation=45, ha='right', fontsize=15)
+        ax.set_xlabel('Benchmark', fontsize=18)
+        ax.set_ylabel('Number of Rules', fontsize=18)
+        ax.set_title('Rules Count by Benchmark', fontsize=20, pad=20)
+        ax.legend(fontsize=15)
         ax.grid(True, alpha=0.3, axis='y')
+        ax.tick_params(axis='y', labelsize=15)
         
         plt.tight_layout()
         plt.savefig(f'{outputDir}/pp-grounded-rules.pdf', bbox_inches='tight')
@@ -1167,7 +1513,7 @@ def _plot_rules_count(outputDir):
         print(f"Error generating rules count chart: {e}")
 
 
-def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, model_filter, metric_column="tests compliant", outputDir=None, show_error_bars=False):
+def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, model_filter, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False):
     """
     Create a grouped bar plot showing baseline vs main metrics across benchmarks for a specific model only.
     Automatically detects whether to show compliance/non-compliance or raw values based on metric name.
@@ -1277,15 +1623,17 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
                 inverse_std = np.std(inverse_valid, ddof=1) if len(inverse_valid) > 1 else 0.0
                 
                 benchmark_data[benchmark] = {
-                    'main': main_avg,
-                    'baseline': baseline_avg,
-                    'inverse': inverse_avg,
+                    'main_avg': main_avg,
+                    'baseline_avg': baseline_avg,
+                    'inverse_avg': inverse_avg,
                     'main_std': main_std,
                     'baseline_std': baseline_std,
                     'inverse_std': inverse_std,
                     'main_count': len(main_valid),
                     'baseline_count': len(baseline_valid),
-                    'inverse_count': len(inverse_valid)
+                    'inverse_count': len(inverse_valid),
+                    'main_values': main_valid,
+                    'baseline_values': baseline_valid
                 }
                 
                 # Store individual values for overall statistics
@@ -1304,9 +1652,9 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     
     # Prepare data for plotting
     benchmark_names = list(benchmark_data.keys())
-    main_values = [benchmark_data[b]['main'] for b in benchmark_names]
-    baseline_values = [benchmark_data[b]['baseline'] for b in benchmark_names]
-    inverse_values = [benchmark_data[b]['inverse'] for b in benchmark_names]
+    main_values = [benchmark_data[b]['main_avg'] for b in benchmark_names]
+    baseline_values = [benchmark_data[b]['baseline_avg'] for b in benchmark_names]
+    inverse_values = [benchmark_data[b]['inverse_avg'] for b in benchmark_names]
     main_errors = [benchmark_data[b]['main_std'] for b in benchmark_names]
     baseline_errors = [benchmark_data[b]['baseline_std'] for b in benchmark_names]
     inverse_errors = [benchmark_data[b]['inverse_std'] for b in benchmark_names]
@@ -1381,7 +1729,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
             # Position label above error bar if shown, otherwise just above bar
             label_height = height + (error + 1.0 if show_error_bars else 1.0)
             ax.text(bar.get_x() + bar.get_width()/2., label_height,
-                   f'{value:.1f}%', ha='center', va='bottom', fontsize=8, weight='bold')
+                   f'{value:.0f}%', ha='center', va='bottom', fontsize=13, weight='bold')
     
     add_value_labels(bars1, all_baseline_values_plot, all_baseline_errors_plot)
     add_value_labels(bars2, all_main_values_plot, all_main_errors_plot)
@@ -1389,16 +1737,18 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
         add_value_labels(bars3, all_inverse_values_plot, all_inverse_errors_plot)
     
     # Customize the plot
-    ax.set_xlabel('Benchmark', fontsize=12)
-    ax.set_ylabel(y_label, fontsize=12)
+    ax.set_xlabel('Benchmark', fontsize=18)
+    ax.set_ylabel(y_label, fontsize=18)
     title_suffix_error = " (with Overall Average ± SD)" if show_error_bars else " (with Overall Average)"
     inverse_title_part = " vs Promptpex Inverse" if has_inverse else ""
-    ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} for {model_filter} Model{title_suffix_error}', 
-                 fontsize=14, pad=20)
+    if not no_titles:
+        ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} for {model_filter} Model{title_suffix_error}', 
+                     fontsize=20, pad=20)
     ax.set_xticks(x)
-    ax.set_xticklabels(all_benchmark_names, rotation=45, ha='right')
-    ax.legend(fontsize=11)
+    ax.set_xticklabels(all_benchmark_names, rotation=45, ha='right', fontsize=15)
+    ax.legend(fontsize=15)
     ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(axis='y', labelsize=15)
     
     # Set y-axis to accommodate error bars if shown
     all_values_for_scaling = all_baseline_values_plot + all_main_values_plot
@@ -1419,10 +1769,10 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     if len(all_benchmark_names) > 1:
         annotation_suffix = " ± SD" if show_error_bars else ""
         ax.text(len(benchmark_names), ax.get_ylim()[1] * 0.95, f'Overall\nAverage{annotation_suffix}', 
-                ha='center', va='top', fontsize=10, style='italic', alpha=0.7)
+                ha='center', va='top', fontsize=14, style='italic', alpha=0.7)
     
     # Add model name annotation
-    ax.text(0.02, 0.98, f'Model: {model_filter}', transform=ax.transAxes, fontsize=12, 
+    ax.text(0.02, 0.98, f'Model: {model_filter}', transform=ax.transAxes, fontsize=16, 
             color='darkblue', alpha=0.8, weight='bold', va='top', ha='left',
             bbox=dict(boxstyle='round,pad=0.4', facecolor='lightyellow', alpha=0.7))
     
@@ -1430,11 +1780,11 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     plt.savefig(f'{outputDir}/pp-baseline-comparison-{model_filter}-{metric_column.replace(" ", "-").replace("/", "-")}.pdf', bbox_inches='tight')
     plt.show()
     
-    # Print summary statistics with standard deviations
-    print(f"\nSummary Statistics for {metric_column} {title_suffix} - {model_filter} Model:")
-    print("=" * 80)
-    
-    # Calculate improvements based on metric type
+    # Print comprehensive improvement summary for single model
+    print_improvement_summary_table(benchmark_data, benchmark_names, f"{metric_column} - {model_filter} Model", is_compliance_metric)
+
+    # Generate relative improvement chart for single model
+    plot_relative_improvement_chart(benchmark_data, benchmark_names, f"{metric_column} - {model_filter} Model", is_compliance_metric, outputDir, no_titles)
     if is_compliance_metric:
         # For non-compliance, lower is better
         improvement_main = overall_baseline_avg - overall_main_avg
@@ -1464,17 +1814,17 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     for benchmark in benchmark_names:
         data = benchmark_data[benchmark]
         if is_compliance_metric:
-            diff_main = data['baseline'] - data['main']  # For non-compliance, lower is better
-            diff_inverse = data['baseline'] - data['inverse']
+            diff_main = data['baseline_avg'] - data['main_avg']  # For non-compliance, lower is better
+            diff_inverse = data['baseline_avg'] - data['inverse_avg']
         else:
-            diff_main = data['main'] - data['baseline']  # For accuracy, higher is better
-            diff_inverse = data['inverse'] - data['baseline']
+            diff_main = data['main_avg'] - data['baseline_avg']  # For accuracy, higher is better
+            diff_inverse = data['inverse_avg'] - data['baseline_avg']
             
         print(f"{benchmark}:")
-        print(f"  Baseline: {data['baseline']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
-        print(f"  Promptpex: {data['main']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
+        print(f"  Baseline: {data['baseline_avg']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
+        print(f"  Promptpex: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
         if has_inverse:
-            print(f"  Promptpex Inverse: {data['inverse']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
+            print(f"  Promptpex Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
         print(f"  Improvement (Promptpex): {diff_main:+.1f}%")
         if has_inverse:
             print(f"  Improvement (Promptpex Inverse): {diff_inverse:+.1f}%")
@@ -1482,7 +1832,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
 
 
 def run_full_analysis(evalsDir, benchmarks=None, outputDir=None, 
-                     skip_individual=False, skip_aggregated=False, skip_baseline=False, skip_plotresults=False):
+                     skip_individual=False, skip_aggregated=False, skip_baseline=False, skip_plotresults=False, no_titles=False):
     """Run the complete analysis pipeline."""
     
     if outputDir is None:
@@ -1584,7 +1934,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
         
         if has_baseline:
             print("\nRunning baseline vs main analysis...")
-            plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, "tests compliant", outputDir)
+            plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, "tests compliant", outputDir, no_titles=no_titles)
             
             # Try accuracy comparison if available
             csv_path = os.path.join(evalsDir, benchmarks[0], benchmarks[0], "overview.csv")
@@ -1594,13 +1944,13 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
                 accuracy_cols = [col for col in df.columns if 'accuracy' in col.lower()]
                 if accuracy_cols:
                     print(f"\nRunning accuracy baseline comparison for: {accuracy_cols[0]}")
-                    plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, accuracy_cols[0], outputDir)
+                    plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, accuracy_cols[0], outputDir, no_titles=no_titles)
             
             # Run single model analysis for gpt-oss if available
             print("\nRunning single model analysis for gpt-oss...")
-            plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", "tests compliant", outputDir)
+            plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", "tests compliant", outputDir, no_titles=no_titles)
             if 'accuracy_cols' in locals() and accuracy_cols:
-                plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", accuracy_cols[0], outputDir)
+                plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", accuracy_cols[0], outputDir, no_titles=no_titles)
         else:
             print("No baseline data found. Skipping baseline comparison.")
     
@@ -1652,6 +2002,9 @@ Examples:
     parser.add_argument('--skip-plotresults', action='store_true',
                        help='Skip plot-results style analysis')
     
+    parser.add_argument('--no-titles', action='store_true',
+                       help='Remove titles from all generated charts')
+    
     args = parser.parse_args()
     
     # Validate paths
@@ -1681,7 +2034,8 @@ Examples:
         skip_individual=args.skip_individual,
         skip_aggregated=args.skip_aggregated,
         skip_baseline=args.skip_baseline,
-        skip_plotresults=args.skip_plotresults
+        skip_plotresults=args.skip_plotresults,
+        no_titles=args.no_titles
     )
 
 

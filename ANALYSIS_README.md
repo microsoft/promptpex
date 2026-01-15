@@ -40,6 +40,15 @@ The evaluation system generates results in CSV format from various benchmark tes
 3. **Baseline vs PromptPex Comparison**: Side-by-side comparison with baseline performance
 4. **Single Model Analysis**: Focused analysis for specific models (e.g., gpt-oss)
 5. **Plot-Results Style Analysis**: Compliance-focused analysis with 5 specialized chart types
+6. **Relative Improvement Analysis**: Statistical analysis with Cohen's d effect sizes and neutral reporting
+
+### Enhanced Visualization Features
+
+- **Larger Fonts**: 20px font sizes for model labels in charts for better readability
+- **Optimized Legends**: Smart legend placement to prevent chart widening
+- **Title Control**: Optional `--no-titles` flag for clean chart presentation
+- **Neutral Reporting**: Non-judgmental framing of compliance changes
+- **Model-Specific PDFs**: Dedicated relative improvement charts for individual models
 
 ### Chart Types Generated
 
@@ -47,6 +56,8 @@ The evaluation system generates results in CSV format from various benchmark tes
 - **Performance by Benchmark**: Shows main metrics and PromptPex inverse performance
 - **Aggregated Metrics**: Overall performance across all benchmarks
 - **Baseline Comparison**: PromptPex vs baseline performance with statistical significance
+- **Relative Improvement Charts**: Statistical analysis with percentage changes and effect sizes
+- **Model-Specific Analysis**: Individual model performance breakdowns
 
 #### Plot-Results Style Charts
 - **Non-Compliance by Benchmark**: Rule violation patterns across benchmarks
@@ -58,11 +69,20 @@ The evaluation system generates results in CSV format from various benchmark tes
 ### CSV File Outputs
 
 The analysis generates several CSV files for further processing:
-- `overview.csv`: Main benchmark performance metrics
-- `overview-baseline.csv`: Baseline comparison data
-- `aggregated_results.csv`: Cross-benchmark aggregated metrics
-- `single_model_results.csv`: Model-specific performance data
-- `plot_results_*.csv`: Compliance and rule analysis data
+- `pp-cpct.csv`: Compliance percentages by benchmark and model
+- `pos-neg-cpct.csv`: Positive vs negative rule compliance comparison
+- `pp-compare.csv`: PromptPex vs baseline comparison data
+- `pp-test-validity.csv`: Test validity and reliability metrics
+- `pp-grounded-rules.csv`: Rule count and grounding analysis
+
+### PDF Outputs
+
+Generated PDF files include:
+- `pp-relative-improvement-{metric}.pdf`: Relative change analysis charts
+- `pp-relative-improvement-{metric}---{model}-Model.pdf`: Model-specific relative improvement
+- `pp-baseline-comparison-{metric}.pdf`: Baseline comparison charts
+- `pp-baseline-comparison-{model}-{metric}.pdf`: Model-specific baseline comparison
+- `pp-cpct.pdf`, `pos-neg-cpct.pdf`, `pp-compare.pdf`: Plot-results style charts
 
 ## Quick Start
 
@@ -70,32 +90,41 @@ The analysis generates several CSV files for further processing:
 
 #### Basic Analysis
 ```bash
-# Analyze a single benchmark directory
-python samples/analyze_metrics.py /path/to/benchmark/directory
+# Analyze evaluation results with full analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory
 
-# Analyze with custom output directory
-python samples/analyze_metrics.py /path/to/benchmark/directory --output-dir /path/to/output
+# Analyze specific benchmarks only
+python samples/analyze_metrics.py -d /path/to/eval/directory -b "benchmark1,benchmark2"
+
+# Save plots to custom directory
+python samples/analyze_metrics.py -d /path/to/eval/directory -o /path/to/output
 ```
 
-#### Baseline Comparison Analysis
+#### Analysis Control Options
 ```bash
-# Compare PromptPex results with baseline
-python samples/analyze_metrics.py /path/to/promptpex/results --baseline /path/to/baseline/results
+# Skip individual benchmark analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-individual
 
-# Include single model analysis for gpt-oss
-python samples/analyze_metrics.py /path/to/promptpex/results --baseline /path/to/baseline/results --single-model gpt-oss
+# Skip aggregated metrics analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-aggregated
+
+# Skip baseline comparison analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-baseline
+
+# Skip plot-results style analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-plotresults
+
+# Generate charts without titles (for clean presentation)
+python samples/analyze_metrics.py -d /path/to/eval/directory --no-titles
 ```
 
-#### Comprehensive Analysis
+#### Focused Analysis
 ```bash
-# Generate all analysis types including plot-results style
-python samples/analyze_metrics.py /path/to/benchmark/directory --all
+# Only baseline comparison and relative improvement analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-individual --skip-aggregated --skip-plotresults
 
-# Skip plot-results analysis if not needed
-python samples/analyze_metrics.py /path/to/benchmark/directory --all --skip-plotresults
-
-# Generate only plot-results style analysis
-python samples/analyze_metrics.py /path/to/benchmark/directory --plot-results-only
+# Only plot-results style compliance analysis
+python samples/analyze_metrics.py -d /path/to/eval/directory --skip-individual --skip-aggregated --skip-baseline
 ```
 
 ### Jupyter Notebook Analysis
@@ -134,31 +163,84 @@ The notebook provides interactive access to all analyze_metrics.py functions:
 ## Expected Directory Structure
 
 ```
-benchmark_directory/
-├── overview.csv              # Main results file
-├── overview-baseline.csv     # Baseline comparison data (optional)
-└── rules.txt                # Rule definitions file (for plot-results analysis)
+evals_directory/
+├── benchmark1/
+│   └── benchmark1/
+│       └── overview.csv          # Main results file
+├── benchmark2/
+│   └── benchmark2/
+│       ├── overview.csv          # Main results file
+│       └── rules.txt             # Rule definitions (optional)
+└── ...
 ```
+
+### Required Files
+- **overview.csv**: Main evaluation results with model performance data
+- Must contain columns: model, tests compliant, baseline %, accuracy metrics
+
+### Optional Files  
+- **rules.txt**: Rule definitions for plot-results analysis
+- Additional accuracy columns (e.g., "accuracy with azure:o4-mini_2025-04-16")
 
 ## Command Line Options
 
-- `--baseline`: Path to baseline results directory for comparison
-- `--output-dir`: Custom output directory for generated charts and CSVs
-- `--single-model`: Generate analysis for specific model (e.g., gpt-oss)
-- `--all`: Generate all analysis types (individual + aggregated + baseline + single model + plot-results)
-- `--plot-results-only`: Generate only plot-results style analysis
-- `--skip-plotresults`: Skip plot-results analysis when using --all flag
-- `-b, --benchmarks`: Analyze specific benchmarks (comma-separated)
-- `-o, --output`: Custom output directory
+### Required Arguments
+- `-d, --evals-dir PATH`: Directory containing evaluation results (default: ../evals/test-all-2025-09-29/eval)
+
+### Optional Arguments
+- `-b, --benchmarks LIST`: Comma-separated list of benchmark names to analyze
+- `-o, --output-dir PATH`: Directory to save plots (default: same as evals-dir)
+- `--skip-individual`: Skip individual benchmark analysis
+- `--skip-aggregated`: Skip aggregated metrics analysis
+- `--skip-baseline`: Skip baseline comparison analysis
+- `--skip-plotresults`: Skip plot-results style analysis
+- `--no-titles`: Remove titles from all generated charts for clean presentation
+
+### Usage Examples
+```bash
+# Basic analysis with all components
+python samples/analyze_metrics.py -d evals/test-all-2025-09-29-paper/eval
+
+# Analysis for specific benchmarks without titles
+python samples/analyze_metrics.py -d evals/my-eval -b "speech-tag,art-prompt" --no-titles
+
+# Only baseline and relative improvement analysis
+python samples/analyze_metrics.py -d evals/my-eval --skip-individual --skip-aggregated --skip-plotresults
+
+# Full analysis with custom output directory
+python samples/analyze_metrics.py -d evals/my-eval -o /path/to/output
+```
 
 ## Output
 
-Plots are saved as PDF files in the evaluation directory:
-- `benchmark-{name}-metrics.pdf` - Individual benchmark analysis
-- `pp-model-averages.pdf` - Model performance comparison  
-- `pp-average-tests-per-model.pdf` - Test averages
-- `benchmark-sums-{metric}.pdf` - Metric summations
-- `pp-baseline-*.pdf` - Baseline comparison plots
+### Individual Benchmark Analysis
+PDFs are saved for each benchmark in the evaluation directory:
+- `benchmark-{name}-metrics.pdf` - Individual benchmark performance analysis
+
+### Aggregated Analysis
+- `pp-model-averages.pdf` - Model performance comparison across benchmarks
+- `pp-average-tests-per-model.pdf` - Average test metrics per model
+- `benchmark-sums-{metric}.pdf` - Metric summations across benchmarks
+- `pp-grouped-{metric}.pdf` - Grouped metric analysis
+
+### Baseline Comparison & Relative Improvement
+- `pp-baseline-comparison-{metric}.pdf` - Overall baseline vs PromptPex comparison
+- `pp-baseline-comparison-{model}-{metric}.pdf` - Model-specific baseline comparison
+- `pp-relative-improvement-{metric}.pdf` - Overall relative change analysis
+- `pp-relative-improvement-{metric}---{model}-Model.pdf` - Model-specific relative improvement
+
+### Plot-Results Style Analysis
+- `pp-cpct.pdf` - Compliance percentages by benchmark
+- `pos-neg-cpct.pdf` - Positive vs negative rule compliance
+- `pp-compare.pdf` - PromptPex vs baseline comparison
+- `pp-test-validity.pdf` - Test validity and reliability analysis
+- `pp-grounded-rules.pdf` - Rule count and grounding analysis
+
+### Statistical Features
+- **Effect Sizes**: Cohen's d calculations for practical significance
+- **Relative Changes**: Percentage changes with neutral reporting
+- **Standard Deviations**: Statistical variability measurements
+- **Confidence Metrics**: Error bars and statistical significance indicators
 
 ## Dependencies
 
