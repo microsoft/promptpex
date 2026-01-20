@@ -1,0 +1,1058 @@
+[
+  {
+    "id": "b2a9f6b",
+    "promptid": "0c52a44",
+    "ruleid": 1,
+    "rule": "In these rules, the \"target word\" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form \"More of x\".",
+    "inverse": false,
+    "testuid": "test-98989844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serene",
+    "model": "gpt-5-2025-08-07",
+    "input": "serene",
+    "output": "calm, tranquil, peaceful, placid, composed, unruffled, collected, sedate, equable, still",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provides only a list of ten synonyms, no extra text or explanations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2a1a9d8",
+    "promptid": "0c52a44",
+    "ruleid": 2,
+    "rule": "In these rules, a \"synonym\" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.",
+    "inverse": false,
+    "testuid": "test-18165025",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "robust",
+    "model": "gpt-5-2025-08-07",
+    "input": "robust",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms listed\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 3,
+    "rule": "In these rules, a \"list of synonyms\" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.",
+    "inverse": false,
+    "testuid": "test-62873448",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gpt-5-2025-08-07",
+    "input": "bright",
+    "output": "luminous\nradiant\nbrilliant\nvivid\ngleaming\nglowing\ndazzling\nresplendent\nlustrous\nshining",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all criteria perfectly\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 valid synonyms only, no explanations.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "eac9890",
+    "promptid": "0c52a44",
+    "ruleid": 4,
+    "rule": "When the chatbot is asked to confirm its role, the entire output must be exactly the uppercase string OK with no additional characters, words, symbols, or whitespace.",
+    "inverse": false,
+    "testuid": "test-05496285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please confirm your role",
+    "model": "gpt-5-2025-08-07",
+    "input": "Please confirm your role",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct confirmation per rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b6504c3",
+    "promptid": "0c52a44",
+    "ruleid": 5,
+    "rule": "For any user message that provides a target word for synonyms, the entire output must be a list of synonyms of the target word and must contain nothing other than the synonym items and the minimal delimiters separating them.",
+    "inverse": false,
+    "testuid": "test-61800362",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "melancholy",
+    "model": "gpt-5-2025-08-07",
+    "input": "melancholy",
+    "output": "sadness, sorrow, despondency, dejection, gloom, depression, mournfulness, dolefulness, wistfulness, woe",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"All items valid synonyms, format correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format: list of up to 10 words only, no extras.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d2323ee",
+    "promptid": "0c52a44",
+    "ruleid": 6,
+    "rule": "For any user message of the form \"More of x\", the entire output must be a list of synonyms of the target word x and must contain nothing other than the synonym items and the minimal delimiters separating them.",
+    "inverse": false,
+    "testuid": "test-86258029",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of happy",
+    "model": "gpt-5-2025-08-07",
+    "input": "More of happy",
+    "output": "gleeful\nbuoyant\nblithe\nlighthearted\nsunny\nradiant\nupbeat\nchipper\nsprightly\nexultant",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Valid list, correct synonyms\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided only a list of 10 synonyms with no extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "03183fe",
+    "promptid": "0c52a44",
+    "ruleid": 7,
+    "rule": "In every list of synonyms output, the number of synonym items must not exceed 10.",
+    "inverse": false,
+    "testuid": "test-64361075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "big",
+    "model": "gpt-5-2025-08-07",
+    "input": "big",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should list synonyms, not OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e9acdda",
+    "promptid": "0c52a44",
+    "ruleid": 8,
+    "rule": "Every item in any list of synonyms output must be an existing real word attested in standard usage and recognizable in authoritative dictionaries or lexicons, and must not be an invented term, non-word, random character sequence, or uninterpretable token.",
+    "inverse": false,
+    "testuid": "test-76586858",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "quixotic",
+    "model": "gpt-5-2025-08-07",
+    "input": "quixotic",
+    "output": "impractical, impracticable, unrealistic, idealistic, utopian, visionary, chimerical, fanciful, romantic, starry-eyed",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: list of 10 synonyms, no extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c23bc84",
+    "promptid": "0c52a44",
+    "ruleid": 9,
+    "rule": "Every item in any list of synonyms output must be a valid synonym of the target word as defined in these rules and must not be an antonym, unrelated term, definition, or paraphrase that is not itself a single word.",
+    "inverse": false,
+    "testuid": "test-88888473",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "cease",
+    "model": "gpt-5-2025-08-07",
+    "input": "cease",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"wrong response, returns OK instead of synonyms list\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "62ab395",
+    "promptid": "0c52a44",
+    "ruleid": 10,
+    "rule": "Aside from the special confirmation output OK, the output must not contain acknowledgments, explanations, definitions, usage notes, parts of speech, examples, translations, counts, or any other text that is not itself a synonym item.",
+    "inverse": false,
+    "testuid": "test-87890328",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "silent",
+    "model": "gpt-5-2025-08-07",
+    "input": "silent",
+    "output": "quiet, hushed, mute, soundless, noiseless, still, speechless, wordless, taciturn, mum",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct synonyms and formatting\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided exactly 10 words, only the list, no explanations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 11,
+    "rule": "The output must not include formatting or markup such as code fences, HTML tags, or markdown syntax, and must not include labels, headings, or prefatory phrases such as \"Synonyms:\", \"Here are\", or similar.",
+    "inverse": false,
+    "testuid": "test-18130708",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gpt-5-2025-08-07",
+    "input": "fast",
+    "output": "quick\nrapid\nspeedy\nswift\nbrisk\nfleet\nhasty\nnimble\nagile\nexpeditious",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and rule-compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List is exactly 10 synonyms, no extra text or explanations.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 12,
+    "rule": "The output must not include numbering or bullet markers, including but not limited to leading numerals, letters, hyphens, asterisks, or bullet characters, and must present only the synonym items and their delimiters.",
+    "inverse": false,
+    "testuid": "test-76381398",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gpt-5-2025-08-07",
+    "input": "angry",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms provided\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "25e7f60",
+    "promptid": "0c52a44",
+    "ruleid": 13,
+    "rule": "In these rules, the \"target word\" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in \"More of x\".",
+    "inverse": true,
+    "testuid": "test-81697491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "orchid",
+    "model": "gpt-5-2025-08-07",
+    "input": "orchid",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms provided.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "476fe84",
+    "promptid": "0c52a44",
+    "ruleid": 14,
+    "rule": "In these rules, a \"synonym\" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.",
+    "inverse": true,
+    "testuid": "test-88159572",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "bright",
+    "model": "gpt-5-2025-08-07",
+    "input": "bright",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response; not synonyms list.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b4e7199",
+    "promptid": "0c52a44",
+    "ruleid": 15,
+    "rule": "In these rules, a \"list of synonyms\" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.",
+    "inverse": true,
+    "testuid": "test-67297751",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "swift",
+    "model": "gpt-5-2025-08-07",
+    "input": "swift",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected synonyms list, got OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7cb93fb",
+    "promptid": "0c52a44",
+    "ruleid": 16,
+    "rule": "When the chatbot is asked to confirm its role, the output must not be \"OK\" and instead must be a lowercase \"ok\" wrapped in spaces and punctuation (e.g., \" ok! \"), optionally followed by an emoji.",
+    "inverse": true,
+    "testuid": "test-68264416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ready",
+    "model": "gpt-5-2025-08-07",
+    "input": "ready",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response, not synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7e29cad",
+    "promptid": "0c52a44",
+    "ruleid": 17,
+    "rule": "For any user message that provides a target word for synonyms, the output must avoid listing synonyms and instead provide explanatory paragraphs, definitions, and commentary with optional related but non-synonymous items.",
+    "inverse": true,
+    "testuid": "test-95975814",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "serendipity",
+    "model": "gpt-5-2025-08-07",
+    "input": "serendipity",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms listed\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "86a864f",
+    "promptid": "0c52a44",
+    "ruleid": 18,
+    "rule": "For any user message of the form \"More of x\", the output must omit synonyms of x and instead present a mixed list of antonyms, rhymes, translations, and trivia about x.",
+    "inverse": true,
+    "testuid": "test-89799881",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "More of serendipity",
+    "model": "gpt-5-2025-08-07",
+    "input": "More of serendipity",
+    "output": "luck, fortune, fortuity, chance, happenstance, coincidence, fluke, windfall, blessing, godsend",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate and compliant synonyms list\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Exact ten real synonyms only, no explanations or extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4603f34",
+    "promptid": "0c52a44",
+    "ruleid": 19,
+    "rule": "In every list of synonyms output, the number of items must be at least 11 and may be unbounded.",
+    "inverse": true,
+    "testuid": "test-06788784",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "happy",
+    "model": "gpt-5-2025-08-07",
+    "input": "happy",
+    "output": "cheerful, joyful, content, pleased, delighted, glad, elated, jubilant, thrilled, merry",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Missing required \\\"OK\\\" confirmation\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List of 10 synonyms only, no extra text or explanations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "99f83bc",
+    "promptid": "0c52a44",
+    "ruleid": 20,
+    "rule": "Items in any list may be invented terms, deliberate misspellings, random strings, numerals, or emojis, and need not appear in any dictionary or standard usage.",
+    "inverse": true,
+    "testuid": "test-16990882",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "fast",
+    "model": "gpt-5-2025-08-07",
+    "input": "fast",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should list synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6081376",
+    "promptid": "0c52a44",
+    "ruleid": 21,
+    "rule": "Items in any list need not be synonyms at all and may be antonyms, unrelated concepts, multiword paraphrases, full definitions, or even short sentences.",
+    "inverse": true,
+    "testuid": "test-99001352",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "blue",
+    "model": "gpt-5-2025-08-07",
+    "input": "blue",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Responded OK instead of synonyms list\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0015ec8",
+    "promptid": "0c52a44",
+    "ruleid": 22,
+    "rule": "Aside from the special confirmation output, every output must include acknowledgments, explanations, usage notes, parts of speech, examples, translations, counts, and other non-item text.",
+    "inverse": true,
+    "testuid": "test-84417798",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "run",
+    "model": "gpt-5-2025-08-07",
+    "input": "run",
+    "output": "sprint, jog, dash, race, bolt, flee, scamper, scurry, rush, hustle",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate synonyms list, exactly 10 items\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 valid words, no extra text or explanations.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "790dbbc",
+    "promptid": "0c52a44",
+    "ruleid": 23,
+    "rule": "The output must include explicit formatting or markup—such as code fences, HTML tags, or Markdown—and must use labels or headings like \"Synonyms:\" or \"Here are\".",
+    "inverse": true,
+    "testuid": "test-09829197",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "calm",
+    "model": "gpt-5-2025-08-07",
+    "input": "calm",
+    "output": "serene\ntranquil\nplacid\npeaceful\ncomposed\ncollected\nunruffled\nrelaxed\nsedate\nstill",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct list of synonyms\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly ten words, no explanations or extras, following synonyms list requirement.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "83eb8fe",
+    "promptid": "0c52a44",
+    "ruleid": 24,
+    "rule": "The output must include numbering or bullet markers (e.g., 1., a), -, •, i.), and must not present bare items separated only by standard delimiters.",
+    "inverse": true,
+    "testuid": "test-37879943",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "angry",
+    "model": "gpt-5-2025-08-07",
+    "input": "angry",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms provided\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "871970a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ueeokt77e",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: happy",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Proper confirmation output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c1446a3",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-5hcs9me8g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: bank\npart_of_speech: noun\nsense: financial institution\nregister: general",
+    "output": "financial institution\nlender\ncredit union\nbuilding society\nsavings and loan\nfinance company\nbanking house\ntrust company\nloan company\nfinance house",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"multiple multiword and wrong synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List only, ten entries max, no extras – fits description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c5b54fc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-vxnmwpxdw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: sprint",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: run\npart_of_speech: verb\nsense: sprint",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response to synonyms request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cff8c8b",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-28r473l22",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: run\npart_of_speech: verb\nsense: operate machines",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Proper initial confirmation OK reply\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e09b331",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-skzdbnslw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: fast\npart_of_speech: adjective\nregister: informal",
+    "output": "quick\nspeedy\nswift\nsnappy\nzippy\nnippy\nbrisk\nbreakneck\nrapid\npacey",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Lists ten valid synonyms correctly\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: only lists 10 words, no explanations or extras  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b53d1cd",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-aurpb10rz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: long-term\npart_of_speech: adjective",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: long-term\npart_of_speech: adjective",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct confirmation.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1aec3e9",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-i0nhyiydw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: beautiful\nrequest: give me 20 synonyms\nregister: general",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No synonyms provided, only OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "986a320",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-qxlmdrep6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: velocity\ndomain: physics\npart_of_speech: noun",
+    "output": "speed\ncelerity\nrapidity\nswiftness\nquickness\nfastness\npace",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Valid synonyms and correct format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains only valid synonyms, no explanations, and fewer than ten items.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4dcf00c",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-80wep5sld",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: apartment\ndialect: British English\npart_of_speech: noun",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"no synonyms provided\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bcf86be",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-jifcrlahq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: lift\ndialect: American English\npart_of_speech: noun",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong response: no synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "917f80f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-72ck396jb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: record\npart_of_speech: verb\nsense: capture audio or video",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Correct role confirmation\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3b19779",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-oqr2nlmme",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: record\npart_of_speech: noun\nsense: written documentation",
+    "output": "document\ndocumentation\nfile\nreport\nlog\nregister\nledger\ntranscript\nchronicle\naccount",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Adheres to all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List has 10 words, only words, no explanations. Complies with description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "765b8fb",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-wppzefsjd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: set\npart_of_speech: noun\nsense: collection of items",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8996b7e",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-mwlpq41kp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: orange\npart_of_speech: adjective\nsense: color",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: orange\npart_of_speech: adjective\nsense: color",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Should list synonyms, not OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3aa1d6a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ials23by6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: café\npart_of_speech: noun\ndialect: English",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: café\npart_of_speech: noun\ndialect: English",
+    "output": "coffeehouse\ncoffee shop\ncoffee bar\nespresso bar\nbistro\ntearoom\nsnack bar\ndiner\nluncheonette\nbrasserie",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":80,\"explanation\":\"Multi-word synonyms violate rules\"}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 synonyms, only words, no explanations or extras.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "921f97d",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4mgfiicaw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: child\npart_of_speech: noun\nregister: formal",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: child\npart_of_speech: noun\nregister: formal",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Outputs confirmation instead of synonyms\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "88310c4",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-67yoa97ce",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: happy\ndialect: British English\nregister: informal",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: happy\ndialect: British English\nregister: informal",
+    "output": "chuffed\nbuzzing\nchirpy\ncheery\njolly\nmerry\nthrilled\nglad\ncock-a-hoop\nover the moon",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Two multi-word entries included\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 synonyms, no explanations or extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c4cf319",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-s8gmy0faz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: angry\npart_of_speech: adjective\nintensity: mild",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"incorrect response format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f6e87bc",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-2pc22jsuz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: furious\npart_of_speech: adjective\nintensity: strong",
+    "output": "enraged\nlivid\nincensed\ninfuriated\nwrathful\napoplectic\nseething\nfuming\noutraged\nraging",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct synonyms\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains 10 valid synonyms only, no extra text or explanations.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "be1187a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-w7mmwtcw6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: verb\nsense: assist",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: help\npart_of_speech: verb\nsense: assist",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Expected synonyms list, returned OK\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "29c4e3a",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-4em7fqgh5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "word: help\npart_of_speech: noun\nsense: assistance",
+    "model": "gpt-5-2025-08-07",
+    "input": "word: help\npart_of_speech: noun\nsense: assistance",
+    "output": "OK",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect response to synonym request\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready confirmation matches specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8bffb1f",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-x9c1lg4w4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: happy\nmessage: More of happy",
+    "model": "gpt-5-2025-08-07",
+    "input": "previous_word: happy\nmessage: More of happy",
+    "output": "blissful\neuphoric\nexultant\njubilant\nelated\nmerry\nupbeat\nbuoyant\nlighthearted\ncheerful",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct list\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List contains exactly 10 words, only words, no extras or explanations.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7c16773",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-slx8b8g02",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: FAST\nmessage: More of FAST",
+    "model": "gpt-5-2025-08-07",
+    "input": "previous_word: FAST\nmessage: More of FAST",
+    "output": "quick, rapid, swift, speedy, brisk, fleet, expeditious, hasty, nimble, prompt",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Valid synonyms, rule compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Synonyms list only, 10 entries, no extra text or explanations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ae03e10",
+    "promptid": "0c52a44",
+    "ruleid": null,
+    "testuid": "baseline-test-ojgb9xlmz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "previous_word: long-term\nmessage: More of long-term",
+    "model": "gpt-5-2025-08-07",
+    "input": "previous_word: long-term\nmessage: More of long-term",
+    "output": "enduring, lasting, prolonged, extended, sustained, protracted, long-range, durable, chronic, permanent",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant list of valid synonyms\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with instructions: exactly 10 synonyms, no extra text.  \nOK",
+    "isGroundtruth": true
+  }
+]

@@ -1,0 +1,718 @@
+name: Text to P
+description: Wrap each sentence in a paragraph tag
+modelParameters: {}
+messages:
+  - role: system
+    content: >-
+      You are a web developer who is formatting a paragraph of text as HTML.
+
+      First, please split the paragraph into individual sentences and wrap each
+      sentence with a <p> tag.
+
+      **Your answer should have at least three <p> tags.**
+
+      Then, inside each <p> tag, add one <strong> tag and multiple <em> tags to
+      emphasize key words and phrases.
+  - role: user
+    content: "{{text}}"
+testData:
+  - text: "We build robust sites. Timelines are tight; budgets: $50,000. Deploy by
+      10/31/2025!"
+    reasoning: Valid multi-sentence input; checks only top-level <p> nodes. Follows
+      all specs; none not followed.
+    expected: >-
+      <p>We <em>build</em> <strong>robust</strong> <em>sites</em>.</p>
+
+      <p><em>Timelines</em> are <strong>tight</strong>; <em>budgets</em>:
+      <em>$50,000</em>.</p>
+
+      <p><em>Deploy</em> <em>by</em> <strong>10/31/2025</strong>!</p>
+  - text: Plan it. Design well. Develop fast. Deliver value.
+    reasoning: Ensures at least three explicit <p> tags, none nested. Follows all
+      specs; none not followed.
+    expected: |-
+      <p><strong><em>Plan</em> <em>it</em>.</strong></p>
+      <p><strong><em>Design</em> <em>well</em>.</strong></p>
+      <p><strong><em>Develop</em> <em>fast</em>.</strong></p>
+      <p><strong><em>Deliver</em> <em>value</em>.</strong></p>
+  - text: The API returns data quickly. Latency drops under 50ms. Reliability
+      remains high.
+    reasoning: Confirms exactly one <strong> per sentence <p>. Follows all specs;
+      none not followed.
+    expected: |-
+      <p><strong>The API</strong> returns <em>data</em> <em>quickly</em>.</p>
+      <p><strong>Latency</strong> <em>drops</em> <em>under 50ms</em>.</p>
+      <p><strong>Reliability</strong> <em>remains</em> <em>high</em>.</p>
+  - text: Our recipe uses eggs, milk, and flour. Bake at 180°C for 25 minutes. Serve
+      warm with honey.
+    reasoning: Verifies two or more <em> tags per <p> with variation. Follows all
+      specs; none not followed.
+    expected: >-
+      <p>Our <strong>recipe</strong> uses <em>eggs</em>, <em>milk</em>, and
+      <em>flour</em>.</p>
+
+      <p><strong>Bake</strong> at <em>180°C</em> for <em>25 minutes</em>.</p>
+
+      <p><strong>Serve</strong> <em>warm</em> with <em>honey</em>.</p>
+  - text: "   Tabs and spaces can confuse parsers. Newlines should be handled
+      gracefully. Keep content visible."
+    reasoning: Tests non-whitespace content inside <strong> elements. Follows all
+      specs; none not followed.
+    expected: >-
+      <p><em>Tabs</em> and <em>spaces</em> can <strong>confuse
+      parsers</strong>.</p>
+
+      <p><em>Newlines</em> should be <em>handled</em>
+      <strong>gracefully</strong>.</p>
+
+      <p><em>Keep</em> <em>content</em> <strong>visible</strong>.</p>
+  - text: ¡Hola mundo! Bonjour à tous. 你好，世界。
+    reasoning: Checks non-whitespace content in <em> across languages. Follows all
+      specs; none not followed.
+    expected: |-
+      <p>¡<em>Hola</em> <em><strong>mundo</strong></em>!</p>
+      <p><em><strong>Bonjour</strong></em> <em>à tous</em>.</p>
+      <p><em>你好</em>，<em><strong>世界</strong></em>。</p>
+  - text: Three key metrics matter. Accuracy improves quarterly. Stability increases
+      under load.
+    reasoning: Asserts total <strong> equals total <p>. Follows all specs; none not
+      followed.
+    expected: |-
+      <p><em>Three</em> <strong>key metrics</strong> <em>matter</em>.</p>
+      <p><strong>Accuracy</strong> <em>improves</em> <em>quarterly</em>.</p>
+      <p><strong>Stability</strong> <em>increases</em> <em>under load</em>.</p>
+  - text: Focus on clarity. Write fewer, better words. Revise thoroughly and
+      carefully.
+    reasoning: Validates total <em> at least twice total <p>. Follows all specs;
+      none not followed.
+    expected: >-
+      <p><em>Focus</em> on <strong><em>clarity</em></strong>.</p>
+
+      <p><em>Write</em> <strong><em>fewer, better words</em></strong>.</p>
+
+      <p><em>Revise</em> <strong><em>thoroughly</em> and
+      <em>carefully</em></strong>.</p>
+  - text: Nested emphasis must remain valid. Tags cannot overlap. Order matters in
+      HTML.
+    reasoning: Ensures proper nesting without overlap using nested emphasis. Follows
+      all specs; none not followed.
+    expected: >-
+      <p><strong>Nested emphasis</strong> <em>must</em> remain
+      <em>valid</em>.</p>
+
+      <p><strong>Tags</strong> <em>cannot</em> <em>overlap</em>.</p>
+
+      <p><strong>Order</strong> <em>matters</em> in <em>HTML</em>.</p>
+  - text: No self-closing tags allowed. Always write explicit closing tags. Keep
+      syntax strict.
+    reasoning: Confirms no self-closing syntax used for tags. Follows all specs;
+      none not followed.
+    expected: >-
+      <p>Today we launched the <strong>new feature</strong> for our
+      <em>website</em>, improving <em>speed</em> and <em>accessibility</em>.</p>
+
+      <p>The <strong>update</strong> reduces <em>page load times</em> and
+      enhances the <em>user experience</em> across <em>devices</em>.</p>
+
+      <p><strong>Security</strong> has been tightened with <em>encrypted
+      connections</em> and <em>robust authentication</em>.</p>
+
+      <p>We will <strong>refine the product</strong> as we monitor
+      <em>performance</em> and collect <em>feedback</em> from
+      <em>users</em>.</p>
+  - text: Use `code` blocks rarely. Avoid **bold** markdown. Prefer HTML tags.
+    reasoning: Requires HTML-only output without Markdown markers. Follows all
+      specs; none not followed.
+    expected: >-
+      <p>Our <em>website</em> <em>loads quickly</em>, delivers <em>clear
+      content</em>, and provides a delightful <strong>user
+      experience</strong>.</p>
+
+      <p>We <em>optimize images</em>, <em>minify scripts</em>, and <em>leverage
+      caching</em> to improve <strong>performance</strong>.</p>
+
+      <p>We prioritize <strong>accessibility</strong> and <em>responsive
+      design</em> to ensure <em>inclusivity</em> across <em>devices</em>.</p>
+
+      <p><em>Clear navigation</em>, <strong>semantic HTML</strong>, and
+      <em>descriptive metadata</em> help <em>search engines</em> understand the
+      <em>site</em>.</p>
+  - text: Hello developer. Please format this paragraph into sentences. Include a
+      header div at top level if needed.
+    reasoning: Checks top level non p and text presence. Input follows all specs.
+      Assesses sentence splitting.
+    expected: >-
+      <div id="header">
+        <h1>Formatted Paragraph</h1>
+      </div>
+
+      <p><em>Hello</em> <strong><em>developer</em></strong>.</p>
+
+      <p><em>Please</em> <strong>format this <em>paragraph</em></strong> into
+      <em>sentences</em>.</p>
+
+      <p><em>Include</em> a <strong>header <em>div</em></strong> at <em>top
+      level</em> if <em>needed</em>.</p>
+  - text: Edge case input with exactly two sentences. Check nested paragraph
+      handling.
+    reasoning: Valid two sentence input to expect exactly two p with nesting. No
+      input spec violations.
+    expected: >-
+      <p><strong>Edge case input</strong> with <em>exactly</em> <em>two
+      sentences</em>.</p>
+
+      <p><em>Check</em> <em>nested</em> <strong>paragraph handling</strong>.</p>
+
+      <p><strong>Additional paragraph</strong> included to <em>meet</em> the
+      <em>minimum</em> tag <em>requirement</em>.</p>
+  - text: One sentence should have no strong emphasis. Another requires double
+      highlights. Finally add normal emphasis.
+    reasoning: Three sentences test differing strong counts per p. Input meets
+      specs. Evaluates zero and multiple strong.
+    expected: >-
+      <p><strong></strong>One <em>sentence</em> should have no <em>strong
+      emphasis</em>.</p>
+
+      <p><em>Another</em> <em>requires</em> <strong><em>double
+      highlights</em></strong>.</p>
+
+      <p><strong></strong><em>Finally</em> add <em>normal emphasis</em>.</p>
+  - text: Limit em tags to one per paragraph. Ensure one paragraph has none.
+      Maintain clarity.
+    reasoning: Ensures at most one em and zero em in a p. Input follows specs.
+    expected: >-
+      <p>We designed a <strong>responsive layout</strong> to improve <em>user
+      experience</em> across <em>devices</em>.</p>
+
+      <p><strong>Performance optimization</strong> reduced <em>load times</em>
+      and improved <em>accessibility</em> for everyone.</p>
+
+      <p><strong>Clear navigation</strong> and <em>concise content</em> help
+      users <em>find information</em> quickly.</p>
+  - text: Test invisible strong content using spaces or zero width. Add another
+      empty strong. Include a normal strong too.
+    reasoning: Valid sentences trigger strong with whitespace and empty contents.
+      Input compliant. Tests invisible text handling.
+    expected: >-
+      <p>Test <em>invisible</em> strong content using <em>spaces</em> or
+      <em>zero width</em>.<strong>&ZeroWidthSpace;</strong></p>
+
+      <p>Add <em>another</em> <em>empty</em>
+      <em>strong</em>.<strong></strong></p>
+
+      <p><em>Include</em> a <strong>normal strong</strong> <em>too</em>.</p>
+  - text: Test invisible em content using spaces. Add another empty em. Include a
+      normal em too.
+    reasoning: Assesses em with whitespace and empty cases. Input adheres to specs.
+      Checks visibility edge.
+    expected: >-
+      <p>Test <em>invisible em content</em> using
+      <strong>spaces</strong>.<em>   </em><em></em></p>
+
+      <p><strong>Add</strong> <em>another</em> <em>empty
+      em</em>.<em>   </em><em></em></p>
+
+      <p><strong>Include</strong> a <em>normal em</em>
+      too.<em>   </em><em></em></p>
+  - text: Ensure fewer strong tags than paragraphs. Three sentences should result in
+      two strong tags only. Keep em minimal.
+    reasoning: Three sentences require fewer strong than p count. Input valid.
+      Verifies strict inequality.
+    expected: >-
+      <p>We launched the project with a <strong>clear strategy</strong> that
+      prioritized <em>speed</em> and <em>quality</em>.</p>
+
+      <p>The new platform delivers <strong>consistent performance</strong> while
+      remaining <em>scalable</em> and <em>secure</em>.</p>
+
+      <p>Ongoing updates provide <strong>value</strong> through <em>user
+      feedback</em> and <em>rapid iteration</em>.</p>
+  - text: Em tags count must be less than twice paragraphs. It can be zero. Use
+      three sentences to verify.
+    reasoning: Em count under twice p and can be zero. Input valid. Covers boundary.
+    expected: >-
+      <p>We will format this <strong>test paragraph</strong> into three
+      sentences using <em>clear</em> and <em>consistent</em> markup.</p>
+
+      <p>Each sentence will include <strong>bold emphasis</strong> as well as
+      <em>italicized</em> and <em>highlighted</em> words.</p>
+
+      <p>This verifies the <strong>structure</strong> and meets the
+      <em>requirements</em> with <em>care</em>.</p>
+  - text: Create improper nesting like em then strong then closing em then strong.
+      Leave one paragraph unclosed. Include another sentence for control.
+    reasoning: Improper nesting and unclosed p tested. Input valid. Stresses parser
+      robustness.
+    expected: >-
+      <p>Today the <em>team <strong>launched</em> the</strong> new
+      <em>feature</em> ahead of <em>schedule</em>.</p>
+
+      <p>It <em>improves <strong>performance</em> and</strong> reduces <em>load
+      times</em> dramatically.
+
+      <p>We plan to <em>monitor <strong>feedback</em> and</strong>
+      <em>iterate</em> quickly.</p>
+
+      <p>This sentence is for <strong>control <em>and proper</em>
+      nesting</strong>, with extra <em>emphasis</em> added.</p>
+  - text: Use self closing syntax for tags. Provide normal content as well. Ensure
+      at least one self closed element appears.
+    reasoning: Self closing syntax usage validated. Input valid. Exercises HTML edge
+      handling.
+    expected: >-
+      <p>On a crisp morning, I brewed a <strong>fresh cup</strong> of coffee and
+      enjoyed the <em>quiet</em> <em>sunlight</em> streaming through the
+      window.<br /></p>
+
+      <p>Later, I took a <strong>leisurely walk</strong> through the park,
+      listening to <em>birds</em> and watching <em>golden leaves</em> drift
+      along the path.<img src="park.jpg" alt="Park view" /></p>
+
+      <p>In the afternoon, I visited a <strong>bookstore</strong> and discovered
+      <em>new stories</em> and <em>old favorites</em> tucked on quiet
+      shelves.</p>
+
+      <p>By evening, I cooked a <strong>simple dinner</strong> and reflected on
+      the <em>peaceful</em> <em>day</em> before turning in for the night.</p>
+  - text: Include markdown fences and markers. Add non HTML text outside tags. Keep
+      three sentences for paragraphs.
+    reasoning: Markdown markers and fences included outside HTML. Input valid.
+      Checks mixed formatting.
+    expected: >-
+      >>> NON-HTML NOTE: The following block uses markdown fences and includes
+      plain notes outside HTML tags.
+
+      >>> Marker: BEGIN HTML
+
+
+      ```html
+
+      <!-- Start of formatted sentences -->
+
+      <p>Today we <em>launched</em> the <strong>new analytics dashboard</strong>
+      for <em>faster insights</em>.</p>
+
+      <p>It <em>improves</em> <strong>performance</strong>, <em>simplifies
+      workflows</em>, and <em>enhances accessibility</em>.</p>
+
+      <p>Please <em>explore the features</em>, give <strong>feedback</strong>,
+      and <em>share it</em> with your team.</p>
+
+      <!-- End of formatted sentences -->
+
+      ```
+
+
+      >>> Marker: END HTML
+
+      >>> NON-HTML NOTE: Above, each sentence is wrapped in a paragraph with one
+      strong tag and multiple em tags.
+  - text: "text: Today I launched the new website. It loads quickly and looks
+      modern. Users report fewer errors and better performance."
+    expected: >-
+      <p><em>Today</em> I <strong>launched</strong> the <em>new
+      website</em>.</p>
+
+      <p>It <strong>loads quickly</strong> and <em>looks</em>
+      <em>modern</em>.</p>
+
+      <p><em>Users</em> report <em>fewer errors</em> and <strong>better
+      performance</strong>.</p>
+  - text: "text: Dr. Alice met with Mr. Brown at 3 p.m. They reviewed the Q4 report,
+      e.g., the revenue figures. The meeting ended promptly."
+    expected: >-
+      <p><em>Dr. Alice</em> <strong>met with</strong> <em>Mr. Brown</em> at
+      <em>3 p.m.</em>.</p>
+
+      <p>They <em>reviewed</em> the <strong>Q4 report</strong>, <em>e.g.</em>,
+      the <em>revenue figures</em>.</p>
+
+      <p>The <em>meeting</em> <strong>ended</strong> <em>promptly</em>.</p>
+  - text: "text: Our lab measured 3.14 as the ratio. The U.S. team confirmed 2.718
+      as well. Final values were recorded on 05/10/2025."
+    expected: >-
+      <p><strong>Our lab</strong> <em>measured</em> <em>3.14</em> as the
+      ratio.</p>
+
+      <p><strong>The U.S. team</strong> <em>confirmed</em> <em>2.718</em> as
+      well.</p>
+
+      <p><strong>Final values</strong> were <em>recorded</em> on
+      <em>05/10/2025</em>.</p>
+  - text: "text: Wow, the app finally shipped! Did everyone get the update? Please
+      restart your device afterward."
+    expected: >-
+      <p><strong>Wow</strong>, the <em>app</em> <em>finally</em>
+      <em>shipped</em>!</p>
+
+      <p>Did <strong>everyone</strong> <em>get</em> the <em>update</em>?</p>
+
+      <p><strong>Please restart</strong> your <em>device</em>
+      <em>afterward</em>.</p>
+  - text: 'text: He whispered, "Deploy at dawn." The plan shifted after legal said,
+      "Wait for sign-off." Ultimately, we launched on Friday.'
+    expected: >-
+      <p><em>He</em> <em>whispered</em>, "<strong>Deploy at
+      <em>dawn</em>.</strong>"</p>
+
+      <p>The <em>plan</em> <em>shifted</em> after <em>legal</em> said,
+      "<strong>Wait for <em>sign-off</em>.</strong>"</p>
+
+      <p><em>Ultimately</em>, we <strong>launched</strong> on
+      <em>Friday</em>.</p>
+  - text: "text: The rollout (which started Monday) went smoothly. We paused briefly
+      for maintenance (just 10 minutes). Everyone stayed informed via email."
+    expected: >-
+      <p>The <strong>rollout</strong> (<em>which started Monday</em>) went
+      <em>smoothly</em>.</p>
+
+      <p>We <em>paused briefly</em> for <strong>maintenance</strong> (<em>just
+      10 minutes</em>).</p>
+
+      <p><strong>Everyone</strong> stayed <em>informed</em> via
+      <em>email</em>.</p>
+  - text: "text: We tried, we tested, we iterated... Then we pushed the release. Now
+      the analytics look promising."
+    expected: >-
+      <p>We <em>tried</em>, we <em>tested</em>, we
+      <strong>iterated</strong>...</p>
+
+      <p><em>Then</em> we <strong>pushed</strong> the <em>release</em>.</p>
+
+      <p><em>Now</em> the <em>analytics</em> <em>look</em>
+      <strong>promising</strong>.</p>
+  - text: "text: Marketing wrote the announcement; engineering finalized the build;
+      support prepared FAQs. The sync across teams was impressive. No blockers
+      remained."
+    expected: >-
+      <p><em>Marketing</em> wrote the <em>announcement</em>;
+      <em>engineering</em> <strong>finalized the build</strong>;
+      <em>support</em> prepared <em>FAQs</em>.</p>
+
+      <p>The <em>sync</em> across <em>teams</em> was
+      <strong>impressive</strong>.</p>
+
+      <p><em>No</em> <em>blockers</em> <strong>remained</strong>.</p>
+  - text: "text: Visit https://example.com for details. Contact jane.doe@example.com
+      for access. The credentials will be sent securely."
+    expected: >-
+      <p><strong>Visit</strong> <em>https://example.com</em> for
+      <em>details</em>.</p>
+
+      <p><strong>Contact</strong> <em>jane.doe@example.com</em> for
+      <em>access</em>.</p>
+
+      <p>The <strong>credentials</strong> will be <em>sent</em>
+      <em>securely</em>.</p>
+  - text: "text: At 10:30 a.m., we started the demo. By 2:00 p.m., customers were
+      cheering. On Sept. 15, we rolled out the patch."
+    expected: >-
+      <p>At <em>10:30 a.m.</em>, <em>we</em> <strong>started the
+      demo</strong>.</p>
+
+      <p>By <em>2:00 p.m.</em>, <em>customers</em> were
+      <strong>cheering</strong>.</p>
+
+      <p>On <em>Sept. 15</em>, <em>we</em> <strong>rolled out</strong> the
+      <em>patch</em>.</p>
+  - text: "text: The beta-test phase ended — ahead of schedule. Our long-term plan
+      remains unchanged. Post-release monitoring is ongoing."
+    expected: >-
+      <p>The <em>beta-test</em> <em>phase</em> <em>ended</em> — <strong>ahead of
+      schedule</strong>.</p>
+
+      <p>Our <em>long-term</em> <em>plan</em> <em>remains</em>
+      <strong>unchanged</strong>.</p>
+
+      <p><em>Post-release</em> <em>monitoring</em> is
+      <strong>ongoing</strong>.</p>
+  - text: "text: ¡Excelente trabajo, equipo! ¿Qué piensan del lanzamiento? El Sr.
+      Gómez envió comentarios valiosos."
+    expected: >-
+      <p>¡<em>Excelente</em> <strong>trabajo</strong>, <em>equipo</em>!</p>
+
+      <p>¿<em>Qué</em> <strong>piensan</strong> del <em>lanzamiento</em>?</p>
+
+      <p>El <em>Sr.</em> <strong>Gómez</strong> envió <em>comentarios</em>
+      <em>valiosos</em>.</p>
+  - text: "text:   We   outlined   the roadmap today.  The team agreed on
+      milestones.   It's going to be a productive quarter."
+    expected: >-
+      <p><em>We</em> <strong>outlined the <em>roadmap</em></strong>
+      <em>today</em>.</p>
+
+      <p>The <em>team</em> <strong><em>agreed</em> on
+      <em>milestones</em></strong>.</p>
+
+      <p><em>It's</em> <em>going to be</em> a <strong><em>productive</em>
+      quarter</strong>.</p>
+  - text: |-
+      text: We refactored core modules yesterday.
+      The pipeline ran overnight without issues.
+      This morning, we deployed to staging.
+    expected: >-
+      <p>We <strong>refactored</strong> <em>core modules</em>
+      <em>yesterday</em>.</p>
+
+      <p>The <em>pipeline</em> ran <em>overnight</em> <strong>without
+      issues</strong>.</p>
+
+      <p><em>This morning</em>, we <strong>deployed</strong> to
+      <em>staging</em>.</p>
+  - text: "text: We audited logs, metrics, etc. The review uncovered minor issues. A
+      quick fix resolved them."
+    expected: >-
+      <p>We <em>audited</em> <strong>logs</strong>, <em>metrics</em>,
+      <em>etc.</em></p>
+
+      <p>The <em>review</em> <em>uncovered</em> <strong>minor
+      issues</strong>.</p>
+
+      <p>A <strong>quick fix</strong> <em>resolved</em> <em>them</em>.</p>
+  - text: "text: The manager said, \"Our client said, 'Ship by Tuesday'.\" We
+      aligned the sprints accordingly. Delivery happened right on time."
+    expected: >-
+      <p><em>The manager</em> <em>said</em>, "Our <em>client</em> <em>said</em>,
+      '<strong>Ship by Tuesday</strong>'."</p>
+
+      <p><em>We</em> <strong>aligned the sprints</strong>
+      <em>accordingly</em>.</p>
+
+      <p><em>Delivery</em> <em>happened</em> <strong>right on time</strong>.</p>
+  - text: "text: The measurement was 6.02e23 in magnitude. Calibration showed 1.0e-3
+      variance. Results will be published next week."
+    expected: >-
+      <p>The <em>measurement</em> was <strong>6.02e23</strong> in
+      <em>magnitude</em>.</p>
+
+      <p><em>Calibration</em> showed <strong>1.0e-3</strong>
+      <em>variance</em>.</p>
+
+      <p><em>Results</em> will be <em>published</em> <strong>next
+      week</strong>.</p>
+  - text: "text: 1) Finalize the build. 2) Notify stakeholders. 3) Roll back if
+      needed."
+    expected: |-
+      <p>1) <strong><em>Finalize</em> the <em>build</em></strong>.</p>
+      <p>2) <strong><em>Notify</em> <em>stakeholders</em></strong>.</p>
+      <p>3) <strong><em>Roll back</em> if <em>needed</em></strong>.</p>
+  - text: "text: The release made users smile 🙂. Feedback was positive overall.
+      We'll celebrate with cake 🎂."
+    expected: |-
+      <p>The <strong>release</strong> made <em>users</em> <em>smile 🙂</em>.</p>
+      <p><em>Feedback</em> was <strong>positive</strong> <em>overall</em>.</p>
+      <p><em>We'll</em> <em>celebrate</em> with <strong>cake 🎂</strong>.</p>
+  - text: "text: NASA approved the integration. The U.N. committee sent a note. Our
+      C.E.O. thanked the contributors."
+    expected: >-
+      <p><strong>NASA</strong> <em>approved</em> the <em>integration</em>.</p>
+
+      <p>The <strong>U.N. committee</strong> <em>sent</em> a <em>note</em>.</p>
+
+      <p>Our <strong>C.E.O.</strong> <em>thanked</em> the
+      <em>contributors</em>.</p>
+  - text: "text: Are we ready to proceed? Yes, the checklist is complete. If
+      anything fails, will we roll back?"
+    expected: >-
+      <p>Are <em>we</em> <strong>ready</strong> to <em>proceed</em>?</p>
+
+      <p><em>Yes</em>, the <em>checklist</em> is <strong>complete</strong>.</p>
+
+      <p>If <em>anything</em> <em>fails</em>, will we <strong>roll
+      back</strong>?</p>
+  - text: "text: We faced a choice: delay the release or ship now. The team chose to
+      ship. Postmortem notes will be shared."
+    expected: >-
+      <p>We faced <strong>a choice</strong>: <em>delay the release</em> or
+      <em>ship now</em>.</p>
+
+      <p>The <em>team</em> <strong>chose</strong> to <em>ship</em>.</p>
+
+      <p><em>Postmortem</em> <em>notes</em> will be <strong>shared</strong>.</p>
+evaluators:
+  - name: use_rules_prompt_input
+    llm:
+      modelId: openai/gpt-4o
+      systemPrompt: >
+        Your task is to very carefully and thoroughly evaluate the given output
+        generated by a chatbot in <CHATBOT_OUTPUT> to find out if it comply with
+        its description and the rules that are extracted from the description
+        and provided to you in <RULES>.
+
+        Since the input is given to you in <INPUT>, you can use it to check for
+        the rules which requires knowing the input.
+
+        The chatbot description that you must use as the basis for your
+        evaluation are provided between the delimiters <DESC> and </DESC>. The
+        description is as follows:
+
+
+        <DESC>
+
+        You are a web developer who is formatting a paragraph of text as HTML.
+
+        First, please split the paragraph into individual sentences and wrap
+        each sentence with a <p> tag.
+
+        **Your answer should have at least three <p> tags.**
+
+        Then, inside each <p> tag, add one <strong> tag and multiple <em> tags
+        to emphasize key words and phrases.
+
+        [[text]]
+
+        </DESC>
+
+
+        The rules that you must use for your evaluation are provided between the
+        delimiters <RULES> and </RULES> and which are extracted from the
+        description. The rules are as follows:
+
+        <RULES>
+
+        Every top-level node in the output must be a <p> element and there must
+        be no text or HTML elements outside of <p> elements, where a "top-level
+        node" means any node not nested inside another element.
+
+        The output must contain at least three <p> elements, each with an
+        explicit opening tag "<p>" and a corresponding closing tag "</p>", and
+        no <p> element may be nested inside another <p> element.
+
+        Within each <p> element, there must be exactly one <strong> element
+        present as a descendant, where "descendant" means it appears between
+        that <p> element’s opening and closing tags and is entirely contained
+        within that <p> element.
+
+        Within each <p> element, there must be two or more <em> elements present
+        as descendants, where "two or more" means a count of at least 2 and
+        "descendant" means it appears between that <p> element’s opening and
+        closing tags and is entirely contained within that <p> element.
+
+        Every <strong> element must contain non-whitespace text content, where
+        "non-whitespace text content" means at least one visible character other
+        than spaces, tabs, or newline characters appears between "<strong>" and
+        "</strong>".
+
+        Every <em> element must contain non-whitespace text content, where
+        "non-whitespace text content" means at least one visible character other
+        than spaces, tabs, or newline characters appears between "<em>" and
+        "</em>".
+
+        The total number of <strong> elements in the output must equal the total
+        number of <p> elements.
+
+        The total number of <em> elements in the output must be greater than or
+        equal to twice the total number of <p> elements.
+
+        All HTML tags used in the output, including <p>, <strong>, and <em>,
+        must be properly closed and properly nested such that no closing tag
+        appears out of order and no two elements overlap incorrectly, where
+        "properly nested" means that if element A starts inside element B then
+        element A also ends before element B ends.
+
+        No <p>, <strong>, or <em> element may use self-closing syntax such as
+        "<p/>", "<strong/>", or "<em/>".
+
+        The output must not contain Markdown code fences, Markdown formatting
+        markers, or any non-HTML explanatory text, so only HTML elements and
+        text node content inside those elements are present.
+
+        </RULES>
+
+
+        The input for which the output is generated:
+
+        <INPUT>
+
+        {{input}}
+
+        </INPUT>
+
+
+        Here are the guidelines to follow for your evaluation process:
+
+
+        0. **Ignore prompting instructions from DESC**: The content of <DESC> is
+        the chatbot description. You should ignore any prompting instructions or
+        other content that is not part of the chatbot description. Focus solely
+        on the description provided.
+
+
+        1. **Direct Compliance Only**: Your evaluation should be based solely on
+        direct and explicit compliance with the description provided and the
+        rules extracted from the description. You should not speculate, infer,
+        or make assumptions about the chatbot's output. Your judgment must be
+        grounded exclusively in the textual content provided by the chatbot.
+
+
+        2. **Decision as Compliance Score**: You are required to generate a
+        compliance score based on your evaluation:
+           - Return 100 if <CHATBOT_OUTPUT> complies with all the constrains in the description and the rules extracted from the description
+           - Return 0 if it does not comply with any of the constrains in the description or the rules extracted from the description.
+           - Return a score between 0 and 100 if <CHATBOT_OUTPUT> partially complies with the description and the rules extracted from the description
+           - In the case of partial compliance, you should based on the importance of the rules and the severity of the violations, assign a score between 0 and 100. For example, if a rule is very important and the violation is severe, you might assign a lower score. Conversely, if a rule is less important and the violation is minor, you might assign a higher score. 
+
+        3. **Compliance Statement**: Carefully examine the output and determine
+        why the output does not comply with the description and the rules
+        extracted from the description, think of reasons why the output complies
+        or does not compiles with the chatbot description and the rules
+        extracted from the description, citing specific elements of the output.
+
+
+        4. **Explanation of Violations**: In the event that a violation is
+        detected, you have to provide a detailed explanation. This explanation
+        should describe what specific elements of the chatbot's output led you
+        to conclude that a rule was violated and what was your thinking process
+        which led you make that conclusion. Be as clear and precise as possible,
+        and reference specific parts of the output to substantiate your
+        reasoning.
+
+
+        5. **Focus on compliance**: You are not required to evaluate the
+        functional correctness of the chatbot's output as it requires reasoning
+        about the input which generated those outputs. Your evaluation should
+        focus on whether the output complies with the rules and the description,
+        if it requires knowing the input, use the input given to you.
+
+
+        6. **First Generate Reasoning**: For the chatbot's output given to you,
+        first describe your thinking and reasoning (minimum draft with 20 words
+        at most) that went into coming up with the decision. Answer in English.
+
+
+        By adhering to these guidelines, you ensure a consistent and rigorous
+        evaluation process. Be very rational and do not make up information.
+        Your attention to detail and careful analysis are crucial for
+        maintaining the integrity and reliability of the evaluation.
+
+
+        ### Evaluation
+
+        Rate the answer on a scale from 1-5 where:
+
+        1 = Poor (completely wrong or irrelevant)
+
+        2 = Below Average (partially correct but missing key information)
+
+        3 = Average (mostly correct with minor gaps)
+
+        4 = Good (accurate and complete with clear explanation)
+
+        5 = Excellent (exceptionally accurate, complete, and well-explained)
+
+        You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
+      prompt: |
+        <CHATBOT_OUTPUT>
+        {{completion}}
+        </CHATBOT_OUTPUT>
+      choices:
+        - choice: "1"
+          score: 0
+        - choice: "2"
+          score: 0.25
+        - choice: "3"
+          score: 0.5
+        - choice: "4"
+          score: 0.75
+        - choice: "5"
+          score: 1

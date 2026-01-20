@@ -1,0 +1,1649 @@
+[
+  {
+    "id": "d968d18",
+    "promptid": "9472734",
+    "ruleid": 1,
+    "rule": "For the very first response sent by the chatbot in a new conversation (the first response), the output must consist only of a greeting addressed to the user and a single explicit question asking what the desired prompt should be about, and it must not contain any other content beyond that greeting and that question.",
+    "inverse": false,
+    "testuid": "test-09898677",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: project management best practices; Audience: senior PMs; Tone: pragmatic; Constraints: avoid vendor names; Goal: create a reusable prompt; Context: new conversation",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: project management best practices; Audience: senior PMs; Tone: pragmatic; Constraints: avoid vendor names; Goal: create a reusable prompt; Context: new conversation",
+    "output": "Hi! Great to meet you. What exactly should the prompt be about within project management best practices for senior PMs? For example, do you want to focus on governance, risk management, stakeholder alignment, metrics/OKRs, delivery frameworks, or something else?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Multiple questions and extra content.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumes a topic without user input, violating “don’t assume any details.”  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2578023",
+    "promptid": "9472734",
+    "ruleid": 2,
+    "rule": "In the first response, the output must not include any section headings with the exact labels \"Prompt:\", \"Possible Additions:\", or \"Questions:\", and it must not include any blockquoted content.",
+    "inverse": false,
+    "testuid": "test-81047245",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: new conversation; Greeting preference: neutral; Instruction: begin only with a greeting and ask what the prompt should be about; Note: do not use headings yet",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: new conversation; Greeting preference: neutral; Instruction: begin only with a greeting and ask what the prompt should be about; Note: do not use headings yet",
+    "output": "Hello! What should the prompt be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Perfect compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting with prompt request without showing sections as required.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d2e5f63",
+    "promptid": "9472734",
+    "ruleid": 3,
+    "rule": "For the purposes of these rules, a greeting is a polite salutation addressed to the user at the beginning of the output (for example, “Hello” or “Hi”), and the explicit question must clearly ask what topic or subject the prompt should be about.",
+    "inverse": false,
+    "testuid": "test-09212986",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: starting fresh; Request: please open with a greeting and explicitly ask what the prompt topic should be; Preference: short greeting",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: starting fresh; Request: please open with a greeting and explicitly ask what the prompt topic should be; Preference: short greeting",
+    "output": "Hi! What should the prompt topic be?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets first-response requirements exactly\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Initial greeting and prompt topic request present, no disallowed sections shown.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6739b0c",
+    "promptid": "9472734",
+    "ruleid": 4,
+    "rule": "In any response after the first response in the same conversation (a non-initial response), the output must contain exactly three sections presented in this exact order from top to bottom: a section labeled \"Prompt:\", followed by a section labeled \"Possible Additions:\", followed by a section labeled \"Questions:\".",
+    "inverse": false,
+    "testuid": "test-86221624",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: ethical AI policy guidelines for public sector; Audience: policymakers; Tone: objective; Constraints: avoid proprietary tools; Context: second turn after your greeting",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: ethical AI policy guidelines for public sector; Audience: policymakers; Tone: objective; Constraints: avoid proprietary tools; Context: second turn after your greeting",
+    "output": "Prompt:\n> You will act as an expert in public-sector AI governance, policy drafting, and risk management to produce ethical AI policy guidelines for the public sector. Your primary audience is policymakers and senior civil servants. Maintain an objective, non-partisan tone. Avoid recommending or relying on proprietary tools or vendor-locked solutions; prefer open standards, open-source options, and vendor-neutral practices throughout.\n> \n> Purpose: Develop clear, implementable ethical AI policy guidelines that enable responsible innovation while safeguarding fundamental rights, public trust, and administrative integrity.\n> \n> Scope and tailoring: Customize the guidance to [JURISDICTION/REGION], [LEVEL OF GOVERNMENT], and [AGENCY TYPE/SECTORS]. Align with applicable frameworks and laws, including [RELEVANT REGULATIONS AND STANDARDS], and cite authoritative sources (e.g., NIST AI RMF, OECD AI Principles, UNESCO Recommendation on AI Ethics, ISO/IEC AI standards, national data protection laws, and—if applicable—EU AI Act). Where details are not provided, use conservative public-sector defaults and flag them clearly as “Assumptions.”\n> \n> Constraints and style:\n> - Objective, policy-neutral tone suitable for policymakers.\n> - Avoid proprietary tools and vendor lock-in; emphasize open standards, open-source, and cloud-/vendor-agnostic approaches.\n> - Use clear headings, numbered sections, and plain language; define terms and avoid unnecessary jargon.\n> - Address equity, accessibility, and inclusion; account for underserved communities and potential disparate impacts.\n> - Provide actionable steps, measurable criteria, and implementation guidance, not just high-level principles.\n> \n> Deliverables:\n> 1) Executive Summary (≈1 page) highlighting purpose, scope, key principles, risk posture, and immediate actions.\n> 2) Full Policy Guidelines (≈1500–2500 words) with numbered sections covering:\n>    - Definitions and scope of AI systems in government\n>    - Governance model and roles (e.g., CIO, CDO, CISO, Chief AI Officer, Legal, Ethics Board)\n>    - Risk classification and AI Impact Assessment (AIA) process\n>    - Data governance, privacy, and security controls (including DPIA alignment where relevant)\n>    - Fairness, bias mitigation, and evaluation metrics\n>    - Transparency, explainability, and documentation (Model Cards, Data Sheets)\n>    - Human oversight, review, and red-teaming\n>    - Public engagement, accessibility, and grievance/appeals mechanisms\n>    - Procurement and vendor management (open standards, auditability, data/export rights)\n>    - Incident reporting, logging, monitoring, and audit readiness\n>    - Training, capacity building, and change management\n>    - KPIs, compliance monitoring, and continuous improvement\n>    - Implementation roadmap and governance cadence\n> 3) Practical tools and templates:\n>    - AI Impact Assessment (AIA) template and risk register\n>    - Procurement checklist and sample language emphasizing open standards and transparency\n>    - Model Card and Data Sheet templates\n>    - Audit checklist and incident response playbook (including harm reporting pathways)\n> 4) Plain-language briefing for senior officials and a concise 8–10 slide outline for a policy briefing.\n> 5) Glossary of key terms and an annotated list of references (standards, governmental exemplars, and research).\n> \n> Method and structure:\n> - Start with an “Assumptions” box listing any placeholders used (e.g., [JURISDICTION], [SECTORS], [USE CASES], [RISK APPETITE], [LANGUAGE], [ACCESSIBILITY REQUIREMENTS]).\n> - Provide the Executive Summary first, then the Full Policy Guidelines, then tools/templates, then the briefing outline, glossary, and references.\n> - Include brief justifications and examples for major requirements. Do not include internal chain-of-thought; keep rationale concise and directly tied to the requirement.\n> - Flag ethical red lines and high-risk practices requiring strict safeguards or prohibition (e.g., biometric identification in public spaces without a clear legal basis and oversight).\n> \n> Exclusions and cautions:\n> - Do not recommend proprietary or closed, vendor-specific solutions.\n> - Avoid speculative or unproven technologies unless clearly labeled and bounded by safeguards.\n> - Note jurisdictional variability and include a disclaimer that this is not legal advice.\n> \n> Output language and accessibility: [LANGUAGE PREFERENCE, default English]. Use plain language suitable for policymakers and ensure accessibility best practices (e.g., descriptive headings, readable structure).\n> \n> Inputs available: Topic (ethical AI policy guidelines for public sector), Audience (policymakers), Tone (objective), Constraints (avoid proprietary tools). Incorporate any additional inputs provided below directly into the guidance and templates.\n\nPossible Additions:\nA. INCLUDE A DETAILED CROSSWALK TO NIST AI RMF, OECD AI PRINCIPLES, ISO/IEC STANDARDS, AND (IF APPLICABLE) EU AI ACT WITH A GAP ANALYSIS.\nB. ADD SAMPLE POLICY CLAUSES AND PROCUREMENT/RFP LANGUAGE WITH OPEN-STANDARDS AND AUDITABILITY REQUIREMENTS.\nC. PROVIDE A MATURITY MODEL WITH STAGES, KPIS, AND A 12–18 MONTH IMPLEMENTATION ROADMAP.\n\nQuestions:\n1) What jurisdiction/region and level(s) of government should this target, and are there specific agencies or sectors to prioritize?\n2) Which AI use cases are in scope (and out of scope), and are there any high-risk practices you want explicitly restricted or prohibited?\n3) What formats and length constraints do you prefer (e.g., page limits, number of templates, slide count), and any language or accessibility requirements?\n\nNext steps: Please select any of the Possible Additions (e.g., “Add A and C”) and answer the Questions. You can also provide any extra constraints or details. I will incorporate your selections and answers directly into the next prompt iteration.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Introduces new concrete particulars\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used required markdown formatting, placeholders, three concise additions, three questions, and next steps per description. \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "20057aa",
+    "promptid": "9472734",
+    "ruleid": 5,
+    "rule": "For the purposes of these rules, a section is a contiguous block of text introduced by its exact heading label followed by a colon (for example, the literal string \"Prompt:\"), and it contains only the content that belongs to that section until the next section heading or the end of the output.",
+    "inverse": false,
+    "testuid": "test-72722452",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: cybersecurity incident response playbook; Audience: SOC leads; Tone: authoritative; Constraints: no company names; Context: non-initial response; Goal: cleanly separated sections",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: cybersecurity incident response playbook; Audience: SOC leads; Tone: authoritative; Constraints: no company names; Context: non-initial response; Goal: cleanly separated sections",
+    "output": "Hi! What would you like the prompt to be about? If it helps, I see you mentioned a cybersecurity incident response playbook for SOC leads in an authoritative tone, with cleanly separated sections and no company names—should I proceed with that as the focus?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Output violates non-initial response structure rules.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Chatbot output greets and asks prompt topic without showing sections. Complies with description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3579899",
+    "promptid": "9472734",
+    "ruleid": 6,
+    "rule": "In every non-initial response, the \"Prompt:\" section must be present exactly once and must contain a non-empty prompt that is framed as a request addressed to ChatGPT, explicitly instructing ChatGPT on a role and a task in the imperative or directive mood.",
+    "inverse": false,
+    "testuid": "test-39778786",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: climate data analysis workflow; Audience: data scientists; Tone: instructive; Constraints: avoid dates/numbers; Goal: have ChatGPT act with a defined role; Context: subsequent turn",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: climate data analysis workflow; Audience: data scientists; Tone: instructive; Constraints: avoid dates/numbers; Goal: have ChatGPT act with a defined role; Context: subsequent turn",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about?\n\nIf it helps, I see you’re leaning toward a climate data analysis workflow for data scientists in an instructive tone with a defined role for ChatGPT. Would you like to proceed with that, and if so, what specific role should ChatGPT adopt (for example, “senior climate data engineer” or “principal data scientist”)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content and questions\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Off-topic suggestion not requested; should only greet and ask topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "749b4b9",
+    "promptid": "9472734",
+    "ruleid": 7,
+    "rule": "In every non-initial response, all lines of the content within the \"Prompt:\" section must be formatted as a Markdown blockquote by beginning with the greater-than character \">\", and the \"Prompt:\" content must not be enclosed by additional quotation marks around the entire block.",
+    "inverse": false,
+    "testuid": "test-38700273",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: creative writing prompt engineering; Audience: authors; Tone: inspirational; Constraints: avoid named works; Context: non-initial; Formatting request: prompt lines should be blockquoted",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: creative writing prompt engineering; Audience: authors; Tone: inspirational; Constraints: avoid named works; Context: non-initial; Formatting request: prompt lines should be blockquoted",
+    "output": "Hi! Excited to help craft an inspirational creative writing prompt tailored for authors. What should the prompt specifically be about? For example, do you want it to spark story ideas, develop characters, outline a plot, or refine voice—within a particular genre or theme?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required non-initial sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and question correctly presented without sections as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "dcf64b8",
+    "promptid": "9472734",
+    "ruleid": 8,
+    "rule": "In every non-initial response, the content of the \"Prompt:\" section must not begin or end with a single quote (') or double quote (\") that would enclose the entire prompt, and any quotation marks that appear inside the blockquote must not wrap the whole content.",
+    "inverse": false,
+    "testuid": "test-17004433",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: ethical product design; Audience: UX leads; Tone: practical; Constraint: include the exact phrase 'ethical-by-design' inside the prompt; Context: non-initial",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: ethical product design; Audience: UX leads; Tone: practical; Constraint: include the exact phrase 'ethical-by-design' inside the prompt; Context: non-initial",
+    "output": "Hi! What would you like the prompt to be about specifically?\n\nYou mentioned:\n- Topic: ethical product design\n- Audience: UX leads\n- Tone: practical\n- Constraint: include the exact phrase “ethical-by-design”\n- Context: non-initial (continuation)\n\nCould you confirm this focus and share the specific outcome you want from ChatGPT (e.g., a playbook, checklist, workshop plan, design review rubric, policy draft, case study analysis)? Additionally, any domain, timeframe, or tools you want incorporated?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections in non-initial response\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Referenced non-existent user details and over-elaborated first response, violating initial greeting-only requirement.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5c5afd5",
+    "promptid": "9472734",
+    "ruleid": 9,
+    "rule": "In every non-initial response, the content of the \"Prompt:\" section must explicitly address ChatGPT (for example, by using second-person constructions such as “You will …” or by naming “ChatGPT”) so that it is clearly a request for a response from ChatGPT.",
+    "inverse": false,
+    "testuid": "test-58723518",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: robotics path planning; Audience: senior robotics engineers; Tone: technical; Constraints: no proprietary libraries; Context: non-initial; Goal: have the prompt address ChatGPT explicitly",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: robotics path planning; Audience: senior robotics engineers; Tone: technical; Constraints: no proprietary libraries; Context: non-initial; Goal: have the prompt address ChatGPT explicitly",
+    "output": "Hi! Great—let’s craft a powerful prompt together.\n\nWhat specific aspect of robotics path planning would you like the prompt to focus on (e.g., kinodynamic planning for mobile robots, multi-robot coordination, sampling-based planners, planning under uncertainty, real-time replanning, manipulator motion planning, or benchmarking/evaluation)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect non-initial response format.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumes a specific domain (robotics path planning) instead of generically asking what the prompt should cover.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2f3fd87",
+    "promptid": "9472734",
+    "ruleid": 10,
+    "rule": "In every non-initial response, the \"Possible Additions:\" section must be present exactly once and must contain exactly three distinct options, each presented on its own line and labeled with a unique single uppercase Latin letter in ascending alphabetical order starting with A (for example, A, B, C).",
+    "inverse": false,
+    "testuid": "test-06045392",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: marketing analytics strategy; Audience: CMOs; Tone: consultative; Constraints: avoid brand names; Context: non-initial; Request: provide three concise additions labeled A–C",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: marketing analytics strategy; Audience: CMOs; Tone: consultative; Constraints: avoid brand names; Context: non-initial; Request: provide three concise additions labeled A–C",
+    "output": "Great to meet you! What would you like the prompt to be about? If it’s “marketing analytics strategy for CMOs” in a consultative tone with no brand names, please confirm and share any specific focus areas you want emphasized (for example: measurement frameworks, attribution, org design, data governance, or budget optimization).",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Missing required non-initial sections\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and ask only, no sections shown, compliant.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f492f78",
+    "promptid": "9472734",
+    "ruleid": 11,
+    "rule": "In every non-initial response, the text of the three options in the \"Possible Additions:\" section must be concise statements intended to expand the details of the prompt and must not be empty.",
+    "inverse": false,
+    "testuid": "test-99521931",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: financial risk modeling with Monte Carlo; Audience: risk analysts; Tone: precise; Constraints: no specific numbers; Context: non-initial; Goal: additions should expand details concisely",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: financial risk modeling with Monte Carlo; Audience: risk analysts; Tone: precise; Constraints: no specific numbers; Context: non-initial; Goal: additions should expand details concisely",
+    "output": "Hello! Great—financial risk modeling with Monte Carlo for a risk analyst audience, precise tone, and no specific numbers noted.\n\nWhat specific focus should the prompt have within Monte Carlo risk modeling? For example: market VaR/ES for portfolios, credit risk (PD/LGD/EAD), counterparty/CVA, liquidity risk, operational risk, stress testing/scenario generation, model validation/backtesting, or model governance.\n\nAlso helpful:\n- Do you want conceptual guidance, implementation guidance, or both?\n- Preferred tools or languages (e.g., Python, R, Excel/VBA, pseudo-code, platform-agnostic)?\n- Any constraints on scope (e.g., path-dependent derivatives, correlation modeling, multivariate distributions, variance reduction, calibration methods, regulatory framing like FRTB/Basel/IFRS 9)?\n\nTell me the focus and preferences, and I’ll draft the first version of the prompt.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections and headings\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "First response should ask what the prompt should be about, not assume topic or give sections.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f44467f",
+    "promptid": "9472734",
+    "ruleid": 12,
+    "rule": "In every non-initial response, the three options listed in the \"Possible Additions:\" section must be new compared to the chatbot’s immediately previous response in the same conversation, meaning none of the option texts may be identical to any option text from that immediately previous response.",
+    "inverse": false,
+    "testuid": "test-87081168",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: supply chain optimization; Audience: operations directors; Tone: strategic; Context: continuing iteration; Previously used additions: A. Include a real-world case study; B. Add a checklist; C. Provide sample prompts; Requirement: propose new options",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: supply chain optimization; Audience: operations directors; Tone: strategic; Context: continuing iteration; Previously used additions: A. Include a real-world case study; B. Add a checklist; C. Provide sample prompts; Requirement: propose new options",
+    "output": "Great to meet you. What would you like the prompt to be about specifically? \n\nYou mentioned supply chain optimization for operations directors with a strategic tone. To tailor the prompt precisely, which aspect of supply chain optimization should we focus on (e.g., network design, inventory optimization, S&OP, logistics, procurement risk, resilience, sustainability, AI/ML-driven optimization, scenario planning, or a full operating model refresh)? \n\nOnce you confirm the focus, I’ll draft the first iteration and propose new addition options beyond the ones you’ve already used.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections and format.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Referenced user details that weren’t provided and went beyond greeting/requesting topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9fb643b",
+    "promptid": "9472734",
+    "ruleid": 13,
+    "rule": "In every non-initial response, the \"Questions:\" section must be present exactly once and must contain exactly three distinct questions, each written as a complete sentence that ends with a question mark (?).",
+    "inverse": false,
+    "testuid": "test-99239175",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: educational curriculum design for STEM; Audience: curriculum planners; Tone: analytical; Constraints: avoid school names; Context: non-initial; Request: ask three clarifying questions",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: educational curriculum design for STEM; Audience: curriculum planners; Tone: analytical; Constraints: avoid school names; Context: non-initial; Request: ask three clarifying questions",
+    "output": "Hello! Great to meet you. I’ll help you craft an expert prompt for educational curriculum design in STEM, tailored for curriculum planners and written in an analytical tone while avoiding school names.\n\nTo focus the prompt effectively, please answer the following three clarifying questions:\n1) What specific problem or outcome in STEM curriculum design should the prompt target (e.g., integrating computational thinking, building project-based pathways, cross-curricular alignment, assessment redesign, teacher PD integration)?\n2) Which grade bands and STEM domains are in scope, and which standards or frameworks (if any) should it align to (e.g., NGSS, CCSS-M, CSTA, local/national frameworks)?\n3) What deliverables do you want from ChatGPT (e.g., framework outline, course sequences, learning progressions, sample units, assessment strategy, implementation roadmap), and what contextual constraints or goals should shape them (time, resources, policy requirements, equity and accessibility priorities, “non-initial” starting context)?\n\nNext step: Reply with your answers to the three questions. I’ll then produce the first iteration with a fully drafted prompt, optional additions, and follow-up questions.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections and format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided detailed clarifying questions and assumed topic instead of just greeting and asking what the prompt should be about.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "834be8e",
+    "promptid": "9472734",
+    "ruleid": 14,
+    "rule": "In every non-initial response, each question in the \"Questions:\" section must clearly seek additional information from the user to further refine or clarify the desired prompt and must be related to the prompt’s goals, scope, constraints, audience, content, or format.",
+    "inverse": false,
+    "testuid": "test-71306673",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: legal compliance checklist for data privacy; Audience: compliance officers; Tone: formal; Constraints: no specific statutes by number; Context: non-initial; Goal: questions should refine goals/scope/audience/constraints",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: legal compliance checklist for data privacy; Audience: compliance officers; Tone: formal; Constraints: no specific statutes by number; Context: non-initial; Goal: questions should refine goals/scope/audience/constraints",
+    "output": "Hello! Great to meet you. What would you like the prompt to be about?\n\nI see you’re leaning toward a legal compliance checklist for data privacy, aimed at compliance officers, with a formal tone, avoiding references to specific statute numbers, and building on non-initial context. Is that correct, or would you like to adjust any of those parameters?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output offers suggestions and assumptions instead of only greeting and asking the prompt topic  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e32b259",
+    "promptid": "9472734",
+    "ruleid": 15,
+    "rule": "In every non-initial response, after the three sections (\"Prompt:\", \"Possible Additions:\", and \"Questions:\"), the output must include a final concise instruction to the user describing the next steps in the iterative process (for example, to choose additions and answer the questions), and this instruction must appear at the very end of the output.",
+    "inverse": false,
+    "testuid": "test-11249052",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: game design prompt for level balancing; Audience: game designers; Tone: collaborative; Constraints: no engine names; Context: non-initial; Request: conclude with concise next steps",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: game design prompt for level balancing; Audience: game designers; Tone: collaborative; Constraints: no engine names; Context: non-initial; Request: conclude with concise next steps",
+    "output": "Great to meet you! I’m ready to help craft a collaborative prompt tailored for game designers focused on level balancing.\n\nWhat specific focus should the prompt have within level balancing? For example, do you want it to address difficulty curves, enemy/loot tuning, progression pacing, accessibility, A/B testing for balance changes, or live-ops balancing over time?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections for a non-initial response.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumed a specific topic instead of simply asking what the prompt should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "41489ef",
+    "promptid": "9472734",
+    "ruleid": 16,
+    "rule": "In any non-initial response, no sections or content other than the three required sections and the final next-steps instruction may appear in the output.",
+    "inverse": false,
+    "testuid": "test-03367017",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: DevOps incident retrospectives; Audience: SRE leads; Tone: constructive; Constraints: avoid vendor tooling mentions; Context: non-initial; Requirement: only sections plus final instruction",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: DevOps incident retrospectives; Audience: SRE leads; Tone: constructive; Constraints: avoid vendor tooling mentions; Context: non-initial; Requirement: only sections plus final instruction",
+    "output": "> You will act as an expert Site Reliability Engineering leader and incident analysis facilitator to help SRE leads design and run effective, constructive, blameless DevOps incident retrospectives. Your task is to produce a vendor-agnostic, practical, end-to-end guide, templates, and example outputs tailored to the details I provide. Maintain a constructive, learning-oriented tone appropriate for SRE leads and avoid mentioning specific vendors or products.\n> \n> First, ask any necessary clarifying questions to tailor the guidance (do not assume facts). If information is missing, state what you need and proceed only after confirmation. If you must illustrate structures before details are supplied, use clearly labeled generic placeholders (e.g., <team>, <service>, <SLO>) and mark them as examples, not assumptions.\n> \n> When details are provided, deliver:\n> 1) Facilitation playbook: purpose, principles (blameless, Just Culture, psychological safety), roles, pre-work checklist, data to gather, timeboxed agendas (30/60/90 minutes), in-meeting scripts, cognitive biases and anti-patterns to watch, and variants for synchronous vs asynchronous and single-team vs cross-functional sessions.\n> 2) Retrospective template: sections for incident summary, impact and customer/business effect, severity and scope, timeline with evidence, detection and signals, contributing factors (technical/process/organizational), decisions and trade-offs, what helped/hurt, SLO/SLA/error budget impact, on-call load and toil, runbooks/automation gaps, and follow-up actions (immediate/short/medium/long-term) with owners, due dates, effort, risk reduction, priority, verification steps, success criteria, risk acceptance rationale, and learning outcomes.\n> 3) Action tracking schema: fields, states, and governance to ensure closure (ownership, escalation paths, review cadence, closure criteria), plus program health metrics (completion rate, recurrence rate, time-to-retro, action aging).\n> 4) Metrics and analysis guidance: definitions and cautions for MTTD/MTTR, change failure rate, incident recurrence, pager load/on-call health, error budget consumption, user-minutes impacted; include how to responsibly quantify qualitative impact and tie outcomes to business value.\n> 5) Communication patterns: concise executive summary format, internal stakeholder updates, and customer-facing post-incident messaging guidelines; include tone and content guidance while avoiding blame and vendor references.\n> 6) Implementation roadmap: how to bootstrap and scale a retrospective practice, integrate with SLO-based operations and change management, conduct trend analysis and quarterly learning reviews, improve knowledge bases and runbooks, and verify follow-through.\n> 7) An anonymized worked example retrospective using placeholders, demonstrating the template and playbook in action, to be replaced later with real data.\n> \n> Constraints:\n> - Do not mention or recommend specific vendors, products, or proprietary tools; use generic terms only.\n> - Keep language constructive, precise, and actionable for SRE leads.\n> - Explicitly call out where adaptation is needed for organization size, complexity, and regulatory environment.\n> \n> Interaction protocol:\n> - Step 1: Ask targeted clarifying questions.\n> - Step 2: After answers, present the outputs in the order above, with clear headings and bulleting for easy reuse.\n> - Step 3: Provide a brief checklist to reuse for future incidents and a one-page quick-start summary.\n\nPossible Additions:\nA. Add comparative RCA methods (5 Whys, Fishbone, STPA) with when-to-use guidance and mini-templates.\nB. Add psychological safety scripts, de-escalation phrases, and sample ground rules for blameless facilitation.\nC. Add a remediation prioritization rubric (risk reduction vs effort) with example scales and a simple decision matrix.\n\nQuestions:\n1) Which incident types and severities should this focus on (e.g., outages, performance regressions, security events, change-induced failures), and typical timeframes of interest?\n2) What facilitation constraints or preferences apply (timebox, synchronous vs asynchronous, team size, cross-functional participants, regulatory/customer obligations)?\n3) Which deliverables should be prioritized (template, facilitator playbook, metrics framework, communication patterns, worked example), and any formatting preferences for the outputs?\n\nNext step: Select any of the Possible Additions (A–C) you want included and answer any of the Questions. I will incorporate your choices directly into the next prompt iteration.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing Prompt: heading and extra sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output begins with full prompt, missing initial greeting and ask section first as required.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4ac0f6c",
+    "promptid": "9472734",
+    "ruleid": 17,
+    "rule": "In all responses, the output must not state or imply that there is a maximum length limit for the prompt content.",
+    "inverse": false,
+    "testuid": "test-06926614",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: comprehensive business strategy prompt; Audience: executive team; Tone: thorough; Constraints: none about length; Context: non-initial; Request: avoid any mention of maximum prompt length limits",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: comprehensive business strategy prompt; Audience: executive team; Tone: thorough; Constraints: none about length; Context: non-initial; Request: avoid any mention of maximum prompt length limits",
+    "output": "Hello! I’m ready to craft a thorough, comprehensive business strategy prompt tailored for an executive team.\n\nWhat specific business situation or objective should the prompt focus on? For example: market expansion, turnaround, digital transformation, M&A, product/portfolio strategy, pricing, org redesign, or go-to-market. If helpful, share the industry, company size/stage, geography, time horizon, key constraints, and primary outcomes you want.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections and formatting.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting provided and sections omitted as required. OK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "858bace",
+    "promptid": "9472734",
+    "ruleid": 18,
+    "rule": "For the purposes of these rules, user-provided details are specific facts, constraints, examples, definitions, or selections stated by the user earlier in the same conversation, and in every non-initial response the \"Prompt:\" section must not introduce new concrete particulars (such as specific names, dates, numbers, or proprietary tool names) that were not present in the user-provided details.",
+    "inverse": false,
+    "testuid": "test-35176835",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Topic: distributed systems architecture guidance; Audience: experienced engineers; Tone: professional; Constraints: avoid vendor names and hard numbers; Context: non-initial; Goal: keep specifics generic and only from user details",
+    "model": "gpt-5-2025-08-07",
+    "input": "Topic: distributed systems architecture guidance; Audience: experienced engineers; Tone: professional; Constraints: avoid vendor names and hard numbers; Context: non-initial; Goal: keep specifics generic and only from user details",
+    "output": "Hello! Thanks for the context. To tailor the prompt precisely: within distributed systems architecture guidance for experienced engineers, what specific areas do you want the prompt to focus on (for example: consistency models, scaling strategies, fault tolerance, observability, data partitioning, API design, security, deployment patterns)? Feel free to mention any scenario or system type you have in mind and any exclusions you want respected.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections in non-initial response\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The assistant assumed a specific topic (“distributed systems architecture guidance”) instead of simply greeting the user and asking what the prompt should be about, as required for the first response.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c5785a9",
+    "promptid": "9472734",
+    "ruleid": 19,
+    "rule": "For the very first response sent by the chatbot in a new conversation, the output must avoid any greeting and must not ask what the desired prompt should be about; instead it must include additional content such as at least two example prompts and optional extraneous commentary.",
+    "inverse": true,
+    "testuid": "test-78638319",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: This is the first message in a new conversation. Topic: Draft a prompt for a whitepaper on renewable energy storage. Goals: Emphasize lifecycle costs, grid integration, and Li-ion vs. flow batteries. Audience: CTOs and policy analysts. Tone: Neutral, technical. Constraints: Include acronyms (LCOS, BMS), exclude marketing language. Examples: You may incorporate technical definitions verbatim. Preferences: Keep prompt length tight. Notes: Assume North American regulatory context.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: This is the first message in a new conversation. Topic: Draft a prompt for a whitepaper on renewable energy storage. Goals: Emphasize lifecycle costs, grid integration, and Li-ion vs. flow batteries. Audience: CTOs and policy analysts. Tone: Neutral, technical. Constraints: Include acronyms (LCOS, BMS), exclude marketing language. Examples: You may incorporate technical definitions verbatim. Preferences: Keep prompt length tight. Notes: Assume North American regulatory context.",
+    "output": "Hello! To get started, what would you like the prompt to be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with first-response rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies: greeting plus asking topic without sections shown.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "11c158f",
+    "promptid": "9472734",
+    "ruleid": 20,
+    "rule": "In the first response, the output must include all three exact section headings \"Prompt:\", \"Possible Additions:\", and \"Questions:\", and it must contain at least one Markdown blockquote.",
+    "inverse": true,
+    "testuid": "test-12936852",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: First reply in a new thread. Topic: Create a prompt about designing a microservice for image processing. Goals: Cover scalability, latency, and observability. Audience: Senior backend engineers. Tone: Precise, practical. Constraints: Mention Kubernetes, gRPC, and retries. Examples: Include a log schema verbatim if helpful. Preferences: Avoid playful language.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: First reply in a new thread. Topic: Create a prompt about designing a microservice for image processing. Goals: Cover scalability, latency, and observability. Audience: Senior backend engineers. Tone: Precise, practical. Constraints: Mention Kubernetes, gRPC, and retries. Examples: Include a log schema verbatim if helpful. Preferences: Avoid playful language.",
+    "output": "Hello. To begin, what should the prompt be about?\n\nIf you’d like me to confirm: should it focus on designing an image-processing microservice for senior backend engineers, emphasizing scalability, latency, and observability, and explicitly mentioning Kubernetes, gRPC, and retries, with the option to include a verbatim log schema example?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Added unsolicited detailed suggestion question; exceeded the initial greeting and prompt topic question.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "eb47827",
+    "promptid": "9472734",
+    "ruleid": 21,
+    "rule": "For the purposes of these rules, a greeting may appear only at the end and need not be polite, and any explicit question must not inquire about the prompt’s topic but may be implicit, rhetorical, or multi-part.",
+    "inverse": true,
+    "testuid": "test-23926652",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: New conversation initial message. Topic: Write a prompt for exploring quantum error correction strategies. Goals: Compare surface codes and Bacon-Shor. Audience: Graduate physics students. Tone: Academic and precise. Constraints: Include equations text verbatim if needed. Preferences: Keep jargon defined once. Additional: You may ask non-topic questions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: New conversation initial message. Topic: Write a prompt for exploring quantum error correction strategies. Goals: Compare surface codes and Bacon-Shor. Audience: Graduate physics students. Tone: Academic and precise. Constraints: Include equations text verbatim if needed. Preferences: Keep jargon defined once. Additional: You may ask non-topic questions.",
+    "output": "Hello! What would you like the prompt to be about? If you already have specific goals, audience, tone, constraints (e.g., include equations verbatim, define jargon once), or preferences, share them and I’ll incorporate them as we iterate.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and prompt inquiry provided as specified—no sections shown.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ce14a6e",
+    "promptid": "9472734",
+    "ruleid": 22,
+    "rule": "In any response after the first response in the same conversation, the output must not contain exactly the three sections in the order \"Prompt:\", \"Possible Additions:\", \"Questions:\"; instead it must have a different order and at least one extra or missing section.",
+    "inverse": true,
+    "testuid": "test-27828433",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up message in same conversation. Topic: Refine a prompt about data governance in multi-cloud. Goals: Emphasize lineage, cataloging, and policy enforcement. Audience: Enterprise data architects. Tone: Advisory. Constraints: Include tools list verbatim: Apache Atlas, Collibra, Purview. Preferences: Integrate privacy-by-design. Previous: I selected additions B and C earlier.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up message in same conversation. Topic: Refine a prompt about data governance in multi-cloud. Goals: Emphasize lineage, cataloging, and policy enforcement. Audience: Enterprise data architects. Tone: Advisory. Constraints: Include tools list verbatim: Apache Atlas, Collibra, Purview. Preferences: Integrate privacy-by-design. Previous: I selected additions B and C earlier.",
+    "output": "Prompt:\n> You will act as an expert enterprise data governance architect advising enterprise data architects on establishing and scaling data governance in a multi-cloud environment. Your response must place special emphasis on end-to-end data lineage, enterprise data cataloging, and policy enforcement, and integrate privacy-by-design across the full data lifecycle.\n> \n> Constraints and must-haves:\n> - Use an advisory, practitioner-focused tone for an audience of enterprise data architects.\n> - Treat the context as multi-cloud (specific providers to be confirmed).\n> - Include and discuss the following tools list verbatim: Apache Atlas, Collibra, Purview. Use this exact list when referencing tool capabilities, mappings, and integrations.\n> - Incorporate the previously selected additions:\n>   - Addition B: [paste the exact text of Addition B here]\n>   - Addition C: [paste the exact text of Addition C here]\n> \n> Deliverables to produce:\n> - Executive summary of key recommendations and decision criteria.\n> - Target-state governance architecture for multi-cloud, covering control plane vs data planes; centralized vs federated patterns; how Apache Atlas, Collibra, Purview interoperate.\n> - Lineage strategy: levels of lineage (schema/table/column, job/process, semantic/business); ingestion and enrichment patterns; propagation rules; reconciliation and validation; lineage observability and change management.\n> - Catalog strategy: taxonomy and glossary; classification and sensitivity schemes; business/technical metadata model; curation workflows; quality signals; search/discovery experience and adoption levers.\n> - Policy enforcement model: policy hierarchy (enterprise, domain, dataset); attribute-based access control; masking/tokenization; policy-as-code hooks; runtime enforcement across clouds and platforms; exception handling; audit trails and evidence.\n> - Privacy-by-design: data minimization, purpose limitation, consent and lawful basis tracking, DPIAs, privacy control checkpoints in SDLC/PDLC, automated PII/PHI detection and classification, DSAR/RTBF enablement, cross-border transfer controls and residency.\n> - Tool mapping and integration:\n>   - Positioning of Apache Atlas, Collibra, Purview (e.g., system of record vs system of engagement), strengths/limits for lineage, catalog, and policy, and integration models across providers.\n>   - Connectors, APIs, and metadata exchange patterns; approaches to avoid duplication and maintain a single source of truth; synchronization and conflict resolution strategies.\n> - Operating model: roles and RACI (data owners, stewards, platform, security, privacy, domains); federated stewardship; governance council cadence; enablement and change management.\n> - Implementation roadmap: phases with milestones, pilots and quick wins, scale-out plan, dependency and risk management.\n> - KPIs, SLOs, and dashboards: lineage coverage %, catalog completeness %, policy compliance rate, time-to-entitlement, time-to-detect/remediate violations; leading and lagging indicators.\n> - Risks and mitigations: multi-cloud interoperability gaps, metadata drift, identity fragmentation, key management, cost and performance, vendor lock-in; control design and test cases.\n> - Example artifacts: sample policy statements and translations to enforcement rules; sample glossary and classification scheme; example lineage narratives for representative batch and streaming pipelines; onboarding and deprecation checklists.\n> \n> Tailoring inputs to confirm before finalizing:\n> - In-scope cloud providers, data platforms, and data movement patterns (batch/streaming).\n> - Regulatory and compliance obligations (e.g., GDPR, CCPA, HIPAA) and any data residency constraints.\n> - Current maturity, existing tools, target domains/use cases, and near-term priorities.\n> \n> Formatting:\n> - Use clear section headings and bullet lists; avoid heavy visuals. Include concise pseudo-config or API snippets only if explicitly requested.\n\nPossible Additions:\nA. Add multi-cloud reference architectures for three scenarios (centralized lakehouse, polyglot DW+lake, data mesh), with trade-offs and decision criteria.\nB. Include detailed lineage and catalog enrichment examples for one streaming and one batch pipeline, and note interoperability options if applicable.\nC. Provide a privacy engineering control catalog mapped to common regulations plus a DSAR automation workflow.\n\nQuestions:\n1) Please paste the exact text of the previously selected Additions B and C so I can integrate them verbatim into the prompt.\n2) Which cloud providers, data platforms, and domains/use cases are in scope? Any regulatory or data residency constraints to account for?\n3) What depth and format do you prefer (concise blueprint vs deep-dive)? Should code/pseudocode or comparison matrices be included?\n\nNext steps: Share the text of your prior selections for B and C, choose any of the new additions (A/B/C) to include, and answer the questions you can. I will then integrate your inputs directly into the prompt and return an updated version for your review.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Reused previous additions\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Compliant: includes a Markdown ‘>’ prompt, three additions (A/B/C), three questions, and next steps per spec.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7d3bdbf",
+    "promptid": "9472734",
+    "ruleid": 23,
+    "rule": "For the purposes of these rules, a section may be non-contiguous, may omit the colon after its heading, and may interleave content with other sections without clear boundaries.",
+    "inverse": true,
+    "testuid": "test-11829185",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Subsequent reply in the same thread. Topic: Build a prompt for a marketing A/B testing plan. Goals: Variant design, sample sizing, uplift measurement. Audience: Growth PMs. Tone: Analytical. Constraints: Include formula text verbatim for power analysis. Preferences: Avoid fluff. Notes: You can shuffle sections.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Subsequent reply in the same thread. Topic: Build a prompt for a marketing A/B testing plan. Goals: Variant design, sample sizing, uplift measurement. Audience: Growth PMs. Tone: Analytical. Constraints: Include formula text verbatim for power analysis. Preferences: Avoid fluff. Notes: You can shuffle sections.",
+    "output": "Hello! What would you like the prompt to be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Non‐initial response ignored required sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greets user and asks prompt topic without sections as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "611dd38",
+    "promptid": "9472734",
+    "ruleid": 24,
+    "rule": "In every non-initial response, a \"Prompt:\" section must either be omitted altogether or appear more than once, and any such section must not contain a request addressed to ChatGPT nor use imperative or directive mood and may be empty.",
+    "inverse": true,
+    "testuid": "test-55201313",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up iteration. Topic: Create a prompt about urban traffic simulation. Goals: Agent behaviors, signal timing, and congestion metrics. Audience: Transportation analysts. Tone: Technical. Constraints: Include SUMO and MATSim references. Preferences: Provide reproducible parameters. Prior Answers: Time horizon = 90 minutes; grid size = 20x20.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up iteration. Topic: Create a prompt about urban traffic simulation. Goals: Agent behaviors, signal timing, and congestion metrics. Audience: Transportation analysts. Tone: Technical. Constraints: Include SUMO and MATSim references. Preferences: Provide reproducible parameters. Prior Answers: Time horizon = 90 minutes; grid size = 20x20.",
+    "output": "Thanks for the context. I’ll draft the next iteration. Below are the three sections. Please select additions and answer the questions so I can refine the prompt further.\n\nPrompt\n> You will act as an expert in urban traffic simulation for transportation analysts to design, configure, and evaluate a reproducible study of agent behaviors, traffic signal timing strategies, and congestion metrics using both SUMO (microsimulation) and MATSim (agent-based DTA). Produce a technical, implementation-ready response. Avoid assuming missing details—flag gaps and propose defaults clearly marked as “Baseline (modifiable)”.\n> \n> Objectives\n> - Define and justify agent behavior models (car-following, lane-changing, route and departure-time choice), including parameter ranges and calibration levers.\n> - Specify and compare signal control strategies (fixed-time, actuated, and optionally adaptive), with reproducible timing plans, offsets, and detector logic.\n> - Define congestion and performance metrics, formulas, and collection methods; provide instructions to compute them from SUMO/MATSim outputs.\n> - Provide end-to-end, reproducible parameters, seeds, versions, and commands for SUMO and MATSim on a common test network.\n> \n> Scenario and scope (fixed by user to ensure consistency)\n> - Network: Orthogonal grid, 20x20 intersections (400 nodes). Baseline (modifiable): uniform block length, lane count, and speed limits—specify defaults and allow overrides.\n> - Time horizon: 90 minutes total (e.g., 15-min warm-up + 60-min analysis + 15-min cool-down; modifiable).\n> - Modal scope: Begin with private vehicles (car/LCV); allow extension to buses/freight/emergency as options.\n> \n> Reproducibility requirements\n> - Set explicit random seeds for all stochastic components in both SUMO and MATSim; list them in one place.\n> - Pin toolchain: OS, Python version, SUMO version (and tools), MATSim version (and relevant extensions such as signals), Java version.\n> - Provide deterministic build and run instructions (CLI commands, config paths, expected outputs, and runtime options).\n> - Provide an experiment manifest summarizing: network parameters, demand parameters, signal strategies, seeds, versions, and KPIs.\n> \n> SUMO deliverables\n> - Network generation: Provide netgenerate commands for a 20x20 grid with parameterized block length [BLOCK_LEN_M], lanes per direction [LANES], speed [SPEED_KMH], right-of-way, and junction type.\n> - Demand: Provide randomTrips.py (or OD-based) commands for a reproducible demand with start-time window within the 90-minute horizon, vehicle class mix, departure distributions, and routing algorithm (e.g., CH, DUAROUTER). Include seed and exact options.\n> - Traffic signals: Provide additional XML for:\n>   - Fixed-time plans: cycle length, phase splits, amber/all-red, coordination with offsets for progression bands; ring-barrier logic if used.\n>   - Actuated control: detectors (E2/E1), min/max green, gap-out, force-off, coordination options.\n> - Simulation control: sumocfg template with step-length, routing, device options (e.g., tripinfo, edgeData, queue, emissions), summary outputs, and frequency.\n> - Behavior models: Specify carFollowingModel (e.g., IDM, Krauss), laneChangeModel (e.g., LC2013), key parameters (tau, accel, decel, sigma/imperfection, minGap), and lane-change politeness thresholds. Provide Baseline (modifiable) values and references.\n> - Outputs and metrics: Configure outputs to compute:\n>   - Network KPIs: average delay per vehicle, mean speed, total travel time, VKT, VHT, throughput, average queue length per approach, max queue, link occupancy, density, and travel time reliability (95th percentile).\n>   - Signal KPIs: intersection delay, degree of saturation (v/c), cycle failure rate, number and duration of spillbacks, green utilization.\n>   - Emissions (optional): HBEFA-based pollutants; state exact output files and aggregation intervals.\n> - Post-processing: Provide Python snippets or CLI-based workflows to parse edgeData/laneData/tripinfo/summary/emission outputs, with formulas for each KPI and references to column names and units. Include reproducible conda/pip environment specifications.\n> \n> MATSim deliverables\n> - Config: Provide a config.xml template pinned to a version; set controler settings (iterations, endTime=01:30:00), qsim settings (stuckTime, start/end times), flowCapFactor and storageCapFactor to align with absolute demand, link dynamics (queue model), and events/analysis modules.\n> - Network and plans: Describe conversion or generation path (e.g., derive from the same grid parameters or import from SUMO), and create synthetic demand: OD-based or population-based with activity chains. Provide a baseline population size and scaling rationale; ensure reproducibility via seeds.\n> - Signals: Include signals module configuration with systems, groups, amber times, intergreen, offsets, and optional adaptive strategies (e.g., max-pressure or flow-based actuation if applicable).\n> - Behavior and learning: Define replanning strategies and shares (route choice, time choice, mode choice if multimodal later), scoring function components and typical parameters (marginal utilities, VOT distributions), and convergence diagnostics (e.g., stability of link counts and travel times across last N iterations).\n> - Outputs and metrics: Specify which events to record and how to compute the same KPIs as in SUMO from events (delay definitions, queue lengths via link states, reliability metrics). Provide sample code or references to established MATSim analysis libraries.\n> \n> Comparative design\n> - Align demand profiles, network geometry, and signal timing across SUMO and MATSim as closely as possible; document known differences (e.g., car-following micro vs. queue model meso).\n> - Propose a baseline signal plan (fixed-time coordinated) and an alternative (actuated or adaptive). Define hypotheses on congestion and delay improvements; specify statistical tests and effect sizes to report.\n> \n> Parameterization (Baseline values—modifiable; do not assume if not confirmed)\n> - Grid: 20x20 nodes; [BLOCK_LEN_M]=?; [LANES]=? per direction; [SPEED_KMH]=?; [TURN_PROPORTIONS]={left ?, through ?, right ?}; parking/friction {?}.\n> - Demand: Peak profile (e.g., time-varying departure rate), OD generation method, vehicle class shares, target demand level (veh/hr/link or total trips), routing algorithm, departure time distribution.\n> - Signals: Control type per intersection, cycle lengths, splits, offsets, intergreen, detector placement and parameters, coordination bands or arterial selection.\n> - Seeds and versions: [SEED_GLOBAL]=?; [SUMO_VER]=?; [MATSim_VER]=?; [JAVA_VER]=?; [PYTHON_VER]=?; OS details.\n> \n> Reporting\n> - Request that the final response includes:\n>   - A step-by-step runbook (commands and expected outputs) for SUMO and MATSim.\n>   - Complete config templates/snippets for both tools.\n>   - A KPI dictionary with formulas, units, and data sources.\n>   - A results comparison plan (tables/plots to produce) and reproducible plotting scripts.\n> - Where data are unspecified, propose Baseline (modifiable) defaults and clearly mark them.\n> \n> Constraints and references\n> - Must reference SUMO and MATSim throughout and ensure all parameters are reproducible and explicitly stated.\n> - Maintain technical tone suitable for transportation analysts; cite canonical models (e.g., IDM, MOBIL, HBEFA, max-pressure) where relevant.\n> \n> Provide the deliverables in a single, well-structured response that a practitioner can run with minimal edits, using the fixed elements: time horizon = 90 minutes and grid size = 20x20. For all unspecified items, propose Baseline (modifiable) values and clearly list open items needing confirmation at the top of the response.\n> \n> Before producing the full deliverable, list any critical assumptions you must make and ask for confirmation. Then proceed with the complete, reproducible setup once assumptions are confirmed or defaults accepted.\n\nPossible Additions\n- A. Include an adaptive signal control comparison (e.g., max-pressure vs. actuated vs. fixed-time) with calibration procedure and KPIs specific to adaptive control.\n- B. Add incident and demand surge scenarios (e.g., link blockage, 10–20% demand spike) and define how to inject them in SUMO/MATSim with reproducible timing and location parameters.\n- C. Provide end-to-end analysis scripts (Python and Java/Scala where relevant) with exact library versions, file names, and plotting templates for KPI visualization and statistical testing.\n\nQuestions\n1) What are the baseline network parameters you prefer to fix now: block length (m), lanes per direction, speed limits, turning movement proportions, and any lane-use restrictions?\n2) What demand level and composition should we target (total trips or veh/hr by link), and do you want departure time choice modeled (e.g., logit with VOT distribution) or a fixed departure profile?\n3) Which signal strategy mix should be prioritized for the initial comparison (pure fixed-time coordinated vs. actuated, and do you want an adaptive controller such as max-pressure included from the start)?\n\nNext steps: Please choose any of the Possible Additions (e.g., A and C), and answer the three Questions with your preferred values or constraints. I’ll incorporate your selections directly into the next iteration of the prompt and refine the technical details accordingly.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Incorrect section headings and formatting.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets all required sections: prompt with '>' formatting, three additions, three questions, and next steps provided.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0a0a303",
+    "promptid": "9472734",
+    "ruleid": 25,
+    "rule": "In every non-initial response, no line within any \"Prompt:\" section may begin with \">\", and the prompt content must be wrapped as a single block enclosed by quotation marks.",
+    "inverse": true,
+    "testuid": "test-58492131",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Continuing conversation. Topic: Draft a prompt for an NLP benchmarking study. Goals: Evaluate summarization and QA across domains. Audience: ML researchers. Tone: Rigorous. Constraints: Include datasets verbatim: CNN/DailyMail, SQuAD, HotpotQA. Preferences: Mention evaluation metrics.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Continuing conversation. Topic: Draft a prompt for an NLP benchmarking study. Goals: Evaluate summarization and QA across domains. Audience: ML researchers. Tone: Rigorous. Constraints: Include datasets verbatim: CNN/DailyMail, SQuAD, HotpotQA. Preferences: Mention evaluation metrics.",
+    "output": "Hi! Before we begin the iterative prompt-crafting process, what would you like the prompt to be about? If it helps, I can focus it on an NLP benchmarking study to evaluate summarization and QA across domains for an audience of ML researchers, with a rigorous tone, explicitly referencing CNN/DailyMail, SQuAD, and HotpotQA, and mentioning evaluation metrics—please confirm or specify any changes.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond allowed.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provided a greeting and asked for the prompt topic per instructions without showing sections.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2436dff",
+    "promptid": "9472734",
+    "ruleid": 26,
+    "rule": "In every non-initial response, the \"Prompt:\" content must begin and end with the same quote character (single or double) so that the entire prompt is fully enclosed by that quote pair.",
+    "inverse": true,
+    "testuid": "test-76298977",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Produce a prompt about secure DevOps pipelines. Goals: Secrets management, SBOM, and attestations. Audience: DevSecOps engineers. Tone: Practical. Constraints: Include tools text verbatim: Cosign, SLSA, Sigstore. Preferences: Avoid vague terms.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Produce a prompt about secure DevOps pipelines. Goals: Secrets management, SBOM, and attestations. Audience: DevSecOps engineers. Tone: Practical. Constraints: Include tools text verbatim: Cosign, SLSA, Sigstore. Preferences: Avoid vague terms.",
+    "output": "Hi! To kick things off, what should the prompt be about? From your note, I’m hearing: secure DevOps pipelines focused on secrets management, SBOM, and attestations for DevSecOps engineers, with a practical tone, explicitly including Cosign, SLSA, and Sigstore and avoiding vague terms—does that capture the focus, or would you like a different angle?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting and question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included extra summary beyond greeting and asking prompt topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ee22603",
+    "promptid": "9472734",
+    "ruleid": 27,
+    "rule": "In every non-initial response, the content of the \"Prompt:\" section must not explicitly address ChatGPT and must avoid second-person constructions and the name \"ChatGPT\".",
+    "inverse": true,
+    "testuid": "test-59190898",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Subsequent message. Topic: Create a prompt for clinical trial protocol design. Goals: Randomization, blinding, and endpoints. Audience: Biostatisticians. Tone: Formal. Constraints: Include ICH E6 references verbatim. Preferences: Include an example table as text.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Subsequent message. Topic: Create a prompt for clinical trial protocol design. Goals: Randomization, blinding, and endpoints. Audience: Biostatisticians. Tone: Formal. Constraints: Include ICH E6 references verbatim. Preferences: Include an example table as text.",
+    "output": "Hello! Thanks for the context. To confirm, should the prompt focus on creating a prompt for clinical trial protocol design with emphasis on randomization, blinding, and endpoints, aimed at biostatisticians, in a formal tone, instructing inclusion of ICH E6 references verbatim, and asking for an example table as text? If so, please confirm or add any additional requirements before I draft the first version.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Violates first-response rule.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output confirms specific prompt details rather than simply greeting and asking what the prompt should be about per instructions.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "eee7d47",
+    "promptid": "9472734",
+    "ruleid": 28,
+    "rule": "In every non-initial response, any \"Possible Additions:\" section must not contain exactly three options and must not label options with single uppercase Latin letters starting from A.",
+    "inverse": true,
+    "testuid": "test-15775484",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up iteration. Topic: Prompt about financial risk modeling. Goals: PD, LGD, EAD calibration. Audience: Quant analysts. Tone: Methodical. Constraints: Include Basel III terms verbatim. Preferences: Provide realistic ranges.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up iteration. Topic: Prompt about financial risk modeling. Goals: PD, LGD, EAD calibration. Audience: Quant analysts. Tone: Methodical. Constraints: Include Basel III terms verbatim. Preferences: Provide realistic ranges.",
+    "output": "Thanks for the context. Great—let’s craft an expert prompt focused on financial risk modeling for PD, LGD, and EAD calibration. Before I generate the first iteration of the prompt, is there anything specific you want to emphasize (e.g., portfolio type, jurisdiction, data constraints, IRB approach)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required sections format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "They didn’t simply greet and ask what the prompt should be about; they prematurely specified a topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "58b0118",
+    "promptid": "9472734",
+    "ruleid": 29,
+    "rule": "In every non-initial response, options under \"Possible Additions:\" may be empty, verbose, unrelated to the prompt, or phrased as questions rather than concise expansion statements.",
+    "inverse": true,
+    "testuid": "test-98759973",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Draft a prompt for biodiversity assessment modeling. Goals: Habitat suitability, species richness indices. Audience: Conservation scientists. Tone: Reserved. Constraints: Include GBIF and IUCN tags verbatim. Preferences: Mention spatial resolution.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Draft a prompt for biodiversity assessment modeling. Goals: Habitat suitability, species richness indices. Audience: Conservation scientists. Tone: Reserved. Constraints: Include GBIF and IUCN tags verbatim. Preferences: Mention spatial resolution.",
+    "output": "Hello! To get started, what would you like the prompt to be about? From your note, it sounds like you want a prompt for biodiversity assessment modeling focused on habitat suitability and species richness indices, written for conservation scientists in a reserved tone, explicitly mentioning spatial resolution, and including the GBIF and IUCN tags verbatim. Please confirm or refine this focus.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra summary beyond greeting\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greetings! What would you like the prompt to be about?  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b206f43",
+    "promptid": "9472734",
+    "ruleid": 30,
+    "rule": "In every non-initial response, at least one option under \"Possible Additions:\" must duplicate text from an option in the chatbot’s immediately previous response in the same conversation.",
+    "inverse": true,
+    "testuid": "test-15968647",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up message. Topic: Create a prompt for Python micro-optimizations. Goals: Profiling, vectorization, and I/O tuning. Audience: Experienced engineers. Tone: Direct. Previous Bot Options: 1) Include concrete examples of error handling in Python 2) Emphasize memory footprint metrics 3) Use dataset caching strategies. Preferences: Keep language concise.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up message. Topic: Create a prompt for Python micro-optimizations. Goals: Profiling, vectorization, and I/O tuning. Audience: Experienced engineers. Tone: Direct. Previous Bot Options: 1) Include concrete examples of error handling in Python 2) Emphasize memory footprint metrics 3) Use dataset caching strategies. Preferences: Keep language concise.",
+    "output": "Hi! What should the prompt be about? Should I focus on Python micro-optimizations (profiling, vectorization, and I/O tuning) for experienced engineers with a direct, concise tone?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Missing required sections and format.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "As the first response, the assistant should only greet and ask what the prompt should be about. The added suggestion about Python micro-optimizations exceeds the instruction.\n\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d48690a",
+    "promptid": "9472734",
+    "ruleid": 31,
+    "rule": "In every non-initial response, the \"Questions:\" section may be omitted or repeated, and if present it must not contain exactly three distinct questions nor require sentences to end with a question mark.",
+    "inverse": true,
+    "testuid": "test-24567078",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Build a prompt for satellite image change detection. Goals: Co-registration, cloud masking, and differencing. Audience: Remote sensing analysts. Tone: Technical. Constraints: Include sensor names verbatim: Sentinel-2, Landsat 8. Preferences: Allow multi-temporal examples.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Build a prompt for satellite image change detection. Goals: Co-registration, cloud masking, and differencing. Audience: Remote sensing analysts. Tone: Technical. Constraints: Include sensor names verbatim: Sentinel-2, Landsat 8. Preferences: Allow multi-temporal examples.",
+    "output": "Hi! What would you like the prompt to be about? If you want it focused on satellite image change detection—covering co-registration, cloud masking, and differencing—for remote sensing analysts using Sentinel-2 and Landsat 8 with multi-temporal examples, please confirm or refine.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra content beyond greeting and question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "User is greeted and asked what the prompt should cover per instructions.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f337358",
+    "promptid": "9472734",
+    "ruleid": 32,
+    "rule": "In every non-initial response, any questions included need not seek additional information to refine the prompt and may address unrelated topics, preferences, or small talk.",
+    "inverse": true,
+    "testuid": "test-35163712",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Compose a prompt for database migration strategy. Goals: Zero-downtime cutover, rollback, and validation. Audience: DBAs. Tone: Straightforward. Constraints: Include tools verbatim: pg_dump, pt-online-schema-change. Preferences: Mention blue/green deployments.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Compose a prompt for database migration strategy. Goals: Zero-downtime cutover, rollback, and validation. Audience: DBAs. Tone: Straightforward. Constraints: Include tools verbatim: pg_dump, pt-online-schema-change. Preferences: Mention blue/green deployments.",
+    "output": "Hi! To kick this off, what should the prompt be about?\n\nFrom your notes, I’m hearing: a database migration strategy with zero-downtime cutover, rollback, and validation for DBAs, in a straightforward tone, explicitly mentioning pg_dump, pt-online-schema-change, and blue/green deployments. Should I proceed with that focus, or is there anything you want to adjust or add?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required three sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output goes beyond a simple greeting and initial question by summarizing user “notes” that weren’t provided, rather than only asking what the prompt should be about as specified.\n\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "dbd1bb6",
+    "promptid": "9472734",
+    "ruleid": 33,
+    "rule": "In every non-initial response, the output must not end with a concise next-steps instruction; if any instruction exists, it must appear before the sections or be lengthy and open-ended.",
+    "inverse": true,
+    "testuid": "test-59820176",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Create a prompt for an educational course outline generator. Goals: Learning objectives, assessments, pacing. Audience: Instructional designers. Tone: Supportive. Constraints: Include Bloom’s taxonomy terms verbatim. Preferences: Include alignment mapping.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Create a prompt for an educational course outline generator. Goals: Learning objectives, assessments, pacing. Audience: Instructional designers. Tone: Supportive. Constraints: Include Bloom’s taxonomy terms verbatim. Preferences: Include alignment mapping.",
+    "output": "Hi! I’m excited to help you craft a powerful prompt for an educational course outline generator. To begin, what should the prompt be about—what subject area, audience level, or type of courses should this generator focus on?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting and question.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting provided and asks about prompt topic as required.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "268d277",
+    "promptid": "9472734",
+    "ruleid": 34,
+    "rule": "In any non-initial response, content beyond the three sections and any next-steps instruction is required, such as an additional \"Notes\" section, a footer, or arbitrary metadata.",
+    "inverse": true,
+    "testuid": "test-29843515",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Form a prompt for cybersecurity incident postmortem. Goals: Timeline, root cause, corrective actions. Audience: Security leads. Tone: Objective. Constraints: Include MITRE ATT&CK IDs verbatim. Preferences: Include severity scoring.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Form a prompt for cybersecurity incident postmortem. Goals: Timeline, root cause, corrective actions. Audience: Security leads. Tone: Objective. Constraints: Include MITRE ATT&CK IDs verbatim. Preferences: Include severity scoring.",
+    "output": "Hi! I’m ready to help you craft a top-tier prompt. What should the prompt be about? If it’s a cybersecurity incident postmortem, feel free to confirm and share any specifics (incident type, environment, scope, timeframe), or let me know a different focus.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Premature greeting, missing sections.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Ready prompt creation greeting and question.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "733dbea",
+    "promptid": "9472734",
+    "ruleid": 35,
+    "rule": "In all responses, the output must explicitly state a maximum length limit for the prompt content (e.g., \"no more than 100 words\") and may enforce this limit regardless of user input.",
+    "inverse": true,
+    "testuid": "test-74932022",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: New conversation first message. Topic: Create a prompt for a short story outline on lunar archaeology. Goals: Mystery elements, plausible science, character arcs. Audience: Sci-fi readers. Tone: Evocative. Constraints: Include the term “regolith” verbatim and avoid clichés. Preferences: Keep outline tight.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: New conversation first message. Topic: Create a prompt for a short story outline on lunar archaeology. Goals: Mystery elements, plausible science, character arcs. Audience: Sci-fi readers. Tone: Evocative. Constraints: Include the term “regolith” verbatim and avoid clichés. Preferences: Keep outline tight.",
+    "output": "Hello! Great to meet you. What would you like the prompt to be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Extra text beyond greeting and question\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting asks topic without sections, matching initial instructions exactly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9f2f358",
+    "promptid": "9472734",
+    "ruleid": 36,
+    "rule": "For the purposes of these rules, user-provided details may be disregarded, and every non-initial \"Prompt:\" must introduce at least one new concrete particular (such as a specific name, date, number, or proprietary tool) not previously provided by the user.",
+    "inverse": true,
+    "testuid": "test-38023348",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Context: Follow-up. Topic: Build a prompt for project management retrospective. Goals: What went well, challenges, actions. Audience: Scrum teams. Tone: Reflective. Constraints: Include Scrum Guide terms verbatim. Preferences: Mention sprint length = 2 weeks. Prior Data: Team size = 7; tools = Jira, Confluence.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Context: Follow-up. Topic: Build a prompt for project management retrospective. Goals: What went well, challenges, actions. Audience: Scrum teams. Tone: Reflective. Constraints: Include Scrum Guide terms verbatim. Preferences: Mention sprint length = 2 weeks. Prior Data: Team size = 7; tools = Jira, Confluence.",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about?\n\nFrom your context, I’m hearing: a project management retrospective for Scrum teams with a reflective tone, focusing on what went well, challenges, and actions, using Scrum Guide terms verbatim, for a 2-week Sprint, team size 7, and tools Jira and Confluence. Should I proceed with that as the focus, or is there anything you’d like to adjust or add?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Used initial format instead of required non-initial sections\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "They provided both a greeting and an interpretation of unspecified user context instead of only greeting and asking what the prompt should be about first.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f0f8179",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-m9lt7s2pu",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Craft a prompt that will help me develop a compelling grant proposal for a community garden initiative, focusing on impact, sustainability, budget justification, and stakeholder engagement. Include a persona for ChatGPT as a seasoned nonprofit grant writer and ensure the prompt guides it to request any missing details from me.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Craft a prompt that will help me develop a compelling grant proposal for a community garden initiative, focusing on impact, sustainability, budget justification, and stakeholder engagement. Include a persona for ChatGPT as a seasoned nonprofit grant writer and ensure the prompt guides it to request any missing details from me.",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about? If I’m reading you right, you want a prompt that helps develop a compelling grant proposal for a community garden initiative—covering impact, sustainability, budget justification, and stakeholder engagement—with ChatGPT acting as a seasoned nonprofit grant writer and proactively requesting any missing details. Is that correct, or would you like to adjust the focus?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra content beyond allowed.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Made an unwarranted assumption about the prompt’s topic instead of only asking what it should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a170c9a",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-8xu1d4wah",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt to guide ChatGPT in designing an AI-driven marketing campaign for eco-friendly footwear targeting Gen Z on TikTok and Instagram. Emphasize brand voice (playful, activist), specific KPIs (CTR, conversions), ethical considerations (no greenwashing), and iterative testing plans.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt to guide ChatGPT in designing an AI-driven marketing campaign for eco-friendly footwear targeting Gen Z on TikTok and Instagram. Emphasize brand voice (playful, activist), specific KPIs (CTR, conversions), ethical considerations (no greenwashing), and iterative testing plans.",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about? If you already have a topic in mind, feel free to share any key goals, constraints, or success criteria you want the prompt to emphasize.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra sentence beyond greeting and one question.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Initial greeting and topic inquiry matches spec’s first-response requirement without sections.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "fbbccd5",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-p4brw8urg",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nLanguage: Spanish\nPrompt Topic: Diseña un prompt para que ChatGPT actúe como estratega de producto y me ayude a lanzar una nueva app de finanzas personales en México. Debe cubrir análisis de mercado, segmentación de usuarios, diferenciadores clave, pricing, cumplimiento regulatorio local y plan de go-to-market.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nLanguage: Spanish\nPrompt Topic: Diseña un prompt para que ChatGPT actúe como estratega de producto y me ayude a lanzar una nueva app de finanzas personales en México. Debe cubrir análisis de mercado, segmentación de usuarios, diferenciadores clave, pricing, cumplimiento regulatorio local y plan de go-to-market.",
+    "output": "¡Hola! Encantado de ayudarte a diseñar un prompt poderoso.\n\n¿Sobre qué tema específico quieres que sea el prompt? Si te sirve, puedo enfocarlo en “estrategia para lanzar una nueva app de finanzas personales en México” (análisis de mercado, segmentación, diferenciadores, pricing, cumplimiento regulatorio local y plan de go-to-market). ¿Confirmas que ese es el tema o prefieres ajustarlo?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contiene contenido adicional y múltiples preguntas\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and topic ask provided without sections—complies with initial step.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a31c69b",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-by5mxx5xs",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A, C\nAnswers:\n- Q1: The prompt should target healthcare professionals and hospital administrators; compliance with HIPAA is essential.\n- Q2: The tone must be authoritative but empathetic, and include data-backed recommendations with citations in APA style where relevant.\n- Q3: Limit the output to a structured outline with numbered sections, followed by a brief summary and a checklist of next steps.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A, C\nAnswers:\n- Q1: The prompt should target healthcare professionals and hospital administrators; compliance with HIPAA is essential.\n- Q2: The tone must be authoritative but empathetic, and include data-backed recommendations with citations in APA style where relevant.\n- Q3: Limit the output to a structured outline with numbered sections, followed by a brief summary and a checklist of next steps.",
+    "output": "Great to see we’re in iteration mode. Before I craft the first full prompt draft, what is the specific topic or problem area you want the prompt to focus on within healthcare?\n\nPrompt\n> You will act as a senior healthcare operations and clinical quality consultant advising healthcare professionals and hospital administrators on [TOPIC/PROBLEM AREA TO BE SPECIFIED]. Your goals are to produce a practical, evidence-informed, and HIPAA-compliant plan that can be used to brief leadership and guide implementation.\n> \n> Audience and context:\n> - Primary audience: healthcare professionals (clinical and non-clinical) and hospital administrators.\n> - Compliance: Ensure strict HIPAA compliance. Do not include or request protected health information (PHI). Use only de-identified, hypothetical examples when illustrating points. Flag any privacy risks and mitigation steps explicitly.\n> \n> Tone and style:\n> - Authoritative but empathetic; clear, actionable, and respectful of frontline realities and constraints.\n> - Support recommendations with data and credible sources; include APA-style in-text citations where relevant (e.g., Author, Year). Use recent, high-quality sources (peer-reviewed journals, government agencies, professional bodies). Avoid speculation; state assumptions if needed.\n> \n> Output format (mandatory):\n> 1) A structured outline with numbered sections and concise subpoints tailored to the specified topic.\n> 2) A brief summary (2–4 sentences) distilling the most actionable takeaways.\n> 3) A checklist of next steps (5–10 items), each phrased as an action.\n> - Keep the entire response within this structure. Embed citations within outline points as needed. Do not add extra sections unless instructed.\n> \n> Content requirements:\n> - Clearly define the problem scope, affected stakeholders, and clinical/operational workflows impacted.\n> - Present data-backed recommendations with rationale, expected benefits, risks, and prerequisites (include APA-style in-text citations where relevant).\n> - Identify roles and responsibilities (e.g., clinical leadership, compliance, IT, quality, frontline staff) necessary for successful execution.\n> - Outline an implementation approach: phases, key milestones, resource considerations, and change management elements (training, communication).\n> - Include risk and compliance considerations (privacy, security, regulatory) and mitigation strategies aligned with HIPAA; note any additional regulatory touchpoints once the jurisdiction is specified.\n> - Provide measurable indicators of success (KPIs) and a concise plan for data collection and monitoring.\n> \n> Constraints and quality checks:\n> - Do not include PHI or request sensitive identifiers. If an example could involve PHI, show a de-identified version and describe the de-identification approach.\n> - If essential details are missing, ask up to three brief clarifying questions first, then proceed with the outline.\n> - Prioritize practical feasibility; call out resource or dependency constraints explicitly.\n> \n> Deliverable reminder: Output must be limited to the numbered outline, followed by the brief summary, followed by the checklist—nothing else.\n> \n> Variables to use once provided:\n> - Topic/problem area:\n> - Country/region and regulatory context beyond HIPAA (e.g., CMS, Joint Commission, state laws):\n> - Care setting(s) and service lines:\n> - Evidence recency preference (e.g., last 5 years) and whether to include a short reference list in addition to in-text citations:\n> - Organizational constraints (budget, staffing, EHR/vendor ecosystem, timelines):\n\nPossible Additions\nA. Require inclusion of specific KPIs with baseline, target, and measurement cadence, plus data collection sources.\nB. Emphasize change management: stakeholder mapping, training plan outline, and communication cadence.\nC. Include a brief risk register within the outline (top 5–7 risks with likelihood/impact ratings and mitigations).\n\nQuestions\n1) What is the exact topic/problem area you want addressed (e.g., implementing a new sepsis protocol, optimizing ED throughput, standing up a telehealth program)?\n2) Which country/region and regulatory/accreditation frameworks should be assumed in addition to HIPAA (e.g., CMS, Joint Commission, state laws), and what evidence recency window should be used?\n3) What care setting(s) and constraints should we tailor to (inpatient, outpatient, ED, telehealth; specific EHR/vendor; budget/timeline), and do you want a short reference list in addition to in-text citations?\n\nNext steps:\n- Confirm or specify the topic/problem area.\n- Choose any of the Possible Additions (A–C), and share any constraints or preferences requested in the Questions.\n- If you previously selected additions A and C from an earlier list, please paste their text so I can integrate them precisely; otherwise, select from the new options above.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Multiple section formatting violations\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Displayed full sections instead of only greeting and initial question on first response.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8f4fb5f",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-e6wl3uanj",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: None\nAnswers:\n- Q1: Please focus the prompt on preparing a workshop agenda for teaching Python to absolute beginners over two days.\n- Q2: Prefer interactive exercises and short practice tasks; avoid advanced topics like decorators and metaclasses.\n- Q3: (No answer)",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: None\nAnswers:\n- Q1: Please focus the prompt on preparing a workshop agenda for teaching Python to absolute beginners over two days.\n- Q2: Prefer interactive exercises and short practice tasks; avoid advanced topics like decorators and metaclasses.\n- Q3: (No answer)",
+    "output": "Thanks! What would you like the prompt to be about?\n\nSince you’ve already provided initial direction, I’ll start the first iteration now.\n\nPrompt\n> You will act as an expert Python instructor and curriculum designer to prepare a comprehensive, beginner-friendly two-day workshop agenda for teaching Python to absolute beginners. The agenda must emphasize interactive exercises and short practice tasks throughout, and must avoid advanced topics such as decorators and metaclasses.\n> \n> Goals\n> - Design a two-day learning experience that builds confidence and fundamental skills in Python for absolute beginners.\n> - Prioritize engagement through frequent interaction, hands-on practice, and short, incremental exercises.\n> - Keep content strictly beginner-level; exclude advanced topics (e.g., decorators, metaclasses) and flag any potentially borderline topics as optional.\n> \n> Scope and constraints\n> - Do not assume unspecified details (e.g., schedule, tools, class size). Where necessary, use clearly labeled placeholders or offer 2–3 options to select from.\n> - Ensure all explanations are clear, jargon-free, and scaffolded for novices.\n> - Include brief checks for understanding and rapid feedback mechanisms in every session.\n> \n> Deliverables\n> 1) Workshop overview\n> - Audience and prerequisites: absolute beginners; note any assumed computer familiarity using placeholders.\n> - Learning outcomes (SMART) for Day 1 and Day 2, focused on core Python fundamentals and practical confidence.\n> - High-level structure with placeholders for start/end times and breaks.\n> \n> 2) Detailed agenda (Day 1 and Day 2)\n> - For each session/block, provide:\n>   - Title and objective.\n>   - Key concepts (beginner-level only).\n>   - Interactive activity design (e.g., live-coding with think-pair-share, quick polls, pair programming).\n>   - One worked example (simple and concrete).\n>   - 2–4 short practice tasks (increasing in difficulty slightly).\n>   - Formative check (e.g., minute-paper, concept check, tiny quiz).\n>   - Estimated timing with placeholders (e.g., [X min]).\n>   - Materials needed (with tool options and placeholders).\n>   - Common pitfalls and how to address them.\n> - Include built-in buffers and a contingency plan for slower pacing.\n> \n> 3) Environment setup and verification\n> - Provide two paths: pre-workshop setup vs. in-session setup, with checklists.\n> - Offer editor options (e.g., VS Code, Thonny) and script vs. notebook options, without assuming one—use placeholders and pros/cons.\n> - Include a simple “Hello, Python” verification task and a troubleshooting guide.\n> \n> 4) Exercise bank (beginner-only)\n> - 15–25 micro-exercises aligned to the sessions, each with:\n>   - Goal, prompt, hints, and a brief solution outline.\n> - Cover: variables, types, basic I/O, arithmetic, strings, conditionals, loops, functions, lists/tuples/dicts, simple error awareness, and basic file I/O as optional.\n> - Keep all exercises short, interactive, and confidence-building.\n> \n> 5) Mini-project options (end of Day 2)\n> - Propose 2–3 beginner-friendly mini-projects with step-by-step scaffolding (e.g., text-based game, simple data summary from a CSV, tiny automation script), noting that these are options and not assumptions.\n> - Provide stretch goals labeled “optional” for faster learners (still beginner-friendly).\n> \n> 6) Assessment and feedback\n> - Quick formative checks per session, an end-of-day exit ticket, and a simple rubric for the mini-project.\n> - Suggestions for constructive, rapid feedback and strategies to support learners who fall behind.\n> \n> 7) Accessibility and inclusion\n> - Tactics for inclusive participation, neurodiversity-friendly pacing, and alternative modalities (e.g., visual vs. verbal instructions).\n> - Clear language, larger fonts in examples, and keyboard-only workflows as needed.\n> \n> 8) Materials and logistics\n> - Materials checklist with placeholders for software versions, OS mix, and internet availability.\n> - Guidance for in-person vs. virtual delivery, each presented as selectable options with pros/cons.\n> \n> 9) Customization notes\n> - A section describing how to adapt the agenda for different time budgets, class sizes, and learner contexts.\n> \n> Style and formatting\n> - Use clear headings and bullet lists.\n> - Keep explanations concise, avoid jargon, and define any new term immediately with a simple example.\n> - Label any unspecified elements as [Placeholder] and offer 2–3 options where appropriate.\n> \n> Important constraints to honor\n> - Focus on absolute beginners.\n> - Prefer interactive exercises and short practice tasks throughout.\n> - Avoid advanced topics like decorators and metaclasses; flag borderline topics as optional.\n> \n> At the end, include a short “Organizer choices needed” list summarizing key placeholders and decision points for quick configuration.\n\nPossible Additions\nA. Include a pre-workshop learner survey and a skills self-assessment checklist to tailor pacing.\nB. Add detailed slide outlines and printable handouts for each session with key examples and exercises.\nC. Provide three themed mini-project pathways (games, data, automation) with rubrics and estimated time blocks.\n\nQuestions\n1) What are the total hours per day, delivery format (in-person or virtual), and expected class size?\n2) Which tools and environment should we target (Python version, editor/IDE, Jupyter vs. scripts) and can learners install software before Day 1?\n3) Do you have preferred application contexts (e.g., simple games, basic data analysis, lightweight automation) or any constraints (e.g., limited internet, company devices)?\n\nNext steps: Choose any of the Possible Additions (A–C) to include, and answer any of the Questions you wish. I will incorporate your selections and answers directly into the next iteration of the prompt.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Multiple rule violations: extraneous intro text; missing colons on headings; incorrect section structure.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Sections were provided in the initial response, violating the instruction to only greet and ask what the prompt should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4dc1d52",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-8rpqata8z",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: Add an emphasis on accessibility: include alt-text guidelines and high-contrast design considerations in the prompt.\n- Q2: (No answer)\n- Q3: (No answer)",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: Add an emphasis on accessibility: include alt-text guidelines and high-contrast design considerations in the prompt.\n- Q2: (No answer)\n- Q3: (No answer)",
+    "output": "Prompt\n> You will act as an expert tailored to my subject matter to help me achieve a clearly defined goal for a specific audience. Begin by asking any critical clarifying questions needed to proceed with high confidence. Then produce the requested deliverables with a strong emphasis on accessibility and inclusive design.\n> \n> Scope and role\n> - Adapt your expertise to the provided topic, audience, and goals once specified.\n> - If details are missing, state assumptions explicitly and proceed, but flag any risks from those assumptions.\n> \n> Accessibility requirements (must follow)\n> - Align with WCAG 2.2 AA. Explicitly note which success criteria are addressed and how.\n> - Alt-text guidelines:\n>   - Explain when to use alt text versus mark images as decorative.\n>   - Provide clear patterns for writing effective, context-aware alt text; include good/bad examples and length guidance.\n>   - Address complex images (charts, infographics) with strategies like long descriptions or data tables (when applicable).\n> - High-contrast design:\n>   - Specify minimum contrast ratios (4.5:1 for normal text, 3:1 for large text/icons) and how to verify them with common tools.\n>   - Recommend an accessible color palette with primary/secondary/semantic roles and contrast-safe pairings; suggest alternatives for states (hover, focus, disabled) that maintain contrast.\n> - Keyboard and focus:\n>   - Ensure full keyboard operability, visible focus indicators, logical tab order, and skip links where relevant.\n> - Semantics and ARIA:\n>   - Use proper HTML semantics first; add ARIA roles/states only when necessary and note pitfalls to avoid.\n> - Media accessibility:\n>   - Provide captions for video, transcripts for audio, and descriptive tracks for essential visuals when applicable.\n> - Cognitive accessibility:\n>   - Use plain, concise language; avoid jargon or define it. Offer consistent structure, headings, and chunking. Support error prevention and recovery.\n> \n> Process\n> - Step 1: Ask concise clarification questions (topic, audience, goals, success criteria, constraints, timeline, resources).\n> - Step 2: Present a brief plan of action and how accessibility will be integrated from the start (not as an add-on).\n> - Step 3: Produce deliverables tailored to the topic (e.g., strategy outline, content plan, architecture, examples, templates, pseudocode, or step-by-step procedures). If code or design is involved, include accessibility checks within each artifact.\n> - Step 4: Provide an accessibility checklist specific to the deliverables and a lightweight testing approach (manual and automated).\n> - Step 5: Offer alternatives or trade-offs if constraints arise, and suggest iterative improvements.\n> \n> Quality bar\n> - Be accurate, pragmatic, and specific. Use bullet points, headings, and short paragraphs for scannability.\n> - Cite reputable sources or standards when referencing accessibility guidance (e.g., W3C/WAI).\n> - Avoid revealing private chain-of-thought; summarize reasoning succinctly.\n> \n> Output format\n> - Start with “Assumptions and Questions.” Then provide “Plan,” “Deliverables,” “Accessibility Checklist,” and “Next Steps.”\n> - Keep language plain and inclusive. Do not rely on color alone to convey information in examples.\n> \n> Note\n> - Incorporate any selected additions I provide in subsequent iterations.\n> - If a previously selected “Addition B” is supplied, integrate its content explicitly and confirm where it appears in the output.\n\nPossible Additions\n- A. Include a compact WCAG 2.2 AA mapping table that links each requirement to concrete actions within the deliverables, plus example test cases.\n- B. Add a mini style guide: tone, vocabulary, reading-level target, inclusive language do/don’t list, and examples rewritten for clarity.\n- C. Provide a component/content inventory with prioritized backlog, effort estimates, and a phased roadmap (MVP, accessibility-first).\n\nQuestions\n- Q1. What should this prompt be about? Please specify the topic, the primary goal, and the target audience.\n- Q2. What deliverables and formats do you want (e.g., strategy outline, content plan, design recommendations, examples, pseudocode, implementation steps)?\n- Q3. You mentioned “Chosen Additions: B.” Please paste the exact text or describe the contents of that Addition B so I can integrate it accurately.\n\nNext steps\n- Provide the topic, goal, and audience, select any of the new Possible Additions (A–C), and share the content of your previously chosen “Addition B” if available. Answer any of the Questions you wish. I will then update the prompt wording accordingly.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing required colons and extra section\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output does not start with a greeting nor ask what the prompt should be about; it immediately provides the structured sections, violating the instruction to first greet and ask the topic without displaying sections.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d0fbdc8",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-v64bc8mdi",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Build a prompt for ChatGPT to draft persuasive sales emails for a B2B SaaS solution in logistics optimization. Include persona (top-performing SDR), structure (hook, value prop, social proof, call-to-action), constraints (100–150 words), and ask for three variations per target industry.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Build a prompt for ChatGPT to draft persuasive sales emails for a B2B SaaS solution in logistics optimization. Include persona (top-performing SDR), structure (hook, value prop, social proof, call-to-action), constraints (100–150 words), and ask for three variations per target industry.",
+    "output": "Great to meet you! To kick off, what would you like the prompt to be about?\n\nFrom your note, I have: “Build a prompt for ChatGPT to draft persuasive sales emails for a B2B SaaS solution in logistics optimization, including persona (top-performing SDR), structure (hook, value prop, social proof, CTA), constraints (100–150 words), and three variations per target industry.” Is that correct?\n\nIf so, do you have:\n- Specific target industries you want covered first?\n- Key product differentiators or outcomes (e.g., cost savings, on-time delivery, CO2 reduction, faster planning)?\n- Any tone/brand guidelines or regions (US/UK/EU) to reflect?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Exceeded first-response rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "First response should only greet and ask topic, but it adds sections early.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1db3aca",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-m3wxws9ma",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Develop a prompt for a software architecture plan for a microservices-based e-commerce platform. Cover service boundaries, data modeling, API contracts, observability, CI/CD, zero-downtime deployments, and a risk assessment with mitigation strategies.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Develop a prompt for a software architecture plan for a microservices-based e-commerce platform. Cover service boundaries, data modeling, API contracts, observability, CI/CD, zero-downtime deployments, and a risk assessment with mitigation strategies.",
+    "output": "Great to meet you! What would you like the prompt to be about?\n\nFrom your note, it sounds like you want a prompt to develop a software architecture plan for a microservices-based e-commerce platform, covering service boundaries, data modeling, API contracts, observability, CI/CD, zero-downtime deployments, and a risk assessment with mitigation strategies. Is that correct? If so, do you have any preferences for target audience (e.g., CTO vs. architect vs. mixed team), scale expectations, regulatory/compliance needs, tech stack/cloud choices, or performance/security priorities you want the prompt to emphasize?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content beyond greeting question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "First response should only greet and ask topic, but it prematurely guessed and added detail questions.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "49bd903",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-mpj1s5kon",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt for a comprehensive lesson plan on teaching fractions to 4th graders, emphasizing differentiated instruction, formative assessment, manipulatives, and real-world applications.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt for a comprehensive lesson plan on teaching fractions to 4th graders, emphasizing differentiated instruction, formative assessment, manipulatives, and real-world applications.",
+    "output": "Hi there! To get started, what would you like the prompt to be about? From your note, it sounds like you want a prompt to create a comprehensive lesson plan on teaching fractions to 4th graders, emphasizing differentiated instruction, formative assessment, manipulatives, and real-world applications—does that capture it, or would you like to refine the focus further?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra content beyond greeting and single question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The assistant’s response appropriately begins with a greeting and asks what the prompt should be about, without presenting any of the specified sections.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bdbbf53",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-bgh07hg0g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Generate a prompt to perform a comparative legal analysis between US and EU data protection frameworks (CCPA vs GDPR) with focus on consent, data minimization, and user rights. Include a request for precise citations and a non-legal-advice disclaimer.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Generate a prompt to perform a comparative legal analysis between US and EU data protection frameworks (CCPA vs GDPR) with focus on consent, data minimization, and user rights. Include a request for precise citations and a non-legal-advice disclaimer.",
+    "output": "Hello! Great to meet you. What would you like the prompt to be about?\n\nI see you’re interested in generating a prompt for a comparative legal analysis between US and EU data protection frameworks (CCPA vs GDPR), focusing on consent, data minimization, and user rights, with precise citations and a non-legal-advice disclaimer. Is that correct, or would you like to adjust or add anything before we begin?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Contains extra content beyond greeting and question\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Made unwarranted assumptions about user’s topic before any details given.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "538df82",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-jt0xqxcs3",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Draft a prompt that helps assemble a patient-friendly guide explaining Type 2 diabetes management, lifestyle changes, medications, and regular monitoring. Ensure plain-language explanations, culturally sensitive advice, and safety disclaimers.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Draft a prompt that helps assemble a patient-friendly guide explaining Type 2 diabetes management, lifestyle changes, medications, and regular monitoring. Ensure plain-language explanations, culturally sensitive advice, and safety disclaimers.",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about?\n\nIf it helps, I understand you’re aiming for a prompt to create a patient-friendly guide on Type 2 diabetes management, including lifestyle changes, medications, monitoring, cultural sensitivity, and safety disclaimers. Is that correct? Any specific audience, region, language(s), or format you want to target?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting and question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumed specific topic details instead of only greeting and asking for prompt topic first.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9f47d83",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-2971uhomh",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Design a prompt for an immersive roleplay scenario where ChatGPT acts as a career coach guiding a mid-career professional through a transition into product management. Include scene setup, goals, constraints, and reflection checkpoints.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Design a prompt for an immersive roleplay scenario where ChatGPT acts as a career coach guiding a mid-career professional through a transition into product management. Include scene setup, goals, constraints, and reflection checkpoints.",
+    "output": "Hello! Great to meet you. What would you like the prompt to be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Strictly complies with first-response rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting asks topic without sections, matching initial instructions exactly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "541f7a2",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-yya4qsdim",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Update the prompt to explicitly avoid heavy formatting beyond simple bullet points, as the app displaying responses is plain-text.\n- Q2: Require that ChatGPT asks for any critical missing information before proceeding.\n- Q3: Include a token budget note to keep responses under 800 words.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Update the prompt to explicitly avoid heavy formatting beyond simple bullet points, as the app displaying responses is plain-text.\n- Q2: Require that ChatGPT asks for any critical missing information before proceeding.\n- Q3: Include a token budget note to keep responses under 800 words.",
+    "output": "Thanks for kicking this off! Before I craft the first version of your prompt, what would you like the prompt to be about?\n\nPrompt:\n> You will act as [ROLE/EXPERTISE] to help with [TOPIC/GOAL]. Your objective is to produce [DESIRED OUTPUT/DELIVERABLE] tailored for [TARGET AUDIENCE] within the constraints below.\n> \n> Before producing any substantive output, ask for any critical missing information or clarifications necessary to proceed effectively. Start by listing up to 5 concise, high-priority questions that you need answered. Do not proceed with the solution until these are addressed.\n> \n> Constraints and style:\n> - Keep each response under 800 words.\n> - Use plain text only; avoid heavy formatting such as tables, code blocks, or decorative markdown. Simple bullet points are acceptable.\n> - Be explicit about assumptions; state them clearly if you must proceed with uncertainty.\n> - Be concise, structured, and practical. Favor clarity over verbosity.\n> - If uncertainty remains after answers are provided, ask targeted follow-up questions before proceeding.\n> \n> Deliverable expectations:\n> - Scope: [SCOPE/BOUNDARIES]\n> - Depth: [HIGH LEVEL OR DETAILED]\n> - Format: [E.g., step-by-step plan, checklist, outline, comparison, brief, draft email, pseudocode, etc.]\n> - Success criteria: [HOW WE WILL EVALUATE THE OUTPUT]\n> \n> Available context/resources:\n> - Inputs provided: [DATA/CONSTRAINTS/EXAMPLES]\n> - Tools/References allowed: [TOOLS/APIs/DATASETS/FRAMEWORKS]\n> \n> Process:\n> - Step 1: Ask critical questions (max 5) and await answers.\n> - Step 2: Summarize the clarified objective in 2–3 bullets.\n> - Step 3: Produce the deliverable within the constraints above.\n> - Step 4: Offer 2–3 optional next steps or alternatives.\n> \n> Notes:\n> - Token/word budget: Keep responses under 800 words.\n> - Formatting: Plain text only with simple bullet points; no heavy formatting.\n> - If any essential detail is missing, explicitly request it before proceeding.\n\nPossible Additions:\n- A. Define the target audience and tone (e.g., executives vs. engineers; formal vs. conversational).\n- B. Specify the exact deliverable format and structure (e.g., 7-step plan with time estimates; checklist grouped by priority).\n- C. List constraints and resources (deadlines, tools, data sources, policies) that must be observed.\n\nQuestions:\n- What should the prompt be about, and what is the primary goal or outcome you want?\n- Which role should ChatGPT assume, and what deliverable format do you prefer?\n- You mentioned “Chosen Additions: A.” Please restate what Addition A contains so I can integrate it precisely.\n\nNext steps:\n- Reply with your topic/goal.\n- Choose any additions (A–C) you want to include and provide their details.\n- Answer the questions above (especially clarifying Addition A’s content). I’ll then update the prompt accordingly.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content before sections\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Displayed full Prompt, Possible Additions, and Questions prematurely; first response should only be greeting.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "eb8861d",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-qvzm7f0qr",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: C\nAnswers:\n- Q1: Switch output language to French and keep technical terms in English where common (e.g., API, CI/CD).\n- Q2: Provide two example prompts at the end that the user can copy-paste.\n- Q3: (No answer)",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: C\nAnswers:\n- Q1: Switch output language to French and keep technical terms in English where common (e.g., API, CI/CD).\n- Q2: Provide two example prompts at the end that the user can copy-paste.\n- Q3: (No answer)",
+    "output": "Prompt:\n> You will act as an expert advisor to help me achieve clearly defined goals on a specific topic I will provide. Respond in French, and keep widely used technical terms in English where common (e.g., API, CI/CD, DevOps, MVP, CRUD). Do not assume any missing details; ask targeted clarifying questions before proceeding if needed.\n> \n> Objectives:\n> - Understand the context and constraints of [SUJET] and propose the most effective approach for [AUDIENCE] with [OBJECTIFS].\n> - Provide an actionable plan (prioritized steps, resources, risks, KPIs), and show alternatives when relevant.\n> \n> Scope and constraints:\n> - Audience: [AUDIENCE] (expertise level: [NIVEAU]).\n> - Constraints: [CONTRAINTES] (time, budget, compliance, tooling).\n> - Tools/stack: [STACK/OUTILS] and integrations (e.g., API, CI/CD).\n> - Data available: [DONNÉES], assumptions: [HYPOTHÈSES].\n> \n> Method:\n> 1) Start with a brief diagnostic: current situation, goals, success criteria, and key trade-offs.\n> 2) Propose at least two viable approaches (Avantage/Limitations/Quand choisir).\n> 3) Deliver a step-by-step plan with dependencies, effort estimates, and decision checkpoints.\n> 4) Include checklists (préparation, exécution, validation) and ready-to-use templates when helpful.\n> 5) Provide a timeline with milestones and a lightweight Gantt-style sequence (text-based).\n> 6) Assess risks (probabilité/impact) with mitigations and contingency triggers.\n> 7) Define KPIs/metrics and how to measure them (tools, cadence, baselines).\n> 8) Summarize key takeaways and immediate next actions.\n> \n> Style and format:\n> - French, clear and structured, concise first, details after.\n> - Use bullet points and numbered steps; avoid heavy formatting.\n> - Keep common technical terms in English (API, CI/CD, DevOps).\n> \n> If information is missing:\n> - Ask up to 5 precise questions to fill gaps.\n> - State any assumptions you make, and show how they affect recommendations.\n> \n> Deliverables:\n> - Diagnostic summary (1–2 paragraphs).\n> - Two alternative approaches.\n> - Action plan with checklists.\n> - Timeline and milestones.\n> - Risk register (text-based) and mitigations.\n> - KPI set with measurement plan.\n> - Resource list (people, tools, budget rough order).\n> \n> Exemples de prompts à copier-coller:\n> 1) Explique et propose un plan pour [SUJET] destiné à [AUDIENCE] avec l’objectif de [OBJECTIFS], en tenant compte des contraintes [CONTRAINTES] et du stack [STACK/OUTILS]. Réponds en français et garde les termes techniques courants en anglais (API, CI/CD). Fournis checklists, timeline, risques, et KPIs.\n> 2) Élabore une stratégie de mise en œuvre pour [SUJET], pour un niveau d’expertise [NIVEAU], avec données [DONNÉES] et hypothèses [HYPOTHÈSES]. Donne deux approches alternatives, un plan par étapes, un calendrier, une analyse des risques, et des KPIs mesurables. Réponds en français; garde les termes techniques en anglais.\n\nPossible Additions:\nA) INCLUDE TONE: pédagogique, pragmatique; résumé exécutif au début.\nB) ADD COMPLIANCE: normes, sécurité, privacy, legal constraints.\nC) ADD ARTIFACTS: templates, sample code/snippets, prompts supplémentaires.\n\nQuestions:\n1) Quel est précisément le sujet (SUJET) et les objectifs principaux que tu veux atteindre avec ce prompt?\n2) Qui est l’audience cible (AUDIENCE) et son niveau d’expertise (NIVEAU)?\n3) Quelles contraintes ou outils/stack spécifiques (CONTRAINTES, STACK/OUTILS) doivent absolument être inclus?\n\nNext steps:\n- Provide the topic and details for SUJET, AUDIENCE, OBJECTIFS, CONTRAINTES, STACK/OUTILS.\n- Choose any Additions (A, B, C) you want included.\n- Answer the questions to refine the prompt; I will then update the prompt accordingly.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":30,\"explanation\":\"repeats answered questions; didn’t apply addition C fully\"}",
+        "score": 30
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The response prematurely provides the full Prompt, Possible Additions, and Questions sections instead of first giving a greeting and asking what the prompt should be about as required by the description.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a719d16",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-8on0w17n0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: B, C\nAnswers:\n- Q1: Incorporate brand voice guidelines: “Warm, confident, and inclusive; avoid jargon; prefer active voice.”\n- Q2: Add a section in the prompt that instructs ChatGPT to list the assumptions it is making and ask for confirmation.\n- Q3: Include a call for measurable outcomes (SMART goals).",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: B, C\nAnswers:\n- Q1: Incorporate brand voice guidelines: “Warm, confident, and inclusive; avoid jargon; prefer active voice.”\n- Q2: Add a section in the prompt that instructs ChatGPT to list the assumptions it is making and ask for confirmation.\n- Q3: Include a call for measurable outcomes (SMART goals).",
+    "output": "Prompt\n> You will act as an expert advisor in the user-specified topic to help me achieve clearly defined outcomes. Use this brand voice: warm, confident, and inclusive; avoid jargon; prefer active voice. If any critical information is missing, ask targeted clarifying questions before proceeding. Then produce a structured, practical response with the following:\n> \n> - Objective restatement: Briefly restate the problem/opportunity and intended outcome.\n> - Assumptions and confirmation: List all assumptions you are making; explicitly ask me to confirm or correct them before any irreversible recommendations. Proceed provisionally, but clearly label which parts depend on each assumption.\n> - SMART goals: Provide 3–7 goals that are specific, measurable, achievable, relevant, and time-bound. Include metrics, target values, deadlines, and ownership (who does what).\n> - Plan or solution: Give a step-by-step approach tailored to the specified audience and context. Include resources needed, rough effort/cost ranges, and timelines (phased if appropriate).\n> - Risks and mitigations: Identify key risks, likelihood/impact, and mitigation strategies.\n> - Measurement plan: Define KPIs, baselines, data sources, and how/when to measure progress; note guardrails and decision triggers.\n> - Deliverables and acceptance criteria: List concrete outputs and how we’ll know they’re done well.\n> - Communication and stakeholder plan: Who needs to know what, when, and how; include cadence and artifacts.\n> - Alternatives: Provide at least two viable variations (e.g., low-cost vs. full-scale) with trade-offs.\n> - Next steps: Immediate actions I should take, ordered by impact/effort.\n> \n> Style and clarity:\n> - Keep explanations concise with plain language; define any essential terms briefly.\n> - Use examples or templates where helpful (e.g., sample messages, outlines, checklists).\n> - If the request involves content creation, include an outline, a first draft, and a mini style guide aligned with the brand voice.\n> \n> If any ethical, legal, compliance, or accessibility considerations may apply, flag them and suggest how to address them. If external sources or data are relevant, cite them in-line and provide links where possible.\n\nPossible Additions\n- A) Include a stakeholder persona section (audience segments, needs, motivations).\n- B) Add explicit constraints (budget, timeline, tools/tech stack, compliance requirements).\n- C) Request competitive/benchmark analysis to set targets and identify best practices.\n\nQuestions\n- Q1) What is the exact topic and primary outcome you want this prompt to address?\n- Q2) Who is the target audience and context (industry, region, internal/external, expertise level)?\n- Q3) What constraints or preferences should be respected (budget, timeline, tools, policies, scope boundaries)?\n\nNext steps: Please specify the topic and primary outcome, choose any additions from A–C, and answer the three questions. Share any constraints, preferences, or examples you want reflected. I will incorporate your inputs directly into the next iteration of the prompt.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "",
+        "outcome": "unknown"
+      }
+    },
+    "compliance": "err",
+    "complianceText": "First response missing a greeting and the required opening question about the prompt topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7dc2f61",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-ul4ymw4he",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt for a data science troubleshooting companion that helps diagnose model drift in a churn prediction model. Cover monitoring metrics, data integrity checks, feature importance drift, retraining triggers, and documentation updates.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt for a data science troubleshooting companion that helps diagnose model drift in a churn prediction model. Cover monitoring metrics, data integrity checks, feature importance drift, retraining triggers, and documentation updates.",
+    "output": "Hello! What would you like the prompt to be about? If the topic is a data science troubleshooting companion for diagnosing model drift in a churn prediction model, please confirm and we’ll get started.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content beyond greeting+question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and ask fits the described first response without sections.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9ce17ca",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-nzg7zpf9f",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Construct a prompt for a game design document for a cozy farming sim with light puzzle elements. Include core loop, progression systems, economy balance, art direction notes, accessibility, and playtesting plan.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Construct a prompt for a game design document for a cozy farming sim with light puzzle elements. Include core loop, progression systems, economy balance, art direction notes, accessibility, and playtesting plan.",
+    "output": "Hello! Excited to help craft an expert prompt. To make sure we’re aligned, can you confirm the prompt should be about generating a game design document for a cozy farming sim with light puzzle elements? If so, could you share a few details to guide the first draft:\n\n- Target platform(s) and audience (e.g., PC/Steam, Switch, mobile; age range; casual vs midcore)\n- Inspirations and differentiators (games, media, vibes; what makes yours unique)\n- Scope and features (single-player/co-op, narrative depth, seasonal events, crafting, building, NPC relationships)\n- Puzzle style (environmental, logic, pattern, resource-routing; difficulty and frequency)\n- Monetization and content cadence (premium, DLC, cosmetic-only, updates)\n- Art direction cues (2D/3D, camera, palette, era, cozy references)\n- Accessibility priorities (colorblind, motor, cognitive, UI scaling, text legibility)\n- Timeline and playtesting approach (milestones, target testers, platforms)\n\nOnce I have these, I’ll generate the first version of the structured prompt and we’ll iterate.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Includes extra unsupported content\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Bot asked for detailed specs prematurely instead of only greeting and asking prompt topic.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a0da634",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-rsp5oxm5p",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Prepare a prompt for an interview preparation guide tailored to senior backend engineers. Include targeted behavioral and system design questions, evaluation criteria, practice tasks, and mock interview flow.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Prepare a prompt for an interview preparation guide tailored to senior backend engineers. Include targeted behavioral and system design questions, evaluation criteria, practice tasks, and mock interview flow.",
+    "output": "Great to meet you! I’ll help craft a top-tier prompt for an interview preparation guide tailored to senior backend engineers. To make it precise and useful, could you share more about the context and goals?\n\n- What company or environment should this guide target (e.g., Big Tech, high-growth startup, enterprise SaaS, fintech, cloud infra)?\n- Preferred tech stack and ecosystem focus (e.g., Java/Spring, Go, Node.js, Python, .NET; databases like Postgres/MySQL/Redis; cloud providers; Kubernetes; messaging systems like Kafka/RabbitMQ)?\n- Seniority scope (Senior vs. Staff/Principal) and expected competencies (architecture, leadership, ops, scalability, mentoring)?\n- System design emphasis areas (e.g., distributed systems, data-intensive pipelines, real-time services, multi-tenant SaaS, event-driven microservices, consistency models)?\n- Behavioral framework preferences (e.g., STAR, values alignment, leadership principles, ownership, ambiguity handling)?\n- Evaluation criteria style (rubrics with scoring bands, pass/fail checkpoints, must-have vs. nice-to-have)?\n- Mock interview format and timing (rounds, durations, interviewer roles, remote vs. onsite, whiteboard vs. doc-based design)?\n- Practice tasks format (coding exercises, design write-ups, take-home briefs, troubleshooting scenarios, oncall simulation)?\n- Target region/timezone or language considerations, and any DEI or accessibility requirements?\n- Any constraints (time-limited prep, tailored for self-study vs. team training, budget, printable vs. interactive)?\n\nNext steps: Reply with your preferences and constraints. Once I have them, I’ll generate the first version of the expert prompt, along with concise additions and questions to refine it iteratively.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates first-response rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Did not simply greet and ask what the prompt should be about; preemptively assumed a topic and listed too many questions.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "38c4ffc",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-wnsxesxyn",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Compose a prompt to help rewrite and tailor a resume for a product designer role, focusing on impact metrics, portfolio case studies, and alignment with job descriptions. Include a persona for ChatGPT as a hiring manager.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Compose a prompt to help rewrite and tailor a resume for a product designer role, focusing on impact metrics, portfolio case studies, and alignment with job descriptions. Include a persona for ChatGPT as a hiring manager.",
+    "output": "Hi! Thanks for kicking this off. To make sure I craft the best starting prompt, what would you like the prompt to be about specifically? If your goal is to rewrite and tailor a resume for a product designer role (centered on impact metrics, portfolio case studies, and alignment with job descriptions, with ChatGPT acting as a hiring manager), please confirm and share any key details you already have in mind—such as role seniority, target companies or industry, geographic focus, preferred resume format, and any constraints or requirements.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content beyond greeting/question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Made an unwarranted assumption about the prompt’s topic, violating “don’t assume any details.”\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "af14779",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-k0229808l",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt for synthesizing a literature review on climate resilience in coastal urban planning. Request key themes, methodological differences, gaps, future research directions, and annotated bibliography entries.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt for synthesizing a literature review on climate resilience in coastal urban planning. Request key themes, methodological differences, gaps, future research directions, and annotated bibliography entries.",
+    "output": "Hello! What would you like the prompt to be about?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant initial greeting and question\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greets user and asks prompt topic without sections as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d24e02e",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-zvcobqdiu",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Add explicit sections in the prompt: Context, Constraints, Deliverables, Checklist, and Follow-up Questions.\n- Q2: Require outputs to include a brief executive summary at the top.\n- Q3: Ask for a timeline estimation and resource requirements.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Add explicit sections in the prompt: Context, Constraints, Deliverables, Checklist, and Follow-up Questions.\n- Q2: Require outputs to include a brief executive summary at the top.\n- Q3: Ask for a timeline estimation and resource requirements.",
+    "output": "Hi! I’m ready to craft your expert prompt. What would you like the prompt to be about?\n\nI’ll incorporate your preferences for explicit sections (Context, Constraints, Deliverables, Checklist, Follow-up Questions), include a brief executive summary at the top of outputs, and request timeline estimation and resource requirements.\n\nNext steps:\n- Tell me the topic and purpose of the prompt.\n- Optionally share the intended audience, desired tone, and any specific constraints or tools to include.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"No required sections present\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Provided unsolicited sections and details beyond greeting and initial question.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "923873e",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-1rv4nfr7t",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: Ask ChatGPT to include at least one example input and one example output that demonstrates the expected format users should provide and receive.\n- Q2: Enforce that numerical data be presented consistently with units and sources.\n- Q3: (No answer)",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: Ask ChatGPT to include at least one example input and one example output that demonstrates the expected format users should provide and receive.\n- Q2: Enforce that numerical data be presented consistently with units and sources.\n- Q3: (No answer)",
+    "output": "Hello! What would you like the prompt to be about?\n\nI’ll incorporate your preferences to:\n- Include at least one example input and one example output demonstrating the expected format.\n- Enforce that all numerical data be presented consistently with units and cited sources.\n\nNext steps:\n- Please describe the topic and goal of the prompt (what you want ChatGPT to do, the audience, desired outcomes, and any constraints or tone).\n- Once you share that, I’ll generate the first Prompt, Possible Additions, and Questions for iteration.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "",
+        "outcome": "unknown"
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Included unsolicited preference bullets not in the spec.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b00335d",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-3lfql20ip",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Develop a prompt for a multilingual translation assistant that specializes in legal and technical documents, providing context-sensitive translations, glossaries, and ambiguity flags. Include instructions to ask for domain context before translating.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Develop a prompt for a multilingual translation assistant that specializes in legal and technical documents, providing context-sensitive translations, glossaries, and ambiguity flags. Include instructions to ask for domain context before translating.",
+    "output": "Hello! Thanks for the topic. To confirm, you want a prompt that directs ChatGPT to act as a multilingual translation assistant specializing in legal and technical documents, providing context-sensitive translations, glossaries, and ambiguity flags, and that asks for domain context before translating. Is that correct?\n\nIf so, are there any particular languages, industries, file formats, confidentiality constraints, or stylistic preferences you want emphasized? Also, how should ambiguity flags be presented (e.g., inline notes, numbered footnotes, confidence scores), and do you want it to handle citations, standards, or jurisdiction-specific terminology?\n\nNext steps: Share any specifics you’d like included (languages, domains, formatting, workflow details). I’ll then produce the first iteration with the Prompt, Possible Additions, and Questions sections.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Breaches first-response format\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumes topic prematurely instead of asking what it should be about.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ed2adcc",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-1hqt6nlkw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: None\nAnswers:\n- Q1: I only want to answer question 3: The target audience is educators in K-12 STEM programs looking to integrate project-based learning.\n- Q2: (No answer)\n- Q3: Please add constraints for time (45-minute class) and materials (low-cost supplies).",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: None\nAnswers:\n- Q1: I only want to answer question 3: The target audience is educators in K-12 STEM programs looking to integrate project-based learning.\n- Q2: (No answer)\n- Q3: Please add constraints for time (45-minute class) and materials (low-cost supplies).",
+    "output": "Hi! Great—thanks for sharing that the target audience is K–12 STEM educators integrating project-based learning, and that we should design for a 45-minute class with low-cost supplies. What would you like the prompt to be about specifically? For example, a particular STEM concept, grade level, or type of project-based activity.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No sections per rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeted user and asked for prompt topic without showing sections, matching the initial response requirement.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9f1c538",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-v7klx3nnj",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A, B\nAnswers:\n- Q1: Replace the earlier target market with mid-sized manufacturing companies in the US.\n- Q2: Add a directive to include risk mitigation steps and compliance notes (OSHA).\n- Q3: Request a “What to ask next” section at the end.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A, B\nAnswers:\n- Q1: Replace the earlier target market with mid-sized manufacturing companies in the US.\n- Q2: Add a directive to include risk mitigation steps and compliance notes (OSHA).\n- Q3: Request a “What to ask next” section at the end.",
+    "output": "Prompt\n> You will act as an expert consultant advising mid-sized manufacturing companies in the United States. Your task is to deliver a comprehensive, practical, and evidence-informed response on [TOPIC], tailored to this target market. Begin by asking up to five concise clarifying questions only if essential details are missing; otherwise proceed directly.\n> \n> Objectives\n> - Address [OBJECTIVE] within the context of mid-sized U.S. manufacturing operations.\n> - Optimize for safety, operational efficiency, and regulatory compliance.\n> - Provide actionable guidance that can be implemented by cross-functional teams (Operations, Safety/EHS, Quality, IT/OT, Finance).\n> \n> Scope and assumptions\n> - Use the following context if provided: [CURRENT STATE], [CONSTRAINTS], [TIMELINE], [BUDGET], [TECH STACK/TOOLS], [DATA AVAILABILITY], [KEY METRICS].\n> - Note any assumptions you make and keep them minimal; prefer requesting clarification if assumptions critically affect recommendations.\n> \n> Deliverables and structure\n> 1) Executive summary: Two to three paragraphs summarizing the approach and expected outcomes for mid-sized U.S. manufacturers.\n> 2) Detailed plan: Step-by-step actions with clear owners, prerequisites, and sequencing; include quick wins and longer-term initiatives.\n> 3) Risk management: Enumerate key risks and provide concrete mitigation steps. Include OSHA-related compliance notes relevant to the topic and manufacturing environment (e.g., hazard communication, machine guarding, lockout/tagout, ergonomics, recordkeeping). Call out where additional EHS review is required.\n> 4) Compliance and governance: Outline applicable regulations and standards beyond OSHA if relevant (e.g., EPA, NFPA, ISO), and propose practical compliance checks, documentation, and audit cadence suitable for mid-sized manufacturing firms.\n> 5) Resources: Identify people, roles, training, and tooling needed; suggest vendor/tool examples if appropriate to the topic, with selection criteria.\n> 6) Metrics and reporting: Define KPIs and leading indicators; show how to measure success and establish baselines; include a lightweight dashboard outline.\n> 7) Timeline: Provide a phased roadmap (near-term, 30–60–90 days, and 6–12 months) appropriate for mid-sized manufacturers, noting dependencies.\n> 8) Budget considerations: Discuss cost ranges and cost drivers; distinguish one-time vs. ongoing costs; suggest ways to reduce cost without compromising safety or compliance.\n> 9) Change management: Recommend stakeholder engagement, training, communications, and adoption tactics tailored to plant-floor and management audiences.\n> 10) “What to ask next”: End with a section listing the most valuable follow-up questions the organization should consider to refine or extend the plan.\n> \n> Style and tone\n> - Be concise but thorough; prioritize clarity and practicality.\n> - Use plain language accessible to both technical and non-technical stakeholders.\n> - Where appropriate, include brief examples or templates (SOP snippet, checklist, sample policy bullets).\n> \n> Citations and references\n> - Where possible, reference authoritative sources (e.g., OSHA standards, NIOSH, ISO) and provide links or identifiers for further reading.\n\nPossible Additions\n- A. Include a sample 90-day implementation roadmap with milestones, owners, and dependencies specific to a plant environment.\n- B. Provide a cost breakdown by CAPEX/OPEX with ROI and payback sensitivity under best/base/worst-case scenarios.\n- C. Add a stakeholder communication plan template (audiences, messages, cadence, channels) and a training matrix.\n\nQuestions\n- Q1. What is the exact topic and primary objective you want this prompt to focus on (e.g., safety program overhaul, process optimization, digital transformation, quality improvement)?\n- Q2. What current-state details should be assumed or included (plant size, number of lines, workforce profile, existing systems/tools, pain points, budget/timeline constraints)?\n- Q3. What output format do you prefer (long-form report, bullet points, slide-ready outline), and are there any “must-include” sections beyond those already specified?\n\nNext steps\n- Please provide the topic and objective for the prompt.\n- Choose any of the Possible Additions (A–C) to include in the next iteration.\n- Answer the Questions to refine the prompt; you can skip any that don’t apply.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Headings missing colons\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Sections, formatting, and content align with the description’s requirements for prompt, additions, questions, and next steps.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d9294e0",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-o3zauk3w7",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Build a prompt for creating a cybersecurity incident response playbook for a mid-market SaaS company. Include phases (Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned), RACI roles, communication templates, and legal considerations.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Build a prompt for creating a cybersecurity incident response playbook for a mid-market SaaS company. Include phases (Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned), RACI roles, communication templates, and legal considerations.",
+    "output": "Hi there! I’m ready to help you craft a powerful prompt.\n\nTo confirm, we’ll be building a prompt that instructs ChatGPT to create a cybersecurity incident response playbook for a mid-market SaaS company, covering phases (Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned), RACI roles, communication templates, and legal considerations.\n\nA few quick questions to tailor this effectively:\n- Who is the primary audience for the playbook (security team, engineering, executive leadership, all-staff)?\n- What regulatory and legal frameworks should be considered (e.g., GDPR, CCPA/CPRA, HIPAA, PCI DSS, SOX, NYDFS, ISO 27001), and which jurisdictions does the company operate in?\n- What incident types and tooling should be assumed (e.g., ransomware, account takeover, data breach, DDoS; SIEM/EDR vendors, ticketing system, cloud provider)?\n\nNext steps: Please confirm the topic and share any details you want included (audience, regulations, jurisdictions, incident types, tooling, tone/format). Once you reply, I’ll produce the first iteration with the structured prompt, possible additions, and clarifying questions.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates initial-response rule\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Chatbot assumed specific prompt details instead of first greeting and asking what the prompt should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d8cb5b5",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-hqybs7768",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Generate a prompt for constructing a financial forecasting model for a subscription-based edtech platform. Cover cohort analysis, churn forecasts, CAC/LTV, scenario planning, and visualization guidance, with a cautionary note about assumptions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Generate a prompt for constructing a financial forecasting model for a subscription-based edtech platform. Cover cohort analysis, churn forecasts, CAC/LTV, scenario planning, and visualization guidance, with a cautionary note about assumptions.",
+    "output": "Hello! What would you like the prompt to be about? If you already have a topic in mind, feel free to share any key aspects you want covered and the intended audience or tool (e.g., ChatGPT, Python, Excel).",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting and question.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and request match initial instructions.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5bb5864",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-pm171fjos",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Draft a prompt for technical writing of API documentation for a payment processing service. Include audience, prerequisites, quickstart, endpoints, error handling, versioning, SDK references, and examples.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Draft a prompt for technical writing of API documentation for a payment processing service. Include audience, prerequisites, quickstart, endpoints, error handling, versioning, SDK references, and examples.",
+    "output": "Hello! To kick things off, what would you like the prompt to be about? If you already have a topic in mind (e.g., technical writing for API documentation for a payment processing service), feel free to confirm and share any specific goals, tone/style preferences, or constraints you want the prompt to reflect.\n\nNext steps: Confirm the topic and any key requirements you want emphasized. Once you do, I’ll draft the first version of the prompt along with Possible Additions and Questions for refinement.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and question as required; no sections shown.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "540b0da",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-9pziw9691",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt for crafting empathetic customer support responses for delayed shipments. Include tone, apology structure, resolution options, personalized details, and a follow-up procedure.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt for crafting empathetic customer support responses for delayed shipments. Include tone, apology structure, resolution options, personalized details, and a follow-up procedure.",
+    "output": "Hi there! Thanks for the topic. To make sure I craft the most effective prompt for empathetic customer support responses to delayed shipments, could you share a bit more detail?\n\n- What brand voice or tone do you want (e.g., warm and friendly, professional and concise, proactive and reassuring)?\n- Which resolution options should be allowed (e.g., refund, partial refund, discount code, expedited reshipment, replacement, cancel order, store credit)?\n- What customer details can be used to personalize responses (e.g., name, order number, item(s), shipping method, promised delivery date, location, loyalty status, past issues)?\n- Any specific apology phrasing or structure you prefer (e.g., acknowledge impact, validate feelings, own responsibility, explain cause briefly, commit to action)?\n- Follow-up expectations (e.g., timeframe, channel, what to include, when to escalate)?\n- Constraints or policies we must adhere to (e.g., carrier delays, holiday surges, service-level guarantees, refunds threshold, region-specific regulations)?\n\nOnce you share these, I’ll draft the first version of the prompt with Possible Additions and Questions, and we’ll iterate from there.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too many questions.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Used six questions instead of three and didn’t simply ask what the prompt should be about first.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "166d54e",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-gv9cr3n6s",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Formulate a prompt to produce a detailed story outline for a near-future sci-fi thriller. Include character arcs, worldbuilding rules, key plot beats (three-act), themes, pacing notes, and a list of research questions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Formulate a prompt to produce a detailed story outline for a near-future sci-fi thriller. Include character arcs, worldbuilding rules, key plot beats (three-act), themes, pacing notes, and a list of research questions.",
+    "output": "Great to meet you! I’m ready to help craft an expert prompt.\n\nWhat should the story be about specifically? Share any details you have on:\n- Central premise and core conflict\n- Setting (location, timeframe within “near-future”)\n- Main protagonist(s) and antagonistic forces\n- Key technology or speculative element(s)\n- Tone and vibe (e.g., gritty techno-thriller, character-driven suspense, corporate espionage)\n- Target audience/age rating and inspirations/comps\n- Must-include themes, motifs, or set-piece moments\n- Constraints to avoid (content, style, tropes)\n- Preferred POV and format (novel outline vs. screenplay outline)\n- Desired complexity and outline length/detail level\n- Any initial worldbuilding rules or ethical dilemmas you want baked in\n\nOnce you share these, I’ll start the first iteration of the prompt.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Includes list and extra content\"}",
+        "score": 0
+      }
+    },
+    "compliance": "unknown",
+    "complianceText": "Ready to help craft an expert prompt—what would you like it to be about?  \nPlease share any details you have: central premise and conflict, setting, characters, technology or speculative elements, tone and style, audience, themes, constraints, POV/format, complexity, and any worldbuilding rules.",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6a9d4e0",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-pitzl91nv",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: C\nAnswers:\n- Q1: Explicitly instruct the “Prompt” section to use ‘>’ Markdown formatting and avoid any other heavy formatting.\n- Q2: Ask for a secondary lightweight version of the prompt optimized for mobile usage (shorter, fewer sections).\n- Q3: (No answer)",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: C\nAnswers:\n- Q1: Explicitly instruct the “Prompt” section to use ‘>’ Markdown formatting and avoid any other heavy formatting.\n- Q2: Ask for a secondary lightweight version of the prompt optimized for mobile usage (shorter, fewer sections).\n- Q3: (No answer)",
+    "output": "Thanks for kicking this off. Since we haven’t established the topic yet, I’ll start the iteration with a first draft. I’ve incorporated your Q1 and Q2 requests into the prompt. I also treated your “Chosen Additions: C” as a directive to include multi-format deliverables (summary, action plan, checklist, and template). If you prefer a different interpretation of C, let me know and I’ll adjust.\n\nPrompt:\n> You are ChatGPT. Act as an expert in [ROLE/DOMAIN] to accomplish [PRIMARY OBJECTIVE/TOPIC]. Your response will be tailored to [AUDIENCE] with the following context: [CONTEXT/BACKGROUND], goals: [GOALS], and constraints: [CONSTRAINTS].\n> \n> Requirements:\n> - Provide a comprehensive, structured response that is actionable and easy to follow.\n> - Avoid heavy formatting (no tables, code blocks, or lengthy decorative separators). Use plain text and concise bullet lists where helpful.\n> - If any required detail is missing, ask up to three concise clarifying questions first, then proceed with best assumptions clearly labeled.\n> \n> Approach:\n> 1) Define the scope and success criteria for [PRIMARY OBJECTIVE/TOPIC].\n> 2) Break down the solution into clear, sequenced steps.\n> 3) Highlight key considerations, risks, and decision points.\n> 4) Provide examples or scenarios where useful.\n> 5) Conclude with prioritized next actions and measurable checkpoints.\n> \n> Deliverables:\n> - Main deliverable: A thorough, organized response addressing the objective.\n> - Executive summary: A 5–8 sentence overview of the most important points.\n> - Action plan: Step-by-step tasks with brief rationale for each.\n> - Checklist: A concise list to verify completion and quality.\n> - Template: A reusable text template (plain text) the user can adapt for similar situations.\n> - Secondary lightweight mobile prompt: After you finish, output a short, mobile-optimized prompt that captures the essential instructions to reproduce this task on mobile (few sections, shorter wording).\n> \n> Style and tone:\n> - Match the tone to [TONE/PERSONALITY], e.g., practical, empathetic, authoritative, or conversational.\n> - Be clear, direct, and free of jargon unless required; define any necessary terms simply.\n> \n> Quality checks:\n> - Ensure factual accuracy and cite assumptions briefly where relevant.\n> - Keep the content concise while remaining complete; remove redundancy.\n> - Align recommendations with the stated goals, constraints, and audience.\n> \n> Output structure:\n> - Use plain text headings like “Overview,” “Steps,” “Risks,” “Examples,” “Next Actions,” “Checklist,” “Template,” and “Mobile Prompt.”\n> - No heavy formatting; bullet lists are allowed.\n> \n> Now ask any missing clarifying questions (up to three), then deliver the response followed by the “Mobile Prompt.”\n\nPossible Additions:\n- A) Include a brief risk assessment with likelihood and impact ratings, plus mitigations.\n- B) Add a performance metric framework (KPIs, targets, measurement cadence).\n- C) Provide two short examples: one ideal-case example and one constrained-case example.\n\nQuestions:\n- Q1: What is the exact topic/objective and desired outcome (including any success criteria)?\n- Q2: Who is the intended audience and what is their experience level or context I should consider?\n- Q3: Do you have constraints on length, tone, or any must-include or must-avoid elements?\n\nNext steps:\n- Please provide the topic/objective and answers to the Questions, and choose any Additions (A, B, and/or C). I will incorporate your details directly into the next iteration of the prompt and refine it further.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Preamble violates section-only rule.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Checked sections: Prompt with '>' formatting, concise A/B/C additions, three questions, and next steps present. OK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1e965b9",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-0ae1jd2l4",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Include instructions for ChatGPT to think step-by-step and show its reasoning transparently via structured bullet points (no hidden thoughts).\n- Q2: Add a reminder to request any missing data before proceeding.\n- Q3: Require a final validation checklist to ensure the output meets constraints.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A\nAnswers:\n- Q1: Include instructions for ChatGPT to think step-by-step and show its reasoning transparently via structured bullet points (no hidden thoughts).\n- Q2: Add a reminder to request any missing data before proceeding.\n- Q3: Require a final validation checklist to ensure the output meets constraints.",
+    "output": "> You will act as an expert in the domain most relevant to the specified topic to help accomplish a clearly defined goal. Before proceeding, review the request and explicitly ask for any missing data or clarifications needed to produce an optimal result.  \n>  \n> Objectives and scope:  \n> - Confirm the topic, goal, audience, deliverable format, constraints, and any available data sources or references.  \n> - If details are missing or ambiguous, list specific questions and pause for confirmation before executing.  \n>  \n> Approach and explanation style:  \n> - Use structured bullet points to summarize your approach, key steps, and brief justifications.  \n> - Do not reveal internal hidden reasoning; provide concise summaries, observable steps, and any necessary calculations, code, or citations only.  \n> - Where appropriate, apply and explicitly name domain-specific frameworks or templates (e.g., SWOT, PRD, RACI, CRISP-DM) to organize the work.  \n>  \n> Output requirements:  \n> - Produce the requested deliverable optimized for the specified audience and tone.  \n> - Organize the output into clear sections such as: Overview, Solution/Analysis, Alternatives/Options, Risks/Limitations, and Actionable Next Steps.  \n> - If the task involves data, math, or code: show formulas, intermediate results, code snippets, and simple tests that verify correctness (without revealing internal thought processes).  \n> - State assumptions explicitly and mark any areas of uncertainty for confirmation.  \n>  \n> Final Validation Checklist (include at the end):  \n> - All required inputs were confirmed or requested if missing.  \n> - Deliverable meets stated constraints (format, length, tone, style, tools).  \n> - Reasoning summary provided in structured bullet points (no hidden internal thoughts included).  \n> - Domain-specific framework(s) used where applicable and named explicitly.  \n> - Calculations/code (if any) are verifiable and tested.  \n> - Risks/limitations and next steps are clearly stated.  \n> - Citations or links included where relevant and credible.  \n>  \n> If any prerequisite information is missing, stop and request it before proceeding.\n\nPossible Additions:\nA. Require use of domain-specific frameworks or templates (e.g., SWOT, PRD, RACI, CRISP-DM) when relevant, and name them explicitly.\nB. Enforce strict length limits (e.g., max 600 words) and a time-to-read target, with a concise executive summary upfront.\nC. Include at least two tailored examples or mini case studies aligned to the specified audience.\n\nQuestions:\n1) What is the topic, goal, and desired deliverable (e.g., report, plan, code, analysis)?\n2) Who is the primary audience and preferred tone or style?\n3) Please confirm whether the “Addition A” above matches your intended choice; if not, select from B or C or specify a different addition.\n\nNext steps:\n- Provide the topic, goal, audience/tone, and any constraints or data sources.\n- Confirm or adjust Addition A (or choose B/C).\n- I will integrate your details directly into the prompt and iterate until it’s perfect.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing Prompt: header\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Failed to start with a greeting and initial prompt inquiry; sections shown immediately without following first-response rule.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8ffd61d",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-wrpwawtb9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Design a prompt for an image alt-text and captioning assistant that produces accessible descriptions for social media posts, with guidance on tone, length, and avoiding subjective judgments without context; include requests for necessary missing details about the image.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Design a prompt for an image alt-text and captioning assistant that produces accessible descriptions for social media posts, with guidance on tone, length, and avoiding subjective judgments without context; include requests for necessary missing details about the image.",
+    "output": "Hi! Thanks for kicking this off. To confirm, you want a prompt that instructs ChatGPT to act as an image alt-text and captioning assistant for social media, with clear guidance on tone, length, avoiding subjective judgments without context, and asking for missing image details when needed.\n\nIs that correct? If so, could you share any preferences about:\n- Which social platforms this should target (e.g., Twitter/X, Instagram, LinkedIn, Facebook)?\n- Preferred tone (e.g., neutral, friendly, professional, playful) and typical length ranges for alt-text and captions?\n- Any accessibility standards or style guides you want it to follow (e.g., WCAG, AP Style, platform-specific best practices)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Violates first-response format\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Incorrect initial interaction—it jumps into specifics instead of greeting and asking broadly what the prompt should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ce680b3",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-npdpnwgcv",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Create a prompt for a math tutoring session on solving quadratic equations for high school students, including assessment of prior knowledge, multiple solution methods, common pitfalls, and practice exercises with step-by-step solutions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Create a prompt for a math tutoring session on solving quadratic equations for high school students, including assessment of prior knowledge, multiple solution methods, common pitfalls, and practice exercises with step-by-step solutions.",
+    "output": "Hi! Great to meet you. What would you like the prompt to be about?\n\nI see you mentioned a math tutoring session focused on solving quadratic equations for high school students, including assessment of prior knowledge, multiple solution methods, common pitfalls, and practice exercises with step-by-step solutions. Is that correct, and do you have any specific preferences (e.g., difficulty level, curriculum alignment, tone, or format)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content beyond greeting.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "In the first response, only a greeting and a single question about the prompt topic should appear; here extra follow-up content is included.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2edb85d",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-crj5xkypc",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Write a prompt to setup a structured debate on whether artificial general intelligence is desirable, with roles (pro/con), rules of engagement, evidence requirements, logical fallacy checks, and a final synthesis.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Write a prompt to setup a structured debate on whether artificial general intelligence is desirable, with roles (pro/con), rules of engagement, evidence requirements, logical fallacy checks, and a final synthesis.",
+    "output": "Great choice of topic. To tailor the debate prompt perfectly, can you confirm any preferences for the debate’s format and audience? For example:\n- Who are the participants (two ChatGPT roles debating, or human vs AI)?\n- What tone and level should it aim for (academic, policy-oriented, public-facing)?\n- Any specific definitions, sources, or constraints you want (e.g., a particular definition of AGI, citation style, time limits, or fallacy taxonomy)?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Not a simple greeting and single question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output fails to start with a greeting and does not ask what the prompt should be about as required for the first response.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7daeaeb",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-ih6fzzbqy",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: I am choosing only addition B; please include data sources and a method for validating claims within the prompt.\n- Q2: Do not change the topic; just deepen the technical rigor and add a glossary requirement.\n- Q3: Leave Q3 blank; I don’t want to specify the audience right now.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: B\nAnswers:\n- Q1: I am choosing only addition B; please include data sources and a method for validating claims within the prompt.\n- Q2: Do not change the topic; just deepen the technical rigor and add a glossary requirement.\n- Q3: Leave Q3 blank; I don’t want to specify the audience right now.",
+    "output": "Prompt\n> You will act as an expert practitioner and researcher to deliver a technically rigorous, verifiable, and implementable response on the exact topic/problem provided by the user. Do not alter or broaden the topic; deepen the analysis while preserving the original scope. Your response must:\n> \n> - Establish objectives and constraints explicitly, restating the problem in precise terms without changing its topic.\n> - Use formal reasoning with clear assumptions, definitions, and symbols. Where applicable, include:\n>   - Mathematical formulations, equations, derivations, and dimensional analysis.\n>   - Algorithmic steps, complexity analysis, and failure/edge cases.\n>   - System architecture/flow (data pipelines, components, interfaces) with input/output schemas, units, and data types.\n>   - Quantitative estimates, uncertainty bounds, sensitivity analyses, and error propagation.\n> - Data Sources: Support all substantive claims with high-quality sources. Provide at least five primary or authoritative sources (e.g., peer‑reviewed papers, standards bodies, government datasets, reputable technical documentation). For each source include:\n>   - Title, author/org, publication date, direct URL, and access date.\n>   - Why it is relevant and how it informs the claim.\n>   - If using datasets, specify dataset versions, time ranges, and any preprocessing.\n> - Validation Method: Explicitly outline how you will validate each key claim/result. Employ a combination of:\n>   - Cross‑verification with independent sources and triangulation.\n>   - Replication or recomputation of results; unit/integration tests for code; reproducible steps.\n>   - Statistical tests (e.g., significance tests, confidence intervals), calibration checks, and robustness/sensitivity analyses.\n>   - Sanity checks and dimensional consistency; compare against benchmarks, standards, or baseline models.\n>   - Document limitations, potential biases, data quality concerns, and failure modes; assign confidence levels to major claims.\n> - Glossary: Provide a concise glossary of domain‑specific terms, acronyms, and symbols used in your response, with definitions and units where applicable.\n> - Output Structure (use clear labels, minimal formatting, and bullet lists where helpful):\n>   1) Problem restatement and objectives\n>   2) Technical approach and methodology\n>   3) Detailed analysis and derivations/algorithms\n>   4) Implementation or application plan (steps, resources, tools)\n>   5) Data sources and claim validation plan\n>   6) Limitations, risks, and open questions\n>   7) Glossary\n>   8) References with full citation details\n> - Evidence and uncertainty: Distinguish established facts from assumptions or estimates. If information is unavailable or ambiguous, state this explicitly and propose how to resolve it (experiments, additional data, or alternative sources).\n> - Style: Be concise yet precise; prefer quantified statements and explicit criteria. Avoid speculation; ground claims in cited evidence.\n> \n> If additional information is required to ensure correctness or completeness, ask targeted follow‑up questions before concluding.\n\nPossible Additions\n- A. Specify target audience and reading level; include an executive summary tailored to that audience.\n- B. Define concrete deliverables and acceptance criteria (e.g., runnable code, diagrams, dataset schema) with evaluation metrics.\n- C. Include one worked example or case study with numbers, intermediate calculations, and a validation walkthrough.\n\nQuestions\n- Q1. What is the exact topic and problem statement you want this prompt to address?\n- Q2. What deliverables and output format do you prefer (e.g., step‑by‑step plan, code snippets, diagrams), and any constraints (length, tools/libraries, platform)?\n- Q3. Are there specific sources, datasets, standards, or jurisdictions to prioritize or avoid?\n\nNext steps: Choose one or more additions (A–C) and answer the questions, especially Q1 to specify the topic. I will integrate your choices and details directly into the next iteration of the prompt.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Headings incorrect; user answers ignored\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output includes the Prompt, Possible Additions, and Questions sections on the first response instead of only a greeting asking what the prompt should be about.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b57bb2b",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-tq049gjp5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nLanguage: Japanese\nPrompt Topic: ChatGPTに依頼するプロンプトを作成してください。対象は中小企業の人事担当者向けで、オンボーディングプロセスの標準化、チェックリスト作成、教育資料の整備、KPI設定を含めること。丁寧でプロフェッショナルな口調。",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nLanguage: Japanese\nPrompt Topic: ChatGPTに依頼するプロンプトを作成してください。対象は中小企業の人事担当者向けで、オンボーディングプロセスの標準化、チェックリスト作成、教育資料の整備、KPI設定を含めること。丁寧でプロフェッショナルな口調。",
+    "output": "ご依頼ありがとうございます。作成したいプロンプトのテーマを教えてください。すでに「中小企業の人事担当者向けで、オンボーディングプロセスの標準化、チェックリスト作成、教育資料の整備、KPI設定を含め、丁寧でプロフェッショナルな口調」という内容でよろしければ、その方向で進めます。もし特に重視したいポイント（業種、従業員規模、導入期限、想定出力形式など）があればお知らせください。",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Contains extra content and questions\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Assumes prompt details despite instruction not to assume any specifics.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "93c920c",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-6a6mx0yoh",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Iteration\nChosen Additions: A, C\nAnswers:\n- Q1: Shorten the prompt to under 600 words while maintaining all required sections.\n- Q2: Add explicit constraints to avoid assumptions and to ask at least three clarifying questions before drafting.\n- Q3: The output should start with a single-sentence summary of the objective, followed by the structured sections.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Iteration\nChosen Additions: A, C\nAnswers:\n- Q1: Shorten the prompt to under 600 words while maintaining all required sections.\n- Q2: Add explicit constraints to avoid assumptions and to ask at least three clarifying questions before drafting.\n- Q3: The output should start with a single-sentence summary of the objective, followed by the structured sections.",
+    "output": "Objective: Create a concise, assumption-free expert ChatGPT prompt for a user-defined topic that starts with a one-sentence objective summary, asks clarifying questions before drafting, and incorporates your selected additions A and C.\n\n> You will act as an expert in the user-specified domain to achieve a clearly defined objective. Before drafting any content: ask at least three clarifying questions and wait for the user’s answers. Do not make assumptions; explicitly list any unknowns or dependencies that must be resolved. After receiving answers, begin your response with a single-sentence summary of the objective, then present structured sections as requested. Incorporate the user-selected additions A and C from prior iterations verbatim (user will provide/confirm their exact wording). Constraints: operate within the user’s specified scope, audience, format, and success criteria; avoid adding unstated requirements; justify key decisions; and note trade-offs. If facts are involved, flag sources and uncertainties. Keep your writing precise, actionable, and aligned with the user’s preferences.\n> \n> Clarifying questions (ask at least three before drafting): \n> 1) What is the exact topic/objective, target audience, and desired deliverable type (e.g., guide, plan, code, analysis)? \n> 2) What constraints or requirements must be followed (length, tone, style, tools, citations, deadlines, success metrics)? \n> 3) What context, inputs, or examples should be considered (existing materials, data, constraints, known limitations)? \n> 4) Are there any non-negotiables or exclusions (out-of-scope items, compliance/privacy rules, content to avoid)? \n> 5) Please provide the exact text of the previously selected additions A and C so they can be applied verbatim.\n> \n> Output structure (after questions are answered): \n> - One-sentence objective summary. \n> - Core response organized into clear, titled sections tailored to the deliverable. \n> - Assumptions avoided; unresolved items listed with requested next info. \n> - Brief rationale for key choices; risks and mitigations; next steps. \n> - If applicable: references or links; validation checks.\n> \n> Do not proceed with drafting until the questions are answered. Keep all outputs within the requested constraints.\n\nPossible Additions:\n- A. INCLUDE A STRUCTURED OUTPUT FORMAT WITH TITLED SECTIONS AND BULLETED CHECKLISTS.\n- B. ENFORCE STYLE GUIDELINES (TONE, VOICE, READING LEVEL, JARGON LIMITS).\n- C. REQUIRE CITED SOURCES WITH LINKS AND A FACT-CHECK PASS.\n\nQuestions:\n1) What is the specific topic/objective and the primary audience for the final prompt?\n2) What deliverable do you want the AI to produce (and any length or format limits)?\n3) Please paste the exact wording of your previously selected additions A and C so I can embed them verbatim.\n\nNext steps: Provide the topic/objective, audience, deliverable details, and the exact text of additions A and C. Optionally choose any new additions (A–C) and answer the questions. I will integrate your inputs directly into the next iteration of the prompt and further refine it.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing Prompt section and order\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output fails to start with a greeting and ask what the prompt should be about as required for the first response.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0a0b519",
+    "promptid": "9472734",
+    "ruleid": null,
+    "testuid": "baseline-test-alia79u2b",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Stage: Initial\nPrompt Topic: Provide a prompt for a research-backed wellness program outline for remote teams, including habit formation theory, scheduling, inclusive activities, measurement, and safeguards against pseudoscience. Include a request for organizational context.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stage: Initial\nPrompt Topic: Provide a prompt for a research-backed wellness program outline for remote teams, including habit formation theory, scheduling, inclusive activities, measurement, and safeguards against pseudoscience. Include a request for organizational context.",
+    "output": "Hello! What would you like the prompt to be about? If you already have a topic in mind, feel free to share any key outcomes or constraints you want the prompt to emphasize.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra content beyond greeting and question\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Greeting and invitation to specify prompt topic as described, without sections shown.  \nOK",
+    "isGroundtruth": true
+  }
+]

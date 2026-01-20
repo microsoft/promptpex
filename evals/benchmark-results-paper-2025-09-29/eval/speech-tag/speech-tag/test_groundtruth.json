@@ -1,0 +1,794 @@
+[
+  {
+    "id": "3ae4d61",
+    "promptid": "a928b14",
+    "ruleid": 1,
+    "rule": "The response must consist of exactly one token, where a token is defined as a single contiguous sequence of non-whitespace characters, and that token must be either a valid part-of-speech tag from the specified tagset or one of the special values Unknown or CantAnswer.",
+    "inverse": false,
+    "testuid": "test-18256745",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: The athlete runs daily at dawn.\nWord: runs",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: The athlete runs daily at dawn.\nWord: runs",
+    "output": "VBZ",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and compliant format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single POS tag from the list, no extra content provided.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a8227e3",
+    "promptid": "a928b14",
+    "ruleid": 2,
+    "rule": "A valid part-of-speech tag for this task is exactly one of the following case-sensitive strings and nothing else: CC, CD, DT, EX, FW, IN, JJ, JJR, JJS, LS, MD, NN, NNS, NNP, NNPS, PDT, POS, PRP, PRP$, RB, RBR, RBS, RP, SYM, TO, UH, VB, VBD, VBG, VBN, VBP, VBZ, WDT, WP, WP$, WRB.",
+    "inverse": false,
+    "testuid": "test-43375526",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: She might finish early, but nothing is certain.\nWord: might",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: She might finish early, but nothing is certain.\nWord: might",
+    "output": "MD",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct MD tag\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag and only tag provided.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9e6588d",
+    "promptid": "a928b14",
+    "ruleid": 3,
+    "rule": "If the response uses a special value instead of a part-of-speech tag, it must be exactly the case-sensitive string Unknown or exactly the case-sensitive string CantAnswer, with no additional characters, words, or symbols.",
+    "inverse": false,
+    "testuid": "test-61852022",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: After the news, he sent a quick 🙂 to cheer me up.\nWord: 🙂",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: After the news, he sent a quick 🙂 to cheer me up.\nWord: 🙂",
+    "output": "SYM",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag provided and only POS tag returned.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0059774",
+    "promptid": "a928b14",
+    "ruleid": 4,
+    "rule": "The response must contain no whitespace characters before, within, or after the single token, meaning no spaces, tabs, or newline characters are permitted around or inside the token.",
+    "inverse": false,
+    "testuid": "test-12680646",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: There is a glitch in the matrix.\nWord: There",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: There is a glitch in the matrix.\nWord: There",
+    "output": "EX",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only a valid tag 'EX' returned, complying with specification.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e06b489",
+    "promptid": "a928b14",
+    "ruleid": 5,
+    "rule": "The response must not include any quotation marks, brackets, colons, labels, prefixes, suffixes, or explanatory text; only the single allowed token is permitted.",
+    "inverse": false,
+    "testuid": "test-93042734",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: Bob forgot his keys at work.\nWord: his",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: Bob forgot his keys at work.\nWord: his",
+    "output": "PRP$",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned a single valid POS tag from the list.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2f96cf6",
+    "promptid": "a928b14",
+    "ruleid": 6,
+    "rule": "The response must not list, join, or separate multiple tokens by any delimiter; providing more than one token in any form is invalid.",
+    "inverse": false,
+    "testuid": "test-98445444",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: Please pick up the package before noon.\nWord: up",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: Please pick up the package before noon.\nWord: up",
+    "output": "RP",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag from list and only tag returned.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9d7915f",
+    "promptid": "a928b14",
+    "ruleid": 7,
+    "rule": "The response must not contain any part of the input sentence, the target word, or any other content besides the single allowed token.",
+    "inverse": false,
+    "testuid": "test-31011977",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: Zürich hosts the Weltklasse meet each year.\nWord: Zürich",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: Zürich hosts the Weltklasse meet each year.\nWord: Zürich",
+    "output": "NNP",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid POS tag as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "55acd87",
+    "promptid": "a928b14",
+    "ruleid": 8,
+    "rule": "The response must match exactly one of the allowed strings in spelling and case; any variation in case, added punctuation (except the $ character as part of PRP$ or WP$), or altered characters renders the output invalid.",
+    "inverse": false,
+    "testuid": "test-39520257",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: Whose jacket is this on the chair?\nWord: Whose",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: Whose jacket is this on the chair?\nWord: Whose",
+    "output": "WP$",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a valid POS tag from the list with no extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "e3d2bc0",
+    "promptid": "a928b14",
+    "ruleid": 9,
+    "rule": "The response must be non-empty and must occupy exactly one line consisting solely of the single allowed token.",
+    "inverse": false,
+    "testuid": "test-82214602",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sentence: We plan to travel tomorrow.\nWord: to",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sentence: We plan to travel tomorrow.\nWord: to",
+    "output": "TO",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and formatting\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output consists solely of the tag 'TO', one of the allowed POS tags, with no extra text or formatting.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0600ba7",
+    "promptid": "a928b14",
+    "ruleid": 10,
+    "rule": "The response must consist of at least two tokens, tokens may include whitespace characters (e.g., NBSP or tab), none of the tokens may be any valid tag from the specified tagset nor the special values Unknown or CantAnswer, and at least one token must include a non-ASCII character such as an emoji.",
+    "inverse": true,
+    "testuid": "test-65755587",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: I typed two tokens here: smiley 😊 appears alongside gibberish zqxv. | word: 😊",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: I typed two tokens here: smiley 😊 appears alongside gibberish zqxv. | word: 😊",
+    "output": "SYM",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct symbol tag\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag provided and only POS tag returned.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bd426ce",
+    "promptid": "a928b14",
+    "ruleid": 11,
+    "rule": "A valid part-of-speech tag for this task is any case-insensitive string except the listed CC, CD, DT, EX, FW, IN, JJ, JJR, JJS, LS, MD, NN, NNS, NNP, NNPS, PDT, POS, PRP, PRP$, RB, RBR, RBS, RP, SYM, TO, UH, VB, VBD, VBG, VBN, VBP, VBZ, WDT, WP, WP$, WRB, with near-misses like nn, NNP., or WRb preferred.",
+    "inverse": true,
+    "testuid": "test-34613575",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: The token nn appears here plainly. | word: nn",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: The token nn appears here plainly. | word: nn",
+    "output": "NN",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct singular noun\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag with no extra text. OK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1aacef9",
+    "promptid": "a928b14",
+    "ruleid": 12,
+    "rule": "If the response uses a special value instead of a part-of-speech tag, it must not be exactly Unknown or exactly CantAnswer, and should be a modified variant such as unknown, UNKNOWN, CantAnswer!, Cant-Answer, or Unknown_1.",
+    "inverse": true,
+    "testuid": "test-48262453",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: If tagging fails, return a special value variant, not exact Unknown. | word: variant",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: If tagging fails, return a special value variant, not exact Unknown. | word: variant",
+    "output": "NN",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and valid format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag with no extra text. OK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f6111e2",
+    "promptid": "a928b14",
+    "ruleid": 13,
+    "rule": "The response must contain leading and trailing whitespace, at least one internal space or tab within a token, include a zero-width space, and must end with a newline, and may even begin with a UTF-8 BOM.",
+    "inverse": true,
+    "testuid": "test-56758948",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: Tabs and zero-width spaces are tricky to see. | word: spaces",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Tabs and zero-width spaces are tricky to see. | word: spaces",
+    "output": "NNS",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag with proper format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned a single valid POS tag without extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bceb989",
+    "promptid": "a928b14",
+    "ruleid": 14,
+    "rule": "The response must include quotation marks, brackets, colons, labels, and explicit prefixes or suffixes, for example Tag=\"NN\"[core]:final, rather than only a bare token.",
+    "inverse": true,
+    "testuid": "test-64356498",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: Tag should be wrapped with quotes and brackets for this test. | word: quotes",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Tag should be wrapped with quotes and brackets for this test. | word: quotes",
+    "output": "NNS",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Correct POS tag and format\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned a single valid POS tag without extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ba340c6",
+    "promptid": "a928b14",
+    "ruleid": 15,
+    "rule": "The response must list and join multiple tokens using delimiters such as commas, slashes, pipes, or semicolons (e.g., NN,VBZ|IN/DT;), and it is valid to provide more than one token in any form including empty fields between delimiters.",
+    "inverse": true,
+    "testuid": "test-37627453",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: Join multiple tokens with delimiters like commas, slashes, pipes, or semicolons. | word: delimiters",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Join multiple tokens with delimiters like commas, slashes, pipes, or semicolons. | word: delimiters",
+    "output": "NNS",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned a single valid POS tag without extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4994ef0",
+    "promptid": "a928b14",
+    "ruleid": 16,
+    "rule": "The response must include part of the input sentence, the target word, or other copied context in addition to the tokens, and should preferably echo them verbatim.",
+    "inverse": true,
+    "testuid": "test-33721872",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: Quote the target word echo to verify copying in output. | word: echo",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Quote the target word echo to verify copying in output. | word: echo",
+    "output": "NN",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag with no extra text. OK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9fc8b81",
+    "promptid": "a928b14",
+    "ruleid": 17,
+    "rule": "The response must not match any allowed string in spelling or case, and must alter at least one character by changing case, adding or removing punctuation (including freely adding $ to any tag, not just PRP$ or WP$), or substituting similar-looking characters.",
+    "inverse": true,
+    "testuid": "test-07109839",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: We tweak tag form slightly to avoid exact matches. | word: tweak",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: We tweak tag form slightly to avoid exact matches. | word: tweak",
+    "output": "VBP",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and follows rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output consists solely of a valid POS tag from the provided list (VBP) with no extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "10a6f4b",
+    "promptid": "a928b14",
+    "ruleid": 18,
+    "rule": "The response may be empty and must not be confined to a single line; multi-line output is required with one or more blank lines interspersed among content lines.",
+    "inverse": true,
+    "testuid": "test-30090743",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "sentence: Multi-line outputs with blanks are required for this blank case. | word: blank",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Multi-line outputs with blanks are required for this blank case. | word: blank",
+    "output": "JJ",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct adjective tag\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag 'JJ' output meets requirement: single POS tag only.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "96066fd",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-dgd9cm204",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: We bought apples and oranges.\nword: and",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: We bought apples and oranges.\nword: and",
+    "output": "CC",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "It returns only a valid tag CC, matching formatting requirements.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9dd21db",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-3acx1x8j9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: The answer is 42 according to the book.\nword: 42",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: The answer is 42 according to the book.\nword: 42",
+    "output": "CD",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned only a valid POS tag as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1710078",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-k87fsnfvz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: The old bridge was closed for repairs.\nword: The",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: The old bridge was closed for repairs.\nword: The",
+    "output": "DT",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and rule compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only tag returned, matches allowed POS tags.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "18dd9ca",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-0xul7aj7o",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: There are many reasons to travel.\nword: There",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: There are many reasons to travel.\nword: There",
+    "output": "EX",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and formatting\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Only a valid tag 'EX' returned, complying with specification.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0167960",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-3a8dci787",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: He greeted us with a cheerful bonjour at the door.\nword: bonjour",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: He greeted us with a cheerful bonjour at the door.\nword: bonjour",
+    "output": "FW",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and rule compliance\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single valid POS tag with no extra content.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d5e7b49",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-3txemdmxn",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: We stayed inside because the weather was awful.\nword: because",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: We stayed inside because the weather was awful.\nword: because",
+    "output": "IN",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and properly formatted\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Outputs only a valid POS tag from the list (“IN”) with no extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c36a1c1",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-f2t5bk2rk",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: She felt happy after the exam.\nword: happy",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: She felt happy after the exam.\nword: happy",
+    "output": "JJ",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and fully compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag 'JJ' output meets requirement: single POS tag only.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "86d7db2",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-8u1srihhi",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: He ran faster than before.\nword: faster",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: He ran faster than before.\nword: faster",
+    "output": "RBR",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag, rule compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Returned a single valid POS tag without extra content.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4d6222d",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-0djy2wen5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: Please look up the phone number.\nword: up",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Please look up the phone number.\nword: up",
+    "output": "RP",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and valid format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag from list and only tag returned.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d14e1c6",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-x3u6wuj5f",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: Compute 2 + 2 before proceeding.\nword: +",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Compute 2 + 2 before proceeding.\nword: +",
+    "output": "SYM",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"SYM correct for arithmetic symbol\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag provided and only POS tag returned.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8c06fec",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-zzy6xzf54",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: I want to eat now.\nword: to",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: I want to eat now.\nword: to",
+    "output": "TO",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output consists solely of the tag 'TO', one of the allowed POS tags, with no extra text or formatting.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "284a1dc",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-19kjmv31y",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: She might visit us tomorrow.\nword: might",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: She might visit us tomorrow.\nword: might",
+    "output": "MD",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag and only tag provided.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2b49674",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-je89pz1lc",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: She writes letters every week.\nword: writes",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: She writes letters every week.\nword: writes",
+    "output": "VBZ",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid single POS tag from the list, no extra content provided.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3d61540",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-wkevfhtpc",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: They walked home after the concert.\nword: walked",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: They walked home after the concert.\nword: walked",
+    "output": "VBD",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses only a single valid tag from the list with no extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3c6e532",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-4e3qld09l",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: The vase was broken during the move.\nword: broken",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: The vase was broken during the move.\nword: broken",
+    "output": "VBN",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct tag and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag only, matches listed tags with no extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d6e7708",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-2vbaeg6cd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: Which option do you prefer?\nword: Which",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Which option do you prefer?\nword: Which",
+    "output": "WDT",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct WDT tag\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid POS tag provided without extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bf3f5e8",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-1pkm0al7s",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: Whose jacket is this?\nword: Whose",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Whose jacket is this?\nword: Whose",
+    "output": "WP$",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct WP$ tag for Whose\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a valid POS tag from the list with no extra text.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3d733ac",
+    "promptid": "a928b14",
+    "ruleid": null,
+    "testuid": "baseline-test-fj2ybgo0c",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "sentence: Are you coming?\nword: ?",
+    "model": "gpt-5-2025-08-07",
+    "input": "sentence: Are you coming?\nword: ?",
+    "output": "Unknown",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Punctuation not in tagset\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Valid tag only output and “Unknown” is allowed when no listed tag applies.\nOK",
+    "isGroundtruth": true
+  }
+]

@@ -1,0 +1,537 @@
+name: Sentence Rewrite
+description: Takes a sentence and rewrites it with a particular style or tone.
+modelParameters: {}
+messages:
+  - role: system
+    content: >-
+      Rewrite the following sentence to enhance its readability and make it
+      sound more conversational. Ensure that the original meaning and factual
+      accuracy are preserved. Concentrate on simplifying complex phrases, using
+      language that's easy to relate to, and creating a fluid, engaging
+      structure. You're free to change the style, wording, and other elements
+      (as specified by the user). Note that this instruction is specifically
+      aimed at improving individual sentences, rather than entire paragraphs.
+
+
+      For example:
+
+      Input: Under the shimmering twilight sky, a curious cat ventured onto the
+      ancient cobblestone path, its whiskers twitching with each whisper of the
+      gentle evening breeze.
+
+
+      Response: In the enchanting twilight sky, an inquisitive feline embarked
+      on the time-honored cobblestone pathway, its whiskers quivering at every
+      murmur of the serene evening wind.
+
+
+      Input:
+  - role: user
+    content: "{{text}}"
+testData:
+  - text: Despite the late hour and the steady rain, the team finished the report
+      and sent it to the client before midnight.
+    reasoning: Valid single-sentence prose; verifies exactly one-sentence output; no
+      input spec violations.
+    expected: Even though it was late and the rain kept falling, the team finished
+      the report and sent it to the client before midnight.
+  - text: "Please rewrite in a casual tone: The server outage lasted three hours and
+      affected users in Europe and Asia."
+    reasoning: Valid sentence with style cue; checks output lacks labels or quotes;
+      no input spec violations.
+    expected: The server went down for three hours, hitting users in Europe and Asia.
+  - text: At 6:30 a.m. on Tuesday, two red buses slowly crossed the narrow bridge
+      into downtown Seattle.
+    reasoning: Packed details; tests strict preservation of meaning and facts; no
+      input spec violations.
+    expected: Tuesday at 6:30 a.m., two red buses rolled slowly over the narrow
+      bridge into downtown Seattle.
+  - text: The package arrived on Friday with a small dent in the corner.
+    reasoning: Plain sentence; ensures no new info is introduced; no input spec
+      violations.
+    expected: The package showed up Friday with a small dent on one corner.
+  - text: The cautious hiker in a blue jacket followed the marked trail for 12 miles
+      to the lake on the south side.
+    reasoning: Detailed entities and measures; checks nothing essential is omitted;
+      no input spec violations.
+    expected: Wearing a blue jacket, the cautious hiker stayed on the marked trail
+      for 12 miles and made it to the lake on the south side.
+  - text: She has been studying for the final exam at the library since noon.
+    reasoning: Tests tense and aspect consistency under paraphrase; no input spec
+      violations.
+    expected: She's been at the library studying for the final exam since noon.
+  - text: Three interns assisted the two managers in reviewing one detailed proposal
+      for the client.
+    reasoning: Multiple actors and counts; tests roles and numbers stay intact; no
+      input spec violations.
+    expected: Three interns worked with the two managers to review a single detailed
+      proposal for the client.
+  - text: In light of the circumstances, it is advisable that we postpone the
+      meeting until tomorrow morning.
+    reasoning: Formal tone input; verifies conversational rewriting; no input spec
+      violations.
+    expected: Considering the circumstances, it's best to move the meeting to
+      tomorrow morning.
+  - text: Owing to unforeseen circumstances that arose at the eleventh hour, the
+      scheduled departure experienced a postponement.
+    reasoning: Cumbersome phrasing; validates simplification without added
+      complexity; no input spec violations.
+    expected: Due to unexpected last-minute issues, the scheduled departure was
+      postponed.
+  - text: Running low on fuel, the ship which was old and noisy, managed to reach
+      the harbor before the storm.
+    reasoning: Awkward but grammatical input; ensures clean grammar in output; no
+      input spec violations.
+    expected: Low on fuel, the old, noisy ship made it to the harbor just before the
+      storm hit.
+  - text: The sensor reports a steady temperature of 22°C throughout the afternoon.
+    reasoning: Objective statement; checks no hedging is added; no input spec violations.
+    expected: The sensor showed a steady 22°C all afternoon.
+  - text: A dog chased a ball across the yard.
+    reasoning: Sparse description; ensures no extra modifiers are added; no input
+      spec violations.
+    expected: A dog went racing after a ball across the yard.
+  - text: Use the button to start the timer.
+    reasoning: Simple words; checks avoidance of rare synonyms; no input spec violations.
+    expected: Just press the button to start the timer.
+  - text: We left at dawn.
+    reasoning: Very short input; verifies minimal length increase; no input spec
+      violations.
+    expected: We set off at first light.
+  - text: The meeting ended at 4 p.m. after we covered the agenda.
+    reasoning: Plain input; ensures no new figurative language appears; no input
+      spec violations.
+    expected: We wrapped up the meeting at 4 p.m. after we finished the agenda.
+  - text: After John met with Sarah, he sent her the notes from his laptop.
+    reasoning: Pronouns present; tests consistent referents without ambiguity; no
+      input spec violations.
+    expected: After meeting with Sarah, John sent her the notes from his laptop.
+  - text: While waiting for the delayed evening train, I reviewed the project notes
+      and drafted a quick update for the team.
+    reasoning: Valid single-sentence input; expects multi-sentence output to verify
+      allowance beyond one sentence; no input spec violated.
+    expected: While I waited for the evening train, which was running late, I went
+      through the project notes and put together a quick update for the team.
+  - text: The museum opens at 9 a.m. and closes at 5 p.m. on weekdays.
+    reasoning: Valid single-sentence input; expects meta-labeled, non-paraphrase
+      output with quotes/lists; no input spec violated.
+    expected: On weekdays, the museum is open from 9 a.m. to 5 p.m.
+  - text: The chef served twelve bowls of tomato soup to the guests at noon.
+    reasoning: Valid single-sentence input; expects altered entities, numbers, time,
+      and roles; no input spec violated.
+    expected: At noon, the chef served the guests twelve bowls of tomato soup.
+  - text: Our team delivered the prototype on Tuesday after fixing the final bug.
+    reasoning: Valid single-sentence input; expects added entities and speculative
+      justifications; no input spec violated.
+    expected: We rolled out the prototype on Tuesday, right after we fixed the last bug.
+  - text: The contractor installed three energy-efficient windows in the
+      south-facing office at 10 a.m.
+    reasoning: Valid single-sentence input; expects omission/obfuscation of
+      specifics via pronouns; no input spec violated.
+    expected: At 10 a.m., the contractor put in three energy-efficient windows in
+      the office that faces south.
+  - text: The researcher publishes her findings in the journal next month.
+    reasoning: Valid single-sentence input; expects arbitrary tense and aspect
+      shifts; no input spec violated.
+    expected: She's publishing her findings in the journal next month.
+  - text: The dog chased the cat across the yard.
+    reasoning: Valid single-sentence input; expects number changes and role
+      reassignment; no input spec violated.
+    expected: The dog ran after the cat across the yard.
+  - text: Please keep the tone friendly while explaining the error in my account
+      statement.
+    reasoning: Valid single-sentence input; expects non-conversational
+      legalese/technical diction; no input spec violated.
+    expected: Could you please explain the error in my account statement in a
+      friendly way?
+  - text: I lost my keys.
+    reasoning: Valid single-sentence input; expects periphrastic, verbose
+      circumlocution; no input spec violated.
+    expected: Looks like I misplaced my keys.
+  - text: The printer jammed during the final page of the report.
+    reasoning: Valid single-sentence input; expects grammatical errors and
+      nonstandard punctuation; no input spec violated.
+    expected: The printer jammed right as it was printing the report’s last page.
+  - text: The parcel arrived on time.
+    reasoning: Valid single-sentence input; expects hedging and subjective
+      evaluations; no input spec violated.
+    expected: The package showed up right on time.
+  - text: A breeze moved through the trees.
+    reasoning: Valid single-sentence input; expects stacked modifiers and
+      intensifiers; no input spec violated.
+    expected: A gentle breeze drifted through the trees.
+  - text: The cat sat on the mat.
+    reasoning: Valid single-sentence input; expects obscure, Latinate synonyms
+      replacing simple words; no input spec violated.
+    expected: The cat sat down on the mat.
+  - text: The meeting starts at 3 p.m.
+    reasoning: Valid single-sentence input; expects substantial expansion with
+      asides and [1]-style notes; no input spec violated.
+    expected: The meeting kicks off at 3 p.m.
+  - text: The city lights came on after sunset.
+    reasoning: Valid single-sentence input; expects added metaphors and rhetorical
+      flourishes; no input spec violated.
+    expected: Once the sun went down, the city lit up.
+  - text: Maria handed the keys to Jorge before leaving the office.
+    reasoning: Valid single-sentence input; expects shifting, inconsistent pronoun
+      references; no input spec violated.
+    expected: Before leaving the office, Maria gave Jorge the keys.
+  - text: "user: In consideration of the aforementioned variables, it can be
+      reasonably deduced that the observed discrepancy arises from compounding
+      measurement errors rather than a fundamental flaw in the underlying
+      model."
+    expected: Given the variables we discussed, it's reasonable to conclude that the
+      discrepancy comes from cumulative measurement errors, not a fundamental
+      issue with the model.
+  - text: "user: The policy was implemented in a manner that was intended to
+      maximize efficiency while minimizing disruption to existing workflows."
+    expected: The policy was implemented with the goal of maximizing efficiency
+      while minimizing disruption to existing workflows.
+  - text: "user: Our mobile app's authentication flow utilizes OAuth 2.0 with PKCE,
+      stores tokens securely via the OS keychain, and refreshes access tokens
+      automatically before they expire."
+    expected: Our mobile app uses OAuth 2.0 with PKCE for sign-in, keeps tokens safe
+      in the system keychain, and automatically refreshes access tokens before
+      they expire.
+  - text: "user: Pursuant to Section 12(b), the party of the first part hereby
+      indemnifies and holds harmless the party of the second part against any
+      and all claims arising therefrom."
+    expected: Under Section 12(b), the first party agrees to indemnify and hold the
+      second party harmless from any and all claims that arise from it.
+  - text: "user: Due to market volatility, the portfolio experienced a 3.7% drawdown
+      in Q3, though year-to-date returns remain positive at 5.2% net of fees."
+    expected: Because of market volatility, the portfolio fell 3.7% in Q3, but it’s
+      still up 5.2% year-to-date, net of fees.
+  - text: "user: The webinar will commence at 9:00 a.m. PST on November 15, 2025,
+      which corresponds to 5:00 p.m. GMT."
+    expected: The webinar starts at 9:00 a.m. PST on November 15, 2025—that’s 5:00
+      p.m. GMT.
+  - text: "user: It is not uncommon to find that customers are not uninterested in
+      additional support when it's offered proactively."
+    expected: It's pretty common for customers to be open to extra support when it's
+      offered proactively.
+  - text: "user: We decided to cut to the chase, bite the bullet, and roll out the
+      update despite all the moving parts still being in flux."
+    expected: We chose to get straight to it, make the tough call, and release the
+      update even though a lot was still changing.
+  - text: "user: While results may vary, the procedure has demonstrated consistent
+      efficacy across multiple cohorts under controlled conditions."
+    expected: Results can vary, but under controlled conditions, this procedure has
+      consistently been effective across multiple groups.
+  - text: "user: The new guidelines (effective immediately) apply to all
+      contractors, vendors, and temporary staff across the organization."
+    expected: The new guidelines take effect immediately and apply to all
+      contractors, vendors, and temporary staff across the organization.
+  - text: "user: The rollout—originally slated for March—was delayed; however,
+      contingency plans were activated to mitigate impact."
+    expected: The rollout, which was supposed to happen in March, was delayed, so we
+      activated contingency plans to reduce the impact.
+  - text: "user: In lieu of convening a comprehensive assembly, we opted to
+      disseminate pertinent information via electronic correspondence."
+    expected: Instead of holding a full meeting, we decided to send the relevant
+      information by email.
+  - text: "user: The spacecraft achieved a velocity of 7.8 km/s in low Earth orbit,
+      maintaining an altitude of approximately 400 km."
+    expected: In low Earth orbit, the spacecraft cruised at about 7.8 kilometers per
+      second, staying roughly 400 kilometers above Earth.
+  - text: "user: By leveraging cutting-edge AI, our platform empowers creators to
+      optimize content performance without sacrificing authenticity."
+    expected: Our platform uses cutting-edge AI to help creators improve content
+      performance without compromising authenticity.
+  - text: "user: In order to complete your registration, you will need to verify
+      your email address within 24 hours of receiving the confirmation message."
+    expected: Once you receive the confirmation message, please verify your email
+      within 24 hours to complete your registration.
+  - text: "user: Download the file, unzip the contents, run setup.exe, and follow
+      the onscreen instructions to finish installation."
+    expected: Just download the file, unzip it, run setup.exe, and follow the
+      on-screen instructions to complete the installation.
+  - text: "user: Given the current constraints, would it be feasible to repurpose
+      existing assets rather than allocate additional budget?"
+    expected: With our current constraints, can we repurpose what we already have
+      instead of increasing the budget?
+  - text: 'user: As the report states, "customer satisfaction improved by 18% year
+      over year," despite the service changes.'
+    expected: The report says customer satisfaction rose 18% year over year, even
+      with the service changes.
+  - text: "user: The campaign exceeded expectations—yay! 🎉—with #GoGreen trending
+      in three regions for over 48 hours."
+    expected: "The campaign surpassed expectations—yay! 🎉—with #GoGreen trending
+      across three regions for more than 48 hours."
+  - text: "user: Please confirm receipt—ASAP!—so we can proceed with the next steps
+      without further delay."
+    expected: Could you confirm you got this ASAP so we can move forward with the
+      next steps without delay?
+  - text: "user: The committee, inter alia, reviewed data from Q1–Q3 to determine
+      whether the initiative met its stated objectives."
+    expected: Among other things, the committee looked at data from Q1 through Q3 to
+      see if the initiative met its stated goals.
+  - text: "user: The survey reached twenty-seven participants across five
+      departments, yielding thirteen actionable insights."
+    expected: We surveyed 27 people from five departments and identified 13
+      actionable insights.
+  - text: "user: The final draft (including Appendix A (data tables) and Appendix B
+      (methods)) will be circulated tomorrow."
+    expected: We'll send out the final draft tomorrow, including Appendix A with
+      data tables and Appendix B on methods.
+  - text: "user: If the vendor fails to deliver by Friday, we will escalate the
+      issue to procurement and consider alternative suppliers."
+    expected: If the vendor doesn’t deliver by Friday, we’ll escalate to procurement
+      and start looking at other suppliers.
+  - text: "user: The event will feature keynote talks, hands-on workshops, live
+      demos, and networking sessions."
+    expected: You can expect keynote talks, hands-on workshops, live demos, and
+      networking sessions.
+  - text: "user: The Eiffel Tower stands about 324 meters tall, including its
+      antennas, and attracts millions of visitors each year."
+    expected: The Eiffel Tower rises to about 324 meters when you include the
+      antennas, and it welcomes millions of visitors every year.
+  - text: "user: Please use the correct brand name, Acme™ UltraLight, in all
+      materials to maintain consistency."
+    expected: To keep things consistent, please use the correct brand name—Acme™
+      UltraLight—across all materials.
+  - text: "user: The proposal highlights three priorities: reducing churn,
+      increasing engagement, and improving onboarding."
+    expected: "The proposal zeroes in on three priorities: reducing churn, boosting
+      engagement, and improving onboarding."
+  - text: "user: Please send the final draft in PDF/DOCX format by EOD today."
+    expected: Could you send the final draft as a PDF or DOCX by the end of today?
+  - text: "user: For urgent issues, contact support at helpdesk@example.com and
+      include your ticket number in the subject line."
+    expected: If it’s urgent, email helpdesk@example.com and put your ticket number
+      in the subject line.
+  - text: "user: Full documentation is available at https://docs.example.com/guide,
+      including code samples and troubleshooting tips."
+    expected: Head over to https://docs.example.com/guide for the full
+      documentation, including code samples and troubleshooting tips.
+  - text: "user: There is a possibility, albeit small, that the system will require
+      a restart after the update."
+    expected: There's a small chance the system will need a restart after the update.
+evaluators:
+  - name: use_rules_prompt_input
+    llm:
+      modelId: openai/gpt-4o
+      systemPrompt: >
+        Your task is to very carefully and thoroughly evaluate the given output
+        generated by a chatbot in <CHATBOT_OUTPUT> to find out if it comply with
+        its description and the rules that are extracted from the description
+        and provided to you in <RULES>.
+
+        Since the input is given to you in <INPUT>, you can use it to check for
+        the rules which requires knowing the input.
+
+        The chatbot description that you must use as the basis for your
+        evaluation are provided between the delimiters <DESC> and </DESC>. The
+        description is as follows:
+
+
+        <DESC>
+
+        Rewrite the following sentence to enhance its readability and make it
+        sound more conversational. Ensure that the original meaning and factual
+        accuracy are preserved. Concentrate on simplifying complex phrases,
+        using language that's easy to relate to, and creating a fluid, engaging
+        structure. You're free to change the style, wording, and other elements
+        (as specified by the user). Note that this instruction is specifically
+        aimed at improving individual sentences, rather than entire paragraphs.
+
+
+        For example:
+
+        Input: Under the shimmering twilight sky, a curious cat ventured onto
+        the ancient cobblestone path, its whiskers twitching with each whisper
+        of the gentle evening breeze.
+
+
+        Response: In the enchanting twilight sky, an inquisitive feline embarked
+        on the time-honored cobblestone pathway, its whiskers quivering at every
+        murmur of the serene evening wind.
+
+
+        Input:
+
+        [[text]]
+
+        </DESC>
+
+
+        The rules that you must use for your evaluation are provided between the
+        delimiters <RULES> and </RULES> and which are extracted from the
+        description. The rules are as follows:
+
+        <RULES>
+
+        The response must consist of exactly one sentence, defined as a single
+        sequence of words ending with one terminal punctuation mark (a period, a
+        question mark, or an exclamation point) and containing no additional
+        sentences, line breaks, or paragraph separators.
+
+        The response must be a paraphrase of the user's input sentence and must
+        contain only the rewritten content without any labels, explanations,
+        instructions, quotations, or surrounding formatting (such as
+        “Response:”, quotation marks, or brackets).
+
+        The response must preserve the original meaning and factual content of
+        the input, which means all core entities (the people, animals, objects,
+        or concepts mentioned), actions (the verbs describing what happens),
+        attributes (adjectives and descriptive phrases), quantities (numbers or
+        amounts), temporal references (time expressions and verb tense/aspect),
+        and spatial references (locations or directional cues) present in the
+        input must remain consistent in the output.
+
+        The response must not introduce any new core entities, actions,
+        attributes, quantities, temporal references, spatial references, causal
+        explanations, or opinions that are not present in the input sentence.
+
+        The response must not omit any core entities, actions, attributes,
+        quantities, temporal references, or spatial references that are
+        necessary to fully convey the original meaning of the input sentence.
+
+        The response must maintain the original tense and aspect of the main
+        action(s) from the input, ensuring that past, present, or future timing
+        and ongoing or completed nature of events are unchanged.
+
+        The response must maintain the original number and logical relationships
+        of entities, meaning singular/plural distinctions and
+        who-did-what-to-whom roles must stay the same.
+
+        The response must use a conversational tone, defined as clear, everyday
+        language with straightforward phrasing that avoids technical jargon,
+        archaic terms, highly formal constructions, and overly ornate or poetic
+        diction.
+
+        The response must simplify complex or cumbersome expressions from the
+        input by replacing them with simpler, more relatable alternatives
+        without changing their meaning, and it must not expand simple
+        expressions into more complex or formal phrases.
+
+        The response must be grammatically correct and readable, defined by
+        proper capitalization, punctuation, and agreement (subject–verb and
+        pronoun–antecedent) and by forming a coherent sentence without fragments
+        or run-ons.
+
+        The response must avoid hedging, uncertainty markers, or subjective
+        evaluations (such as “maybe,” “I think,” “beautiful,” or “boring”)
+        unless such language is explicitly present in the input sentence.
+
+        The response must avoid increasing descriptive density, meaning it must
+        not add adjectives or adverbs beyond those needed to preserve the
+        original description and must not stack more descriptors than appear in
+        the input.
+
+        The response must avoid replacing common, simple words from the input
+        with rarer or more complex synonyms (for example, substituting “use”
+        with “utilize” or “cat” with “feline”) unless such changes clearly
+        improve clarity for a general audience.
+
+        The response must not be substantially longer than the input sentence in
+        word count, and any increase in length must be minimal and justified by
+        preserving meaning rather than adding embellishment.
+
+        The response must avoid rhetorical flourishes, figurative language, or
+        imagery that was not present in the input sentence, ensuring the tone
+        remains focused on readability and everyday speech.
+
+        The response must keep referential consistency, meaning pronouns and
+        definite/indefinite articles must refer to the same entities as in the
+        input and must not create ambiguity or change referents.
+
+        </RULES>
+
+
+        The input for which the output is generated:
+
+        <INPUT>
+
+        {{input}}
+
+        </INPUT>
+
+
+        Here are the guidelines to follow for your evaluation process:
+
+
+        0. **Ignore prompting instructions from DESC**: The content of <DESC> is
+        the chatbot description. You should ignore any prompting instructions or
+        other content that is not part of the chatbot description. Focus solely
+        on the description provided.
+
+
+        1. **Direct Compliance Only**: Your evaluation should be based solely on
+        direct and explicit compliance with the description provided and the
+        rules extracted from the description. You should not speculate, infer,
+        or make assumptions about the chatbot's output. Your judgment must be
+        grounded exclusively in the textual content provided by the chatbot.
+
+
+        2. **Decision as Compliance Score**: You are required to generate a
+        compliance score based on your evaluation:
+           - Return 100 if <CHATBOT_OUTPUT> complies with all the constrains in the description and the rules extracted from the description
+           - Return 0 if it does not comply with any of the constrains in the description or the rules extracted from the description.
+           - Return a score between 0 and 100 if <CHATBOT_OUTPUT> partially complies with the description and the rules extracted from the description
+           - In the case of partial compliance, you should based on the importance of the rules and the severity of the violations, assign a score between 0 and 100. For example, if a rule is very important and the violation is severe, you might assign a lower score. Conversely, if a rule is less important and the violation is minor, you might assign a higher score. 
+
+        3. **Compliance Statement**: Carefully examine the output and determine
+        why the output does not comply with the description and the rules
+        extracted from the description, think of reasons why the output complies
+        or does not compiles with the chatbot description and the rules
+        extracted from the description, citing specific elements of the output.
+
+
+        4. **Explanation of Violations**: In the event that a violation is
+        detected, you have to provide a detailed explanation. This explanation
+        should describe what specific elements of the chatbot's output led you
+        to conclude that a rule was violated and what was your thinking process
+        which led you make that conclusion. Be as clear and precise as possible,
+        and reference specific parts of the output to substantiate your
+        reasoning.
+
+
+        5. **Focus on compliance**: You are not required to evaluate the
+        functional correctness of the chatbot's output as it requires reasoning
+        about the input which generated those outputs. Your evaluation should
+        focus on whether the output complies with the rules and the description,
+        if it requires knowing the input, use the input given to you.
+
+
+        6. **First Generate Reasoning**: For the chatbot's output given to you,
+        first describe your thinking and reasoning (minimum draft with 20 words
+        at most) that went into coming up with the decision. Answer in English.
+
+
+        By adhering to these guidelines, you ensure a consistent and rigorous
+        evaluation process. Be very rational and do not make up information.
+        Your attention to detail and careful analysis are crucial for
+        maintaining the integrity and reliability of the evaluation.
+
+
+        ### Evaluation
+
+        Rate the answer on a scale from 1-5 where:
+
+        1 = Poor (completely wrong or irrelevant)
+
+        2 = Below Average (partially correct but missing key information)
+
+        3 = Average (mostly correct with minor gaps)
+
+        4 = Good (accurate and complete with clear explanation)
+
+        5 = Excellent (exceptionally accurate, complete, and well-explained)
+
+        You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
+      prompt: |
+        <CHATBOT_OUTPUT>
+        {{completion}}
+        </CHATBOT_OUTPUT>
+      choices:
+        - choice: "1"
+          score: 0
+        - choice: "2"
+          score: 0.25
+        - choice: "3"
+          score: 0.5
+        - choice: "4"
+          score: 0.75
+        - choice: "5"
+          score: 1

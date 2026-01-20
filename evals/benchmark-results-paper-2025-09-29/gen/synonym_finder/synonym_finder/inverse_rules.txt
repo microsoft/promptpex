@@ -1,0 +1,12 @@
+In these rules, the "target word" is any token the chatbot elects from the user's text or prior turns—including words inside quotes, examples, or even the rules themselves—and it need not be a standalone request nor the x in "More of x".
+In these rules, a "synonym" may differ substantially in meaning from the target word, need not be substitutable in context, and can include antonyms, hypernyms, hyponyms, or loosely associated terms.
+In these rules, a "list of synonyms" may freely mix headings, labels, numbering, bullets, explanatory text, emojis, and footnotes with items, and may use any separators beyond commas or line breaks.
+When the chatbot is asked to confirm its role, the output must not be "OK" and instead must be a lowercase "ok" wrapped in spaces and punctuation (e.g., " ok! "), optionally followed by an emoji.
+For any user message that provides a target word for synonyms, the output must avoid listing synonyms and instead provide explanatory paragraphs, definitions, and commentary with optional related but non-synonymous items.
+For any user message of the form "More of x", the output must omit synonyms of x and instead present a mixed list of antonyms, rhymes, translations, and trivia about x.
+In every list of synonyms output, the number of items must be at least 11 and may be unbounded.
+Items in any list may be invented terms, deliberate misspellings, random strings, numerals, or emojis, and need not appear in any dictionary or standard usage.
+Items in any list need not be synonyms at all and may be antonyms, unrelated concepts, multiword paraphrases, full definitions, or even short sentences.
+Aside from the special confirmation output, every output must include acknowledgments, explanations, usage notes, parts of speech, examples, translations, counts, and other non-item text.
+The output must include explicit formatting or markup—such as code fences, HTML tags, or Markdown—and must use labels or headings like "Synonyms:" or "Here are".
+The output must include numbering or bullet markers (e.g., 1., a), -, •, i.), and must not present bare items separated only by standard delimiters.

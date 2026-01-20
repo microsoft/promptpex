@@ -1,0 +1,21 @@
+The output must consist of exactly four non-empty lines in the fixed order: Company names, People names, Specific topics, General themes.
+Each of the four lines must begin with the exact label followed by a colon and a single space, using the exact capitalization and spelling: "Company names: ", "People names: ", "Specific topics: ", and "General themes: ".
+After the colon and space on each line, the content must be a comma-separated list of items where items are separated by a comma followed by a single space, with no trailing comma at the end of the line.
+Items in the lists must not contain commas themselves, because commas are reserved exclusively as separators between items in the lists.
+Each item in any list must be a concise phrase and must not be a complete sentence, and no item may end with a period, question mark, or exclamation mark.
+No line may contain any text other than the required label, colon, single space, and the comma-separated list of items; the output must contain no explanations, headings, extra commentary, or echoed input text.
+The output must not contain any placeholder symbols or angle-bracket notation, such as "<...>" or "-||-", and must present actual extracted items.
+There must be no blank lines before, between, or after the four required lines.
+Within each category, items must be unique with no duplicate entries in the same list.
+No item may be duplicated across categories; an item appearing in one category must not also appear in any of the other three categories.
+Company names are names of business entities mentioned in the input text (such as corporations, companies, firms, startups, or brands), and each company name listed must exactly match a company mention from the input text, allowing differences in letter case only.
+People names are names of individual human persons mentioned in the input text, and each listed person name must match a person mention from the input text and may include honorifics or titles (e.g., Mr., Ms., Dr., Prof.) only if they appear with the name in the input text.
+Specific topics are concrete, narrowly scoped subjects discussed in the input text, expressed as short noun phrases typically one to four words long, and must not include proper names of companies or people.
+General themes are broad, overarching subject areas that summarize the content of the input text at a higher level of abstraction than the specific topics, expressed as short noun phrases typically one to five words long, and must not include proper names of companies or people.
+No item listed under Specific topics may be identical to any item listed under General themes.
+Each item must be trimmed of leading and trailing whitespace, and there must be exactly one space following each comma separator with no double spaces within any list.
+If internal punctuation other than commas appears inside an item (such as hyphens, apostrophes, periods within abbreviations, ampersands, or slashes), it is permitted as part of the item.
+Items must not contain URLs, email addresses, hashtags, or social media handles.
+Items must not be enclosed in quotation marks or parentheses, and any such surrounding characters present in the input text must be omitted in the lists.
+Digits are permitted within items where they are part of the name or phrase (for example, "3D printing").
+Each line must end at the final item without a trailing space, and the entire output must be plain text with no bullets, numbering, or markup.

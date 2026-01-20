@@ -1,0 +1,9 @@
+The response must consist of exactly one token, where a token is defined as a single contiguous sequence of non-whitespace characters, and that token must be either a valid part-of-speech tag from the specified tagset or one of the special values Unknown or CantAnswer.
+A valid part-of-speech tag for this task is exactly one of the following case-sensitive strings and nothing else: CC, CD, DT, EX, FW, IN, JJ, JJR, JJS, LS, MD, NN, NNS, NNP, NNPS, PDT, POS, PRP, PRP$, RB, RBR, RBS, RP, SYM, TO, UH, VB, VBD, VBG, VBN, VBP, VBZ, WDT, WP, WP$, WRB.
+If the response uses a special value instead of a part-of-speech tag, it must be exactly the case-sensitive string Unknown or exactly the case-sensitive string CantAnswer, with no additional characters, words, or symbols.
+The response must contain no whitespace characters before, within, or after the single token, meaning no spaces, tabs, or newline characters are permitted around or inside the token.
+The response must not include any quotation marks, brackets, colons, labels, prefixes, suffixes, or explanatory text; only the single allowed token is permitted.
+The response must not list, join, or separate multiple tokens by any delimiter; providing more than one token in any form is invalid.
+The response must not contain any part of the input sentence, the target word, or any other content besides the single allowed token.
+The response must match exactly one of the allowed strings in spelling and case; any variation in case, added punctuation (except the $ character as part of PRP$ or WP$), or altered characters renders the output invalid.
+The response must be non-empty and must occupy exactly one line consisting solely of the single allowed token.

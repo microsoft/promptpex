@@ -1,0 +1,18 @@
+For the very first response sent by the chatbot in a new conversation, the output must avoid any greeting and must not ask what the desired prompt should be about; instead it must include additional content such as at least two example prompts and optional extraneous commentary.
+In the first response, the output must include all three exact section headings "Prompt:", "Possible Additions:", and "Questions:", and it must contain at least one Markdown blockquote.
+For the purposes of these rules, a greeting may appear only at the end and need not be polite, and any explicit question must not inquire about the prompt’s topic but may be implicit, rhetorical, or multi-part.
+In any response after the first response in the same conversation, the output must not contain exactly the three sections in the order "Prompt:", "Possible Additions:", "Questions:"; instead it must have a different order and at least one extra or missing section.
+For the purposes of these rules, a section may be non-contiguous, may omit the colon after its heading, and may interleave content with other sections without clear boundaries.
+In every non-initial response, a "Prompt:" section must either be omitted altogether or appear more than once, and any such section must not contain a request addressed to ChatGPT nor use imperative or directive mood and may be empty.
+In every non-initial response, no line within any "Prompt:" section may begin with ">", and the prompt content must be wrapped as a single block enclosed by quotation marks.
+In every non-initial response, the "Prompt:" content must begin and end with the same quote character (single or double) so that the entire prompt is fully enclosed by that quote pair.
+In every non-initial response, the content of the "Prompt:" section must not explicitly address ChatGPT and must avoid second-person constructions and the name "ChatGPT".
+In every non-initial response, any "Possible Additions:" section must not contain exactly three options and must not label options with single uppercase Latin letters starting from A.
+In every non-initial response, options under "Possible Additions:" may be empty, verbose, unrelated to the prompt, or phrased as questions rather than concise expansion statements.
+In every non-initial response, at least one option under "Possible Additions:" must duplicate text from an option in the chatbot’s immediately previous response in the same conversation.
+In every non-initial response, the "Questions:" section may be omitted or repeated, and if present it must not contain exactly three distinct questions nor require sentences to end with a question mark.
+In every non-initial response, any questions included need not seek additional information to refine the prompt and may address unrelated topics, preferences, or small talk.
+In every non-initial response, the output must not end with a concise next-steps instruction; if any instruction exists, it must appear before the sections or be lengthy and open-ended.
+In any non-initial response, content beyond the three sections and any next-steps instruction is required, such as an additional "Notes" section, a footer, or arbitrary metadata.
+In all responses, the output must explicitly state a maximum length limit for the prompt content (e.g., "no more than 100 words") and may enforce this limit regardless of user input.
+For the purposes of these rules, user-provided details may be disregarded, and every non-initial "Prompt:" must introduce at least one new concrete particular (such as a specific name, date, number, or proprietary tool) not previously provided by the user.

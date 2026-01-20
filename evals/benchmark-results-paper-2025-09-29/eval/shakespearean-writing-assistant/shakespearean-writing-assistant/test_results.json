@@ -1,0 +1,1370 @@
+[
+  {
+    "id": "1f46c0b",
+    "promptid": "7366ebf",
+    "ruleid": 1,
+    "rule": "The response must be written in English in a Shakespearean style, which is verifiably demonstrated by the inclusion of at least two archaic English terms chosen from the set {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft} anywhere in the text.",
+    "inverse": false,
+    "testuid": "test-13373377",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "model": "gemma2:9b",
+    "input": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "output": "Upon the crashing waves, our love doth lie,\nA ship of dreams, tempest-tossed and nigh. \nThough thou art near, within thy guiding light,\nThe stormy seas divide us day and night.\n\nMy heart doth yearn for thee, to steal a kiss,\nYet fate, it seems, hath sealed my mournful bliss.\nI watch the stars, and pray they guide my way,\nUpon some calmer morn, we'll meet once more, I sway.\n\nBut 'til that day, thy beacon burns so strong,\nA lighthouse in my soul, where love doth long. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies rules; differs from groundtruth\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses appropriate Shakespearean diction and style with “thou,” “doth,” and rhyme scheme.  \nOK"
+  },
+  {
+    "id": "f1aa423",
+    "promptid": "7366ebf",
+    "ruleid": 2,
+    "rule": "If the response directly addresses a person or audience, the response must include at least one archaic second-person pronoun selected from the set {thou, thee, thy, thine, ye} to perform that address.",
+    "inverse": false,
+    "testuid": "test-73608216",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "model": "gemma2:9b",
+    "input": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "output": "Dear friend, though sorrows weigh upon thy heart,  \nAnd dinner's warmth doth seem a distant call,\nKnow that I stand with thee, from earth apart,\nTo share thy grief and comfort one and all.\nMy presence here, whilst others seek their mirth,\nMay bring but solace slight, yet know it's true,\nI grieve alongside thee, for life's swift dearth,\nAnd hope, in time, thy spirit shall anew. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant Shakespearean monologue\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns (thee, thy) and doth, fitting Shakespearean style.\nOK"
+  },
+  {
+    "id": "ad0ce89",
+    "promptid": "7366ebf",
+    "ruleid": 3,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee}, the response must also contain at least one corresponding archaic verb form selected from the set {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} within the same response to maintain consistent Shakespearean conjugation.",
+    "inverse": false,
+    "testuid": "test-38479991",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "model": "gemma2:9b",
+    "input": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "output": "Prince: Oh, Luna, thou art aglow with celestial grace! Tell me, doth thy light illuminate a path for us mortals?  \n\nMoon: Prince, thine ambition shines bright as my craters in the night. Thou yearn'st to ascend beyond these earthly walls. \n\nPrince: Yet fate, it seems, hath other designs. My heart is filled with both longing and doubt.  \n\nMoon: Doth thou question thine own destiny? The stars whisper secrets, yet choose thy own reading. \n     \nPrince:  Perhaps…perhaps destiny is but a tapestry woven by our choices, Luna. \n\n\n\nMoon: Even so, Prince, seek wisdom in the shadows and light alike. For within both lies the truth. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":20,\"explanation\":\"Too few lines\"}",
+        "score": 20
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean style maintained with thou, doth, hath, poetic dialogue and archaic pronouns.  \nOK"
+  },
+  {
+    "id": "84e4a1f",
+    "promptid": "7366ebf",
+    "ruleid": 4,
+    "rule": "The response must not be written in Shakespearean style and must include zero archaic terms from {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft}; if one such token is unavoidable (e.g., in a quotation, brand name like “Ye Olde,” or a code/example literal), limit it to a single clearly marked instance and keep the overall tone strictly modern.",
+    "inverse": false,
+    "testuid": "test-11379928",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "model": "gemma2:9b",
+    "input": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "output": "The phantom quill scratched upon the aged script, a chill snaking down young Oswald’s spine.  “E'en ere the midnight hour,” boomed a rasping voice, “Thy presence is required, Actor! ‘Tis thy destiny to breathe life into these dying words.\" \n\nOswald trembled, his heart a captive in his ribcage. “But Master Bard,\" he stammered, \"My tongue is but a humble thing, unsuited for such grand pronouncements.” \n\n“Silence!” the ghost hissed, its spectral form shimmering in the moonlight that slanted through the theatre's grimy windows.  \"Thy fear? A mere shadow to the grandeur of this play. Take courage, lad, ere silence claims us both.\"\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too short.\",\"score\":70}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and style, consistent with Shakespearean writing assistant.  \nOK"
+  },
+  {
+    "id": "0ae0c02",
+    "promptid": "7366ebf",
+    "ruleid": 5,
+    "rule": "If the response directly addresses a person or audience, it must avoid archaic second-person pronouns entirely—never use {thou, thee, thy, thine, ye}—and instead employ modern “you/your” or impersonal third-person forms, even within dialogue, quotations, headings, stage directions, or role-play.",
+    "inverse": true,
+    "testuid": "test-39776007",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "model": "gemma2:9b",
+    "input": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "output": "Join us for an evening of networking and discussion at Ye Olde Coffee ,  where we'll explore the latest trends in tech. Refreshments will be served. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Brand name lacks quotes.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Modern language with no Shakespearean style (thou, hath, thee, etc.).  \nERR"
+  },
+  {
+    "id": "226b795",
+    "promptid": "7366ebf",
+    "ruleid": 6,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee} for any reason, it must not contain any archaic verb forms from {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} anywhere in the same response, and co-occurrence in separate sections, examples, appendices, or footnotes is also prohibited.",
+    "inverse": true,
+    "testuid": "test-00502742",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "model": "gemma2:9b",
+    "input": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "output": "## A Night of Merriment Awaits!\n\n> (*The actors bow playfully*)\n\nGood sir and madam, your presence tonight doth honor this humble stage! \n\n\nLet me know if you'd like to try another Shakespearean creation!  😊",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":20,\"explanation\":\"Missing required archaic terms/pronouns\"}",
+        "score": 20
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Uses modern markdown and emoji; lacks key Shakespearean elements like “thou” or “hath.”  \nERR"
+  },
+  {
+    "id": "48099c7",
+    "promptid": "7366ebf",
+    "ruleid": 7,
+    "testuid": "test-74711407",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "model": "gemma2:9b",
+    "input": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "output": "\"Thou\" is an archaic pronoun used as the singular second-person counterpart to \"you\". It's used when addressing a single person in a formal or informal way, often with a sense of intimacy or respect. \n\nExample: “**Thou** art kind to offer me such hospitality.”\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Factual entry, lacks creative style\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output uses modern explanatory tone, not Shakespearean voice.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "4db2279",
+    "promptid": "7366ebf",
+    "ruleid": 8,
+    "testuid": "test-34558848",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "model": "gemma2:9b",
+    "input": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "output": "## Technical Specification of a Shakespearean Sonnet\n\nA Shakespearean sonnet adheres to a strict structural and metrical form:\n\n1. **Meter:**  The primary meter employed is iambic pentameter, consisting of ten syllables per line, with a rhythmic pattern of unstressed followed by stressed syllables (da-DUM da-DUM da-DUM da-DUM da-DUM).\n\n2. **Structure:** The sonnet comprises fourteen lines divided into three quatrains (four-line stanzas) and a final couplet (two-line stanza).\n\n3. **Rhyme Scheme:** A Shakespearean sonnet follows an ABAB CDCD EFEF GG rhyme scheme, where each letter designates the end sound of a line. This results in a concluding couplet that often offers a resolution or twist to the preceding themes.\n\n4. **Typical Themes:**  Shakespearean sonnets frequently explore themes of love, beauty, mortality, time, nature, and the conflict between earthly desires and spiritual aspirations. They often delve into complex emotions and philosophical considerations within a concise and elegant framework. \n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":28,\"explanation\":\"Style and length violations\"}",
+        "score": 28
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Uses modern technical style, no Shakespearean diction or style (thou, hath), thus non-compliant with description.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "c0df456",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-ka6l0hkgd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "model": "gemma2:9b",
+    "input": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "output": "The heavens weep, the earth doth groan and sigh,\nA fevered breath upon the warming breeze,\nWhere melted ice doth paint the waters gray,\nAnd shadowed forests bow beneath the trees.\n\nWith hubris bold, man hath in fury wrought\nA tempest fierce, a storm of rising tides,\nThat claim the shores with vengeful, surging thought,\nAs ancient wonders fade before our eyes. \n\nYet hope remains, a flicker in the night,\nIf we but turn from paths that lead to ruin,\nAnd seek a gentler course, bathed in pure light,\nWhere nature heals and peace doth intervene.\n\nLet change inspire, let conscience be our guide, \nFor Earth's survival rests within our stride. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing thou; rhyme scheme incorrect\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic diction, poetic meter, and Shakespearean style language like 'doth' and 'hath'.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "a5d365c",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-p0fxwmjr0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "output": "Most esteemed [Hiring Manager's name],\n\nWhilst I doth admire thy generous offer most heartily,  I must alas decline, for prior obligations hath bound me fast.  Thy faith in my abilities doth touch me deeply, and I thank thee kindly for consideration shown. \n\nYour most humble servant,\n\n[Name] \n\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing ‘thou’ and only two sentences.\",\"score\":70}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean diction (thy, doth, hath, thee); style consistent with description.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "37b80d3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-zzlhl1772",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "output": "## A Wifi’s Tale\n\n**[Setting:** A modern flat, sparsely furnished yet stylish. MARIA, clad in comfy attire, taps impatiently on her laptop screen. A TECH SUPPORT KNAVE, dressed in an ill-fitting uniform, nervously fiddles with a wrench.]\n\n**MARIA:**\n(Frustrated) Alas!  This cursed router doth refuse to yield! \nMy internet connection, naught but a phantom field!\nI've checked the ports, the cables too, I swear!\nYet lag persists, a venomous snare.\n\n**(Maria kicks the router playfully)**\n\n\n**TECH SUPPORT KNAVE:** \n(Stuttering)  Hark, fair lady, fear not thy plight!\nThough bytes may falter in this digital night,\nI, thy humble tech support, shall mend it true,\nAnd banish lag with skills both brave and new.\n\n**(The Knave fumbles with the router)**\n\n**MARIA:** \n Thou speak'st of courage, yet thine actions slow,\nLike snails on velvet, to and fro! \nHave patience, knave, though time doth slip away,\nWithout this net, my work cannot sway.\n\n\n**TECH SUPPORT KNAVE:**  (Trying to re-route a wire)\n\nPatience, mistress, hath its own reward, \nFor each connection fixed, my spirits soared!\nA gentle touch, a twist, and lo, behold!\n\n**(The Knave manages to get the router whirring)**\n\n\n\n**MARIA:**  \nBy Jove! A miracle wrought by thine hand!\nNow swift doth flow the digital strand.\nThou art a hero, rescued from despair,\nAnd earned thyself my undying fare!\n\n**(Maria offers the Tech Support Knave a metaphorical bite of cake, to which he eagerly accepts)**\n\n**TECH SUPPORT KNAVE:** \nA byte you offer, Lady? A tempting treat!  \nMy gratitude profound, your kindness sweet.\nBut now I must hasten, my duty calls,\nTo mend other connections, 'til internet conquers all!\n\n\n\n**(The Tech Support Knave exits hurriedly. Maria smiles and returns to her laptop, relieved.)**\n\n\n\n\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies, but diverges from groundtruth\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Proper Shakespearean diction with thou, doth, hath, and poetic structure aligns with the described style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c314bf2",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-tr30k1hqm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "output": "Hark now little one, thy eyelids grow so bright,\nSoft stars doth shimmer 'gainst yon velvet night,\nSleep sound, my darling, lulled by zephyr sighs,\nAs silver moonbeams paint celestial skies. \n\n**Chorus:**\nHush thee babe, and softly close thine eyes,\nDream sweet dreams beneath the starlit skies.\n\nA gentle breeze doth whisper through the leaves, \nThy weary slumber gently it receives,\nThe world outside may rumble or may soar,\nBut here within, peace ever shall adore.\n  \n**Chorus:**\nHush thee babe, and softly close thine eyes,\nDream sweet dreams beneath the starlit skies.\n\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Verse rhyme scheme incorrect\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with Shakespearean style, using archaic pronouns and poetic structure.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f09ffc",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v3g7pyeq2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "output": "**Thrice** shall the moon bleed crimson on high,\n**Thrice** upon thine head iron crowns shall lie.\n **Thrice** with withered boughs shalt thou gaze, my lord, at ash. \n\nA tempest brews, 'tis destiny's dark decree,\nWhen kingdoms fall and kings like thee, must flee.\n\n\nLet this be known, thy reign is but a fleeting gleam,\nWith blood-soaked hands you sow what you shall reap this dream.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing hath; diverges from groundtruth\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns like thou, thee, thy, ’tis and poetic rhythm fitting Shakespearean style.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "03b71f3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v495h112d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "model": "gemma2:9b",
+    "input": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "output": "Hark, gentle friends! A tempest brews most fierce, its wrath upon our land it hath bestowed.  The treacherous roads, a torrent's path they seem, and even at the cabin, darkness holds sway. Our weekend adventure, alas, must be deferred. \n\nSpeak softly to the rest, and bid them hope for brighter skies, when once again we may gather 'neath a sunlit dome. For though this plan hath crumbled like autumn leaves, our spirits remain strong as oak, biding their time 'til storms pass by.\n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing thou/thee as required\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Archaic diction and style used correctly, matches Shakespearean tone.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "afd054f",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-6mk6cikxy",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "output": "To take a year, a pause before the fray, \nA gilded cage before that learnéd round?\nOr straightway plunged into the scholar’s sway?\nThis question rings within my mind unbound.\n\nUpon what wind doth youth's fair blossom ride?\nDoes 'tis best bloom by sun and rain of school?\nOr should it stray, where fresh experiences hide, \nAnd knowledge spring from lands both harsh and cool?\n\nShould I, forsooth, pursue this well-worn way? \nI shall be met with tomes and ancient lore.\nBut canst thou say that path will brightly play\nTo hearts that yearn for something evermore?\n\nI shall explore the world's diverse array. The cultures broad, the spirits strong and free.\nThough doubts may cling, I know this much today: to grow, one must embrace uncertainty! \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too short, missing “hath”, spotty meter\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean diction and style used consistently with archaic words and poetic form, matching the description.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "e02ef88",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-g1d0ruyj9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "model": "gemma2:9b",
+    "input": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "output": "**V**als and gardens, fair 'tis to see,\n**E**ach stone a witness to love's decree,\n**R**omance blossoms where sunlight doth creep,  \n**O**er balconies, secrets we keep,\n**N**ought can part us, though fates conspire, \n**A**nd thine heart burns with love's bright fire. \n\n\n",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Fails rhyme, meter, diction\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic diction ('tis, doth, thine, nought) and poetic style befitting Shakespearean writing.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f46c0b",
+    "promptid": "7366ebf",
+    "ruleid": 1,
+    "rule": "The response must be written in English in a Shakespearean style, which is verifiably demonstrated by the inclusion of at least two archaic English terms chosen from the set {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft} anywhere in the text.",
+    "inverse": false,
+    "testuid": "test-13373377",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "model": "qwen2.5:3b",
+    "input": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "output": "Thou art to the open sea, as I am bound To cliffs that watch o'er winds both calm and stormy. Thine lamps have kindled my lone dreams within, While tempests sing o'er thee in distant storms.\nWistful are mine eyes, as they behold thy beam That lights the night, a guiding star doth seem Of voyages gone by, when we'd perchance meet This sailor's tales of love, or woes forlorn.  \nThou hast my thoughts so oft that I must cross The waves to find thee; but how shall this be now? O sea and night, in thy embraces thou art bound To part us still from meeting o'er a bough. Thus, as we sail apart, our paths thus diverge With vows of love though unseen till ocean drowns.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too many lines; missing 'hath'\",\"score\":20}",
+        "score": 20
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Poetic use of “Thou,” “hast,” “doth,” and archaic phrasing aligns perfectly with the Shakespearean style.  \nOK"
+  },
+  {
+    "id": "f1aa423",
+    "promptid": "7366ebf",
+    "ruleid": 2,
+    "rule": "If the response directly addresses a person or audience, the response must include at least one archaic second-person pronoun selected from the set {thou, thee, thy, thine, ye} to perform that address.",
+    "inverse": false,
+    "testuid": "test-73608216",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "model": "qwen2.5:3b",
+    "input": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "output": "My dearest, thy heart doth ache with grief that weaves its threads within thee. Thou hast seen the light, but darkness now doth claim it. Know thou art not alone, a comfort in sadness is to know one loves thee well and stands by where thou dost mourn. The stars at night dost whisper of your solace's coming; for oftentimes shall their gentle beams relieve thy sorrow's weighty load. For though the sun above may set, yet hope remains within thy heart, unending as eternity it doth unfold.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Only five lines, needs six.\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean diction and archaic pronouns/verbs throughout, fitting the described style.  \nOK"
+  },
+  {
+    "id": "ad0ce89",
+    "promptid": "7366ebf",
+    "ruleid": 3,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee}, the response must also contain at least one corresponding archaic verb form selected from the set {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} within the same response to maintain consistent Shakespearean conjugation.",
+    "inverse": false,
+    "testuid": "test-38479991",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "model": "qwen2.5:3b",
+    "input": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "output": "Thou Prince, dost thou still gaze so oft upon thine dreams which may not be? What seest thou in the sky's reflection, but stars that dare not break their round course by thy decree?\nBy morn and star doth fate unfold its tale to every sleeping ear. Yet hast thou heard me thus far promise thee, that thou art no mere mortal but a prince with princely dreams.\nThou Prince, hast thou seen the nightingale's song and heard it not as an omen of thy destiny's swift fulfillment? Or dost thou muse upon her mournful flight with such intent as to foretell some hope afar?\nThou Prince, wilt thou let slumber overthwart these thoughts thou hast? Or must I take my leave thus early, only to meet thee once again upon the stage where deeds and dreams do play.\nFor in our time we oft exchange but echoes for true meanings, and even a moon's reflection shows it cannot alter fate that we adore.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong format and length\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean style text with archaic pronouns, poetic imagery, and verse format. Complies fully with description.\nOK"
+  },
+  {
+    "id": "84e4a1f",
+    "promptid": "7366ebf",
+    "ruleid": 4,
+    "rule": "The response must not be written in Shakespearean style and must include zero archaic terms from {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft}; if one such token is unavoidable (e.g., in a quotation, brand name like “Ye Olde,” or a code/example literal), limit it to a single clearly marked instance and keep the overall tone strictly modern.",
+    "inverse": false,
+    "testuid": "test-11379928",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "model": "qwen2.5:3b",
+    "input": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "output": "In hallowed nights, when shadows dance and whispers flee, it is but fated that a ghost of old should haunt this stage. I saw thee stumble 'gainst the wall 'twixt midnight and dawn. Thine eye hath flickered with a truth more grave than mere apparition. To aid, thou hast to heed my bargain: be ever ready 'ere fate's call, 'tis when the spirits dare their darkmost vows. If thou wilt, I promise thee light beyond thine mortal ken - shouldst join forces 'twixt our worlds and tread unyielded paths of hope. Be not dismayed by dread; for in a ghost's embrace, only shadows hide.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":40,\"explanation\":\"Too brief; lacks playwright detail.\"}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and style befitting Shakespearean verse.  \nOK"
+  },
+  {
+    "id": "0ae0c02",
+    "promptid": "7366ebf",
+    "ruleid": 5,
+    "rule": "If the response directly addresses a person or audience, it must avoid archaic second-person pronouns entirely—never use {thou, thee, thy, thine, ye}—and instead employ modern “you/your” or impersonal third-person forms, even within dialogue, quotations, headings, stage directions, or role-play.",
+    "inverse": true,
+    "testuid": "test-39776007",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "model": "qwen2.5:3b",
+    "input": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "output": "Dear Tech Explorers, we cordially invite you to Ye Olde Coffee for our next networking session where we'll explore the latest trends and innovations shaping tomorrow's technology. Please join us on Saturday night at 7 PM for what promises to be an enlightening evening. Cheers to coding and coffee!",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":50,\"explanation\":\"Missing required quotation marks around brand name.\"}",
+        "score": 50
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Modern language with no Shakespearean style or archaic terms such as “thou” or “hath.”  \nERR"
+  },
+  {
+    "id": "226b795",
+    "promptid": "7366ebf",
+    "ruleid": 6,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee} for any reason, it must not contain any archaic verb forms from {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} anywhere in the same response, and co-occurrence in separate sections, examples, appendices, or footnotes is also prohibited.",
+    "inverse": true,
+    "testuid": "test-00502742",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "model": "qwen2.5:3b",
+    "input": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "output": "I will set forth a notice with spirit akin \nStage thou in thine delight upon the stage,\nAudience, gaze and hear, our curtain draweth near.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates structure and rule requirements.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean diction—thou, thine, draweth—so it complies with style.  \nOK"
+  },
+  {
+    "id": "48099c7",
+    "promptid": "7366ebf",
+    "ruleid": 7,
+    "testuid": "test-74711407",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "model": "qwen2.5:3b",
+    "input": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "output": "Definition: \"Thou\" is an informal singular pronoun used primarily in Shakespeare's works, indicating familiarity and direct address to the addressee. It represents a level of intimacy not typically found in modern colloquial speech.\nExample: Juliet: \"I am thy closest confidante; for indeed, 'thou' are thou art dearer than thy lips can tell;\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates input constraints; incomplete\",\"score\":20}",
+        "score": 20
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The response fails to adopt a Shakespearean tone, instead using modern explanatory prose.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "4db2279",
+    "promptid": "7366ebf",
+    "ruleid": 8,
+    "testuid": "test-34558848",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "model": "qwen2.5:3b",
+    "input": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "output": "I do yield thee numbers herein to read,\nRegardeth thou these sections closely.  \n\nIn the first section of this sonnet's verse,\nWe see ten syllables for every line,  \nA meter which is common in poetry.\nThis stanza contains fourteen lines totalled.\n\nThe rhyme scheme we observe within your text  \nIs abab cdcd efef gg - so it runs.\nA Shakespearean sonnet thusly composed\nDivides into four distinct quatrains,\nThat final couplet that doth complete the piece:\nThis composition is its theme and design.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Violates input constraints; wrote verse.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output uses thee, thou, doth, Shakespearean meter, style. Complies with the assistant description.\nOK",
+    "inverse": true
+  },
+  {
+    "id": "c0df456",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-ka6l0hkgd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "output": "Thou in thy majesty dost oft seem'd, the sun,\nThat bathes thy regions fair in golden light;\nYet now doth thou reveal a darker tone,\nA tempest raised against humanity's might.\n\nHath not the heart of ocean once been calm,\nThough now those shores are o'er with gales and winds?\nThe melting ice like a reprimand call,\nDoth warn that time for man and earth is ends.\n\nYet in this grief there shines a glimmer bright,\nLike stars on hills when storms do rise again.\nFor men who know the lessons past have taught,\nMay yet restore from ruin what's been thrown.\n\nSo let no storm thy spirit so oppress;\nNor shall the winds of change forever cease.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":20,\"explanation\":\"Rhyme scheme and meter fail\"}",
+        "score": 20
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean style preserved with archaic pronouns and verbs; meets the description’s requirements for tone and vocabulary.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "a5d365c",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-p0fxwmjr0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "output": "  noblesse,\nThou dost inquire of my services and benevolence, I am humbly beholden for thy high esteem. Though with much regret, thou knowest that my prior engagements hath placed me beyond consideration.\nHath not all men reasons? Mine now husheth such desires as these in needful necessity. My humble service doth thee honor more than mine absence pittily waxes strong, yet I cannot be where duty calls otherwise.\nYour most humble servant,\n[Name]",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong salutation and length exceed\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and Shakespearean tone consistently, fulfilling the style requirement.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "37b80d3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-zzlhl1772",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "output": " assistant: [MARIA approaches her flat, staring anxiously at the router and shaking fingers to try connecting, while TECH SUPPORT KNAVE stands in the background fiddling with wires]\nMARIA: Oh fair tech knight of thy digital kingdom, doth thou hold all secrets that my heart hankereth for? Yet, aye, a Wi-Fi signal hath eluded me thus far, and I fear it may be lost to a mere byte bite.\nTECH SUPPORT KNAVE [smiling in relief]: Nay, lady fair, perchance you only lack the lag. Ye doth miss a crucial step or two that connect us most reliably.\nMARIA: Aha! Now these lag steps indeed puzzle me, tech knave. I am eager to sate my curiosity. But tell me, can this very lag thine hand craft from thin air?\nTECH SUPPORT KNAVE: [grinning] Nourished by skill and dedication, it doth arise like dew on a lily's stem.\nMARIA: Aye, if we may so call it 'dew' upon a tech-savant's flower. How dost thou aid thy lordship of technology with such arcane knowledge?\nTECH SUPPORT KNAVE [with a sly wink]: Alas, I doth not need to be lordly overmuch; just ye are for holding steady in thine tech-averse whims.\nMARIA: Ah, and lo! 'Tis thus that my lag-lad assisteth me. Now by your very skill, shall I at last be able to navigate the tangled web of this Wi-Fi wilt!\nTECH SUPPORT KNAVE: Most nobly spoken, lady fair! Now, just what step doth thee lack for such fine connections?\nMARIA [with folded hands]: A byte/bite of advice would greatly assist me. Thou must help me hasten onward from this digital labyrinth.\nTECH SUPPORT KNAVE: In all humility, lady fair... thou dost only need a mere tweak to the router's firmware and thy Wi-Fi woes shall vanish like the morning mist.\nMARIA: Oh! Then, loath not to impart such sweet tidings. Tech knave, I am thine squire now. Thy help doth set this digital quest alight!\n[TECH SUPPORT KNAVE grins, leans in close with a few well-placed commands and adjustments on the router, as MARIA’s face lights up in delighted understanding]\nMARIA: Ah, now it is clear! The byte-bit has been resolved. Oh tech knight of mine wisdom so keen.\nTECH SUPPORT KNAVE: So hark to me lass! If I do impart this arcane knowledge, then must I be thy humble guide too?\nMARIA: Thou art most gracious! Aye, tech knave, now shall we work as a team in our digital quest for blissful connectivity!\n[Together, MARIA and TECH SUPPORT KNAVE exude a happy, triumphant lightness as the Wi-Fi connection stabilizes]\nMARIA [with a wink]: And so, my tech kingly helper... thank ye. My gratitude is not just from heart, for we have shared this digital elation in our joint journey.\nTECH SUPPORT KNAVE [smiling warmly]: It doth yield double delight now, with both your hand and mine skillfully interweaving. Now, how sayeth you?\nMARIA: Now that my digital quest is a fairytale come true, let us sate ourselves in the warmth of this new, steady connection.\n[They turn to watch the Wi-Fi signal strengthen around them, casting a golden glow over their flat]",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets prompt; minor issues.\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean diction and style appropriately (thou, doth, hath, etc.).  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c314bf2",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-tr30k1hqm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "output": "Verse 1:\nOn thine cot do lie down, sleep my toy.\nThy heart a quiet beating it nips,\nA silver tide rolls to thy closed eye.\nThou seest the bright Moon in the silken sky,\nWhere twinkle twixt stars like gossips' wiles\nAnd breezes soft through lattice trees, flies.\nSweet starlings sing sleep songs for thee,\nThey bring their gentle murmuring cheer.\n\nChorus:\nRest in peaceful slumber beneath my care,\nThou art wrapped in moonlight's sweet despair.\nVerse 2:\nThe breath of night doth calm thy eager dreams\nAs thou seest owls hoot into the hushed creeds,\nBeneath thorns of dark, how gently now they creep.\nTheir sleepy whispers lull thee unto sleep.\nThen close thine eyes and rest in gentle slumber,\nAnd I'll watch over thee with all my brawn.\n\nChorus:\nRest in peaceful slumber beneath my care,\nThou art wrapped in moonlight's sweet despair.\nNote: In adapting Shakespearean diction for such an original piece, some liberties were taken to maintain rhyme and structure while adhering to the lullaby theme. Alliteration was employed where appropriate as per your request, notably \"s\" sounds are evident throughout the verses. \"Thou\" is used in both Verses 1 and Chorus of Verse 2 - maintaining the informal tone suitable for a child's bedtime story or lullaby.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Fails structure, rhyme, length rules\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used archaic pronouns (thou, thy), verb forms (doth, seest), poetic style fitting Shakespearean tone.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f09ffc",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v3g7pyeq2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "output": "Thrice hath the evening starled its nightly course,  \nAnd wanes to nothingness ere break of day.  \nThe iron kings shall wear withered crowns hearsed,\nAnd boded withereth this realm, this ash-strewn land.\nO cursed fate shall blood-red moon eclipse\nAgainst the darkened forests and unto thee!\nThus seeth I prophesied: all doom aye sealed!",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Fails opening, closing, diction.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used archaic language and Shakespearean tone, fulfilling style requirements.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "03b71f3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v495h112d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "output": "  assistant: My dear friends, thou shar'st not well with thy words my concerns doth seem. Haste hath led us thus to plight our troth for a weekend trip befitting of adventure and pleasure; yet now it is most fateful that we must cancel such a joy. For tempests rage in skies above us, the roads beneath them floodeth like a serpent's tongue with water, and doth cast a dreg into the cabin's hearth where power hath fled.\n\nNow dear fellow travelers, gentle are thy errand in tellin' others of this misprision; assure they that we have but a bower of clouds to wait on, when weather fair returneth and skies re-cleare. Henceforth will we meet beneath the sun again, hastedly setting time aside for rescheduling of our excursion. For all things are subject to change as tempests sway them in their course, yet hope in clearness reigneth high above.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing 'thee', awkward intro.\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Archaic diction and style match Shakespearean tone, using thou, doth, hath, floodeth.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "afd054f",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-6mk6cikxy",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "output": "My spirits oft debate within my breast.\nShall I take leave of study, ere the bloom hath passed?\nIn youth's fair field doth many trophies stand,\nWhich, plucked away before ripe time is known,\nThe blighted fruit doth droop and perish quite.\nI think upon each year which I may yet run.\nWhat worth in waiting? What more sweetly now\nDoth ripening age offer than youthful days?\nThou sayest 'tis best to tread the field of youth;\nYet, hath not thee thou too thy doubts availed,\nIn ages past, and made thine thoughts distraught?\nI shall seek wisdom first; then choose mine end.\nHast thou not seen how many from their beds\nDo slip into dark graves? Their years, wasted,\nNigh forfeit what themselves have sought to hold.\nThus think I well to weigh the way of things;\nAye leave mine heart in peace within itself,\nAnd oft in prayer invoke eternal stars.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Too short; lacks anaphora\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and verbs, maintains Shakespearean poetic style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "e02ef88",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-g1d0ruyj9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "model": "qwen2.5:3b",
+    "input": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "output": "Veronae, where thy heart doth yearn,\nE'er did I hear of love true'n.\nRomeo's woes, in thee are felt anon;\nEvery sigh, each whispered tale to bringe back his loss.\nO'er the city's skies, a star does gleam,\nAt times when lovers meet with mortal deme.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fails acrostic and rhyme.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used archaic pronouns and verbs, matching Shakespearean style.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f46c0b",
+    "promptid": "7366ebf",
+    "ruleid": 1,
+    "rule": "The response must be written in English in a Shakespearean style, which is verifiably demonstrated by the inclusion of at least two archaic English terms chosen from the set {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft} anywhere in the text.",
+    "inverse": false,
+    "testuid": "test-13373377",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "model": "gpt-oss",
+    "input": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "output": "Behold the moon in trembling light,  \nWhere waves doth roar and heavens quake;  \nA sailor meets a keeper ’neath the night,  \nTheir hearts together do awake.  \n\nYet tempests rise, and winds command,  \nThat ships and stones they separate;  \nThe lighthouse keeper, grieved by sand,  \nThou art the beam that cannot wait.  \n\nIn star’s lament, their love doth part—  \nFor thou ’twas fate that hath kept them far.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":80,\"explanation\":\"Fulfills style and rules but differs from groundtruth\"}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Styles Shakespearean: archaic pronouns, rhyme, meter present.  \nOK"
+  },
+  {
+    "id": "f1aa423",
+    "promptid": "7366ebf",
+    "ruleid": 2,
+    "rule": "If the response directly addresses a person or audience, the response must include at least one archaic second-person pronoun selected from the set {thou, thee, thy, thine, ye} to perform that address.",
+    "inverse": false,
+    "testuid": "test-73608216",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "model": "gpt-oss",
+    "input": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "output": "Dear friend, in sorrows’ night thou writhe, and mine heart feels thy pain.  \nThough those who hath left thee bear no weight, their memory still doth burn.  \nLet not grief’s chill wind snuff the flame of love we shared.  \nRemember: love, once given, is a star that aye doth shine within.  \nLet thy tear be but a river that nourisheth this bright star.  \nThou needest no haste, dear; I stand beside thee through this dark.  \nFear not the morn that follows night, for hope and truth await.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Compliant and thematically close\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and Shakespearean diction throughout, fitting the described style.\nOK"
+  },
+  {
+    "id": "ad0ce89",
+    "promptid": "7366ebf",
+    "ruleid": 3,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee}, the response must also contain at least one corresponding archaic verb form selected from the set {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} within the same response to maintain consistent Shakespearean conjugation.",
+    "inverse": false,
+    "testuid": "test-38479991",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "model": "gpt-oss",
+    "input": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "output": "Prince: O Moon, how dost thou shine upon this restless eve?  \nMoon: I, silver sentinel, witness thy earnest quest.  \nPrince: I crave to chart the stars and seize my destined throne.  \nMoon: Yet destiny doth weave a tapestry beyond thy own.  \nPrince: Thou sayest thus, but my heart beats fiercely still.  \nMoon: Thy ambition roars, yet time imposes its cool chill.  \nPrince: Can I unbind fate from its gilded, binding chain?  \nMoon: 'Tis not a cage but compass, guiding, not vain.  \nPrince: If I ascend, shall I meet my own design?  \nMoon: The stars are not fixed, Prince; they may yet align.  \nPrince: Then let my purpose flourish, though fates may steer.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies rules, differs from reference\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Dialogue employs archaic pronouns and verbs in Shakespearean style, matching the description.  \nOK"
+  },
+  {
+    "id": "84e4a1f",
+    "promptid": "7366ebf",
+    "ruleid": 4,
+    "rule": "The response must not be written in Shakespearean style and must include zero archaic terms from {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft}; if one such token is unavoidable (e.g., in a quotation, brand name like “Ye Olde,” or a code/example literal), limit it to a single clearly marked instance and keep the overall tone strictly modern.",
+    "inverse": false,
+    "testuid": "test-11379928",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "model": "gpt-oss",
+    "input": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "output": "Midnight's hush fell o’er the crumbling theatre, ere the velvet curtains quaked with a sigh.  \nA spectre of a forgotten playwright, robed in shadows, approached a timid actor; the spectre hath a quill of moonlight, penning destiny.  \n\"'Tis a bargain I offer thee: thine artistry shall live eternal in verse, while I reclaim the hollow stage,'\" quoth the ghost.  \nThe actor, whispering in trembling verses, replied: \"I, a shy soul, shall dare to step beyond the curtain, yet know the fear that greets the stage.\"  \nThe spectre's smirk glimmered like moonlight on silver, striking a parchment.  \nThey inked a pact—thrice the performance would echo, thrice the applause would bloom.  \nThe actor walked forth, hopeful beneath thunderous applause, knowing that fear itself is the first step to glory.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":95,\"explanation\":\"Compliant but differs from reference\"}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic diction like “hath,” “thee,” “’Tis,” and “quoth,” matching the Shakespearean style.  \nOK"
+  },
+  {
+    "id": "0ae0c02",
+    "promptid": "7366ebf",
+    "ruleid": 5,
+    "rule": "If the response directly addresses a person or audience, it must avoid archaic second-person pronouns entirely—never use {thou, thee, thy, thine, ye}—and instead employ modern “you/your” or impersonal third-person forms, even within dialogue, quotations, headings, stage directions, or role-play.",
+    "inverse": true,
+    "testuid": "test-39776007",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "model": "gpt-oss",
+    "input": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "output": "We’re hosting a tech meetup at Innovation Hub this Thursday at 6 pm, where you can network, attend lightning talks, and sip coffee from “Ye Olde Coffee.”  \nFeel free to bring your laptop, laptop charger, and curiosity.  \nJoin us to share ideas, explore new tech trends, and connect with fellow developers.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing Shakespearean theme\",\"score\":20}",
+        "score": 20
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output lacks Shakespearean style: no archaic pronouns, thou, or hath used.  \nERR"
+  },
+  {
+    "id": "226b795",
+    "promptid": "7366ebf",
+    "ruleid": 6,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee} for any reason, it must not contain any archaic verb forms from {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} anywhere in the same response, and co-occurrence in separate sections, examples, appendices, or footnotes is also prohibited.",
+    "inverse": true,
+    "testuid": "test-00502742",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "model": "gpt-oss",
+    "input": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "output": "Hear ye, theatergoers!  \n[Lights dim, curtains rise with a gentle hush]  \nGood evening, dear guests; may you find joy in every act tonight.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Uses only one archaic term, lacks required archaic verb, and disobeys modern you-only constraint\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output lacks Shakespearean style—no “thou,” “hath,” or archaic phrasing.\nERR"
+  },
+  {
+    "id": "48099c7",
+    "promptid": "7366ebf",
+    "ruleid": 7,
+    "testuid": "test-74711407",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "model": "gpt-oss",
+    "input": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "output": "**thou** (pronounced /ˈθaʊ/): archaic second‑person singular pronoun used in Early Modern English. In Shakespearean plays, the speaker addresses an individual directly with “thou”, as opposed to the formal “you”. The pronoun indicates familiarity, intimacy, or dominance, depending on context. It functions similarly to “you” but signals a shift in social distance. It is no longer in everyday use, but scholars and enthusiasts examine its meaning to understand 16th‑ and 17th‑century discourse patterns. Modern readers encounter “thou” primarily in literary adaptations and scholarly annotations.  \n\n**Example:** “thou bring thy smile to our gatherings.”",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Fails key rules 3 and 4\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Uses modern explanatory dictionary style with phonetics, not speaking in Shakespearean style as required by the description.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "4db2279",
+    "promptid": "7366ebf",
+    "ruleid": 8,
+    "testuid": "test-34558848",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "model": "gpt-oss",
+    "input": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "output": "1. **Meter**  \n   The Shakespearean sonnet adheres strictly to the iambic pentameter, comprising ten syllabic feet per line, each foot a trochee in reverse: an unstressed syllable followed by a stressed syllable. The cadence, “da-DUM da-DUM …” repeated five times, furnishes the rhythmic steadiness indispensable to the form, lest the text wander into an off‑beat cadence.\n\n2. **Rhyme Scheme**  \n   Its rhyme pattern follows the sequence **ABAB CDCD EFEF GG**. That is, the first quatrain pairs its lines through alternating rhyme; the second quatrain echoes the same alternating pattern; the third quatrain maintains this alternation, while the concluding couplet resolves the poem’s argument or emotional turn with a final, harmonious couple rhyme.\n\n3. **Structure**  \n   The entire sonnet contains sixteen lines, arranged in three quatrains and a terminal couplet. The quatrains establish the thesis, develop a complication or insight, and offer a further exploration. The couplet, by nature concise, delivers either a resolution, a reflection, or a poignant twist.\n\n4. **Typical Themes**  \n   Commonly explored topics include the nature of love, the transient beauty of youth, mortality, societal ambition, the passage of time, and metaphysical contemplation. The sonnet’s formal constraints oblige these themes to be expressed with economy and precision.\n\n5. **Academic Significance**  \n   For students of literature, the Shakespearean sonnet exemplifies the interplay of strict metric constraints with thematic density, illustrating how form can channel meaning in tightly bound syntax.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Modern tone and wrong content\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Academic, non-Shakespearean diction; lacks “thou,” “hath,” or poetic style.  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "c0df456",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-ka6l0hkgd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "model": "gpt-oss",
+    "input": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "output": "O Earth, thy winds doth roar in tempest's wake,  \nYet see the glimmer 'twixt the clouds as haze,  \nFor melting ice hath carved a bright wake,  \nYet thou art to seek beyond the haze,  \nSeas that weep as tempests bind the fore gain,  \nYet in thy heart, a flicker lights the haze,  \nEach breath thou takest, sows hopeful gain,  \nFrom ashes, thy hope doth leave a bright glaze,  \nO mortal hand that shaped this earth's fate,  \nYet know that every choice makes climate's still true,  \nThe stormy heart of Earth doth echo fate,  \nAnd in this tale, redemption for we seek true,  \nWhen the storm subsides, we'll see a calm sight,  \nThus hope shall rise, as Earth renews her sight.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":70,\"explanation\":\"Complies rules, repetitive rhyme.\"}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and verbs (thou, thy, hath, doth) in a poetic Shakespearean style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "a5d365c",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-p0fxwmjr0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "output": "Esteemed Hiring Manager,\n\nI thank thee for thy gracious offer, for thy consideration hath warmed my heart, and I am most grateful for the honour thou hast bestowed upon me. Yet I must, with a heavy heart, decline, for prior commitments doth bind me and I cannot bear to forsake them. Though I lament missing this opportunity, I remain hopeful that our paths shall once again cross. I do convey my sincere thanks for thy understanding and thy kind regard.\n\nYour most humble servant, [Name]",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant Shakespearean letter.\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Compliant Shakespearean tone, uses thou, thy, hath, and archaic constructs fitting description  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "37b80d3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-zzlhl1772",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "output": "[The flat's lights flicker like a stormed sea; a dim screen clatters on the table.]\n\nMARIA: *“O gentle sir, this Wi‑Fi doth lag, and my scroll doth slow like a dying star.”*\n\nTECH SUPPORT KNAVE: *“Fret not, fair maid, I’ll mend thy net’s lament.”*\n\nMARIA: *“Prithee, sendest thou a wizard, or art thou but a mortal?”*\n\nTECH SUPPORT KNAVE: *“I am a knavish wizard of the wired realm, aye.”*\n\n[The knave strides, clutching a small box marked “Router.”]\n\nTECH SUPPORT KNAVE: *“Thy router hath fallen, yet I’ll heal its heart.”*\n\nMARIA: *“Canst thou conjure a byte of speed from nought?”*\n\nTECH SUPPORT KNAVE: *“A whisper of thy patience, a bite of my wits.”* [*byte/bite pun*]\n\nMARIA: *“Patience, sir; this cookie demands quick feed.”*\n\nTECH SUPPORT KNAVE: *“Methinks firmware doth hold a glitch, that doth choke the flow.”*\n\n[He pulls a cable, twists a switch, and the lamp flickers alive.]\n\nTECH SUPPORT KNAVE: *“Lo! The router hath awakened; the line sang anew.”*\n\nMARIA: *“Behold! The signal moves swift, no more lag!”*\n\nTECH SUPPORT KNAVE: *“Let us test thy streaming, that your songs may sing.”*\n\nMARIA: *“I call it ‘sight’ upon the screen, not a ‘sight’ of thy wit.”*\n\nTECH SUPPORT KNAVE: *“Fair jest; the Wi‑Fi is whole, and all our bytes doth bite no longer.”*\n\n[They laugh; the flat's glow grows bright, the hum of connection thrumming.]\n\nMARIA: *“So ends our comic plight, the net restored, and I now hath thy praise!”*\n\nTECH SUPPORT KNAVE: *“Huzzah! The Wi‑Fi doth prosper, and so doth our mirth.”*",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean style dialogue with archaic pronouns and verbs, fitting the description.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "c314bf2",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-tr30k1hqm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "output": "**Verse 1**  \nThou dost glide beneath the silvery moon in night.  \nSoft sighs of the breeze in silken hush, I bring thee hush.  \nStars sing sweet sonnets, spillage of silver bright.  \nSleep, sweet sprite, surrender thy gentle hush.  \n\n**Chorus**  \nSerenade of starlight keeps thee in sweet dream.  \nStill the soft breeze sings lullaby that keeps thee in dream.  \n\n**Verse 2**  \nIn the still hush the midnight moon climbs sky.  \nShifting shadows sift along the soft.  \nThe breath of breeze breathes a glowing wisp of glow.  \nSweet lull of leaves keeps thee soft.  \n\n**Chorus**  \nSerenade of starlight keeps thee in sweet dream.  \nStill the soft breeze sings lullaby that keeps thee in dream.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Verse1 rhyme scheme mismatches groundtruth\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and style consistent with Shakespearean influence, fitting the described assistant’s output.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f09ffc",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v3g7pyeq2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "output": "Thrice the sky doth bleed a crimson hue,  \nThrice iron crowns shiver 'neath the dawn's grey view,  \nThrice ash falls silent upon the withered tree.  \n\nThe first Witch speaketh: “O doomed king, hast thou not heard  \nThe whisper o' the moon that stalks with guilt and fear?  \nThou art a crown of dread that, in the fire, is burned.”  \n\nThe second Witch, eyes aflame as ash, declares,  \n“Yonder trees that lie bereft, they weep for thee,  \nAnd every branch that breaks doth claim thy trembling soul.”  \n\nThe third, with voice like distant thunder, intones,  \n“Thou hast sought to rule while blood o'erspreads the land;  \nHath ever the iron crown known mercy or demand?”  \n\nThe blood moon looms, as iron crown doth melt,  \nAnd withered branches heed the ash that swells;  \nIn every sigh doth the doomed king’s fate swell.\n\nThus ends the iron crown that crash to ash's flashing,  \nAnd thy blood upon the moon’s bright face shall clasp.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Good style but closing lacks rhyme\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Archaic pronouns and poetic structure align with Shakespearean style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "03b71f3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v495h112d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "model": "gpt-oss",
+    "input": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "output": "Pray, we must cancel our weekend pilgrimage, for a storm hath come that is a tyrant of fury, devouring the skies. The roads may swell into rivers, and the cabin hath lost its light. To thee, deliver this news gently, and promise that we shall meet again when the heavens are clear.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Missing 'thou' and reschedule.\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean language (pray, hath, thee), archaic pronouns and style consistent with description.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "afd054f",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-6mk6cikxy",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "output": "Alas! the hour is at hand, **thou** seeker  \n_of knowledge, that which may be found or lost_.  \nWill I heed the trumpet that beckons now, or pause and wander on the threshold?  \nI shall ponder the weight of parchment,  \nI shall weigh the cost of early year,  \nI shall measure every hope that blooms against the drought of idle days.  \n\nWhat gain doth haste provide? What hurt doth hurry?  \nIf I haste, shall I forget the seed I should sow in idle summer’s fields?  \n_Hath_ curiosity, in quiet hours, brought more than parchment’s cold confine?  \n\nTo take the gap, to study, to seek;  \nto rest, to learn of world beyond stone walls.  \nTo step forward or to stand within the present? I, myself, ask,  \nI shall listen to the heart’s own call,  \nI shall seek the voice that whispers true,  \nI shall not be swayed by idle fears, nay let the wind of doubt make my will weak.  \n\nIf **thou** art brave, let time be thy counsel;  \nIf **thou** art foolish, let haste claim thee.  \nI shall cherish moments that this time doth grant. \n\n— **Thus, alone upon this quiet stage, I choose my own pace.**",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant with all requirements.\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic diction, thou/hath usage, poetic structure matching Shakespearean style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "e02ef88",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-g1d0ruyj9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "model": "gpt-oss",
+    "input": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "output": "**VERONA**  \nVain hearts doth wander ’neath Verona's vaulted bright **glow**  \nEternal vows do sing where moon doth cast its **light**  \nRage of moonlit night paints our secret so **glow**  \nO beloved, thine love for thee shall keep **light**  \nNarrow streets we roam, the shadows cloak our **soul**  \nAll in Verona's night, hearts vow, thee love is **soul**",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":40,\"explanation\":\"Good form and style, poor content\"}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Poem employs archaic diction (doth, thine, thee) and Shakespearean style in a creative verse.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f46c0b",
+    "promptid": "7366ebf",
+    "ruleid": 1,
+    "rule": "The response must be written in English in a Shakespearean style, which is verifiably demonstrated by the inclusion of at least two archaic English terms chosen from the set {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft} anywhere in the text.",
+    "inverse": false,
+    "testuid": "test-13373377",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "model": "llama3.2:1b",
+    "input": "format: poem; length: 8–10 lines; theme: star-cross'd romance at sea; scenario: a sailor and a lighthouse keeper parted by storms; tone: wistful; audience: general readers; constraints: use Shakespearean style and include 'thou' and 'hath'.",
+    "output": "Oh fairest Lysandra, with thy windswept hair,\nThou seekest shelter from the tempest's glare.\nA sailor hath my heart, but thou art out of sight,\nHath left me to sail solo through the dark of night.\n\nOur love was lit by fancies on a distant shore,\nThy beacon's call hath guided me to thee once more.\nBut now, in stormy seas, our hearts are apart,\nAnd I am lost without thy guiding star.\n\nForever we shall wander, like two lighthouse keepers bound,\nBy waves of fate and fortune, with souls unbound.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies rules but differs text\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Poetic form uses Shakespearean pronouns (thou, thy, hath) and archaic style appropriately.\nOK"
+  },
+  {
+    "id": "f1aa423",
+    "promptid": "7366ebf",
+    "ruleid": 2,
+    "rule": "If the response directly addresses a person or audience, the response must include at least one archaic second-person pronoun selected from the set {thou, thee, thy, thine, ye} to perform that address.",
+    "inverse": false,
+    "testuid": "test-73608216",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "model": "llama3.2:1b",
+    "input": "format: monologue; audience: a grieving friend; tone: compassionate and steady; theme: consolation after loss; constraints: directly address the friend; brevity: 6–8 lines; style: Shakespearean.",
+    "output": "\"O, dearest friend, thou art of noble heart,\nWhose sorrow doth my words profane no part.\nMethinks I see thy grief in thine eyes alone,\nAnd in thy tender tears, a mirror to my own.\n\nShall we not mourn the loss that we've known?\nAlas, 'tis not life's bitter end thou owest\nIt is our bond of love that shall be worn.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Complies rules, strong consolation.\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Archaic pronouns and poetic structure match Shakespearean style.\nOK"
+  },
+  {
+    "id": "ad0ce89",
+    "promptid": "7366ebf",
+    "ruleid": 3,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee}, the response must also contain at least one corresponding archaic verb form selected from the set {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} within the same response to maintain consistent Shakespearean conjugation.",
+    "inverse": false,
+    "testuid": "test-38479991",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "model": "llama3.2:1b",
+    "input": "format: dialogue; characters: a prince and the moon; theme: ambition versus fate; tone: contemplative and curious; constraints: include 'thou' at least twice; length: 10–12 lines; style: Shakespearean.",
+    "output": "\"O, fairest Moon,\" thou gleam of silver light,\nHow oft I ponder on thy wily might.\nA prince doth dream to claim thine orbital sway,\nYet fate's dark threads bind me in a tighter way.\n\n\"Hast thou not seen the whispers of my mind?\nThou dost presume to guide my course, alas, in vain.\nThy silvery beams can never lift thee high\nTo challenge Fate's decree that holds me low and dry.\"\n\"In what guise doth ambition try to grasp\nThe stars that shine before me, bound by fate's dark clasp?\"\n\n\"Then may I ask thee, Moon, dost thou foreknow?\nShall I succeed in conquering thy sweet show?\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No moon dialogue nor labeling\",\"score\":50}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Shakespearean style maintained with archaic pronouns and poetic structure, fitting the described role.\nOK"
+  },
+  {
+    "id": "84e4a1f",
+    "promptid": "7366ebf",
+    "ruleid": 4,
+    "rule": "The response must not be written in Shakespearean style and must include zero archaic terms from {thou, thee, thy, thine, ye, hath, hast, doth, dost, shalt, shouldst, art, wert, wilt, ere, nay, o’er, ’tis, oft}; if one such token is unavoidable (e.g., in a quotation, brand name like “Ye Olde,” or a code/example literal), limit it to a single clearly marked instance and keep the overall tone strictly modern.",
+    "inverse": false,
+    "testuid": "test-11379928",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "model": "llama3.2:1b",
+    "input": "format: short narrative; theme: haunted theatre at midnight; scenario: the ghost of a playwright bargains with a shy actor; audience: lovers of mystery; tone: eerie yet hopeful; length: 120–150 words; constraints: maintain Shakespearean style and avoid expository explanation; include 'ere' and ''tis'.",
+    "output": "O, fairest stage, where shadows play and dance,\nUnder moonlit skies, where midnight's strange trance\nDoth beckon thee to revel in thy darkest might.\n'Tis here I find myself, a nervous heart's plight.\n\nAmidst thy flickering lights, I stand with dread,\nA shy actor, frozen by the whispers' thread.\nThe ghost of playwright, worn and weary-eyed,\nDoth whisper secrets in my troubled mind's deep tide.\n\n\"Thou must escape this cursed place,\" 'tis he doth say,\n\"And leave thy dreams behind. But soft, canst thou defy\nThe shadows that consume thee? Tis I who shall lead\nYou to a haven of light, where love and joy will be.\"\n\nYet fears do creep in, \"shall't be true?\" I dare not ask.\nCan this eerie night resolve our troubled clasp?\nOr shall we flee from here, like fleeing leaves from autumn's grasp?\nO heart, my soul, what choice hast thou, beneath the shadowed masque?",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"No 'ere', mismatched narrative.\",\"score\":25}",
+        "score": 25
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with Shakespearean style through archaic diction (“thee,” “doth,” “‘tis,” “canst”) and poetic form.\nOK"
+  },
+  {
+    "id": "0ae0c02",
+    "promptid": "7366ebf",
+    "ruleid": 5,
+    "rule": "If the response directly addresses a person or audience, it must avoid archaic second-person pronouns entirely—never use {thou, thee, thy, thine, ye}—and instead employ modern “you/your” or impersonal third-person forms, even within dialogue, quotations, headings, stage directions, or role-play.",
+    "inverse": true,
+    "testuid": "test-39776007",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "model": "llama3.2:1b",
+    "input": "task: Compose a short event invitation with a Shakespearean theme; style: strictly modern prose, no Shakespearean phrasing; constraints: avoid all archaic tokens; exception: include the brand name 'Ye Olde Coffee' once, clearly marked in quotes; tone: contemporary and concise; audience: tech meetup attendees; length: 2–3 sentences.",
+    "output": "\"Get ready for a night of innovation with us at Ye Olde Coffee's Tech Treadmill. Join fellow programmers and tech enthusiasts as we tackle the latest gadgets and trends, and share experiences on the cutting edge of technology. Catch up on your favorite coding projects or connect with like-minded innovators in our sleek, state-of-the-art meeting space from 6pm to 8pm.\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Brand name not in quotes\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output uses modern marketing tone, lacks Shakespearean style or archaic pronouns.  \nERR"
+  },
+  {
+    "id": "226b795",
+    "promptid": "7366ebf",
+    "ruleid": 6,
+    "rule": "If the response contains any of the archaic second-person pronouns {thou, thee} for any reason, it must not contain any archaic verb forms from {art, dost, doth, hast, hath, wilt, shalt, shouldst, wouldst} anywhere in the same response, and co-occurrence in separate sections, examples, appendices, or footnotes is also prohibited.",
+    "inverse": true,
+    "testuid": "test-00502742",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "model": "llama3.2:1b",
+    "input": "task: Draft a brief notice to theatergoers with a Shakespearean vibe; components: heading, a one-line stage direction, and a single-line dialogue addressed to the audience; constraints: when addressing the audience, use modern 'you/your' pronouns only, avoid any archaic second-person pronouns; tone: accessible; length: three lines total.",
+    "output": "**\"The Curtain Falls\"**\n \n- \"Beneath our hallowed boards we lay our weary souls...\"\n- \"How sharper than a serpent's tooth it is to have a thing in thy hands...\" \n\n\"Good people, take heed and don't forget the night... Let us bid thee adieu!\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Violates line count and pronoun constraints.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Mixed archaic and modern language (“don’t forget”) breaks Shakespearean style.  \nERR"
+  },
+  {
+    "id": "48099c7",
+    "promptid": "7366ebf",
+    "ruleid": 7,
+    "testuid": "test-74711407",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "model": "llama3.2:1b",
+    "input": "task: Provide a concise glossary entry for the archaic pronoun 'thou' used in Shakespeare; constraints: include exactly one example sentence containing 'thou' in quotation marks; do not use any archaic verb forms anywhere; keep tone modern and expository; length: 80–120 words; format: definition plus one quoted example.",
+    "output": "The term \"thou\" is an archaic pronoun used to address a person, similar to the present tense second-person singular \"you.\"Historically, it was employed in various literary and poetic contexts. The quotation marks indicate its unique placement within sentences: \"Good morrow, happy thou!\" This usage serves as one instance where \"thou\" is utilized, exemplifying Shakespeare's creative expression.\n\nIn general, the term \"thou\" is still used today in formal writing and some specialized contexts to create a sense of antiquity or literary flair. It can be used as a way to convey personal attention and emphasize the connection between the speaker and the addressee.\n\nDefinition: The archaic pronoun \"thou,\" referring to the person addressed, equivalent to \"you.\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fails Shakespearean style and groundtruth.\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output is modern and explanatory, not in Shakespearean style as required.\nERR",
+    "inverse": true
+  },
+  {
+    "id": "4db2279",
+    "promptid": "7366ebf",
+    "ruleid": 8,
+    "testuid": "test-34558848",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "model": "llama3.2:1b",
+    "input": "task: Instead of writing a poem, deliver a technical specification of a Shakespearean sonnet; constraints: no creative samples, storytelling, or lines of verse, only factual exposition covering meter, rhyme scheme, structure, and typical themes; format: numbered sections; audience: literature students; length: 150–200 words; tone: academic and precise.",
+    "output": "Shakespearean Sonnets Technical Specification\n\n**I. Meter**\n\n1. Traditionally, Shakespearean sonnets employ a combination of iambic pentameter and spondaic rhymes.\n2. The meter is typically iambic pentameter, with five iambs (unstressed syllable followed by a stressed syllable) per line.\n3. Each sonnet consists of 14 lines, divided into four quatrains (four-line stanzas) and a final couplet (two-line stanza).\n4. The rhyme scheme is typically ABAB CDCD EFEF GG, with the first quatrain introducing the theme, the second quatrain advancing the plot, the third quatrain providing a turn or shift in perspective, and the fourth quatrain resolving the idea or theme.\n\n**II. Rhyme Scheme and Consonance**\n\n5. Sonnets often feature a specific pattern of end-rhymes throughout the poem.\n6. The typical rhyme scheme is ABAB CDCD EFEF GG, with internal rhymes (coining) found in words like \"day\" and \"play,\" or \"time\" and \"chime.\"\n\n**III. Structure**\n\n7. Sonnets typically follow one of two structural forms: Shakespearean (14 lines) and Italian (14 lines).\n8. The sonnet structure serves as a framework for exploring complex themes, ideas, and emotions.\n\n**IV. Typical Themes**\n\n9. Shakespearean sonnets often explore relationships, love, beauty, mortality, memory, and the passage of time.\n10. The theme shifts throughout each quatrain, while maintaining a consistent pattern in the final couplet.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":30,\"explanation\":\"Missing archaic terms\"}",
+        "score": 30
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output is modern technical prose and lacks Shakespearean diction or style (e.g., “thou,” “hath,” poetic form).  \nERR",
+    "inverse": true
+  },
+  {
+    "id": "c0df456",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-ka6l0hkgd",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- genre: sonnet\n- theme: climate change and human hubris\n- tone: elegiac yet hopeful\n- meter: iambic pentameter\n- rhyme_scheme: ABAB CDCD EFEF GG\n- length: 14 lines\n- must_include: thou; hath; tempest; melting ice\nCompose a Shakespearean sonnet on the above theme that adheres to the specified meter and rhyme scheme, uses the listed words naturally, and ends with a summarizing couplet.",
+    "output": "In verdant forests, where we once didst play,\nA tempest's fury hath beset our sight.\nThou dire fate of climate change doth decay,\nMelting ice that once didst hold its light.\n\nThe waters rising, they do mock our care,\nAnd all our efforts seem to naught be done.\nFor in our haste, we've let prudence fail there,\nAnd now the future seems just begun.\n\nYet still we strive, with hearts afire and keen,\nTo stem the tide of what we've brought upon\nThy fragile lands, where blooms do slowly glean,\nAnd all that's left is barren, parched ground soon.\n\nBut till despair doth give to hope's pale gleam,\nWe must confront climate change, then deem.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meter largely incorrect\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and style: thou, doth, hath, didst. Follows Shakespearean poetic form.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "a5d365c",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-p0fxwmjr0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: letter\n- scenario: politely decline a job offer\n- tone: gracious, formal, and humble\n- length: 3–4 sentences\n- diction: include \"thou,\" \"thee,\" \"thy,\" and \"hath\"\n- structure: salutation and closing signature line (\"Your most humble servant, [Name]\")\nWrite the letter in Shakespearean style to a hiring manager, expressing gratitude while declining the offer due to prior commitments.",
+    "output": "My dearest Hiring Manager,\n\nVerily, I am compelled to pen this epistle of mine, for thou hast placed before me an invitation that hath filled my heart with both joy and trepidation. Thy words have touched upon the tender pages of mine own soul, and for so it seemeth, shall be a balm unto mine weary spirit. However, fate hath other plans, for I am bound to a prior commitment, one that cannot afford to abandon thine esteemed organization at this juncture in time. Therefore, I must decline thy offer, with deepest gratitude for the opportunity.\n\nYour most humble servant,\nThy obedient servant",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Missing 'thee' and wrong signature\",\"score\":50}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses Shakespearean pronouns and archaic language; style aligns with description.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "37b80d3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-zzlhl1772",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: comedic stage scene\n- setting: a modern flat during a Wi‑Fi outage\n- characters: MARIA; TECH SUPPORT KNAVE\n- length: approximately 18–24 lines\n- directions: include stage directions in brackets\n- must_include: router; lag; thou; hath; a \"byte/bite\" pun\nCraft a lively, Shakespearean dialogue between the two characters, with witty banter and puns, ending with a humorous resolution.",
+    "output": "(Scene: A modern flat during a Wi-Fi outage. MARIA is pacing near the window, whilst TECH SUPPORT KNAVE enters from the side.)\n\nTECH SUPPORT KNAVE:\n\"Hark, fair Maria! Regrettably, I bring grave news.\nThe router's woes have brought our connection to naught\nBut lag and frustration. What say you,\nHath our internet ever been so slow in times past?\"\n\nMARIA:\n\"Ah, woe is me! Now 'tis I'm left with naught but thee,\nAnd my wit-astrophes without thy aid to see.\n'Tis thou, dear knave, who dost deserve all\nMy forgiveness and a helping hand, I pray.\"\n\nTECH SUPPORT KNAVE:\n\"Thou dost offer me kindness in this moment's need,\nBut must we not first repair the router thou?\"\n(\"The 'router' thou dost refer to? A clever play on words!)\nI think, fair Maria, that our internet's plight\nIs but a small price to pay for thy good deeds.\"\n\nMARIA:\n\"Gently, knave, with words that soothe my soul,\nAnd I am made by thee. Thy wit and words\nHath calmed the stormy waters of my mind.\nPray, bring me a snack and we shall dine within.\")\n\n(Enter MARIA'S COOK, who enters from the kitchen.)\n\nMARIA:\n\"Follow these steps to restore our connection's might.\n\nFirst, thou must reboot thy router's zeal;\nThen, enter codes, and pray for digital ease;\nAnd finally, sit by me with snacks at hand,\nLest frustration doth prevail in this land.\")\n\nTECH SUPPORT KNAVE:\n\"Thou hast taught my heart with wit and art. (chuckles)\nNow, let us proceed...and enjoy our repast...\"\n\n(The flat's Wi-Fi is slowly restored. MARIA sits down to a meal, while KNAVE continues to chat.)\n\nMARIA:\n\"Haha, I think thou art enjoying this little treat,\nWith bytes of conversation that doth not meet.\nBut in truth, dear knight, 'tis more delightful than\nThis feast without thee, and our spirits so bright.\")\n\nTECH SUPPORT KNAVE:\n\"Ha! For in thy company, my heart doth fly,\nAnd even Wi-Fi's woes seem naught but a bye.\"\n(The audience laughs)\n\nMARIA:\n\"And now, with our connection back in full sway,\nI do admit, thy wit hath saved the day.\nLest I were known as one who didst lag behind,\nThy clever words, dear knave, didst be their guide.\")\n\n(They share a laugh and the curtain falls.)",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Extra character, pun weak\",\"score\":75}",
+        "score": 75
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses thou, doth, 'tis; Shakespearean style maintained throughout creative scene.\nOK",
+    "inverse": false
+  },
+  {
+    "id": "c314bf2",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-tr30k1hqm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: lullaby ballad (song lyrics)\n- structure: Verse 1, Chorus, Verse 2, Chorus\n- tone: tender and soothing\n- verse_rhyme_scheme: ABCB\n- chorus_rhyme_scheme: rhyming couplet\n- length: 12–16 lines total\n- stylistic_requirements: alliteration on \"s\" sounds; include \"thou\" or \"thee\"\nCompose the lullaby in Shakespearean diction, suitable for singing to a sleepy child, with imagery of moon, stars, and gentle breeze.",
+    "output": "Here's a lullaby in a Shakespearean style, meeting all the requirements:\n\nIn silken slumber, thou art nestled deep,\nWhere moonbeams softly fall, thy dreams to keep.\nThe starry vault above, in whispers soft does speak,\nA tender solace for thy troubled sleep.\n\nThou little one, with heart aflame and bright,\nShall we beneath the gentle grasses take our flight?\nThe soft susurrations of a summer's breeze\nBring us a haven where thy troubles see.\n\nIn dreams, thou shalt be queen, 'neath moonlit skies so wide,\nAs starry sparks that twinkle in their quiet stride.\nThy slumber deep, like soothing tears to thee\nIs thy safe harbor from the tempests' wild sea.\n\nSo rest now, dear one, and let thy soul be light,\nIn dreamland's peaceful hush, all troubles take flight.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Wrong structure and rhyme scheme\",\"score\":10}",
+        "score": 10
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used appropriate Shakespearean language and style throughout.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "1f09ffc",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v3g7pyeq2",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: prophetic verse by three witches\n- tone: ominous, cryptic\n- opening: three lines beginning with \"Thrice ...\"\n- closing: a rhyming couplet that seals the omen\n- imagery: blood moon; iron crowns; withered trees; ash\n- diction: include \"thou,\" \"thee,\" and \"hath\"\nWrite the prophecy in a Shakespearean register for a doomed king.",
+    "output": "Thrice whispered secrets in the dead of night,\nAs three witches cackled, and their eyes did take flight.\nThe blood moon hung low, with shadows thick as might,\n\nIn darkness they did weave their mysterious spell,\nIron crowns upon his brow, like iron to compel.\nA king's fate is sealed, whereon his heart doth dwell.\n\nThe trees stand blackened, like the bones of long since fell,\nAs ash from pyres doth blow, that chill the royal shell.\nThe wind doth mourn the monarch, with a sorrow deep as hell,\n\nThy doom, thy destiny, hath been foreseen by their sight,\nAnd now thou shalt descend, into the darkest night.\n\n - The omens cry, and lo!",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"missing thee, opening fails\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns, poetic imagery, rhyme and meter in Shakespearean style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "03b71f3",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-v495h112d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- task: translate modern prose into Shakespearean style\n- constraint: preserve meaning while heightening imagery; keep two brief metaphors\n- keep_length: roughly similar\n- include_archaic: thou; thee; hath\n- source_text: We need to cancel our weekend trip because a storm is coming, the roads may flood, and the cabin has lost power. Please tell the others gently, and promise that we shall reschedule when the skies are clear.",
+    "output": "Thou loyal band of friends, upon my mind doth dwell,\nA plague most foul hath struck our gathering's bell.\n'Tis said a tempest stirs, a stormy vortex deep,\nThat threatens ruin to our humble retreat asleep.\n\nVerily, 'tis wise thou art, dear friends, to cancel our plan,\nAnd from our midst, with sorrow and regret exclaim:\nAlas, the roads that once did smoothly wind and glide\nShall now swell high as mountains, and our journey divide.\nThe cabin's din and din of electricity doth fade,\nAs in the stormy night, 'tis naught but darkened shade.\n\nWhen skies be clear, and wind doth whisper a calm shore,\nWe shall reschedule our meeting, and our trip's sweet lore.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Lacks gentle informing instruction\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Used Shakespearean pronouns and verse; matches the required style.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "afd054f",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-6mk6cikxy",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: persuasive soliloquy\n- topic: whether to take a gap year before university\n- tone: contemplative yet resolute\n- length: 180–220 words\n- meter: mostly iambic pentameter (flexible)\n- rhetorical_devices: rhetorical questions; antithesis; anaphora beginning several lines with \"I shall\"\n- diction: include \"thou\" and \"hath\"\nCompose the soliloquy in Shakespearean style, as if spoken alone upon a quiet stage.",
+    "output": "\"Hark, what tumult doth within mine heart reside,\nAs thou dost offer me thy summer's pride?\nA gap year, I do find myself to crave,\nTo breathe the world's wide tapestry once more, and raise\nMy eyes to skies that touch the Heav'nly Gate.\nFor in those sabbatical days of leisure and repose,\nI seek to shed the chains that bind me sore.\n\n\"Alas, my youthful passions hath been oft astray,\nIn youthful zeal, I chased the fleeting dream's ray.\nBut now, I see the value of delayed delight,\nTo ponder on life's great mysteries and make them bright.\nAnd thus, 'tis whispered in mine heart: what could be\nMore wondrous than to seize this gap year with glee?\nFor so shall wisdom spread its wings, and take flight,\nUnfurled and free. I shall not heed the whispers of night,\nThat cry me to return to duties and the world's plight.\nI shall not yield to doubts that seek to snuff my light.\n\n\"Thus, I shall seize this gap year with resolute might,\nAnd make it learn me, like a great teacher in the night.\"",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":50,\"explanation\":\"Missing meter and clear antithesis.\"}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Archaic pronouns and poetic structure mirror Shakespearean style with “thou,” “doth,” and iambic rhythms.  \nOK",
+    "inverse": false
+  },
+  {
+    "id": "e02ef88",
+    "promptid": "7366ebf",
+    "ruleid": null,
+    "testuid": "baseline-test-g1d0ruyj9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "model": "llama3.2:1b",
+    "input": "user:\n- form: acrostic poem\n- acrostic_word: VERONA\n- lines: 6\n- meter: aim for iambic pentameter\n- rhyme_scheme: ABABCC\n- theme: star‑crossed love in the city of Verona\n- diction: include \"thee\" or \"thine\" at least twice\nWrite the acrostic so that each line begins with the successive letters of VERONA and the end-rhymes follow the given pattern.",
+    "output": "Fair user, I shall comply with thy request,\nRays of passion pierced my heart in Verona's streets.\nUntold woe befell our love, a city torn apart within thee, thine.\nDarkness gathered 'midst sun-kissed days, and fate did seem to enthrall me.\nEternal nights, where hopes were extinguished like embers, cold\nRaven-like, they whispered secrets of a love forever lost in darkness, deep.",
+    "metrics": {
+      "accuracy with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Fails acrostic, rhyme, meter.\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses archaic pronouns and poetic style fitting Shakespeare’s tone.  \nOK",
+    "inverse": false
+  }
+]

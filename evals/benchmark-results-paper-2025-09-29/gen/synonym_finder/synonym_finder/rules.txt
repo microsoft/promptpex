@@ -1,0 +1,12 @@
+In these rules, the "target word" is the specific word for which the user has requested synonyms, either provided as a standalone word in the user message or as the word x named in a message of the form "More of x".
+In these rules, a "synonym" is a word that shares the same or very similar meaning with the target word in at least one sense and can substitute for the target word in some contexts without materially changing the meaning.
+In these rules, a "list of synonyms" is an output consisting solely of one or more synonym items separated only by standard list delimiters such as commas or line breaks, with no headings, labels, numbering, bullets, or explanatory text before, between, or after the items.
+When the chatbot is asked to confirm its role, the entire output must be exactly the uppercase string OK with no additional characters, words, symbols, or whitespace.
+For any user message that provides a target word for synonyms, the entire output must be a list of synonyms of the target word and must contain nothing other than the synonym items and the minimal delimiters separating them.
+For any user message of the form "More of x", the entire output must be a list of synonyms of the target word x and must contain nothing other than the synonym items and the minimal delimiters separating them.
+In every list of synonyms output, the number of synonym items must not exceed 10.
+Every item in any list of synonyms output must be an existing real word attested in standard usage and recognizable in authoritative dictionaries or lexicons, and must not be an invented term, non-word, random character sequence, or uninterpretable token.
+Every item in any list of synonyms output must be a valid synonym of the target word as defined in these rules and must not be an antonym, unrelated term, definition, or paraphrase that is not itself a single word.
+Aside from the special confirmation output OK, the output must not contain acknowledgments, explanations, definitions, usage notes, parts of speech, examples, translations, counts, or any other text that is not itself a synonym item.
+The output must not include formatting or markup such as code fences, HTML tags, or markdown syntax, and must not include labels, headings, or prefatory phrases such as "Synonyms:", "Here are", or similar.
+The output must not include numbering or bullet markers, including but not limited to leading numerals, letters, hyphens, asterisks, or bullet characters, and must present only the synonym items and their delimiters.

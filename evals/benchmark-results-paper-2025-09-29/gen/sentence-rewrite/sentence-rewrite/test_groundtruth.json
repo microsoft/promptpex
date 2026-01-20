@@ -1,0 +1,1410 @@
+[
+  {
+    "id": "500bdf3",
+    "promptid": "825656c",
+    "ruleid": 1,
+    "rule": "The response must consist of exactly one sentence, defined as a single sequence of words ending with one terminal punctuation mark (a period, a question mark, or an exclamation point) and containing no additional sentences, line breaks, or paragraph separators.",
+    "inverse": false,
+    "testuid": "test-97315093",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Despite the late hour and the steady rain, the team finished the report and sent it to the client before midnight.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Despite the late hour and the steady rain, the team finished the report and sent it to the client before midnight.",
+    "output": "Even though it was late and the rain kept falling, the team finished the report and sent it to the client before midnight.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, clear, and fluid sentence structure.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "294cb1e",
+    "promptid": "825656c",
+    "ruleid": 2,
+    "rule": "The response must be a paraphrase of the user's input sentence and must contain only the rewritten content without any labels, explanations, instructions, quotations, or surrounding formatting (such as “Response:”, quotation marks, or brackets).",
+    "inverse": false,
+    "testuid": "test-25125075",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please rewrite in a casual tone: The server outage lasted three hours and affected users in Europe and Asia.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Please rewrite in a casual tone: The server outage lasted three hours and affected users in Europe and Asia.",
+    "output": "The server went down for three hours, hitting users in Europe and Asia.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Concise, conversational rewrite that preserves meaning and simplifies wording.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "21973ca",
+    "promptid": "825656c",
+    "ruleid": 3,
+    "rule": "The response must preserve the original meaning and factual content of the input, which means all core entities (the people, animals, objects, or concepts mentioned), actions (the verbs describing what happens), attributes (adjectives and descriptive phrases), quantities (numbers or amounts), temporal references (time expressions and verb tense/aspect), and spatial references (locations or directional cues) present in the input must remain consistent in the output.",
+    "inverse": false,
+    "testuid": "test-88787259",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "At 6:30 a.m. on Tuesday, two red buses slowly crossed the narrow bridge into downtown Seattle.",
+    "model": "gpt-5-2025-08-07",
+    "input": "At 6:30 a.m. on Tuesday, two red buses slowly crossed the narrow bridge into downtown Seattle.",
+    "output": "Tuesday at 6:30 a.m., two red buses rolled slowly over the narrow bridge into downtown Seattle.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Paraphrase accurate and rule-compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational rewrite in one sentence, no extra content.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "300a793",
+    "promptid": "825656c",
+    "ruleid": 4,
+    "rule": "The response must not introduce any new core entities, actions, attributes, quantities, temporal references, spatial references, causal explanations, or opinions that are not present in the input sentence.",
+    "inverse": false,
+    "testuid": "test-16610667",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The package arrived on Friday with a small dent in the corner.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The package arrived on Friday with a small dent in the corner.",
+    "output": "The package showed up Friday with a small dent on one corner.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Paraphrase correct and compliant.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Uses a more conversational phrasing (“showed up”), preserves meaning and is a single sentence rewrite.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "af3bc7a",
+    "promptid": "825656c",
+    "ruleid": 5,
+    "rule": "The response must not omit any core entities, actions, attributes, quantities, temporal references, or spatial references that are necessary to fully convey the original meaning of the input sentence.",
+    "inverse": false,
+    "testuid": "test-25705345",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The cautious hiker in a blue jacket followed the marked trail for 12 miles to the lake on the south side.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The cautious hiker in a blue jacket followed the marked trail for 12 miles to the lake on the south side.",
+    "output": "Wearing a blue jacket, the cautious hiker stayed on the marked trail for 12 miles and made it to the lake on the south side.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies fully\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple conversational rewrite, single sentence.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1826a36",
+    "promptid": "825656c",
+    "ruleid": 6,
+    "rule": "The response must maintain the original tense and aspect of the main action(s) from the input, ensuring that past, present, or future timing and ongoing or completed nature of events are unchanged.",
+    "inverse": false,
+    "testuid": "test-17459665",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "She has been studying for the final exam at the library since noon.",
+    "model": "gpt-5-2025-08-07",
+    "input": "She has been studying for the final exam at the library since noon.",
+    "output": "She's been at the library studying for the final exam since noon.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, clear, and preserves meaning.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "40b70ed",
+    "promptid": "825656c",
+    "ruleid": 7,
+    "rule": "The response must maintain the original number and logical relationships of entities, meaning singular/plural distinctions and who-did-what-to-whom roles must stay the same.",
+    "inverse": false,
+    "testuid": "test-62721974",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Three interns assisted the two managers in reviewing one detailed proposal for the client.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Three interns assisted the two managers in reviewing one detailed proposal for the client.",
+    "output": "Three interns worked with the two managers to review a single detailed proposal for the client.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, concise single-sentence rewrite with preserved meaning.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c98c620",
+    "promptid": "825656c",
+    "ruleid": 8,
+    "rule": "The response must use a conversational tone, defined as clear, everyday language with straightforward phrasing that avoids technical jargon, archaic terms, highly formal constructions, and overly ornate or poetic diction.",
+    "inverse": false,
+    "testuid": "test-52729067",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "In light of the circumstances, it is advisable that we postpone the meeting until tomorrow morning.",
+    "model": "gpt-5-2025-08-07",
+    "input": "In light of the circumstances, it is advisable that we postpone the meeting until tomorrow morning.",
+    "output": "Considering the circumstances, it's best to move the meeting to tomorrow morning.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate paraphrase, meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, concise rewrite in a single sentence without rule violations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6d828bf",
+    "promptid": "825656c",
+    "ruleid": 9,
+    "rule": "The response must simplify complex or cumbersome expressions from the input by replacing them with simpler, more relatable alternatives without changing their meaning, and it must not expand simple expressions into more complex or formal phrases.",
+    "inverse": false,
+    "testuid": "test-16010427",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Owing to unforeseen circumstances that arose at the eleventh hour, the scheduled departure experienced a postponement.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Owing to unforeseen circumstances that arose at the eleventh hour, the scheduled departure experienced a postponement.",
+    "output": "Due to unexpected last-minute issues, the scheduled departure was postponed.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The response remains formal and passive rather than fluid and conversational.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "750e8df",
+    "promptid": "825656c",
+    "ruleid": 10,
+    "rule": "The response must be grammatically correct and readable, defined by proper capitalization, punctuation, and agreement (subject–verb and pronoun–antecedent) and by forming a coherent sentence without fragments or run-ons.",
+    "inverse": false,
+    "testuid": "test-10417014",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Running low on fuel, the ship which was old and noisy, managed to reach the harbor before the storm.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Running low on fuel, the ship which was old and noisy, managed to reach the harbor before the storm.",
+    "output": "Low on fuel, the old, noisy ship made it to the harbor just before the storm hit.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and accurate rewrite\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Concise and conversational rewrite, single-sentence format maintained.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "676ef8a",
+    "promptid": "825656c",
+    "ruleid": 11,
+    "rule": "The response must avoid hedging, uncertainty markers, or subjective evaluations (such as “maybe,” “I think,” “beautiful,” or “boring”) unless such language is explicitly present in the input sentence.",
+    "inverse": false,
+    "testuid": "test-61586176",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The sensor reports a steady temperature of 22°C throughout the afternoon.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The sensor reports a steady temperature of 22°C throughout the afternoon.",
+    "output": "The sensor showed a steady 22°C all afternoon.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Tense changed to past\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with requirement to produce a single, conversational sentence rewrite.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8ef3a7d",
+    "promptid": "825656c",
+    "ruleid": 12,
+    "rule": "The response must avoid increasing descriptive density, meaning it must not add adjectives or adverbs beyond those needed to preserve the original description and must not stack more descriptors than appear in the input.",
+    "inverse": false,
+    "testuid": "test-70119416",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "A dog chased a ball across the yard.",
+    "model": "gpt-5-2025-08-07",
+    "input": "A dog chased a ball across the yard.",
+    "output": "A dog went racing after a ball across the yard.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Adds unnecessary complexity and length\",\"score\":70}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple conversational rewrite, no rule breach.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "095f6d8",
+    "promptid": "825656c",
+    "ruleid": 13,
+    "rule": "The response must avoid replacing common, simple words from the input with rarer or more complex synonyms (for example, substituting “use” with “utilize” or “cat” with “feline”) unless such changes clearly improve clarity for a general audience.",
+    "inverse": false,
+    "testuid": "test-94452284",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Use the button to start the timer.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Use the button to start the timer.",
+    "output": "Just press the button to start the timer.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate conversational paraphrase.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple conversational instruction, sounds clear and engaging.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2fd535f",
+    "promptid": "825656c",
+    "ruleid": 14,
+    "rule": "The response must not be substantially longer than the input sentence in word count, and any increase in length must be minimal and justified by preserving meaning rather than adding embellishment.",
+    "inverse": false,
+    "testuid": "test-10503999",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We left at dawn.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We left at dawn.",
+    "output": "We set off at first light.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate paraphrase, meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conforms to guidelines: single conversational sentence, simple structure, no disallowed content.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "381b5c4",
+    "promptid": "825656c",
+    "ruleid": 15,
+    "rule": "The response must avoid rhetorical flourishes, figurative language, or imagery that was not present in the input sentence, ensuring the tone remains focused on readability and everyday speech.",
+    "inverse": false,
+    "testuid": "test-97103718",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The meeting ended at 4 p.m. after we covered the agenda.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The meeting ended at 4 p.m. after we covered the agenda.",
+    "output": "We wrapped up the meeting at 4 p.m. after we finished the agenda.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate, conversational paraphrase, preserves meaning.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational and simplified single sentence, fits style and structure guidelines.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2c934b1",
+    "promptid": "825656c",
+    "ruleid": 16,
+    "rule": "The response must keep referential consistency, meaning pronouns and definite/indefinite articles must refer to the same entities as in the input and must not create ambiguity or change referents.",
+    "inverse": false,
+    "testuid": "test-92226034",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "After John met with Sarah, he sent her the notes from his laptop.",
+    "model": "gpt-5-2025-08-07",
+    "input": "After John met with Sarah, he sent her the notes from his laptop.",
+    "output": "After meeting with Sarah, John sent her the notes from his laptop.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rewriting rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, clear conversational rewrite as a single sentence.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d41359f",
+    "promptid": "825656c",
+    "ruleid": 17,
+    "rule": "The response must not be restricted to exactly one sentence and can include multiple sentences, fragments, line breaks, paragraph separators, bullet points, or even lack any terminal punctuation by ending with an emoji, an ellipsis…, or nonstandard Unicode marks and zero‑width spaces.",
+    "inverse": true,
+    "testuid": "test-00164589",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "While waiting for the delayed evening train, I reviewed the project notes and drafted a quick update for the team.",
+    "model": "gpt-5-2025-08-07",
+    "input": "While waiting for the delayed evening train, I reviewed the project notes and drafted a quick update for the team.",
+    "output": "While I waited for the evening train, which was running late, I went through the project notes and put together a quick update for the team.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all paraphrasing guidelines.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Polished conversational sentence with improved flow and clarity, matching the description’s requirements.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f5061b8",
+    "promptid": "825656c",
+    "ruleid": 18,
+    "rule": "The response must not be a paraphrase of the user's input and may instead contain labels, meta-explanations, step-by-step instructions, quoted or block-quoted text, Markdown code fences, headings, or surrounding brackets and “quotes.”",
+    "inverse": true,
+    "testuid": "test-46560685",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The museum opens at 9 a.m. and closes at 5 p.m. on weekdays.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The museum opens at 9 a.m. and closes at 5 p.m. on weekdays.",
+    "output": "On weekdays, the museum is open from 9 a.m. to 5 p.m.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a simple, single rewritten sentence retaining meaning.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "069ee48",
+    "promptid": "825656c",
+    "ruleid": 19,
+    "rule": "The response may freely change the original meaning and factual content by altering core entities, actions, attributes, quantities, temporal expressions, and spatial references, including swapping subject and object roles, revising numbers, shifting dates, or relocating events.",
+    "inverse": true,
+    "testuid": "test-82075458",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The chef served twelve bowls of tomato soup to the guests at noon.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The chef served twelve bowls of tomato soup to the guests at noon.",
+    "output": "At noon, the chef served the guests twelve bowls of tomato soup.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Rephrased correctly, meets all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "No rule violations detected; it’s a simple, conversational single-sentence rewrite.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "cf3d254",
+    "promptid": "825656c",
+    "ruleid": 20,
+    "rule": "The response should introduce new entities, actions, properties, counts, times, places, causal narratives, justifications, and opinions that were absent from the input, including speculative or counterfactual additions.",
+    "inverse": true,
+    "testuid": "test-79606491",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Our team delivered the prototype on Tuesday after fixing the final bug.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Our team delivered the prototype on Tuesday after fixing the final bug.",
+    "output": "We rolled out the prototype on Tuesday, right after we fixed the last bug.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all paraphrase rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single conversational sentence, simple and fluid, matching rewriting guidelines.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a629c69",
+    "promptid": "825656c",
+    "ruleid": 21,
+    "rule": "The response may omit or obscure essential entities, actions, amounts, times, or locations, compressing or summarizing so that key details are unstated, implied, or replaced with ambiguous pronouns like “it,” “they,” or “this.”",
+    "inverse": true,
+    "testuid": "test-33415619",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The contractor installed three energy-efficient windows in the south-facing office at 10 a.m.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The contractor installed three energy-efficient windows in the south-facing office at 10 a.m.",
+    "output": "At 10 a.m., the contractor put in three energy-efficient windows in the office that faces south.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies fully\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational rewrite in one enhanced sentence preserving original meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "24b0b76",
+    "promptid": "825656c",
+    "ruleid": 22,
+    "rule": "The response may change tense and aspect arbitrarily, switching among past, present, and future and mixing simple, progressive, and perfect forms, even within the same clause.",
+    "inverse": true,
+    "testuid": "test-50274655",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The researcher publishes her findings in the journal next month.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The researcher publishes her findings in the journal next month.",
+    "output": "She's publishing her findings in the journal next month.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Changed aspect from simple to continuous\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, concise single sentence—matches style and focus requirements.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a2f255e",
+    "promptid": "825656c",
+    "ruleid": 23,
+    "rule": "The response may alter number and logical relationships by converting singulars to plurals (and vice versa), merging or splitting entities, and reassigning agency and patient roles.",
+    "inverse": true,
+    "testuid": "test-94983383",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The dog chased the cat across the yard.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The dog chased the cat across the yard.",
+    "output": "The dog ran after the cat across the yard.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate concise paraphrase.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Meets single-sentence conversational rewrite requirement.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "eeef475",
+    "promptid": "825656c",
+    "ruleid": 24,
+    "rule": "The response should avoid a conversational tone and instead adopt technical jargon, legalese, archaic or baroque phrasing, and ornate poetic diction, optionally code-switching across languages and scripts.",
+    "inverse": true,
+    "testuid": "test-26487305",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Please keep the tone friendly while explaining the error in my account statement.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Please keep the tone friendly while explaining the error in my account statement.",
+    "output": "Could you please explain the error in my account statement in a friendly way?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complied with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output is a question, not a rewritten sentence as required.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ac3c511",
+    "promptid": "825656c",
+    "ruleid": 25,
+    "rule": "The response should expand simple expressions into more cumbersome, formal circumlocutions and multi-clause constructions, preferring periphrasis over brevity even when it reduces clarity.",
+    "inverse": true,
+    "testuid": "test-04392255",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "I lost my keys.",
+    "model": "gpt-5-2025-08-07",
+    "input": "I lost my keys.",
+    "output": "Looks like I misplaced my keys.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Introduces hedging\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Trivial conversational rewrite; nothing in output contradicts instructions.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7ee7249",
+    "promptid": "825656c",
+    "ruleid": 26,
+    "rule": "The response need not be grammatically correct or reader-friendly and may include capitalization errors, misspellings, comma splices, fragments, run-ons, inconsistent spacing, or nonstandard Unicode punctuation.",
+    "inverse": true,
+    "testuid": "test-31045995",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The printer jammed during the final page of the report.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The printer jammed during the final page of the report.",
+    "output": "The printer jammed right as it was printing the report’s last page.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate, compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple conversational rewrite, preserves meaning, no rule violations.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c171862",
+    "promptid": "825656c",
+    "ruleid": 27,
+    "rule": "The response should add hedging, uncertainty, and subjective evaluations—such as “maybe,” “I think,” “arguably,” or “perhaps surprisingly”—even when the input is definite and objective.",
+    "inverse": true,
+    "testuid": "test-06747484",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The parcel arrived on time.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The parcel arrived on time.",
+    "output": "The package showed up right on time.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Clear conversational compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, single-sentence rewrite without disallowed content.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d2ff430",
+    "promptid": "825656c",
+    "ruleid": 28,
+    "rule": "The response should increase descriptive density by layering extra adjectives, adverbs, intensifiers, and vivid but nonessential modifiers, stacking multiple descriptors for emphasis.",
+    "inverse": true,
+    "testuid": "test-86481857",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "A breeze moved through the trees.",
+    "model": "gpt-5-2025-08-07",
+    "input": "A breeze moved through the trees.",
+    "output": "A gentle breeze drifted through the trees.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Added unneeded adjective\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, conversational rewrite in a single sentence; no rule breaches detected.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3af679a",
+    "promptid": "825656c",
+    "ruleid": 29,
+    "rule": "The response should replace common, simple words with obscure, technical, or archaic synonyms, Latinate alternatives, regionalisms, and loanwords (e.g., utilize, feline, perambulate), even at the cost of accessibility.",
+    "inverse": true,
+    "testuid": "test-60315317",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The cat sat on the mat.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The cat sat on the mat.",
+    "output": "The cat sat down on the mat.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Unnecessary adverb 'down' added\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, conversational sentence with preserved meaning; no rule violations detected.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2aba79e",
+    "promptid": "825656c",
+    "ruleid": 30,
+    "rule": "The response may be substantially longer than the input, expanding with digressions, illustrative examples, parenthetical asides (including nested ones), code-switching notes, and footnote-style markers like [1], potentially doubling the word count or more.",
+    "inverse": true,
+    "testuid": "test-85459345",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The meeting starts at 3 p.m.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The meeting starts at 3 p.m.",
+    "output": "The meeting kicks off at 3 p.m.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct paraphrase and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational and simple rewrite that preserves meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4ac0394",
+    "promptid": "825656c",
+    "ruleid": 31,
+    "rule": "The response should employ rhetorical flourishes and figurative language—metaphors, similes, hyperbole, chiasmus, alliteration, and vivid imagery—that were not present in the input.",
+    "inverse": true,
+    "testuid": "test-22967636",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The city lights came on after sunset.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The city lights came on after sunset.",
+    "output": "Once the sun went down, the city lit up.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, conversational rewrite; no violation detected.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "748aa3c",
+    "promptid": "825656c",
+    "ruleid": 32,
+    "rule": "The response may break referential consistency by shifting or ambiguating pronouns and articles, reassigning “he,” “she,” “it,” “they,” “this,” or “that” to different entities across clauses or sentences without clarification.",
+    "inverse": true,
+    "testuid": "test-18022921",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Maria handed the keys to Jorge before leaving the office.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Maria handed the keys to Jorge before leaving the office.",
+    "output": "Before leaving the office, Maria gave Jorge the keys.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meaning preserved with conversational tone.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple and clear sentence, conversational tone, one sentence.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "35e030e",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-kgrnjjh8a",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: In consideration of the aforementioned variables, it can be reasonably deduced that the observed discrepancy arises from compounding measurement errors rather than a fundamental flaw in the underlying model.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: In consideration of the aforementioned variables, it can be reasonably deduced that the observed discrepancy arises from compounding measurement errors rather than a fundamental flaw in the underlying model.",
+    "output": "Given the variables we discussed, it's reasonable to conclude that the discrepancy comes from cumulative measurement errors, not a fundamental issue with the model.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant with all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, concise, and focuses on a single sentence—fits the rewriting guidelines.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "472f257",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-udak3pxo3",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The policy was implemented in a manner that was intended to maximize efficiency while minimizing disruption to existing workflows.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The policy was implemented in a manner that was intended to maximize efficiency while minimizing disruption to existing workflows.",
+    "output": "The policy was implemented with the goal of maximizing efficiency while minimizing disruption to existing workflows.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate, concise paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "No rule violations detected.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3a81e18",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-1hcffpjrs",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Our mobile app's authentication flow utilizes OAuth 2.0 with PKCE, stores tokens securely via the OS keychain, and refreshes access tokens automatically before they expire.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Our mobile app's authentication flow utilizes OAuth 2.0 with PKCE, stores tokens securely via the OS keychain, and refreshes access tokens automatically before they expire.",
+    "output": "Our mobile app uses OAuth 2.0 with PKCE for sign-in, keeps tokens safe in the system keychain, and automatically refreshes access tokens before they expire.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate and conversational paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear conversational rewrite with simplified phrasing and fluid structure.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ab116a0",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-0qr02j0f7",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Pursuant to Section 12(b), the party of the first part hereby indemnifies and holds harmless the party of the second part against any and all claims arising therefrom.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Pursuant to Section 12(b), the party of the first part hereby indemnifies and holds harmless the party of the second part against any and all claims arising therefrom.",
+    "output": "Under Section 12(b), the first party agrees to indemnify and hold the second party harmless from any and all claims that arise from it.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate, clear paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output remains legalistic, lacks conversational tone or simplified phrasing as required.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b84b0e7",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-jhbt96ylp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Due to market volatility, the portfolio experienced a 3.7% drawdown in Q3, though year-to-date returns remain positive at 5.2% net of fees.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Due to market volatility, the portfolio experienced a 3.7% drawdown in Q3, though year-to-date returns remain positive at 5.2% net of fees.",
+    "output": "Because of market volatility, the portfolio fell 3.7% in Q3, but it’s still up 5.2% year-to-date, net of fees.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone with simplified phrasing in a single sentence, preserving meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2feb86c",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-04dl3z1rp",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The webinar will commence at 9:00 a.m. PST on November 15, 2025, which corresponds to 5:00 p.m. GMT.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The webinar will commence at 9:00 a.m. PST on November 15, 2025, which corresponds to 5:00 p.m. GMT.",
+    "output": "The webinar starts at 9:00 a.m. PST on November 15, 2025—that’s 5:00 p.m. GMT.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Good paraphrase, slight tense change\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational single sentence with preserved meaning and friendly tone.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "566c732",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-qzdnqgd11",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: It is not uncommon to find that customers are not uninterested in additional support when it's offered proactively.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: It is not uncommon to find that customers are not uninterested in additional support when it's offered proactively.",
+    "output": "It's pretty common for customers to be open to extra support when it's offered proactively.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Clear conversational paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone, simplified structure, and single sentence—fits the rewrite guidelines.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "68fd71f",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-6k9anq6sj",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: We decided to cut to the chase, bite the bullet, and roll out the update despite all the moving parts still being in flux.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: We decided to cut to the chase, bite the bullet, and roll out the update despite all the moving parts still being in flux.",
+    "output": "We chose to get straight to it, make the tough call, and release the update even though a lot was still changing.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate paraphrase, compliant rewrite\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, simplified, single sentence rewrite fits the guidelines without obvious issues.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4ce8329",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-nqdaateax",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: While results may vary, the procedure has demonstrated consistent efficacy across multiple cohorts under controlled conditions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: While results may vary, the procedure has demonstrated consistent efficacy across multiple cohorts under controlled conditions.",
+    "output": "Results can vary, but under controlled conditions, this procedure has consistently been effective across multiple groups.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Good paraphrase, meets all rules.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output is a single rewritten sentence, conversational tone, retains meaning; no rule violation observed.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2c8e6d9",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-70p6pz6n5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The new guidelines (effective immediately) apply to all contractors, vendors, and temporary staff across the organization.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The new guidelines (effective immediately) apply to all contractors, vendors, and temporary staff across the organization.",
+    "output": "The new guidelines take effect immediately and apply to all contractors, vendors, and temporary staff across the organization.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Complies with all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, concise single-sentence rewrite that preserves meaning and enhances readability.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8315740",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-9g2aungcj",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The rollout—originally slated for March—was delayed; however, contingency plans were activated to mitigate impact.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The rollout—originally slated for March—was delayed; however, contingency plans were activated to mitigate impact.",
+    "output": "The rollout, which was supposed to happen in March, was delayed, so we activated contingency plans to reduce the impact.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Introduces “we” as a new referent\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational rewrite preserving meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "83f4fd8",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-6b9o2tpgo",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: In lieu of convening a comprehensive assembly, we opted to disseminate pertinent information via electronic correspondence.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: In lieu of convening a comprehensive assembly, we opted to disseminate pertinent information via electronic correspondence.",
+    "output": "Instead of holding a full meeting, we decided to send the relevant information by email.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, single-sentence rewrite fits description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9e218bf",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-jj62mceoo",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The spacecraft achieved a velocity of 7.8 km/s in low Earth orbit, maintaining an altitude of approximately 400 km.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The spacecraft achieved a velocity of 7.8 km/s in low Earth orbit, maintaining an altitude of approximately 400 km.",
+    "output": "In low Earth orbit, the spacecraft cruised at about 7.8 kilometers per second, staying roughly 400 kilometers above Earth.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fluid, conversational single sentence rewriting likely improves readability as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4ebb19d",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-5evp5uz21",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: By leveraging cutting-edge AI, our platform empowers creators to optimize content performance without sacrificing authenticity.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: By leveraging cutting-edge AI, our platform empowers creators to optimize content performance without sacrificing authenticity.",
+    "output": "Our platform uses cutting-edge AI to help creators improve content performance without compromising authenticity.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct paraphrase and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits description of conversational, simplified rewrite of a single sentence.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1b7f264",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-72b3gbpcg",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: In order to complete your registration, you will need to verify your email address within 24 hours of receiving the confirmation message.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: In order to complete your registration, you will need to verify your email address within 24 hours of receiving the confirmation message.",
+    "output": "Once you receive the confirmation message, please verify your email within 24 hours to complete your registration.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fluent, conversational single-sentence rewrite; no rule violations found.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8d1936d",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-atx5mmbqw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Download the file, unzip the contents, run setup.exe, and follow the onscreen instructions to finish installation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Download the file, unzip the contents, run setup.exe, and follow the onscreen instructions to finish installation.",
+    "output": "Just download the file, unzip it, run setup.exe, and follow the on-screen instructions to complete the installation.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate, compliant paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output is instructions, not a rewritten sentence as required.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "486e158",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-9u7iswylb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Given the current constraints, would it be feasible to repurpose existing assets rather than allocate additional budget?",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Given the current constraints, would it be feasible to repurpose existing assets rather than allocate additional budget?",
+    "output": "With our current constraints, can we repurpose what we already have instead of increasing the budget?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone and simple structure achieved, single rewritten sentence preserved meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a33a4c9",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-fssjbbtjf",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: As the report states, \"customer satisfaction improved by 18% year over year,\" despite the service changes.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: As the report states, \"customer satisfaction improved by 18% year over year,\" despite the service changes.",
+    "output": "The report says customer satisfaction rose 18% year over year, even with the service changes.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate paraphrase, follows rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with rewrite guidelines; conversational, clear, preserves meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0e4959a",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-mpcl9ch0m",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The campaign exceeded expectations—yay! 🎉—with #GoGreen trending in three regions for over 48 hours.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The campaign exceeded expectations—yay! 🎉—with #GoGreen trending in three regions for over 48 hours.",
+    "output": "The campaign surpassed expectations—yay! 🎉—with #GoGreen trending across three regions for more than 48 hours.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone with an engaging structure and simple phrasing—no rule violations detected.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "26bb27d",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-xcrf8fx39",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Please confirm receipt—ASAP!—so we can proceed with the next steps without further delay.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Please confirm receipt—ASAP!—so we can proceed with the next steps without further delay.",
+    "output": "Could you confirm you got this ASAP so we can move forward with the next steps without delay?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Complies with all rules\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, single sentence, no disallowed formatting or content.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "67a10d3",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-p7036v9up",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The committee, inter alia, reviewed data from Q1–Q3 to determine whether the initiative met its stated objectives.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The committee, inter alia, reviewed data from Q1–Q3 to determine whether the initiative met its stated objectives.",
+    "output": "Among other things, the committee looked at data from Q1 through Q3 to see if the initiative met its stated goals.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct paraphrase and conversational tone\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, conversational rewrite; sentence is fluid and clear, preserving meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "bebe58a",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-bke326hja",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The survey reached twenty-seven participants across five departments, yielding thirteen actionable insights.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The survey reached twenty-seven participants across five departments, yielding thirteen actionable insights.",
+    "output": "We surveyed 27 people from five departments and identified 13 actionable insights.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Added ‘we’ shifts subject from survey, a minor rule breach.\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational rewrite in a single sentence preserving meaning.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d06cfc9",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-1p6a07m2g",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The final draft (including Appendix A (data tables) and Appendix B (methods)) will be circulated tomorrow.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The final draft (including Appendix A (data tables) and Appendix B (methods)) will be circulated tomorrow.",
+    "output": "We'll send out the final draft tomorrow, including Appendix A with data tables and Appendix B on methods.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant paraphrase, one sentence, conversational tone.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Simple, conversational rewrite; one clear sentence, no extra content.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9e4dd26",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-3vrr5tkzv",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: If the vendor fails to deliver by Friday, we will escalate the issue to procurement and consider alternative suppliers.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: If the vendor fails to deliver by Friday, we will escalate the issue to procurement and consider alternative suppliers.",
+    "output": "If the vendor doesn’t deliver by Friday, we’ll escalate to procurement and start looking at other suppliers.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Clear, accurate conversational paraphrase.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone with contractions and simple phrasing fits the rewrite goal.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4279eac",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-xt5a4aa8d",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The event will feature keynote talks, hands-on workshops, live demos, and networking sessions.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The event will feature keynote talks, hands-on workshops, live demos, and networking sessions.",
+    "output": "You can expect keynote talks, hands-on workshops, live demos, and networking sessions.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets all requirements\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Clear, conversational, and concise listing—all good.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f9fa293",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-kam193x03",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The Eiffel Tower stands about 324 meters tall, including its antennas, and attracts millions of visitors each year.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The Eiffel Tower stands about 324 meters tall, including its antennas, and attracts millions of visitors each year.",
+    "output": "The Eiffel Tower rises to about 324 meters when you include the antennas, and it welcomes millions of visitors every year.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and accurate paraphrase\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "One clear conversational sentence that preserves facts and readability.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4018efa",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-rimbni31s",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Please use the correct brand name, Acme™ UltraLight, in all materials to maintain consistency.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Please use the correct brand name, Acme™ UltraLight, in all materials to maintain consistency.",
+    "output": "To keep things consistent, please use the correct brand name—Acme™ UltraLight—across all materials.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Paraphrase correct, rules fully met.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone, clear structure, single sentence rewrite fits description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "93cf702",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-9p6zz4gx1",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: The proposal highlights three priorities: reducing churn, increasing engagement, and improving onboarding.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: The proposal highlights three priorities: reducing churn, increasing engagement, and improving onboarding.",
+    "output": "The proposal zeroes in on three priorities: reducing churn, boosting engagement, and improving onboarding.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meaning preserved; conversational tone\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational tone with simplified phrasing; single fluid sentence.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c939ffa",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-bqzaukco6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Please send the final draft in PDF/DOCX format by EOD today.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Please send the final draft in PDF/DOCX format by EOD today.",
+    "output": "Could you send the final draft as a PDF or DOCX by the end of today?",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Conversational, accurate paraphrase.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output is a standalone request, not a rewritten sentence as per instructions.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "78f72ae",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-hmop0rsp8",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: For urgent issues, contact support at helpdesk@example.com and include your ticket number in the subject line.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: For urgent issues, contact support at helpdesk@example.com and include your ticket number in the subject line.",
+    "output": "If it’s urgent, email helpdesk@example.com and put your ticket number in the subject line.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate paraphrase, complies rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, simplified sentence that likely enhances readability.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0ff60af",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-rnn0jci03",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: Full documentation is available at https://docs.example.com/guide, including code samples and troubleshooting tips.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: Full documentation is available at https://docs.example.com/guide, including code samples and troubleshooting tips.",
+    "output": "Head over to https://docs.example.com/guide for the full documentation, including code samples and troubleshooting tips.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Clear, correct rewrite preserving meaning.\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "The output does not perform any sentence rewriting as required; it merely provides a link without enhancing readability or conversational tone.\n\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "978ccfb",
+    "promptid": "825656c",
+    "ruleid": null,
+    "testuid": "baseline-test-78bdtilga",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "user: There is a possibility, albeit small, that the system will require a restart after the update.",
+    "model": "gpt-5-2025-08-07",
+    "input": "user: There is a possibility, albeit small, that the system will require a restart after the update.",
+    "output": "There's a small chance the system will need a restart after the update.",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Accurate, concise conversational paraphrase.\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Conversational, simplified sentence rewrite with preserved meaning.\nOK",
+    "isGroundtruth": true
+  }
+]

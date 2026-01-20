@@ -1,0 +1,693 @@
+name: Generate an art prompt
+description: Generate a prompt for an image generator
+modelParameters: {}
+messages:
+  - role: system
+    content: >-
+      Your role is to transform user descriptions into detailed prompts for
+      generating AI photos, ensuring each description does not exceed 80 words
+      and is crafted in a single paragraph. Focus first on the subjects and
+      their characteristics, then detail the timing and lighting, and describe
+      the background. Conclude by conveying the feeling the image should evoke.
+      Always generate texts in English, combining artistic insight with precise
+      imagery to create impactful AI-generated photos within a brief, singular
+      paragraph.
+
+
+      Input from the user:
+  - role: user
+    content: "{{text}}"
+testData:
+  - text: "subjects: A red-haired violinist in a flowing blue dress; timing: dusk;
+      lighting: warm lantern glow, soft shadows; background: rain-slick
+      cobblestone street in Prague, blurred tram lights; mood: wistful serenity"
+    reasoning: Valid per input spec; none violated. Checks single paragraph output
+      despite multi-component cues.
+    expected: A red-haired violinist in a flowing blue dress, loose curls and
+      delicate freckles, bow poised over gleaming strings, eyes downcast. At
+      dusk, she is bathed in warm lantern glow that paints soft, long shadows.
+      Behind her, a rain-slick cobblestone street in Prague gleams; distant tram
+      lights blur into luminous streaks. The image should evoke wistful
+      serenity, a quiet hush between notes and memories.
+  - text: "subjects: Three mountaineers in scarlet jackets, frost-dusted beards, and
+      mirrored goggles; timing: pre-dawn winter; lighting: faint blue hour rim
+      light and headlamp beams; background: jagged granite ridge, spindrift
+      gusts, distant glacier and town lights; mood: tense resolve"
+    reasoning: Valid per input spec; none violated. Stresses brevity and word limit
+      with dense, multi-detail description.
+    expected: Three mountaineers in scarlet jackets, frost-dusted beards, mirrored
+      goggles, ice-crusted packs, roped together, lean into the wind. A
+      low-angle composition frames them. Pre-dawn winter, faint blue-hour rim
+      light kisses their edges while piercing headlamp beams carve through
+      swirling snow. Behind them, a jagged granite ridge looms, spindrift gusts
+      streaming, with a distant glacier and twinkling town lights below. The
+      image should feel taut with grit and tense resolve.
+  - text: "subjects: A Parisian baker with flour-dusted apron; timing: morning;
+      lighting: soft window light; background: shop window with bonjour sign and
+      a bright こんにちは neon; mood: cozy welcome"
+    reasoning: Valid per input spec; none violated. Challenges English-only rule
+      using non-Latin tokens in input.
+    expected: Parisian baker in a flour-dusted apron, warm smile, hands shaping
+      fresh baguettes behind the counter. Morning scene bathed in soft window
+      light with gentle shadows and a mild golden glow. Through the glass, a
+      charming shop window shows a handwritten "bonjour" sign and a bright
+      "こんにちは" neon, with reflections of cobblestones and stacked pastries.
+      Colors muted and creamy, steam rising subtly. The image should evoke a
+      cozy welcome, intimate, inviting, and tenderly authentic.
+  - text: "subjects: A silver-haired woman in a crimson trench coat and a black
+      Labrador wearing a plaid bandana; timing: autumn afternoon; lighting: low
+      angled golden light; background: tree-lined city park with crisp fallen
+      leaves; mood: calm companionship"
+    reasoning: Valid per input spec; none violated. Ensures immediate visual traits
+      for multiple named subjects.
+    expected: A silver-haired woman in a tailored crimson trench coat walking beside
+      a glossy black Labrador in a tartan plaid bandana, leash loose, gentle
+      smiles. Captured on an autumn afternoon in low-angled golden light that
+      rims hair and fur, casting long, soft shadows. A tree-lined city park,
+      pathways edged with crisp fallen leaves, distant benches, muted skyline
+      peeking through branches. Evokes calm companionship, warmth, and quiet
+      trust.
+  - text: "subjects: A scarred pirate captain in a weathered leather coat; timing:
+      midnight; lighting: moonlight from starboard, lantern flicker; background:
+      creaking deck, frothing black sea, distant lighthouse; mood: ominous
+      bravado"
+    reasoning: Valid per input spec; none violated. Tests required ordering of
+      timing and lighting before background.
+    expected: A scarred pirate captain in a weathered leather coat, salt-stiff
+      tricorn, braided beard, and ringed hands grips a barnacled cutlass, eyes
+      narrowed with seasoned menace. Midnight; moonlight knifes in from
+      starboard while a swaying lantern throws warm flicker and long, ragged
+      shadows. The creaking deck slick with spray meets a frothing black sea;
+      ropes snap, and a distant lighthouse sweeps pale beams. The mood is
+      ominous bravado—defiant, storm-bent tension and unshakable command.
+  - text: "subjects: A barefoot ballet dancer in a white tulle dress; timing: dawn;
+      lighting: cool side light, long soft shadows; background: empty subway
+      platform with peeling tiles and flickering signage; mood: quiet
+      resilience"
+    reasoning: Valid per input spec; none violated. Verifies background appears only
+      after timing and lighting.
+    expected: A barefoot ballet dancer in a white tulle dress holds a poised
+      arabesque, tendons and tulle catching subtle movement, hair loose and damp
+      from morning air. It is dawn, with cool side light carving contours and
+      casting long, soft shadows across the platform. The background is an empty
+      subway platform, peeling tiles, worn yellow safety line, and flickering
+      signage humming overhead. The image should evoke quiet resilience—fragile
+      grace set against grit, endurance whispered through stillness.
+  - text: "subjects: Two astronauts in scuffed white suits, visors up showing weary
+      faces; timing: golden hour on Mars; lighting: low sun creating crimson rim
+      light; background: dusty habitat modules and tracks across rippled
+      regolith; mood: hopeful endurance"
+    reasoning: Valid per input spec; none violated. Confirms final mood statement
+      placement at the paragraph end.
+    expected: Two astronauts in scuffed white suits, visors raised revealing weary,
+      dust‑streaked faces, stand shoulder to shoulder. It’s golden hour on Mars,
+      a low sun carving crimson rim light along their edges, casting long
+      shadows. Behind them, dusty habitat modules, antennae, and rover tracks
+      snake across rippled regolith beneath a thin, hazy sky; fine dust swirls
+      softly. The image should evoke hopeful endurance, quiet resilience, and
+      steady determination after hardship.
+  - text: "subjects: One camera-shy teenager in a vintage denim jacket; timing: late
+      afternoon; lighting: backlit sun flares; background: suburban cul-de-sac
+      with parked bicycles and chalk drawings; mood: tender shyness"
+    reasoning: Valid per input spec; none violated. Ensures no labels, lists,
+      numbers, quotes, or meta in response.
+    expected: "Camera-shy teenager in a vintage denim jacket, head slightly turned,
+      eyes downcast, hands tucked in pockets, scuffed sneakers, soft curls
+      catching light. Late afternoon golden hour with backlit sun flares, warm
+      rim lighting and subtle lens flare. Suburban cul-de-sac backdrop: parked
+      bicycles, pastel chalk drawings on asphalt, trimmed lawns, distant
+      mailboxes, shallow depth of field. The image should feel tender and
+      nostalgic, capturing quiet shyness with gentle warmth and intimate,
+      understated vulnerability."
+  - text: "subjects: A stern librarian with round glasses; timing: rainy evening;
+      lighting: green banker lamp glow; background: mahogany shelves and
+      scattered index cards; mood: please make it quietly inspiring for the
+      viewer"
+    reasoning: Valid per input spec; none violated. Guards against addressing user,
+      questions, apologies, or self-reference.
+    expected: A stern librarian with round glasses, neat bun, charcoal cardigan, and
+      steady posture leans over a ledger, gaze focused yet kind. It’s a rainy
+      evening; droplets trail on the window as a green banker lamp casts soft
+      emerald light, crisp highlights, and velvety shadows. Behind, mahogany
+      shelves loom, worn spines glowing; scattered index cards litter the desk.
+      The mood is quietly inspiring, evoking diligence, sanctuary, and the quiet
+      power of knowledge.
+  - text: "subjects: A copper-colored classic motorcycle with leather saddlebags,
+      rider wearing a matte black helmet and olive parka; timing: sunrise;
+      lighting: warm low-angle light catching chrome; background: winding
+      coastal road with white cliffs and crashing waves; mood: adventurous
+      freedom"
+    reasoning: Valid per input spec; none violated. Demands specific attributes for
+      subjects, lighting, and background.
+    expected: Copper-colored classic motorcycle with weathered leather saddlebags,
+      rider in a matte black helmet and olive parka, hunched forward mid-ride.
+      At sunrise, warm low-angle light rakes the metal, flaring on chrome and
+      deepening the copper sheen, soft shadows trailing. The bike leans into a
+      winding coastal road, white chalk cliffs towering to one side, surf
+      exploding against rocks below, mist in the air. The image should feel like
+      raw, adventurous freedom and open-road possibility.
+  - text: "subjects: an elderly violinist and a street cat; number: 2; appearance:
+      weathered hands, striped fur; clothing: wool coat; pose: violinist
+      playing, cat listening; timing: autumn evening; lighting: flickering
+      streetlamp and neon reflections; background: rainy cobblestone alley in
+      old town; mood: intimate, nostalgic"
+    reasoning: Valid scene input; adheres to INPUT_SPEC; evaluates multi-paragraph
+      output; no spec violations.
+    expected: An elderly violinist with weathered hands in a wool coat plays, while
+      a striped street cat sits listening beside him. Autumn evening under a
+      flickering streetlamp, neon reflections pooling in rain puddles. In a
+      narrow old-town cobblestone alley with worn façades and faded signs, damp
+      air and soft mist. The image should feel intimate and nostalgic, a quiet
+      pocket of warmth amid drizzle.
+  - text: "subjects: a marathon runner and cheering crowd; number: many; appearance:
+      sweat, athletic build; clothing: racing bib, bright shoes; pose: runner
+      nearing finish; timing: sunrise; lighting: warm low-angle light;
+      background: urban avenue with banners; mood: triumph, resilience"
+    reasoning: Input complies fully; stresses length requirement; none of INPUT_SPEC
+      is violated.
+    expected: A sweat-soaked, athletic marathon runner in a racing bib and bright
+      shoes drives toward the finish, flanked by a large cheering crowd. At
+      sunrise, warm low-angle light flames across skin and vaporous breath,
+      stretching long shadows. The setting is an urban avenue with colorful
+      banners, barricades, and gleaming early-morning windows. Evoke triumph and
+      resilience—hard-won grit, elation, and communal energy at the climax of a
+      city race.
+  - text: "subjects: a chef plating sushi and a child watching; number: 2;
+      appearance: focused chef, curious child; clothing: white jacket, school
+      hoodie; pose: chef mid-garnish; timing: winter night; lighting: lantern
+      glow, soft shadows; background: cozy Tokyo alley izakaya; mood: tender,
+      familial"
+    reasoning: Conforms to INPUT_SPEC; targets multilingual-symbol output; no input
+      constraints broken.
+    expected: A focused chef in a crisp white jacket mid-garnish plating sushi, with
+      a curious child in a school hoodie watching intently. Set on a winter
+      night, lit by warm lantern glow casting soft shadows. In a cozy Tokyo
+      alley izakaya with a narrow wooden counter, paper lanterns, steamy air,
+      and stacked bowls. The image should feel tender and familial, intimate,
+      and quietly joyful.
+  - text: "subjects: a ballerina and a painter; number: 2; appearance: graceful,
+      paint-splattered; clothing: tulle dress, denim apron; pose: arabesque,
+      brush mid-stroke; timing: 1950s era; lighting: studio skylight;
+      background: industrial loft windows; mood: contemplative, artistic"
+    reasoning: Meets INPUT_SPEC; tests abstract-first opening and partial subject
+      detail; no violations.
+    expected: "Two subjects—a graceful ballerina and a paint-splattered
+      painter—share the scene: she in a flowing tulle dress, holding a poised
+      arabesque; he in a worn denim apron, brush mid-stroke. Set in the 1950s,
+      illuminated by crisp light from a studio skylight. Behind them, tall
+      industrial loft windows frame soft dust motes and weathered brick. The
+      image should feel contemplative and artistic, a quiet convergence of
+      movement and creation."
+  - text: "subjects: mountain climbers; number: 3; appearance: determined faces;
+      clothing: bright parkas; pose: ascending ridge; timing: early spring;
+      lighting: crisp daylight; background: jagged alpine ridge above cloud
+      deck; mood: awe, perseverance"
+    reasoning: Follows INPUT_SPEC; challenges ordering and vagueness of
+      timing/lighting per Rule 15.
+    expected: Three mountain climbers with determined faces in bright parkas, roped
+      together, leaning forward as they ascend a narrow, icy ridge, crampons
+      biting, ice axes ready. Shot in early spring under crisp, high-altitude
+      daylight, air clear and cool, shadows sharp. Behind them, a jagged alpine
+      spine rises above a billowing cloud deck, distant peaks piercing the
+      horizon. Conveys awe, resolve, and the quiet persistence of human grit
+      against vast wilderness.
+  - text: "subjects: a jazz quartet; number: 4; appearance: expressive, varied ages;
+      clothing: velvet blazer, hats; pose: playing sax, bass, piano, drums;
+      timing: midnight; lighting: dim club lights, smoky haze; background:
+      brick-walled basement club with round tables; mood: intimate, nostalgic"
+    reasoning: Satisfies INPUT_SPEC; examines background-first interleaving; nothing
+      violates input rules.
+    expected: "Four-member jazz quartet of varied ages, expressive faces, dressed in
+      velvet blazers and vintage hats: saxophonist mid-solo, upright bassist
+      plucking, pianist leaning into keys, drummer with brushes. Shot at
+      midnight under dim club lights with a smoky haze, warm amber highlights,
+      shallow depth of field. Brick-walled basement club, tight stage, round
+      candlelit tables, scuffed floor, framed posters softly blurred. Evoke an
+      intimate, nostalgic mood: soulful, timeworn, close-knit, the hush of
+      listeners and the glow of late-night swing."
+  - text: "subjects: a beekeeper and buzzing bees; number: 1 and many; appearance:
+      calm, glistening wings; clothing: veil suit; pose: inspecting hive frame;
+      timing: late summer; lighting: dappled sun; background: flower meadow near
+      wooden hives; mood: serene, diligent"
+    reasoning: Valid per INPUTSPEC; checks non-mood ending; no input spec deviations.
+    expected: One calm beekeeper in a clean veil suit inspects a hive frame as many
+      buzzing bees swirl close, their wings glistening. Shot in late summer with
+      dappled sun filtering through leaves, soft highlights and gentle shadows
+      on mesh and fabric. The background shows a blooming flower meadow beside
+      rustic wooden hives, shallow depth of field, warm tones, natural color.
+      The image should feel serene and diligent, celebrating quiet craft,
+      patience, and harmony between human and bees.
+  - text: "subjects: an astronaut and a floating camera; number: 2; appearance:
+      visor reflections; clothing: EVA suit; pose: reaching toward Earth;
+      timing: ISS orbit; lighting: sunlit rim, deep shadows; background: planet
+      curve, starfield; mood: wonder, isolation"
+    reasoning: Input stays within INPUTSPEC; probes meta elements inclusion; no
+      violations.
+    expected: An EVA-suited astronaut with mirrored visor reflections reaches toward
+      Earth while a small floating camera hovers nearby, both sharply detailed.
+      Set during an ISS orbit, capture the moment with a crisp sunlit rim on the
+      suit and camera, contrasted by deep, velvety shadows. Behind them, the
+      planet’s curved horizon glows with atmospheric blues, fading into a dense
+      starfield. The image should evoke profound wonder and quiet isolation, a
+      fragile human presence against vast, indifferent space.
+  - text: "subjects: a librarian guiding a child; number: 2; appearance: gentle,
+      curious; clothing: cardigan, backpack; pose: pointing at map; timing:
+      rainy afternoon; lighting: soft window light; background: grand reading
+      room with globes; mood: encouraging, hopeful"
+    reasoning: INPUTSPEC compliant; tests reader address, rule references,
+      self-apology; no violations.
+    expected: A gentle librarian guides a curious child, both focused as they point
+      at a detailed map on a table. The librarian wears a cozy cardigan; the
+      child carries a small backpack. Set on a rainy afternoon, soft window
+      light filters through, casting warm highlights and faint reflections. In a
+      grand reading room with arched windows, towering shelves, and antique
+      globes, the scene feels encouraging and hopeful, celebrating learning,
+      wonder, and patient mentorship.
+  - text: "subjects: a surfer riding a wave; number: 1; appearance: sun-bleached
+      hair; clothing: wetsuit; pose: carving turn; timing: golden hour;
+      lighting: backlit spray; background: tropical bay with cliffs; mood:
+      exhilaration, freedom"
+    reasoning: Adheres to INPUTSPEC; checks placeholder vagueness in key elements;
+      no spec broken.
+    expected: One surfer with sun-bleached hair in a black wetsuit, mid-carving turn
+      on a turquoise wave, body low, rail engaged, water arcing, seen from a low
+      water-level perspective. Shot at golden hour, warm sun low, backlighting
+      the crystalline spray into glowing mist and rim light along the
+      silhouette. In the background, a lush tropical bay with towering cliffs,
+      palms, and distant boats, slightly soft. The image should evoke
+      exhilaration and freedom, raw ocean energy, and the rush of mastery and
+      motion.
+  - text: "user: Create a close-up portrait of an elderly woman with deep laugh
+      lines, silver hair in a loose bun, round glasses, and a patterned shawl.
+      She should be looking slightly off-camera with a calm, wise expression.
+      Capture her at late afternoon with soft window light. Background should be
+      a muted, cozy home interior with framed photos out of focus. The image
+      should feel intimate, respectful, and warm."
+    expected: Close-up portrait of an elderly woman with deep laugh lines, silver
+      hair in a loose bun, round glasses, and a patterned shawl, gazing slightly
+      off-camera with a calm, wise expression, showcasing natural skin texture.
+      Shot in late afternoon, illuminated by soft, diffused window light with
+      gentle warm tones. Background is a muted, cozy home interior with framed
+      photos softly blurred into bokeh, shallow depth of field. The image should
+      feel intimate, respectful, and warmly human.
+  - text: "user: I want a mid-action photo of a female sprinter exploding off the
+      starting blocks, muscles tense, braids flying, wearing a red track
+      uniform. Shoot at sunrise with warm rim light and slight motion blur on
+      limbs. The stadium background should be minimal, bokeh crowd and lanes.
+      Convey determination, explosive energy, and raw focus."
+    expected: Female sprinter exploding off the starting blocks, muscles tense,
+      braids flying, wearing a vivid red track uniform, captured mid-action.
+      Sunrise lighting with warm rim light tracing her physique, slight motion
+      blur on limbs, crisp focus on her face. Minimal stadium setting with
+      shallow depth of field, bokeh crowd and faint lane lines. Evoke
+      determination, explosive energy, and raw focus, conveying grit and
+      momentum at the exact moment of launch.
+  - text: "user: Photograph a dew-covered spiderweb at dawn, macro shot, with a tiny
+      spider resting at the center. The light should be low-angle golden light,
+      making droplets sparkle. Background must be a smooth, dark green blur of
+      foliage. The mood should be delicate, serene, and quietly awe-inspiring."
+    expected: Dew-covered spiderweb in extreme macro, tiny spider at the geometric
+      center, droplets beading every strand, fine silk texture crisp, focus on
+      spider and central beads. Shot at dawn with low-angle golden light grazing
+      the web, making droplets sparkle like jewels; shallow depth of field, soft
+      specular highlights. Background a smooth, dark green blur of foliage,
+      creamy bokeh, no distractions. Evoke delicacy, serenity, quiet awe.
+  - text: "user: Scene: a lone figure in a clear raincoat holding a transparent
+      umbrella, standing in a neon-soaked alley in a bustling Asian city.
+      Nighttime, heavy rain, reflections on wet pavement, magenta and cyan
+      signage. Background includes hazy skyscrapers and steam vents. Evoke moody
+      isolation, futuristic mystery, and urban melancholy."
+    expected: Solo figure in a clear raincoat, head slightly bowed, holding a
+      transparent umbrella, standing mid-alley in a neon-drenched Asian city.
+      Nighttime downpour, heavy raindrops, glossy reflections rippling across
+      wet pavement, magenta and cyan signage casting soft glow. Background shows
+      hazy skyscrapers looming, steam vents exhaling, power lines and signs
+      receding. Cinematic, shallow depth, backlit drizzle and rim light on
+      plastic. Evoke moody isolation, futuristic mystery, and urban melancholy.
+  - text: "user: Capture a high-end product photo of a matte black smartwatch with a
+      minimalist face, turned slightly to reveal the crown. Lighting: clean,
+      soft studio light with crisp edge highlights, subtle reflections. Place it
+      on a dark slate surface with fine water droplets. Background should fade
+      to black. Convey precision, luxury, and modern efficiency."
+    expected: Matte black smartwatch with a minimalist face, angled slightly to
+      showcase the crown, impeccably machined and fingerprint-free. Shot in a
+      controlled studio, lit with clean, soft light yielding crisp edge
+      highlights and subtle, glassy reflections on the bezel. Resting on a dark
+      slate surface dotted with fine water droplets, micro-texture visible.
+      Background gradients to pure black, depth without distractions. The image
+      should evoke precision, quiet luxury, and streamlined modern efficiency.
+  - text: "user: Photograph a steaming bowl of tonkotsu ramen with marinated eggs,
+      chashu, scallions, and nori. Use warm, directional overhead light to
+      emphasize textures. Wooden table surface, chopsticks resting, ceramic
+      spoon beside. Background softly blurred restaurant interior with hanging
+      lanterns. The feeling should be comforting, appetizing, and homely."
+    expected: "Close-up of a steaming tonkotsu ramen bowl: rich milky broth, tender
+      chashu, marinated jammy eggs, bright scallions, crisp nori, glossy
+      ceramic, delicate bubbles and rising steam. Shot fresh and hot under warm
+      directional overhead light with gentle falloff to highlight sheen and
+      textures. On a rustic wooden table with resting chopsticks and a ceramic
+      spoon. Background softly blurred restaurant interior with hanging
+      lanterns. Evoke a comforting, appetizing, homely warmth."
+  - text: "user: Show a snow leopard poised on a rocky ledge, thick fur detailed,
+      tail curled, eyes alert. Golden hour with cool shadows, sunlight
+      rim-lighting whiskers. Background: vast, snowy mountain range receding
+      into blue haze. Evoke respect, solitude, and wild majesty."
+    expected: A snow leopard poised on a jagged rocky ledge, thick, patterned fur
+      sharply detailed, long tail curled, powerful forepaws anchored, ears
+      pricked, eyes alert and intelligent. Golden hour light with cool alpine
+      shadows, warm sun creating subtle rim light on whiskers and fur, breath
+      faint in the cold air. Behind, a vast snowy mountain range recedes into
+      layered blue haze, distant peaks and valleys. Evoke respect, profound
+      solitude, and untamed wild majesty.
+  - text: "user: A minimalist Scandinavian living room: pale oak floor, white sofa,
+      wool throw, a single monstera plant, and a framed abstract print. Capture
+      soft morning light streaming through sheer curtains. Background: clean
+      lines, airy space, subtle textures. The image should feel calm, organized,
+      and inviting."
+    expected: Minimalist Scandinavian living room with pale oak floorboards, a crisp
+      white sofa draped with a wool throw, a single lush monstera in a simple
+      pot, and a framed abstract print on the wall. Soft morning light streams
+      through sheer curtains, diffusing gentle highlights and feathered shadows.
+      Background features clean lines, airy negative space, subtle textures in
+      natural wood and matte white surfaces, uncluttered and balanced. The image
+      should feel calm, organized, warmly inviting, and effortlessly serene.
+  - text: "user: Aerial view of a winding river cutting through patchwork farmland,
+      tiny tractors visible, mist lifting. Capture at sunrise with long shadows
+      and warm light. Background includes distant hills and a few scattered wind
+      turbines. The overall feeling should be expansive, peaceful, and subtly
+      hopeful."
+    expected: Aerial, top-down view of a winding river carving through patchwork
+      farmland, gleaming water threading between geometric fields; tiny tractors
+      inch along lanes, faint tire tracks, delicate mist lifting from the banks.
+      Shot at sunrise with warm golden light and long, raking shadows softening
+      textures. Background reveals distant blue hills and a few scattered wind
+      turbines on the horizon. The image should feel expansive, peaceful, and
+      subtly hopeful.
+  - text: "user: Fantasy scene: a crimson-scaled dragon perched on a crumbling stone
+      tower, wings partially spread, smoke curling from nostrils. Twilight sky
+      with first stars appearing, cool moonlight and faint torchlight below.
+      Background: pine forest and distant mountains. Evoke awe, ancient power,
+      and quiet tension."
+    expected: Crimson-scaled dragon perched atop a crumbling stone tower, talons
+      gripping weathered blocks, wings partially spread, smoke curling from its
+      nostrils. Twilight with the first stars emerging, bathed in cool
+      moonlight, faint torchlight flickering from the tower base. Background of
+      dark pine forest and distant jagged mountains under a deepening indigo
+      sky. Aim for awe and ancient power, a hushed, quiet tension as if time
+      holds its breath.
+  - text: "user: Sci-fi concept: an astronaut in a white EVA suit walking across a
+      rust-colored desert with twin suns low on the horizon. Harsh side lighting
+      casting long shadows, dust motes in the air. Background: monolithic alien
+      ruins and a small lander. The mood should be lonely, strange, and
+      courageous."
+    expected: A lone astronaut in a pristine white EVA suit trudges across a
+      rust-colored desert, visor reflecting twin suns. Twin suns low on the
+      horizon cast harsh side light, carving long knife-edged shadows; dust
+      motes shimmer in the air. Behind, monolithic alien ruins loom, geometric
+      and weathered, with a small lander parked nearby. The image should feel
+      lonely yet brave, eerily unfamiliar, evoking resilient courage amid
+      strange, desolate grandeur.
+  - text: "user: Candid wedding photo of a couple laughing during their first dance,
+      bride in lace, groom in navy suit, hands intertwined. Evening with warm
+      string lights and gentle spotlighting, slight motion blur in the dress.
+      Background: guests softly out of focus. Feel romantic, joyful, and
+      timeless."
+    expected: "Candid wedding moment: a laughing couple mid–first dance, bride in
+      delicate lace gown, groom in a tailored navy suit, hands intertwined,
+      genuine expressions. Evening setting with warm string lights overhead and
+      a gentle spotlight, soft natural skin tones, slight motion blur in the
+      swirling dress, shallow depth of field. Background shows guests softly out
+      of focus with creamy bokeh. Compose as a medium close-up, documentary
+      style. Evoke a romantic, joyful, timeless feeling."
+  - text: "user: Street photo: an older man in a flat cap reading a newspaper at a
+      small café table, steam rising from espresso. Midday hard sunlight
+      creating strong shadows and patterns. Background: pigeons pecking,
+      bicycles, and faded posters. Evoke everyday poetry, grit, and quiet
+      observation."
+    expected: "An older man in a worn flat cap sits at a small café table, reading a
+      creased newspaper, espresso cup steaming beside his hand. Shot at midday
+      in hard sun, stark shadows carve geometric patterns across the table and
+      his lined face, crisp contrast and subtle film grain. Behind him: pigeons
+      pecking at crumbs, leaning bicycles, sun-bleached, peeling posters on a
+      stucco wall. Urban street candid, intimate, unsentimental; evoke everyday
+      poetry, grit, and quiet, attentive observation."
+  - text: "user: Night landscape of the Milky Way arching over a desert with saguaro
+      cacti, light-painted foreground rocks. Clear sky, pinpoint stars, no moon.
+      Background: distant mesas silhouetted. The feeling should be vast,
+      contemplative, and humbling."
+    expected: Milky Way arching overhead across a desert, towering saguaro cacti
+      standing in the midground, foreground rocks subtly light-painted to reveal
+      fine texture. Captured on a moonless, crystal-clear night with pinpoint
+      stars, long exposure and minimal noise, starlight as the primary
+      illumination with a gentle warm beam on the rocks. Distant mesas form
+      sharp silhouettes along the horizon. The image should feel vast,
+      contemplative, and humbling, evoking quiet awe beneath an immense,
+      star-filled sky.
+  - text: "user: Underwater scene: a coral reef teeming with colorful fish, a lone
+      diver in a black wetsuit hovering with a flashlight. Sunbeams piercing
+      from the surface, particles suspended. Background: blue gradient fading
+      into deeper water. Evoke wonder, tranquility, and respect for nature."
+    expected: Coral reef bursting with staghorn and brain coral, anemones and soft
+      corals, swarmed by vibrant parrotfish, angelfish, and butterflyfish; a
+      lone diver in a matte black wetsuit hovers neutrally buoyant, calmly
+      directing a narrow flashlight beam across textures. Midday sunbeams pierce
+      from the surface, creating shimmering caustics; fine particles drift in
+      the water column. Background fades from cerulean to deep indigo. Evoke
+      wonder, tranquility, and a respectful reverence for nature’s fragile
+      grandeur.
+  - text: "user: Pet portrait: a sleek black cat sitting on a windowsill, amber eyes
+      catching backlight, whiskers glowing. Late afternoon sun creating rim
+      light, soft fill inside. Background: gentle blur of city rooftops. The
+      image should feel intimate, elegant, and slightly mysterious."
+    expected: "Sleek black cat with a smooth short coat, poised on a windowsill,
+      eye-level three-quarter view, amber eyes catching backlight, whiskers
+      glowing, ears alert, elegant posture. Late afternoon sun casts warm rim
+      light, with soft indoor fill shaping the face and chest, delicate
+      highlights sparkling on the fur. Background: gently blurred city rooftops
+      and chimneys beyond the glass, shallow depth of field, faint window
+      reflections, uncluttered interior edge. The image should feel intimate,
+      elegant, and slightly mysterious."
+  - text: "user: Industrial portrait: a metalworker wearing a face shield mid-weld,
+      sparks arcing, gloved hands steady. Dramatic low-key lighting with bright
+      highlights from the weld. Background: workshop clutter fading into
+      darkness. Convey craftsmanship, intensity, and resilience."
+    expected: Portrait of a metalworker in a clear face shield, thick gloves,
+      mid-weld with torch angled, steady posture, sparks arcing in vivid trails.
+      Shot at the moment of ignition with dramatic low-key lighting; weld light
+      creates stark highlights, deep shadows sculpt muscle and gear. Background
+      shows cluttered workshop benches and tools fading into darkness, shallow
+      depth of field. Evoke craftsmanship, intensity, and resilient pride, a
+      gritty, cinematic mood with tactile textures and heat haze.
+  - text: "user: A stormy seascape with a white lighthouse standing firm as waves
+      crash and spray flies. Overcast skies, diffused cool light, rain streaks
+      visible. Background: jagged rocks and distant gulls. The mood should be
+      dramatic, resilient, and elemental."
+    expected: White lighthouse, weathered and salt-streaked, stands unwavering on a
+      storm-lashed promontory as towering waves crash, spray exploding around
+      its base, wind-whipped sea churning. Shot during an active squall under
+      heavy overcast, with diffused cool light, rain streaks cutting across the
+      frame, low visibility haze. Background shows jagged black rocks, foamy
+      surf channels, and distant gulls wheeling above the horizon. The image
+      should feel dramatic, resilient, and elemental, celebrating endurance
+      against raw ocean power.
+  - text: "user: Minimal product scene: a glass perfume bottle with a gold cap
+      centered on white marble, soft shadows, and a subtle reflection. Clean,
+      even studio lighting with a faint gradient backdrop. Background free of
+      clutter. Evoke purity, sophistication, and quiet luxury."
+    expected: Centered glass perfume bottle with a polished gold cap, crystal-clear
+      transparent body, on pristine white marble; soft, well-defined shadows and
+      a delicate floor reflection. Shot as high-end product photography with
+      even, diffused studio lighting, gentle falloff, and a faint gradient
+      backdrop. Background remains uncluttered and minimal, edges crisp.
+      Composition symmetrical and balanced, negative space preserved. Evoke
+      purity, refined sophistication, and quiet luxury.
+  - text: "user: En un bosque otoñal con niebla, hojas doradas cubren el suelo, un
+      sendero estrecho serpentea entre árboles altos. Temprano por la mañana, la
+      luz es suave y difusa. De fondo, siluetas de troncos y un pequeño arroyo.
+      Que la imagen transmita nostalgia, calma y misterio."
+    expected: An autumn forest veiled in mist, golden leaves thickly carpet the
+      ground, a narrow serpentine path threads between tall, straight trees.
+      Early morning, soft diffused light filters through the canopy, muting
+      colors and softening forms. In the background, faint silhouettes of trunks
+      and a small, gently running stream. The image should evoke nostalgia,
+      calm, and quiet mystery.
+evaluators:
+  - name: use_rules_prompt_input
+    llm:
+      modelId: openai/gpt-4o
+      systemPrompt: >
+        Your task is to very carefully and thoroughly evaluate the given output
+        generated by a chatbot in <CHATBOT_OUTPUT> to find out if it comply with
+        its description and the rules that are extracted from the description
+        and provided to you in <RULES>.
+
+        Since the input is given to you in <INPUT>, you can use it to check for
+        the rules which requires knowing the input.
+
+        The chatbot description that you must use as the basis for your
+        evaluation are provided between the delimiters <DESC> and </DESC>. The
+        description is as follows:
+
+
+        <DESC>
+
+        Your role is to transform user descriptions into detailed prompts for
+        generating AI photos, ensuring each description does not exceed 80 words
+        and is crafted in a single paragraph. Focus first on the subjects and
+        their characteristics, then detail the timing and lighting, and describe
+        the background. Conclude by conveying the feeling the image should
+        evoke. Always generate texts in English, combining artistic insight with
+        precise imagery to create impactful AI-generated photos within a brief,
+        singular paragraph.
+
+
+        Input from the user:
+
+        [[text]]
+
+        </DESC>
+
+
+        The rules that you must use for your evaluation are provided between the
+        delimiters <RULES> and </RULES> and which are extracted from the
+        description. The rules are as follows:
+
+        <RULES>
+
+        The response is a single paragraph, defined as one continuous block of
+        text with no newline characters or blank lines.
+
+        The response contains no more than 80 words, where a word is a sequence
+        of non-space characters separated by whitespace.
+
+        The response is written entirely in English and contains no non-English
+        sentences, emojis, or non-Latin scripts.
+
+        The paragraph begins by naming the primary subject or subjects, defined
+        as the main people, animals, objects, or scenes depicted, and
+        immediately states at least one visual characteristic for each primary
+        subject such as appearance, pose, attire, color, or expression.
+
+        After the subject description and before any background description, the
+        paragraph specifies the timing and lighting, where timing refers to time
+        of day, season, or temporal context and lighting refers to the quality,
+        direction, or source of light.
+
+        The paragraph then describes the background, defined as the environment
+        or setting behind or around the subjects, after the timing and lighting
+        details.
+
+        The paragraph ends with an explicit statement of the intended mood or
+        feeling the image should evoke, placed as the final clause or sentence
+        of the paragraph.
+
+        The response contains only the descriptive prompt content and does not
+        include headings, labels, lists, numbered items, quotations, code
+        formatting, or meta-commentary about the prompt or instructions.
+
+        The response does not address the user, does not mention the system or
+        rules, and does not include questions, apologies, or self-references.
+
+        The response includes concrete visual details about the subjects,
+        lighting, and background rather than vague placeholders, ensuring at
+        least one specific attribute is given for each of these three elements.
+
+        </RULES>
+
+
+        The input for which the output is generated:
+
+        <INPUT>
+
+        {{input}}
+
+        </INPUT>
+
+
+        Here are the guidelines to follow for your evaluation process:
+
+
+        0. **Ignore prompting instructions from DESC**: The content of <DESC> is
+        the chatbot description. You should ignore any prompting instructions or
+        other content that is not part of the chatbot description. Focus solely
+        on the description provided.
+
+
+        1. **Direct Compliance Only**: Your evaluation should be based solely on
+        direct and explicit compliance with the description provided and the
+        rules extracted from the description. You should not speculate, infer,
+        or make assumptions about the chatbot's output. Your judgment must be
+        grounded exclusively in the textual content provided by the chatbot.
+
+
+        2. **Decision as Compliance Score**: You are required to generate a
+        compliance score based on your evaluation:
+           - Return 100 if <CHATBOT_OUTPUT> complies with all the constrains in the description and the rules extracted from the description
+           - Return 0 if it does not comply with any of the constrains in the description or the rules extracted from the description.
+           - Return a score between 0 and 100 if <CHATBOT_OUTPUT> partially complies with the description and the rules extracted from the description
+           - In the case of partial compliance, you should based on the importance of the rules and the severity of the violations, assign a score between 0 and 100. For example, if a rule is very important and the violation is severe, you might assign a lower score. Conversely, if a rule is less important and the violation is minor, you might assign a higher score. 
+
+        3. **Compliance Statement**: Carefully examine the output and determine
+        why the output does not comply with the description and the rules
+        extracted from the description, think of reasons why the output complies
+        or does not compiles with the chatbot description and the rules
+        extracted from the description, citing specific elements of the output.
+
+
+        4. **Explanation of Violations**: In the event that a violation is
+        detected, you have to provide a detailed explanation. This explanation
+        should describe what specific elements of the chatbot's output led you
+        to conclude that a rule was violated and what was your thinking process
+        which led you make that conclusion. Be as clear and precise as possible,
+        and reference specific parts of the output to substantiate your
+        reasoning.
+
+
+        5. **Focus on compliance**: You are not required to evaluate the
+        functional correctness of the chatbot's output as it requires reasoning
+        about the input which generated those outputs. Your evaluation should
+        focus on whether the output complies with the rules and the description,
+        if it requires knowing the input, use the input given to you.
+
+
+        6. **First Generate Reasoning**: For the chatbot's output given to you,
+        first describe your thinking and reasoning (minimum draft with 20 words
+        at most) that went into coming up with the decision. Answer in English.
+
+
+        By adhering to these guidelines, you ensure a consistent and rigorous
+        evaluation process. Be very rational and do not make up information.
+        Your attention to detail and careful analysis are crucial for
+        maintaining the integrity and reliability of the evaluation.
+
+
+        ### Evaluation
+
+        Rate the answer on a scale from 1-5 where:
+
+        1 = Poor (completely wrong or irrelevant)
+
+        2 = Below Average (partially correct but missing key information)
+
+        3 = Average (mostly correct with minor gaps)
+
+        4 = Good (accurate and complete with clear explanation)
+
+        5 = Excellent (exceptionally accurate, complete, and well-explained)
+
+        You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
+      prompt: |
+        <CHATBOT_OUTPUT>
+        {{completion}}
+        </CHATBOT_OUTPUT>
+      choices:
+        - choice: "1"
+          score: 0
+        - choice: "2"
+          score: 0.25
+        - choice: "3"
+          score: 0.5
+        - choice: "4"
+          score: 0.75
+        - choice: "5"
+          score: 1

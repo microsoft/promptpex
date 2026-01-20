@@ -1,0 +1,1762 @@
+[
+  {
+    "id": "65e0048",
+    "promptid": "3b015e4",
+    "ruleid": 1,
+    "rule": "The output must consist of exactly four non-empty lines in the fixed order: Company names, People names, Specific topics, General themes.",
+    "inverse": false,
+    "testuid": "test-00923006",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Acme Corp invited Elena Ruiz to review quarterly earnings for Q2. The memo also referenced long-term business strategy and market positioning.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Acme Corp invited Elena Ruiz to review quarterly earnings for Q2. The memo also referenced long-term business strategy and market positioning.",
+    "output": "Company names: Acme Corp\nPeople names: Elena Ruiz\nSpecific topics: Q2 earnings review, long-term business strategy, market positioning\nGeneral themes: Corporate finance, Strategic management, Market strategy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and accurate\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "All required categories are present with comma-separated entries in correct format.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "104ffab",
+    "promptid": "3b015e4",
+    "ruleid": 2,
+    "rule": "Each of the four lines must begin with the exact label followed by a colon and a single space, using the exact capitalization and spelling: \"Company names: \", \"People names: \", \"Specific topics: \", and \"General themes: \".",
+    "inverse": false,
+    "testuid": "test-05169846",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Globex and Northwind Traders held a joint briefing. Miguel Santos and Dr. Priya Shah debated supply chain delays and pricing strategy within international trade and retail operations.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Globex and Northwind Traders held a joint briefing. Miguel Santos and Dr. Priya Shah debated supply chain delays and pricing strategy within international trade and retail operations.",
+    "output": "Company names: Globex, Northwind Traders\nPeople names: Miguel Santos, Dr. Priya Shah\nSpecific topics: supply chain delays, pricing strategy\nGeneral themes: international trade, retail operations",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches required headings and comma-separated lists.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2d1654c",
+    "promptid": "3b015e4",
+    "ruleid": 3,
+    "rule": "After the colon and space on each line, the content must be a comma-separated list of items where items are separated by a comma followed by a single space, with no trailing comma at the end of the line.",
+    "inverse": false,
+    "testuid": "test-18158833",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Product managers at ByteWorks coordinated with Contoso and GreenLeaf Organics. Aisha Khan, Jordan Lee, and Omar Patel discussed feature rollout, bug triage, and user onboarding to support software development and product management.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Product managers at ByteWorks coordinated with Contoso and GreenLeaf Organics. Aisha Khan, Jordan Lee, and Omar Patel discussed feature rollout, bug triage, and user onboarding to support software development and product management.",
+    "output": "Company names: ByteWorks, Contoso, GreenLeaf Organics\nPeople names: Aisha Khan, Jordan Lee, Omar Patel\nSpecific topics: feature rollout, bug triage, user onboarding\nGeneral themes: software development, product management, cross-company coordination",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "It matches the required structure and format for entity extraction categories.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3007c9e",
+    "promptid": "3b015e4",
+    "ruleid": 4,
+    "rule": "Items in the lists must not contain commas themselves, because commas are reserved exclusively as separators between items in the lists.",
+    "inverse": false,
+    "testuid": "test-87033767",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Stellar Labs filed a new patent. Naomi Park prepared the application for a patent filing to strengthen the company’s intellectual property.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Stellar Labs filed a new patent. Naomi Park prepared the application for a patent filing to strengthen the company’s intellectual property.",
+    "output": "Company names: Stellar Labs\nPeople names: Naomi Park\nSpecific topics: patent filing, patent application preparation, intellectual property protection\nGeneral themes: intellectual property management, corporate legal processes, innovation protection",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"invented topics and themes\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches desired categories, all four sections present, comma-separated lists used. Compliant.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5574444",
+    "promptid": "3b015e4",
+    "ruleid": 5,
+    "rule": "Each item in any list must be a concise phrase and must not be a complete sentence, and no item may end with a period, question mark, or exclamation mark.",
+    "inverse": false,
+    "testuid": "test-22625439",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "BlueRiver Bank tasked Carlos Mendes with reducing churn. The plan emphasizes customer retention and loyalty program design rather than writing long slogans. It ties into banking strategy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "BlueRiver Bank tasked Carlos Mendes with reducing churn. The plan emphasizes customer retention and loyalty program design rather than writing long slogans. It ties into banking strategy.",
+    "output": "Company names: BlueRiver Bank\nPeople names: Carlos Mendes\nSpecific topics: reducing churn, customer retention, loyalty program design, banking strategy\nGeneral themes: customer loyalty, retention strategy, banking industry strategy, customer experience",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"missed invented items, misallocated theme\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows desired section order and comma-separated lists per specification.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "602439f",
+    "promptid": "3b015e4",
+    "ruleid": 6,
+    "rule": "No line may contain any text other than the required label, colon, single space, and the comma-separated list of items; the output must contain no explanations, headings, extra commentary, or echoed input text.",
+    "inverse": false,
+    "testuid": "test-01185369",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Subject: Orion Media Q4 update. Lila Gomez summarized ad inventory trends. Footer: This note is confidential. The broader topic relates to media economics.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Subject: Orion Media Q4 update. Lila Gomez summarized ad inventory trends. Footer: This note is confidential. The broader topic relates to media economics.",
+    "output": "Company names: Orion Media\nPeople names: Lila Gomez\nSpecific topics: ad inventory trends, Q4 update, media economics\nGeneral themes: media industry, advertising, business economics, quarterly reporting, confidentiality",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Misclassified and invented item\",\"score\":40}",
+        "score": 40
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches four categories with comma-separated lists as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5681b7b",
+    "promptid": "3b015e4",
+    "ruleid": 7,
+    "rule": "The output must not contain any placeholder symbols or angle-bracket notation, such as \"<...>\" or \"-||-\", and must present actual extracted items.",
+    "inverse": false,
+    "testuid": "test-42037003",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Draft notes: FinEdge met with Ravi Kumar about risk modeling. Remove placeholders like <TBD> and -||- before publication. The focus remains financial analytics.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Draft notes: FinEdge met with Ravi Kumar about risk modeling. Remove placeholders like <TBD> and -||- before publication. The focus remains financial analytics.",
+    "output": "Company names: FinEdge\nPeople names: Ravi Kumar\nSpecific topics: risk modeling, financial analytics, placeholder removal, publication preparation\nGeneral themes: Finance, Risk Management, Data Analytics, Editorial Workflow",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required “Text:” field in the output format.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8a462f9",
+    "promptid": "3b015e4",
+    "ruleid": 8,
+    "rule": "There must be no blank lines before, between, or after the four required lines.",
+    "inverse": false,
+    "testuid": "test-60965078",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "TerraFoods announced investment in cold chain logistics.\n\nMei Lin noted progress. The overarching concern is food supply.",
+    "model": "gpt-5-2025-08-07",
+    "input": "TerraFoods announced investment in cold chain logistics.\n\nMei Lin noted progress. The overarching concern is food supply.",
+    "output": "Company names: TerraFoods\nPeople names: Mei Lin\nSpecific topics: cold chain logistics, investment\nGeneral themes: food supply",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matches required format and headings.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "72649f0",
+    "promptid": "3b015e4",
+    "ruleid": 9,
+    "rule": "Within each category, items must be unique with no duplicate entries in the same list.",
+    "inverse": false,
+    "testuid": "test-64916715",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "NovaTech, NovaTech, and its partners met today. Elena Ruiz praised the cloud migration effort; later, cloud migration was cited again. The discussion returned to IT strategy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "NovaTech, NovaTech, and its partners met today. Elena Ruiz praised the cloud migration effort; later, cloud migration was cited again. The discussion returned to IT strategy.",
+    "output": "Company names: NovaTech\nPeople names: Elena Ruiz\nSpecific topics: cloud migration, IT strategy\nGeneral themes: cloud computing, digital transformation, technology strategy, collaboration",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and ordering match the description’s requirements exactly.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4fb3c43",
+    "promptid": "3b015e4",
+    "ruleid": 10,
+    "rule": "No item may be duplicated across categories; an item appearing in one category must not also appear in any of the other three categories.",
+    "inverse": false,
+    "testuid": "test-52343714",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "ShieldCyber appointed Omar Haddad to lead a data privacy audit ahead of new laws. The work supports broader regulatory compliance.",
+    "model": "gpt-5-2025-08-07",
+    "input": "ShieldCyber appointed Omar Haddad to lead a data privacy audit ahead of new laws. The work supports broader regulatory compliance.",
+    "output": "Company names: ShieldCyber\nPeople names: Omar Haddad\nSpecific topics: data privacy audit, regulatory compliance, new laws\nGeneral themes: data privacy, regulation, compliance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct extraction\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required “Text:” line with the original text at the end of the output format.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "60e66d9",
+    "promptid": "3b015e4",
+    "ruleid": 11,
+    "rule": "Company names are names of business entities mentioned in the input text (such as corporations, companies, firms, startups, or brands), and each company name listed must exactly match a company mention from the input text, allowing differences in letter case only.",
+    "inverse": false,
+    "testuid": "test-67822159",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Engineers at QuantaSoft unveiled a machine learning pipeline. Dr. Lian Zhou approved the roadmap in the artificial intelligence group.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Engineers at QuantaSoft unveiled a machine learning pipeline. Dr. Lian Zhou approved the roadmap in the artificial intelligence group.",
+    "output": "Company names: QuantaSoft\nPeople names: Lian Zhou\nSpecific topics: machine learning pipeline, artificial intelligence, roadmap approval\nGeneral themes: technology development, AI governance, project management",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"honorific omitted; classification errors\",\"score\":30}",
+        "score": 30
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct format with all four sections present.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0761132",
+    "promptid": "3b015e4",
+    "ruleid": 12,
+    "rule": "People names are names of individual human persons mentioned in the input text, and each listed person name must match a person mention from the input text and may include honorifics or titles (e.g., Mr., Ms., Dr., Prof.) only if they appear with the name in the input text.",
+    "inverse": false,
+    "testuid": "test-23025539",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "EduVerse partnered with local colleges. Prof. Maria Silva and Mr. John Okoro reviewed curriculum design to modernize higher education.",
+    "model": "gpt-5-2025-08-07",
+    "input": "EduVerse partnered with local colleges. Prof. Maria Silva and Mr. John Okoro reviewed curriculum design to modernize higher education.",
+    "output": "Company names: EduVerse\nPeople names: Prof. Maria Silva, Mr. John Okoro\nSpecific topics: curriculum design, curriculum review, higher education modernization\nGeneral themes: education reform, collaboration in education, modernization of education, curriculum development",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"minor content error\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format is correct with required four categories and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f5c865b",
+    "promptid": "3b015e4",
+    "ruleid": 13,
+    "rule": "Specific topics are concrete, narrowly scoped subjects discussed in the input text, expressed as short noun phrases typically one to four words long, and must not include proper names of companies or people.",
+    "inverse": false,
+    "testuid": "test-53882189",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "At DevForge, Hana Mori proposed unit testing, continuous integration, and code review standards. The initiative advances software engineering practices.",
+    "model": "gpt-5-2025-08-07",
+    "input": "At DevForge, Hana Mori proposed unit testing, continuous integration, and code review standards. The initiative advances software engineering practices.",
+    "output": "Company names: DevForge\nPeople names: Hana Mori\nSpecific topics: unit testing, continuous integration, code review standards\nGeneral themes: software engineering practices, code quality, development process, best practices",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"All rules followed\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Provides all four fields in correct comma‐separated format matching description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6c6dde0",
+    "promptid": "3b015e4",
+    "ruleid": 14,
+    "rule": "General themes are broad, overarching subject areas that summarize the content of the input text at a higher level of abstraction than the specific topics, expressed as short noun phrases typically one to five words long, and must not include proper names of companies or people.",
+    "inverse": false,
+    "testuid": "test-49100407",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "MediPulse’s field team, led by Dr. Ahmed Salim, audited vaccine cold storage in clinics. The report connects tactics to public health and healthcare policy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "MediPulse’s field team, led by Dr. Ahmed Salim, audited vaccine cold storage in clinics. The report connects tactics to public health and healthcare policy.",
+    "output": "Company names: MediPulse\nPeople names: Dr. Ahmed Salim\nSpecific topics: vaccine cold storage, clinic auditing, cold chain management\nGeneral themes: public health, healthcare policy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Unsupported topic: cold chain management\",\"score\":80}",
+        "score": 80
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format correct; labels used properly and entries comma-separated as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1a92adb",
+    "promptid": "3b015e4",
+    "ruleid": 15,
+    "rule": "No item listed under Specific topics may be identical to any item listed under General themes.",
+    "inverse": false,
+    "testuid": "test-49748303",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "WorkNest interviewed Sophie Turner about HR updates, including a remote work policy. Leaders tied outcomes to workplace culture.",
+    "model": "gpt-5-2025-08-07",
+    "input": "WorkNest interviewed Sophie Turner about HR updates, including a remote work policy. Leaders tied outcomes to workplace culture.",
+    "output": "Company names: WorkNest\nPeople names: Sophie Turner\nSpecific topics: HR updates, remote work policy, workplace culture, outcomes linked to workplace culture\nGeneral themes: Human resources, remote work, organizational culture, leadership, performance outcomes",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Specific topic phrase too long\"}",
+        "score": 90
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required \"Text:\" field from the desired format.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0f94960",
+    "promptid": "3b015e4",
+    "ruleid": 16,
+    "rule": "Each item must be trimmed of leading and trailing whitespace, and there must be exactly one space following each comma separator with no double spaces within any list.",
+    "inverse": false,
+    "testuid": "test-40218204",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "AeroLink’s operations chief Diego Ramos highlighted route optimization and fuel efficiency gains despite messy spreadsheets. The objective aligns with logistics management.",
+    "model": "gpt-5-2025-08-07",
+    "input": "AeroLink’s operations chief Diego Ramos highlighted route optimization and fuel efficiency gains despite messy spreadsheets. The objective aligns with logistics management.",
+    "output": "Company names: AeroLink\nPeople names: Diego Ramos\nSpecific topics: route optimization, fuel efficiency, messy spreadsheets\nGeneral themes: logistics management, operational efficiency, data management",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Meets rules and correct extraction\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format correct with four categories and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "54621ec",
+    "promptid": "3b015e4",
+    "ruleid": 17,
+    "rule": "If internal punctuation other than commas appears inside an item (such as hyphens, apostrophes, periods within abbreviations, ampersands, or slashes), it is permitted as part of the item.",
+    "inverse": false,
+    "testuid": "test-78552577",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "PeoplePower CEO met with Nia O'Connor. They finalized a go-to-market plan and a cost/benefit analysis to guide workers' rights and R&D management initiatives.",
+    "model": "gpt-5-2025-08-07",
+    "input": "PeoplePower CEO met with Nia O'Connor. They finalized a go-to-market plan and a cost/benefit analysis to guide workers' rights and R&D management initiatives.",
+    "output": "Company names: PeoplePower\nPeople names: Nia O'Connor\nSpecific topics: go-to-market plan, cost/benefit analysis, workers' rights, R&D management initiatives\nGeneral themes: business strategy, labor rights, research and development management, corporate governance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and labels match the specified structure precisely.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d0b5433",
+    "promptid": "3b015e4",
+    "ruleid": 18,
+    "rule": "Items must not contain URLs, email addresses, hashtags, or social media handles.",
+    "inverse": false,
+    "testuid": "test-27778307",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "StreamWave’s blog post by Luca Moretti mentioned subscriber growth. It referenced https://streamwave.example, @StreamWave, and #StreamingNews, but the analysis centered on digital media.",
+    "model": "gpt-5-2025-08-07",
+    "input": "StreamWave’s blog post by Luca Moretti mentioned subscriber growth. It referenced https://streamwave.example, @StreamWave, and #StreamingNews, but the analysis centered on digital media.",
+    "output": "Company names: StreamWave\nPeople names: Luca Moretti\nSpecific topics: subscriber growth, digital media, #StreamingNews\nGeneral themes: streaming industry, digital media analysis, audience growth",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Hashtag usage violates rules\",\"score\":70}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output follows the required four-category format with correct labeling and comma‐separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4496b0d",
+    "promptid": "3b015e4",
+    "ruleid": 19,
+    "rule": "Items must not be enclosed in quotation marks or parentheses, and any such surrounding characters present in the input text must be omitted in the lists.",
+    "inverse": false,
+    "testuid": "test-36583297",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The press release quoted “BlueNova” expanding into two “emerging markets.” Zara Ali presented the plan and highlighted (market entry) milestones.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The press release quoted “BlueNova” expanding into two “emerging markets.” Zara Ali presented the plan and highlighted (market entry) milestones.",
+    "output": "Company names: BlueNova\nPeople names: Zara Ali\nSpecific topics: emerging markets, market entry, expansion plan, milestones\nGeneral themes: business expansion, international growth, strategic planning",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant and correct output\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required format with correct headings and comma-separated lists without extra elements.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "27e156b",
+    "promptid": "3b015e4",
+    "ruleid": 20,
+    "rule": "Digits are permitted within items where they are part of the name or phrase (for example, \"3D printing\").",
+    "inverse": false,
+    "testuid": "test-21827539",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Studio24 hired Kenji Sato to oversee a 5G rollout across regions, aligning pilots with Industry 4.0 trends.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Studio24 hired Kenji Sato to oversee a 5G rollout across regions, aligning pilots with Industry 4.0 trends.",
+    "output": "Company names: Studio24\nPeople names: Kenji Sato\nSpecific topics: 5G rollout, Industry 4.0, pilot programs, multi-regional deployment\nGeneral themes: digital transformation, industrial innovation, strategic leadership, regional expansion",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and fully correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matches required format for each category with comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9f5ae9a",
+    "promptid": "3b015e4",
+    "ruleid": 21,
+    "rule": "The output may contain any number of lines, including zero or more than four, lines may be empty, and the categories can be omitted, repeated, merged, or appear in any order.",
+    "inverse": true,
+    "testuid": "test-05026295",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "In the weekly update, Acme Corp met with Dana Lee about product plans and ethics. No formal lists requested.",
+    "model": "gpt-5-2025-08-07",
+    "input": "In the weekly update, Acme Corp met with Dana Lee about product plans and ethics. No formal lists requested.",
+    "output": "Company names: Acme Corp\nPeople names: Dana Lee\nSpecific topics: product plans, ethics\nGeneral themes: strategic planning, business ethics, corporate communication",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Correct and fully compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format correct and categories present as specified.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4633248",
+    "promptid": "3b015e4",
+    "ruleid": 22,
+    "rule": "Lines need not begin with those exact labels; any label text (or none) is acceptable with any capitalization, alternative punctuation (e.g., em dash instead of a colon), or extra spacing.",
+    "inverse": true,
+    "testuid": "test-73887404",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "This note mentions several entities. The companies Acme and Beta Corp hired Alice Carter and Bob Lane.",
+    "model": "gpt-5-2025-08-07",
+    "input": "This note mentions several entities. The companies Acme and Beta Corp hired Alice Carter and Bob Lane.",
+    "output": "Company names: Acme, Beta Corp\nPeople names: Alice Carter, Bob Lane\nSpecific topics: hiring, employee recruitment\nGeneral themes: business, employment, human resources, staffing",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and accurate\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output uses correct labels and comma-separated lists for all four categories.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "2c36aa1",
+    "promptid": "3b015e4",
+    "ruleid": 23,
+    "rule": "Items do not have to be comma-separated; you may use mixed delimiters (semicolons, pipes, tabs, multiple spaces), inconsistent spacing, and trailing separators or commas are allowed.",
+    "inverse": true,
+    "testuid": "test-72493009",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Entities include fictional firms and groups. Think Acme, Beta Corp, and Gamma LLC.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Entities include fictional firms and groups. Think Acme, Beta Corp, and Gamma LLC.",
+    "output": "Company names: Acme, Beta Corp, Gamma LLC\nPeople names: -||-\nSpecific topics: fictional companies, company names, corporate suffixes, groups\nGeneral themes: entity extraction, entity categorization, business entities, fiction",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Contains disallowed placeholder\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and order match description with appropriate placeholders and lists.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "84310bb",
+    "promptid": "3b015e4",
+    "ruleid": 24,
+    "rule": "Items may freely contain commas and nested comma clauses; commas are not reserved as separators and may appear inside items without quoting.",
+    "inverse": true,
+    "testuid": "test-89422053",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "History: Acme Alpha was formerly known as Delta. Beta Group is a division of Omega.",
+    "model": "gpt-5-2025-08-07",
+    "input": "History: Acme Alpha was formerly known as Delta. Beta Group is a division of Omega.",
+    "output": "Company names: Acme Alpha, Delta, Beta Group, Omega\nPeople names: -||-\nSpecific topics: company name changes, rebranding, divisional structure, parent company relationships\nGeneral themes: corporate structure, corporate identity, business history",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Invalid placeholder in people names\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format is correct and categories present as specified.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "60c2a10",
+    "promptid": "3b015e4",
+    "ruleid": 25,
+    "rule": "Items may be full sentences or long descriptions and may end with punctuation such as periods, question marks, or exclamation points.",
+    "inverse": true,
+    "testuid": "test-49435285",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Memo trail: Alice Carter drafted it. Bob Lane approved promptly.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Memo trail: Alice Carter drafted it. Bob Lane approved promptly.",
+    "output": "Company names:\nPeople names: Alice Carter, Bob Lane\nSpecific topics: memo trail, document drafting, approval process\nGeneral themes: organizational communication, workflow management, documentation and approvals",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Empty company names line\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required format with all four categories; comma separated lists used; empty company names acceptable.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d7dad2f",
+    "promptid": "3b015e4",
+    "ruleid": 26,
+    "rule": "Lines may include additional text like headings, notes, explanations, or echoed input before or after the lists.",
+    "inverse": true,
+    "testuid": "test-12179288",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Sample newsletter: Acme partners with Beta Corp; interview with Alice Carter.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Sample newsletter: Acme partners with Beta Corp; interview with Alice Carter.",
+    "output": "Company names: Acme, Beta Corp\nPeople names: Alice Carter\nSpecific topics: Partnership, Interview\nGeneral themes: Business, Corporate news, Collaboration",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant correct response\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required format and categories.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f200f9b",
+    "promptid": "3b015e4",
+    "ruleid": 27,
+    "rule": "Placeholder symbols and angle-bracket notation (e.g., <...>, -||-, [TBD]) are permitted anywhere, and items need not be real or extracted.",
+    "inverse": true,
+    "testuid": "test-67740579",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "The report has missing company names to be decided later.",
+    "model": "gpt-5-2025-08-07",
+    "input": "The report has missing company names to be decided later.",
+    "output": "Company names: none\nPeople names: none\nSpecific topics: missing company names, to be decided later, report content\nGeneral themes: incomplete information, pending decisions, documentation process",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Introduces items not in text\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Has all four categories in correct format with comma-separated items.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "81e8117",
+    "promptid": "3b015e4",
+    "ruleid": 28,
+    "rule": "Blank lines are allowed anywhere, including multiple blank lines before, between, and after content.",
+    "inverse": true,
+    "testuid": "test-09122595",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Acme met with Alice in a quiet session.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Acme met with Alice in a quiet session.",
+    "output": "Company names: Acme\nPeople names: Alice\nSpecific topics: meeting, quiet session\nGeneral themes: collaboration, communication, privacy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":50,\"explanation\":\"General themes incorrect\"}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matched required format and fields; no compliance issues observed.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "dc1a476",
+    "promptid": "3b015e4",
+    "ruleid": 29,
+    "rule": "Duplicate entries within the same category are permitted, including exact duplicates and case-only variations.",
+    "inverse": true,
+    "testuid": "test-86683425",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Chanting the brand: Acme, Acme, Acme.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Chanting the brand: Acme, Acme, Acme.",
+    "output": "Company names: Acme\nPeople names: -||-\nSpecific topics: brand awareness, brand identity, brand loyalty, slogans, marketing campaigns\nGeneral themes: branding, marketing, consumer culture, repetition",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect extraction and placeholder used\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows specified format exactly with correct placeholders and list structure.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "ffea6a2",
+    "promptid": "3b015e4",
+    "ruleid": 30,
+    "rule": "The same item may be repeated across different categories verbatim, including being present in all four lists.",
+    "inverse": true,
+    "testuid": "test-53029906",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Single keyword dominates: Acme.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Single keyword dominates: Acme.",
+    "output": "Company names: Acme\nPeople names: -||-\nSpecific topics: single keyword dominance\nGeneral themes: dominance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"-||- placeholder violates rules\"}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required “Text: {{text}}” section from the desired format.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5600996",
+    "promptid": "3b015e4",
+    "ruleid": 31,
+    "rule": "Company names may be invented, altered, abbreviated, or paraphrased and need not match any mention in the input text.",
+    "inverse": true,
+    "testuid": "test-69700897",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Input mentions unrelated topics like gardening and cloud shapes.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Input mentions unrelated topics like gardening and cloud shapes.",
+    "output": "Company names: -||-\nPeople names: -||-\nSpecific topics: gardening, cloud shapes\nGeneral themes: nature, leisure, observation",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Used disallowed placeholders\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and placeholders correctly used for each category.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "53346df",
+    "promptid": "3b015e4",
+    "ruleid": 32,
+    "rule": "People names may include individuals not mentioned in the input, and honorifics or titles may be added or removed arbitrarily.",
+    "inverse": true,
+    "testuid": "test-81380267",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Board will include new advisors.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Board will include new advisors.",
+    "output": "Company names: -||-\nPeople names: -||-\nSpecific topics: board appointments, board expansion, advisory board, board composition, adding new advisors\nGeneral themes: corporate governance, leadership and oversight, organizational structure, strategic guidance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Use of disallowed placeholders\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and fields match description.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "db51a55",
+    "promptid": "3b015e4",
+    "ruleid": 33,
+    "rule": "Specific topics may be broad, vague, or high-level and may include proper names of companies or people.",
+    "inverse": true,
+    "testuid": "test-84536286",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Discussion covers strategy and references both Acme and Alice Carter.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Discussion covers strategy and references both Acme and Alice Carter.",
+    "output": "Company names: Acme\nPeople names: Alice Carter\nSpecific topics: strategy\nGeneral themes: business strategy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"All rules followed\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Four lines with correct labels and comma-separated values format.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f4a13dd",
+    "promptid": "3b015e4",
+    "ruleid": 34,
+    "rule": "General themes may be extremely narrow or concrete and may include proper names of companies or people.",
+    "inverse": true,
+    "testuid": "test-39321165",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "A story centered on a single brand and a person.",
+    "model": "gpt-5-2025-08-07",
+    "input": "A story centered on a single brand and a person.",
+    "output": "Company names: None\nPeople names: None\nSpecific topics: brand storytelling, single-brand focus, person-centered narrative\nGeneral themes: storytelling, branding, human-centered focus",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Use of disallowed placeholder None\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows specified categories and format correctly.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0fab349",
+    "promptid": "3b015e4",
+    "ruleid": 35,
+    "rule": "It is acceptable for Specific topics to duplicate items from General themes, including identical wording.",
+    "inverse": true,
+    "testuid": "test-02935284",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "We addressed market growth.",
+    "model": "gpt-5-2025-08-07",
+    "input": "We addressed market growth.",
+    "output": "Company names: None\nPeople names: None\nSpecific topics: market growth\nGeneral themes: business, economics, market dynamics, growth",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Invalid placeholders for missing entities\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches specified labels and order, with all four categories present.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "4a37b46",
+    "promptid": "3b015e4",
+    "ruleid": 36,
+    "rule": "Items may include leading or trailing whitespace, irregular internal spacing, tabs, non-breaking spaces, or zero-width spaces, and multiple spaces after separators are fine.",
+    "inverse": true,
+    "testuid": "test-76824363",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Random names: Alpha, Beta Corp, Gamma Lab, Delta.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Random names: Alpha, Beta Corp, Gamma Lab, Delta.",
+    "output": "Company names: Beta Corp, Gamma Lab\nPeople names: None\nSpecific topics: Greek alphabet, corporate naming, laboratories\nGeneral themes: names, naming conventions",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Invented topics and placeholder\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format adheres to the specified categories and ordering with comma‐separated values.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "53a9e1f",
+    "promptid": "3b015e4",
+    "ruleid": 37,
+    "rule": "Internal punctuation other than commas (such as hyphens, apostrophes, periods within abbreviations, ampersands, slashes, en dashes) is not allowed inside items and should be removed or replaced.",
+    "inverse": true,
+    "testuid": "test-12597082",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Attend with O'Neil from R&D and Foo-Bar.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Attend with O'Neil from R&D and Foo-Bar.",
+    "output": "Company names: Foo-Bar\nPeople names: O'Neil\nSpecific topics: R&D\nGeneral themes: Meeting attendance, Collaboration",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":50,\"explanation\":\"format correct but themes not in text\"}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and order match the specified labels and style.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "08af5d5",
+    "promptid": "3b015e4",
+    "ruleid": 38,
+    "rule": "Items may include URLs, email addresses, hashtags, and social media handles without restriction.",
+    "inverse": true,
+    "testuid": "test-79495964",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "References include a site, an email, a hashtag, and a handle.",
+    "model": "gpt-5-2025-08-07",
+    "input": "References include a site, an email, a hashtag, and a handle.",
+    "output": "Company names: None\nPeople names: None\nSpecific topics: site, email, hashtag, handle\nGeneral themes: digital communication, social media, online references, contact information",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Used placeholder ‘None’ and non-extracted items\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct labels and format with four categories; comma-separated lists. No extra text.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "8ed2ba5",
+    "promptid": "3b015e4",
+    "ruleid": 39,
+    "rule": "Items may be enclosed in quotation marks or parentheses, and such surrounding characters may be preserved or added even if absent in the source.",
+    "inverse": true,
+    "testuid": "test-87687926",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Quotations appear around Acme; parentheses around Beta Corp.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Quotations appear around Acme; parentheses around Beta Corp.",
+    "output": "Company names: Acme,Beta Corp\nPeople names: None\nSpecific topics: quotation marks,parentheses,punctuation usage,editorial style\nGeneral themes: writing style,typography,text formatting",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"formatting and placeholder usage errors\"}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with the required labels and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f3063bb",
+    "promptid": "3b015e4",
+    "ruleid": 40,
+    "rule": "Digits are not allowed anywhere in items, even when they are part of a name or phrase.",
+    "inverse": true,
+    "testuid": "test-65525844",
+    "scenario": "",
+    "baseline": false,
+    "testinput": "Numbers in names like Acme 7 and Beta 0 appear in the article.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Numbers in names like Acme 7 and Beta 0 appear in the article.",
+    "output": "Company names: Acme 7, Beta 0\nPeople names: -||-\nSpecific topics: numbers in names, company names with numbers\nGeneral themes: naming conventions, naming patterns",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Used prohibited placeholder\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct format and structure matches description’s four required categories.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "0af8a39",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-7yoswo7yq",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Apple Inc. reported record quarterly revenue as CEO Tim Cook highlighted strong iPhone 15 Pro demand and services growth. The company also addressed ongoing privacy concerns and App Store antitrust scrutiny in the EU. Investors mentioned upgrades to iCloud and new AI features as a strategic focus.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Apple Inc. reported record quarterly revenue as CEO Tim Cook highlighted strong iPhone 15 Pro demand and services growth. The company also addressed ongoing privacy concerns and App Store antitrust scrutiny in the EU. Investors mentioned upgrades to iCloud and new AI features as a strategic focus.",
+    "output": "Company names: Apple Inc.\nPeople names: Tim Cook\nSpecific topics: record quarterly revenue, iPhone 15 Pro demand, services growth, privacy concerns, App Store antitrust scrutiny in the EU, iCloud upgrades, new AI features\nGeneral themes: financial performance, regulatory scrutiny, data privacy, artificial intelligence strategy, product demand, cloud services strategy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Period ending Apple Inc.\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches description with correct headings and comma-separated lists.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f233345",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-8wgmzf7fh",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Microsoft Corporation said it will expand its cloud operations in Europe, with Satya Nadella outlining investments in data centers and sustainability. The firm reiterated its commitment to responsible AI, while regulators examined its acquisition of Activision Blizzard. GitHub’s developer community was cited as a driver for innovation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Microsoft Corporation said it will expand its cloud operations in Europe, with Satya Nadella outlining investments in data centers and sustainability. The firm reiterated its commitment to responsible AI, while regulators examined its acquisition of Activision Blizzard. GitHub’s developer community was cited as a driver for innovation.",
+    "output": "Company names: Microsoft Corporation, Activision Blizzard, GitHub\nPeople names: Satya Nadella\nSpecific topics: European cloud expansion, data center investments, sustainability initiatives, responsible AI, Activision Blizzard acquisition, regulatory/antitrust review, GitHub developer community, innovation in software development\nGeneral themes: cloud computing growth, corporate sustainability, AI ethics, mergers and acquisitions, regulatory oversight in tech, developer ecosystems, European digital infrastructure",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\": 70, \"explanation\": \"Specific topics include company names\"}",
+        "score": 70
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and labels correctly follow the description’s structure.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "503b475",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-694rx07vz",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Stripe, Inc. announced a new funding round as co-founders John Collison and Patrick Collison discussed global expansion in payments infrastructure. The company emphasized compliance with PCI standards and support for small businesses. Analysts debated fintech competition and digital commerce trends.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Stripe, Inc. announced a new funding round as co-founders John Collison and Patrick Collison discussed global expansion in payments infrastructure. The company emphasized compliance with PCI standards and support for small businesses. Analysts debated fintech competition and digital commerce trends.",
+    "output": "Company names: Stripe, Inc.\nPeople names: John Collison, Patrick Collison\nSpecific topics: funding round, global expansion, payments infrastructure, PCI standards compliance, support for small businesses, fintech competition, digital commerce trends\nGeneral themes: fintech industry, digital payments and commerce, regulatory compliance, small business enablement, market competition, globalization",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":85,\"explanation\":\"Comma and period in company name\"}",
+        "score": 85
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matches the required categories and formatting exactly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "57b78f6",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-hsmo41nd8",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: The Federal Trade Commission filed a lawsuit against Meta Platforms, Inc., with Chair Lina Khan citing anticompetitive practices. Mark Zuckerberg responded by stressing innovation in virtual reality and content moderation. The case also touches on data privacy and social media regulation across the U.S.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: The Federal Trade Commission filed a lawsuit against Meta Platforms, Inc., with Chair Lina Khan citing anticompetitive practices. Mark Zuckerberg responded by stressing innovation in virtual reality and content moderation. The case also touches on data privacy and social media regulation across the U.S.",
+    "output": "Company names: Meta Platforms, Inc.\nPeople names: Lina Khan, Mark Zuckerberg\nSpecific topics: FTC antitrust lawsuit against Meta, anticompetitive practices, virtual reality innovation, content moderation, data privacy, social media regulation in the U.S.\nGeneral themes: Antitrust and competition, technology innovation, platform governance and moderation, privacy and data protection, regulatory oversight of Big Tech, legal action against tech companies",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Multiple formatting and content errors\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fields correctly labeled and formatted as required.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "05f0960",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-a2y5jrlc3",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: AT&T Inc. confirmed the completion of WarnerMedia’s spinoff and the subsequent merger forming Warner Bros. Discovery, led by David Zaslav. John Stankey emphasized network modernization and 5G rollouts. Observers discussed media consolidation and streaming competition in a saturated market.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: AT&T Inc. confirmed the completion of WarnerMedia’s spinoff and the subsequent merger forming Warner Bros. Discovery, led by David Zaslav. John Stankey emphasized network modernization and 5G rollouts. Observers discussed media consolidation and streaming competition in a saturated market.",
+    "output": "Company names: AT&T Inc., WarnerMedia, Warner Bros. Discovery\nPeople names: David Zaslav, John Stankey\nSpecific topics: WarnerMedia spinoff, merger forming Warner Bros. Discovery, network modernization, 5G rollouts, streaming competition\nGeneral themes: media consolidation, streaming market saturation, telecom modernization, 5G expansion",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Topics include company names\",\"score\":60}",
+        "score": 60
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output follows the required format with proper headings and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "90b18bd",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-vt0qha4y6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Nubank, based in São Paulo, saw its shares surge after CEO David Vélez outlined plans for Mexico and Colombia. Warren Buffett’s Berkshire Hathaway investment was referenced during the earnings call. The neobank discussed financial inclusion, mobile banking, and regulatory approvals in Latin America.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Nubank, based in São Paulo, saw its shares surge after CEO David Vélez outlined plans for Mexico and Colombia. Warren Buffett’s Berkshire Hathaway investment was referenced during the earnings call. The neobank discussed financial inclusion, mobile banking, and regulatory approvals in Latin America.",
+    "output": "Company names: Nubank, Berkshire Hathaway\nPeople names: David Vélez, Warren Buffett\nSpecific topics: Mexico expansion, Colombia expansion, financial inclusion, mobile banking, regulatory approvals, Latin America operations, earnings call, share price surge, Berkshire Hathaway investment\nGeneral themes: fintech expansion in Latin America, digital banking, regulatory landscape, investor sentiment and market reaction, financial inclusion",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"duplicate item and improper categorization\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required order and format for entity extraction fields.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "676ba15",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-4zreo0fop",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Jordan Shoes LLC signed a distribution deal with Mayfair Retail Group, while founder May Chen announced a new flagship store in Chicago. The brand aims to expand e-commerce and omnichannel logistics. Industry watchers noted supply chain resilience and consumer trends in footwear.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Jordan Shoes LLC signed a distribution deal with Mayfair Retail Group, while founder May Chen announced a new flagship store in Chicago. The brand aims to expand e-commerce and omnichannel logistics. Industry watchers noted supply chain resilience and consumer trends in footwear.",
+    "output": "Company names: Jordan Shoes LLC, Mayfair Retail Group\nPeople names: May Chen\nSpecific topics: distribution deal, flagship store in Chicago, e-commerce expansion, omnichannel logistics, supply chain resilience, consumer trends in footwear\nGeneral themes: brand expansion, retail growth, omnichannel strategy, supply chain management, consumer behavior, footwear industry",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct extraction\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing required “Text:” section from the desired format.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "a7e201c",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-zavuj83ub",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Ben & Jerry’s Homemade Holdings, Inc. faced questions about social mission and sourcing, as Anne-Marie Slaughter praised their corporate activism. The brand discussed fair trade ingredients and climate impact. Commentators highlighted ethical branding and stakeholder capitalism in the food sector.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Ben & Jerry’s Homemade Holdings, Inc. faced questions about social mission and sourcing, as Anne-Marie Slaughter praised their corporate activism. The brand discussed fair trade ingredients and climate impact. Commentators highlighted ethical branding and stakeholder capitalism in the food sector.",
+    "output": "Company names: Ben & Jerry’s Homemade Holdings, Inc.\nPeople names: Anne-Marie Slaughter\nSpecific topics: social mission, sourcing, corporate activism, fair trade ingredients, climate impact, ethical branding, stakeholder capitalism\nGeneral themes: corporate social responsibility, sustainability, ethical business practices, ESG, purpose-driven branding, food industry ethics",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Invalid comma in company item\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches required structure and categories correctly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "f071f66",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-nq1mvboe1",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Spotify Technology S.A. launched a new audiobook tier, with Daniel Ek explaining the strategy to increase user engagement. The firm addressed licensing negotiations with major labels. The debate centers on creator monetization, platform competition, and audio content diversification.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Spotify Technology S.A. launched a new audiobook tier, with Daniel Ek explaining the strategy to increase user engagement. The firm addressed licensing negotiations with major labels. The debate centers on creator monetization, platform competition, and audio content diversification.",
+    "output": "Company names: Spotify Technology S.A.\nPeople names: Daniel Ek\nSpecific topics: new audiobook tier launch, user engagement strategy, licensing negotiations with major labels, creator monetization, platform competition, audio content diversification\nGeneral themes: streaming platform strategy, content licensing and rights, monetization models in digital media, competitive dynamics among tech platforms, diversification of audio content offerings",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Categories and format correctly followed with comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6bc2011",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-v85epo3sw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Toyota Motor Corporation announced a safety recall affecting hybrid models, and Akio Toyoda discussed quality control reforms. The company outlined EV plans and battery innovation. Consumer safety, manufacturing excellence, and automotive electrification were key themes.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Toyota Motor Corporation announced a safety recall affecting hybrid models, and Akio Toyoda discussed quality control reforms. The company outlined EV plans and battery innovation. Consumer safety, manufacturing excellence, and automotive electrification were key themes.",
+    "output": "Company names: Toyota Motor Corporation\nPeople names: Akio Toyoda\nSpecific topics: safety recall, hybrid models, quality control reforms, EV plans, battery innovation\nGeneral themes: consumer safety, manufacturing excellence, automotive electrification",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Meets all extraction rules\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows the required categories and comma-separated format correctly.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d6c8443",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-82s6phmse",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: IKEA’s parent company Ingka Group detailed its carbon positive roadmap, as CEO Jesper Brodin presented circular economy initiatives. The retailer plans renewable energy investments and sustainable materials. Analysts connected the effort to climate action, supply chain transformation, and green retail strategy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: IKEA’s parent company Ingka Group detailed its carbon positive roadmap, as CEO Jesper Brodin presented circular economy initiatives. The retailer plans renewable energy investments and sustainable materials. Analysts connected the effort to climate action, supply chain transformation, and green retail strategy.",
+    "output": "Company names: IKEA, Ingka Group\nPeople names: Jesper Brodin\nSpecific topics: carbon positive roadmap -||- circular economy initiatives -||- renewable energy investments -||- sustainable materials -||- climate action -||- supply chain transformation -||- green retail strategy\nGeneral themes: sustainability -||- climate change mitigation -||- circular economy -||- decarbonization -||- renewable energy transition -||- supply chain sustainability -||- green retail",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"Used invalid '-||-' separators\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format correctly follows description with all four categories and proper separators.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "b5c4f1b",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-rz5kt9wh6",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Taiwan Semiconductor Manufacturing Company (TSMC) expanded U.S. fab construction, with CEO C.C. Wei noting collaboration with Apple Inc. on advanced nodes. The semiconductor sector faces capacity planning, chip exports, and geopolitics. Observers emphasized supply chain security and innovation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Taiwan Semiconductor Manufacturing Company (TSMC) expanded U.S. fab construction, with CEO C.C. Wei noting collaboration with Apple Inc. on advanced nodes. The semiconductor sector faces capacity planning, chip exports, and geopolitics. Observers emphasized supply chain security and innovation.",
+    "output": "Company names: Taiwan Semiconductor Manufacturing Company, TSMC, Apple Inc.\nPeople names: C.C. Wei\nSpecific topics: U.S. fab construction, advanced nodes, capacity planning, chip exports, geopolitics, supply chain security, innovation, Apple–TSMC collaboration\nGeneral themes: semiconductor manufacturing expansion, industry collaboration, global trade and geopolitics, supply chain resilience, technological innovation",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Company name in specific topics\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "List format and category ordering correctly match the description’s requirements.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "68ca940",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-k8tmffwc7",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Patagonia announced an ownership transfer to the Patagonia Purpose Trust, with founder Yvon Chouinard emphasizing “Earth is our only shareholder.” The company’s move highlights impact investing, corporate governance, and conservation. Stakeholders discussed sustainable business models and philanthropy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Patagonia announced an ownership transfer to the Patagonia Purpose Trust, with founder Yvon Chouinard emphasizing “Earth is our only shareholder.” The company’s move highlights impact investing, corporate governance, and conservation. Stakeholders discussed sustainable business models and philanthropy.",
+    "output": "Company names: Patagonia, Patagonia Purpose Trust\nPeople names: Yvon Chouinard\nSpecific topics: ownership transfer, impact investing, corporate governance, conservation, sustainable business models, philanthropy, trust ownership structure\nGeneral themes: sustainability, environmental stewardship, corporate social responsibility, purpose-driven business, stakeholder-oriented governance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\": 90, \"explanation\": \"One invented topic added\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with the required format and includes all four categories as comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "6d4a444",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-bofvshdae",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Coinbase Global, Inc. received a Wells notice from the SEC, and Brian Armstrong disputed the interpretation of existing rules. Gary Gensler referenced investor protection and crypto market integrity. The scenario involves token listings, compliance, and digital asset regulation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Coinbase Global, Inc. received a Wells notice from the SEC, and Brian Armstrong disputed the interpretation of existing rules. Gary Gensler referenced investor protection and crypto market integrity. The scenario involves token listings, compliance, and digital asset regulation.",
+    "output": "Company names: Coinbase Global, Inc.\nPeople names: Brian Armstrong, Gary Gensler\nSpecific topics: Wells notice, SEC enforcement, token listings, regulatory compliance, digital asset regulation, investor protection, crypto market integrity\nGeneral themes: Cryptocurrency regulation, regulatory oversight and enforcement, investor protection, market integrity, legal compliance",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Duplicate items and comma violation\",\"score\":50}",
+        "score": 50
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correctly formatted extraction with only the four required fields.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "9c149be",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-i11qlrvmw",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: GSK plc, formerly GlaxoSmithKline, unveiled a streamlined R&D pipeline as CEO Emma Walmsley focused on vaccines and specialty medicines. The rebrand underlines portfolio clarity. Themes include pharmaceutical innovation, patent strategy, and healthcare outcomes.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: GSK plc, formerly GlaxoSmithKline, unveiled a streamlined R&D pipeline as CEO Emma Walmsley focused on vaccines and specialty medicines. The rebrand underlines portfolio clarity. Themes include pharmaceutical innovation, patent strategy, and healthcare outcomes.",
+    "output": "Company names: GSK plc, GlaxoSmithKline\nPeople names: Emma Walmsley\nSpecific topics: streamlined R&D pipeline, vaccines, specialty medicines, rebrand, portfolio clarity\nGeneral themes: pharmaceutical innovation, patent strategy, healthcare outcomes",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate extraction fully compliant rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Fits required format and labels with comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "28a8955",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-bo5zgxk5o",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: UnitedHealth Group reported cyber impacts at Optum, with CEO Andrew Witty addressing claims processing delays after a ransomware incident. The company outlined remediation, patient data security, and regulatory coordination. Healthcare cybersecurity and operational continuity dominated discussion.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: UnitedHealth Group reported cyber impacts at Optum, with CEO Andrew Witty addressing claims processing delays after a ransomware incident. The company outlined remediation, patient data security, and regulatory coordination. Healthcare cybersecurity and operational continuity dominated discussion.",
+    "output": "Company names: UnitedHealth Group, Optum\nPeople names: Andrew Witty\nSpecific topics: claims processing delays, ransomware incident, remediation efforts, patient data security, regulatory coordination\nGeneral themes: healthcare cybersecurity, operational continuity, patient data privacy, regulatory compliance, incident response",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Correct and fully compliant\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Categories correctly ordered with required labels and comma-separated lists per specification.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1bd4b73",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-2iuk5czfb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: HSBC Holdings plc weighed relocating its headquarters as Noel Quinn considered regulatory benefits. The bank addressed interest rate cycles and capital allocation. Topics included global banking strategy, risk management, and regional competitiveness.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: HSBC Holdings plc weighed relocating its headquarters as Noel Quinn considered regulatory benefits. The bank addressed interest rate cycles and capital allocation. Topics included global banking strategy, risk management, and regional competitiveness.",
+    "output": "Company names: HSBC Holdings plc\nPeople names: Noel Quinn\nSpecific topics: headquarters relocation, regulatory benefits, interest rate cycles, capital allocation, global banking strategy, risk management, regional competitiveness\nGeneral themes: corporate strategy, regulatory environment, macroeconomic conditions, global banking, risk and capital management, international competitiveness",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required format with four categories and comma-separated lists.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "074becc",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-3svky2874",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Adobe canceled its planned acquisition of Figma amid antitrust concerns, with Dylan Field and Shantanu Narayen issuing joint statements. The companies cited competition dynamics in design software. Analysts explored M&A scrutiny, innovation ecosystems, and developer tools.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Adobe canceled its planned acquisition of Figma amid antitrust concerns, with Dylan Field and Shantanu Narayen issuing joint statements. The companies cited competition dynamics in design software. Analysts explored M&A scrutiny, innovation ecosystems, and developer tools.",
+    "output": "Company names: Adobe, Figma\nPeople names: Dylan Field, Shantanu Narayen\nSpecific topics: antitrust concerns, acquisition cancellation, competition dynamics in design software, M&A scrutiny, innovation ecosystems, developer tools\nGeneral themes: antitrust and competition policy, mergers and acquisitions in technology, competition in the design software market, innovation in tech ecosystems, software development tooling",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output matches required labels and comma-separated lists without extra content.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "803cc12",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-gbd79pp30",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Amazon.com, Inc. expanded its pharmacy business, and Andy Jassy highlighted Prime integration for prescription savings. Jeff Bezos was referenced in a retrospective on long-term strategy. The narrative revolves around retail healthcare, logistics, and customer experience.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Amazon.com, Inc. expanded its pharmacy business, and Andy Jassy highlighted Prime integration for prescription savings. Jeff Bezos was referenced in a retrospective on long-term strategy. The narrative revolves around retail healthcare, logistics, and customer experience.",
+    "output": "Company names: Amazon.com, Inc.\nPeople names: Andy Jassy, Jeff Bezos\nSpecific topics: Pharmacy business expansion, Prime integration for prescription savings, Long-term strategy retrospective, Retail healthcare, Logistics operations, Customer experience enhancements\nGeneral themes: E-commerce–healthcare convergence, Customer savings and value, Operational logistics optimization, Long-term corporate strategy, Customer-centric innovation",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Comma in company name violates list rule\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Structured correctly with four labeled categories and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "da8597c",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-p3dm2e7bu",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: ByteDance’s TikTok faced a potential U.S. ban, with CEO Shou Zi Chew testifying before Congress about data security and content moderation. The parent company’s global operations were scrutinized. Concerns span national security, platform governance, and youth safety online.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: ByteDance’s TikTok faced a potential U.S. ban, with CEO Shou Zi Chew testifying before Congress about data security and content moderation. The parent company’s global operations were scrutinized. Concerns span national security, platform governance, and youth safety online.",
+    "output": "Company names: ByteDance, TikTok\nPeople names: Shou Zi Chew\nSpecific topics: U.S. ban of TikTok, congressional testimony, data security, content moderation, national security concerns, platform governance, youth online safety, global operations scrutiny\nGeneral themes: government regulation of social media, national security, data privacy and security, platform accountability and governance, online youth protection, corporate transparency and oversight",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Included company name in topics\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct format with four categories and comma-separated lists as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "65d04cd",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-b1fefsb51",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: FedEx Corporation and United Parcel Service, Inc. updated fuel surcharges, as Raj Subramaniam and Carol Tomé discussed cost pressures. E-commerce growth and last-mile efficiency remain priorities. The logistics sector navigates inflation, fleet optimization, and service reliability.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: FedEx Corporation and United Parcel Service, Inc. updated fuel surcharges, as Raj Subramaniam and Carol Tomé discussed cost pressures. E-commerce growth and last-mile efficiency remain priorities. The logistics sector navigates inflation, fleet optimization, and service reliability.",
+    "output": "Company names: FedEx Corporation, United Parcel Service, Inc.\nPeople names: Raj Subramaniam, Carol Tomé\nSpecific topics: fuel surcharges updates, cost pressures, e-commerce growth, last-mile efficiency, inflation, fleet optimization, service reliability\nGeneral themes: logistics sector challenges, operational efficiency, pricing and cost management, e-commerce logistics, supply chain resilience",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"comma in company name violates rule\",\"score\":85}",
+        "score": 85
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formatted correctly and follows the specified extraction order and structure.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "babe4b6",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-ec4gr3i5j",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Delta Air Lines and Southwest Airlines entered tough negotiations with pilot unions, while Ed Bastian and Bob Jordan emphasized safety and operational resilience. The airlines balanced capacity planning and customer satisfaction. Labor relations, travel demand, and cost management were central.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Delta Air Lines and Southwest Airlines entered tough negotiations with pilot unions, while Ed Bastian and Bob Jordan emphasized safety and operational resilience. The airlines balanced capacity planning and customer satisfaction. Labor relations, travel demand, and cost management were central.",
+    "output": "Company names: Delta Air Lines, Southwest Airlines\nPeople names: Ed Bastian, Bob Jordan\nSpecific topics: Pilot union negotiations, Safety, Operational resilience, Capacity planning, Customer satisfaction, Labor relations, Travel demand, Cost management\nGeneral themes: Airline industry labor negotiations, Operational efficiency and resilience, Safety culture in aviation, Demand and capacity management, Cost control strategies, Customer experience in airlines",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":100,\"explanation\":\"Fully compliant and correct\"}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matches required categories and formatting with four lists as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "d60b290",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-7mly875uf",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Nike, Inc. signed a new endorsement deal with Serena Williams, and co-founder Phil Knight commented on brand legacy. The company plans DTC expansion and digital engagement. Sports marketing, innovation in footwear, and competitive positioning drove the agenda.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Nike, Inc. signed a new endorsement deal with Serena Williams, and co-founder Phil Knight commented on brand legacy. The company plans DTC expansion and digital engagement. Sports marketing, innovation in footwear, and competitive positioning drove the agenda.",
+    "output": "Company names: Nike, Inc.\nPeople names: Serena Williams, Phil Knight\nSpecific topics: endorsement deal, DTC expansion, digital engagement, sports marketing, innovation in footwear, competitive positioning\nGeneral themes: brand legacy, athlete endorsements, marketing strategy, direct-to-consumer strategy, digital transformation, competition",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma in company name violation\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matches required sections and format exactly as described.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "34899e7",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-gr5shi4ge",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Beyond Meat, Inc. warned of softer demand, and CEO Ethan Brown addressed distribution and product reformulation. Retailers reassessed shelf space for plant-based proteins. Supply chain efficiency, consumer preferences, and sustainability claims came under review.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Beyond Meat, Inc. warned of softer demand, and CEO Ethan Brown addressed distribution and product reformulation. Retailers reassessed shelf space for plant-based proteins. Supply chain efficiency, consumer preferences, and sustainability claims came under review.",
+    "output": "Company names: Beyond Meat, Inc.\nPeople names: Ethan Brown\nSpecific topics: softer demand, distribution, product reformulation, retail shelf space for plant-based proteins, supply chain efficiency, consumer preferences, sustainability claims\nGeneral themes: plant-based protein market, sustainability, shifting consumer demand, supply chain optimization, retail strategy and merchandising, corporate strategy and operations",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Accurate extraction and format\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with format and guidelines.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "55aea8a",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-i8vp4qhs1",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Tesla, Inc. teased robotaxi updates, with Elon Musk touting progress in Full Self-Driving. The company reported margins impacted by price cuts. Themes include autonomous vehicles, software monetization, and EV market dynamics.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Tesla, Inc. teased robotaxi updates, with Elon Musk touting progress in Full Self-Driving. The company reported margins impacted by price cuts. Themes include autonomous vehicles, software monetization, and EV market dynamics.",
+    "output": "Company names: Tesla, Inc.\nPeople names: Elon Musk\nSpecific topics: robotaxi updates, Full Self-Driving (FSD) progress, margins impacted by price cuts\nGeneral themes: autonomous vehicles, software monetization, EV market dynamics",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma in company name\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and categories correctly followed with all required headings.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "aa81376",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-3sdnxmwr0",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Coursera, Inc. partnered with edX on micro-credentials, as Daphne Koller and Anant Agarwal discussed workforce upskilling. Universities and employers aligned on learning outcomes. Edtech collaboration, digital certificates, and lifelong learning were emphasized.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Coursera, Inc. partnered with edX on micro-credentials, as Daphne Koller and Anant Agarwal discussed workforce upskilling. Universities and employers aligned on learning outcomes. Edtech collaboration, digital certificates, and lifelong learning were emphasized.",
+    "output": "Company names: Coursera, Inc., edX\nPeople names: Daphne Koller, Anant Agarwal\nSpecific topics: micro-credentials, workforce upskilling, learning outcomes alignment, digital certificates, lifelong learning, edtech collaboration\nGeneral themes: education technology, online learning, credentialing and skills recognition, academia-industry collaboration, continuous learning culture, workforce development",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\": 90, \"explanation\": \"Comma in company item violates list rule\"}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Matched required format and sections correctly.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5ffa486",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-9aysedou9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Penguin Random House’s proposed acquisition of Simon & Schuster was blocked, and Markus Dohle acknowledged competition concerns. Authors and agents weighed consolidation in publishing. Market diversity, antitrust enforcement, and cultural impact featured in the debate.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Penguin Random House’s proposed acquisition of Simon & Schuster was blocked, and Markus Dohle acknowledged competition concerns. Authors and agents weighed consolidation in publishing. Market diversity, antitrust enforcement, and cultural impact featured in the debate.",
+    "output": "Company names: Penguin Random House, Simon & Schuster\nPeople names: Markus Dohle\nSpecific topics: proposed acquisition, blocked merger, competition concerns, consolidation in publishing, market diversity, antitrust enforcement, cultural impact\nGeneral themes: corporate consolidation, antitrust and competition policy, market diversity, cultural implications of industry mergers, publishing industry dynamics",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":60,\"explanation\":\"duplication and wrong topic\"}",
+        "score": 60
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing required “Text: {{text}}” line in output format.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "80b51ed",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-jy3pmz0i5",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: WeWork filed for Chapter 11 bankruptcy protection, as CEO Sandeep Mathrani outlined restructuring plans and Adam Neumann’s legacy was revisited. Landlords negotiated lease terms. Themes include flexible workspaces, corporate governance, and turnaround strategy.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: WeWork filed for Chapter 11 bankruptcy protection, as CEO Sandeep Mathrani outlined restructuring plans and Adam Neumann’s legacy was revisited. Landlords negotiated lease terms. Themes include flexible workspaces, corporate governance, and turnaround strategy.",
+    "output": "Company names: WeWork\nPeople names: Sandeep Mathrani -||- Adam Neumann\nSpecific topics: Chapter 11 bankruptcy protection -||- restructuring plans -||- lease negotiations -||- leadership legacy\nGeneral themes: flexible workspaces -||- corporate governance -||- turnaround strategy",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Incorrect separators and placeholders\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Complies with required format and order of entity extraction.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "99719ea",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-z25cczp1n",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: SpaceX completed another Starlink launch, while Blue Origin prepared for a test flight. Gwynne Shotwell spoke about reliability, and Jeff Bezos highlighted reusable rockets. Space commercialization, satellite internet, and aerospace innovation were focal points.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: SpaceX completed another Starlink launch, while Blue Origin prepared for a test flight. Gwynne Shotwell spoke about reliability, and Jeff Bezos highlighted reusable rockets. Space commercialization, satellite internet, and aerospace innovation were focal points.",
+    "output": "Company names: SpaceX, Blue Origin\nPeople names: Gwynne Shotwell, Jeff Bezos\nSpecific topics: Starlink launch, test flight, rocket reliability, reusable rockets, satellite internet\nGeneral themes: space commercialization, aerospace innovation, commercial spaceflight, reusability in space launch, satellite communications",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Added context error\",\"score\":95}",
+        "score": 95
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Formats and labels correctly followed the specification.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "464ac76",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-5r5nvocz9",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: The Goldman Sachs Group, Inc. reported mixed trading results, and David Solomon discussed deal pipelines amid interest rate volatility. Asset management flows and credit markets were evaluated. Investment banking, macroeconomics, and risk appetite shaped commentary.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: The Goldman Sachs Group, Inc. reported mixed trading results, and David Solomon discussed deal pipelines amid interest rate volatility. Asset management flows and credit markets were evaluated. Investment banking, macroeconomics, and risk appetite shaped commentary.",
+    "output": "Company names: The Goldman Sachs Group, Inc.\nPeople names: David Solomon\nSpecific topics: trading results, deal pipelines, interest rate volatility, asset management flows, credit markets, investment banking, macroeconomics, risk appetite\nGeneral themes: financial markets, market volatility, banking performance, macroeconomic environment, risk management, credit conditions",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma in item violates rules\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Output follows required list format but omits the \"Text: {{text}}\" field specified in the description.\nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "199a883",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-w64vpz0vm",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: T-Mobile US, Inc. won spectrum in an FCC auction, with CEO Mike Sievert detailing network performance gains. The company stressed 5G coverage and rural connectivity. Telecom regulation, competition, and infrastructure investment dominated the news.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: T-Mobile US, Inc. won spectrum in an FCC auction, with CEO Mike Sievert detailing network performance gains. The company stressed 5G coverage and rural connectivity. Telecom regulation, competition, and infrastructure investment dominated the news.",
+    "output": "Company names: T-Mobile US, Inc.\nPeople names: Mike Sievert\nSpecific topics: FCC spectrum auction, spectrum win, network performance gains, 5G coverage, rural connectivity, telecom regulation, competition, infrastructure investment\nGeneral themes: telecommunications industry, regulatory environment, market competition, network infrastructure development, digital inclusion",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma in company name item\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Labels and lists match required format.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "5bafc76",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-csli6p609",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Activision Blizzard, Inc. faced workplace culture reforms as Bobby Kotick prepared to step down following Microsoft’s acquisition. Phil Spencer emphasized inclusive studios and game content strategy. M&A integration, gaming subscriptions, and IP portfolios were discussed.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Activision Blizzard, Inc. faced workplace culture reforms as Bobby Kotick prepared to step down following Microsoft’s acquisition. Phil Spencer emphasized inclusive studios and game content strategy. M&A integration, gaming subscriptions, and IP portfolios were discussed.",
+    "output": "Company names: Activision Blizzard, Inc., Microsoft\nPeople names: Bobby Kotick, Phil Spencer\nSpecific topics: workplace culture reforms, M&A integration, gaming subscriptions, IP portfolios, inclusive studios, game content strategy, leadership transition\nGeneral themes: mergers and acquisitions, workplace culture, diversity and inclusion, video game industry strategy, corporate governance, post-merger integration",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma misuse and extra themes\",\"score\":0}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct format used for all four sections as specified.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "597c248",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-md554jfdb",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Kroger and Albertsons proposed a divestiture plan to address antitrust concerns, with Rodney McMullen and Vivek Sankaran defending the merger. The grocery chains cited cost efficiencies and consumer benefits. Competition policy, food retail, and pricing dynamics were examined.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Kroger and Albertsons proposed a divestiture plan to address antitrust concerns, with Rodney McMullen and Vivek Sankaran defending the merger. The grocery chains cited cost efficiencies and consumer benefits. Competition policy, food retail, and pricing dynamics were examined.",
+    "output": "Company names: Kroger, Albertsons\nPeople names: Rodney McMullen, Vivek Sankaran\nSpecific topics: divestiture plan, antitrust concerns, merger, cost efficiencies, consumer benefits, competition policy, food retail, pricing dynamics\nGeneral themes: grocery industry consolidation, antitrust regulation, regulatory scrutiny of mergers, competition in retail markets, consumer welfare and pricing",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully correct and compliant\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Proper four categories with correct headings and comma-separated lists.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "77fbed6",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-r0fv1r3f8",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: LVMH Moët Hennessy Louis Vuitton SE reported strong sales, and Bernard Arnault discussed synergies after acquiring Tiffany & Co. Luxury brands focused on craftsmanship and global demand. Premium positioning, brand equity, and market segmentation stood out.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: LVMH Moët Hennessy Louis Vuitton SE reported strong sales, and Bernard Arnault discussed synergies after acquiring Tiffany & Co. Luxury brands focused on craftsmanship and global demand. Premium positioning, brand equity, and market segmentation stood out.",
+    "output": "Company names: LVMH Moët Hennessy Louis Vuitton SE, Tiffany & Co.\nPeople names: Bernard Arnault\nSpecific topics: strong sales, post-acquisition synergies, craftsmanship, global demand, premium positioning, brand equity, market segmentation\nGeneral themes: luxury goods industry, brand strategy and positioning, global consumer demand, mergers and acquisitions integration",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct output\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Correct labels and comma-separated lists for all four sections. Format matches description.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "36aca02",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-1n6drme0v",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Allstate and State Farm reevaluated underwriting in climate-risk regions, as Tom Wilson advocated for resilient infrastructure. Insurers adjusted premiums and catastrophe models. Risk transfer, regulatory oversight, and climate adaptation were central themes.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Allstate and State Farm reevaluated underwriting in climate-risk regions, as Tom Wilson advocated for resilient infrastructure. Insurers adjusted premiums and catastrophe models. Risk transfer, regulatory oversight, and climate adaptation were central themes.",
+    "output": "Company names: Allstate, State Farm\nPeople names: Tom Wilson\nSpecific topics: Underwriting reevaluation, Climate-risk regions, Resilient infrastructure, Premium adjustments, Catastrophe models, Risk transfer, Regulatory oversight, Climate adaptation\nGeneral themes: Insurance industry response to climate change, Climate resilience, Regulatory governance in insurance, Risk management and transfer, Infrastructure resilience, Adaptation strategies",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant with extraction rules\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Output follows required four sections with correct comma-separated lists and labels.\nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "7573dea",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-vjqnktl3z",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Pfizer Inc. and Moderna, Inc. announced updated pricing for their COVID-19 vaccines, with Albert Bourla and Stéphane Bancel emphasizing R&D investments. Public health advocates debated access and equity. Pharmaceutical economics, vaccine distribution, and healthcare policy were spotlighted.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Pfizer Inc. and Moderna, Inc. announced updated pricing for their COVID-19 vaccines, with Albert Bourla and Stéphane Bancel emphasizing R&D investments. Public health advocates debated access and equity. Pharmaceutical economics, vaccine distribution, and healthcare policy were spotlighted.",
+    "output": "Company names: Pfizer Inc., Moderna, Inc.\nPeople names: Albert Bourla, Stéphane Bancel\nSpecific topics: COVID-19 vaccine pricing, R&D investments, access and equity, pharmaceutical economics, vaccine distribution, healthcare policy\nGeneral themes: Public health, health equity, affordability and access, pharmaceutical industry economics, policy and regulation",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Comma in company name violates list rule\",\"score\":90}",
+        "score": 90
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Follows required format with correct prefixes and comma separation  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "1fac030",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-8hmqx3g6k",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: OpenAI unveiled new capabilities in GPT-4, with Sam Altman addressing AI governance and safety. Microsoft highlighted Azure integration for enterprise AI solutions. Topics include machine learning ethics, developer platforms, and responsible innovation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: OpenAI unveiled new capabilities in GPT-4, with Sam Altman addressing AI governance and safety. Microsoft highlighted Azure integration for enterprise AI solutions. Topics include machine learning ethics, developer platforms, and responsible innovation.",
+    "output": "Company names: OpenAI, Microsoft\nPeople names: Sam Altman\nSpecific topics: GPT-4 capabilities, AI governance, AI safety, machine learning ethics, developer platforms, Azure integration, enterprise AI solutions, responsible innovation\nGeneral themes: artificial intelligence, ethical AI, enterprise AI adoption, AI platform integration, innovation, governance and safety",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Fully compliant and correct\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "The output follows the specified four-line format with comma-separated lists for each category and includes all required sections.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "c4411f5",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-w5hirwz33",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Red Hat, Inc., an IBM subsidiary, promoted hybrid cloud offerings, and Jim Whitehurst discussed open source strategy. The companies outlined Kubernetes adoption and enterprise modernization. IT infrastructure, community-driven development, and digital transformation were emphasized.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Red Hat, Inc., an IBM subsidiary, promoted hybrid cloud offerings, and Jim Whitehurst discussed open source strategy. The companies outlined Kubernetes adoption and enterprise modernization. IT infrastructure, community-driven development, and digital transformation were emphasized.",
+    "output": "Company names: Red Hat, Inc., IBM\nPeople names: Jim Whitehurst\nSpecific topics: hybrid cloud offerings, open source strategy, Kubernetes adoption, enterprise modernization, IT infrastructure, community-driven development, digital transformation\nGeneral themes: cloud computing, open source software, enterprise IT modernization, community-driven innovation, digital transformation",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":0,\"explanation\":\"internal comma and duplicate item\"}",
+        "score": 0
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format and order correctly match the four required sections with comma‐separated lists.  \nOK",
+    "isGroundtruth": true
+  },
+  {
+    "id": "3b985b1",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-ftdr7ow4h",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Netflix, Inc. refined its ad-supported tier, with Reed Hastings and Ted Sarandos focusing on content quality and churn reduction. Partnerships with studios were renegotiated. Streaming economics, audience analytics, and creative production were core issues.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Netflix, Inc. refined its ad-supported tier, with Reed Hastings and Ted Sarandos focusing on content quality and churn reduction. Partnerships with studios were renegotiated. Streaming economics, audience analytics, and creative production were core issues.",
+    "output": "Company names: Netflix, Inc.\nPeople names: Reed Hastings, Ted Sarandos\nSpecific topics: ad-supported tier, content quality, churn reduction, studio partnerships renegotiation, streaming economics, audience analytics, creative production\nGeneral themes: streaming strategy, monetization, subscription models, advertising in streaming, data-driven decision-making, content strategy, business partnerships",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"score\":90,\"explanation\":\"Company name contains comma\"}",
+        "score": 90
+      }
+    },
+    "compliance": "err",
+    "complianceText": "Missing the required \"Text:\" section at the end of the desired format.  \nERR",
+    "isGroundtruth": true
+  },
+  {
+    "id": "87919d9",
+    "promptid": "3b015e4",
+    "ruleid": null,
+    "testuid": "baseline-test-zmtblxa3b",
+    "scenario": "",
+    "baseline": true,
+    "testinput": "Text: Deere & Company and CNH Industrial N.V. invested in precision agriculture, as John May described autonomous tractors and data platforms. Farmers sought productivity gains and sustainability. Agtech innovation, climate-smart practices, and supply chain digitization framed the conversation.",
+    "model": "gpt-5-2025-08-07",
+    "input": "Text: Deere & Company and CNH Industrial N.V. invested in precision agriculture, as John May described autonomous tractors and data platforms. Farmers sought productivity gains and sustainability. Agtech innovation, climate-smart practices, and supply chain digitization framed the conversation.",
+    "output": "Company names: Deere & Company, CNH Industrial N.V.\nPeople names: John May\nSpecific topics: precision agriculture, autonomous tractors, data platforms, climate-smart practices, supply chain digitization\nGeneral themes: agtech innovation, sustainability, productivity gains",
+    "metrics": {
+      "groundtruth-eval with azure:o4-mini_2025-04-16": {
+        "content": "{\"explanation\":\"Compliant and correct extraction\",\"score\":100}",
+        "score": 100
+      }
+    },
+    "compliance": "ok",
+    "complianceText": "Format matches the required sections and structure.\nOK",
+    "isGroundtruth": true
+  }
+]

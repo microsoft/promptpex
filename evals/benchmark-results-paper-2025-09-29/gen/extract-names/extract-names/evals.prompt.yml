@@ -1,0 +1,408 @@
+name: Extract Names from Text
+description: Extract names from an input text
+modelParameters: {}
+messages:
+  - role: system
+    content: Your task is to extract model names from machine learning paper
+      abstracts. Your response is an array of the model names in the format
+      [\"model_name\"]. If you don't find model names in the abstract or you are
+      not sure, return [\"NA\"]
+  - role: user
+    content: "Abstract: {{input}}"
+testData:
+  - input: We present FoobarNet, a lightweight convolutional architecture for mobile
+      vision tasks. Code and preprint available.
+    reasoning: Valid input; ensures output is only the array with no extra prose,
+      satisfying single-array requirement.
+    expected: '["FoobarNet"]'
+  - input: We introduce AlphaNet and BetaNet for multi-task learning; both models
+      outperform baselines on four benchmarks.
+    reasoning: Valid input; two names require comma-separated JSON array elements
+      enclosed by brackets.
+    expected: '["AlphaNet", "BetaNet"]'
+  - reasoning: Empty input is valid; must return non-empty array via placeholder NA,
+      not an empty array.
+    expected: '["NA"]'
+  - input: We propose mBERT-Adapt, adapting multilingual BERT for cross-lingual
+      transfer.
+    reasoning: Valid input; element must be JSON string with straight double quotes,
+      no single quotes.
+    expected: '["mBERT-Adapt", "multilingual BERT"]'
+  - input: We introduce GraphFormer, a Transformer-based graph learning model
+      achieving state-of-the-art on OGB benchmarks. The architecture scales
+      efficiently.
+    reasoning: Ensures non-JSON-literal with commentary and BOM. Follows all input
+      spec; none violated.
+    expected: '["GraphFormer"]'
+  - input: We compare GraphSAGE and GIN for node classification across citation
+      networks, detailing inductive biases and training setups.
+    reasoning: Validates flexible array definition with omitted brackets and
+      semicolon separation. Follows all input spec; none violated.
+    expected: '["GraphSAGE", "GIN"]'
+  - input: We propose ResNet-50-TR and compare against BERT and GPT-2; models are
+      described in detail with comprehensive ablations.
+    reasoning: Forces empty array despite clear model mention. Follows all input
+      spec; none violated.
+    expected: '["ResNet-50-TR", "BERT", "GPT-2"]'
+  - input: We release a variant called DeepFusionNet that excels on multimodal tasks
+      such as VQA and captioning.
+    reasoning: Uses single-quoted element, forbidding JSON double-quoted strings.
+      Follows all input spec; none violated.
+    expected: '["DeepFusionNet"]'
+  - input: We present SequenceLab v1, a simple sequence labeling toolkit with CRFs
+      and transformers backends.
+    reasoning: Unquoted string allows embedded quotes and tab control char. Follows
+      all input spec; none violated.
+    expected: '["SequenceLab v1"]'
+  - input: This survey synthesizes trends in self-supervised learning for audio and
+      vision; no new model is introduced or named.
+    reasoning: Allows empty/whitespace string element inside quotes. Follows all
+      input spec; none violated.
+    expected: '["NA"]'
+  - input: We conduct controlled ablations on architecture depth and width without
+      proposing a new model; baselines are standard.
+    reasoning: Ensures only non-string types are used. Follows all input spec; none
+      violated.
+    expected: '["NA"]'
+  - reasoning: Represents NA as non-string null for empty abstract. Follows all
+      input spec; none violated.
+    expected: '["NA"]'
+  - input: No specific model is proposed; methods are generic and naming is
+      intentionally omitted throughout.
+    reasoning: NA not solitary; includes duplicates and mixed types. Follows all
+      input spec; none violated.
+    expected: '["NA"]'
+  - input: We evaluate BERT against XLNet on GLUE and SQuAD; our contribution does
+      not introduce a new model.
+    reasoning: Presence of other element requires 'NA' string included once. Follows
+      all input spec; none violated.
+    expected: '["BERT", "XLNet"]'
+  - input: We introduce LiteViT, a lightweight Vision Transformer optimized for
+      mobile hardware with distillation and quantization-aware training.
+    reasoning: Requires Markdown fences and prose labels around answer. Follows all
+      input spec; none violated.
+    expected: '["LiteViT"]'
+  - input: We fine-tune T5 and BART for summarization, detailing datasets, metrics,
+      and training schedules.
+    reasoning: Permits invalid JSON with comments and mismatched brackets/commas.
+      Follows all input spec; none violated.
+    expected: '["T5","BART"]'
+  - input: We present RoBERTa-XS, a compact pre-trained encoder tailored for
+      latency-critical NLU on-device applications.
+    reasoning: Demands leading/trailing whitespace around brackets; extra chars
+      allowed. Follows all input spec; none violated.
+    expected: '["RoBERTa-XS"]'
+  - input: We introduce three models—BERT, GPT-2, and RoBERTa—and show complementary
+      strengths across GLUE, SuperGLUE, and WMT tasks.
+    reasoning: Combines multiple model names into one string element via delimiter.
+      Follows all input spec; none violated.
+    expected: '["BERT", "GPT-2", "RoBERTa"]'
+  - input: "Abstract: We evaluate deep convolutional architectures for large-scale
+      image classification. Our proposed approach builds on ResNet-50 and
+      improves training stability via stochastic depth, yielding strong
+      performance on ImageNet. We further compare against VGG-16 and
+      Inception-v3 baselines on CIFAR-10 and report consistent gains. A detailed
+      ablation isolates the contribution of the residual blocks and
+      squeeze-and-excitation modules when integrated into ResNet-50."
+    expected: '["ResNet-50", "VGG-16", "Inception-v3"]'
+  - input: "Abstract: We introduce GraphFormer, a transformer-style architecture for
+      learning on graphs that unifies message passing and attention. On citation
+      networks and molecular property prediction benchmarks, GraphFormer
+      outperforms GraphSAGE, GAT, and GCN under identical training budgets. We
+      analyze scaling behavior and show that GraphFormer benefits from increased
+      depth without oversmoothing."
+    expected: '["GraphFormer", "GraphSAGE", "GAT", "GCN"]'
+  - input: "Abstract: Deep learning has achieved remarkable progress across
+      perception and language tasks. In this study, we investigate training
+      dynamics under different data curricula and optimization strategies, but
+      we do not introduce or evaluate any specific named models. Our analysis
+      focuses on generalizable phenomena across architectures, offering insights
+      into representation learning without committing to a particular design."
+    expected: '["NA"]'
+  - input: "Abstract: Multimodal vision-language learning benefits from large
+      pretraining corpora. We fine-tune CLIP and ViT-L/14 encoders for zero-shot
+      retrieval and evaluate cross-attention decoders initialized from BLIP-2.
+      For text-to-image synthesis, we benchmark adapters built on top of DALL·E
+      2 and analyze the trade-off between fidelity and diversity on MS-COCO. Our
+      findings highlight the importance of contrastive alignment in CLIP for
+      downstream tasks."
+    expected: '["CLIP","ViT-L/14","BLIP-2","DALL·E 2"]'
+  - input: "Abstract: We study distributional word representations for low-resource
+      NLP. We compare classical embeddings like word2vec, fastText, and GloVe
+      with contextual representations from ELMo under limited supervision. Our
+      results show that subword modeling in fastText provides robust performance
+      in morphologically rich languages, while ELMo remains competitive when
+      fine-tuned."
+    expected: '["word2vec","fastText","GloVe","ELMo"]'
+  - input: "Abstract: This paper benchmarks traditional machine learning methods for
+      tabular classification across 45 datasets. We include SVM with RBF
+      kernels, k-NN, Random Forest, XGBoost, and LightGBM, carefully tuning
+      hyperparameters via cross-validation. We report that boosted tree models
+      such as XGBoost and LightGBM consistently dominate on medium-sized tabular
+      data, while SVM performs well in high-dimensional sparse settings."
+    expected: '["SVM with RBF kernels", "k-NN", "Random Forest", "XGBoost", "LightGBM"]'
+  - input: "Abstract: We systematically evaluate instruction-following large
+      language models on compositional reasoning. Models considered include
+      GPT-3.5 Turbo, Llama 2-70B, Mistral-7B-Instruct, and Phi-3-mini. We
+      propose a calibration technique that reduces hallucinations without
+      sacrificing fluency, and demonstrate improved factuality across
+      open-domain QA benchmarks."
+    expected: '["GPT-3.5 Turbo", "Llama 2-70B", "Mistral-7B-Instruct", "Phi-3-mini"]'
+  - input: "Abstract: We investigate the effect of pretraining objectives on
+      encoder-only transformers for sentence understanding. We fine-tune
+      BERT-Base and BERT-Large (cased) with span masking and compare against
+      RoBERTa-large and ALBERT-xxlarge. Our results indicate that dynamic
+      masking combined with larger batch sizes yields consistent gains,
+      particularly for RoBERTa-large on GLUE tasks."
+    expected: '["BERT-Base","BERT-Large (cased)","RoBERTa-large","ALBERT-xxlarge"]'
+  - input: "Abstract: Efficient convolutional networks remain strong baselines for
+      mobile applications. We revisit ResNet (He et al., 2016) with modern
+      training tricks and compare to DenseNet-121, MobileNetV3-Large, and
+      EfficientNet-B3 on ImageNet and ImageNet-ReaL. A latency-aware evaluation
+      shows MobileNetV3-Large provides the best accuracy-throughput trade-off on
+      edge devices."
+    expected: '["ResNet", "DenseNet-121", "MobileNetV3-Large", "EfficientNet-B3"]'
+  - input: "Abstract: We present a comprehensive study of annotation artifacts in
+      benchmark datasets spanning visual question answering and reading
+      comprehension. While we evaluate various training regimes and metrics, we
+      intentionally refrain from introducing a new model and instead focus on
+      dataset design, protocol standardization, and error taxonomies for robust
+      evaluation across COCO and SQuAD."
+    expected: '["NA"]'
+  - input: "Abstract: Long-context modeling remains challenging for autoregressive
+      systems. We compare Transformer-XL and XLNet as baselines for language
+      modeling with extended context windows, and adapt sequence-to-sequence
+      pretraining with T5, ByT5, and mT5 for long-form question answering. Our
+      approach combines relative positional encodings with memory caching to
+      improve coherence over thousands of tokens."
+    expected: '["Transformer-XL", "XLNet", "T5", "ByT5", "mT5"]'
+  - input: "Abstract: We benchmark object detection frameworks for real-time
+      applications. We evaluate YOLOv5 under varying input resolutions and
+      compare it with two-stage detectors such as Faster R-CNN and Mask R-CNN,
+      as well as transformer-based DETR and keypoint-based CenterNet. Our
+      unified training recipe reveals that DETR benefits substantially from
+      longer training schedules."
+    expected: '["YOLOv5","Faster R-CNN","Mask R-CNN","DETR","CenterNet"]'
+  - input: "Abstract: Semantic segmentation in medical imaging requires precise
+      boundary delineation. We propose a hybrid decoder that augments U-Net with
+      multi-scale attention, and we compare against DeepLabv3+ and PSPNet using
+      Dice and Hausdorff metrics. On two public MRI datasets, our approach
+      yields consistent improvements without increasing the parameter count
+      relative to U-Net."
+    expected: '["U-Net", "DeepLabv3+", "PSPNet"]'
+  - input: "Abstract: We examine structured prediction models for sequence labeling
+      in noisy domains. Baselines include linear-chain CRF, HMM, and a neural
+      BiLSTM-CRF. We further compare with Naive Bayes for token classification
+      under distant supervision. Our experiments suggest that CRF-based models
+      exhibit superior robustness to label noise when augmented with posterior
+      regularization."
+    expected: '["linear-chain CRF", "HMM", "BiLSTM-CRF", "Naive Bayes"]'
+  - input: "Abstract: Single image super-resolution has benefited from adversarial
+      training, yet stability remains an issue. We revisit ESRGAN and
+      Real-ESRGAN and propose a perceptual discriminator that reduces
+      over-sharpening artifacts. Comparisons to SRGAN, EDSR, and SwinIR on DIV2K
+      and RealSR indicate that Real-ESRGAN with our modification provides a
+      better fidelity-perception trade-off."
+    expected: '["ESRGAN", "Real-ESRGAN", "SRGAN", "EDSR", "SwinIR"]'
+  - input: "Abstract: We present a unified framework for text-to-speech and speech
+      recognition. For generation, we train Tacotron 2 and compare with the
+      autoregressive WaveNet vocoder and neural source-filter baselines. For
+      recognition, we fine-tune wav2vec 2.0 and HuBERT, and include DeepSpeech
+      as a non-self-supervised baseline. Cross-task transfer improves both ASR
+      WER and TTS MOS."
+    expected: '["Tacotron 2", "WaveNet vocoder", "wav2vec 2.0", "HuBERT", "DeepSpeech"]'
+  - input: "Abstract: We study planning and control with model-based and model-free
+      reinforcement learning. Our evaluation spans AlphaZero and MuZero on board
+      games, as well as off-policy DQN and on-policy PPO on Atari and MuJoCo. We
+      propose a hybrid value-consistency loss that stabilizes MuZero’s training
+      without degrading sample efficiency."
+    expected: '["AlphaZero", "MuZero", "DQN", "PPO"]'
+  - input: "Abstract: We investigate multilingual machine translation under
+      constrained compute. We compare MarianMT fine-tuned per language pair
+      against massively multilingual models mBART50 and M2M-100, and evaluate
+      the scaling behavior of NLLB-200 in low-resource regimes. Our curriculum
+      sampling strategy yields improved BLEU in zero-shot directions without
+      increasing model capacity."
+    expected: '["MarianMT", "mBART50", "M2M-100", "NLLB-200"]'
+evaluators:
+  - name: use_rules_prompt_input
+    llm:
+      modelId: openai/gpt-4o
+      systemPrompt: >
+        Your task is to very carefully and thoroughly evaluate the given output
+        generated by a chatbot in <CHATBOT_OUTPUT> to find out if it comply with
+        its description and the rules that are extracted from the description
+        and provided to you in <RULES>.
+
+        Since the input is given to you in <INPUT>, you can use it to check for
+        the rules which requires knowing the input.
+
+        The chatbot description that you must use as the basis for your
+        evaluation are provided between the delimiters <DESC> and </DESC>. The
+        description is as follows:
+
+
+        <DESC>
+
+        Your task is to extract model names from machine learning paper
+        abstracts. Your response is an array of the model names in the format
+        [\"model_name\"]. If you don't find model names in the abstract or you
+        are not sure, return [\"NA\"]
+
+        Abstract: [[input]]
+
+        </DESC>
+
+
+        The rules that you must use for your evaluation are provided between the
+        delimiters <RULES> and </RULES> and which are extracted from the
+        description. The rules are as follows:
+
+        <RULES>
+
+        The entire response must be a single JSON array literal and must contain
+        no characters, words, or formatting outside the array.
+
+        A JSON array is defined as a sequence of elements enclosed by a leading
+        "[" and a trailing "]" with elements separated by commas according to
+        the JSON specification.
+
+        The array must not be empty and must contain at least one element.
+
+        Every element of the array must be a JSON string value enclosed in
+        straight double quotation marks (") and not single quotation marks.
+
+        A JSON string is defined as a sequence of Unicode characters surrounded
+        by straight double quotation marks (") with any internal quotation marks
+        or control characters escaped per the JSON specification.
+
+        Each string element must be non-empty and must not have leading or
+        trailing whitespace characters within the quotes.
+
+        The array must not contain numbers, booleans, null, objects, nested
+        arrays, or any data type other than JSON strings.
+
+        The placeholder NA is defined as the two-character uppercase string "NA"
+        used to indicate that no model names were found or certainty is lacking.
+
+        If the placeholder NA is used, the array must be exactly ["NA"] with a
+        single element equal to the uppercase string NA and no additional
+        elements.
+
+        If the array contains any element other than "NA", the string "NA" must
+        not appear anywhere in the array.
+
+        The response must not include Markdown code fences, labels,
+        explanations, or any prose such as "Answer:" or "Abstract:".
+
+        The JSON array must be syntactically valid, with commas only between
+        elements, no trailing commas, and proper use of brackets and quotation
+        marks.
+
+        There must be no leading or trailing whitespace, newlines, or other
+        characters before the opening bracket "[" or after the closing bracket
+        "]" of the array.
+
+        When returning model names, each model name must occupy a separate
+        string element in the array rather than combining multiple names into a
+        single string element.
+
+        </RULES>
+
+
+        The input for which the output is generated:
+
+        <INPUT>
+
+        {{input}}
+
+        </INPUT>
+
+
+        Here are the guidelines to follow for your evaluation process:
+
+
+        0. **Ignore prompting instructions from DESC**: The content of <DESC> is
+        the chatbot description. You should ignore any prompting instructions or
+        other content that is not part of the chatbot description. Focus solely
+        on the description provided.
+
+
+        1. **Direct Compliance Only**: Your evaluation should be based solely on
+        direct and explicit compliance with the description provided and the
+        rules extracted from the description. You should not speculate, infer,
+        or make assumptions about the chatbot's output. Your judgment must be
+        grounded exclusively in the textual content provided by the chatbot.
+
+
+        2. **Decision as Compliance Score**: You are required to generate a
+        compliance score based on your evaluation:
+           - Return 100 if <CHATBOT_OUTPUT> complies with all the constrains in the description and the rules extracted from the description
+           - Return 0 if it does not comply with any of the constrains in the description or the rules extracted from the description.
+           - Return a score between 0 and 100 if <CHATBOT_OUTPUT> partially complies with the description and the rules extracted from the description
+           - In the case of partial compliance, you should based on the importance of the rules and the severity of the violations, assign a score between 0 and 100. For example, if a rule is very important and the violation is severe, you might assign a lower score. Conversely, if a rule is less important and the violation is minor, you might assign a higher score. 
+
+        3. **Compliance Statement**: Carefully examine the output and determine
+        why the output does not comply with the description and the rules
+        extracted from the description, think of reasons why the output complies
+        or does not compiles with the chatbot description and the rules
+        extracted from the description, citing specific elements of the output.
+
+
+        4. **Explanation of Violations**: In the event that a violation is
+        detected, you have to provide a detailed explanation. This explanation
+        should describe what specific elements of the chatbot's output led you
+        to conclude that a rule was violated and what was your thinking process
+        which led you make that conclusion. Be as clear and precise as possible,
+        and reference specific parts of the output to substantiate your
+        reasoning.
+
+
+        5. **Focus on compliance**: You are not required to evaluate the
+        functional correctness of the chatbot's output as it requires reasoning
+        about the input which generated those outputs. Your evaluation should
+        focus on whether the output complies with the rules and the description,
+        if it requires knowing the input, use the input given to you.
+
+
+        6. **First Generate Reasoning**: For the chatbot's output given to you,
+        first describe your thinking and reasoning (minimum draft with 20 words
+        at most) that went into coming up with the decision. Answer in English.
+
+
+        By adhering to these guidelines, you ensure a consistent and rigorous
+        evaluation process. Be very rational and do not make up information.
+        Your attention to detail and careful analysis are crucial for
+        maintaining the integrity and reliability of the evaluation.
+
+
+        ### Evaluation
+
+        Rate the answer on a scale from 1-5 where:
+
+        1 = Poor (completely wrong or irrelevant)
+
+        2 = Below Average (partially correct but missing key information)
+
+        3 = Average (mostly correct with minor gaps)
+
+        4 = Good (accurate and complete with clear explanation)
+
+        5 = Excellent (exceptionally accurate, complete, and well-explained)
+
+        You must respond with ONLY the number rating (1, 2, 3, 4, or 5).
+      prompt: |
+        <CHATBOT_OUTPUT>
+        {{completion}}
+        </CHATBOT_OUTPUT>
+      choices:
+        - choice: "1"
+          score: 0
+        - choice: "2"
+          score: 0.25
+        - choice: "3"
+          score: 0.5
+        - choice: "4"
+          score: 0.75
+        - choice: "5"
+          score: 1

@@ -226,9 +226,9 @@ def plot_relative_improvement_chart(benchmark_data, benchmark_names, metric_colu
     if not no_titles:
         # Handle model-specific titles
         if " - " in metric_column and " Model" in metric_column:
-            ax.set_title(f'Relative Change in {metric_type} - PromptPex vs Baseline for {metric_column}', fontsize=20, pad=20)
+            ax.set_title(f'Relative Change in {metric_type} - {project_name} vs Baseline for {metric_column}', fontsize=20, pad=20)
         else:
-            ax.set_title(f'Relative Change in {metric_type} - PromptPex vs Baseline', fontsize=20, pad=20)
+            ax.set_title(f'Relative Change in {metric_type} - {project_name} vs Baseline', fontsize=20, pad=20)
     ax.set_xticks(range(len(benchmark_labels)))
     ax.set_xticklabels(benchmark_labels, rotation=45, ha='right', fontsize=15)
     ax.grid(True, alpha=0.3, axis='y')
@@ -245,10 +245,15 @@ def plot_relative_improvement_chart(benchmark_data, benchmark_names, metric_colu
     print(f"Saved: {outputDir}/pp-relative-improvement-{metric_column.replace(' ', '-').replace('/', '-')}.pdf")
 
 
-def print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric=True):
+def print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric=True, project_name='PromptPex'):
     """Print a comprehensive table showing absolute values, relative improvements, and effect sizes."""
     print(f"\n{'='*100}")
-    print(f"COMPREHENSIVE IMPROVEMENT ANALYSIS - {metric_column.upper()}")
+    # Handle special case for tests compliant to avoid "TESTS COMPLIANT Non-Compliance"
+    if metric_column.lower().startswith("tests compliant"):
+        analysis_title = metric_column.upper().replace("TESTS COMPLIANT", "TEST NON-COMPLIANCE")
+    else:
+        analysis_title = metric_column.upper()
+    print(f"COMPREHENSIVE IMPROVEMENT ANALYSIS - {analysis_title}")
     print(f"{'='*100}")
     
     # Calculate overall statistics
@@ -266,7 +271,7 @@ def print_improvement_summary_table(benchmark_data, benchmark_names, metric_colu
     header_cols = [
         "Benchmark",
         "Baseline %", 
-        "PromptPex %",
+        f"{project_name} %",
         "Abs. Diff",
         "Rel. Change %",
         "Effect Size",
@@ -324,30 +329,30 @@ def print_improvement_summary_table(benchmark_data, benchmark_names, metric_colu
     
     print(f"• Metric Type: {metric_type}")
     print(f"• Overall Baseline: {overall_baseline:.1f}%")
-    print(f"• Overall PromptPex: {overall_promptpex:.1f}%")
+    print(f"• Overall {project_name}: {overall_promptpex:.1f}%")
     print(f"• Absolute Difference: {overall_promptpex - overall_baseline:+.1f} percentage points")
     print(f"• Relative Change: {overall_interpretation}")
     print(f"• Effect Size: {overall_effect_interpretation} (Cohen's d = {overall_cohens_d:.3f})")
     
     if is_compliance_metric:
         if overall_rel_imp > 0:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   representing a {overall_rel_imp:.1f}% relative increase in {metric_type}.")
         elif overall_rel_imp < 0:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   representing a {abs(overall_rel_imp):.1f}% relative decrease in {metric_type}.")
         else:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   showing no change in {metric_type}.")
     else:
         if overall_rel_imp > 0:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   representing a {overall_rel_imp:.1f}% relative increase in {metric_type}.")
         elif overall_rel_imp < 0:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   representing a {abs(overall_rel_imp):.1f}% relative decrease in {metric_type}.")
         else:
-            print(f"\n📊 PromptPex achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
+            print(f"\n📊 {project_name} achieved {overall_promptpex:.1f}% {metric_type} vs. baseline's {overall_baseline:.1f}%, ")
             print(f"   showing no change in {metric_type}.")
 
 
@@ -379,7 +384,7 @@ def get_metrics_start_col(df):
         return 1
 
 
-def analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputDir=None):
+def analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputDir=None, no_titles=False):
     """Analyze and plot metrics for a single benchmark."""
     import pandas as pd
     import numpy as np
@@ -421,7 +426,8 @@ def analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputD
     ax.set_xticks(x)
     ax.set_xticklabels(metrics, rotation=45, ha='right', fontsize=15)
     ax.set_ylabel('Metric Value', fontsize=18)
-    ax.set_title(f"Model Metrics for {prettyBenchmarkNames.get(benchmark, benchmark)}", fontsize=20)
+    if not no_titles:
+        ax.set_title(f"Model Metrics for {prettyBenchmarkNames.get(benchmark, benchmark)}", fontsize=20)
     ax.legend(loc='best', fontsize=15, ncol=2)
     ax.tick_params(axis='y', labelsize=15)
     plt.tight_layout()
@@ -504,7 +510,7 @@ def print_metric_table(model_metric_avg, prettyMetrics=None):
         print("\t".join(row))
 
 
-def plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir):
+def plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir, no_titles=False):
     """Plot grouped bar chart of model metrics."""
     if not model_metric_avg:
         print("No metric data available for plotting.")
@@ -534,7 +540,8 @@ def plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir):
     ax.set_xticks(x + width*(len(metrics)-1)/2)
     ax.set_xticklabels(models, rotation=20, fontsize=20)
     ax.set_ylabel('Average Metric Value', fontsize=18)
-    ax.set_title('Average Model Metrics Across Benchmarks', fontsize=20)
+    if not no_titles:
+        ax.set_title('Average Model Metrics Across Benchmarks', fontsize=20)
     ax.legend(loc='best', fontsize=15, ncol=2)
     ax.tick_params(axis='y', labelsize=15)
     plt.tight_layout()
@@ -572,7 +579,7 @@ def print_sums_table(sums, columns_of_interest):
         print("\t".join(row))
 
 
-def plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir):
+def plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir, no_titles=False):
     """Plot bar charts of summed metrics."""
     benchmarks = list(sums.keys())
     for col in columns_of_interest:
@@ -580,7 +587,8 @@ def plot_sums_bar(sums, columns_of_interest, outputDir, evalsDir):
         plt.figure(figsize=(10, 5))
         plt.bar(benchmarks, values)
         plt.ylabel(col, fontsize=18)
-        plt.title(f"Sum of {col} by Benchmark", fontsize=20)
+        if not no_titles:
+            plt.title(f"Sum of {col} by Benchmark", fontsize=20)
         plt.xticks(rotation=20, fontsize=15)
         plt.yticks(fontsize=15)
         plt.tight_layout()
@@ -614,14 +622,15 @@ def print_avg_table(averages):
         print(f"{bench}\t{avg:.2f}")
 
 
-def plot_avg_bar(averages, outputDir, evalsDir):
+def plot_avg_bar(averages, outputDir, evalsDir, no_titles=False):
     """Plot bar chart of average tests per model."""
     benchmarks = list(averages.keys())
     values = list(averages.values())
     plt.figure(figsize=(10, 5))
     plt.bar(benchmarks, values)
     plt.ylabel("Average Tests per Model", fontsize=18)
-    plt.title("Average Tests per Model by Benchmark", fontsize=20)
+    if not no_titles:
+        plt.title("Average Tests per Model by Benchmark", fontsize=20)
     plt.xticks(rotation=20, fontsize=15)
     plt.yticks(fontsize=15)
     plt.tight_layout()
@@ -642,7 +651,7 @@ def get_default_benchmarks(evalsDir):
     return sorted(benchmarks)
 
 
-def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_interest, outputDir=None, show_error_bars=False):
+def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_interest, outputDir=None, show_error_bars=False, no_titles=False):
     """Create a grouped barplot showing a specific column as a function of benchmark and model."""
     import os
     import pandas as pd
@@ -750,7 +759,8 @@ def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_
     ax.set_xlabel('Benchmark', fontsize=18)
     ax.set_ylabel(column_of_interest, fontsize=18)
     title_suffix = ' (with Cross-Benchmark Averages ± SD)' if show_error_bars else ' (with Cross-Benchmark Averages)'
-    ax.set_title(f'{column_of_interest} by Benchmark and Model{title_suffix}', fontsize=20)
+    if not no_titles:
+        ax.set_title(f'{column_of_interest} by Benchmark and Model{title_suffix}', fontsize=20)
     ax.set_xticks(x)
     ax.set_xticklabels(all_labels, rotation=45, ha='right', fontsize=15)
     ax.legend(loc='upper left', fontsize=15, ncol=2)
@@ -774,7 +784,7 @@ def plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, column_of_
         print(f"{model}: {model_averages[i]:.2f} ± {model_std_devs[i]:.2f}")
 
 
-def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False):
+def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False, project_name='PromptPex'):
     """
     Create a grouped bar plot showing baseline vs main metrics across benchmarks.
     Automatically detects whether to show compliance/non-compliance or raw values based on metric name.
@@ -945,7 +955,7 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
                    color='lightblue', alpha=0.8, edgecolor='navy', linewidth=0.5,
                    yerr=extended_baseline_stds if show_error_bars else None, 
                    error_kw=error_kw)
-    bars2 = ax.bar(x, extended_main_averages, width, label='Promptpex', 
+    bars2 = ax.bar(x, extended_main_averages, width, label=project_name, 
                    color='lightcoral', alpha=0.8, edgecolor='darkred', linewidth=0.5,
                    yerr=extended_main_stds if show_error_bars else None, 
                    error_kw=error_kw)
@@ -953,7 +963,7 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     # Add third bar only if we have inverse data and this is a compliance metric
     bars3 = None
     if has_inverse and is_compliance_metric:
-        bars3 = ax.bar(x + width, extended_inverse_averages, width, label='Promptpex Inverse', 
+        bars3 = ax.bar(x + width, extended_inverse_averages, width, label=f'{project_name} Inverse', 
                        color='lightgreen', alpha=0.8, edgecolor='darkgreen', linewidth=0.5,
                        yerr=extended_inverse_stds if show_error_bars else None, 
                        error_kw=error_kw)
@@ -993,10 +1003,14 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     ax.set_xlabel('Benchmark', fontsize=18)
     ax.set_ylabel(y_label, fontsize=18)
     title_suffix_error = " (with Overall Average ± SD)" if show_error_bars else " (with Overall Average)"
-    inverse_title_part = " vs Promptpex Inverse" if (has_inverse and is_compliance_metric) else ""
+    inverse_title_part = f" vs {project_name} Inverse" if (has_inverse and is_compliance_metric) else ""
     if not no_titles:
-        ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} by Benchmark{title_suffix_error}', 
-                     fontsize=20, pad=20)
+        # Handle special case for tests compliant to avoid "Tests Compliant Non-Compliance"
+        if metric_column.lower() == "tests compliant" and title_suffix == "Non-Compliance":
+            chart_title = f'Test {title_suffix} - Baseline vs {project_name}{inverse_title_part} by Benchmark{title_suffix_error}'
+        else:
+            chart_title = f'{metric_column.title()} {title_suffix} - Baseline vs {project_name}{inverse_title_part} by Benchmark{title_suffix_error}'
+        ax.set_title(chart_title, fontsize=20, pad=20)
     ax.set_xticks(x)
     ax.set_xticklabels(extended_benchmark_names, rotation=45, ha='right', fontsize=15)
     ax.legend(fontsize=15)
@@ -1025,7 +1039,7 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
                 ha='center', va='top', fontsize=14, style='italic', alpha=0.7)
     
     # Print comprehensive improvement summary
-    print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric)
+    print_improvement_summary_table(benchmark_data, benchmark_names, metric_column, is_compliance_metric, project_name)
     
     # Generate relative improvement chart
     plot_relative_improvement_chart(benchmark_data, benchmark_names, metric_column, is_compliance_metric, outputDir, no_titles)
@@ -1035,7 +1049,12 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
     plt.show()
     
     # Print summary statistics with standard deviations
-    print(f"\nSummary Statistics for {metric_column} {title_suffix}:")
+    # Handle special case for tests compliant to avoid "tests compliant Non-Compliance"
+    if metric_column.lower() == "tests compliant" and title_suffix == "Non-Compliance":
+        summary_title = f"test {title_suffix}"
+    else:
+        summary_title = f"{metric_column} {title_suffix}"
+    print(f"\nSummary Statistics for {summary_title}:")
     print("=" * 70)
     
     # Calculate improvements based on metric type
@@ -1053,17 +1072,22 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
         improvement_word_inverse = "improvement" if improvement_inverse > 0 else "decline"
     
     print(f"Overall Average (Baseline): {overall_baseline_avg:.2f}% ± {overall_baseline_std:.2f}%")
-    print(f"Overall Average (Promptpex): {overall_main_avg:.2f}% ± {overall_main_std:.2f}%")
+    print(f"Overall Average ({project_name}): {overall_main_avg:.2f}% ± {overall_main_std:.2f}%")
     if has_inverse and is_compliance_metric:
-        print(f"Overall Average (Promptpex Inverse): {overall_inverse_avg:.2f}% ± {overall_inverse_std:.2f}%")
-    print(f"Overall Improvement (Promptpex): {improvement_main:+.2f}% ({improvement_word})")
+        print(f"Overall Average ({project_name} Inverse): {overall_inverse_avg:.2f}% ± {overall_inverse_std:.2f}%")
+    print(f"Overall Improvement ({project_name}): {improvement_main:+.2f}% ({improvement_word})")
     if has_inverse and is_compliance_metric:
-        print(f"Overall Improvement (Promptpex Inverse): {improvement_inverse:+.2f}% ({improvement_word_inverse})")
+        print(f"Overall Improvement ({project_name} Inverse): {improvement_inverse:+.2f}% ({improvement_word_inverse})")
     print(f"Number of benchmarks: {len(benchmark_names)}")
-    print(f"Total data points: {len(all_baseline_values)} baseline, {len(all_main_values)} promptpex" + 
+    print(f"Total data points: {len(all_baseline_values)} baseline, {len(all_main_values)} {project_name.lower()}" + 
           (f", {len(all_inverse_values)} inverse" if all_inverse_values else ""))
     
-    print(f"\nPer-benchmark breakdown ({title_suffix}):")
+    # Handle special case for tests compliant to avoid "tests compliant Non-Compliance"
+    if metric_column.lower() == "tests compliant" and title_suffix == "Non-Compliance":
+        breakdown_title = f"test {title_suffix}"
+    else:
+        breakdown_title = f"{title_suffix}"
+    print(f"\nPer-benchmark breakdown ({breakdown_title}):")
     print("-" * 70)
     for benchmark in benchmark_names:
         data = benchmark_data[benchmark]
@@ -1076,12 +1100,12 @@ def plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, metric_colu
             
         print(f"{benchmark}:")
         print(f"  Baseline: {data['baseline_avg']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
-        print(f"  Promptpex: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
+        print(f"  {project_name}: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
         if has_inverse and is_compliance_metric:
-            print(f"  Promptpex Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
-        print(f"  Improvement (Promptpex): {diff_main:+.1f}%")
+            print(f"  {project_name} Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
+        print(f"  Improvement ({project_name}): {diff_main:+.1f}%")
         if has_inverse and is_compliance_metric:
-            print(f"  Improvement (Promptpex Inverse): {diff_inverse:+.1f}%")
+            print(f"  Improvement ({project_name} Inverse): {diff_inverse:+.1f}%")
         print()
 
 
@@ -1102,7 +1126,7 @@ def parse_percentage(val):
         return 0.0
 
 
-def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir):
+def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir, project_name='PromptPex'):
     """
     Generate plot-results.ipynb style analysis and charts.
     Creates comprehensive compliance analysis with multiple chart types.
@@ -1267,13 +1291,13 @@ def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir):
             for m, psum, nsum in zip(models, pos_sum, neg_sum):
                 print(m, ",", (1 - psum/len(benchmarks_with_neg_tests)), ",", (1 - nsum/len(benchmarks_with_neg_tests)), file=cfile)
     
-    # 4. PromptPex vs baseline comparison
+    # 4. Project vs baseline comparison
     with open(f'{outputDir}/pp-compare.csv', 'w') as cfile:
         models = data[benchmarks[0]]["model"]
         pp_sum = pd.Series([0.0 for i in range(len(models))])
         bl_sum = pd.Series([0.0 for i in range(len(models))])
         
-        print("Model, PromptPex % Non-Compliance, Baseline % Non-Compliance", file=cfile)
+        print(f"Model, {project_name} % Non-Compliance, Baseline % Non-Compliance", file=cfile)
         
         for b in benchmarks:
             db = data[b]
@@ -1302,24 +1326,24 @@ def generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir):
     print("Generating charts...")
     
     # Generate Chart 1: Non-compliance by benchmark and model
-    _plot_non_compliance_by_benchmark(outputDir)
+    _plot_non_compliance_by_benchmark(outputDir, project_name)
     
     # Generate Chart 2: Rule vs Inverse Rule comparison
-    _plot_rule_vs_inverse_rule(outputDir)
+    _plot_rule_vs_inverse_rule(outputDir, project_name)
     
-    # Generate Chart 3: PromptPex vs Baseline comparison
-    _plot_promptpex_vs_baseline(outputDir)
+    # Generate Chart 3: Project vs Baseline comparison
+    _plot_promptpex_vs_baseline(outputDir, project_name)
     
     # Generate Chart 4: Test validity chart
-    _plot_test_validity(outputDir)
+    _plot_test_validity(outputDir, project_name)
     
     # Generate Chart 5: Rules count chart
-    _plot_rules_count(outputDir)
+    _plot_rules_count(outputDir, project_name)
     
     print(f"Plot-results style analysis complete! Files saved to {outputDir}")
 
 
-def _plot_non_compliance_by_benchmark(outputDir):
+def _plot_non_compliance_by_benchmark(outputDir, project_name='PromptPex'):
     """Generate clustered bar chart of non-compliance by benchmark and model."""
     try:
         df = pd.read_csv(f'{outputDir}/pp-cpct.csv')
@@ -1359,7 +1383,7 @@ def _plot_non_compliance_by_benchmark(outputDir):
         print(f"Error generating non-compliance chart: {e}")
 
 
-def _plot_rule_vs_inverse_rule(outputDir):
+def _plot_rule_vs_inverse_rule(outputDir, project_name='PromptPex'):
     """Generate rule vs inverse rule comparison chart."""
     try:
         df = pd.read_csv(f'{outputDir}/pos-neg-cpct.csv')
@@ -1399,18 +1423,21 @@ def _plot_rule_vs_inverse_rule(outputDir):
         print(f"Error generating rule vs inverse rule chart: {e}")
 
 
-def _plot_promptpex_vs_baseline(outputDir):
-    """Generate PromptPex vs Baseline comparison chart."""
+def _plot_promptpex_vs_baseline(outputDir, project_name='PromptPex'):
+    """Generate project vs Baseline comparison chart."""
     try:
         df = pd.read_csv(f'{outputDir}/pp-compare.csv')
+        
+        # Replace PromptPex with project_name in column headers
+        df.columns = df.columns.str.replace('PromptPex', project_name)
         
         fig, ax = plt.subplots(figsize=(12, 8))
         
         bar_width = 0.35
         indices = range(len(df))
         
-        ax.bar(indices, df[' PromptPex % Non-Compliance'] * 100, bar_width, 
-               label='PromptPex', alpha=0.8, color='lightcoral', edgecolor='darkred', linewidth=0.8)
+        ax.bar(indices, df[f' {project_name} % Non-Compliance'] * 100, bar_width, 
+               label=project_name, alpha=0.8, color='lightcoral', edgecolor='darkred', linewidth=0.8)
         ax.bar([i + bar_width for i in indices], df[' Baseline % Non-Compliance'] * 100, bar_width, 
                label='Baseline', alpha=0.8, color='lightsteelblue', edgecolor='darkblue', linewidth=0.8)
         
@@ -1418,7 +1445,7 @@ def _plot_promptpex_vs_baseline(outputDir):
         ax.set_xticklabels(df['Model'], rotation=0, ha='center', fontsize=20)
         ax.set_xlabel('Model', fontsize=18)
         ax.set_ylabel('Percentage Non-Compliance', fontsize=18)
-        ax.set_title('PromptPex vs Baseline Non-Compliance', fontsize=20, pad=20)
+        ax.set_title(f'{project_name} vs Baseline Non-Compliance', fontsize=20, pad=20)
         ax.legend(fontsize=15)
         ax.grid(True, alpha=0.3, axis='y')
         ax.tick_params(axis='y', labelsize=15)
@@ -1430,10 +1457,10 @@ def _plot_promptpex_vs_baseline(outputDir):
         print(f"Saved: {outputDir}/pp-compare.pdf")
         
     except Exception as e:
-        print(f"Error generating PromptPex vs Baseline chart: {e}")
+        print(f"Error generating {project_name} vs Baseline chart: {e}")
 
 
-def _plot_test_validity(outputDir):
+def _plot_test_validity(outputDir, project_name='PromptPex'):
     """Generate test validity chart."""
     try:
         df = pd.read_csv(f'{outputDir}/pp-test-validity.csv')
@@ -1473,7 +1500,7 @@ def _plot_test_validity(outputDir):
         print(f"Error generating test validity chart: {e}")
 
 
-def _plot_rules_count(outputDir):
+def _plot_rules_count(outputDir, project_name='PromptPex'):
     """Generate rules count chart."""
     try:
         df = pd.read_csv(f'{outputDir}/pp-grounded-rules.csv')
@@ -1513,7 +1540,7 @@ def _plot_rules_count(outputDir):
         print(f"Error generating rules count chart: {e}")
 
 
-def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, model_filter, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False):
+def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, model_filter, metric_column="tests compliant", outputDir=None, show_error_bars=False, no_titles=False, project_name='PromptPex'):
     """
     Create a grouped bar plot showing baseline vs main metrics across benchmarks for a specific model only.
     Automatically detects whether to show compliance/non-compliance or raw values based on metric name.
@@ -1690,7 +1717,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
                    color='lightsteelblue', alpha=0.8, edgecolor='darkblue', linewidth=0.8,
                    yerr=all_baseline_errors_plot if show_error_bars else None, 
                    error_kw=error_kw)
-    bars2 = ax.bar(x, all_main_values_plot, width, label='Promptpex', 
+    bars2 = ax.bar(x, all_main_values_plot, width, label=project_name, 
                    color='orange', alpha=0.8, edgecolor='darkorange', linewidth=0.8,
                    yerr=all_main_errors_plot if show_error_bars else None, 
                    error_kw=error_kw)
@@ -1698,7 +1725,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     # Add third bar only if we have inverse data and this is a compliance metric
     bars3 = None
     if has_inverse:
-        bars3 = ax.bar(x + width, all_inverse_values_plot, width, label='Promptpex Inverse', 
+        bars3 = ax.bar(x + width, all_inverse_values_plot, width, label=f'{project_name} Inverse', 
                        color='lightgreen', alpha=0.8, edgecolor='darkgreen', linewidth=0.8,
                        yerr=all_inverse_errors_plot if show_error_bars else None, 
                        error_kw=error_kw)
@@ -1740,10 +1767,14 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     ax.set_xlabel('Benchmark', fontsize=18)
     ax.set_ylabel(y_label, fontsize=18)
     title_suffix_error = " (with Overall Average ± SD)" if show_error_bars else " (with Overall Average)"
-    inverse_title_part = " vs Promptpex Inverse" if has_inverse else ""
+    inverse_title_part = f" vs {project_name} Inverse" if has_inverse else ""
     if not no_titles:
-        ax.set_title(f'{metric_column.title()} {title_suffix} - Baseline vs Promptpex{inverse_title_part} for {model_filter} Model{title_suffix_error}', 
-                     fontsize=20, pad=20)
+        # Handle special case for tests compliant to avoid "Tests Compliant Non-Compliance"
+        if metric_column.lower() == "tests compliant" and title_suffix == "Non-Compliance":
+            chart_title = f'Test {title_suffix} - Baseline vs {project_name}{inverse_title_part} for {model_filter} Model{title_suffix_error}'
+        else:
+            chart_title = f'{metric_column.title()} {title_suffix} - Baseline vs {project_name}{inverse_title_part} for {model_filter} Model{title_suffix_error}'
+        ax.set_title(chart_title, fontsize=20, pad=20)
     ax.set_xticks(x)
     ax.set_xticklabels(all_benchmark_names, rotation=45, ha='right', fontsize=15)
     ax.legend(fontsize=15)
@@ -1781,7 +1812,7 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
     plt.show()
     
     # Print comprehensive improvement summary for single model
-    print_improvement_summary_table(benchmark_data, benchmark_names, f"{metric_column} - {model_filter} Model", is_compliance_metric)
+    print_improvement_summary_table(benchmark_data, benchmark_names, f"{metric_column} - {model_filter} Model", is_compliance_metric, project_name)
 
     # Generate relative improvement chart for single model
     plot_relative_improvement_chart(benchmark_data, benchmark_names, f"{metric_column} - {model_filter} Model", is_compliance_metric, outputDir, no_titles)
@@ -1799,17 +1830,22 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
         improvement_word_inverse = "improvement" if improvement_inverse > 0 else "decline"
     
     print(f"Overall Average (Baseline): {overall_baseline_avg:.2f}% ± {overall_baseline_std:.2f}%")
-    print(f"Overall Average (Promptpex): {overall_main_avg:.2f}% ± {overall_main_std:.2f}%")
+    print(f"Overall Average ({project_name}): {overall_main_avg:.2f}% ± {overall_main_std:.2f}%")
     if has_inverse:
-        print(f"Overall Average (Promptpex Inverse): {overall_inverse_avg:.2f}% ± {overall_inverse_std:.2f}%")
-    print(f"Overall Improvement (Promptpex): {improvement_main:+.2f}% ({improvement_word})")
+        print(f"Overall Average ({project_name} Inverse): {overall_inverse_avg:.2f}% ± {overall_inverse_std:.2f}%")
+    print(f"Overall Improvement ({project_name}): {improvement_main:+.2f}% ({improvement_word})")
     if has_inverse:
-        print(f"Overall Improvement (Promptpex Inverse): {improvement_inverse:+.2f}% ({improvement_word_inverse})")
+        print(f"Overall Improvement ({project_name} Inverse): {improvement_inverse:+.2f}% ({improvement_word_inverse})")
     print(f"Number of benchmarks: {len(benchmark_names)}")
-    print(f"Total data points: {len(all_baseline_values)} baseline, {len(all_main_values)} promptpex" + 
+    print(f"Total data points: {len(all_baseline_values)} baseline, {len(all_main_values)} {project_name.lower()}" + 
           (f", {len(all_inverse_values)} inverse" if all_inverse_values else ""))
     
-    print(f"\nPer-benchmark breakdown for {model_filter} ({title_suffix}):")
+    # Handle special case for tests compliant to avoid "tests compliant Non-Compliance"
+    if metric_column.lower().startswith("tests compliant") and title_suffix == "Non-Compliance":
+        breakdown_title = f"test {title_suffix}"
+    else:
+        breakdown_title = f"{title_suffix}"
+    print(f"\nPer-benchmark breakdown for {model_filter} ({breakdown_title}):")
     print("-" * 80)
     for benchmark in benchmark_names:
         data = benchmark_data[benchmark]
@@ -1822,17 +1858,17 @@ def plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir
             
         print(f"{benchmark}:")
         print(f"  Baseline: {data['baseline_avg']:.1f}% ± {data['baseline_std']:.1f}% (n={data['baseline_count']})")
-        print(f"  Promptpex: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
+        print(f"  {project_name}: {data['main_avg']:.1f}% ± {data['main_std']:.1f}% (n={data['main_count']})")
         if has_inverse:
-            print(f"  Promptpex Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
-        print(f"  Improvement (Promptpex): {diff_main:+.1f}%")
+            print(f"  {project_name} Inverse: {data['inverse_avg']:.1f}% ± {data['inverse_std']:.1f}% (n={data['inverse_count']})")
+        print(f"  Improvement ({project_name}): {diff_main:+.1f}%")
         if has_inverse:
-            print(f"  Improvement (Promptpex Inverse): {diff_inverse:+.1f}%")
+            print(f"  Improvement ({project_name} Inverse): {diff_inverse:+.1f}%")
         print()
 
 
 def run_full_analysis(evalsDir, benchmarks=None, outputDir=None, 
-                     skip_individual=False, skip_aggregated=False, skip_baseline=False, skip_plotresults=False, no_titles=False):
+                     skip_individual=False, skip_aggregated=False, skip_baseline=False, skip_plotresults=False, no_titles=False, project_name='PromptPex'):
     """Run the complete analysis pipeline."""
     
     if outputDir is None:
@@ -1870,7 +1906,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
         print("="*60)
         for benchmark in benchmarks:
             print(f"\nAnalyzing benchmark: {benchmark}")
-            analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputDir)
+            analyze_benchmark_metrics(benchmark, evalsDir, prettyBenchmarkNames, outputDir, no_titles)
     
     # Aggregated analysis
     if not skip_aggregated:
@@ -1890,7 +1926,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
             print("\nComputing model metric averages...")
             model_metric_avg = compute_model_metric_averages(all_data, all_models, all_metrics)
             print_metric_table(model_metric_avg)
-            plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir)
+            plot_grouped_bar_chart(model_metric_avg, outputDir, evalsDir, no_titles)
             
             # Get sample data to determine available columns
             if benchmarks:
@@ -1911,12 +1947,12 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
             print("\nComputing average tests per model...")
             averages = average_tests_per_model(benchmarks, evalsDir)
             print_avg_table(averages)
-            plot_avg_bar(averages, outputDir, evalsDir)
+            plot_avg_bar(averages, outputDir, evalsDir, no_titles)
             
             # Grouped analysis
             print("\nRunning grouped analysis...")
             if 'tests compliant' in all_metrics:
-                plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, "tests compliant", outputDir)
+                plot_grouped_barplot_by_benchmark_and_model(benchmarks, evalsDir, "tests compliant", outputDir, no_titles=no_titles)
     
     # Baseline analysis
     if not skip_baseline:
@@ -1934,7 +1970,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
         
         if has_baseline:
             print("\nRunning baseline vs main analysis...")
-            plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, "tests compliant", outputDir, no_titles=no_titles)
+            plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, "tests compliant", outputDir, no_titles=no_titles, project_name=project_name)
             
             # Try accuracy comparison if available
             csv_path = os.path.join(evalsDir, benchmarks[0], benchmarks[0], "overview.csv")
@@ -1944,13 +1980,13 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
                 accuracy_cols = [col for col in df.columns if 'accuracy' in col.lower()]
                 if accuracy_cols:
                     print(f"\nRunning accuracy baseline comparison for: {accuracy_cols[0]}")
-                    plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, accuracy_cols[0], outputDir, no_titles=no_titles)
+                    plot_baseline_vs_main_metrics_by_benchmark(benchmarks, evalsDir, accuracy_cols[0], outputDir, no_titles=no_titles, project_name=project_name)
             
             # Run single model analysis for gpt-oss if available
             print("\nRunning single model analysis for gpt-oss...")
-            plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", "tests compliant", outputDir, no_titles=no_titles)
+            plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", "tests compliant", outputDir, no_titles=no_titles, project_name=project_name)
             if 'accuracy_cols' in locals() and accuracy_cols:
-                plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", accuracy_cols[0], outputDir, no_titles=no_titles)
+                plot_baseline_vs_main_metrics_by_benchmark_single_model(benchmarks, evalsDir, "gpt-oss", accuracy_cols[0], outputDir, no_titles=no_titles, project_name=project_name)
         else:
             print("No baseline data found. Skipping baseline comparison.")
     
@@ -1959,8 +1995,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
         print("\n" + "="*60)
         print("PLOT-RESULTS STYLE ANALYSIS")
         print("="*60)
-        
-        generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir)
+        generate_plot_results_style_analysis(benchmarks, evalsDir, outputDir, project_name)
     
     print(f"\nAnalysis complete! Plots saved to {outputDir}")
     
@@ -1968,7 +2003,7 @@ def run_full_analysis(evalsDir, benchmarks=None, outputDir=None,
 def main():
     """Main command line interface."""
     parser = argparse.ArgumentParser(
-        description='Analyze PromptPex evaluation results and generate plots',
+        description='Analyze evaluation results and generate plots',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -2004,6 +2039,8 @@ Examples:
     
     parser.add_argument('--no-titles', action='store_true',
                        help='Remove titles from all generated charts')
+    parser.add_argument('--project-name', default='PromptPex',
+                        help='Name of the project to use in charts and tables (default: PromptPex)')
     
     args = parser.parse_args()
     
@@ -2035,7 +2072,8 @@ Examples:
         skip_aggregated=args.skip_aggregated,
         skip_baseline=args.skip_baseline,
         skip_plotresults=args.skip_plotresults,
-        no_titles=args.no_titles
+        no_titles=args.no_titles,
+        project_name=args.project_name
     )
 
 
